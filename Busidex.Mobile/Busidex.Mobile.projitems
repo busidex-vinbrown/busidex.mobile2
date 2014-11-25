@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{95A48FBA-4FCD-46E5-A1BA-738D24B0C479}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Busidex.Mobile</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LoginController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyBusidexController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Address.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumberType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotesController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SaveNotesResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumberTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AccountController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OrganizationController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Organization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OrganizationResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActivityController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventSources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UIMetrics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BasicResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OrganizationDetailResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OrgMemberResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OrgReferralResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+  </ItemGroup>
+</Project>

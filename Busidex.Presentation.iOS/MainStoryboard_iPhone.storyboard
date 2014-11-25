@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="51">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="50">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="51" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="54">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="1064" kind="relationship" relationship="rootViewController" id="1150"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="55" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-115" y="-13"/>
+        </scene>
+        <!--Search Controller-->
+        <scene sceneID="129">
+            <objects>
+                <viewController storyboardIdentifier="SearchController" id="130" customClass="SearchController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="131">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="339">
+                                <rect key="frame" x="0.0" y="46" width="320" height="522"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search for a card" showsCancelButton="YES" translucent="NO" id="1648">
+                                <rect key="frame" x="0.0" y="62" width="320" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="txtSearch" destination="1648" id="name-outlet-1648"/>
+                        <outlet property="vwSearchResults" destination="339" id="name-outlet-339"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="132" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="454" y="628"/>
+        </scene>
+        <!--Login Controller-->
+        <scene sceneID="415">
+            <objects>
+                <viewController storyboardIdentifier="LoginController" id="416" customClass="LoginController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="417">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User Name or Email" minimumFontSize="17" clearButtonMode="always" id="2">
+                                <rect key="frame" x="64" y="109" width="191" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="always" id="3">
+                                <rect key="frame" x="64" y="147" width="191" height="30"/>
+                                <attributedString key="attributedText"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="32">
+                                <rect key="frame" x="80" y="185" width="161" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="41">
+                                <rect key="frame" x="64" y="210" width="191" height="32"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Busidex Logo Concepts.png" id="2420" fixedFrame="YES">
+                                <rect key="frame" x="80" y="310" width="160" height="160"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnLogin" destination="32" id="name-outlet-32"/>
+                        <outlet property="lblLoginResult" destination="41" id="name-outlet-41"/>
+                        <outlet property="txtPassword" destination="3" id="name-outlet-3"/>
+                        <outlet property="txtUserName" destination="2" id="name-outlet-2"/>
+                        <outlet property="vwLogin" destination="417" id="name-outlet-417"/>
+                        <outlet property="imgLogo" destination="2420" id="name-outlet-2420"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="418" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="108" y="611"/>
+        </scene>
+        <!--Card View Controller-->
+        <!--Busidex-->
+        <scene sceneID="1063">
+            <objects>
+                <viewController storyboardIdentifier="StartupController" id="1064" customClass="StartupController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFill" id="1065">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Busidex Logo Concepts.png" id="2423" alpha="1" fixedFrame="YES" iBViewSizeInspectorPreferredRectTypeName="alignmentFrame">
+                                <rect key="frame" x="105" y="362" width="110" height="110"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="wordWrap" id="1070" fixedFrame="YES">
+                                <rect key="frame" x="46" y="215" width="230" height="45"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Connect to Your Account">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="Thanks for downloading the Busidex App! Choose one of the following to begin." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" minimumFontSize="10" preferredMaxLayoutWidth="239" id="1075" fixedFrame="YES">
+                                <rect key="frame" x="41" y="108" width="239" height="71"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="wordWrap" id="1077" fixedFrame="YES">
+                                <rect key="frame" x="46" y="300" width="230" height="45"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Start Using the App!">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="New to Busidex?" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="1079" fixedFrame="YES">
+                                <rect key="frame" x="46" y="300" width="230" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Already a Busidex User?" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="1136" fixedFrame="YES">
+                                <rect key="frame" x="46" y="215" width="230" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Busidex" id="1149"/>
+                    <connections>
+                        <outlet property="btnConnect" destination="1070" id="name-outlet-1070"/>
+                        <outlet property="btnStart" destination="1077" id="name-outlet-1077"/>
+                        <outlet property="imgLogo" destination="2423" id="name-outlet-2423"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1066" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="269" y="-14"/>
+        </scene>
+        <!--Data View Controller-->
+        <scene sceneID="1187">
+            <objects>
+                <viewController storyboardIdentifier="DataViewController" id="1188" customClass="DataViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFill" id="1189">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1193">
+                                <rect key="frame" x="42" y="90" width="252" height="75"/>
+                                <state key="normal" title="">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Search for a Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="1203">
+                                <rect key="frame" x="125" y="110" width="163" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1192">
+                                <rect key="frame" x="42" y="195" width="252" height="75"/>
+                                <state key="normal" title="">
+                                    <color key="titleColor" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="My Busidex" lineBreakMode="tailTruncation" minimumFontSize="10" id="1204">
+                                <rect key="frame" x="125" y="215" width="163" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="spotlight-icon.png" id="1234">
+                                <rect key="frame" x="42" y="90" width="75" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="Busidex Logo Concepts.png" id="1235">
+                                <rect key="frame" x="37" y="195" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2220" fixedFrame="YES">
+                                <rect key="frame" x="42" y="310" width="252" height="75"/>
+                                <state key="normal" title="">
+                                    <color key="titleColor" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="People.jpg" id="2042" fixedFrame="YES">
+                                <rect key="frame" x="32" y="310" width="97" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="My Organizations" lineBreakMode="tailTruncation" minimumFontSize="10" id="2808" fixedFrame="YES">
+                                <rect key="frame" x="125" y="330" width="163" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                            </label>
+                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3299" fixedFrame="YES" textAlignment="left" hidden="YES">
+                                <rect key="frame" x="151" y="273" width="77" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnGoToMyBusidex" destination="1192" id="name-outlet-1192"/>
+                        <outlet property="btnGoToSearch" destination="1193" id="name-outlet-1193"/>
+                        <outlet property="btnMyOrganizations" destination="2220" id="name-outlet-2220"/>
+                        <outlet property="lblProgress" destination="3299" id="name-outlet-3299"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1190" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="637" y="-14"/>
+        </scene>
+        <!--My Busidex Controller-->
+        <scene sceneID="1531">
+            <objects>
+                <viewController storyboardIdentifier="MyBusidexController" id="1532" customClass="MyBusidexController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1533">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537" fixedFrame="YES">
+                                <rect key="frame" x="5" y="40" width="310" height="525"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" id="1536">
+                                <rect key="frame" x="0.0" y="62" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="SearchBar" destination="1536" id="name-outlet-1536"/>
+                        <outlet property="TableView" destination="1537" id="name-outlet-1537"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1534" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1046" y="-25"/>
+        </scene>
+        <!--Notes Controller-->
+        <scene sceneID="1751">
+            <objects>
+                <viewController storyboardIdentifier="NotesController" id="1752" customClass="NotesController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1753">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" id="1756">
+                                <rect key="frame" x="11" y="66" width="300" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" id="1761">
+                                <rect key="frame" x="11" y="253" width="300" height="192"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1762">
+                                <rect key="frame" x="101" y="460" width="118" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Save Notes">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="checkmark.png" id="1763">
+                                <rect key="frame" x="245" y="460" width="35" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnSaveNotes" destination="1762" id="name-outlet-1762"/>
+                        <outlet property="imgCard" destination="1756" id="name-outlet-1756"/>
+                        <outlet property="imgSaved" destination="1763" id="name-outlet-1763"/>
+                        <outlet property="txtNotes" destination="1761" id="name-outlet-1761"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1754" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="105" y="1245"/>
+        </scene>
+        <!--Phone View Controller-->
+        <scene sceneID="1902">
+            <objects>
+                <viewController storyboardIdentifier="PhoneViewController" modalTransitionStyle="flipHorizontal" id="1903" customClass="PhoneViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1904">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" id="1910">
+                                <rect key="frame" x="11" y="66" width="300" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.75294117647058822" green="0.75294117647058822" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="PhoneView" destination="1904" id="name-outlet-1904"/>
+                        <outlet property="imgCard" destination="1910" id="name-outlet-1910"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1905" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1196" y="620"/>
+        </scene>
+        <!--Organizations Controller-->
+        <scene sceneID="2047">
+            <objects>
+                <viewController storyboardIdentifier="OrganizationsController" id="2048" customClass="OrganizationsController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2049">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2056" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="108" width="320" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" id="2816" showsCancelButton="YES" placeholder="Find an Organization">
+                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="vwOrganizations" destination="2056" id="name-outlet-2056"/>
+                        <outlet property="txtSearch" destination="2816" id="name-outlet-2816"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2050" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="480" y="1250"/>
+        </scene>
+        <scene sceneID="2563">
+            <objects>
+                <viewController id="2564" sceneMemberID="viewController" storyboardIdentifier="SettingsController" customClass="SettingsController">
+                    <view key="view" contentMode="scaleToFill" id="2565">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="always" id="2581" fixedFrame="YES">
+                                <rect key="frame" x="20" y="324" width="245" height="30"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <attributes/>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
+                                <constraints/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2582" fixedFrame="YES">
+                                <rect key="frame" x="100" y="390" width="120" height="30"/>
+                                <state key="normal" title="Save Settings">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" clearButtonMode="always" id="2583">
+                                <rect key="frame" x="20" y="242" width="245" height="30"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <attributes/>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="NO" keyboardType="emailAddress"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Update Your Profile" lineBreakMode="tailTruncation" minimumFontSize="10" id="2584" fixedFrame="YES">
+                                <rect key="frame" x="20" y="81" width="211" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="2585" fixedFrame="YES" numberOfLines="4" textAlignment="left" text="Choose an email address and password here so you can access your cards on the web or another mobile device.">
+                                <rect key="frame" x="20" y="110" width="280" height="83"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="2621" fixedFrame="YES" image="checkmark.png">
+                                <rect key="frame" x="279" y="326" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="2622" fixedFrame="YES" image="checkmark.png">
+                                <rect key="frame" x="279" y="244" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="error message" lineBreakMode="tailTruncation" minimumFontSize="10" id="2624" fixedFrame="YES">
+                                <rect key="frame" x="27" y="356" width="245" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="error message" lineBreakMode="tailTruncation" minimumFontSize="10" id="2625" fixedFrame="YES">
+                                <rect key="frame" x="27" y="273" width="245" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email" lineBreakMode="tailTruncation" minimumFontSize="10" id="2660" fixedFrame="YES">
+                                <rect key="frame" x="20" y="221" width="100" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="2663" fixedFrame="YES">
+                                <rect key="frame" x="20" y="304" width="100" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnSave" destination="2582" id="name-outlet-2582"/>
+                        <outlet property="txtPassword" destination="2581" id="name-outlet-2581"/>
+                        <outlet property="txtEmail" destination="2583" id="name-outlet-2583"/>
+                        <outlet property="imgPasswordSaved" destination="2621" id="name-outlet-2621"/>
+                        <outlet property="imgEmailSaved" destination="2622" id="name-outlet-2622"/>
+                        <outlet property="lblPasswordError" destination="2624" id="name-outlet-2624"/>
+                        <outlet property="lblEmailError" destination="2625" id="name-outlet-2625"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2566" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="1248"/>
+        </scene>
+        <scene sceneID="2745">
+            <objects>
+                <viewController id="2746" sceneMemberID="viewController" storyboardIdentifier="CardViewController" customClass="CardViewController">
+                    <view key="view" contentMode="scaleToFill" id="2747">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2752" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="55" width="320" height="510"/>
+                                <state key="normal" title="">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnCard" destination="2752" id="name-outlet-2752"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2748" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="825" y="627"/>
+        </scene>
+        <scene sceneID="3313">
+            <objects>
+                <viewController id="3314" sceneMemberID="viewController" storyboardIdentifier="ShareCardController" customClass="ShareCardController">
+                    <view key="view" contentMode="scaleToFill" id="3315">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" id="3318">
+                                <rect key="frame" x="11" y="66" width="300" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share This Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="3335" fixedFrame="YES">
+                                <rect key="frame" x="32" y="269" width="211" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="3336" fixedFrame="YES" numberOfLines="4" textAlignment="left" text="Enter the email address of the person with whom you want to share this card.">
+                                <rect key="frame" x="31" y="295" width="280" height="63"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" clearButtonMode="always" id="3337">
+                                <rect key="frame" x="31" y="366" width="245" height="30"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <attributes/>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="NO" keyboardType="emailAddress"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3338" fixedFrame="YES">
+                                <rect key="frame" x="31" y="398" width="245" height="30"/>
+                                <state key="normal" title="Share">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3339" fixedFrame="YES" image="checkmark.png">
+                                <rect key="frame" x="284" y="368" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="imgCard" destination="3318" id="name-outlet-3318"/>
+                        <outlet property="ShareCardView" destination="3315" id="name-outlet-3315"/>
+                        <outlet property="imgCardShared" destination="3339" id="name-outlet-3339"/>
+                        <outlet property="txtEmail" destination="3337" id="name-outlet-3337"/>
+                        <outlet property="btnShare" destination="3338" id="name-outlet-3338"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3316" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1202" y="1243"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Busidex Logo Concepts.png" width="261" height="248"/>
+        <image name="card-ring.png" width="412" height="372"/>
+        <image name="checkmark.png" width="16" height="16"/>
+        <image name="defaultUserImage.png" width="512" height="512"/>
+        <image name="spotlight-icon.png" width="100" height="100"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="signin.png" width="256" height="256"/>
+        <image name="maps.png" width="64" height="64"/>
+        <image name="notes.png" width="256" height="256"/>
+        <image name="browser.png" width="512" height="512"/>
+        <image name="email-icon.png" width="396" height="408"/>
+        <image name="phone.png" width="64" height="64"/>
+        <image name="Busidex-icon.png" width="252" height="220"/>
+        <image name="fb.png" width="256" height="256"/>
+        <image name="twitter.png" width="128" height="128"/>
+        <image name="icons/busidex_icon_29x29.png" width="29" height="29"/>
+        <image name="icons/busidex_icon_57x57.png" width="57" height="57"/>
+        <image name="icons/busidex_icon_58x58.png" width="58" height="58"/>
+        <image name="icons/busidex_icon_80x80.png" width="80" height="80"/>
+        <image name="icons/busidex_icon_114x114.png" width="114" height="114"/>
+        <image name="icons/busidex_icon_120x120.png" width="120" height="120"/>
+        <image name="icons/busidex_splash_320x480.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x960.png" width="640" height="960"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x1136.png" width="640" height="1136"/>
+        <image name="icons/busidex_artwork_512x512.png" width="512" height="512"/>
+        <image name="icons/busidex_artwork_1024x1024.png" width="1024" height="1024"/>
+        <image name="settings.png" width="64" height="64"/>
+        <image name="appBackground2.jpeg" width="183" height="275"/>
+        <image name="appBackground3.jpeg" width="1500" height="1152"/>
+        <image name="icons/busidex_icon_100x100.png" width="100" height="100"/>
+        <image name="icons/busidex_icon_144x144.png" width="144" height="144"/>
+        <image name="icons/busidex_icon_152x152.png" width="152" height="152"/>
+        <image name="icons/busidex_icon_50x50.png" width="50" height="50"/>
+        <image name="icons/busidex_icon_40x40.png" width="40" height="40"/>
+        <image name="icons/busidex_icon_72x72.png" width="72" height="72"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="icons/ipad_launch_768x1024px.png" width="768" height="1024"/>
+        <image name="icons/ipad_launch_1024x768px.png" width="1024" height="768"/>
+        <image name="icons/ipad_launch_1536x2048px.png" width="1536" height="2048"/>
+        <image name="icons/ipad_launch_2048x1536px.png" width="2048" height="1536"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="People.jpg" width="259" height="194"/>
+        <image name="red_minus.png" width="128" height="128"/>
+        <image name="sync.png" width="42" height="43"/>
+        <image name="remove.png" width="128" height="128"/>
+        <image name="add.png" width="128" height="128"/>
+        <image name="share.png" width="45" height="31"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
