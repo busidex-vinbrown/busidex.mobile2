@@ -1,10 +1,9 @@
-obj
-bin
+**/obj
+**/bin
+Debug/
 test-results
- 
 _UpgradeReport_Files
 UpgradeLog.*
- 
 *.DS_Store
 *.sln.cache
 *.suo
@@ -17,10 +16,3 @@ UpgradeLog.*
 *.nib
 *.pfx
 *.exe
-
-*/bin/*
-*/obj/*
-*/Busidex.Presentation.iOS/bin/*
-*/*/obj/*
-*/*/*/bin/*
-*/*/*/obj/*
