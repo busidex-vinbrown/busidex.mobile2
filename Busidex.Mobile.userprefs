@@ -2,7 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.1" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Busidex.Presentation.iOS/OrganizationTableSource.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="13" Column="13" />
+      <File FileName="Busidex.Presentation.iOS/OrganizationTableSource.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/BaseTableSource.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationsController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/ButtonPanel.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
