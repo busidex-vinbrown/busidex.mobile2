@@ -190,6 +190,7 @@
     <InterfaceDefinition Include="Controllers\StartupController.xib" />
     <InterfaceDefinition Include="Controllers\BaseController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
+    <InterfaceDefinition Include="OrganizationStoryBoard_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
