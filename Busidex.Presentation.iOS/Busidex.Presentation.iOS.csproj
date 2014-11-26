@@ -172,6 +172,8 @@
     <Compile Include="Controllers\BaseController.designer.cs">
       <DependentUpon>BaseController.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseTableSource.cs" />
+    <Compile Include="ButtonPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

@@ -24,7 +24,7 @@ namespace Busidex.Presentation.iOS
 				this.NavigationController.SetNavigationBarHidden (false, true);
 				this.NavigationController.NavigationBar.SetBackgroundImage (null, UIBarMetrics.Default);
 			}
-			((OrganizationTableSource)vwOrganizations.Source).ClearOrgNavFromAllCells ();
+			//((OrganizationTableSource)vwOrganizations.Source).ClearOrgNavFromAllCells ();
 		}
 
 		public override void DidReceiveMemoryWarning ()

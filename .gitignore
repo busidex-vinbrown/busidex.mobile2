@@ -1,4 +1,4 @@
-﻿obj
+obj
 bin
 test-results
  
@@ -16,10 +16,11 @@ UpgradeLog.*
 *.DS_Store
 *.nib
 *.pfx
+*.exe
 
 */bin/*
 */obj/*
-*/*/bin/*
+*/Busidex.Presentation.iOS/bin/*
 */*/obj/*
 */*/*/bin/*
 */*/*/obj/*

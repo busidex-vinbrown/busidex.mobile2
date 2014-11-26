@@ -13,29 +13,13 @@ namespace Busidex.Presentation.iOS
 	public delegate void ViewOrganizationMembersHandler(Organization org);
 	public delegate void ViewOrganizationReferralsHandler(Organization org);
 
-	public class OrganizationTableSource : UITableViewSource
+	public class OrganizationTableSource : BaseTableSource
 	{
 
-		List<UITableViewCell> cellCache;
 		List<Organization> Organizations;
 
-		enum UIElements{
-			OrganizationImage = 1,
-			NameLabel = 2,
-			WebsiteButton = 3,
-			TwitterButton = 4,
-			FacebookButton = 5,
-			ButtonPanel = 6
-		}
-
-		const float ANIMATION_SPEED = 0.5f;
 		const float BASE_CELL_HEIGHT = 120f;
-		const float LEFT_MARGIN = 5F;
-		const float LABEL_HEIGHT = 30f;
-		const float LABEL_WIDTH = 170f;
-		const float FEATURE_BUTTON_HEIGHT = 40f;
-		const float FEATURE_BUTTON_WIDTH = 40f;
-		const float FEATURE_BUTTON_MARGIN = 15f;
+
 		public event ViewOrganizationHandler ViewOrganization;
 		public event ViewOrganizationMembersHandler ViewOrganizationMembers;
 		public event ViewOrganizationReferralsHandler ViewOrganizationReferrals;
@@ -79,11 +63,6 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
-		{
-			tableView.DeselectRow (indexPath, true);
-		}
-
 		void AddControls(UITableViewCell cell, Organization org){
 		
 			string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -119,51 +98,30 @@ namespace Busidex.Presentation.iOS
 				cell.ContentView.AddSubview (NameLabel);
 			}
 
-			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+			cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
 
-			var swiperShow = new UISwipeGestureRecognizer ();
-			swiperShow.Direction = UISwipeGestureRecognizerDirection.Left;
-			swiperShow.AddTarget (() => {
-				ClearOrgNavFromAllCells();
-				ShowOrgNav(cell);
-			});
-
-			var swiperHide = new UISwipeGestureRecognizer ();
-			swiperHide.Direction = UISwipeGestureRecognizerDirection.Right;
-			swiperHide.AddTarget (() => HideOrgNav (cell));
-
-			cell.ContentView.AddGestureRecognizer (swiperShow);
-			cell.ContentView.AddGestureRecognizer (swiperHide);
+//			var swiperShow = new UISwipeGestureRecognizer ();
+//			swiperShow.Direction = UISwipeGestureRecognizerDirection.Left;
+//			swiperShow.AddTarget (() => {
+//				ClearOrgNavFromAllCells();
+//				ShowPanel(cell);
+//			});
+//
+//			var swiperHide = new UISwipeGestureRecognizer ();
+//			swiperHide.Direction = UISwipeGestureRecognizerDirection.Right;
+//			swiperHide.AddTarget (() => HidePanel (cell));
+//
+//			cell.ContentView.AddGestureRecognizer (swiperShow);
+//			cell.ContentView.AddGestureRecognizer (swiperHide);
 
 			AddSwipeView (ref cell, org);
 
 		}
 
-		public void ClearOrgNavFromAllCells(){
-
-			foreach(UITableViewCell cell in cellCache){
-				HideOrgNav (cell);
-			}
-		}
-
-		static void ShowOrgNav(UITableViewCell cell){
-			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel);
-			UIView.Animate (ANIMATION_SPEED, () => {
-				ButtonPanel.Frame = new CoreGraphics.CGRect(0, ButtonPanel.Frame.Location.Y, ButtonPanel.Frame.Size.Width, ButtonPanel.Frame.Size.Height);
-			});
-		}
-
-		static void HideOrgNav(UITableViewCell cell){
-			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel);
-			UIView.Animate (ANIMATION_SPEED, () => {
-				ButtonPanel.Frame = new CoreGraphics.CGRect(ButtonPanel.Frame.Width, ButtonPanel.Frame.Location.Y, ButtonPanel.Frame.Size.Width, ButtonPanel.Frame.Size.Height);
-			});
-		}
-
 		void AddSwipeView(ref UITableViewCell cell, Organization org){
 
 			var frame = new RectangleF (320f, 0, 320, BASE_CELL_HEIGHT);
-			var panel = new UIView (frame);
+			var panel = new ButtonPanel (frame);
 			const float BUTTON_WIDTH = 130f;
 			const float BUTTON_HEIGHT = 45f;
 			const float LEFT_MARGIN = 20f;
@@ -216,35 +174,6 @@ namespace Busidex.Presentation.iOS
 			panel.Tag = (int)UIElements.ButtonPanel;
 
 			cell.ContentView.AddSubview (panel);
-		}
-
-		static void AddFeatureButtons(UITableViewCell cell, IEnumerable<UIButton> featureButtons){
-		
-			const float BUTTON_Y = 40f + LABEL_HEIGHT;
-			float buttonX =  LEFT_MARGIN;
-
-			var cellButtons = cell.ContentView.Subviews.Where (s => s is UIButton).ToList ();
-			foreach(var button in cellButtons){
-				button.RemoveFromSuperview ();
-			}
-
-			var frame = new RectangleF (buttonX, LEFT_MARGIN, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
-			float buttonXOriginal = buttonX;
-			int idx = 0;
-			foreach(var button in featureButtons.OrderBy(b=>b.Tag)){
-
-				button.Frame = frame;
-				cell.ContentView.AddSubview (button);
-
-				idx++;
-				if (idx % 3 == 0) { 
-					buttonX = buttonXOriginal;
-					frame.Y += FEATURE_BUTTON_HEIGHT + 10f;
-				} else {
-					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
-				}
-				frame.X = buttonX;
-			}
 		}
 
 		// Analysis disable once UnusedParameter

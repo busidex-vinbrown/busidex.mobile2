@@ -5,6 +5,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Busidex.Mobile", "Busidex.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Busidex.Presentation.iOS", "Busidex.Presentation.iOS\Busidex.Presentation.iOS.csproj", "{7EDC59CE-339D-46FD-94A6-E6DEF5955413}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93BDCC96-E259-4D5C-AA64-76050CC63ABE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -27,6 +32,8 @@ Global
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.Release|iPhone.Build.0 = Release|iPhone
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Busidex.Presentation.iOS\Busidex.Presentation.iOS.csproj
