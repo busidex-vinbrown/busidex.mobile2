@@ -93,7 +93,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+      <HintPath>Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

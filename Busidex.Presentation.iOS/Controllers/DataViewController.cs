@@ -4,7 +4,6 @@ using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Busidex.Presentation.iOS
@@ -21,23 +20,12 @@ namespace Busidex.Presentation.iOS
 			set;
 		}
 
-		private enum LoginVisibleSetting{
+		enum LoginVisibleSetting{
 			Show = 1,
 			Hide = 2
 		}
 
-		//private static long UserId{ get; set; }
-		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
-		}
-
-		private string GetDeviceId(){
+		static string GetDeviceId(){
 			var thisDeviceId = UIDevice.CurrentDevice.IdentifierForVendor;
 			if (thisDeviceId != null) {
 				var dIdString = thisDeviceId.AsString ();
@@ -79,61 +67,61 @@ namespace Busidex.Presentation.iOS
 			//spnLoading.Hidden = true;
 		}
 
-		private string EncodeUserId(long userId){
+		static string EncodeUserId(long userId){
 
-			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
+			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			if (this.NavigationController != null) {
-				this.NavigationController.SetNavigationBarHidden (true, true);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (true, true);
 			}
 
-			if (this.NavigationController != null) {
+			if (NavigationController != null) {
 			
-				this.SetToolbarItems (new UIBarButtonItem[] {
+				SetToolbarItems (new [] {
 					new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 },
 					new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
-						var settingsController = this.Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+						var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
 
-						if (settingsController != null && this.NavigationController.ChildViewControllers.Where(c=> c is SettingsController).Count() == 0){
-							this.NavigationController.PushViewController (settingsController, true);
+						if (settingsController != null && NavigationController.ChildViewControllers.Count (c => c is SettingsController) == 0){
+							NavigationController.PushViewController (settingsController, true);
 						}
 					})
 				}, true);
-				this.NavigationController.SetToolbarHidden(false, true);
+				NavigationController.SetToolbarHidden(false, true);
 			}
 		}
 
-		private void GoToMyBusidex ()
+		void GoToMyBusidex ()
 		{
-			var myBusidexController = this.Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+			var myBusidexController = Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
 
-			if (myBusidexController != null && this.NavigationController.ChildViewControllers.Where(c=> c is MyBusidexController).Count() == 0){
-				this.NavigationController.PushViewController (myBusidexController, true);
+			if (myBusidexController != null && NavigationController.ChildViewControllers.Count (c => c is MyBusidexController) == 0){
+				NavigationController.PushViewController (myBusidexController, true);
 			}
 		}
 
-		private void GoToSearch ()
+		void GoToSearch ()
 		{
-			var searchController = this.Storyboard.InstantiateViewController ("SearchController") as SearchController;
+			var searchController = Storyboard.InstantiateViewController ("SearchController") as SearchController;
 
 			if (searchController != null) {
-				this.NavigationController.PushViewController (searchController, true);
+				NavigationController.PushViewController (searchController, true);
 			}
 		}
 
-		private void GoToMyOrganizations ()
+		void GoToMyOrganizations ()
 		{
 			try{
-			var organizationsController = this.Storyboard.InstantiateViewController ("OrganizationsController") as OrganizationsController;
+			var organizationsController = Storyboard.InstantiateViewController ("OrganizationsController") as OrganizationsController;
 
-			if (organizationsController != null && this.NavigationController.ChildViewControllers.Where(c=> c is OrganizationsController).Count() == 0){
-				this.NavigationController.PushViewController (organizationsController, true);
+			if (organizationsController != null && NavigationController.ChildViewControllers.Count (c => c is OrganizationsController) == 0){
+				NavigationController.PushViewController (organizationsController, true);
 			}
 			}
 			catch(Exception ex){
@@ -141,9 +129,9 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private bool CheckRefreshCookie(){
+		static bool CheckRefreshCookie(){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where (c => c.Name == Busidex.Mobile.Resources.BusideRefreshCookieName).SingleOrDefault ();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.BusideRefreshCookieName);
 
 			if (cookie == null || cookie.ExpiresDate < DateTime.Now) {
 				var nCookie = new System.Net.Cookie();
@@ -161,7 +149,7 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		private void LoadMyBusidexAsync(){
+		void LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
 			const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
@@ -178,7 +166,7 @@ namespace Busidex.Presentation.iOS
 					if (!string.IsNullOrEmpty (response.Result)) {
 						MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (response.Result);
 
-						List<UserCard> cards = new List<UserCard> ();
+						var cards = new List<UserCard> ();
 
 						foreach (var item in MyBusidexResponse.MyBusidex.Busidex) {
 							if (item.Card != null) {
