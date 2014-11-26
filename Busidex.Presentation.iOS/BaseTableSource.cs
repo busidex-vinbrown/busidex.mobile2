@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using Foundation;
 using UIKit;
-using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
 	public class BaseTableSource : UITableViewSource
 	{
-		const float BASE_CELL_HEIGHT = 120f;
+		protected const float BASE_CELL_HEIGHT = 150f;
 
 		const float LEFT_MARGIN = 5F;
 		const float LABEL_HEIGHT = 30f;
@@ -22,13 +20,33 @@ namespace Busidex.Presentation.iOS
 
 		protected List<UITableViewCell> cellCache;
 
+		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
 		protected enum UIElements{
-			OrganizationImage = 1,
+			CardImage = 1,
 			NameLabel = 2,
-			WebsiteButton = 3,
-			TwitterButton = 4,
-			FacebookButton = 5,
-			ButtonPanel = 6
+			CompanyLabel = 3,
+			MapButton = 4,
+			NotesButton = 5,
+			EmailButton = 6,
+			WebsiteButton = 7,
+			PhoneNumberButton = 8,
+			AddToMyBusidexButton = 9,
+			RemoveFromMyBusidexButton = 10,
+			OrganizationImage = 11,
+			TwitterButton = 12,
+			FacebookButton = 13,
+			ButtonPanel = 14
+
+		}
+
+		protected ButtonPanel GetPanel(float width, float height){
+			var frame = new CoreGraphics.CGRect (width, 0, width, height);
+			var panel = new ButtonPanel (frame);
+			panel.Tag = (int)UIElements.ButtonPanel;
+			panel.BackgroundColor = UIColor.White;
+
+			return panel;
 		}
 
 		protected bool PanelVisible{ get; set;}
@@ -48,38 +66,43 @@ namespace Busidex.Presentation.iOS
 			return tableView.CellAt (indexPath);
 		}
 
-		public override void RowDeselected (UITableView tableView, NSIndexPath indexPath)
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			tableView.DeselectRow (indexPath, true);
+			tableView.DeselectRow (indexPath, true); // normal iOS behaviour is to remove the blue highlight
 		}
 
-		protected static void AddFeatureButtons(UITableViewCell cell, IEnumerable<UIButton> featureButtons){
+		protected void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){
 
-			const float BUTTON_Y = 40f + LABEL_HEIGHT;
-			float buttonX =  LEFT_MARGIN;
+			var panel = cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
 
-			var cellButtons = cell.ContentView.Subviews.Where (s => s is UIButton).ToList ();
-			foreach(var button in cellButtons){
+			const float FEATURE_BUTTON_TOP_MARGIN = 10f;
+
+			float buttonX = LEFT_MARGIN;
+
+			var buttons = panel.Subviews.ToList ();
+			foreach(var button in buttons){
 				button.RemoveFromSuperview ();
 			}
 
-			var frame = new RectangleF (buttonX, LEFT_MARGIN, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
+			var frame = new RectangleF (buttonX, FEATURE_BUTTON_TOP_MARGIN, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
 			float buttonXOriginal = buttonX;
 			int idx = 0;
-			foreach(var button in featureButtons.OrderBy(b=>b.Tag)){
+			var list = FeatureButtons.OrderBy (b => (int)b.Tag).ToList ();
+			foreach(var button in list){
+
+				frame.X = buttonX;
+				buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
 
 				button.Frame = frame;
-				cell.ContentView.AddSubview (button);
+				panel.AddSubview (button);
 
 				idx++;
-				if (idx % 3 == 0) { 
+				if (idx % 4 == 0) { 
 					buttonX = buttonXOriginal;
 					frame.Y += FEATURE_BUTTON_HEIGHT + 10f;
-				} else {
-					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
 				}
-				frame.X = buttonX;
 			}
+			cell.ContentView.AddSubview (panel);
 		}
 
 		public override void AccessoryButtonTapped (UITableView tableView, NSIndexPath indexPath)
@@ -87,7 +110,6 @@ namespace Busidex.Presentation.iOS
 			var cell = tableView.CellAt (indexPath);
 
 			ClearOrgNavFromAllCells (cell);
-
 
 			var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as ButtonPanel;
 
@@ -98,11 +120,13 @@ namespace Busidex.Presentation.iOS
 
 		protected void ClearOrgNavFromAllCells(UITableViewCell currentCell){
 
-			foreach (UITableViewCell cell in cellCache) {
-				if (cell != currentCell) {
-					var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as ButtonPanel;
-					if (panel != null)
-						panel.Hide ();
+			if (cellCache != null) {
+				foreach (UITableViewCell cell in cellCache) {
+					if (cell != currentCell) {
+						var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as ButtonPanel;
+						if (panel != null)
+							panel.Hide ();
+					}
 				}
 			}
 		}

@@ -5,7 +5,6 @@ using Busidex.Mobile.Models;
 using System.Drawing;
 using System.Linq;
 using System.IO;
-//using NewRelic;
 using Busidex.Mobile;
 using UIKit;
 
@@ -18,26 +17,26 @@ namespace Busidex.Presentation.iOS
 	public delegate void SendingEmailHandler(string email);
 	public delegate void ViewWebsiteHandler(string url);
 
-	public class TableSource : UITableViewSource {
+	public class TableSource : BaseTableSource {
 
 		public event CardSelected CardSelected;
 		public event EditNotesHandler EditingNotes;
 		public event CallingPhoneNumberHandler CallingPhoneNumber;
 		public event SendingEmailHandler SendingEmail;
 		public event ViewWebsiteHandler ViewWebsite;
+		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
 
-		List<UserCard> TableItems;
-		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		public UserCard SelectedCard{ get; set; }
-		protected List<UITableViewCell> cellCache;
 		protected List<UserCard> Cards{ get; set; }
 		protected bool NoCards;
+		protected string userToken;
+
 		public bool IsFiltering{ get; set;}
 		public bool ShowNoCardMessage{ get; set; }
 		public string NoCardsMessage{ get; set;}
 		public bool ShowNotes{ get; set;}
-		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
-		protected UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 236, 236);
+
+		protected UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 		protected const float LEFT_MARGIN = 5F;
 		protected const float CARD_HEIGHT_VERTICAL = 170f;
 		protected const float CARD_HEIGHT_HORIZONTAL = 100f;
@@ -49,21 +48,9 @@ namespace Busidex.Presentation.iOS
 		protected const float FEATURE_BUTTON_HEIGHT = 40f;
 		protected const float FEATURE_BUTTON_WIDTH = 40f;
 		protected const float FEATURE_BUTTON_MARGIN = 15f;
-
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
-		protected string userToken;
 
-		protected enum UIElements{
-			CardImage = 1,
-			NameLabel = 2,
-			CompanyLabel = 3,
-			AddToMyBusidexButton = 4,
-			MapButton = 5,
-			NotesButton = 6,
-			EmailButton = 7,
-			WebsiteButton = 8,
-			PhoneNumberButton = 9
-		}
+		List<UserCard> TableItems;
 
 		public TableSource (List<UserCard> items)
 		{
@@ -86,7 +73,7 @@ namespace Busidex.Presentation.iOS
 		}
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
-			cell.ContentView.BackgroundColor = CELL_BACKGROUND_COLOR;
+			tableView.BackgroundColor =	cell.ContentView.BackgroundColor = cell.BackgroundColor = CELL_BACKGROUND_COLOR;
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -96,8 +83,8 @@ namespace Busidex.Presentation.iOS
 			
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			const float BASE_HEIGHT = 190f;
-			return NoCards ? BASE_HEIGHT * 3 : BASE_HEIGHT;
+
+			return NoCards ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
 		}
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -124,11 +111,11 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		protected void GoToCard(int idx){
+		protected async void GoToCard(int idx){
 			SelectedCard = Cards [idx];
 			if (CardSelected != null) {
 				CardSelected ();
-				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
+				await ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
 			}
 		}
 
@@ -152,7 +139,7 @@ namespace Busidex.Presentation.iOS
 				SendingEmail (email);
 				var card = Cards.SingleOrDefault (c => c.Card.Email != null && c.Card.Email.Equals (email));
 				if (card != null) {
-					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
+					await ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
 				}
 			}
 		}
@@ -163,7 +150,7 @@ namespace Busidex.Presentation.iOS
 				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
 				var card = Cards.SingleOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
 				if (card != null) {
-					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
+					await ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
 				}
 			}
 		}
@@ -205,7 +192,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void AddMapButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons){
+		protected void AddMapButton(UserCard card, ref List<UIButton> FeatureButtons){
 		
 			var MapButton = UIButton.FromType (UIButtonType.System);
 
@@ -231,7 +218,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void AddNotesButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons, int idx){
+		protected void AddNotesButton(ref List<UIButton> FeatureButtons, int idx){
 
 			var NotesButton = UIButton.FromType (UIButtonType.System);
 				
@@ -244,45 +231,58 @@ namespace Busidex.Presentation.iOS
 			FeatureButtons.Add (NotesButton);
 		}
 
-		protected void AddAddToMyBusidexButton(UserCard card, UITableViewCell cell, ref RectangleF frame){
-			bool needsAddButton = false;
-			var AddToMyBusidexButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.AddToMyBusidexButton) as UIButton;
-			if (AddToMyBusidexButton == null) {
-				AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
-				needsAddButton = true;
-			}
+		protected void AddAddToMyBusidexButton(UserCard card, ref List<UIButton> FeatureButtons){
 
 			if (!card.ExistsInMyBusidex) {
-				AddToMyBusidexButton.SetTitle ("Add To My Busidex", UIControlState.Normal);
-				AddToMyBusidexButton.Hidden = card.ExistsInMyBusidex;
+				var AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
+
+				AddToMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("add.png"), UIControlState.Normal);
 				AddToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
-				AddToMyBusidexButton.Frame = frame;// new RectangleF (LEFT_MARGIN +, 100f, 120f, 22f);
-				AddToMyBusidexButton.Font = UIFont.FromName ("Helvetica", 14f);
-				AddToMyBusidexButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
-				AddToMyBusidexButton.SetTitleColor (UIColor.Blue, UIControlState.Normal);
-
-				var CheckMark = new UIImageView (new RectangleF (frame.X, frame.Y, 22f, 22f));
-				CheckMark.Image = UIImage.FromBundle ("checkmark.png");
-				CheckMark.Hidden = true;
-
 				AddToMyBusidexButton.TouchUpInside += delegate {
-					this.InvokeOnMainThread (() => {
-						AddToMyBusidexButton.Hidden = true;
-						CheckMark.Hidden = false;
-					});
-
 					AddToMyBusidex (card);
 				};
 
-				frame.Y += LABEL_HEIGHT;
-
-				if (needsAddButton) {
-					cell.ContentView.AddSubview (AddToMyBusidexButton);
-					cell.ContentView.AddSubview (CheckMark);
-				}
-			} else {
-				AddToMyBusidexButton.RemoveFromSuperview ();
+				FeatureButtons.Add (AddToMyBusidexButton);
 			}
+
+//			bool needsAddButton = false;
+//			//var AddToMyBusidexButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.AddToMyBusidexButton) as UIButton;
+//			if (AddToMyBusidexButton == null) {
+//				AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
+//				needsAddButton = true;
+//			}
+//
+//			if (!card.ExistsInMyBusidex) {
+//				AddToMyBusidexButton.SetTitle ("Add To My Busidex", UIControlState.Normal);
+//				AddToMyBusidexButton.Hidden = card.ExistsInMyBusidex;
+//				AddToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
+//				AddToMyBusidexButton.Frame = frame;// new RectangleF (LEFT_MARGIN +, 100f, 120f, 22f);
+//				AddToMyBusidexButton.Font = UIFont.FromName ("Helvetica", 14f);
+//				AddToMyBusidexButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
+//				AddToMyBusidexButton.SetTitleColor (UIColor.Blue, UIControlState.Normal);
+//
+//				var CheckMark = new UIImageView (new RectangleF (frame.X, frame.Y, 22f, 22f));
+//				CheckMark.Image = UIImage.FromBundle ("checkmark.png");
+//				CheckMark.Hidden = true;
+//
+//				AddToMyBusidexButton.TouchUpInside += delegate {
+//					this.InvokeOnMainThread (() => {
+//						AddToMyBusidexButton.Hidden = true;
+//						CheckMark.Hidden = false;
+//					});
+//
+//					AddToMyBusidex (card);
+//				};
+//
+//				frame.Y += LABEL_HEIGHT;
+//
+//				if (needsAddButton) {
+//					cell.ContentView.AddSubview (AddToMyBusidexButton);
+//					cell.ContentView.AddSubview (CheckMark);
+//				}
+//			} else {
+//				AddToMyBusidexButton.RemoveFromSuperview ();
+//			}
 		}
 
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
@@ -375,7 +375,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void AddEmailButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons){
+		protected void AddEmailButton(UserCard card, ref List<UIButton> FeatureButtons){
 
 			if(!string.IsNullOrEmpty(card.Card.Email)){
 				var EmailButton = UIButton.FromType (UIButtonType.System);
@@ -383,15 +383,15 @@ namespace Busidex.Presentation.iOS
 				EmailButton.SetBackgroundImage (UIImage.FromBundle ("email-icon.png"), UIControlState.Normal);
 				EmailButton.Tag = (int)UIElements.EmailButton;
 
-				FeatureButtons.Add (EmailButton);
-
 				EmailButton.TouchUpInside += delegate {
 					SendEmail(card.Card.Email);
 				};
+
+				FeatureButtons.Add (EmailButton);
 			}
 		}
 
-		protected void AddWebSiteButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons){
+		protected void AddWebSiteButton(UserCard card, ref List<UIButton> FeatureButtons){
 
 			if (!string.IsNullOrEmpty (card.Card.Url)) {
 				var WebsiteButton = UIButton.FromType (UIButtonType.System);
@@ -399,67 +399,35 @@ namespace Busidex.Presentation.iOS
 				WebsiteButton.SetBackgroundImage (UIImage.FromBundle ("browser.png"), UIControlState.Normal);
 				WebsiteButton.Tag = (int)UIElements.WebsiteButton;
 
-				FeatureButtons.Add (WebsiteButton);
-
 				WebsiteButton.TouchUpInside += delegate {
 					ShowBrowser(card.Card.Url);
 				};
+
+				FeatureButtons.Add (WebsiteButton);
 			}
 		}
 
-		protected void AddPhoneButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons, int idx){
+		protected void AddPhoneButton(ref List<UIButton> FeatureButtons, int idx){
 
 			var PhoneButton = UIButton.FromType (UIButtonType.System);
 
 			PhoneButton.SetBackgroundImage (UIImage.FromBundle ("phone.png"), UIControlState.Normal);
 			PhoneButton.Tag = (int)UIElements.PhoneNumberButton;
 
-			FeatureButtons.Add (PhoneButton);
-
 			PhoneButton.TouchUpInside += delegate {
-
 				ShowPhoneNumbers(idx);
 			};
+
+			FeatureButtons.Add (PhoneButton);
 		}
-
-		protected void AddFeatureButtons(UserCard card, UITableViewCell cell, List<UIButton> FeatureButtons){
-
-			bool isVertical = card.Card.FrontOrientation == "V"; 
-
-			float buttonY = 110f + LABEL_HEIGHT;
-			if(isVertical){
-				buttonY -= FEATURE_BUTTON_HEIGHT;
-			}
-			float buttonX =  isVertical ? CARD_WIDTH_VERTICAL + LEFT_MARGIN: LEFT_MARGIN;
-				
-			var cellButtons = cell.ContentView.Subviews.Where (s => s.Tag > (int)UIElements.AddToMyBusidexButton).ToList ();
-			foreach(var button in cellButtons){
-				button.RemoveFromSuperview ();
-			}
-				
-			var frame = new RectangleF (buttonX, buttonY, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
-			float buttonXOriginal = buttonX;
-			int idx = 0;
-			foreach(var button in FeatureButtons.OrderBy(b=>b.Tag)){
 			
-				button.Frame = frame;
-				cell.ContentView.AddSubview (button);
-
-				idx++;
-				if (idx % 3 == 0 && isVertical) { 
-					buttonX = buttonXOriginal;
-					frame.Y += FEATURE_BUTTON_HEIGHT + 10f;
-				} else {
-					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
-				}
-				frame.X = buttonX;
-
-			}
-		}
-
 		public void AddControls(UITableViewCell cell, UserCard card, int idx){
 
+			cell.Accessory = UITableViewCellAccessory.DetailButton;
+
 			if (card != null && card.Card != null) {
+
+				var FeatureButtonList = new List<UIButton> ();
 
 				var frame = card.Card.FrontOrientation == "H" 
 					? new RectangleF (CARD_WIDTH_HORIZONTAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT)
@@ -472,25 +440,22 @@ namespace Busidex.Presentation.iOS
 				AddCardImageButton (card, cell, idx);
 				AddNameLabel (card, cell, ref frame);
 				AddCompanyLabel (card, cell, ref frame);
-				AddAddToMyBusidexButton (card, cell, ref frame);
 
-				var FeatureButtonList = new List<UIButton> ();
-
-				AddMapButton (card, cell, ref FeatureButtonList);
-				AddEmailButton (card, cell, ref FeatureButtonList);
-				AddWebSiteButton (card, cell, ref FeatureButtonList);
-				AddPhoneButton (card, cell, ref FeatureButtonList, idx);
+				AddMapButton (card, ref FeatureButtonList);
 				if (ShowNotes) {
-					AddNotesButton (card, cell, ref FeatureButtonList, idx);
+					AddNotesButton (ref FeatureButtonList, idx);
 				}
-				AddFeatureButtons (card, cell, FeatureButtonList);
+				AddEmailButton (card, ref FeatureButtonList);
+				AddWebSiteButton (card, ref FeatureButtonList);
+				AddPhoneButton (ref FeatureButtonList, idx);
+
+				AddAddToMyBusidexButton (card, ref FeatureButtonList);
+
+				AddFeatureButtons (cell, FeatureButtonList);
 			}
 		}
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
-		{
-			tableView.DeselectRow (indexPath, true); // normal iOS behaviour is to remove the blue highlight
-		}
+
 
 		protected string buildAddress(Card card){
 

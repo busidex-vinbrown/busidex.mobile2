@@ -18,8 +18,6 @@ namespace Busidex.Presentation.iOS
 
 		List<Organization> Organizations;
 
-		const float BASE_CELL_HEIGHT = 120f;
-
 		public event ViewOrganizationHandler ViewOrganization;
 		public event ViewOrganizationMembersHandler ViewOrganizationMembers;
 		public event ViewOrganizationReferralsHandler ViewOrganizationReferrals;
@@ -65,7 +63,6 @@ namespace Busidex.Presentation.iOS
 
 		void AddControls(UITableViewCell cell, Organization org){
 		
-			string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
 			if (!string.IsNullOrEmpty (org.LogoFileName)) {
@@ -118,7 +115,7 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		UIButton getPanelButton(string title, CoreGraphics.CGRect frame, nfloat width, nfloat height){
+		static UIButton getPanelButton(string title, CoreGraphics.CGRect frame){
 
 			const float BORDER_RADIUS = 10f;
 			const float BORDER_WIDTH = 1f;
@@ -141,19 +138,18 @@ namespace Busidex.Presentation.iOS
 			const float BUTTON_WIDTH = 120f;
 			const float BUTTON_HEIGHT = 45f;
 
-			var frame = new RectangleF (320f, 0, 320, BASE_CELL_HEIGHT);
-			var panel = new ButtonPanel (frame);
+			var panel = GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
 
 			var buttonFrame = new CoreGraphics.CGRect (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-			var detailsButton = getPanelButton ("Details", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
+			var detailsButton = getPanelButton ("Details", buttonFrame);
 			detailsButton.TouchUpInside += delegate {
 				ViewOrganization (org.OrganizationId);
 			};
 				
 			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
 
-			var membersButton = getPanelButton ("Members", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
+			var membersButton = getPanelButton ("Members", buttonFrame);
 			membersButton.TouchUpInside += delegate {
 				ViewOrganizationMembers (org);
 			};
@@ -161,7 +157,7 @@ namespace Busidex.Presentation.iOS
 			buttonFrame.X = 10f;
 			buttonFrame.Y += BUTTON_HEIGHT + TOP_MARGIN;
 
-			var referralsButton = getPanelButton ("Referrals", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
+			var referralsButton = getPanelButton ("Referrals", buttonFrame);
 			referralsButton.TouchUpInside += delegate {
 				ViewOrganizationReferrals (org);
 			};
@@ -175,14 +171,6 @@ namespace Busidex.Presentation.iOS
 			panel.Tag = (int)UIElements.ButtonPanel;
 
 			cell.ContentView.AddSubview (panel);
-		}
-
-		// Analysis disable once UnusedParameter
-		void ShowBrowser(string url){
-
-//			if (this.ViewWebsite != null){
-//				this.ViewWebsite (url);
-//			}
 		}
 	}
 }

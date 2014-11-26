@@ -273,11 +273,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537" fixedFrame="YES">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537" fixedFrame="YES">
                                 <rect key="frame" x="5" y="40" width="310" height="525"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                             </tableView>
                             <searchBar contentMode="redraw" fixedFrame="YES" id="1536">
                                 <rect key="frame" x="0.0" y="62" width="320" height="44"/>
@@ -285,7 +286,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </searchBar>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                     </view>
                     <connections>
                         <outlet property="SearchBar" destination="1536" id="name-outlet-1536"/>
