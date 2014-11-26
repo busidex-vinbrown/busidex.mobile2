@@ -1,11 +1,11 @@
 ﻿using System;
-using UIKit;
 using System.Collections.Generic;
-using Busidex.Mobile.Models;
-using Foundation;
-using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using Foundation;
+using UIKit;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
@@ -16,10 +16,10 @@ namespace Busidex.Presentation.iOS
 	public class OrganizationTableSource : UITableViewSource
 	{
 
-		private List<UITableViewCell> cellCache;
-		private List<Organization> Organizations;
+		List<UITableViewCell> cellCache;
+		List<Organization> Organizations;
 
-		private enum UIElements{
+		enum UIElements{
 			OrganizationImage = 1,
 			NameLabel = 2,
 			WebsiteButton = 3,
@@ -28,22 +28,22 @@ namespace Busidex.Presentation.iOS
 			ButtonPanel = 6
 		}
 
-		private const float ANIMATION_SPEED = 0.5f;
-		private const float BASE_CELL_HEIGHT = 120f;
-		private const float LEFT_MARGIN = 5F;
-		private const float LABEL_HEIGHT = 30f;
-		private const float LABEL_WIDTH = 170f;
-		private const float FEATURE_BUTTON_HEIGHT = 40f;
-		private const float FEATURE_BUTTON_WIDTH = 40f;
-		private const float FEATURE_BUTTON_MARGIN = 15f;
+		const float ANIMATION_SPEED = 0.5f;
+		const float BASE_CELL_HEIGHT = 120f;
+		const float LEFT_MARGIN = 5F;
+		const float LABEL_HEIGHT = 30f;
+		const float LABEL_WIDTH = 170f;
+		const float FEATURE_BUTTON_HEIGHT = 40f;
+		const float FEATURE_BUTTON_WIDTH = 40f;
+		const float FEATURE_BUTTON_MARGIN = 15f;
 		public event ViewOrganizationHandler ViewOrganization;
 		public event ViewOrganizationMembersHandler ViewOrganizationMembers;
 		public event ViewOrganizationReferralsHandler ViewOrganizationReferrals;
 
 		public OrganizationTableSource (List<Organization> organizations)
 		{
-			this.Organizations = new List<Organization> ();
-			this.Organizations.AddRange (organizations);
+			Organizations = new List<Organization> ();
+			Organizations.AddRange (organizations);
 			cellCache = new List<UITableViewCell> ();
 		}
 
@@ -54,12 +54,12 @@ namespace Busidex.Presentation.iOS
 
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			return Organizations.Count() == 0 ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
+			return !Organizations.Any () ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
 		}
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			var organization = (Organization)Organizations [indexPath.Row];
+			var organization = Organizations [indexPath.Row];
 
 			var cell = tableView.DequeueReusableCell (OrganizationsController.BusidexCellId, indexPath);
 
@@ -84,16 +84,16 @@ namespace Busidex.Presentation.iOS
 			tableView.DeselectRow (indexPath, true);
 		}
 
-		private void AddControls(UITableViewCell cell, Organization org){
+		void AddControls(UITableViewCell cell, Organization org){
 		
 			string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			var fileName = System.IO.Path.Combine (documentsPath, org.LogoFileName);
+			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
 			if (!string.IsNullOrEmpty (org.LogoFileName)) {
 				var frame = new RectangleF (10f, 10f, 220f, 80f);
 				var imageFile = fileName + "." + org.LogoType;
 
-				var orgImage = cell.ContentView.Subviews.Where (s => s.Tag == (int)UIElements.OrganizationImage).SingleOrDefault () as UIImageView;
+				var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.OrganizationImage) as UIImageView;
 				if (orgImage != null) {
 					orgImage.RemoveFromSuperview ();
 				}
@@ -105,7 +105,7 @@ namespace Busidex.Presentation.iOS
 
 
 			} else {
-				var NameLabel = cell.ContentView.Subviews.Where (s => s.Tag == (int)UIElements.NameLabel).SingleOrDefault () as UILabel;
+				var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.NameLabel) as UILabel;
 				if (NameLabel != null) {
 					NameLabel.RemoveFromSuperview ();
 				}
@@ -121,18 +121,16 @@ namespace Busidex.Presentation.iOS
 
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
-			UISwipeGestureRecognizer swiperShow = new UISwipeGestureRecognizer ();
+			var swiperShow = new UISwipeGestureRecognizer ();
 			swiperShow.Direction = UISwipeGestureRecognizerDirection.Left;
 			swiperShow.AddTarget (() => {
 				ClearOrgNavFromAllCells();
 				ShowOrgNav(cell);
 			});
 
-			UISwipeGestureRecognizer swiperHide = new UISwipeGestureRecognizer ();
+			var swiperHide = new UISwipeGestureRecognizer ();
 			swiperHide.Direction = UISwipeGestureRecognizerDirection.Right;
-			swiperHide.AddTarget (() => {
-				HideOrgNav(cell);
-			});
+			swiperHide.AddTarget (() => HideOrgNav (cell));
 
 			cell.ContentView.AddGestureRecognizer (swiperShow);
 			cell.ContentView.AddGestureRecognizer (swiperHide);
@@ -148,30 +146,30 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private void ShowOrgNav(UITableViewCell cell){
-			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as UIView;
+		static void ShowOrgNav(UITableViewCell cell){
+			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel);
 			UIView.Animate (ANIMATION_SPEED, () => {
 				ButtonPanel.Frame = new CoreGraphics.CGRect(0, ButtonPanel.Frame.Location.Y, ButtonPanel.Frame.Size.Width, ButtonPanel.Frame.Size.Height);
 			});
 		}
 
-		private void HideOrgNav(UITableViewCell cell){
-			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as UIView;
+		static void HideOrgNav(UITableViewCell cell){
+			var ButtonPanel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel);
 			UIView.Animate (ANIMATION_SPEED, () => {
 				ButtonPanel.Frame = new CoreGraphics.CGRect(ButtonPanel.Frame.Width, ButtonPanel.Frame.Location.Y, ButtonPanel.Frame.Size.Width, ButtonPanel.Frame.Size.Height);
 			});
 		}
 
-		private void AddSwipeView(ref UITableViewCell cell, Organization org){
+		void AddSwipeView(ref UITableViewCell cell, Organization org){
 
 			var frame = new RectangleF (320f, 0, 320, BASE_CELL_HEIGHT);
 			var panel = new UIView (frame);
-			var buttonWidth = 130f;
-			var buttonHeight = 45f;
-			var leftMargin = 20f;
-			var topMargin = 15f;
+			const float BUTTON_WIDTH = 130f;
+			const float BUTTON_HEIGHT = 45f;
+			const float LEFT_MARGIN = 20f;
+			const float TOP_MARGIN = 15f;
 
-			var buttonFrame = new RectangleF (10f, 10f, buttonWidth, buttonHeight);
+			var buttonFrame = new RectangleF (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
 
 			var detailsButton = new UIButton (buttonFrame);
 			detailsButton.BackgroundColor = UIColor.Blue;
@@ -181,7 +179,7 @@ namespace Busidex.Presentation.iOS
 				ViewOrganization (org.OrganizationId);
 			};
 				
-			buttonFrame.X += buttonWidth + leftMargin;
+			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
 
 			var membersButton = new UIButton (buttonFrame);
 			membersButton.BackgroundColor = UIColor.Blue;
@@ -192,7 +190,7 @@ namespace Busidex.Presentation.iOS
 			};
 
 			buttonFrame.X = 10f;
-			buttonFrame.Y += buttonHeight + topMargin;
+			buttonFrame.Y += BUTTON_HEIGHT + TOP_MARGIN;
 
 			var referralsButton = new UIButton (buttonFrame);
 			referralsButton.BackgroundColor = UIColor.Blue;
@@ -202,7 +200,7 @@ namespace Busidex.Presentation.iOS
 				ViewOrganizationReferrals (org);
 			};
 
-			buttonFrame.X += buttonWidth + leftMargin;
+			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
 			var sendReferralsButton = new UIButton (buttonFrame);
 			sendReferralsButton.BackgroundColor = UIColor.Blue;
 			sendReferralsButton.SetTitle ("Send Referrals", UIControlState.Normal);
@@ -220,9 +218,9 @@ namespace Busidex.Presentation.iOS
 			cell.ContentView.AddSubview (panel);
 		}
 
-		private void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){
+		static void AddFeatureButtons(UITableViewCell cell, IEnumerable<UIButton> featureButtons){
 		
-			float buttonY = 40f + LABEL_HEIGHT;
+			const float BUTTON_Y = 40f + LABEL_HEIGHT;
 			float buttonX =  LEFT_MARGIN;
 
 			var cellButtons = cell.ContentView.Subviews.Where (s => s is UIButton).ToList ();
@@ -230,10 +228,10 @@ namespace Busidex.Presentation.iOS
 				button.RemoveFromSuperview ();
 			}
 
-			var frame = new RectangleF (buttonX, buttonY, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
+			var frame = new RectangleF (buttonX, LEFT_MARGIN, FEATURE_BUTTON_WIDTH, FEATURE_BUTTON_HEIGHT);
 			float buttonXOriginal = buttonX;
 			int idx = 0;
-			foreach(var button in FeatureButtons.OrderBy(b=>b.Tag)){
+			foreach(var button in featureButtons.OrderBy(b=>b.Tag)){
 
 				button.Frame = frame;
 				cell.ContentView.AddSubview (button);
@@ -249,7 +247,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private void ShowBrowser(string url){
+		// Analysis disable once UnusedParameter
+		void ShowBrowser(string url){
 
 //			if (this.ViewWebsite != null){
 //				this.ViewWebsite (url);

@@ -1,14 +1,10 @@
 ﻿using System;
 using Foundation;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Busidex.Mobile.Models;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
 using System.IO;
-using MessageUI;
 //using NewRelic;
 using Busidex.Mobile;
 using UIKit;
@@ -71,7 +67,7 @@ namespace Busidex.Presentation.iOS
 
 		public TableSource (List<UserCard> items)
 		{
-			if (items.Count () == 0) {
+			if (!items.Any ()) {
 				NoCards = true;
 				items.Add (new UserCard ());
 			}
@@ -81,7 +77,7 @@ namespace Busidex.Presentation.iOS
 
 			Cards.AddRange (items);
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AuthenticationCookieName);
 
 			if (cookie != null) {
 				userToken = cookie.Value;
@@ -100,13 +96,13 @@ namespace Busidex.Presentation.iOS
 			
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			float baseHeight = 190f;
-			return NoCards ? baseHeight * 3 : baseHeight;
+			const float BASE_HEIGHT = 190f;
+			return NoCards ? BASE_HEIGHT * 3 : BASE_HEIGHT;
 		}
 			
-		public override UITableViewCell GetCell (UITableView tableView, Foundation.NSIndexPath indexPath)
+		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			var card = (UserCard)TableItems [indexPath.Row];
+			var card = TableItems [indexPath.Row];
 
 			var cell = tableView.DequeueReusableCell (MyBusidexController.BusidexCellId, indexPath);
 			cell.SelectionStyle = UITableViewCellSelectionStyle.Default;
@@ -129,36 +125,32 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected void GoToCard(int idx){
-			this.SelectedCard = Cards[idx];
-			if (this.CardSelected != null) {
-				this.CardSelected ();
-				//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_CLICKED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				ActivityController.SaveActivity ((long)EventSources.Details, this.SelectedCard.Card.CardId, userToken);
+			SelectedCard = Cards [idx];
+			if (CardSelected != null) {
+				CardSelected ();
+				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
 			}
 		}
 
 		protected void EditNotes(int idx){
-			this.SelectedCard = Cards [idx];
-			if (this.EditingNotes != null){
-				this.EditingNotes ();
-				//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.NOTES_VIEWED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+			SelectedCard = Cards [idx];
+			if (EditingNotes != null){
+				EditingNotes ();
 			}
 		}
 
 		protected void ShowPhoneNumbers(int idx){
-			this.SelectedCard = Cards [idx];
-			if (this.CallingPhoneNumber != null){
-				this.CallingPhoneNumber ();
-				//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.PHONE_CALLED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+			SelectedCard = Cards [idx];
+			if (CallingPhoneNumber != null){
+				CallingPhoneNumber ();
 			}
 		}
 
 		protected async void SendEmail(string email){
 
-			if (this.SendingEmail != null){
-				this.SendingEmail (email);
-				//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.EMAIL_SENT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				var card = Cards.Where (c => c.Card.Email != null && c.Card.Email.Equals (email)).SingleOrDefault ();
+			if (SendingEmail != null){
+				SendingEmail (email);
+				var card = Cards.SingleOrDefault (c => c.Card.Email != null && c.Card.Email.Equals (email));
 				if (card != null) {
 					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
 				}
@@ -167,10 +159,9 @@ namespace Busidex.Presentation.iOS
 
 		protected async void ShowBrowser(string url){
 
-			if (this.ViewWebsite != null){
-				this.ViewWebsite (url.Replace("http://", "").Replace("https://",""));
-				//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				var card = Cards.Where (c => c.Card.Url != null && c.Card.Url.Equals (url)).SingleOrDefault ();
+			if (ViewWebsite != null){
+				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
+				var card = Cards.SingleOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
 				if (card != null) {
 					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
 				}
@@ -179,12 +170,12 @@ namespace Busidex.Presentation.iOS
 
 		protected void LoadNoCardMessage(UITableViewCell cell){
 		
-			float labelHeight = 61f * 3;
-			float labelWidth = 280f;
+			const float LABEL_HEIGHT = 61f * 3;
+			const float LABEL_WIDTH = 280f;
 
-			var frame = new RectangleF (10f, 10f, labelWidth, labelHeight);
+			var frame = new RectangleF (10f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
 
-			UILabel lbl = new UILabel (frame);
+			var lbl = new UILabel (frame);
 			lbl.Text = IsFiltering ? NONE_MATCH_FILTER : NoCardsMessage;
 			lbl.TextAlignment = UITextAlignment.Center;
 			lbl.Font = UIFont.FromName ("Helvetica", 17f);
@@ -202,14 +193,14 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddToMyBusidex(UserCard userCard){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
-			if (cookie != null) {
-				Busidex.Mobile.MyBusidexController ctrl = new Busidex.Mobile.MyBusidexController ();
-				ctrl.AddToMyBusidex (userCard.Card.CardId, cookie.Value);
-				if (CardAddedToMyBusidex != null) {
-					CardAddedToMyBusidex (userCard);
-					//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_ADDED, "UI Interactions", new NSNumber (1));
-					ActivityController.SaveActivity ((long)EventSources.Add, userCard.Card.CardId, userToken);
+			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AuthenticationCookieName)) {
+				if (cookie != null) {
+					var ctrl = new Busidex.Mobile.MyBusidexController ();
+					ctrl.AddToMyBusidex (userCard.Card.CardId, cookie.Value);
+					if (CardAddedToMyBusidex != null) {
+						CardAddedToMyBusidex (userCard);
+						ActivityController.SaveActivity ((long)EventSources.Add, userCard.Card.CardId, userToken);
+					}
 				}
 			}
 		}
@@ -218,17 +209,16 @@ namespace Busidex.Presentation.iOS
 		
 			var MapButton = UIButton.FromType (UIButtonType.System);
 
-			if (card.Card.Addresses != null && card.Card.Addresses.Count () > 0) {
+			if (card.Card.Addresses != null && card.Card.Addresses.Any ()) {
 				string address = buildAddress (card.Card);
 
 				if (!string.IsNullOrWhiteSpace (address)) {
 
 					MapButton.TouchUpInside += delegate {
 
-						this.InvokeOnMainThread( ()=>{
-							var url = new NSUrl("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode(address.Trim()));
-							UIApplication.SharedApplication.OpenUrl(url);
-							//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_MAPPED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+						InvokeOnMainThread (() => {
+							var url = new NSUrl ("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
+							UIApplication.SharedApplication.OpenUrl (url);
 							ActivityController.SaveActivity ((long)EventSources.Map, card.Card.CardId, userToken);
 						});	
 					};
@@ -256,7 +246,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddAddToMyBusidexButton(UserCard card, UITableViewCell cell, ref RectangleF frame){
 			bool needsAddButton = false;
-			var AddToMyBusidexButton = cell.ContentView.Subviews.Where (s => s is UIButton && s.Tag == (int)UIElements.AddToMyBusidexButton).SingleOrDefault () as UIButton;
+			var AddToMyBusidexButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.AddToMyBusidexButton) as UIButton;
 			if (AddToMyBusidexButton == null) {
 				AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
 				needsAddButton = true;
@@ -297,7 +287,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
 
-			bool needsCardImage = false;
+			bool needsCardImage;
 
 			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.CardImage) as UIButton;
 			if (CardImageButton != null) {
@@ -308,7 +298,7 @@ namespace Busidex.Presentation.iOS
 
 			CardImageButton.Tag = (int)UIElements.CardImage;
 
-			var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
+			var fileName = Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
 
 			if (File.Exists (fileName)) {
 				CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 
@@ -475,7 +465,7 @@ namespace Busidex.Presentation.iOS
 					? new RectangleF (CARD_WIDTH_HORIZONTAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT)
 					: new RectangleF (CARD_WIDTH_VERTICAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
 
-				var noCardLabel = cell.ContentView.Subviews.Where (v => v.Tag == -1).SingleOrDefault ();
+				var noCardLabel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == -1);
 				if(noCardLabel != null){
 					noCardLabel.RemoveFromSuperview ();
 				}
@@ -490,7 +480,7 @@ namespace Busidex.Presentation.iOS
 				AddEmailButton (card, cell, ref FeatureButtonList);
 				AddWebSiteButton (card, cell, ref FeatureButtonList);
 				AddPhoneButton (card, cell, ref FeatureButtonList, idx);
-				if (this.ShowNotes) {
+				if (ShowNotes) {
 					AddNotesButton (card, cell, ref FeatureButtonList, idx);
 				}
 				AddFeatureButtons (card, cell, FeatureButtonList);
