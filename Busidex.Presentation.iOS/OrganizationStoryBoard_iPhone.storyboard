@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4443" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="5">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="4">
+            <objects>
+                <viewController id="5" sceneMemberID="viewController" storyboardIdentifier="OrganizationDetailController" restorationIdentifier="" customClass="OrganizationDetailController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2"/>
+                        <viewControllerLayoutGuide type="bottom" id="3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="58" y="320" width="40" height="40"/>
+                                <state key="normal" title="" backgroundImage="browser.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="72" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="135" y="317" width="50" height="50"/>
+                                <state key="normal" title="" backgroundImage="twitter.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="218" y="320" width="40" height="40"/>
+                                <state key="normal" title="" backgroundImage="fb.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contacts:" lineBreakMode="tailTruncation" minimumFontSize="10" id="74" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                <rect key="frame" x="20" y="191" width="78" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email:" lineBreakMode="tailTruncation" minimumFontSize="10" id="75" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                <rect key="frame" x="20" y="220" width="78" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Phone:" lineBreakMode="tailTruncation" minimumFontSize="10" id="76" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                <rect key="frame" x="20" y="249" width="78" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fax:" lineBreakMode="tailTruncation" minimumFontSize="10" id="77" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                <rect key="frame" x="20" y="278" width="78" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <webView contentMode="scaleToFill" id="78" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="12" y="383" width="302" height="165"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="302" id="89"/>
+                                    <constraint firstAttribute="height" constant="165" id="90"/>
+                                </constraints>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" address="YES" link="YES"/>
+                            </webView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Contacts]" lineBreakMode="tailTruncation" minimumFontSize="10" id="91" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="106" y="191" width="194" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="99" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="20" y="79" width="280" height="91"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="114"/>
+                                    <constraint firstAttribute="height" constant="91" id="115"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="131" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Email]">
+                                <rect key="frame" x="106" y="213" width="194" height="29"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="134" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Phone]">
+                                <rect key="frame" x="106" y="241" width="194" height="29"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="135" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Fax]">
+                                <rect key="frame" x="106" y="270" width="194" height="29"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="87" firstItem="6" firstAttribute="trailing" secondItem="78" secondAttribute="trailing" constant="6"/>
+                            <constraint id="88" firstItem="6" firstAttribute="bottom" secondItem="78" secondAttribute="bottom" constant="20"/>
+                            <constraint id="112" firstItem="6" firstAttribute="trailing" secondItem="99" secondAttribute="trailing" constant="20"/>
+                            <constraint id="113" firstItem="99" firstAttribute="top" secondItem="6" secondAttribute="top" constant="79"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="wvMessage" destination="78" id="name-outlet-78"/>
+                        <outlet property="lblContacts" destination="91" id="name-outlet-91"/>
+                        <outlet property="imgOrgImage" destination="99" id="name-outlet-99"/>
+                        <outlet property="txtPhone" destination="134" id="name-outlet-134"/>
+                        <outlet property="txtEmail" destination="131" id="name-outlet-131"/>
+                        <outlet property="txtFax" destination="135" id="name-outlet-135"/>
+                        <outlet property="btnBrowser" destination="71" id="name-outlet-71"/>
+                        <outlet property="btnTwitter" destination="72" id="name-outlet-72"/>
+                        <outlet property="btnFacebook" destination="73" id="name-outlet-73"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="242" y="78"/>
+        </scene>
+        <scene sceneID="205">
+            <objects>
+                <viewController id="206" sceneMemberID="viewController" storyboardIdentifier="OrgMembersController" customClass="OrgMembersController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="203"/>
+                        <viewControllerLayoutGuide type="bottom" id="204"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleAspectFit" id="207" autoresizesSubviews="NO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="307" translatesAutoresizingMaskIntoConstraints="NO" allowsSelection="NO">
+                                <rect key="frame" x="0.0" y="108" width="314" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                </prototypes>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="314" id="345"/>
+                                    <constraint firstAttribute="height" constant="460" id="346"/>
+                                </constraints>
+                            </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" id="319" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Filter" showsCancelButton="YES">
+                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="328" key="tableHeaderView">
+                                <rect key="frame" x="3" y="108" width="314" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="314" id="331"/>
+                                    <constraint firstAttribute="height" constant="57" id="332"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="329" firstItem="207" firstAttribute="trailing" secondItem="328" secondAttribute="trailing" constant="3"/>
+                            <constraint id="330" firstItem="328" firstAttribute="top" secondItem="207" secondAttribute="top" constant="108"/>
+                            <constraint firstItem="207" firstAttribute="bottom" secondItem="307" secondAttribute="bottom" constant="0.0" id="343"/>
+                            <constraint id="344" firstItem="307" firstAttribute="leading" secondItem="207" secondAttribute="leading" constant="0.0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tblMembers" destination="307" id="name-outlet-307"/>
+                        <outlet property="txtSearch" destination="319" id="name-outlet-319"/>
+                        <outlet property="imgLogo" destination="328" id="name-outlet-328"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="208" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="684" y="78"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+    <resources>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="defaultUserImage.png" width="512" height="512"/>
+        <image name="spotlight-icon.png" width="100" height="100"/>
+        <image name="signin.png" width="256" height="256"/>
+        <image name="checkmark.png" width="16" height="16"/>
+        <image name="maps.png" width="64" height="64"/>
+        <image name="notes.png" width="256" height="256"/>
+        <image name="browser.png" width="512" height="512"/>
+        <image name="email-icon.png" width="396" height="408"/>
+        <image name="phone.png" width="256" height="256"/>
+        <image name="Busidex-icon.png" width="252" height="220"/>
+        <image name="card-ring.png" width="412" height="372"/>
+        <image name="fb.png" width="256" height="256"/>
+        <image name="twitter.png" width="128" height="128"/>
+        <image name="icons/busidex_icon_29x29.png" width="29" height="29"/>
+        <image name="icons/busidex_icon_57x57.png" width="57" height="57"/>
+        <image name="icons/busidex_icon_58x58.png" width="58" height="58"/>
+        <image name="icons/busidex_icon_80x80.png" width="80" height="80"/>
+        <image name="icons/busidex_icon_114x114.png" width="114" height="114"/>
+        <image name="icons/busidex_icon_120x120.png" width="120" height="120"/>
+        <image name="icons/busidex_splash_320x480.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x960.png" width="640" height="960"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x1136.png" width="640" height="1136"/>
+        <image name="icons/busidex_artwork_512x512.png" width="512" height="512"/>
+        <image name="icons/busidex_artwork_1024x1024.png" width="1024" height="1024"/>
+        <image name="Busidex Logo Concepts.png" width="261" height="248"/>
+        <image name="settings.png" width="64" height="64"/>
+        <image name="icons/busidex_icon_100x100.png" width="100" height="100"/>
+        <image name="icons/busidex_icon_144x144.png" width="144" height="144"/>
+        <image name="icons/busidex_icon_152x152.png" width="152" height="152"/>
+        <image name="icons/busidex_icon_50x50.png" width="50" height="50"/>
+        <image name="icons/busidex_icon_40x40.png" width="40" height="40"/>
+        <image name="icons/busidex_icon_72x72.png" width="72" height="72"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="icons/ipad_launch_768x1024px.png" width="768" height="1024"/>
+        <image name="icons/ipad_launch_1024x768px.png" width="1024" height="768"/>
+        <image name="icons/ipad_launch_1536x2048px.png" width="1536" height="2048"/>
+        <image name="icons/ipad_launch_2048x1536px.png" width="2048" height="1536"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="People.jpg" width="259" height="194"/>
+    </resources>
+</document>

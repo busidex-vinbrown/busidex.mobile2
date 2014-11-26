@@ -98,7 +98,7 @@ namespace Busidex.Presentation.iOS
 				cell.ContentView.AddSubview (NameLabel);
 			}
 
-			cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
+			cell.Accessory = UITableViewCellAccessory.DetailButton;
 
 //			var swiperShow = new UISwipeGestureRecognizer ();
 //			swiperShow.Direction = UISwipeGestureRecognizerDirection.Left;
@@ -118,31 +118,42 @@ namespace Busidex.Presentation.iOS
 
 		}
 
+		UIButton getPanelButton(string title, CoreGraphics.CGRect frame, nfloat width, nfloat height){
+
+			const float BORDER_RADIUS = 10f;
+			const float BORDER_WIDTH = 1f;
+		
+			var button = new UIButton (frame);
+			button.Layer.CornerRadius = BORDER_RADIUS;
+			button.Layer.BorderWidth = BORDER_WIDTH;
+			button.Layer.BackgroundColor = UIColor.White.CGColor;
+			button.Layer.BorderColor =  UIColor.Blue.CGColor;
+			button.SetTitle (title, UIControlState.Normal);
+			button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
+
+			return button;
+		}
+
 		void AddSwipeView(ref UITableViewCell cell, Organization org){
+
+			const float LEFT_MARGIN = 20f;
+			const float TOP_MARGIN = 15f;
+			const float BUTTON_WIDTH = 120f;
+			const float BUTTON_HEIGHT = 45f;
 
 			var frame = new RectangleF (320f, 0, 320, BASE_CELL_HEIGHT);
 			var panel = new ButtonPanel (frame);
-			const float BUTTON_WIDTH = 130f;
-			const float BUTTON_HEIGHT = 45f;
-			const float LEFT_MARGIN = 20f;
-			const float TOP_MARGIN = 15f;
 
-			var buttonFrame = new RectangleF (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
+			var buttonFrame = new CoreGraphics.CGRect (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-			var detailsButton = new UIButton (buttonFrame);
-			detailsButton.BackgroundColor = UIColor.Blue;
-			detailsButton.SetTitle ("Details", UIControlState.Normal);
-			detailsButton.SetTitleColor (UIColor.White, UIControlState.Normal);
+			var detailsButton = getPanelButton ("Details", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
 			detailsButton.TouchUpInside += delegate {
 				ViewOrganization (org.OrganizationId);
 			};
 				
 			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
 
-			var membersButton = new UIButton (buttonFrame);
-			membersButton.BackgroundColor = UIColor.Blue;
-			membersButton.SetTitle ("Members", UIControlState.Normal);
-			membersButton.SetTitleColor (UIColor.White, UIControlState.Normal);
+			var membersButton = getPanelButton ("Members", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
 			membersButton.TouchUpInside += delegate {
 				ViewOrganizationMembers (org);
 			};
@@ -150,24 +161,14 @@ namespace Busidex.Presentation.iOS
 			buttonFrame.X = 10f;
 			buttonFrame.Y += BUTTON_HEIGHT + TOP_MARGIN;
 
-			var referralsButton = new UIButton (buttonFrame);
-			referralsButton.BackgroundColor = UIColor.Blue;
-			referralsButton.SetTitle ("Referrals", UIControlState.Normal);
-			referralsButton.SetTitleColor (UIColor.White, UIControlState.Normal);
+			var referralsButton = getPanelButton ("Referrals", buttonFrame, BUTTON_WIDTH, BUTTON_HEIGHT);
 			referralsButton.TouchUpInside += delegate {
 				ViewOrganizationReferrals (org);
 			};
 
-			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
-			var sendReferralsButton = new UIButton (buttonFrame);
-			sendReferralsButton.BackgroundColor = UIColor.Blue;
-			sendReferralsButton.SetTitle ("Send Referrals", UIControlState.Normal);
-			sendReferralsButton.SetTitleColor (UIColor.White, UIControlState.Normal);
-
 			panel.AddSubview (detailsButton);
 			panel.AddSubview (membersButton);
 			panel.AddSubview (referralsButton);
-			panel.AddSubview (sendReferralsButton);
 
 			panel.BackgroundColor = UIColor.White;
 
