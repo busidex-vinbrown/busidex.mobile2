@@ -17,6 +17,7 @@ namespace Busidex.Presentation.iOS
 		const float FEATURE_BUTTON_HEIGHT = 40f;
 		const float FEATURE_BUTTON_WIDTH = 40f;
 		const float FEATURE_BUTTON_MARGIN = 15f;
+		UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 
 		protected List<UITableViewCell> cellCache;
 
@@ -69,6 +70,11 @@ namespace Busidex.Presentation.iOS
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			tableView.DeselectRow (indexPath, true); // normal iOS behaviour is to remove the blue highlight
+		}
+
+		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
+		{
+			tableView.BackgroundColor =	cell.ContentView.BackgroundColor = cell.BackgroundColor = CELL_BACKGROUND_COLOR;
 		}
 
 		protected void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-
-using Foundation;
+﻿using System.Drawing;
 using UIKit;
 
 namespace Busidex.Presentation.iOS
@@ -11,19 +8,29 @@ namespace Busidex.Presentation.iOS
 		UIActivityIndicatorView activitySpinner;
 		UILabel loadingLabel;
 
+		protected float centerX;
+		protected float centerY;
+		protected float labelWidth;
+		protected const float LABEL_HEIGHT = 22;
+
+		public string MessageText{ get; set; }
+
 		public LoadingOverlay (CoreGraphics.CGRect frame) : base (frame)
 		{
-			// configurable bits
+			init ();
+		}
+			
+		void init(){
 			BackgroundColor = UIColor.Black;
 			Alpha = 0.75f;
 			AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
 
-			float labelHeight = 22;
-			float labelWidth = (float)Frame.Width - 20;
+
+			labelWidth = (float)Frame.Width - 20;
 
 			// derive the center x and y
-			float centerX = (float)Frame.Width / 2;
-			float centerY = (float)Frame.Height / 2;
+			centerX = (float)Frame.Width / 2;
+			centerY = (float)Frame.Height / 2;
 
 			// create the activity spinner, center it horizontall and put it 5 points above center x
 			activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
@@ -41,11 +48,11 @@ namespace Busidex.Presentation.iOS
 				centerX - (labelWidth / 2),
 				centerY + 20 ,
 				labelWidth ,
-				labelHeight
+				LABEL_HEIGHT
 			));
 			loadingLabel.BackgroundColor = UIColor.Clear;
 			loadingLabel.TextColor = UIColor.White;
-			loadingLabel.Text = "One moment...";
+			loadingLabel.Text = MessageText;
 			loadingLabel.TextAlignment = UITextAlignment.Center;
 			loadingLabel.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			AddSubview (loadingLabel);
@@ -58,8 +65,10 @@ namespace Busidex.Presentation.iOS
 		{
 			UIView.Animate (
 				0.5, // duration
-				() => { Alpha = 0; },
-				() => { RemoveFromSuperview(); }
+				() => {
+					Alpha = 0;
+				},
+				RemoveFromSuperview
 			);
 		}
 	};

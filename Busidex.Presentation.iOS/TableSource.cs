@@ -36,7 +36,6 @@ namespace Busidex.Presentation.iOS
 		public string NoCardsMessage{ get; set;}
 		public bool ShowNotes{ get; set;}
 
-		protected UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 		protected const float LEFT_MARGIN = 5F;
 		protected const float CARD_HEIGHT_VERTICAL = 170f;
 		protected const float CARD_HEIGHT_HORIZONTAL = 100f;
@@ -69,11 +68,6 @@ namespace Busidex.Presentation.iOS
 			if (cookie != null) {
 				userToken = cookie.Value;
 			}
-
-		}
-		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
-		{
-			tableView.BackgroundColor =	cell.ContentView.BackgroundColor = cell.BackgroundColor = CELL_BACKGROUND_COLOR;
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -83,7 +77,6 @@ namespace Busidex.Presentation.iOS
 			
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-
 			return NoCards ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
 		}
 			
@@ -109,14 +102,6 @@ namespace Busidex.Presentation.iOS
 			cell.SetNeedsDisplay ();
 
 			return cell;
-		}
-
-		protected async void GoToCard(int idx){
-			SelectedCard = Cards [idx];
-			if (CardSelected != null) {
-				CardSelected ();
-				await ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
-			}
 		}
 
 		protected void EditNotes(int idx){
@@ -455,7 +440,13 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-
+		protected async void GoToCard(int idx){
+			SelectedCard = Cards [idx];
+			if (CardSelected != null) {
+				CardSelected ();
+				await ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
+			}
+		}
 
 		protected string buildAddress(Card card){
 
