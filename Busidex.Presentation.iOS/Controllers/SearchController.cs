@@ -146,8 +146,8 @@ namespace Busidex.Presentation.iOS
 					foreach (var item in Search.SearchModel.Results) {
 						if (item != null) {
 
-							var imagePath = Resources.CARD_PATH + item.FrontFileId + "." + item.FrontType;
-							var fName = item.FrontFileId + "." + item.FrontType;
+							var imageUrl = Resources.THUMBNAIL_PATH + item.FrontFileName;
+							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.FrontFileName;
 
 							var userCard = new UserCard ();
 							userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
@@ -155,18 +155,16 @@ namespace Busidex.Presentation.iOS
 							userCard.CardId = item.CardId;
 							cards.Add (userCard);
 
-							if (!File.Exists (Path.Combine (documentsPath, item.FrontFileId + "." + item.FrontType))) {
-								await Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-
-									if (++processed == total) {
-
+							if (!File.Exists (Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + item.FrontFileName))) {
+								await Utils.DownloadImage (imageUrl, documentsPath, fName).ContinueWith (t => {
+									processed++;
+									if (processed.Equals(total)) {
 										InvokeOnMainThread (() => LoadSearchResults (cards));
-
 									} 
 								});
 							} else {
-
-								if (++processed == total) {
+								processed++;
+								if (processed.Equals(total)) {
 									LoadSearchResults (cards);
 								}
 							}

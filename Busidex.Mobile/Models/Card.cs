@@ -44,6 +44,12 @@ namespace Busidex.Mobile.Models
 		public string FrontImageString{ get; set; }
 		public string TagList{ get; set; }
 		public bool ExistsInMyBusidex{ get; set; }
+
+		const string fileName = "{0}.{1}";
+
+		public string FrontFileName { get { return string.Format(fileName, FrontFileId, FrontType); } }
+
+		public string BackFileName { get { return string.Format (fileName, BackFileId, BackType); } }
 	}
 }
 

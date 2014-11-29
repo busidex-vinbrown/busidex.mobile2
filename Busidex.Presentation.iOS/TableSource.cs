@@ -272,18 +272,16 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
 
-			bool needsCardImage;
 
 			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.CardImage) as UIButton;
 			if (CardImageButton != null) {
 				CardImageButton.RemoveFromSuperview ();
 			}
 			CardImageButton = new UIButton (UIButtonType.Custom);
-			needsCardImage = CardImageButton.Tag <= 0;
 
 			CardImageButton.Tag = (int)UIElements.CardImage;
 
-			var fileName = Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
+			var fileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
 
 			if (File.Exists (fileName)) {
 				CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 
@@ -301,14 +299,12 @@ namespace Busidex.Presentation.iOS
 				CardImageButton.Layer.BorderColor = UIColor.Green.CGColor;
 			}
 
-			if (needsCardImage) {
-				CardImageButton.Frame =
-					card.Card.FrontOrientation == "H" 
-					? new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_HORIZONTAL, CARD_HEIGHT_HORIZONTAL)
-					: new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_VERTICAL, CARD_HEIGHT_VERTICAL);
+			CardImageButton.Frame =
+				card.Card.FrontOrientation == "H" 
+				? new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_HORIZONTAL, CARD_HEIGHT_HORIZONTAL)
+				: new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_VERTICAL, CARD_HEIGHT_VERTICAL);
 
-				cell.ContentView.AddSubview (CardImageButton);
-			}
+			cell.ContentView.AddSubview (CardImageButton);
 		}
 
 		protected void AddNameLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){

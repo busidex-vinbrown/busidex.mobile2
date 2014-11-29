@@ -6,7 +6,7 @@ namespace Busidex.Presentation.iOS
 	public class LoadingOverlay : UIView {
 		// control declarations
 		UIActivityIndicatorView activitySpinner;
-		UILabel loadingLabel;
+		protected UILabel LoadingLabel;
 
 		protected float centerX;
 		protected float centerY;
@@ -44,18 +44,18 @@ namespace Busidex.Presentation.iOS
 			activitySpinner.StartAnimating ();
 
 			// create and configure the "Loading Data" label
-			loadingLabel = new UILabel(new RectangleF (
+			LoadingLabel = new UILabel(new RectangleF (
 				centerX - (labelWidth / 2),
 				centerY + 20 ,
 				labelWidth ,
 				LABEL_HEIGHT
 			));
-			loadingLabel.BackgroundColor = UIColor.Clear;
-			loadingLabel.TextColor = UIColor.White;
-			loadingLabel.Text = MessageText;
-			loadingLabel.TextAlignment = UITextAlignment.Center;
-			loadingLabel.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
-			AddSubview (loadingLabel);
+			LoadingLabel.BackgroundColor = UIColor.Clear;
+			LoadingLabel.TextColor = UIColor.White;
+			LoadingLabel.Text = MessageText;
+			LoadingLabel.TextAlignment = UITextAlignment.Center;
+			LoadingLabel.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+			AddSubview (LoadingLabel);
 		}
 
 		/// <summary>

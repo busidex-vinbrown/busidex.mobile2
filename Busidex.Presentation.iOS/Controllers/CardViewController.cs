@@ -2,6 +2,7 @@
 using UIKit;
 using System.IO;
 using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -21,6 +22,14 @@ namespace Busidex.Presentation.iOS
 		public CardViewController (IntPtr handle) : base (handle)
 		{
 
+		}
+
+		void LoadCard(Card card){
+
+			Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + card.FrontFileName, documentsPath, card.FrontFileName).ContinueWith (t => {
+
+				ToggleImage();
+			});
 		}
 
 		void ToggleImage(){
@@ -63,7 +72,7 @@ namespace Busidex.Presentation.iOS
 
 				ViewState = CardViewState.Loading;
 
-				ToggleImage();
+				LoadCard(UserCard.Card);
 
 				btnCard.TouchUpInside += delegate {
 					ToggleImage();
