@@ -11,6 +11,8 @@ namespace Busidex.Presentation.iOS
 
 		public MyBusidexLoadingOverlay  (CoreGraphics.CGRect frame) : base (frame)
 		{
+			base.Init ();
+			init ();
 		}
 
 		public int TotalItems{ get; set; }
@@ -23,8 +25,18 @@ namespace Busidex.Presentation.iOS
 		}
 
 		public void UpdateProgress(int currentItem){
-			ProgressBar.SetProgress (GetProgress (currentItem));
+			ProgressBar.SetProgress (GetProgress (currentItem), true);
 			LoadingLable.Text = string.Format("{0} of {1}", currentItem, TotalItems);
+		}
+
+//		protected override void Dispose (bool disposing)
+//		{
+//			Hide ();
+//			base.Dispose (disposing);
+//		}
+
+		public void Hide(){
+			base.Hide();
 		}
 
 		void init(){
@@ -42,14 +54,14 @@ namespace Busidex.Presentation.iOS
 			LoadingLable.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			AddSubview (LoadingLable);
 
-			var width = (float)UIScreen.MainScreen.Bounds.Width;
-			var height = (float)UIScreen.MainScreen.Bounds.Height;
-			var progressFrame = new CoreGraphics.CGRect (width * .15, height * 55, width * .85, 5f);
+			nfloat width = UIScreen.MainScreen.Bounds.Width;
+			nfloat height = UIScreen.MainScreen.Bounds.Height;
+			var progressFrame = new CoreGraphics.CGRect (width * .15f, height * 55f, width * .85f, 5f);
 
 			ProgressBar = new UIProgressView (progressFrame);
-			UpdateProgress (0);
-
+			ProgressBar.Hidden = false;
 			AddSubview (ProgressBar);
+			UpdateProgress (0);
 		}
 	}
 }

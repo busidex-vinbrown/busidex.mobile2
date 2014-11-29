@@ -34,24 +34,17 @@ namespace Busidex.Mobile
 		{
 			string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
 
-			var webClient = new WebClient ();
-//			webClient.DownloadDataCompleted += (s, e) => {
-//				var bytes = e.Result; // get the downloaded data
-//
-//				string localPath = Path.Combine (documentsPath, fileName);
-//				if(bytes != null){
-//					File.WriteAllBytes (localPath, bytes); // writes to local storage  
-//				}
-//			};
+			using (var webClient = new WebClient ()) {
 
-			var imageData = webClient.DownloadData (new Uri (imagePath));
+				var imageData = webClient.DownloadDataTaskAsync (new Uri (imagePath));
 
-			string localPath = Path.Combine (documentsPath, fileName);
-			if(imageData != null){
-				File.WriteAllBytes (localPath, imageData); // writes to local storage  
+				string localPath = Path.Combine (documentsPath, fileName);
+				if (await imageData != null) {
+					File.WriteAllBytes (localPath, imageData.Result); // writes to local storage  
+				}
+
+				return jpgFilename;
 			}
-
-			return jpgFilename;
 		}
 
 		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";

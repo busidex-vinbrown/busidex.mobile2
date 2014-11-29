@@ -5,14 +5,11 @@ namespace Busidex.Presentation.iOS
 	using System;
 	using Foundation;
 	using UIKit;
-	using System.CodeDom.Compiler;
 	using Busidex.Mobile;
 	using Busidex.Mobile.Models;
 	using System.IO;
 	using System.Linq;
 	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
-	using Newtonsoft.Json;
 	using System.Threading.Tasks;
 	using MessageUI;
 
@@ -24,15 +21,6 @@ namespace Busidex.Presentation.iOS
 		{
 			//TableView.RegisterClassForCell (typeof(SearchViewCell), cellID);
 		}
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
-		}
-
 
 		public override void ViewDidLoad ()
 		{

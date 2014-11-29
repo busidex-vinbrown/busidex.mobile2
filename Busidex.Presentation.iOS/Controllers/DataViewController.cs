@@ -5,6 +5,7 @@ using UIKit;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -149,7 +150,12 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		void LoadMyBusidexAsync(){
+		void SaveMyBusidexResponse(string response){
+			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			File.WriteAllText (fullFilePath, response);
+		}
+
+		async Task<bool> LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
 			const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
@@ -160,42 +166,63 @@ namespace Busidex.Presentation.iOS
 			} else {
 				if (cookie != null) {
 
+					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+
+					View.AddSubview (overlay);
+
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
-					var response = ctrl.GetMyBusidex (cookie.Value);
+					await ctrl.GetMyBusidex (cookie.Value).ContinueWith(r => {
 
-					if (!string.IsNullOrEmpty (response.Result)) {
-						MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (response.Result);
+						if (!string.IsNullOrEmpty (r.Result)) {
+							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
-						var cards = new List<UserCard> ();
+							SaveMyBusidexResponse(r.Result);
 
-						foreach (var item in MyBusidexResponse.MyBusidex.Busidex) {
-							if (item.Card != null) {
+							var cards = new List<UserCard> ();
+							var idx = 0;
+							InvokeOnMainThread (() =>{
+								overlay.TotalItems = myBusidexResponse.MyBusidex.Busidex.Count();
+								overlay.UpdateProgress (idx);
+							});
 
-								var fImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
-								var bImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.BackFileId + "." + item.Card.BackType;
-								var fName = item.Card.FrontFileId + "." + item.Card.FrontType;
-								var bName = item.Card.BackFileId + "." + item.Card.BackType;
+							foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
+								if (item.Card != null) {
 
-								cards.Add (item);
+									var fImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
+									var bImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.BackFileId + "." + item.Card.BackType;
+									var fName = item.Card.FrontFileId + "." + item.Card.FrontType;
+									var bName = item.Card.BackFileId + "." + item.Card.BackType;
 
-								if (!File.Exists (documentsPath + "/" + fName)) {
-									Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fName).ContinueWith (t => {
-									});
-								} 
+									cards.Add (item);
 
-								if (!File.Exists (documentsPath + "/" + bName) && item.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
-									Busidex.Mobile.Utils.DownloadImage (bImagePath, documentsPath, bName).ContinueWith (t => {
-									});
-								} 
+									if (!File.Exists (documentsPath + "/" + fName)) {
+										Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fName).ContinueWith (t => {
+											InvokeOnMainThread (() => overlay.UpdateProgress (idx));
+										});
+									} else{
+										InvokeOnMainThread (() => overlay.UpdateProgress (idx));
+									}
+
+									if (!File.Exists (documentsPath + "/" + bName) && item.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
+										Busidex.Mobile.Utils.DownloadImage (bImagePath, documentsPath, bName).ContinueWith (t => {
+										});
+									}
+									idx++;
+								}
 							}
-						}
 
-						//lblLoading.Hidden = true;
-						//spnLoading.Hidden = true;
-						GoToMyBusidex ();
-					}
+							InvokeOnMainThread (() => {
+								overlay.Hide();
+								GoToMyBusidex ();
+
+							});
+
+						}
+					});
 				}
+
 			}
+			return true;
 		}
 
 	}

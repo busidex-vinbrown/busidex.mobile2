@@ -33,14 +33,17 @@ namespace Busidex.Mobile
 
 			string response = string.Empty;
 			try {
-				WebResponse webResponse = request.GetResponse();
-				Stream webStream = webResponse.GetResponseStream();
-				StreamReader responseReader = new StreamReader(webStream);
-				response = responseReader.ReadToEnd();
+				var webResponse = await request.GetResponseAsync();
 
-				responseReader.Close();
+				using (var webStream = webResponse.GetResponseStream()) {
+					var responseReader = new StreamReader (webStream);
+					response = responseReader.ReadToEnd();
 
-				return response;
+					responseReader.Close();
+
+					return response;
+				}
+
 
 			} 
 			catch(System.Net.WebException e){
