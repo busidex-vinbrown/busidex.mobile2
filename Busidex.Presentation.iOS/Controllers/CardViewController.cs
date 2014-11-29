@@ -24,14 +24,6 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		void LoadCard(Card card){
-
-			Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + card.FrontFileName, documentsPath, card.FrontFileName).ContinueWith (t => {
-
-				ToggleImage();
-			});
-		}
-
 		void ToggleImage(){
 		
 			switch(ViewState){
@@ -39,16 +31,26 @@ namespace Busidex.Presentation.iOS
 					var frontFileName = Path.Combine (documentsPath, UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
 					if (File.Exists (frontFileName)) {
 						btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal);
+					}else{
+						Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.FrontFileName, documentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+							InvokeOnMainThread (() => btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal));
+						});
 					}
 					ViewState = CardViewState.Front;
 					break;
 				}
 			case CardViewState.Front:{
 					var backFileName = Path.Combine (documentsPath, UserCard.Card.BackFileId + "." + UserCard.Card.BackType);
-					if (File.Exists (backFileName)) {
-						btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
-					}else{
-						NavigationController.PopViewController(true);
+					if (UserCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID)) {
+						NavigationController.PopViewController (true);
+					} else {
+						if (File.Exists (backFileName)) {
+							btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
+						} else {
+							Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.BackFileName, documentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
+								InvokeOnMainThread (() => btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal));
+							});
+						}
 					}
 					ViewState = CardViewState.Back;
 					break;
@@ -72,7 +74,7 @@ namespace Busidex.Presentation.iOS
 
 				ViewState = CardViewState.Loading;
 
-				LoadCard(UserCard.Card);
+				ToggleImage();
 
 				btnCard.TouchUpInside += delegate {
 					ToggleImage();
