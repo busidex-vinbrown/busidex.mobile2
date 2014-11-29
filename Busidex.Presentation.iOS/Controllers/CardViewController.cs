@@ -10,8 +10,13 @@ namespace Busidex.Presentation.iOS
 		public UserCard UserCard{ get; set; }
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
-		bool ShowingFrontImage = true;
+		enum CardViewState{
+			Loading = 1,
+			Front = 2,
+			Back = 3
+		}
 
+		CardViewState ViewState {get;set;}
 
 		public CardViewController (IntPtr handle) : base (handle)
 		{
@@ -19,33 +24,31 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void ToggleImage(){
-
-			ShowingFrontImage = !ShowingFrontImage;
-
-			var fileName = Path.Combine (documentsPath, ShowingFrontImage ? UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType : UserCard.Card.BackFileId + "." + UserCard.Card.BackType);
-			if (File.Exists (fileName)) {
-
-				btnCard.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
-
-			}
-		}
-
-		public void LoadCard(){
-
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-			}
-
-			if (UserCard != null && UserCard.Card != null) {
-				FrontFileName = Path.Combine (documentsPath, UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
-				if (File.Exists (FrontFileName)) {
-
-					btnCard.SetBackgroundImage (UIImage.FromFile (FrontFileName), UIControlState.Normal);
-
-					ShowingFrontImage = true;
+		
+			switch(ViewState){
+			case CardViewState.Loading:{
+					var frontFileName = Path.Combine (documentsPath, UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
+					if (File.Exists (frontFileName)) {
+						btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal);
+					}
+					ViewState = CardViewState.Front;
+					break;
+				}
+			case CardViewState.Front:{
+					var backFileName = Path.Combine (documentsPath, UserCard.Card.BackFileId + "." + UserCard.Card.BackType);
+					if (File.Exists (backFileName)) {
+						btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
+					}else{
+						NavigationController.PopViewController(true);
+					}
+					ViewState = CardViewState.Back;
+					break;
+				}
+			case CardViewState.Back:{
+					NavigationController.PopViewController(true);
+					break;
 				}
 			}
-
 		}
 			
 		public override void ViewDidLoad ()
@@ -53,12 +56,17 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			try{
-				LoadCard ();
+
+				if(NavigationController != null){
+					NavigationController.SetNavigationBarHidden(true, true);
+				}
+
+				ViewState = CardViewState.Loading;
+
+				ToggleImage();
 
 				btnCard.TouchUpInside += delegate {
-					if (UserCard.Card.BackFileId.ToString () != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
-						ToggleImage ();
-					}
+					ToggleImage();
 				};
 			}catch(Exception ex){
 
