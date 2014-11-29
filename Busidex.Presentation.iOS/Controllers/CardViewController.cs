@@ -5,18 +5,16 @@ using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class CardViewController : UIViewController
+	partial class CardViewController : BaseController
 	{
-		readonly string documentsPath;
 		public UserCard UserCard{ get; set; }
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
 		bool ShowingFrontImage = true;
-		const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
+
 
 		public CardViewController (IntPtr handle) : base (handle)
 		{
-			documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		}
 
@@ -58,7 +56,7 @@ namespace Busidex.Presentation.iOS
 				LoadCard ();
 
 				btnCard.TouchUpInside += delegate {
-					if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
+					if (UserCard.Card.BackFileId.ToString () != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
 						ToggleImage ();
 					}
 				};

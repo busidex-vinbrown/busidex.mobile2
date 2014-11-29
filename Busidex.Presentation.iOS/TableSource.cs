@@ -63,7 +63,7 @@ namespace Busidex.Presentation.iOS
 
 			Cards.AddRange (items);
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AuthenticationCookieName);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
 			if (cookie != null) {
 				userToken = cookie.Value;
@@ -165,7 +165,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddToMyBusidex(UserCard userCard){
 
-			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AuthenticationCookieName)) {
+			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
 				if (cookie != null) {
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
 					ctrl.AddToMyBusidex (userCard.Card.CardId, cookie.Value);
@@ -440,11 +440,11 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected async void GoToCard(int idx){
+		protected void GoToCard(int idx){
 			SelectedCard = Cards [idx];
 			if (CardSelected != null) {
 				CardSelected ();
-				await ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
+				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
 			}
 		}
 

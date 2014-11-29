@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Busidex.Mobile.Models;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
@@ -12,6 +7,7 @@ namespace Busidex.Mobile
 {
 	public static class Utils
 	{
+
 
 
 		public static long DecodeUserId(string id){
@@ -47,7 +43,7 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";
+
 	}
 }
 

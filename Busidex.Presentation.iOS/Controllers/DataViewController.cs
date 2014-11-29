@@ -132,11 +132,11 @@ namespace Busidex.Presentation.iOS
 
 		static bool CheckRefreshCookie(){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.BusideRefreshCookieName);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 			if (cookie == null || cookie.ExpiresDate < DateTime.Now) {
 				var nCookie = new System.Net.Cookie();
-				nCookie.Name = Busidex.Mobile.Resources.BusideRefreshCookieName;
+				nCookie.Name = Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME;
 				DateTime expiration = DateTime.Now.AddDays(1);
 				nCookie.Expires = expiration;
 
@@ -188,8 +188,8 @@ namespace Busidex.Presentation.iOS
 							foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
 								if (item.Card != null) {
 
-									var fImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
-									var bImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.BackFileId + "." + item.Card.BackType;
+									var fImagePath = Busidex.Mobile.Resources.THUMBNAIL_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
+									var bImagePath = Busidex.Mobile.Resources.THUMBNAIL_PATH + item.Card.BackFileId + "." + item.Card.BackType;
 									var fName = item.Card.FrontFileId + "." + item.Card.FrontType;
 									var bName = item.Card.BackFileId + "." + item.Card.BackType;
 

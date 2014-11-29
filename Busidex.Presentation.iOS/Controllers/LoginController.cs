@@ -59,7 +59,7 @@ namespace Busidex.Presentation.iOS
 				if(UserId > 0){
 
 					var nCookie = new System.Net.Cookie();
-					nCookie.Name = Busidex.Mobile.Resources.AuthenticationCookieName;
+					nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
 					DateTime expiration = DateTime.Now.AddYears(1);
 					nCookie.Expires = expiration;
 					nCookie.Value = EncodeUserId(UserId);

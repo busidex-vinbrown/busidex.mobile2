@@ -36,7 +36,7 @@ namespace Busidex.Presentation.iOS
 					OrganizationResponse MyOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 					foreach(Organization org in MyOrganizationsResponse.Model){
 						var fileName = org.LogoFileName + "." + org.LogoType;
-						var fImagePath = Busidex.Mobile.Utils.CARD_PATH + fileName;
+						var fImagePath = Busidex.Mobile.Resources.CARD_PATH + fileName;
 						if (!File.Exists (documentsPath + "/" + fileName)) {
 							Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {	});
 						} 

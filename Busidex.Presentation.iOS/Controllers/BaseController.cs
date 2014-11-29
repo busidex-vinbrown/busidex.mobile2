@@ -1,7 +1,6 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using Busidex.Mobile.Models;
@@ -23,7 +22,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected NSHttpCookie GetAuthCookie(){
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 			return cookie;
 		}
 

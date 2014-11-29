@@ -92,7 +92,7 @@ namespace Busidex.Presentation.iOS
 
 				HideStatusIndicators ();
 
-				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
+				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME).SingleOrDefault();
 				if(cookie != null){
 					string token = cookie.Value;
 

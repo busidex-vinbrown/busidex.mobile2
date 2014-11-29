@@ -7,13 +7,10 @@ namespace Busidex.Mobile
 {
 	public class BaseController
 	{
-		public BaseController ()
-		{
-		}
 
 
 		protected static async Task<string> MakeRequest(string url, string method, string token, string data = null){
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			var request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = method;
 
 			if(data != null){
@@ -46,7 +43,7 @@ namespace Busidex.Mobile
 
 
 			} 
-			catch(System.Net.WebException e){
+			catch(WebException e){
 				if(e.Status == WebExceptionStatus.ProtocolError){
 					response = e.Message;
 				}else{

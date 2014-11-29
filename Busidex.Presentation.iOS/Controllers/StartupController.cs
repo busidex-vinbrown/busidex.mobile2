@@ -25,7 +25,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 			SetPosition ();
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies
-				.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName)
+				.Where(c=>c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME)
 				.SingleOrDefault();
 
 			long userId;
@@ -124,7 +124,7 @@ namespace Busidex.Presentation.iOS
 
 			var nCookie = new System.Net.Cookie();
 
-			nCookie.Name = Busidex.Mobile.Resources.AuthenticationCookieName;
+			nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
 			DateTime expiration = DateTime.Now.AddYears(1);
 			nCookie.Expires = expiration;
 			nCookie.Value = EncodeUserId(userId);
