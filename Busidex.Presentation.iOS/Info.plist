@@ -40,11 +40,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>XSAppIconAssets</key>
-	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Images.xcassets/AppIcons-1.appiconset</string>
 	<key>XSLaunchImageAssets</key>
-	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
+	<string>Resources/Images.xcassets/LaunchImage-1.launchimage</string>
 </dict>
 </plist>

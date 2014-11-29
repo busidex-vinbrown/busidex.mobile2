@@ -143,7 +143,6 @@ namespace Busidex.Presentation.iOS
 				SetRefreshCookie ();
 				return false;
 			}
-
 			return true;
 		}
 
@@ -154,11 +153,8 @@ namespace Busidex.Presentation.iOS
 			
 		async Task<bool> LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
-			//const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie()) {
-				//lblLoading.Hidden = true;
-				//spnLoading.Hidden = true;
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
