@@ -136,7 +136,7 @@ namespace Busidex.Presentation.iOS
 
 		static void SetRefreshCookie(){
 			var nCookie = new System.Net.Cookie();
-			nCookie.Name = Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME;
+			nCookie.Name = Resources.BUSIDEX_REFRESH_COOKIE_NAME;
 			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1).AddDays(1);
 			nCookie.Expires = expiration;
 
@@ -147,7 +147,7 @@ namespace Busidex.Presentation.iOS
 
 		static bool CheckRefreshCookie(){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 			if (cookie == null || cookie.ExpiresDate < DateTime.Now) {
 

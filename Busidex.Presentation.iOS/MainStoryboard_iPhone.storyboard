@@ -406,7 +406,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="always" id="2581" fixedFrame="YES">
-                                <rect key="frame" x="20" y="324" width="245" height="30"/>
+                                <rect key="frame" x="20" y="302" width="245" height="30"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <attributes/>
@@ -417,7 +417,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2582" fixedFrame="YES">
-                                <rect key="frame" x="100" y="390" width="120" height="30"/>
+                                <rect key="frame" x="100" y="360" width="120" height="30"/>
                                 <state key="normal" title="Save Settings">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -425,7 +425,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" clearButtonMode="always" id="2583">
-                                <rect key="frame" x="20" y="242" width="245" height="30"/>
+                                <rect key="frame" x="20" y="222" width="245" height="30"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <attributes/>
@@ -435,7 +435,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Update Your Profile" lineBreakMode="tailTruncation" minimumFontSize="10" id="2584" fixedFrame="YES">
-                                <rect key="frame" x="20" y="81" width="211" height="21"/>
+                                <rect key="frame" x="20" y="70" width="211" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -444,7 +444,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="2585" fixedFrame="YES" numberOfLines="4" textAlignment="left" text="Choose an email address and password here so you can access your cards on the web or another mobile device.">
-                                <rect key="frame" x="20" y="110" width="280" height="83"/>
+                                <rect key="frame" x="20" y="107" width="280" height="83"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
@@ -453,17 +453,17 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="2621" fixedFrame="YES" image="checkmark.png">
-                                <rect key="frame" x="279" y="326" width="25" height="25"/>
+                                <rect key="frame" x="279" y="302" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="2622" fixedFrame="YES" image="checkmark.png">
-                                <rect key="frame" x="279" y="244" width="25" height="25"/>
+                                <rect key="frame" x="279" y="222" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="error message" lineBreakMode="tailTruncation" minimumFontSize="10" id="2624" fixedFrame="YES">
-                                <rect key="frame" x="27" y="356" width="245" height="20"/>
+                                <rect key="frame" x="27" y="332" width="245" height="20"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
@@ -472,7 +472,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="error message" lineBreakMode="tailTruncation" minimumFontSize="10" id="2625" fixedFrame="YES">
-                                <rect key="frame" x="27" y="273" width="245" height="20"/>
+                                <rect key="frame" x="27" y="252" width="245" height="20"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
@@ -481,7 +481,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email" lineBreakMode="tailTruncation" minimumFontSize="10" id="2660" fixedFrame="YES">
-                                <rect key="frame" x="20" y="221" width="100" height="21"/>
+                                <rect key="frame" x="20" y="202" width="100" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
@@ -490,7 +490,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="2663" fixedFrame="YES">
-                                <rect key="frame" x="20" y="304" width="100" height="21"/>
+                                <rect key="frame" x="20" y="282" width="100" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>

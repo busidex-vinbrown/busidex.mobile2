@@ -1,8 +1,8 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 using System.Linq;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -24,22 +24,20 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 			SetPosition ();
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies
-				.Where(c=>c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME)
-				.SingleOrDefault();
+			var cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
 			long userId;
 			if (cookie != null) {
 				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
 				if (userId <= 0) {
-					DoLogin ();
+					UpdateSettings ();
 				} 
-				GoToMain ();
+				//GoToMain ();
 			}
 
 			btnStart.TouchUpInside += delegate {
-				DoLogin();
-				GoToMain();
+				UpdateSettings();
+				//GoToMain();
 			};
 
 			btnConnect.TouchUpInside += delegate {
@@ -53,54 +51,64 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 			SetPosition ();
 		}
-		private void SetPosition(){
+		void SetPosition(){
 			nfloat left = (UIScreen.MainScreen.Bounds.Width / 2f) - 80f;
 			nfloat top = UIScreen.MainScreen.Bounds.Height - 160f - 40f;
 			imgLogo.Frame = new CoreGraphics.CGRect (left, top, 160f, 160f);
 		}
+
 		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
+			base.WillRotate (toInterfaceOrientation, duration);
+
 			imgLogo.Hidden = toInterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || toInterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
 			imgLogo.SetNeedsLayout ();
-
-			base.WillRotate (toInterfaceOrientation, duration);
 		}
 
-		public override void DidRotate(UIInterfaceOrientation orientation){
+		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation){
 
-			base.DidRotate (orientation);
+			base.DidRotate (fromInterfaceOrientation);
 
 			SetPosition ();
 		}
 
-		private void GoToLogin ()
+		void UpdateSettings(){
+			var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+
+			if (settingsController != null) {
+
+				NavigationController.PushViewController (settingsController, true);
+			}
+		}
+
+		void GoToLogin ()
 		{
-			var loginController = this.Storyboard.InstantiateViewController ("LoginController") as LoginController;
+			var loginController = Storyboard.InstantiateViewController ("LoginController") as LoginController;
 
 			if (loginController != null) {
 
-				this.NavigationController.PushViewController (loginController, true);
+				NavigationController.PushViewController (loginController, true);
 			}
 		}
 
-		private void GoToMain ()
+		void GoToMain ()
 		{
-			this.NavigationController.SetNavigationBarHidden (true, true);
+			NavigationController.SetNavigationBarHidden (true, true);
 
-			var dataViewController = this.Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
+			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
 			if (dataViewController != null) {
-				this.NavigationController.PushViewController (dataViewController, true);
+				NavigationController.PushViewController (dataViewController, true);
 			}
 		}
 
-		private string EncodeUserId(long userId){
-			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+		static string EncodeUserId(long userId){
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
+			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
 		}
 
-		private string GetDeviceId(){
+		static string GetDeviceId(){
 			var thisDeviceId = UIDevice.CurrentDevice.IdentifierForVendor;
 			if (thisDeviceId != null) {
 				var dIdString = thisDeviceId.AsString ();
@@ -109,41 +117,28 @@ namespace Busidex.Presentation.iOS
 			return string.Empty;
 		}
 
-		private void UpdateSharedStorageData(string userId){
+		static void UpdateSharedStorageData(string userId){
 			var user = NSUserDefaults.StandardUserDefaults;
 
-			user.SetString(userId, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-			user.SetString(userId, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-			user.SetString(userId + "@busidex.com", Busidex.Mobile.Resources.USER_SETTING_EMAIL);
-			user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_USE_STAR_82);
-			user.SetBool(true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
+			user.SetString(userId, Resources.USER_SETTING_USERNAME);
+			user.SetString(userId, Resources.USER_SETTING_PASSWORD);
+			user.SetString(userId + "@busidex.com", Resources.USER_SETTING_EMAIL);
+			user.SetBool (true, Resources.USER_SETTING_USE_STAR_82);
+			user.SetBool(true, Resources.USER_SETTING_AUTOSYNC);
 			user.Synchronize();
 		}
 
-		private void SetAuthCookie(long userId){
+		void SetAuthCookie(long userId){
 
 			var nCookie = new System.Net.Cookie();
 
-			nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
+			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
 			DateTime expiration = DateTime.Now.AddYears(1);
 			nCookie.Expires = expiration;
 			nCookie.Value = EncodeUserId(userId);
 			var cookie = new NSHttpCookie(nCookie);
 
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-		}
-
-		private void DoLogin(){
-			string uidId = GetDeviceId ();
-			uidId = (DEVELOPMENT_MODE ? TEST_ACCOUNT_ID : uidId);
-
-			var userId = Busidex.Mobile.LoginController.AutoLogin (uidId);
-			if (userId > 0) {
-
-				SetAuthCookie (userId);
-
-				UpdateSharedStorageData (uidId);
-			}
 		}
 	}
 }
