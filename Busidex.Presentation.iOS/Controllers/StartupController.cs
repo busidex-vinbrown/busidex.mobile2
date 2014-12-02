@@ -31,19 +31,18 @@ namespace Busidex.Presentation.iOS
 				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
 				if (userId <= 0) {
 					UpdateSettings ();
-				} 
-				//GoToMain ();
+				} else {
+					GoToMain ();
+				}
 			}
 
 			btnStart.TouchUpInside += delegate {
 				UpdateSettings();
-				//GoToMain();
 			};
 
 			btnConnect.TouchUpInside += delegate {
 				GoToLogin();
 			};
-
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -59,7 +58,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
-			base.WillRotate (toInterfaceOrientation, duration);
+			//base.WillRotate (toInterfaceOrientation, duration);
 
 			imgLogo.Hidden = toInterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || toInterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
 			imgLogo.SetNeedsLayout ();
@@ -67,7 +66,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation){
 
-			base.DidRotate (fromInterfaceOrientation);
+			//base.DidRotate (fromInterfaceOrientation);
 
 			SetPosition ();
 		}
@@ -117,18 +116,17 @@ namespace Busidex.Presentation.iOS
 			return string.Empty;
 		}
 
-		static void UpdateSharedStorageData(string userId){
-			var user = NSUserDefaults.StandardUserDefaults;
+//		static void UpdateSharedStorageData(string userId){
+//			var user = NSUserDefaults.StandardUserDefaults;
+//
+//			user.SetString(userId, Resources.USER_SETTING_PASSWORD);
+//			user.SetString(userId + "@busidex.com", Resources.USER_SETTING_EMAIL);
+//			user.SetBool (true, Resources.USER_SETTING_USE_STAR_82);
+//			user.SetBool(true, Resources.USER_SETTING_AUTOSYNC);
+//			user.Synchronize();
+//		}
 
-			user.SetString(userId, Resources.USER_SETTING_USERNAME);
-			user.SetString(userId, Resources.USER_SETTING_PASSWORD);
-			user.SetString(userId + "@busidex.com", Resources.USER_SETTING_EMAIL);
-			user.SetBool (true, Resources.USER_SETTING_USE_STAR_82);
-			user.SetBool(true, Resources.USER_SETTING_AUTOSYNC);
-			user.Synchronize();
-		}
-
-		void SetAuthCookie(long userId){
+		static void SetAuthCookie(long userId){
 
 			var nCookie = new System.Net.Cookie();
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using Foundation;
-using UIKit;
-using System.CodeDom.Compiler;
 using System.Linq;
-using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -13,11 +11,6 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-		}
 
 //		private void SetUserNameChangedResult(string username, string result, ref NSUserDefaults user){
 //			if (result.IndexOf ("400") >= 0) {
@@ -36,10 +29,10 @@ namespace Busidex.Presentation.iOS
 //			}
 //		}
 
-		private void SetPasswordChangedResult(string password, string result, ref NSUserDefaults user){
+		void SetPasswordChangedResult(string password, string result, ref NSUserDefaults user){
 
-			if (result.ToLowerInvariant().IndexOf ("password changed") >= 0) {
-				user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+			if (result.ToLowerInvariant ().IndexOf ("password changed", StringComparison.Ordinal) >= 0) {
+				user.SetString (password, Resources.USER_SETTING_PASSWORD);
 				user.Synchronize ();
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
@@ -50,14 +43,14 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private void SetEmailChangedResult(string email, string result, ref NSUserDefaults user){
+		void SetEmailChangedResult(string email, string result, ref NSUserDefaults user){
 
-			if (result.IndexOf ("400") >= 0) {
+			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
 				imgEmailSaved.Hidden = true;
 				lblEmailError.Hidden = false;
 				lblEmailError.Text = "Email is already in use";
-			} else if (result.ToLowerInvariant().IndexOf ("email updated") >= 0) {
-				user.SetString (email, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
+				user.SetString (email, Resources.USER_SETTING_EMAIL);
 				user.Synchronize ();
 				imgEmailSaved.Hidden = false;
 				lblEmailError.Hidden = true;
@@ -68,7 +61,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private void HideStatusIndicators(){
+		void HideStatusIndicators(){
 			imgEmailSaved.Hidden = imgPasswordSaved.Hidden = lblEmailError.Hidden = lblPasswordError.Hidden = true;
 		}
 
@@ -92,14 +85,14 @@ namespace Busidex.Presentation.iOS
 
 				HideStatusIndicators ();
 
-				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME).SingleOrDefault();
+				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 				if(cookie != null){
 					string token = cookie.Value;
 
 					var user = NSUserDefaults.StandardUserDefaults;
-					string oldUserName = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-					string oldPassword = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-					string oldEmail = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+					user.StringForKey (Resources.USER_SETTING_USERNAME);
+					string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
+					string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
 					//string newUserName = txtUserName.Text;
 					string newPassword = txtPassword.Text;
@@ -130,14 +123,14 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			if (this.NavigationController != null) {
-				this.NavigationController.SetNavigationBarHidden (false, true);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
 			var user = NSUserDefaults.StandardUserDefaults;
-			string oldUserName = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-			string oldPassword = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-			string oldEmail = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+			user.StringForKey (Resources.USER_SETTING_USERNAME);
+			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
+			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
 			//txtUserName.Text = oldUserName;
 			txtPassword.Text = oldPassword;
