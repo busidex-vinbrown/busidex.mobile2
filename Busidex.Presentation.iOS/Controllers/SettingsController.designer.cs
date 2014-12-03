@@ -16,10 +16,6 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSave { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView imgEmailSaved { get; set; }
 
 		[Outlet]
@@ -44,10 +40,6 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSave != null) {
-				btnSave.Dispose ();
-				btnSave = null;
-			}
 			if (imgEmailSaved != null) {
 				imgEmailSaved.Dispose ();
 				imgEmailSaved = null;

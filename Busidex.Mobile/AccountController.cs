@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using Busidex.Mobile.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
 	public class AccountController : BaseController
 	{
-		public AccountController ()
-		{
-		}
+		const string UPDATE_DISPLAY_NAME_URL = "Account/UpdateDisplayName?name=";
+		const string CHECK_ACCOUNT_URL = "Registration/CheckAccount";
 
-		public async Task<string> UpdateDisplayName(string name, string userToken){
+		public static async Task<string> UpdateDisplayName(string name, string userToken){
 			string encodedName = System.Net.WebUtility.HtmlEncode (name);
 			string data = @"{'name':'" + name + "'}";
 
-			string url = Busidex.Mobile.Resources.BASE_API_URL + "Account/UpdateDisplayName?name=" + encodedName;
+			string url = Resources.BASE_API_URL + UPDATE_DISPLAY_NAME_URL + encodedName;
 
-			return await MakeRequest (url, "PUT", userToken, data);
+			return await MakeRequestAsync (url, "PUT", userToken, data);
+		}
+
+		public static string CheckAccount(string token, string email, string password){
+			string data = @"{'uidId':'" + token + "','email':'" + email + "', 'pswd':'" + password + "'}";
+
+			string url = Resources.BASE_API_URL + CHECK_ACCOUNT_URL;
+
+			return MakeRequest (url, "POST", token, data);
 		}
 	}
 }

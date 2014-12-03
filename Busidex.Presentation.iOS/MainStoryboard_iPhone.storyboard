@@ -416,14 +416,6 @@
                                 <constraints/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2582" fixedFrame="YES">
-                                <rect key="frame" x="100" y="360" width="120" height="30"/>
-                                <state key="normal" title="Save Settings">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" clearButtonMode="always" id="2583">
                                 <rect key="frame" x="20" y="222" width="245" height="30"/>
                                 <attributedString key="attributedText">
@@ -501,7 +493,6 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="btnSave" destination="2582" id="name-outlet-2582"/>
                         <outlet property="txtPassword" destination="2581" id="name-outlet-2581"/>
                         <outlet property="txtEmail" destination="2583" id="name-outlet-2583"/>
                         <outlet property="imgPasswordSaved" destination="2621" id="name-outlet-2621"/>

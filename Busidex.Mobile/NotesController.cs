@@ -21,7 +21,7 @@ namespace Busidex.Mobile
 
 			string url = Busidex.Mobile.Resources.BASE_API_URL + "Notes?id=" + id + "&notes=" + encodedNotes;
 
-			return await MakeRequest (url, "PUT", userToken, data);
+			return await MakeRequestAsync (url, "PUT", userToken, data);
 		}
 	}
 }

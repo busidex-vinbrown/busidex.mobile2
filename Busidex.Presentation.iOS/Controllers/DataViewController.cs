@@ -75,31 +75,32 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (true, true);
 			}
 
-			if (NavigationController != null) {
-
-				var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
-				var syncImage = new UIButton (imgFrame);
-				syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
-				syncImage.TouchUpInside += ((s, e) => LoadMyBusidexAsync (true));
-				var syncButton =  new UIBarButtonItem (UIBarButtonSystemItem.Compose);
-				syncButton.CustomView = syncImage;
-
-
-				SetToolbarItems (new [] {
-
-					new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 40 },
-					syncButton,
-					new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 10 },
-					new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
-						var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
-
-						if (settingsController != null && NavigationController.ChildViewControllers.Count (c => c is SettingsController) == 0){
-							NavigationController.PushViewController (settingsController, true);
-						}
-					})
-				}, true);
-				NavigationController.SetToolbarHidden(false, true);
+			if (NavigationController == null) {
+				return;
 			}
+
+			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
+			var syncImage = new UIButton (imgFrame);
+			syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
+			syncImage.TouchUpInside += ((s, e) => LoadMyBusidexAsync (true));
+			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
+			syncButton.CustomView = syncImage;
+			SetToolbarItems (new[] {
+				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace) {
+					Width = 40
+				},
+				syncButton,
+				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
+					Width = 10
+				},
+				new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
+					var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+					if (settingsController != null && NavigationController.ChildViewControllers.Count (c => c is SettingsController) == 0) {
+						NavigationController.PushViewController (settingsController, true);
+					}
+				})
+			}, true);
+			NavigationController.SetToolbarHidden (false, true);
 		}
 
 		void GoToMyBusidex ()

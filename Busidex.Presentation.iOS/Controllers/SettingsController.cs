@@ -2,6 +2,7 @@
 using Foundation;
 using System.Linq;
 using Busidex.Mobile;
+using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
@@ -61,10 +62,41 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		void SetCheckAccountResult(string email, string password, string result, ref NSUserDefaults user){
+			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
+			const string ERROR_ACCOUNT_EXISTS = "account already exists";
+			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
+
+			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
+				imgEmailSaved.Hidden = true;
+				lblEmailError.Hidden = false;
+				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
+			}else if (result.ToLowerInvariant ().IndexOf (ERROR_ACCOUNT_EXISTS, StringComparison.Ordinal) >= 0) {
+				imgEmailSaved.Hidden = true;
+				lblEmailError.Hidden = false;
+				lblEmailError.Text = "This email is already in use";
+			} else if (oResult != null && oResult.Success) {
+				user.SetString (email, Resources.USER_SETTING_EMAIL);
+				user.SetString (password, Resources.USER_SETTING_PASSWORD);
+				user.Synchronize ();
+				imgEmailSaved.Hidden = false;
+				lblEmailError.Hidden = true;
+				imgPasswordSaved.Hidden = false;
+				lblPasswordError.Hidden = true;
+
+				GoToMain ();
+
+			} else {
+				imgEmailSaved.Hidden = true;
+				lblEmailError.Hidden = false;
+				lblEmailError.Text = "There was a problem updating your account";
+			}
+		}
+
 		void HideStatusIndicators(){
 			imgEmailSaved.Hidden = imgPasswordSaved.Hidden = lblEmailError.Hidden = lblPasswordError.Hidden = true;
 		}
-
+			
 		public override void ViewDidLoad ()
 		{
 			HideStatusIndicators ();
@@ -76,55 +108,54 @@ namespace Busidex.Presentation.iOS
 			txtPassword.ValueChanged += delegate {
 				HideStatusIndicators ();
 			};
+		}
 
-//			txtUserName.ValueChanged += delegate {
-//				HideStatusIndicators ();
-//			};
+		void SaveSettings(){
+			HideStatusIndicators ();
 
-			btnSave.TouchUpInside += delegate {
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
-				HideStatusIndicators ();
+			string newPassword = txtPassword.Text;
+			string newEmail = txtEmail.Text;
+			string token;
+			var user = NSUserDefaults.StandardUserDefaults;
 
-				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-				if(cookie != null){
-					string token = cookie.Value;
+			if(cookie != null){
+				token = cookie.Value;
 
-					var user = NSUserDefaults.StandardUserDefaults;
-					user.StringForKey (Resources.USER_SETTING_USERNAME);
-					string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
-					string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
-					//string newUserName = txtUserName.Text;
-					string newPassword = txtPassword.Text;
-					string newEmail = txtEmail.Text;
+				user.StringForKey (Resources.USER_SETTING_USERNAME);
+				string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
+				string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
-//					if(!oldUserName.Equals(newUserName)){
-//						var userNameResponse = Busidex.Mobile.SettingsController.ChangeUserName(newUserName, token);
-//						var userNameResult = userNameResponse.Result;
-//						SetUserNameChangedResult(newUserName, userNameResult, ref user);
-//						//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.USER_NAME_CHANGED, UIMetrics.INTERACTIONS_CATEGORY, new NSNumber (1));
-//					}
-					if(!oldPassword.Equals(newPassword)){
-						var passwordResponse = Busidex.Mobile.SettingsController.ChangePassword(oldPassword, newPassword, token);
-						var passwordResult = passwordResponse.Result;
-						SetPasswordChangedResult(newPassword, passwordResult, ref user);
-						//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.PASSWORD_CHANGED, UIMetrics.INTERACTIONS_CATEGORY, new NSNumber (1));
-					}
-					if(!oldEmail.Equals(newEmail)){
-						var emailResponse = Busidex.Mobile.SettingsController.ChangeEmail(newEmail, token);
-						var emailResult = emailResponse.Result;
-						SetEmailChangedResult(newEmail, emailResult, ref user);
-						//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.EMAIL_CHANGED, UIMetrics.INTERACTIONS_CATEGORY, new NSNumber (1));
-					}
+				if(!oldPassword.Equals(newPassword)){
+					var passwordResponse = Busidex.Mobile.SettingsController.ChangePassword(oldPassword, newPassword, token);
+					var passwordResult = passwordResponse.Result;
+					SetPasswordChangedResult(newPassword, passwordResult, ref user);
 				}
-			};
+				if(!oldEmail.Equals(newEmail)){
+					var emailResponse = Busidex.Mobile.SettingsController.ChangeEmail(newEmail, token);
+					var emailResult = emailResponse.Result;
+					SetEmailChangedResult(newEmail, emailResult, ref user);
+				}
+			}else{
+				token = Guid.NewGuid ().ToString ();
+				var response = AccountController.CheckAccount (token, newEmail, newPassword);
+
+				SetCheckAccountResult (newEmail, newPassword, response, ref user);
+			}
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
+				const bool HIDDEN = false;
+				NavigationController.SetNavigationBarHidden (HIDDEN, true);
+
+				NavigationItem.SetRightBarButtonItem(
+					new UIBarButtonItem(UIBarButtonSystemItem.Save, (sender, args) => SaveSettings ())
+					, true);
 			}
 
 			var user = NSUserDefaults.StandardUserDefaults;
@@ -132,7 +163,6 @@ namespace Busidex.Presentation.iOS
 			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
 			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
-			//txtUserName.Text = oldUserName;
 			txtPassword.Text = oldPassword;
 			txtEmail.Text = oldEmail;
 		}

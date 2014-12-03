@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\OrganizationDetailResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OrgMemberResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OrgReferralResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CheckAccountResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

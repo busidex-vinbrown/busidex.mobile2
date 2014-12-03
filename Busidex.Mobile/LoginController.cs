@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
 using System.IO;
 using Busidex.Mobile.Models;
@@ -15,10 +12,6 @@ namespace Busidex.Mobile
 		const string CHECK_ACCOUNT_URL = "Registration/CheckAccount";
 		const bool DEVELOPMENT_MODE = true;
 
-		public LoginController ()
-		{
-
-		}
 
 		public static long DoLogin(string username, string password){
 		
@@ -34,7 +27,7 @@ namespace Busidex.Mobile
 			return login (Busidex.Mobile.Resources.BASE_API_URL + CHECK_ACCOUNT_URL, data, "application/x-www-form-urlencoded");
 		}
 
-		private static long login(string url, string data, string contentType){
+		static long login(string url, string data, string contentType){
 
 			long userId = 0;
 

@@ -35,6 +35,17 @@ namespace Busidex.Presentation.iOS
 
 		}
 
+		protected void GoToMain ()
+		{
+			NavigationController.SetNavigationBarHidden (true, true);
+
+			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
+
+			if (dataViewController != null) {
+				NavigationController.PushViewController (dataViewController, true);
+			}
+		}
+
 		protected virtual void DoSearch(){
 
 			Overlay.Hide ();

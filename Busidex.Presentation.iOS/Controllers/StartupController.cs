@@ -90,17 +90,6 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void GoToMain ()
-		{
-			NavigationController.SetNavigationBarHidden (true, true);
-
-			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
-
-			if (dataViewController != null) {
-				NavigationController.PushViewController (dataViewController, true);
-			}
-		}
-
 		static string EncodeUserId(long userId){
 			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
 			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
@@ -115,16 +104,6 @@ namespace Busidex.Presentation.iOS
 			}
 			return string.Empty;
 		}
-
-//		static void UpdateSharedStorageData(string userId){
-//			var user = NSUserDefaults.StandardUserDefaults;
-//
-//			user.SetString(userId, Resources.USER_SETTING_PASSWORD);
-//			user.SetString(userId + "@busidex.com", Resources.USER_SETTING_EMAIL);
-//			user.SetBool (true, Resources.USER_SETTING_USE_STAR_82);
-//			user.SetBool(true, Resources.USER_SETTING_AUTOSYNC);
-//			user.Synchronize();
-//		}
 
 		static void SetAuthCookie(long userId){
 

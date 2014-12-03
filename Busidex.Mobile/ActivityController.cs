@@ -15,7 +15,7 @@ namespace Busidex.Mobile
 
 			string url = Busidex.Mobile.Resources.BASE_API_URL + "Activity";
 
-			return await MakeRequest (url, "POST", userToken, data);
+			return await MakeRequestAsync (url, "POST", userToken, data);
 		}
 	}
 }
