@@ -84,6 +84,10 @@ namespace Busidex.Presentation.iOS
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
 
+				var userId = Busidex.Mobile.LoginController.DoLogin (email, password);
+
+				SetAuthCookie (userId);
+
 				GoToMain ();
 
 			} else {

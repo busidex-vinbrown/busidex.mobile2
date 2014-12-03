@@ -21,6 +21,18 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		protected NSHttpCookie SetAuthCookie(long userId){
+			var nCookie = new System.Net.Cookie();
+			nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
+			DateTime expiration = DateTime.Now.AddYears(1);
+			nCookie.Expires = expiration;
+			nCookie.Value = EncodeUserId(userId);
+			var cookie = new NSHttpCookie(nCookie);
+
+			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+			return cookie;
+		}
+
 		protected NSHttpCookie GetAuthCookie(){
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 			return cookie;
@@ -68,6 +80,12 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		string EncodeUserId(long userId){
+
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
+			string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+			return returnValue;
+		}
 	}
 }
 

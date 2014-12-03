@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Linq;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 
 namespace Busidex.Presentation.iOS
 {
 	partial class LoginController : BaseController
 	{
 		LoadingOverlay loadingOverlay;
-		NSObject _notificationHandle;
 
 		public LoginController (IntPtr handle) : base (handle)
 		{
@@ -20,15 +17,8 @@ namespace Busidex.Presentation.iOS
 			set;
 		}
 
-		private static long UserId{ get; set; }
+		static long UserId{ get; set; }
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
-		}
 
 		public override void ViewDidLoad ()
 		{
@@ -58,14 +48,7 @@ namespace Busidex.Presentation.iOS
 
 				if(UserId > 0){
 
-					var nCookie = new System.Net.Cookie();
-					nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
-					DateTime expiration = DateTime.Now.AddYears(1);
-					nCookie.Expires = expiration;
-					nCookie.Value = EncodeUserId(UserId);
-					cookie = new NSHttpCookie(nCookie);
-
-					NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+					SetAuthCookie(UserId);
 
 					var user = NSUserDefaults.StandardUserDefaults;
 
@@ -87,12 +70,7 @@ namespace Busidex.Presentation.iOS
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		private string EncodeUserId(long userId){
 
-			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
-			return returnValue;
-		}
 
 
 
