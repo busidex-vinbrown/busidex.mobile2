@@ -28,12 +28,12 @@ namespace Busidex.Presentation.iOS
 
 		public UserCard SelectedCard{ get; set; }
 		protected List<UserCard> Cards{ get; set; }
-		protected bool NoCards;
+		public bool NoCards;
 		protected string userToken;
 
-		public bool IsFiltering{ get; set;}
-		public bool ShowNoCardMessage{ get; set; }
-		public string NoCardsMessage{ get; set;}
+
+
+
 		public bool ShowNotes{ get; set;}
 
 		protected const float LEFT_MARGIN = 5F;
@@ -47,7 +47,7 @@ namespace Busidex.Presentation.iOS
 		protected const float FEATURE_BUTTON_HEIGHT = 40f;
 		protected const float FEATURE_BUTTON_WIDTH = 40f;
 		protected const float FEATURE_BUTTON_MARGIN = 15f;
-		protected const string NONE_MATCH_FILTER = "No cards match your filter";
+
 
 		List<UserCard> TableItems;
 
@@ -140,29 +140,6 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void LoadNoCardMessage(UITableViewCell cell){
-		
-			const float LABEL_HEIGHT = 61f * 3;
-			const float LABEL_WIDTH = 280f;
-
-			var frame = new RectangleF (10f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
-
-			var lbl = new UILabel (frame);
-			lbl.Text = IsFiltering ? NONE_MATCH_FILTER : NoCardsMessage;
-			lbl.TextAlignment = UITextAlignment.Center;
-			lbl.Font = UIFont.FromName ("Helvetica", 17f);
-			lbl.Lines = 3;
-
-			foreach(var view in cell.ContentView.Subviews){
-				view.RemoveFromSuperview ();
-			}
-			lbl.Tag = -1;
-			cell.ContentView.AddSubview (lbl);
-
-			cell.Frame = frame;
-
-		}
-
 		protected void AddToMyBusidex(UserCard userCard){
 
 			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
@@ -229,45 +206,6 @@ namespace Busidex.Presentation.iOS
 
 				FeatureButtons.Add (AddToMyBusidexButton);
 			}
-
-//			bool needsAddButton = false;
-//			//var AddToMyBusidexButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.AddToMyBusidexButton) as UIButton;
-//			if (AddToMyBusidexButton == null) {
-//				AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
-//				needsAddButton = true;
-//			}
-//
-//			if (!card.ExistsInMyBusidex) {
-//				AddToMyBusidexButton.SetTitle ("Add To My Busidex", UIControlState.Normal);
-//				AddToMyBusidexButton.Hidden = card.ExistsInMyBusidex;
-//				AddToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
-//				AddToMyBusidexButton.Frame = frame;// new RectangleF (LEFT_MARGIN +, 100f, 120f, 22f);
-//				AddToMyBusidexButton.Font = UIFont.FromName ("Helvetica", 14f);
-//				AddToMyBusidexButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
-//				AddToMyBusidexButton.SetTitleColor (UIColor.Blue, UIControlState.Normal);
-//
-//				var CheckMark = new UIImageView (new RectangleF (frame.X, frame.Y, 22f, 22f));
-//				CheckMark.Image = UIImage.FromBundle ("checkmark.png");
-//				CheckMark.Hidden = true;
-//
-//				AddToMyBusidexButton.TouchUpInside += delegate {
-//					this.InvokeOnMainThread (() => {
-//						AddToMyBusidexButton.Hidden = true;
-//						CheckMark.Hidden = false;
-//					});
-//
-//					AddToMyBusidex (card);
-//				};
-//
-//				frame.Y += LABEL_HEIGHT;
-//
-//				if (needsAddButton) {
-//					cell.ContentView.AddSubview (AddToMyBusidexButton);
-//					cell.ContentView.AddSubview (CheckMark);
-//				}
-//			} else {
-//				AddToMyBusidexButton.RemoveFromSuperview ();
-//			}
 		}
 
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){

@@ -23,10 +23,16 @@ namespace Busidex.Presentation.iOS
 		public event ViewOrganizationReferralsHandler ViewOrganizationReferrals;
 
 		public OrganizationTableSource (List<Organization> organizations)
-		{
+		{ 
+			if(!organizations.Any()){
+				ShowNoCardMessage = true;
+				organizations.Add (new Organization ());
+			}
 			Organizations = new List<Organization> ();
 			Organizations.AddRange (organizations);
 			cellCache = new List<UITableViewCell> ();
+
+
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -52,9 +58,12 @@ namespace Busidex.Presentation.iOS
 				cellCache.Add (cell);
 			} 
 
-			// add controls here
-			AddControls (cell, organization);
-
+			if (ShowNoCardMessage) {
+				LoadNoCardMessage (cell);
+			} else {
+				// add controls here
+				AddControls (cell, organization);
+			}
 			cell.SetNeedsLayout ();
 			cell.SetNeedsDisplay ();
 

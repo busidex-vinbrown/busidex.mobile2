@@ -1,43 +1,39 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 using System.IO;
-using System.Linq;
 using System.Drawing;
 using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
 	partial class NotesController : BaseController
 	{
-		private readonly string documentsPath;
 		public UserCard UserCard{ get; set; }
-		private string FrontFileName{ get; set; }
-		private string BackFileName{ get; set; }
+		string FrontFileName{ get; set; }
+		string BackFileName{ get; set; }
 
-		private UIView activeview;             // Controller that activated the keyboard
-		private nfloat scroll_amount = 0.0f;    // amount to scroll 
-		private nfloat bottom = 0.0f;           // bottom point
-		private float offset = 10.0f;          // extra offset
-		private bool moveViewUp = false;           // which direction are we moving
-
-
+		UIView activeview;             // Controller that activated the keyboard
+		nfloat scroll_amount = 0.0f;    // amount to scroll 
+		nfloat bottom = 0.0f;           // bottom point
+		const float OFFSET = 10.0f;          // extra offset
+		bool moveViewUp;           // which direction are we moving
 
 		public NotesController (IntPtr handle) : base (handle)
 		{
 			documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		}
 
-		private void LoadCard(){
+		void LoadCard(){
 
-			if (this.NavigationController != null) {
-				this.NavigationController.SetNavigationBarHidden (false, true);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
 			if (UserCard != null && UserCard.Card != null) {
 
-				var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 				UserCard userCard = null;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {
@@ -53,7 +49,7 @@ namespace Busidex.Presentation.iOS
 				}
 
 				if (userCard != null) {
-					FrontFileName = System.IO.Path.Combine (documentsPath, userCard.Card.FrontFileId + "." + userCard.Card.FrontType);
+					FrontFileName = Path.Combine (documentsPath, userCard.Card.FrontFileId + "." + userCard.Card.FrontType);
 					if (File.Exists (FrontFileName)) {
 						imgCard.Image = UIImage.FromFile (FrontFileName);
 					}
@@ -63,29 +59,12 @@ namespace Busidex.Presentation.iOS
 			imgSaved.Hidden = true;
 		}
 
-		public override void DidRotate(UIInterfaceOrientation orientation){
-			base.DidRotate (orientation);
-		}
-
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-		}
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
-		}
-
 		public void KBToolbarButtonDoneHandler(object sender, EventArgs e)
 		{
 			txtNotes.ResignFirstResponder();
 		}
 
-		private void SaveNotes(){
+		void SaveNotes(){
 
 			var cookie = GetAuthCookie ();
 			string token = string.Empty;
@@ -102,7 +81,7 @@ namespace Busidex.Presentation.iOS
 				SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
 				if(obj.Success){
 
-					UpdateLocalCardNotes (UserCard.UserCardId, txtNotes.Text);
+					UpdateLocalCardNotes ();
 
 					// need to sync the notes with the local user card
 					imgSaved.Hidden = false;
@@ -110,9 +89,9 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		private void UpdateLocalCardNotes(long userCardId, string notes){
+		void UpdateLocalCardNotes(){
 
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			// we only need to update the file if they've gotten their busidex. If they haven't, the new card will
 			// come along with all the others
 			var file = string.Empty;
@@ -146,10 +125,11 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 			try{
 				LoadCard ();
+			// Analysis disable once EmptyGeneralCatchClause
 			}catch(Exception ex){
 
 			}
-			UIToolbar keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
+			var keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
 			{
 				BarStyle = UIBarStyle.Black,
 				Translucent = true,
@@ -159,7 +139,7 @@ namespace Busidex.Presentation.iOS
 			keyboardDoneButtonToolbar.SizeToFit();
 
 			// NOTE Need 2 spacer elements here and not sure why...
-			UIBarButtonItem btnKeyboardDone = new UIBarButtonItem(UIBarButtonSystemItem.Done, this.KBToolbarButtonDoneHandler);
+			var btnKeyboardDone = new UIBarButtonItem (UIBarButtonSystemItem.Done, KBToolbarButtonDoneHandler);
 			keyboardDoneButtonToolbar.SetItems(new []
 				{
 					new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace, null),
@@ -185,16 +165,16 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		private void KeyBoardDownNotification(NSNotification notification)
+		void KeyBoardDownNotification(NSNotification notification)
 		{
 			if(moveViewUp){ScrollTheView(false);}
 		}
 
-		private void ScrollTheView(bool move)
+		void ScrollTheView(bool move)
 		{
 
 			// scroll the view up or down
-			UIView.BeginAnimations (string.Empty, System.IntPtr.Zero);
+			UIView.BeginAnimations (string.Empty, IntPtr.Zero);
 			UIView.SetAnimationDuration (0.3);
 
 			var frame = View.Frame;
@@ -210,14 +190,14 @@ namespace Busidex.Presentation.iOS
 			UIView.CommitAnimations();
 		}
 
-		private void KeyBoardUpNotification(NSNotification notification)
+		void KeyBoardUpNotification(NSNotification notification)
 		//private void KeyBoardUpNotification()
 		{
 			// get the keyboard size
 			//RectangleF r = UIKeyboard.BoundsFromNotification (notification);
 
 			// Find what opened the keyboard
-			foreach (UIView view in this.View.Subviews) {
+			foreach (UIView view in View.Subviews) {
 				if (view.IsFirstResponder) {
 					activeview = view;
 					break;
@@ -225,11 +205,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 			// Bottom of the controller = initial position + height + offset  
-			if (activeview != null) {
-				bottom = (activeview.Frame.Y + activeview.Frame.Height + offset);
-			}else{
-				bottom = 320;
-			}
+			bottom = activeview != null ? (activeview.Frame.Y + activeview.Frame.Height + OFFSET) : 320;
 			// Calculate how far we need to scroll
 			//scroll_amount = (r.Height - (View.Frame.Size.Height - bottom)) ;
 			scroll_amount = (260 - (View.Frame.Size.Height - bottom)) ;

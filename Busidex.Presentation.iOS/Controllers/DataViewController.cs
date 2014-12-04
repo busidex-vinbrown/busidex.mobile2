@@ -159,13 +159,75 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void SaveMyBusidexResponse(string response){
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			File.WriteAllText (fullFilePath, response);
 		}
 			
+		async Task<bool> LoadMyOrganizations(bool force = false){
+
+			var cookie = GetAuthCookie ();
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
+			if (File.Exists (fullFilePath) && CheckRefreshCookie () && !force) {
+				GoToMyBusidex ();
+			} else {
+				if (cookie != null) {
+
+					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+					View.AddSubview (overlay);
+
+					var controller = new OrganizationController ();
+					await controller.GetMyOrganizations (cookie.Value).ContinueWith (async response => {
+						if (!string.IsNullOrEmpty (response.Result)) {
+
+							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
+
+							foreach (Organization org in myOrganizationsResponse.Model) {
+								var fileName = org.LogoFileName + "." + org.LogoType;
+								var fImagePath = Resources.CARD_PATH + fileName;
+								if (!File.Exists (documentsPath + "/" + fileName)) {
+									await Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
+
+									});
+								} 
+								// load organization members
+								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
+
+									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+									var idx = 0;
+									InvokeOnMainThread (() =>{
+										overlay.TotalItems = myOrganizationsResponse.Model.Count();
+										overlay.UpdateProgress (idx);
+									});
+									foreach(var card in orgMemberResponse.Model){
+
+										var cardFrontFileName = card.FrontFileName;
+										var cardBackFileName = card.BackFileName;
+										var cardImageUrl = Resources.CARD_PATH + cardFrontFileName;
+										if (!File.Exists (documentsPath + "/" + cardFrontFileName)) {
+											await Busidex.Mobile.Utils.DownloadImage (cardImageUrl, documentsPath, cardFrontFileName).ContinueWith (t => {
+												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
+											});
+										}
+										if (!File.Exists (documentsPath + "/" + cardBackFileName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+											await Busidex.Mobile.Utils.DownloadImage (cardImageUrl, documentsPath, cardBackFileName).ContinueWith (t => {
+
+											});
+										}
+										idx++;
+									}
+								});
+								
+							}
+						}
+					});
+				}
+			}
+			return true;
+		}
+
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
 			var cookie = GetAuthCookie ();
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie() && !force) {
 				GoToMyBusidex ();
 			} else {

@@ -15,6 +15,8 @@ namespace Busidex.Mobile
 		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_PATH =  "https://busidexcdn.blob.core.windows.net/mobile-images/";//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_FILE_NAME_PREFIX = "lowres_";
+		public const string MY_BUSIDEX_FILE = "mybusidex.json";
+		public const string MY_ORGANIZATIONS_FILE = "myorganizations.json";
 	}
 }
 

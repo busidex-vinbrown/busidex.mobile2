@@ -4,6 +4,7 @@ using UIKit;
 using System.IO;
 using System.Linq;
 using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -23,7 +24,7 @@ namespace Busidex.Presentation.iOS
 
 		protected NSHttpCookie SetAuthCookie(long userId){
 			var nCookie = new System.Net.Cookie();
-			nCookie.Name = Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME;
+			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
 			DateTime expiration = DateTime.Now.AddYears(1);
 			nCookie.Expires = expiration;
 			nCookie.Value = EncodeUserId(userId);
@@ -34,14 +35,14 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected NSHttpCookie GetAuthCookie(){
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 			return cookie;
 		}
 
 		protected virtual void StartSearch(){
-			this.InvokeOnMainThread (() => {
+			InvokeOnMainThread (() => {
 				Overlay = Overlay ?? new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				Overlay.RemoveFromSuperview();
+				Overlay.RemoveFromSuperview ();
 				View.Add (Overlay);
 			});
 
@@ -64,10 +65,10 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected void AddCardToMyBusidex(UserCard userCard){
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			// we only need to update the file if they've gotten their busidex. If they haven't, the new card will
 			// come along with all the others
-			var file = string.Empty;
+			string file;
 			if (File.Exists (fullFilePath)) {
 				using (var myBusidexFile = File.OpenText (fullFilePath)) {
 					var myBusidexJson = myBusidexFile.ReadToEnd ();
@@ -80,10 +81,10 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		string EncodeUserId(long userId){
+		static string EncodeUserId(long userId){
 
 			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
 		}
 	}

@@ -10,7 +10,7 @@ namespace Busidex.Presentation.iOS
 {
 	public class Application
 	{
-		public const string MY_BUSIDEX_FILE = "mybusidex.json";
+
 		public static List<UserCard> MyBusidex{ get; set; } 
 
 		// This is the main entry point of the application.

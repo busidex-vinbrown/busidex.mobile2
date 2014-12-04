@@ -153,7 +153,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void SaveMyBusidexResponse(string response){
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			File.WriteAllText (fullFilePath, response);
 		}
 
@@ -182,7 +182,7 @@ namespace Busidex.Presentation.iOS
 
 
 		public void LoadMyBusidex(){
-			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath)) {
 				LoadMyBusidexFromFile (fullFilePath);
 			} else {

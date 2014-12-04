@@ -17,9 +17,14 @@ namespace Busidex.Presentation.iOS
 		const float FEATURE_BUTTON_HEIGHT = 40f;
 		const float FEATURE_BUTTON_WIDTH = 40f;
 		const float FEATURE_BUTTON_MARGIN = 15f;
+		protected const string NONE_MATCH_FILTER = "No cards match your filter";
+
 		UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 
 		protected List<UITableViewCell> cellCache;
+		public string NoCardsMessage{ get; set;}
+		public bool ShowNoCardMessage{ get; set; }
+		public bool IsFiltering{ get; set;}
 
 		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
@@ -38,6 +43,29 @@ namespace Busidex.Presentation.iOS
 			TwitterButton = 12,
 			FacebookButton = 13,
 			ButtonPanel = 14
+
+		}
+
+		protected void LoadNoCardMessage(UITableViewCell cell){
+
+			const float LABEL_HEIGHT = 61f * 3;
+			const float LABEL_WIDTH = 280f;
+
+			var frame = new RectangleF (10f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
+
+			var lbl = new UILabel (frame);
+			lbl.Text = IsFiltering ? NONE_MATCH_FILTER : NoCardsMessage;
+			lbl.TextAlignment = UITextAlignment.Center;
+			lbl.Font = UIFont.FromName ("Helvetica", 17f);
+			lbl.Lines = 3;
+
+			foreach(var view in cell.ContentView.Subviews){
+				view.RemoveFromSuperview ();
+			}
+			lbl.Tag = -1;
+			cell.ContentView.AddSubview (lbl);
+
+			cell.Frame = frame;
 
 		}
 
