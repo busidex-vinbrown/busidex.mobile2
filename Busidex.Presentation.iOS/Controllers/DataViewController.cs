@@ -12,6 +12,10 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class DataViewController : BaseController
 	{
+		public DataViewController ()
+		{
+
+		}
 
 		public DataViewController (IntPtr handle) : base (handle)
 		{
@@ -57,7 +61,8 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnMyOrganizations.TouchUpInside += delegate {
-				GoToMyOrganizations();
+				//GoToMyOrganizations();
+				LoadMyOrganizationsAsync();
 			};
 		}
 
@@ -163,12 +168,17 @@ namespace Busidex.Presentation.iOS
 			File.WriteAllText (fullFilePath, response);
 		}
 			
-		async Task<bool> LoadMyOrganizations(bool force = false){
+		void SaveMyOrganizationsResponse(string response){
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
+			File.WriteAllText (fullFilePath, response);
+		}
+
+		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie () && !force) {
-				GoToMyBusidex ();
+				GoToMyOrganizations ();
 			} else {
 				if (cookie != null) {
 
@@ -180,6 +190,8 @@ namespace Busidex.Presentation.iOS
 						if (!string.IsNullOrEmpty (response.Result)) {
 
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
+
+							SaveMyOrganizationsResponse(response.Result);
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
@@ -218,6 +230,11 @@ namespace Busidex.Presentation.iOS
 								});
 								
 							}
+
+							InvokeOnMainThread (() => {
+								overlay.Hide();
+								GoToMyOrganizations ();
+							});
 						}
 					});
 				}

@@ -129,11 +129,11 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void ProcessMyBusidex(string data){
-			MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
+			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
 			Application.MyBusidex = new List<UserCard> ();
-			MyBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
-			Application.MyBusidex.AddRange (MyBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
+			myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
+			Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
 			if (TableView.Source == null) {
 				var src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
