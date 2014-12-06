@@ -9,7 +9,7 @@ namespace Busidex.Presentation.iOS
 {
 	public class BaseTableSource : UITableViewSource
 	{
-		protected const float BASE_CELL_HEIGHT = 150f;
+		protected const float BASE_CELL_HEIGHT = 180f;
 
 		const float LEFT_MARGIN = 5F;
 		const float LABEL_HEIGHT = 30f;

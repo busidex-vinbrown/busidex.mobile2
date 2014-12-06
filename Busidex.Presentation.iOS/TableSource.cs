@@ -31,18 +31,15 @@ namespace Busidex.Presentation.iOS
 		public bool NoCards;
 		protected string userToken;
 
-
-
-
 		public bool ShowNotes{ get; set;}
 
-		protected const float LEFT_MARGIN = 5F;
+		protected const float LEFT_MARGIN = 5f;
 		protected const float CARD_HEIGHT_VERTICAL = 170f;
-		protected const float CARD_HEIGHT_HORIZONTAL = 100f;
+		protected const float CARD_HEIGHT_HORIZONTAL = 120f;
 		protected const float CARD_WIDTH_VERTICAL = 110f;
-		protected const float CARD_WIDTH_HORIZONTAL = 140f;
+		protected const float CARD_WIDTH_HORIZONTAL = 180f;
 		protected const float SUB_LABEL_FONT_SIZE = 17f;
-		protected const float LABEL_HEIGHT = 30f;
+		protected const float LABEL_HEIGHT = 20f;
 		protected const float LABEL_WIDTH = 170f;
 		protected const float FEATURE_BUTTON_HEIGHT = 40f;
 		protected const float FEATURE_BUTTON_WIDTH = 40f;
@@ -237,10 +234,12 @@ namespace Busidex.Presentation.iOS
 				CardImageButton.Layer.BorderColor = UIColor.Green.CGColor;
 			}
 
+			const float CARD_TOP = (LABEL_HEIGHT * 2f) + 10f;
+
 			CardImageButton.Frame =
 				card.Card.FrontOrientation == "H" 
-				? new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_HORIZONTAL, CARD_HEIGHT_HORIZONTAL)
-				: new RectangleF (LEFT_MARGIN, 10f, CARD_WIDTH_VERTICAL, CARD_HEIGHT_VERTICAL);
+				? new RectangleF (LEFT_MARGIN, CARD_TOP, CARD_WIDTH_HORIZONTAL, CARD_HEIGHT_HORIZONTAL)
+				: new RectangleF (LEFT_MARGIN, CARD_TOP, CARD_WIDTH_VERTICAL, CARD_HEIGHT_VERTICAL);
 
 			cell.ContentView.AddSubview (CardImageButton);
 		}
@@ -348,9 +347,7 @@ namespace Busidex.Presentation.iOS
 
 				var FeatureButtonList = new List<UIButton> ();
 
-				var frame = card.Card.FrontOrientation == "H" 
-					? new RectangleF (CARD_WIDTH_HORIZONTAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT)
-					: new RectangleF (CARD_WIDTH_VERTICAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
+				var frame = new RectangleF (LEFT_MARGIN + 5f, 10f, (float)UIScreen.MainScreen.Bounds.Width, LABEL_HEIGHT);
 
 				var noCardLabel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == -1);
 				if(noCardLabel != null){
