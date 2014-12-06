@@ -52,7 +52,6 @@ namespace Busidex.Presentation.iOS
 					imgLogo.Image = new UIImage (data);
 				}
 			}
-
 		}
 
 		void SetFilter(string filter){
@@ -186,7 +185,7 @@ namespace Busidex.Presentation.iOS
 			float processed = 0;
 
 			if (!Members.Model.Any ()) {
-				LoadMembers (new List<UserCard> ());
+				LoadMembers (cards);
 			} else {
 				foreach (var item in Members.Model) {
 					if (item != null) {
@@ -194,7 +193,7 @@ namespace Busidex.Presentation.iOS
 						string frontFileId = item.FrontFileId.ToString ();
 						string frontType = item.FrontType;
 
-						var imagePath = Resources.CARD_PATH + frontFileId + "." + frontType;
+						var imagePath = Resources.THUMBNAIL_PATH + frontFileId + "." + frontType;
 						var fName = frontFileId + "." + frontType;
 
 						var userCard = new UserCard ();
@@ -207,15 +206,12 @@ namespace Busidex.Presentation.iOS
 
 						if (!File.Exists (Path.Combine (documentsPath, frontFileId + "." + frontType))) {
 							await Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-
-								if (++processed == total) {
-
+								if (isProgressFinished(++processed, total)) {
 									InvokeOnMainThread (() => LoadMembers (cards));
 								} 
 							});
 						} else {
-
-							if (++processed == total) {
+							if (isProgressFinished(++processed, total)) {
 								LoadMembers (cards);
 							}
 						}
@@ -225,75 +221,109 @@ namespace Busidex.Presentation.iOS
 			return 1;
 		}
 
-		int ProcessReferrals(string response){
-			OrgReferralResponse Members = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (response);
+//		int ProcessReferrals(string response){
+//			OrgReferralResponse Members = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (response);
+//
+//			var cards = new List<UserCard> ();
+//			float total = Members.Model.Count;
+//			float processed = 0;
+//
+//			if (!Members.Model.Any ()) {
+//				LoadMembers (new List<UserCard> ());
+//			} else {
+//
+//				foreach (var item in Members.Model) {
+//					if (item != null) {
+//
+//						string frontFileId = item.Card.FrontFileId.ToString ();
+//						string frontType = item.Card.FrontType;
+//
+//						var imagePath = Resources.THUMBNAIL_PATH + frontFileId + "." + frontType;
+//						var fName = frontFileId + "." + frontType;
+//
+//						item.ExistsInMyBusidex = item.Card.ExistsInMyBusidex;
+//
+//						cards.Add (item);
+//
+//						if (!File.Exists (Path.Combine (documentsPath, frontFileId + "." + frontType))) {
+//							Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+//								if (isProgressFinished(++processed, total)) {
+//									InvokeOnMainThread (() => LoadMembers (cards));
+//								} 
+//							});
+//						} else {
+//							if (isProgressFinished(++processed, total)) {
+//								LoadMembers (cards);
+//							}
+//						}
+//					}
+//				}
+//			}
+//			return 1;
+//		}
 
-			var cards = new List<UserCard> ();
-			float total = Members.Model.Count;
-			float processed = 0;
+		List<UserCard> getCardsFromModel(string data){
 
-			if (!Members.Model.Any ()) {
-				LoadMembers (new List<UserCard> ());
-			} else {
+			if(OrganizationMemberMode == MemberMode.Members){
+				var response = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (data);
+				var cards = new List<UserCard> ();
 
-				foreach (var item in Members.Model) {
-					if (item != null) {
+				foreach(var card in response.Model){
+					var userCard = new UserCard ();
+					userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
+					userCard.Card = card;
+					userCard.CardId = card.CardId;
 
-						string frontFileId = item.Card.FrontFileId.ToString ();
-						string frontType = item.Card.FrontType;
-
-						var imagePath = Resources.CARD_PATH + frontFileId + "." + frontType;
-						var fName = frontFileId + "." + frontType;
-
-						item.ExistsInMyBusidex = item.Card.ExistsInMyBusidex;
-
-						cards.Add (item);
-
-						if (!File.Exists (Path.Combine (documentsPath, frontFileId + "." + frontType))) {
-							Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-
-								if (++processed == total) {
-
-									InvokeOnMainThread (() => LoadMembers (cards));
-								} 
-							});
-						} else {
-
-							if (++processed == total) {
-								LoadMembers (cards);
-							}
-						}
-					}
+					cards.Add (userCard);
 				}
+				return cards;
+			}else{
+				var response = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (data);
+				return response.Model;
 			}
-			return 1;
 		}
 
-		async Task<int> GetMembers(){
+		protected override void ProcessCards(string data){
 
-			var cookie = GetAuthCookie ();
-			string token = string.Empty;
+			var cards = getCardsFromModel (data);
 
-			if (cookie != null) {
-				token = cookie.Value;
+			if (tblMembers.Source == null) {
+				var src = ConfigureTableSourceEventHandlers(cards);
+				src.NoCardsMessage = NO_CARDS;
+				tblMembers.Source = src;
 			}
+			tblMembers.AllowsSelection = true;
+		}
 
-			var ctrl = new OrganizationController ();
-			string response = OrganizationMemberMode == MemberMode.Members 
-				? await ctrl.GetOrganizationMembers(token, OrganizationId)
-				: await ctrl.GetOrganizationReferrals(token, OrganizationId);
+		void GetMembers(){
 
-			if (!string.IsNullOrEmpty (response)) {
+//			var cookie = GetAuthCookie ();
+//			string token = string.Empty;
+//
+//			if (cookie != null) {
+//				token = cookie.Value;
+//			}
+//
+			LoadCardsFromFile (OrganizationMemberMode == MemberMode.Members
+				? Resources.ORGANIZATION_MEMBERS_FILE + OrganizationId
+				: Resources.ORGANIZATION_REFERRALS_FILE + OrganizationId
+			);
+//			var ctrl = new OrganizationController ();
+//			string response = OrganizationMemberMode == MemberMode.Members 
+//				? await ctrl.GetOrganizationMembers(token, OrganizationId)
+//				: await ctrl.GetOrganizationReferrals(token, OrganizationId);
+
+			//if (!string.IsNullOrEmpty (response)) {
 
 				// The items coming back from GetOrganizationMembers is a list of Cards
 				// The items coming back from GetOrganizationReferras is a list of UserCards (these have notes)
-				if(OrganizationMemberMode == MemberMode.Members){
-					ProcessMembers (response);
-				}else{
-					ProcessReferrals (response);
-				}
-			}
-			return 1;
+				//ProcessCards ();
+//				if(OrganizationMemberMode == MemberMode.Members){
+//					ProcessMembers (response);
+//				}else{
+//					ProcessReferrals (response);
+//				}
+			//}
 		}
 
 
@@ -303,7 +333,12 @@ namespace Busidex.Presentation.iOS
 
 			tblMembers.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 
-			GetMembers ();
+			//GetMembers ();
+			LoadCardsFromFile (OrganizationMemberMode == MemberMode.Members
+				? documentsPath + "/"+ Resources.ORGANIZATION_MEMBERS_FILE + OrganizationId
+				: documentsPath + "/" + Resources.ORGANIZATION_REFERRALS_FILE + OrganizationId
+			);
+
 			ConfigureSearchBar ();
 
 		}

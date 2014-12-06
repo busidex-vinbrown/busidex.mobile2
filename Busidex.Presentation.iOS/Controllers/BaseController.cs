@@ -81,6 +81,23 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected bool isProgressFinished(float processed, float total){
+			return processed.Equals (total);
+		}
+
+		protected virtual void ProcessCards(string data){
+
+		}
+
+		protected void LoadCardsFromFile(string fullFilePath){
+
+			if(File.Exists(fullFilePath)){
+				var file = File.OpenText (fullFilePath);
+				var fileJson = file.ReadToEnd ();
+				ProcessCards (fileJson);
+			}
+		}
+
 		static string EncodeUserId(long userId){
 
 			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());

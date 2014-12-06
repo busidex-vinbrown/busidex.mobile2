@@ -128,7 +128,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void ProcessMyBusidex(string data){
+		protected override void ProcessCards(string data){
 			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
 			Application.MyBusidex = new List<UserCard> ();
@@ -141,15 +141,6 @@ namespace Busidex.Presentation.iOS
 				TableView.Source = src;
 			}
 			TableView.AllowsSelection = true;
-		}
-
-		void LoadMyBusidexFromFile(string fullFilePath){
-
-			if(File.Exists(fullFilePath)){
-				var myBusidexFile = File.OpenText (fullFilePath);
-				var myBusidexJson = myBusidexFile.ReadToEnd ();
-				ProcessMyBusidex (myBusidexJson);
-			}
 		}
 
 		void SaveMyBusidexResponse(string response){
@@ -166,7 +157,7 @@ namespace Busidex.Presentation.iOS
 				var response = ctrl.GetMyBusidex (cookie.Value);
 
 				if(!string.IsNullOrEmpty(response.Result)){
-					ProcessMyBusidex (response.Result);
+					ProcessCards (response.Result);
 					SaveMyBusidexResponse (response.Result);
 				}
 			}
@@ -180,11 +171,10 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-
 		public void LoadMyBusidex(){
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath)) {
-				LoadMyBusidexFromFile (fullFilePath);
+				LoadCardsFromFile (fullFilePath);
 			} else {
 				LoadMyBusidexAsync ();
 			}
@@ -195,7 +185,6 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			ConfigureSearchBar ();
-
 
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyBusidex ();

@@ -173,6 +173,11 @@ namespace Busidex.Presentation.iOS
 			File.WriteAllText (fullFilePath, response);
 		}
 
+		void SaveOrganizationCardsResponse(string response, string fileName){
+			var fullFilePath = Path.Combine (documentsPath, fileName);
+			File.WriteAllText (fullFilePath, response);
+		}
+
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
 			var cookie = GetAuthCookie ();
@@ -192,6 +197,7 @@ namespace Busidex.Presentation.iOS
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
 							SaveMyOrganizationsResponse(response.Result);
+							SetRefreshCookie();
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
@@ -205,6 +211,8 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+									SaveOrganizationCardsResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+
 									var idx = 0;
 									InvokeOnMainThread (() =>{
 										overlay.TotalItems = myOrganizationsResponse.Model.Count();
@@ -212,23 +220,53 @@ namespace Busidex.Presentation.iOS
 									});
 									foreach(var card in orgMemberResponse.Model){
 
-										var cardFrontFileName = card.FrontFileName;
-										var cardBackFileName = card.BackFileName;
-										var cardImageUrl = Resources.CARD_PATH + cardFrontFileName;
-										if (!File.Exists (documentsPath + "/" + cardFrontFileName)) {
-											await Busidex.Mobile.Utils.DownloadImage (cardImageUrl, documentsPath, cardFrontFileName).ContinueWith (t => {
+										var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
+										var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
+										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+										if (!File.Exists (documentsPath + "/" + fName) || force) {
+											await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
 												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
 											});
 										}
-										if (!File.Exists (documentsPath + "/" + cardBackFileName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Busidex.Mobile.Utils.DownloadImage (cardImageUrl, documentsPath, cardBackFileName).ContinueWith (t => {
+										if (!File.Exists (documentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+											await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
 
 											});
 										}
 										idx++;
 									}
 								});
-								
+
+								await controller.GetOrganizationReferrals(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
+
+									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
+									SaveOrganizationCardsResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+
+									var idx = 0;
+									InvokeOnMainThread (() =>{
+										overlay.TotalItems = myOrganizationsResponse.Model.Count();
+										overlay.UpdateProgress (idx);
+									});
+									foreach(var card in orgReferralResponse.Model){
+									
+										var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
+										var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
+										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+										if (!File.Exists (documentsPath + "/" + fName) || force) {
+											await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
+											});
+										}
+										if (!File.Exists (documentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+											await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+
+											});
+										}
+										idx++;
+									}
+								});
 							}
 
 							InvokeOnMainThread (() => {
