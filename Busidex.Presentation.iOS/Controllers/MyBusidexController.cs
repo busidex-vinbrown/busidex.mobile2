@@ -61,9 +61,11 @@ namespace Busidex.Presentation.iOS
 			src.CardSelected += delegate {
 				GoToCard();
 			};
+
 			src.EditingNotes += delegate {
 				EditNotes();
 			};	
+
 			src.SendingEmail += delegate(string email) {
 
 				_mailController = new MFMailComposeViewController ();
@@ -76,6 +78,10 @@ namespace Busidex.Presentation.iOS
 			};
 
 			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
+
+			src.CardAddedToMyBusidex += AddCardToMyBusidex;
+
+			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 
 			src.CallingPhoneNumber += delegate {
 				ShowPhoneNumbers();
@@ -98,7 +104,6 @@ namespace Busidex.Presentation.iOS
 				SearchBar.ResignFirstResponder();
 			};
 		}
-
 
 		void GoToCard(){
 			var cardController = Storyboard.InstantiateViewController ("CardViewController") as CardViewController;

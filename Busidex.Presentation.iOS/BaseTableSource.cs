@@ -16,7 +16,7 @@ namespace Busidex.Presentation.iOS
 		const float LABEL_WIDTH = 170f;
 		const float FEATURE_BUTTON_HEIGHT = 40f;
 		const float FEATURE_BUTTON_WIDTH = 40f;
-		const float FEATURE_BUTTON_MARGIN = 15f;
+		const float FEATURE_BUTTON_MARGIN = 30f;
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
 
 		UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
@@ -109,7 +109,7 @@ namespace Busidex.Presentation.iOS
 
 			var panel = cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
 
-			const float FEATURE_BUTTON_TOP_MARGIN = 10f;
+			const float FEATURE_BUTTON_TOP_MARGIN = 35f;
 
 			float buttonX = LEFT_MARGIN;
 
@@ -131,9 +131,9 @@ namespace Busidex.Presentation.iOS
 				panel.AddSubview (button);
 
 				idx++;
-				if (idx % 4 == 0) { 
+				if (idx % 3 == 0) { 
 					buttonX = buttonXOriginal;
-					frame.Y += FEATURE_BUTTON_HEIGHT + 10f;
+					frame.Y += FEATURE_BUTTON_HEIGHT + 20f;
 				}
 			}
 			cell.ContentView.AddSubview (panel);

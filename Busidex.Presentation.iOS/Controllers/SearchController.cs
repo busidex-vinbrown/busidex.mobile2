@@ -89,6 +89,8 @@ namespace Busidex.Presentation.iOS
 
 			src.CardAddedToMyBusidex += AddCardToMyBusidex;
 
+			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+
 			src.CallingPhoneNumber += delegate {
 				ShowPhoneNumbers();
 			};

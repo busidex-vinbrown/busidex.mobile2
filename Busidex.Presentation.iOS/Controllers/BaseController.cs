@@ -66,14 +66,29 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddCardToMyBusidex(UserCard userCard){
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			// we only need to update the file if they've gotten their busidex. If they haven't, the new card will
-			// come along with all the others
+
 			string file;
 			if (File.Exists (fullFilePath)) {
 				using (var myBusidexFile = File.OpenText (fullFilePath)) {
 					var myBusidexJson = myBusidexFile.ReadToEnd ();
 					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+				}
+
+				File.WriteAllText (fullFilePath, file);
+			}
+		}
+
+		protected void RemoveCardFromMyBusidex(UserCard userCard){
+			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+
+			string file;
+			if (File.Exists (fullFilePath)) {
+				using (var myBusidexFile = File.OpenText (fullFilePath)) {
+					var myBusidexJson = myBusidexFile.ReadToEnd ();
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
 					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
 				}
 

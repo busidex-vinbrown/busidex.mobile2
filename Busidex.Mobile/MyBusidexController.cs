@@ -16,6 +16,12 @@ namespace Busidex.Mobile
 
 			return MakeRequestAsync (url, "POST", userToken);
 		}
+
+		public Task<string> RemoveFromMyBusidex(long cardId, string userToken){
+			string url = Resources.BASE_API_URL + "busidex?id=" + cardId + "userId=0";
+
+			return MakeRequestAsync (url, "DELETE", userToken);
+		}
 	}
 }
 
