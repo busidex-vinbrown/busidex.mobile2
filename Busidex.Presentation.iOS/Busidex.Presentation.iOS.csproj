@@ -50,6 +50,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -194,6 +195,9 @@
     <Compile Include="BaseTableSource.cs" />
     <Compile Include="ButtonPanel.cs" />
     <Compile Include="MyBusidexLoadingOverlay.cs" />
+    <Compile Include="ButtonPanelSource.cs" />
+    <Compile Include="Controllers\ButtonPanelControllerController.cs" />
+    <Compile Include="Controllers\ButtonPanelControllerCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

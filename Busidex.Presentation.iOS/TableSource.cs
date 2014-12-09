@@ -147,7 +147,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
-			var panel = cell.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.ButtonPanel);
+			var panel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.ButtonPanel);
 			if(panel != null){
 				var removeFromMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.RemoveFromMyBusidexButton);
 				var addToMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.AddToMyBusidexButton);
@@ -167,7 +167,7 @@ namespace Busidex.Presentation.iOS
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
 					ctrl.AddToMyBusidex (userCard.Card.CardId, cookie.Value);
 
-					toggleAddRemoveButtons (true, cell);
+					toggleAddRemoveButtons (false, cell);
 
 					if (CardAddedToMyBusidex != null) {
 						CardAddedToMyBusidex (userCard);
@@ -184,7 +184,7 @@ namespace Busidex.Presentation.iOS
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
 					ctrl.RemoveFromMyBusidex (userCard.Card.CardId, cookie.Value);
 
-					toggleAddRemoveButtons (false, cell);
+					toggleAddRemoveButtons (true, cell);
 
 					if (CardRemovedFromMyBusidex != null) {
 						CardRemovedFromMyBusidex (userCard);
@@ -234,32 +234,30 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddAddToMyBusidexButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons){
 
-			if (!card.ExistsInMyBusidex) {
-				var AddToMyBusidexButton = UIButton.FromType (UIButtonType.System);
+			var addToMyBusidexButton = UIButton.FromType (UIButtonType.System);
 
-				AddToMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("add.png"), UIControlState.Normal);
-				AddToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
-				AddToMyBusidexButton.TouchUpInside += delegate {
-					AddToMyBusidex (card, cell);
-				};
+			addToMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("add.png"), UIControlState.Normal);
+			addToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
+			addToMyBusidexButton.TouchUpInside += delegate {
+				AddToMyBusidex (card, cell);
+			};
+			addToMyBusidexButton.Hidden = card.ExistsInMyBusidex;
 
-				FeatureButtons.Add (AddToMyBusidexButton);
-			}
+			FeatureButtons.Add (addToMyBusidexButton);
 		}
 
 		protected void AddRemoveFromMyBusidexButton(UserCard card, UITableViewCell cell, ref List<UIButton> FeatureButtons){
 
-			if (card.ExistsInMyBusidex) {
-				var removeFromMyBusidexButton = UIButton.FromType (UIButtonType.System);
+			var removeFromMyBusidexButton = UIButton.FromType (UIButtonType.System);
 
-				removeFromMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("remove.png"), UIControlState.Normal);
-				removeFromMyBusidexButton.Tag = (int)UIElements.RemoveFromMyBusidexButton;
-				removeFromMyBusidexButton.TouchUpInside += delegate {
-					RemoveFromMyBusidex (card, cell);
-				};
+			removeFromMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("remove.png"), UIControlState.Normal);
+			removeFromMyBusidexButton.Tag = (int)UIElements.RemoveFromMyBusidexButton;
+			removeFromMyBusidexButton.TouchUpInside += delegate {
+				RemoveFromMyBusidex (card, cell);
+			};
+			removeFromMyBusidexButton.Hidden = !card.ExistsInMyBusidex;
 
-				FeatureButtons.Add (removeFromMyBusidexButton);
-			}
+			FeatureButtons.Add (removeFromMyBusidexButton);
 		}
 
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){

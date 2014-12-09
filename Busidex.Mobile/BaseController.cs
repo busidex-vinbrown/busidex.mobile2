@@ -30,16 +30,16 @@ namespace Busidex.Mobile
 
 			string response = string.Empty;
 			try {
-				var webResponse = await request.GetResponseAsync();
+				await request.GetResponseAsync().ContinueWith(async r => {
+					using (var webStream = r.Result.GetResponseStream()) {
+						var responseReader = new StreamReader (webStream);
+						response = responseReader.ReadToEnd();
 
-				using (var webStream = webResponse.GetResponseStream()) {
-					var responseReader = new StreamReader (webStream);
-					response = responseReader.ReadToEnd();
+						responseReader.Close();
 
-					responseReader.Close();
-
-					return response;
-				}
+						return response;
+					}
+				});
 			} 
 			catch(WebException e){
 				if(e.Status == WebExceptionStatus.ProtocolError){

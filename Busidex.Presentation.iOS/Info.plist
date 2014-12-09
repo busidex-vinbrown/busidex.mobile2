@@ -3,13 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Busidex.Presentation.iOS</string>
+	<string>Busidex</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.your-company.Busidex.Presentation.iOS</string>
+	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.2</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -48,5 +46,7 @@
 	<string>Resources/Images.xcassets/AppIcons-1.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImage-1.launchimage</string>
+	<key>CFBundleVersion</key>
+	<string>3</string>
 </dict>
 </plist>

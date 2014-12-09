@@ -107,11 +107,12 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){
 
-			var panel = cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
+			ButtonPanel panel = (ButtonPanel)cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
 
 			const float FEATURE_BUTTON_TOP_MARGIN = 35f;
 
-			float buttonX = LEFT_MARGIN;
+
+			float buttonX = -FEATURE_BUTTON_WIDTH;
 
 			var buttons = panel.Subviews.ToList ();
 			foreach(var button in buttons){
@@ -122,16 +123,21 @@ namespace Busidex.Presentation.iOS
 			float buttonXOriginal = buttonX;
 			int idx = 0;
 			var list = FeatureButtons.OrderBy (b => (int)b.Tag).ToList ();
-			foreach(var button in list){
+			//panel.SetCollectionViewLayout (new UICollectionViewFlowLayout ());
+			//panel.DataSource = new ButtonPanelSource(FeatureButtons);
 
+			foreach(var button in list){
+			
+				if (!button.Hidden) {
+					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
+				}
 				frame.X = buttonX;
-				buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
 
 				button.Frame = frame;
 				panel.AddSubview (button);
 
 				idx++;
-				if (idx % 3 == 0) { 
+				if (idx % 3 == 0 && !button.Hidden) { 
 					buttonX = buttonXOriginal;
 					frame.Y += FEATURE_BUTTON_HEIGHT + 20f;
 				}

@@ -1,14 +1,18 @@
 ﻿using System;
 using UIKit;
+using Foundation;
 
 namespace Busidex.Presentation.iOS
 {
 	public class ButtonPanel : UIView
 	{
+		static readonly NSString panelCellId = new NSString ("cellId");
 		const float ANIMATION_SPEED = 0.5f;
 		bool visible;
 
 		public ButtonPanel(CoreGraphics.CGRect frame): base(frame){
+
+			//RegisterClassForCell (typeof(UICollectionViewCell), panelCellId);
 
 		}
 
@@ -32,6 +36,9 @@ namespace Busidex.Presentation.iOS
 				visible = false;
 			});
 		}
+			
+
+
 	}
 }
 
