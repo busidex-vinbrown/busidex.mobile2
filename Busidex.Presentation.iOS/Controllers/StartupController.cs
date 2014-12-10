@@ -51,9 +51,13 @@ namespace Busidex.Presentation.iOS
 			SetPosition ();
 		}
 		void SetPosition(){
-			nfloat left = (UIScreen.MainScreen.Bounds.Width / 2f) - 80f;
-			nfloat top = UIScreen.MainScreen.Bounds.Height - 160f - 40f;
-			imgLogo.Frame = new CoreGraphics.CGRect (left, top, 160f, 160f);
+
+			nfloat height = UIScreen.MainScreen.Bounds.Height < 500f ? 100f : 160f;
+			nfloat width = height;
+			nfloat top = UIScreen.MainScreen.Bounds.Height - height - (height / 4f);
+			nfloat left = (UIScreen.MainScreen.Bounds.Width / 2f) - (width / 2f);
+
+			imgLogo.Frame = new CoreGraphics.CGRect (left, top, width, height);
 		}
 
 		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration)

@@ -130,7 +130,7 @@ namespace Busidex.Presentation.iOS
 				SendingEmail (email);
 				var card = Cards.SingleOrDefault (c => c.Card.Email != null && c.Card.Email.Equals (email));
 				if (card != null) {
-					await ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
+					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
 				}
 			}
 		}
@@ -141,7 +141,7 @@ namespace Busidex.Presentation.iOS
 				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
 				var card = Cards.SingleOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
 				if (card != null) {
-					await ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
+					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
 				}
 			}
 		}
