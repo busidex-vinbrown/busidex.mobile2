@@ -98,20 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_57x57.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_114x114.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_120x120.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_72x72.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_144x144.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_76x76.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_152x152.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_29x29.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_58x58.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_50x50.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_100x100.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_40x40.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\busidex_icon_80x80.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default%402x.png" />
@@ -120,10 +106,25 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Landscape.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Portrait%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Landscape%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_100x100.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_114x114.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_120x120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_144x144.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_152x152.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_29x29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_40x40.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_50x50.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_57x57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_58x58.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_72x72.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_76x76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_80x80.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="RELEASE-NOTES.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -221,6 +222,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Settings.bundle\" />
+    <Folder Include="Resources\Images.xcassets\AppIcons.appiconset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\add.png" />

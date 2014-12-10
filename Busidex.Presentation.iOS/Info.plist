@@ -43,7 +43,7 @@
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>XSAppIconAssets</key>
-	<string>Resources/Images.xcassets/AppIcons-1.appiconset</string>
+	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImage-1.launchimage</string>
 	<key>CFBundleVersion</key>

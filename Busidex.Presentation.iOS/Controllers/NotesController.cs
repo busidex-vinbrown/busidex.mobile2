@@ -49,7 +49,7 @@ namespace Busidex.Presentation.iOS
 				}
 
 				if (userCard != null) {
-					FrontFileName = Path.Combine (documentsPath, userCard.Card.FrontFileId + "." + userCard.Card.FrontType);
+					FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + userCard.Card.FrontFileName);
 					if (File.Exists (FrontFileName)) {
 						imgCard.Image = UIImage.FromFile (FrontFileName);
 					}
