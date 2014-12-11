@@ -13,7 +13,7 @@ namespace Busidex.Presentation.iOS
 		protected float labelWidth;
 		protected const float LABEL_HEIGHT = 22;
 
-		public string MessageText{ get; set; }
+		public string MessageText{ get{ return LoadingLabel.Text; } set{ LoadingLabel.Text = value;	} }
 
 		public LoadingOverlay (CoreGraphics.CGRect frame) : base (frame)
 		{

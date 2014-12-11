@@ -188,6 +188,8 @@ namespace Busidex.Presentation.iOS
 				if (cookie != null) {
 
 					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+					overlay.MessageText = "Loading Your Organizations";
+
 					View.AddSubview (overlay);
 
 					var controller = new OrganizationController ();
@@ -289,6 +291,7 @@ namespace Busidex.Presentation.iOS
 				if (cookie != null) {
 
 					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+					overlay.MessageText = "Loading Your Cards";
 
 					View.AddSubview (overlay);
 

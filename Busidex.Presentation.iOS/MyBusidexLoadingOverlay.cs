@@ -11,7 +11,6 @@ namespace Busidex.Presentation.iOS
 
 		public MyBusidexLoadingOverlay  (CoreGraphics.CGRect frame) : base (frame)
 		{
-			base.Init ();
 			init ();
 		}
 
@@ -25,7 +24,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		public void UpdateProgress(int currentItem){
-			ProgressBar.SetProgress (GetProgress (currentItem), true);
+			ProgressBar.SetProgress (GetProgress (currentItem), false);
 			ProgressLabel.Text = string.Format("{0} of {1}", currentItem, TotalItems);
 		}
 
@@ -37,7 +36,7 @@ namespace Busidex.Presentation.iOS
 				labelWidth ,
 				LABEL_HEIGHT
 			));
-			LoadingLabel.Text = "Loading your cards...";
+			LoadingLabel.Text = MessageText;//"Loading your cards...";
 			ProgressLabel.BackgroundColor = UIColor.Clear;
 			ProgressLabel.TextColor = UIColor.White;
 			ProgressLabel.TextAlignment = UITextAlignment.Center;
@@ -45,7 +44,6 @@ namespace Busidex.Presentation.iOS
 			AddSubview (ProgressLabel);
 
 			nfloat width = UIScreen.MainScreen.Bounds.Width;
-			nfloat height = UIScreen.MainScreen.Bounds.Height;
 			var progressFrame = new CoreGraphics.CGRect (width * .05f, centerY + 80f, width * .90f, 5f);
 
 			ProgressBar = new UIProgressView (progressFrame);
