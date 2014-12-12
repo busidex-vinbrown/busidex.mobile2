@@ -98,14 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-568h%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Portrait.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Landscape.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Portrait%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Landscape%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_100x100.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_114x114.png" />
@@ -120,6 +112,15 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_72x72.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_76x76.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_80x80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_artwork_1024x1024.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_artwork_512x512.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_splash_640x1136.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_1024x768px.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_1536x2048px.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_2048x1536px.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_768x1024px.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -223,6 +224,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Settings.bundle\" />
     <Folder Include="Resources\Images.xcassets\AppIcons.appiconset\" />
+    <Folder Include="Resources\Images.xcassets\LaunchImage.launchimage\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\add.png" />
@@ -248,6 +250,13 @@
     <BundleResource Include="Resources\sync.png" />
     <BundleResource Include="Resources\twitter.png" />
     <BundleResource Include="Settings.bundle\Root.plist" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\Default-Portrait.png" />
+    <BundleResource Include="Resources\Default-Landscape.png" />
+    <BundleResource Include="Resources\Default-Portrait%402x.png" />
+    <BundleResource Include="Resources\Default-Landscape%402x.png" />
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

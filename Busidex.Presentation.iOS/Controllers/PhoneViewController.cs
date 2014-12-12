@@ -1,7 +1,6 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 using Busidex.Mobile.Models;
 using System.Linq;
 using System.Drawing;
@@ -13,22 +12,21 @@ namespace Busidex.Presentation.iOS
 	partial class PhoneViewController : BaseController
 	{
 		public UserCard UserCard{ get; set; }
-		private string documentsPath;
-		private string userToken;
-		private bool UseStar82 = false;
+		string userToken;
+		bool UseStar82;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
 		{
 
 		}
 
-		private void LoadCard(){
-			if (this.NavigationController != null) {
-				this.NavigationController.SetNavigationBarHidden (false, true);
+		void LoadCard(){
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
 			if (UserCard != null && UserCard.Card != null) {
-				var FrontFileName = System.IO.Path.Combine (documentsPath, UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
+				var FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + UserCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
 
 					imgCard.Image = UIImage.FromFile (FrontFileName);
@@ -59,7 +57,7 @@ namespace Busidex.Presentation.iOS
 
 						var textAttributed = new NSMutableAttributedString (
 							number.Number, 
-							new UIStringAttributes () {
+							new UIStringAttributes  {
 								ForegroundColor = UIColor.Blue, 
 								Font = UIFont.FromName ("Helvetica", 22f),
 								UnderlineStyle = NSUnderlineStyle.Single 
@@ -99,7 +97,7 @@ namespace Busidex.Presentation.iOS
 				}
 
 				var user = NSUserDefaults.StandardUserDefaults;
-				UseStar82 = user.BoolForKey(Busidex.Mobile.Resources.USER_SETTING_USE_STAR_82);
+				UseStar82 = user.BoolForKey(Resources.USER_SETTING_USE_STAR_82);
 
 			}catch(Exception ex){
 
