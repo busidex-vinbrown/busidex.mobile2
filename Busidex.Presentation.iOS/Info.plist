@@ -44,21 +44,36 @@
 	<true/>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_57x57</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_114x114</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_120x120</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_72x72</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_144x144</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_76x76</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_152x152</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_29x29</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_58x58</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_50x50</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_100x100</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_40x40</string>
-		<string>Images.xcassets/AppIcons.appiconset/busidex_icon_80x80</string>
+		<string>icons/busidex_icon_80x80</string>
+		<string>icons/busidex_icon_40x40</string>
+		<string>icons/busidex_icon_100x100</string>
+		<string>icons/busidex_icon_50x50</string>
+		<string>icons/busidex_icon_58x58</string>
+		<string>icons/busidex_icon_29x29</string>
+		<string>icons/busidex_icon_152x152</string>
+		<string>icons/busidex_icon_76x76</string>
+		<string>icons/busidex_icon_144x144</string>
+		<string>icons/busidex_icon_72x72</string>
+		<string>icons/busidex_icon_120x120</string>
+		<string>icons/busidex_icon_114x114</string>
+		<string>icons/busidex_icon_57x57</string>
+	</array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array>
+		<string>MKDirectionsModeCar</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>10</string>
 </dict>
 </plist>

@@ -98,33 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_100x100.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_114x114.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_120x120.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_144x144.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_152x152.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_29x29.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_40x40.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_50x50.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_57x57.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_58x58.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_72x72.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_76x76.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_icon_80x80.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_artwork_1024x1024.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_artwork_512x512.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\busidex_splash_640x1136.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_1024x768px.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_1536x2048px.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_2048x1536px.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_768x1024px.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_splash_320x480.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_splash_640x960.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="RELEASE-NOTES.txt" />
@@ -225,8 +198,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Settings.bundle\" />
-    <Folder Include="Resources\Images.xcassets\AppIcons.appiconset\" />
-    <Folder Include="Resources\Images.xcassets\LaunchImage.launchimage\" />
+    <Folder Include="Resources\icons\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\add.png" />
@@ -252,13 +224,37 @@
     <BundleResource Include="Resources\sync.png" />
     <BundleResource Include="Resources\twitter.png" />
     <BundleResource Include="Settings.bundle\Root.plist" />
+    <BundleResource Include="Resources\icons\.DS_Store" />
+    <BundleResource Include="Resources\icons\Default-568h%402x.png" />
+    <BundleResource Include="Resources\icons\busidex_artwork_1024x1024.png" />
+    <BundleResource Include="Resources\icons\busidex_artwork_512x512.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_100x100.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_114x114.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_120x120.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_144x144.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_152x152.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_29x29.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_40x40.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_50x50.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_57x57.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_58x58.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_72x72.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_76x76.png" />
+    <BundleResource Include="Resources\icons\busidex_icon_80x80.png" />
+    <BundleResource Include="Resources\icons\busidex_splash_320x480.png" />
+    <BundleResource Include="Resources\icons\busidex_splash_640x1136.png" />
+    <BundleResource Include="Resources\icons\busidex_splash_640x960.png" />
+    <BundleResource Include="Resources\icons\ipad_launch_1024x768px.png" />
+    <BundleResource Include="Resources\icons\ipad_launch_1536x2048px.png" />
+    <BundleResource Include="Resources\icons\ipad_launch_2048x1536px.png" />
+    <BundleResource Include="Resources\icons\ipad_launch_768x1024px.png" />
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\Default-Portrait.png" />
     <BundleResource Include="Resources\Default-Landscape.png" />
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\Default-Landscape%402x.png" />
-    <BundleResource Include="Resources\Default.png" />
-    <BundleResource Include="Resources\Default%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

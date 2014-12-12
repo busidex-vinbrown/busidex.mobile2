@@ -1,1 +1,1 @@
-fix card image on phone view
+fix app images
