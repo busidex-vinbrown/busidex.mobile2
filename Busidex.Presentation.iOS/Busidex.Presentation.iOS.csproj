@@ -121,6 +121,8 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_1536x2048px.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_2048x1536px.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\ipad_launch_768x1024px.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_splash_320x480.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\busidex_splash_640x960.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
