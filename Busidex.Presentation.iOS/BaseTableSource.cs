@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Foundation;
 using UIKit;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -28,23 +29,7 @@ namespace Busidex.Presentation.iOS
 
 		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
-		protected enum UIElements{
-			CardImage = 1,
-			NameLabel = 2,
-			CompanyLabel = 3,
-			MapButton = 4,
-			NotesButton = 5,
-			EmailButton = 6,
-			WebsiteButton = 7,
-			PhoneNumberButton = 8,
-			AddToMyBusidexButton = 9,
-			RemoveFromMyBusidexButton = 10,
-			OrganizationImage = 11,
-			TwitterButton = 12,
-			FacebookButton = 13,
-			ButtonPanel = 14
 
-		}
 
 		protected void LoadNoCardMessage(UITableViewCell cell){
 
@@ -72,7 +57,7 @@ namespace Busidex.Presentation.iOS
 		protected ButtonPanel GetPanel(float width, float height){
 			var frame = new CoreGraphics.CGRect (width, 0, width, height);
 			var panel = new ButtonPanel (frame);
-			panel.Tag = (int)UIElements.ButtonPanel;
+			panel.Tag = (int)Resources.UIElements.ButtonPanel;
 			panel.BackgroundColor = UIColor.White;
 
 			return panel;
@@ -107,10 +92,9 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){
 
-			ButtonPanel panel = (ButtonPanel)cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
+			ButtonPanel panel = (ButtonPanel)cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)Resources.UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
 
-			const float FEATURE_BUTTON_TOP_MARGIN = 35f;
-
+			const float FEATURE_BUTTON_TOP_MARGIN = 15f;
 
 			float buttonX = -FEATURE_BUTTON_WIDTH;
 
@@ -127,7 +111,12 @@ namespace Busidex.Presentation.iOS
 			//panel.DataSource = new ButtonPanelSource(FeatureButtons);
 
 			foreach(var button in list){
-			
+
+				// these two buttons get added last
+//				if (button.Tag == (int)Resources.UIElements.AddToMyBusidexButton || button.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton) {
+//					continue;
+//				}
+
 				if (!button.Hidden) {
 					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
 				}
@@ -142,6 +131,8 @@ namespace Busidex.Presentation.iOS
 					frame.Y += FEATURE_BUTTON_HEIGHT + 20f;
 				}
 			}
+
+
 			cell.ContentView.AddSubview (panel);
 		}
 
@@ -151,7 +142,7 @@ namespace Busidex.Presentation.iOS
 
 			ClearOrgNavFromAllCells (cell);
 
-			var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as ButtonPanel;
+			var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.ButtonPanel) as ButtonPanel;
 
 			if(panel != null){
 				panel.Toggle();
@@ -163,7 +154,7 @@ namespace Busidex.Presentation.iOS
 			if (cellCache != null) {
 				foreach (UITableViewCell cell in cellCache) {
 					if (cell != currentCell) {
-						var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.ButtonPanel) as ButtonPanel;
+						var panel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.ButtonPanel) as ButtonPanel;
 						if (panel != null)
 							panel.Hide ();
 					}

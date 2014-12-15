@@ -1,12 +1,11 @@
 ﻿using System;
 using UIKit;
-using Foundation;
 
 namespace Busidex.Presentation.iOS
 {
 	public class ButtonPanel : UIView
 	{
-		static readonly NSString panelCellId = new NSString ("cellId");
+		//static readonly NSString panelCellId = new NSString ("cellId");
 		const float ANIMATION_SPEED = 0.5f;
 		bool visible;
 

@@ -2,6 +2,7 @@
 using UIKit;
 using System.Collections.Generic;
 using Foundation;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -33,12 +34,8 @@ namespace Busidex.Presentation.iOS
 			foreach(var view in buttonCell.Subviews){
 				view.RemoveFromSuperview ();
 			}
-
+				
 			buttonCell.AddSubview (button);
-
-			//var animal = animals [indexPath.Row];
-
-			//animalCell.Image = animal.Image;
 
 			return buttonCell;
 		}

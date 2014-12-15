@@ -180,6 +180,10 @@
     <Compile Include="ButtonPanelSource.cs" />
     <Compile Include="Controllers\ButtonPanelControllerController.cs" />
     <Compile Include="Controllers\ButtonPanelControllerCell.cs" />
+    <Compile Include="Controllers\SharedCardController.cs" />
+    <Compile Include="Controllers\SharedCardController.designer.cs">
+      <DependentUpon>SharedCardController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -197,6 +201,7 @@
     <InterfaceDefinition Include="Controllers\BaseController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="OrganizationStoryBoard_iPhone.storyboard" />
+    <InterfaceDefinition Include="Controllers\SharedCardController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

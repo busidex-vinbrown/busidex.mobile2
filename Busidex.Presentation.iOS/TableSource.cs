@@ -17,6 +17,7 @@ namespace Busidex.Presentation.iOS
 	public delegate void CallingPhoneNumberHandler();
 	public delegate void SendingEmailHandler(string email);
 	public delegate void ViewWebsiteHandler(string url);
+	public delegate void SharingCardHandler();
 
 	public class TableSource : BaseTableSource {
 
@@ -27,6 +28,7 @@ namespace Busidex.Presentation.iOS
 		public event ViewWebsiteHandler ViewWebsite;
 		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
 		public event CardRemovedFromMyBusidexHandler CardRemovedFromMyBusidex;
+		public event SharingCardHandler SharingCard;
 
 		public UserCard SelectedCard{ get; set; }
 		protected List<UserCard> Cards{ get; set; }
@@ -124,7 +126,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected async void SendEmail(string email){
+		protected void SendEmail(string email){
 
 			if (SendingEmail != null){
 				SendingEmail (email);
@@ -135,7 +137,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected async void ShowBrowser(string url){
+		protected void ShowBrowser(string url){
 
 			if (ViewWebsite != null){
 				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
@@ -146,11 +148,18 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
-			var panel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.ButtonPanel);
+		protected void ShareCard(int idx){
+			SelectedCard = Cards [idx];
+			if(SharingCard != null){
+				SharingCard ();
+			}
+		}
+
+		static void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
+			var panel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.ButtonPanel);
 			if(panel != null){
-				var removeFromMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.RemoveFromMyBusidexButton);
-				var addToMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)UIElements.AddToMyBusidexButton);
+				var removeFromMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton);
+				var addToMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.AddToMyBusidexButton);
 				if(removeFromMyBusidexButton != null){
 					removeFromMyBusidexButton.Hidden = cardInMyBusidex;
 				}
@@ -211,7 +220,7 @@ namespace Busidex.Presentation.iOS
 						});	
 					};
 						
-					MapButton.Tag = (int)UIElements.MapButton;
+					MapButton.Tag = (int)Resources.UIElements.MapButton;
 					MapButton.SetBackgroundImage (UIImage.FromBundle ("maps.png"), UIControlState.Normal);
 
 					FeatureButtons.Add (MapButton);
@@ -224,7 +233,7 @@ namespace Busidex.Presentation.iOS
 			var NotesButton = UIButton.FromType (UIButtonType.System);
 				
 			NotesButton.SetBackgroundImage (UIImage.FromBundle ("notes.png"), UIControlState.Normal);
-			NotesButton.Tag = (int)UIElements.NotesButton;
+			NotesButton.Tag = (int)Resources.UIElements.NotesButton;
 			NotesButton.TouchUpInside += delegate {
 				EditNotes(idx);
 			};
@@ -237,7 +246,7 @@ namespace Busidex.Presentation.iOS
 			var addToMyBusidexButton = UIButton.FromType (UIButtonType.System);
 
 			addToMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("add.png"), UIControlState.Normal);
-			addToMyBusidexButton.Tag = (int)UIElements.AddToMyBusidexButton;
+			addToMyBusidexButton.Tag = (int)Resources.UIElements.AddToMyBusidexButton;
 			addToMyBusidexButton.TouchUpInside += delegate {
 				AddToMyBusidex (card, cell);
 			};
@@ -251,7 +260,7 @@ namespace Busidex.Presentation.iOS
 			var removeFromMyBusidexButton = UIButton.FromType (UIButtonType.System);
 
 			removeFromMyBusidexButton.SetBackgroundImage (UIImage.FromBundle ("remove.png"), UIControlState.Normal);
-			removeFromMyBusidexButton.Tag = (int)UIElements.RemoveFromMyBusidexButton;
+			removeFromMyBusidexButton.Tag = (int)Resources.UIElements.RemoveFromMyBusidexButton;
 			removeFromMyBusidexButton.TouchUpInside += delegate {
 				RemoveFromMyBusidex (card, cell);
 			};
@@ -263,13 +272,13 @@ namespace Busidex.Presentation.iOS
 		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
 
 
-			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)UIElements.CardImage) as UIButton;
+			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)Resources.UIElements.CardImage) as UIButton;
 			if (CardImageButton != null) {
 				CardImageButton.RemoveFromSuperview ();
 			}
 			CardImageButton = new UIButton (UIButtonType.Custom);
 
-			CardImageButton.Tag = (int)UIElements.CardImage;
+			CardImageButton.Tag = (int)Resources.UIElements.CardImage;
 
 			var fileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
 
@@ -301,7 +310,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void AddNameLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
 			var needsNameLabel = false;
-			var NameLabel = cell.ContentView.Subviews.SingleOrDefault(s=> s.Tag == (int)UIElements.NameLabel) as UILabel;
+			var NameLabel = cell.ContentView.Subviews.SingleOrDefault(s=> s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
 
 			if (NameLabel == null) {
 				NameLabel = new UILabel (frame);
@@ -309,7 +318,7 @@ namespace Busidex.Presentation.iOS
 			}else{
 				NameLabel.Frame = frame;
 			}
-			NameLabel.Tag = (int)UIElements.NameLabel;
+			NameLabel.Tag = (int)Resources.UIElements.NameLabel;
 			NameLabel.Text = string.IsNullOrEmpty(card.Card.Name) ? "(No Name)" : card.Card.Name;
 			NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 16f);
 
@@ -322,7 +331,7 @@ namespace Busidex.Presentation.iOS
 		protected void AddCompanyLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
 			var needsCompanyLabel = false;
 
-			var CompanyLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.CompanyLabel) as UILabel;
+			var CompanyLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.CompanyLabel) as UILabel;
 			if (CompanyLabel == null) {
 				CompanyLabel = new UILabel (frame);
 				needsCompanyLabel = true;
@@ -332,7 +341,7 @@ namespace Busidex.Presentation.iOS
 
 			if (!string.IsNullOrWhiteSpace (card.Card.CompanyName)) {
 
-				CompanyLabel.Tag = (int)UIElements.CompanyLabel;
+				CompanyLabel.Tag = (int)Resources.UIElements.CompanyLabel;
 				CompanyLabel.Text = card.Card.CompanyName;
 				CompanyLabel.Hidden = false;
 				CompanyLabel.Font = UIFont.FromName ("Helvetica", SUB_LABEL_FONT_SIZE);
@@ -354,7 +363,7 @@ namespace Busidex.Presentation.iOS
 				var EmailButton = UIButton.FromType (UIButtonType.System);
 
 				EmailButton.SetBackgroundImage (UIImage.FromBundle ("email-icon.png"), UIControlState.Normal);
-				EmailButton.Tag = (int)UIElements.EmailButton;
+				EmailButton.Tag = (int)Resources.UIElements.EmailButton;
 
 				EmailButton.TouchUpInside += delegate {
 					SendEmail(card.Card.Email);
@@ -370,7 +379,7 @@ namespace Busidex.Presentation.iOS
 				var WebsiteButton = UIButton.FromType (UIButtonType.System);
 
 				WebsiteButton.SetBackgroundImage (UIImage.FromBundle ("browser.png"), UIControlState.Normal);
-				WebsiteButton.Tag = (int)UIElements.WebsiteButton;
+				WebsiteButton.Tag = (int)Resources.UIElements.WebsiteButton;
 
 				WebsiteButton.TouchUpInside += delegate {
 					ShowBrowser(card.Card.Url);
@@ -385,7 +394,7 @@ namespace Busidex.Presentation.iOS
 			var PhoneButton = UIButton.FromType (UIButtonType.System);
 
 			PhoneButton.SetBackgroundImage (UIImage.FromBundle ("phone.png"), UIControlState.Normal);
-			PhoneButton.Tag = (int)UIElements.PhoneNumberButton;
+			PhoneButton.Tag = (int)Resources.UIElements.PhoneNumberButton;
 
 			PhoneButton.TouchUpInside += delegate {
 				ShowPhoneNumbers(idx);
@@ -394,6 +403,20 @@ namespace Busidex.Presentation.iOS
 			FeatureButtons.Add (PhoneButton);
 		}
 			
+		protected void AddShareCardButton(ref List<UIButton> FeatureButtons, int idx){
+
+			var shareCardButton = UIButton.FromType (UIButtonType.System);
+
+			shareCardButton.SetBackgroundImage (UIImage.FromBundle ("share.png"), UIControlState.Normal);
+			shareCardButton.Tag = (int)Resources.UIElements.ShareCardButton;
+
+			shareCardButton.TouchUpInside += delegate {
+				ShareCard(idx);
+			};
+
+			FeatureButtons.Add (shareCardButton);
+		}
+
 		public void AddControls(UITableViewCell cell, UserCard card, int idx){
 
 			cell.Accessory = UITableViewCellAccessory.DetailButton;
@@ -419,6 +442,7 @@ namespace Busidex.Presentation.iOS
 				AddEmailButton (card, ref FeatureButtonList);
 				AddWebSiteButton (card, ref FeatureButtonList);
 				AddPhoneButton (ref FeatureButtonList, idx);
+				AddShareCardButton (ref FeatureButtonList, idx);
 
 				AddAddToMyBusidexButton (card, cell, ref FeatureButtonList);
 				AddRemoveFromMyBusidexButton (card, cell, ref FeatureButtonList);

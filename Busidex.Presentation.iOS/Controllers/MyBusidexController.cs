@@ -86,6 +86,11 @@ namespace Busidex.Presentation.iOS
 			src.CallingPhoneNumber += delegate {
 				ShowPhoneNumbers();
 			};
+
+			src.SharingCard += delegate {
+				ShareCard (((TableSource)TableView.Source).SelectedCard);
+			};
+
 			return src;
 		}
 
@@ -123,6 +128,8 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (notesController, true);
 			}
 		}
+
+
 
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;

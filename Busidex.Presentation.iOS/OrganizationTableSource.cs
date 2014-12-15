@@ -6,6 +6,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -78,26 +79,26 @@ namespace Busidex.Presentation.iOS
 				var frame = new RectangleF (10f, 10f, 220f, 80f);
 				var imageFile = fileName + "." + org.LogoType;
 
-				var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.OrganizationImage) as UIImageView;
+				var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIImageView;
 				if (orgImage != null) {
 					orgImage.RemoveFromSuperview ();
 				}
 				orgImage = new UIImageView (frame);
 				orgImage.Image = UIImage.FromFile (imageFile);
-				orgImage.Tag = (int)UIElements.OrganizationImage;
+				orgImage.Tag = (int)Resources.UIElements.OrganizationImage;
 
 				cell.ContentView.AddSubview (orgImage);
 
 
 			} else {
-				var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)UIElements.NameLabel) as UILabel;
+				var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
 				if (NameLabel != null) {
 					NameLabel.RemoveFromSuperview ();
 				}
 
 				var frame = new RectangleF (10f, 10f, 300f, 50f);
 				NameLabel = new UILabel (frame);
-				NameLabel.Tag = (int)UIElements.NameLabel;
+				NameLabel.Tag = (int)Resources.UIElements.NameLabel;
 				NameLabel.Text = org.Name;
 				NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 18f);
 
@@ -177,7 +178,7 @@ namespace Busidex.Presentation.iOS
 
 			panel.BackgroundColor = UIColor.White;
 
-			panel.Tag = (int)UIElements.ButtonPanel;
+			panel.Tag = (int)Resources.UIElements.ButtonPanel;
 
 			cell.ContentView.AddSubview (panel);
 		}

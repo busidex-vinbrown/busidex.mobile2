@@ -164,6 +164,11 @@ namespace Busidex.Presentation.iOS
 			src.CallingPhoneNumber += delegate {
 				ShowPhoneNumbers();
 			};
+
+			src.SharingCard += delegate {
+				ShareCard (((TableSource)tblMembers.Source).SelectedCard);
+			};
+
 			return src;
 		}
 

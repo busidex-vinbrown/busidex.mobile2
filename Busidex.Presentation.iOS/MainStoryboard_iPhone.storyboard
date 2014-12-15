@@ -9,7 +9,7 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="51" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="54">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
@@ -532,7 +532,7 @@
         </scene>
         <scene sceneID="3313">
             <objects>
-                <viewController id="3314" sceneMemberID="viewController" storyboardIdentifier="ShareCardController" customClass="ShareCardController">
+                <viewController id="3314" sceneMemberID="viewController" storyboardIdentifier="SharedCardController" customClass="SharedCardController">
                     <view key="view" contentMode="scaleToFill" id="3315">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -681,6 +681,13 @@
         <image name="remove.png" width="128" height="128"/>
         <image name="add.png" width="128" height="128"/>
         <image name="share.png" width="45" height="31"/>
+        <image name="icons/Default-568h.png" width="640" height="1136"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

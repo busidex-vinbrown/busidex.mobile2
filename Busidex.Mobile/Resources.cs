@@ -19,6 +19,24 @@ namespace Busidex.Mobile
 		public const string MY_ORGANIZATIONS_FILE = "myorganizations.json";
 		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_";
 		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_";
+
+		public enum UIElements{
+			CardImage = 1,
+			NameLabel = 2,
+			CompanyLabel = 3,
+			MapButton = 4,
+			NotesButton = 5,
+			EmailButton = 6,
+			WebsiteButton = 7,
+			PhoneNumberButton = 8,
+			OrganizationImage = 9,
+			TwitterButton = 10,
+			FacebookButton = 11,
+			ButtonPanel = 12,
+			ShareCardButton = 13,
+			AddToMyBusidexButton = 14,
+			RemoveFromMyBusidexButton = 15
+		}
 	}
 }
 

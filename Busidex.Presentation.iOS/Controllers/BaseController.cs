@@ -59,6 +59,16 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected void ShareCard(UserCard seletcedCard){
+
+			var sharedCardController = Storyboard.InstantiateViewController ("SharedCardController") as SharedCardController;
+			sharedCardController.UserCard = seletcedCard;
+
+			if (sharedCardController != null) {
+				NavigationController.PushViewController (sharedCardController, true);
+			}
+		}
+
 		protected virtual void DoSearch(){
 
 			Overlay.Hide ();
