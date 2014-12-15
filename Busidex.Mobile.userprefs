@@ -1,10 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="AppStore|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Info.plist">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="6" Column="6" />
       <File FileName="Busidex.Presentation.iOS/Info.plist" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationDetailController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/MyBusidexLoadingOverlay.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/LoadingOverlay.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="12" Column="12" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="32" Column="32" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/PhoneViewController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/NotesController.cs" Line="87" Column="87" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,6 +23,6 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-    <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix startup icon size on iPhone 4, email crash and notes card image" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
+    <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
 </Properties>

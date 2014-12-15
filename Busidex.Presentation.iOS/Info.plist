@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.2.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -44,36 +44,21 @@
 	<true/>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>icons/busidex_icon_80x80</string>
-		<string>icons/busidex_icon_40x40</string>
-		<string>icons/busidex_icon_100x100</string>
-		<string>icons/busidex_icon_50x50</string>
-		<string>icons/busidex_icon_58x58</string>
-		<string>icons/busidex_icon_29x29</string>
-		<string>icons/busidex_icon_152x152</string>
-		<string>icons/busidex_icon_76x76</string>
-		<string>icons/busidex_icon_144x144</string>
-		<string>icons/busidex_icon_72x72</string>
-		<string>icons/busidex_icon_120x120</string>
-		<string>icons/busidex_icon_114x114</string>
-		<string>icons/busidex_icon_57x57</string>
-	</array>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>MKDirectionsRequest</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.apple.maps.directionsrequest</string>
-			</array>
-		</dict>
-	</array>
-	<key>MKDirectionsApplicationSupportedModes</key>
-	<array>
-		<string>MKDirectionsModeCar</string>
+		<string>Icon-76</string>
+		<string>Icon-72@2x</string>
+		<string>Icon-72</string>
+		<string>Icon-60@2x</string>
+		<string>Icon@2x</string>
+		<string>Icon</string>
+		<string>Icon-76@2x</string>
+		<string>Icon-Small</string>
+		<string>Icon-Small@2x</string>
+		<string>Icon-Small-50</string>
+		<string>Icon-Small-50@2x</string>
+		<string>Icon-Small-40</string>
+		<string>Icon-Small-40@2x</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>2</string>
 </dict>
 </plist>
