@@ -539,11 +539,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" id="3318">
-                                <rect key="frame" x="11" y="66" width="300" height="180"/>
+                                <rect key="frame" x="10" y="194" width="300" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share This Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="3335" fixedFrame="YES">
-                                <rect key="frame" x="32" y="269" width="211" height="21"/>
+                                <rect key="frame" x="20" y="70" width="211" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -552,7 +552,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="3336" fixedFrame="YES" numberOfLines="4" textAlignment="left" text="Enter the email address of the person with whom you want to share this card.">
-                                <rect key="frame" x="31" y="295" width="280" height="63"/>
+                                <rect key="frame" x="20" y="98" width="285" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
@@ -561,7 +561,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" clearButtonMode="always" id="3337">
-                                <rect key="frame" x="31" y="366" width="245" height="30"/>
+                                <rect key="frame" x="20" y="146" width="245" height="30"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <attributes/>
@@ -570,16 +570,8 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="NO" keyboardType="emailAddress"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3338" fixedFrame="YES">
-                                <rect key="frame" x="31" y="398" width="245" height="30"/>
-                                <state key="normal" title="Share">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3339" fixedFrame="YES" image="checkmark.png">
-                                <rect key="frame" x="284" y="368" width="25" height="25"/>
+                                <rect key="frame" x="275" y="148" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -590,7 +582,6 @@
                         <outlet property="ShareCardView" destination="3315" id="name-outlet-3315"/>
                         <outlet property="imgCardShared" destination="3339" id="name-outlet-3339"/>
                         <outlet property="txtEmail" destination="3337" id="name-outlet-3337"/>
-                        <outlet property="btnShare" destination="3338" id="name-outlet-3338"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3316" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -680,7 +671,7 @@
         <image name="sync.png" width="42" height="43"/>
         <image name="remove.png" width="128" height="128"/>
         <image name="add.png" width="128" height="128"/>
-        <image name="share.png" width="45" height="31"/>
+        <image name="share.png" width="128" height="128"/>
         <image name="icons/Default-568h.png" width="640" height="1136"/>
         <image name="Icon.png" width="57" height="57"/>
         <image name="Icon-60.png" width="120" height="120"/>

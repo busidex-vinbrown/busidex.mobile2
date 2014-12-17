@@ -43,6 +43,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\OrgMemberResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OrgReferralResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CheckAccountResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedCardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SharedCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

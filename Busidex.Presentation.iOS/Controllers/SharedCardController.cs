@@ -55,6 +55,10 @@ namespace Busidex.Presentation.iOS
 
 		public void ShareCard(){
 
+			var cookie = GetAuthCookie ();
+
+			var controller = new Busidex.Mobile.SharedCardController ();
+			controller.ShareCard (UserCard.Card, txtEmail.Text, cookie.Value);
 		}
 
 		public override void ViewWillAppear (bool animated)

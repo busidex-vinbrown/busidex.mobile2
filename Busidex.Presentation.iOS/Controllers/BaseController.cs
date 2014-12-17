@@ -61,11 +61,17 @@ namespace Busidex.Presentation.iOS
 
 		protected void ShareCard(UserCard seletcedCard){
 
-			var sharedCardController = Storyboard.InstantiateViewController ("SharedCardController") as SharedCardController;
-			sharedCardController.UserCard = seletcedCard;
+			try{
+				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 
-			if (sharedCardController != null) {
-				NavigationController.PushViewController (sharedCardController, true);
+				var sharedCardController = board.InstantiateViewController ("SharedCardController") as SharedCardController;
+				sharedCardController.UserCard = seletcedCard;
+
+				if (sharedCardController != null) {
+					NavigationController.PushViewController (sharedCardController, true);
+				}
+			}catch(Exception ex){
+				new UIAlertView("Row Selected", ex.Message, null, "OK", null).Show();
 			}
 		}
 

@@ -16,10 +16,6 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnShare { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView imgCard { get; set; }
 
 		[Outlet]
@@ -36,10 +32,6 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnShare != null) {
-				btnShare.Dispose ();
-				btnShare = null;
-			}
 			if (imgCard != null) {
 				imgCard.Dispose ();
 				imgCard = null;
