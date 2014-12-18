@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Drawing;
 
 using Foundation;
 using UIKit;
@@ -28,7 +27,7 @@ namespace Busidex.Presentation.iOS
 
 			if (UserCard != null && UserCard.Card != null) {
 
-				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+				var fullFilePath = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + Resources.MY_BUSIDEX_FILE);
 				UserCard userCard = null;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {
@@ -58,7 +57,13 @@ namespace Busidex.Presentation.iOS
 			var cookie = GetAuthCookie ();
 
 			var controller = new Busidex.Mobile.SharedCardController ();
-			controller.ShareCard (UserCard.Card, txtEmail.Text, cookie.Value);
+			var response = controller.ShareCard (UserCard.Card, txtEmail.Text, cookie.Value);
+
+			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
+				imgCardShared.Hidden = false;
+			}else{
+				// error
+			}
 		}
 
 		public override void ViewWillAppear (bool animated)

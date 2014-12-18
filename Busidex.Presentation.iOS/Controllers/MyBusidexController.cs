@@ -129,8 +129,6 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-
-
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
 			phoneViewController.UserCard = ((TableSource)TableView.Source).SelectedCard;

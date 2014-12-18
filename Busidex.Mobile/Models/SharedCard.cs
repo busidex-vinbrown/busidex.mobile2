@@ -15,6 +15,6 @@ namespace Busidex.Mobile.Models
 		public bool? Declined { get; set; }
 		public string Recommendation { get; set; }
 
-		public virtual Card Card { get; set; }
+		//public Card Card { get; set; }
 	}
 }
