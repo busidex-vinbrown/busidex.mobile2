@@ -184,6 +184,7 @@
     <Compile Include="Controllers\SharedCardController.designer.cs">
       <DependentUpon>SharedCardController.cs</DependentUpon>
     </Compile>
+    <Compile Include="CardLoadingOverlay.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

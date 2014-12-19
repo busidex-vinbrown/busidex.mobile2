@@ -16,12 +16,19 @@ namespace Busidex.Presentation.iOS
 			Front = 2,
 			Back = 3
 		}
+		CardLoadingOverlay Overlay;
 
 		CardViewState ViewState {get;set;}
 
 		public CardViewController (IntPtr handle) : base (handle)
 		{
 
+		}
+
+		void ShowOverlay(){
+			Overlay = new CardLoadingOverlay (View.Bounds);
+			Overlay.MessageText = "Loading Your Card";
+			View.AddSubview (Overlay);
 		}
 
 		void ToggleImage(){
@@ -32,8 +39,14 @@ namespace Busidex.Presentation.iOS
 					if (File.Exists (frontFileName)) {
 						btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal);
 					}else{
+
+						ShowOverlay ();
+
 						Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.FrontFileName, documentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
-							InvokeOnMainThread (() => btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal));
+							InvokeOnMainThread (() => {
+								btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal);
+								Overlay.Hide();
+							});
 						});
 					}
 					ViewState = CardViewState.Front;
@@ -47,8 +60,12 @@ namespace Busidex.Presentation.iOS
 						if (File.Exists (backFileName)) {
 							btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
 						} else {
+							ShowOverlay ();
 							Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.BackFileName, documentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
-								InvokeOnMainThread (() => btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal));
+								InvokeOnMainThread (() => {
+									btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
+									Overlay.Hide();
+								});
 							});
 						}
 					}

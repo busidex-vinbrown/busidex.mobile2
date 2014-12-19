@@ -93,6 +93,7 @@ namespace Busidex.Presentation.iOS
 		protected void AddFeatureButtons(UITableViewCell cell, List<UIButton> FeatureButtons){
 
 			ButtonPanel panel = (ButtonPanel)cell.ContentView.Subviews.SingleOrDefault(v=> v.Tag == (int)Resources.UIElements.ButtonPanel) ?? GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
+			panel.Frame = new CoreGraphics.CGRect(cell.Frame.Width, 0, cell.Frame.Width, cell.Frame.Height);
 
 			const float FEATURE_BUTTON_TOP_MARGIN = 15f;
 
@@ -107,31 +108,38 @@ namespace Busidex.Presentation.iOS
 			float buttonXOriginal = buttonX;
 			int idx = 0;
 			var list = FeatureButtons.OrderBy (b => (int)b.Tag).ToList ();
-			//panel.SetCollectionViewLayout (new UICollectionViewFlowLayout ());
-			//panel.DataSource = new ButtonPanelSource(FeatureButtons);
 
-			foreach(var button in list){
+			foreach(var button in list.Where(b => b.Tag != (int)Resources.UIElements.AddToMyBusidexButton && b.Tag != (int)Resources.UIElements.RemoveFromMyBusidexButton)){
 
-				// these two buttons get added last
-//				if (button.Tag == (int)Resources.UIElements.AddToMyBusidexButton || button.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton) {
-//					continue;
-//				}
+				buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
 
-				if (!button.Hidden) {
-					buttonX += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
-				}
 				frame.X = buttonX;
 
 				button.Frame = frame;
 				panel.AddSubview (button);
 
 				idx++;
-				if (idx % 3 == 0 && !button.Hidden) { 
+				if (idx % 3 == 0) { 
 					buttonX = buttonXOriginal;
 					frame.Y += FEATURE_BUTTON_HEIGHT + 20f;
 				}
 			}
 
+			if (idx % 3 == 0) { 
+				frame.X = buttonXOriginal + FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
+			}else{
+				frame.X += FEATURE_BUTTON_WIDTH + FEATURE_BUTTON_MARGIN;
+			}
+
+			var addButton = list.SingleOrDefault (b => b.Tag == (int)Resources.UIElements.AddToMyBusidexButton);
+			var removeButton = list.SingleOrDefault (b => b.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton);
+
+			// these two buttons go in the same slot. only one is ever shown at a time
+			addButton.Frame = frame;
+			removeButton.Frame = frame;
+
+			panel.AddSubview (addButton);
+			panel.AddSubview (removeButton);
 
 			cell.ContentView.AddSubview (panel);
 		}

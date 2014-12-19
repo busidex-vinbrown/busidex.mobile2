@@ -24,6 +24,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblError { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIView ShareCardView { get; set; }
 
 		[Outlet]
@@ -39,6 +43,10 @@ namespace Busidex.Presentation.iOS
 			if (imgCardShared != null) {
 				imgCardShared.Dispose ();
 				imgCardShared = null;
+			}
+			if (lblError != null) {
+				lblError.Dispose ();
+				lblError = null;
 			}
 			if (ShareCardView != null) {
 				ShareCardView.Dispose ();

@@ -27,7 +27,7 @@ namespace Busidex.Presentation.iOS
 
 			if (UserCard != null && UserCard.Card != null) {
 
-				var fullFilePath = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + Resources.MY_BUSIDEX_FILE);
+				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 				UserCard userCard = null;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {
@@ -54,6 +54,12 @@ namespace Busidex.Presentation.iOS
 
 		public void ShareCard(){
 
+			if(string.IsNullOrEmpty(txtEmail.Text)){
+				return;
+			}
+
+			lblError.Hidden = true;
+
 			var cookie = GetAuthCookie ();
 
 			var controller = new Busidex.Mobile.SharedCardController ();
@@ -62,7 +68,8 @@ namespace Busidex.Presentation.iOS
 			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
 				imgCardShared.Hidden = false;
 			}else{
-				// error
+				lblError.Hidden = false;
+				imgCardShared.Hidden = true;
 			}
 		}
 
@@ -73,9 +80,12 @@ namespace Busidex.Presentation.iOS
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
 
-				var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
-				var shareImage = new UIButton (imgFrame);
-				shareImage.SetBackgroundImage (UIImage.FromBundle ("share.png"), UIControlState.Normal);
+				var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 100f, 25f);
+				var shareImage = UIButton.FromType (UIButtonType.System);
+				shareImage.Frame = imgFrame;
+				shareImage.Font = UIFont.FromName ("Helvetica", 17f);
+
+				shareImage.SetTitle ("Share", UIControlState.Normal);
 				shareImage.TouchUpInside += ((s, e) => ShareCard ());
 				var shareButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 				shareButton.CustomView = shareImage;
@@ -89,6 +99,9 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			lblError.Hidden = true;
+			imgCardShared.Hidden = true;
 
 			LoadCard ();
 
