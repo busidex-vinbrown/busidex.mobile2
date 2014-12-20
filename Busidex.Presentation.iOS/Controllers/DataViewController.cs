@@ -90,9 +90,19 @@ namespace Busidex.Presentation.iOS
 			syncImage.TouchUpInside += ((s, e) => LoadMyBusidexAsync (true));
 			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			syncButton.CustomView = syncImage;
+
+			var logOutButton = UIButton.FromType (UIButtonType.System);
+			logOutButton.Frame = imgFrame;
+
+			logOutButton.SetBackgroundImage (UIImage.FromBundle ("Exit.png"), UIControlState.Normal);
+			logOutButton.TouchUpInside += ((s, e) => LogOut ());
+			var logOutSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
+			logOutSystemButton.CustomView = logOutButton;
+
 			SetToolbarItems (new[] {
+				logOutSystemButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace) {
-					Width = 40
+					Width = 100
 				},
 				syncButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
@@ -114,6 +124,15 @@ namespace Busidex.Presentation.iOS
 
 			if (myBusidexController != null && NavigationController.ChildViewControllers.Count (c => c is MyBusidexController) == 0){
 				NavigationController.PushViewController (myBusidexController, true);
+			}
+		}
+
+		void LogOut(){
+			RemoveAuthCookie ();
+			var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
+
+			if (startUpController != null) {
+				NavigationController.PushViewController (startUpController, true);
 			}
 		}
 

@@ -36,7 +36,16 @@ namespace Busidex.Presentation.iOS
 
 		protected NSHttpCookie GetAuthCookie(){
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-			return cookie;
+			return (cookie != null && cookie.ExpiresDate > DateTime.Now) ? cookie : null;
+		}
+
+		protected void RemoveAuthCookie(){
+
+			var nCookie = new System.Net.Cookie();
+			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
+			nCookie.Expires = DateTime.Now.AddDays (-2);
+			var cookie = new NSHttpCookie(nCookie);
+			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
 		}
 
 		protected virtual void StartSearch(){
