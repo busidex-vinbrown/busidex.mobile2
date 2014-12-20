@@ -46,6 +46,21 @@ namespace Busidex.Presentation.iOS
 			nCookie.Expires = DateTime.Now.AddDays (-2);
 			var cookie = new NSHttpCookie(nCookie);
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+
+			var myBusidexLocalFile = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+			if (File.Exists (myBusidexLocalFile)) {
+				File.Delete (myBusidexLocalFile);
+			}
+
+			var myOrganizationsLocalFile = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
+			if (File.Exists (myOrganizationsLocalFile)) {
+				File.Delete (myOrganizationsLocalFile);
+			}
+
+			var organizationMembersLocalFile = Path.Combine (documentsPath, Resources.ORGANIZATION_MEMBERS_FILE);
+			if (File.Exists (organizationMembersLocalFile)) {
+				File.Delete (organizationMembersLocalFile);
+			}
 		}
 
 		protected virtual void StartSearch(){
