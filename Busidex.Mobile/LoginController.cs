@@ -17,32 +17,25 @@ namespace Busidex.Mobile
 		
 			string data = "{'UserName':'" + username + "','Password':'" + password + "','Token':'','RememberMe':'true'}";
 
-			return login (Busidex.Mobile.Resources.BASE_API_URL + LOGIN_URL, data, "application/json");
-		}
-
-		public static long AutoLogin(string uidId){
-
-			string data = "uidId=" +  (DEVELOPMENT_MODE ? TEST_ACCOUNT_ID : uidId);
-
-			return login (Busidex.Mobile.Resources.BASE_API_URL + CHECK_ACCOUNT_URL, data, "application/x-www-form-urlencoded");
+			return login (string.Format ("{0}{1}", Resources.BASE_API_URL, LOGIN_URL), data, "application/json");
 		}
 
 		static long login(string url, string data, string contentType){
 
 			long userId = 0;
 
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			var request = WebRequest.Create (url) as HttpWebRequest;
 			request.Method = "POST";
 			request.ContentType = contentType;
 			request.ContentLength = data.Length;
-			StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+			var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
 			requestWriter.Write(data);
 			requestWriter.Close();
 
 			try {
 				WebResponse webResponse = request.GetResponse();
 				Stream webStream = webResponse.GetResponseStream();
-				StreamReader responseReader = new StreamReader(webStream);
+				var responseReader = new StreamReader(webStream);
 				string response = responseReader.ReadToEnd();
 				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
 
@@ -51,7 +44,7 @@ namespace Busidex.Mobile
 				responseReader.Close();
 
 			} catch (Exception e) {
-
+				LoggingController.LogError (e, string.Empty);
 			}
 
 			return userId;

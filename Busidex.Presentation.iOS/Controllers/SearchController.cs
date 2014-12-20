@@ -32,7 +32,7 @@ namespace Busidex.Presentation.iOS
 			vwSearchResults.Hidden = true;
 			txtSearch.SearchButtonClicked += delegate {
 				StartSearch ();
-				DoSearch ();
+				DoSearch ().Wait(new System.Threading.CancellationToken());
 				vwSearchResults.Hidden = false;
 				txtSearch.ResignFirstResponder (); // hide keyboard
 			};

@@ -9,13 +9,15 @@ namespace Busidex.Mobile
 		{
 		}
 
-		public static async Task<string> SaveActivity(long eventSourceId, long cardId, string userToken){
+		public static void SaveActivity(long eventSourceId, long cardId, string userToken){
 		
 			string data = @"{'CardId':'" + cardId + "','UserId':null, 'EventSourceId'" + eventSourceId + "'}";
 
 			string url = Busidex.Mobile.Resources.BASE_API_URL + "Activity";
 
-			return await MakeRequestAsync (url, "POST", userToken, data);
+			MakeRequestAsync (url, "POST", userToken, data).ContinueWith(r => {
+
+			});
 		}
 	}
 }

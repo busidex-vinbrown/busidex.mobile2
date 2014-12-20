@@ -16,7 +16,6 @@ namespace Busidex.Presentation.iOS
 			Front = 2,
 			Back = 3
 		}
-		CardLoadingOverlay Overlay;
 
 		CardViewState ViewState {get;set;}
 
@@ -97,7 +96,7 @@ namespace Busidex.Presentation.iOS
 					ToggleImage();
 				};
 			}catch(Exception ex){
-
+				LoggingController.LogError (ex, string.Empty);
 			}
 
 		}

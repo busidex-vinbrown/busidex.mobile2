@@ -54,6 +54,7 @@ namespace Busidex.Mobile
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
+				LoggingController.LogError (e, string.Empty);
 				response = "Error";
 			}
 			return response;
@@ -100,6 +101,7 @@ namespace Busidex.Mobile
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
+				LoggingController.LogError (e, string.Empty);
 				response = "Error";
 			}
 			return response;

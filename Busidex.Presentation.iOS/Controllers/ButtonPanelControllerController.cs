@@ -11,7 +11,6 @@ namespace Busidex.Presentation.iOS
 	public class ButtonPanelControllerController : UICollectionViewController
 	{
 
-		static readonly NSString panelCellId = new NSString ("cellId");
 		const float ANIMATION_SPEED = 0.5f;
 		bool visible;
 		List<UIButton> Buttons { get; set; }

@@ -131,7 +131,7 @@ namespace Busidex.Presentation.iOS
 				LoadCard ();
 			// Analysis disable once EmptyGeneralCatchClause
 			}catch(Exception ex){
-
+				LoggingController.LogError (ex, string.Empty);
 			}
 			var keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
 			{

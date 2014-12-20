@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Busidex.Diagnostics", "Busidex.Diagnostics\Busidex.Diagnostics.csproj", "{2BF54BC6-D200-478B-B82B-2D73D796A64D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -20,6 +22,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Release|iPhone.Build.0 = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{2BF54BC6-D200-478B-B82B-2D73D796A64D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
 		{7EDC59CE-339D-46FD-94A6-E6DEF5955413}.AppStore|iPhone.ActiveCfg = AppStore|iPhone

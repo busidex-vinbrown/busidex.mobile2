@@ -1,1 +1,1 @@
-card sharing
+fixed saving notes, add logout button
