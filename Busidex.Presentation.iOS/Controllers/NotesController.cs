@@ -74,19 +74,23 @@ namespace Busidex.Presentation.iOS
 			}
 
 			var controller = new Busidex.Mobile.NotesController ();
-			var response = controller.SaveNotes (UserCard.UserCardId, txtNotes.Text.Trim (), token);
-			var result = response.Result;
-			if(!string.IsNullOrEmpty(result)){
+			controller.SaveNotes (UserCard.UserCardId, txtNotes.Text.Trim (), token).ContinueWith (response => {
+				var result = response.Result;
+				if(!string.IsNullOrEmpty(result)){
 
-				SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
-				if(obj.Success){
+					InvokeOnMainThread(() =>{
+						SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
+						if(obj.Success){
 
-					UpdateLocalCardNotes ();
+							UpdateLocalCardNotes ();
 
-					// need to sync the notes with the local user card
-					imgSaved.Hidden = false;
+							// need to sync the notes with the local user card
+							imgSaved.Hidden = false;
+						}
+					});
 				}
-			}
+			});
+
 		}
 
 		void UpdateLocalCardNotes(){

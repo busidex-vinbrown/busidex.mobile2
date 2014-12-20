@@ -21,7 +21,7 @@ namespace Busidex.Mobile
 //			}
 			request.Headers.Add ("X-Authorization-Token", token);
 
-			if (method == "POST") {
+			if (method == "POST" || method == "PUT") {
 				var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
 				if (data != null) {
 					requestWriter.Write (data);
