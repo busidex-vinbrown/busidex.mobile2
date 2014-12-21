@@ -1,7 +1,8 @@
-﻿using System;
-
+﻿
 using Foundation;
 using UIKit;
+using WindowsAzure.Messaging;
+using System;
 
 namespace Busidex.Presentation.iOS
 {
@@ -12,16 +13,46 @@ namespace Busidex.Presentation.iOS
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		// class-level declarations
-
-		public override UIWindow Window {
-			get;
-			set;
-		}
+		public string _deviceToken { get; set;}
+		public override UIWindow Window { get; set; }
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			// Override point for customization after application launch.
+			// Process any potential notification data from launch
+			//ProcessNotification (options);
+
+			// Register for Notifications
+			UIApplication.SharedApplication.RegisterForRemoteNotificationTypes (
+				UIRemoteNotificationType.Alert |
+				UIRemoteNotificationType.Badge );
+
+			// ...
+			// Your other code here
+			// ...
 			return true;
+		}
+			
+		public override void RegisteredForRemoteNotifications (UIApplication application, NSData deviceToken)
+		{
+			// Connection string from your azure dashboard
+			var cs = SBConnectionString.CreateListenAccess(
+				new NSUrl("sb://busidexhub-ns.servicebus.windows.net/"),
+				"hilk6syUT6mPeV4uSLX2pqB3HcH3fCG5BnPNQ75/j8E=");
+
+			// Register our info with Azure
+			var hub = new SBNotificationHub (cs, "busidexhub");
+			hub.RegisterNativeAsync (deviceToken, null, err => {
+				if (err != null)
+					Console.WriteLine("Error: " + err.Description);
+				else
+					Console.WriteLine("Success");
+			});
+		}
+
+		public override void ReceivedRemoteNotification (UIApplication application, NSDictionary userInfo)
+		{
+			// Process a notification received while the app was already open
+			//ProcessNotification (userInfo);
 		}
 
 		//

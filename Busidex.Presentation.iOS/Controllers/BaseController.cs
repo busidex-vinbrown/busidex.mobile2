@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -158,6 +159,29 @@ namespace Busidex.Presentation.iOS
 			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
 			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
+		}
+
+		/// <summary>
+		/// Shows the alert.
+		/// int button = await ShowAlert ("Foo", "Bar", "Ok", "Cancel", "Maybe");
+		/// </summary>
+		/// <returns>The alert.</returns>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="buttons">Buttons.</param>
+		public static Task<int> ShowAlert (string title, string message, params string [] buttons)
+		{
+			var tcs = new TaskCompletionSource<int> ();
+			var alert = new UIAlertView {
+				Title = title,
+				Message = message
+			};
+			foreach (var button in buttons) {
+				alert.AddButton (button);
+			}
+			alert.Clicked += (s, e) => tcs.TrySetResult ((int)e.ButtonIndex);
+			alert.Show ();
+			return tcs.Task;
 		}
 	}
 }

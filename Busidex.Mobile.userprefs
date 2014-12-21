@@ -1,15 +1,10 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Info.plist">
     <Files>
       <File FileName="Busidex.Presentation.iOS/Info.plist" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="43" Column="43" />
-      <File FileName="Busidex.Presentation.iOS/ButtonPanel.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="50" Column="50" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="3" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/BaseTableSource.cs" Line="8" Column="8" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="6" Column="6" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="79" Column="79" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -23,6 +18,6 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
-    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fixed saving notes, add logout button" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
+    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="remove local cache files when switching accounts" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
 </Properties>

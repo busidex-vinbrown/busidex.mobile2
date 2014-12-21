@@ -128,12 +128,20 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void LogOut(){
-			RemoveAuthCookie ();
-			var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
 
-			if (startUpController != null) {
-				NavigationController.PushViewController (startUpController, true);
-			}
+			ShowAlert ("Logout", "Sign out of Busidex?", "Ok", "Cancel").ContinueWith (button => {
+
+				if(button.Result == 0){
+					InvokeOnMainThread( () => {
+						RemoveAuthCookie ();
+						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
+
+						if (startUpController != null) {
+							NavigationController.PushViewController (startUpController, true);
+						}
+					});
+				}
+			});
 		}
 
 		void GoToSearch ()

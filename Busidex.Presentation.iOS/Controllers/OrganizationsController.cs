@@ -40,7 +40,7 @@ namespace Busidex.Presentation.iOS
 						NavigationController.PushViewController (orgDetailController, true);
 					}
 				}catch(Exception ex){
-					new UIAlertView("Row Selected", ex.Message, null, "OK", null).Show();
+					new UIAlertView("Busidex", ex.Message, null, "OK", null).Show();
 				}
 			};
 

@@ -188,18 +188,25 @@ namespace Busidex.Presentation.iOS
 
 		protected void RemoveFromMyBusidex(UserCard userCard, UITableViewCell cell){
 
-			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
-				if (cookie != null) {
-					var ctrl = new Busidex.Mobile.MyBusidexController ();
-					ctrl.RemoveFromMyBusidex (userCard.Card.CardId, cookie.Value);
+			BaseController.ShowAlert ("Remove Card", "Remove this card from your Busidex?", "Ok", "Cancel").ContinueWith (button => {
 
-					toggleAddRemoveButtons (true, cell);
+				if(button.Result == 0){
+					InvokeOnMainThread( () => {
+						using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
+							if (cookie != null) {
+								var ctrl = new Busidex.Mobile.MyBusidexController ();
+								ctrl.RemoveFromMyBusidex (userCard.Card.CardId, cookie.Value);
 
-					if (CardRemovedFromMyBusidex != null) {
-						CardRemovedFromMyBusidex (userCard);
-					}
+								toggleAddRemoveButtons (true, cell);
+
+								if (CardRemovedFromMyBusidex != null) {
+									CardRemovedFromMyBusidex (userCard);
+								}
+							}
+						}
+					});
 				}
-			}
+			});
 		}
 
 		protected void AddMapButton(UserCard card, ref List<UIButton> FeatureButtons){

@@ -108,18 +108,5 @@ namespace Busidex.Presentation.iOS
 			}
 			return string.Empty;
 		}
-
-//		static void SetAuthCookie(long userId){
-//
-//			var nCookie = new System.Net.Cookie();
-//
-//			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
-//			DateTime expiration = DateTime.Now.AddYears(1);
-//			nCookie.Expires = expiration;
-//			nCookie.Value = EncodeUserId(userId);
-//			var cookie = new NSHttpCookie(nCookie);
-//
-//			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-//		}
 	}
 }

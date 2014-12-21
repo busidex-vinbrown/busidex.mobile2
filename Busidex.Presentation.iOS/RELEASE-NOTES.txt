@@ -1,1 +1,1 @@
-fixed saving notes, add logout button
+remove local cache files when switching accounts
