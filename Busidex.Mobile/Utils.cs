@@ -20,7 +20,7 @@ namespace Busidex.Mobile
 				long.TryParse(s, out userId);
 
 			}catch(Exception ex){
-				LoggingController.LogError (ex, string.Empty);
+				LoggingController.LogError (ex, id);
 			}
 
 			return userId;

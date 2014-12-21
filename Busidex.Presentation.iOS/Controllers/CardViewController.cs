@@ -81,7 +81,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
+			var userToken = GetAuthCookie ();
 			try{
 
 				if(NavigationController != null){
@@ -96,7 +96,7 @@ namespace Busidex.Presentation.iOS
 					ToggleImage();
 				};
 			}catch(Exception ex){
-				LoggingController.LogError (ex, string.Empty);
+				LoggingController.LogError (ex, userToken != null ? userToken.Value : string.Empty);
 			}
 
 		}

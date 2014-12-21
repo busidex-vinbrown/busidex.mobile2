@@ -100,7 +100,7 @@ namespace Busidex.Presentation.iOS
 				UseStar82 = user.BoolForKey(Resources.USER_SETTING_USE_STAR_82);
 
 			}catch(Exception ex){
-				LoggingController.LogError (ex, string.Empty);
+				LoggingController.LogError (ex, userToken);
 			}
 		}
 	}

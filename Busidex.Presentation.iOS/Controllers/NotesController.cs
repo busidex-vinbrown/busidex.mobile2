@@ -127,11 +127,11 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			var userToken = GetAuthCookie();;
 			try{
 				LoadCard ();
-			// Analysis disable once EmptyGeneralCatchClause
 			}catch(Exception ex){
-				LoggingController.LogError (ex, string.Empty);
+				LoggingController.LogError (ex, userToken != null ? userToken.Value : string.Empty);
 			}
 			var keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
 			{
