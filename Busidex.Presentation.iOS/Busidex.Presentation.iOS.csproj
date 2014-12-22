@@ -197,6 +197,7 @@
       <DependentUpon>SharedCardController.cs</DependentUpon>
     </Compile>
     <Compile Include="CardLoadingOverlay.cs" />
+    <Compile Include="NotificationButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

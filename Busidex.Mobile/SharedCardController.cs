@@ -7,7 +7,13 @@ namespace Busidex.Mobile
 {
 	public class SharedCardController : BaseController
 	{
-
+		/// <summary>
+		/// POST
+		/// </summary>
+		/// <returns>The card.</returns>
+		/// <param name="card">Card.</param>
+		/// <param name="email">Email.</param>
+		/// <param name="userToken">User token.</param>
 		public string ShareCard(Card card, string email, string userToken){
 			const string URL = Resources.BASE_API_URL + "SharedCard/Post";
 			var model = new List<SharedCard> () {
@@ -27,6 +33,17 @@ namespace Busidex.Mobile
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 
 			return MakeRequest (URL, "POST", userToken, data);
+		}
+
+		/// <summary>
+		/// GET
+		/// </summary>
+		/// <returns>The shared cards.</returns>
+		/// <param name="userToken">User token.</param>
+		public string GetSharedCards(string userToken){
+
+			const string URL = Resources.BASE_API_URL + "SharedCard/Get";
+			return MakeRequest (URL, "GET", userToken);
 		}
 	}
 }

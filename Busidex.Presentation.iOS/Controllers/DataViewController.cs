@@ -99,10 +99,21 @@ namespace Busidex.Presentation.iOS
 			var logOutSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			logOutSystemButton.CustomView = logOutButton;
 
+			var notificationCount = 2;
+
+			var notificationButton = new NotificationButton (notificationCount);
+			notificationButton.Frame = imgFrame;
+			var notificationSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
+			notificationSystemButton.CustomView = notificationButton;
+
 			SetToolbarItems (new[] {
 				logOutSystemButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace) {
 					Width = 100
+				},
+				notificationSystemButton,
+				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
+					Width = 10
 				},
 				syncButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
