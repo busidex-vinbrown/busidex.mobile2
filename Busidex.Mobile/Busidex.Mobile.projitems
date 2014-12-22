@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SharedCardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoggingController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SharedCardResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

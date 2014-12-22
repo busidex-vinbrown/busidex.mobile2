@@ -73,6 +73,21 @@ namespace Busidex.Presentation.iOS
 			return returnValue;
 		}
 
+		int GetNotifications(){
+
+			var ctrl = new Busidex.Mobile.SharedCardController ();
+			var cookie = GetAuthCookie ();
+			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
+			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
+
+			SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+
+			if(sharedCards != null){
+				return sharedCards.SharedCards.Count;
+			}
+			return 0;
+		}
+
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
@@ -99,7 +114,7 @@ namespace Busidex.Presentation.iOS
 			var logOutSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			logOutSystemButton.CustomView = logOutButton;
 
-			var notificationCount = 2;
+			var notificationCount = GetNotifications();
 
 			var notificationButton = new NotificationButton (notificationCount);
 			notificationButton.Frame = imgFrame;
@@ -201,21 +216,11 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		void SaveMyBusidexResponse(string response){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			File.WriteAllText (fullFilePath, response);
-		}
-			
-		void SaveMyOrganizationsResponse(string response){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
-			File.WriteAllText (fullFilePath, response);
-		}
-
-		void SaveOrganizationCardsResponse(string response, string fileName){
+		void SaveResponse(string response, string fileName){
 			var fullFilePath = Path.Combine (documentsPath, fileName);
 			File.WriteAllText (fullFilePath, response);
 		}
-
+			
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
 			var cookie = GetAuthCookie ();
@@ -236,7 +241,7 @@ namespace Busidex.Presentation.iOS
 
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
-							SaveMyOrganizationsResponse(response.Result);
+							SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
 							SetRefreshCookie();
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
@@ -251,7 +256,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									SaveOrganizationCardsResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+									SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -281,7 +286,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationReferrals(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									SaveOrganizationCardsResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+									SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -339,7 +344,7 @@ namespace Busidex.Presentation.iOS
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
-							SaveMyBusidexResponse(r.Result);
+							SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
 							SetRefreshCookie();
 
 							var cards = new List<UserCard> ();
