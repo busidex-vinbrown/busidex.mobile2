@@ -18,16 +18,16 @@ namespace Busidex.Presentation.iOS
 
 		protected const float LEFT_MARGIN = 5f;
 		//const float LABEL_HEIGHT = 30f;
-		const float LABEL_WIDTH = 170f;
 		protected const float LABEL_HEIGHT = 20f;
+		protected const float LABEL_WIDTH = 170f;
+		protected const float FEATURE_BUTTON_HEIGHT = 40f;
+		protected const float FEATURE_BUTTON_WIDTH = 40f;
+		protected const float FEATURE_BUTTON_MARGIN = 15f;
 		protected const float CARD_HEIGHT_VERTICAL = 170f;
 		protected const float CARD_HEIGHT_HORIZONTAL = 120f;
 		protected const float CARD_WIDTH_VERTICAL = 110f;
 		protected const float CARD_WIDTH_HORIZONTAL = 180f;
 		protected const float SUB_LABEL_FONT_SIZE = 17f;
-		const float FEATURE_BUTTON_HEIGHT = 40f;
-		const float FEATURE_BUTTON_WIDTH = 40f;
-		const float FEATURE_BUTTON_MARGIN = 30f;
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
 		protected List<UserCard> Cards{ get; set; }
 		public UserCard SelectedCard{ get; set; }

@@ -36,7 +36,9 @@ namespace Busidex.Mobile
 			ButtonPanel = 12,
 			ShareCardButton = 13,
 			AddToMyBusidexButton = 14,
-			RemoveFromMyBusidexButton = 15
+			RemoveFromMyBusidexButton = 15,
+			AcceptCard = 16,
+			DeclineCard = 17
 		}
 	}
 }

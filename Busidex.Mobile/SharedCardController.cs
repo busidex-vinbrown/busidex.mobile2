@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
 
@@ -45,6 +44,29 @@ namespace Busidex.Mobile
 			const string URL = Resources.BASE_API_URL + "SharedCard/Get";
 			return MakeRequest (URL, "GET", userToken);
 		}
+
+		/// <summary>
+		/// PUT
+		/// </summary>
+		/// <returns>The shared cards.</returns>
+		/// <param name="acceptedCardId">Accepted card identifier.</param>
+		/// <param name="declinedCardId">Declined card identifier.</param>
+		/// <param name="userToken">User token.</param>
+		public string UpdateSharedCards(long? acceptedCardId, long? declinedCardId, string userToken){
+			const string URL = Resources.BASE_API_URL + "SharedCard/Put";
+
+			var model = new SharedCardModel {
+				AcceptedCardIdList = acceptedCardId.HasValue ? new long[]{ acceptedCardId.Value } : acceptedCardId,
+				DeclinedCardIdList = declinedCardId.HasValue ? new long[]{ declinedCardId.Value } : declinedCardId,
+				CardIdList = null,
+				SharedWith = string.Empty,
+				Accepted = false,
+				Declined = false,
+				UserId = 0,
+				PersonalMessage = string.Empty
+			};
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+			return MakeRequest (URL, "PUT", userToken, data);
+		}
 	}
 }
-

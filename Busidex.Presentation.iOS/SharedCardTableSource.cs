@@ -60,22 +60,52 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		void AddAcceptButton(UserCard card, UITableViewCell cell){
+		void AddAcceptDeclineButtons(UserCard card, UITableViewCell cell){
+
+			const float IMAGE_TOP = 90f;
+			const float IMAGE_LEFT = CARD_WIDTH_HORIZONTAL + 30f;
+
+			var acceptedImg = new UIImageView (new RectangleF (IMAGE_LEFT, IMAGE_TOP, 25f, 25f));
+			acceptedImg.Image = UIImage.FromBundle ("checkmark.png");
+			acceptedImg.Tag = (int)Resources.UIElements.AcceptCard;
+			acceptedImg.Hidden = true;
+			cell.AddSubview (acceptedImg);
+
+			var declinedImg = new UIImageView (new RectangleF (IMAGE_LEFT, IMAGE_TOP, 25f, 25f));
+			declinedImg.Image = UIImage.FromBundle ("red_minus.png");
+			declinedImg.Tag = (int)Resources.UIElements.DeclineCard;
+			declinedImg.Hidden = true;
+			cell.AddSubview (declinedImg);
+
 			var frame = new RectangleF (CARD_WIDTH_HORIZONTAL + 10f, 70f, 120f, LABEL_HEIGHT);
-			var button = UIButton.FromType (UIButtonType.System);
-			button.Frame = frame;
-			button.SetTitle ("Accept", UIControlState.Normal);
-			cell.AddSubview (button);
-		}
 
-		void AddDeclineButton(UserCard card, UITableViewCell cell){
-			var frame = new RectangleF (CARD_WIDTH_HORIZONTAL + 10f, LABEL_HEIGHT + 90f, 120f, LABEL_HEIGHT);
-			var button = UIButton.FromType (UIButtonType.System);
-			button.Frame = frame;
-			button.SetTitle ("Decline", UIControlState.Normal);
-			cell.AddSubview (button);
-		}
+			var acceptButton = UIButton.FromType (UIButtonType.System);
+			acceptButton.Frame = frame;
+			acceptButton.SetTitle ("Accept", UIControlState.Normal);
 
+			cell.AddSubview (acceptButton);
+
+			frame.Y += LABEL_HEIGHT + 20f;
+
+			var declineButton = UIButton.FromType (UIButtonType.System);
+			declineButton.Frame = frame;
+			declineButton.SetTitle ("Decline", UIControlState.Normal);
+
+			cell.AddSubview (declineButton);
+
+			acceptButton.TouchUpInside += delegate(object sender, EventArgs e) {
+				acceptedImg.Hidden = false;
+				declinedImg.Hidden = true;
+				acceptButton.Hidden = declineButton.Hidden = true;
+			};
+
+			declineButton.TouchUpInside += delegate(object sender, EventArgs e) {
+				acceptedImg.Hidden = true;
+				declinedImg.Hidden = false;
+				acceptButton.Hidden = declineButton.Hidden = true;
+			};
+		}
+			
 		void AddControls(UITableViewCell cell, SharedCard sharedCard){
 
 			if (!string.IsNullOrEmpty (sharedCard.Card.FrontFileName)) {
@@ -90,8 +120,7 @@ namespace Busidex.Presentation.iOS
 
 				AddNameLabel(userCard, cell, ref frame);
 				AddCompanyLabel (userCard, cell, ref frame);
-				AddAcceptButton (userCard, cell);
-				AddDeclineButton (userCard, cell);
+				AddAcceptDeclineButtons (userCard, cell);
 			} 
 		}
 	}

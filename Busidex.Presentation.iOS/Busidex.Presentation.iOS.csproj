@@ -285,6 +285,8 @@
     <BundleResource Include="Resources\Icon-Small-40.png" />
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Exit.png" />
+    <BundleResource Include="Resources\delete.png" />
+    <BundleResource Include="Resources\delete.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

@@ -31,16 +31,6 @@ namespace Busidex.Presentation.iOS
 
 		public bool ShowNotes{ get; set;}
 
-
-
-
-
-		protected const float LABEL_WIDTH = 170f;
-		protected const float FEATURE_BUTTON_HEIGHT = 40f;
-		protected const float FEATURE_BUTTON_WIDTH = 40f;
-		protected const float FEATURE_BUTTON_MARGIN = 15f;
-
-
 		List<UserCard> TableItems;
 
 		public TableSource (List<UserCard> items)
