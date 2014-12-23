@@ -241,11 +241,6 @@ namespace Busidex.Presentation.iOS
 			}
 			return true;
 		}
-
-		void SaveResponse(string response, string fileName){
-			var fullFilePath = Path.Combine (documentsPath, fileName);
-			File.WriteAllText (fullFilePath, response);
-		}
 			
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 

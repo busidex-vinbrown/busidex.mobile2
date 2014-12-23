@@ -78,6 +78,47 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		void SaveSharedCard(SharedCard sharedCard){
+
+			var cookie = GetAuthCookie ();
+			// Accept/Decline the card
+			var ctrl = new Busidex.Mobile.SharedCardController ();
+			var cardId = new long? (sharedCard.Card.CardId);
+
+			ctrl.UpdateSharedCards (
+				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
+				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
+				cookie.Value);
+
+			// if the card was accepted, update local copy of MyBusidex
+			if(sharedCard.Accepted.GetValueOrDefault()){
+				var newCard = new UserCard {
+					Card = sharedCard.Card,
+					CardId = sharedCard.Card.CardId
+				};
+				AddCardToMyBusidexCache (newCard);
+
+				// track the event
+				ActivityController.SaveActivity ((long)EventSources.Add, sharedCard.Card.CardId, cookie.Value);
+			}
+
+			// update local copy of Shared Cards
+			var fullFilePath = Path.Combine (documentsPath, Resources.SHARED_CARDS_FILE);
+			if(File.Exists(fullFilePath)){
+				var sharedCardsFile = File.OpenText (fullFilePath);
+				var sharedCardsJson = sharedCardsFile.ReadToEnd ();
+
+				var sharedCardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsJson);
+				sharedCardResponse.SharedCards.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
+
+				sharedCardsJson = Newtonsoft.Json.JsonConvert.SerializeObject (sharedCardResponse);
+
+				sharedCardsFile.Close ();
+
+				SaveResponse (sharedCardsJson, Resources.SHARED_CARDS_FILE);
+			}
+		}
+
 		SharedCardTableSource ConfigureTableSourceEventHandlers(List<SharedCard> sharedCards){
 
 			var src = new SharedCardTableSource (sharedCards);
@@ -86,6 +127,7 @@ namespace Busidex.Presentation.iOS
 			src.CardSelected += delegate {
 				GoToCard();
 			};
+			src.CardShared += SaveSharedCard;
 
 			return src;
 		}

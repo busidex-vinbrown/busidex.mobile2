@@ -9,9 +9,12 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
+	public delegate void SaveSharedCardHandler(SharedCard sharedCard);
+
 	public class SharedCardTableSource : BaseTableSource
 	{
-		public delegate void SaveSharedCardHandler(List<SharedCard> sharedCards);
+
+		public event SaveSharedCardHandler CardShared;
 
 		List<SharedCard> SharedCards { get; set; }
 
@@ -32,7 +35,7 @@ namespace Busidex.Presentation.iOS
 
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			return !SharedCards.Any () ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
+			return !SharedCards.Any () ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT + LABEL_HEIGHT * 3;
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -60,7 +63,13 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		void AddAcceptDeclineButtons(UserCard card, UITableViewCell cell){
+		protected void SaveShareCard(SharedCard sharedCard){
+			if(CardShared != null){
+				CardShared (sharedCard);
+			}
+		}
+
+		void AddAcceptDeclineButtons(SharedCard card, UITableViewCell cell){
 
 			const float IMAGE_TOP = 90f;
 			const float IMAGE_LEFT = CARD_WIDTH_HORIZONTAL + 30f;
@@ -94,18 +103,63 @@ namespace Busidex.Presentation.iOS
 			cell.AddSubview (declineButton);
 
 			acceptButton.TouchUpInside += delegate(object sender, EventArgs e) {
+				card.Accepted = true;
+				SaveShareCard(card);
 				acceptedImg.Hidden = false;
 				declinedImg.Hidden = true;
 				acceptButton.Hidden = declineButton.Hidden = true;
 			};
 
 			declineButton.TouchUpInside += delegate(object sender, EventArgs e) {
+				card.Declined = true;
+				SaveShareCard(card);
 				acceptedImg.Hidden = true;
 				declinedImg.Hidden = false;
 				acceptButton.Hidden = declineButton.Hidden = true;
 			};
 		}
-			
+
+		protected void AddPersonalMessageLabel(SharedCard card, UITableViewCell cell, ref RectangleF frame){
+			var needsMessageLabel = false;
+
+			frame.Height = LABEL_HEIGHT * 3;
+
+			var MessageLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.PersonalMessageLabel) as UILabel;
+			if (MessageLabel == null) {
+				MessageLabel = new UILabel (frame);
+				needsMessageLabel = true;
+			}else{
+				MessageLabel.Frame = frame;
+			}
+
+			if (!string.IsNullOrWhiteSpace (card.Recommendation)) {
+
+				MessageLabel.Tag = (int)Resources.UIElements.PersonalMessageLabel;
+				MessageLabel.Text = card.Recommendation;
+
+//				nfloat width = frame.Size.Width -20f;
+//
+//				CoreGraphics.CGSize size=((NSString)MessageLabel.Text).StringSize(MessageLabel.Font,constrainedToSize:new CoreGraphics.CGSize(width,100f),lineBreakMode:UILineBreakMode.WordWrap);
+//				var cgFrame = new CoreGraphics.CGRect(frame.Location, size);
+//		
+//				MessageLabel.Frame = cgFrame;
+
+				MessageLabel.Hidden = false;
+				MessageLabel.Font = UIFont.FromName ("Helvetica", SUB_LABEL_FONT_SIZE);
+				MessageLabel.Lines = int.Parse((MessageLabel.Text.Length / 40).ToString()) + 1;;
+				MessageLabel.LineBreakMode = UILineBreakMode.WordWrap;
+
+				frame.Y += LABEL_HEIGHT * 2;
+				if (needsMessageLabel) {
+					cell.ContentView.AddSubview (MessageLabel);
+				}
+			} else {
+				if (MessageLabel != null) {
+					MessageLabel.RemoveFromSuperview ();
+				}
+			}
+		}
+
 		void AddControls(UITableViewCell cell, SharedCard sharedCard){
 
 			if (!string.IsNullOrEmpty (sharedCard.Card.FrontFileName)) {
@@ -114,13 +168,18 @@ namespace Busidex.Presentation.iOS
 					Card = sharedCard.Card,
 					CardId = sharedCard.Card.CardId
 				};
-				var frame = new RectangleF (LEFT_MARGIN + 5f, 10f, (float)UIScreen.MainScreen.Bounds.Width, LABEL_HEIGHT);
-
-				AddCardImageButton (userCard, cell, 0);
+				var frame = new RectangleF (LEFT_MARGIN + 5f, 10f, (float)UIScreen.MainScreen.Bounds.Width - LEFT_MARGIN, LABEL_HEIGHT);
 
 				AddNameLabel(userCard, cell, ref frame);
 				AddCompanyLabel (userCard, cell, ref frame);
-				AddAcceptDeclineButtons (userCard, cell);
+				AddAcceptDeclineButtons (sharedCard, cell);
+				AddCardImageButton (userCard, cell, 0);
+
+				frame.Y += sharedCard.Card.FrontOrientation == "H" 
+					? CARD_HEIGHT_HORIZONTAL
+					: CARD_HEIGHT_VERTICAL;
+
+				AddPersonalMessageLabel (sharedCard, cell, ref frame);
 			} 
 		}
 	}

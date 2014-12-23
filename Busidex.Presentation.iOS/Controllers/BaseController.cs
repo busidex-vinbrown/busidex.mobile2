@@ -105,7 +105,7 @@ namespace Busidex.Presentation.iOS
 			Overlay.Hide ();
 		}
 
-		protected void AddCardToMyBusidex(UserCard userCard){
+		protected void AddCardToMyBusidexCache(UserCard userCard){
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 
 			string file;
@@ -143,6 +143,11 @@ namespace Busidex.Presentation.iOS
 
 		protected virtual void ProcessCards(string data){
 
+		}
+
+		protected void SaveResponse(string response, string fileName){
+			var fullFilePath = Path.Combine (documentsPath, fileName);
+			File.WriteAllText (fullFilePath, response);
 		}
 
 		protected void LoadCardsFromFile(string fullFilePath){

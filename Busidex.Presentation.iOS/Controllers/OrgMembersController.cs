@@ -159,7 +159,7 @@ namespace Busidex.Presentation.iOS
 
 			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
 
-			src.CardAddedToMyBusidex += AddCardToMyBusidex;
+			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
 
 			src.CallingPhoneNumber += delegate {
 				ShowPhoneNumbers();

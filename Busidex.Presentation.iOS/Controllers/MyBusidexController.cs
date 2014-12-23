@@ -79,7 +79,7 @@ namespace Busidex.Presentation.iOS
 
 			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
 
-			src.CardAddedToMyBusidex += AddCardToMyBusidex;
+			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
 
 			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 
@@ -152,12 +152,7 @@ namespace Busidex.Presentation.iOS
 			}
 			TableView.AllowsSelection = true;
 		}
-
-		void SaveMyBusidexResponse(string response){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			File.WriteAllText (fullFilePath, response);
-		}
-
+			
 		void LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
 
@@ -168,7 +163,7 @@ namespace Busidex.Presentation.iOS
 
 				if(!string.IsNullOrEmpty(response.Result)){
 					ProcessCards (response.Result);
-					SaveMyBusidexResponse (response.Result);
+					SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
 				}
 			}
 		}

@@ -38,7 +38,8 @@ namespace Busidex.Mobile
 			AddToMyBusidexButton = 14,
 			RemoveFromMyBusidexButton = 15,
 			AcceptCard = 16,
-			DeclineCard = 17
+			DeclineCard = 17,
+			PersonalMessageLabel = 18
 		}
 	}
 }

@@ -56,8 +56,8 @@ namespace Busidex.Mobile
 			const string URL = Resources.BASE_API_URL + "SharedCard/Put";
 
 			var model = new SharedCardModel {
-				AcceptedCardIdList = acceptedCardId.HasValue ? new long[]{ acceptedCardId.Value } : acceptedCardId,
-				DeclinedCardIdList = declinedCardId.HasValue ? new long[]{ declinedCardId.Value } : declinedCardId,
+				AcceptedCardIdList = acceptedCardId.HasValue ? new long[]{ acceptedCardId.Value } : new long[]{},
+				DeclinedCardIdList = declinedCardId.HasValue ? new long[]{ declinedCardId.Value } : new long[]{},
 				CardIdList = null,
 				SharedWith = string.Empty,
 				Accepted = false,

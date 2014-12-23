@@ -28,6 +28,7 @@ namespace Busidex.Presentation.iOS
 		protected const float CARD_WIDTH_VERTICAL = 110f;
 		protected const float CARD_WIDTH_HORIZONTAL = 180f;
 		protected const float SUB_LABEL_FONT_SIZE = 17f;
+		protected const float SUB_SUB_LABEL_FONT_SIZE = 12f;
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
 		protected List<UserCard> Cards{ get; set; }
 		public UserCard SelectedCard{ get; set; }
