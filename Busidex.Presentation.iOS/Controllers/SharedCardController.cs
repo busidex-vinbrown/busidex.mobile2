@@ -1,6 +1,5 @@
 ﻿
 using System;
-
 using Foundation;
 using UIKit;
 using Busidex.Mobile;

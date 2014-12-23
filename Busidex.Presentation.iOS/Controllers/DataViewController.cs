@@ -73,12 +73,22 @@ namespace Busidex.Presentation.iOS
 			return returnValue;
 		}
 
-		int GetNotifications(){
+		public int GetNotifications(){
 
 			var ctrl = new Busidex.Mobile.SharedCardController ();
 			var cookie = GetAuthCookie ();
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
+
+			foreach (SharedCard card in sharedCards.SharedCards) {
+				var fileName = card.Card.FrontFileName;
+				var fImagePath = Resources.CARD_PATH + fileName;
+				if (!File.Exists (documentsPath + "/" + fileName)) {
+					Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
+
+					});
+				}
+			}
 
 			SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
 
@@ -88,35 +98,28 @@ namespace Busidex.Presentation.iOS
 			return 0;
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (true, true);
-			}
-
-			if (NavigationController == null) {
-				return;
-			}
-
+		void ConfigureToolbarItems(){
 			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
+
+			// Sync button
 			var syncImage = new UIButton (imgFrame);
 			syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
 			syncImage.TouchUpInside += ((s, e) => LoadMyBusidexAsync (true));
 			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			syncButton.CustomView = syncImage;
 
+			// Logout button
 			var logOutButton = UIButton.FromType (UIButtonType.System);
 			logOutButton.Frame = imgFrame;
-
 			logOutButton.SetBackgroundImage (UIImage.FromBundle ("Exit.png"), UIControlState.Normal);
 			logOutButton.TouchUpInside += ((s, e) => LogOut ());
 			var logOutSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			logOutSystemButton.CustomView = logOutButton;
 
+			// Notifications
 			var notificationCount = GetNotifications();
-
 			var notificationButton = new NotificationButton (notificationCount);
+			notificationButton.TouchUpInside += ((s, e) => GoToSharedCards());
 			notificationButton.Frame = imgFrame;
 			var notificationSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			notificationSystemButton.CustomView = notificationButton;
@@ -141,7 +144,30 @@ namespace Busidex.Presentation.iOS
 					}
 				})
 			}, true);
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (true, true);
+			}
+
+			if (NavigationController == null) {
+				return;
+			}
+
+			ConfigureToolbarItems ();
+
 			NavigationController.SetToolbarHidden (false, true);
+		}
+
+		void GoToSharedCards(){
+			var sharedCardListController = Storyboard.InstantiateViewController ("SharedCardListController") as SharedCardListController;
+
+			if (sharedCardListController != null && NavigationController.ChildViewControllers.Count (c => c is SharedCardListController) == 0){
+				NavigationController.PushViewController (sharedCardListController, true);
+			}
 		}
 
 		void GoToMyBusidex ()

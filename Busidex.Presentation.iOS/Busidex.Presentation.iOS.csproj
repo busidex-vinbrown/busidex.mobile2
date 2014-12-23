@@ -198,6 +198,11 @@
     </Compile>
     <Compile Include="CardLoadingOverlay.cs" />
     <Compile Include="NotificationButton.cs" />
+    <Compile Include="SharedCardTableSource.cs" />
+    <Compile Include="Controllers\SharedCardListController.cs" />
+    <Compile Include="Controllers\SharedCardListController.designer.cs">
+      <DependentUpon>SharedCardListController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -216,6 +221,7 @@
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="OrganizationStoryBoard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\SharedCardController.xib" />
+    <InterfaceDefinition Include="Controllers\SharedCardListController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

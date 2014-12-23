@@ -5,20 +5,32 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using System.IO;
 
 namespace Busidex.Presentation.iOS
 {
+	public delegate void CardSelected();
+
 	public class BaseTableSource : UITableViewSource
 	{
 		protected const float BASE_CELL_HEIGHT = 180f;
 
-		const float LEFT_MARGIN = 5F;
-		const float LABEL_HEIGHT = 30f;
+		protected const float LEFT_MARGIN = 5f;
+		//const float LABEL_HEIGHT = 30f;
 		const float LABEL_WIDTH = 170f;
+		protected const float LABEL_HEIGHT = 20f;
+		protected const float CARD_HEIGHT_VERTICAL = 170f;
+		protected const float CARD_HEIGHT_HORIZONTAL = 120f;
+		protected const float CARD_WIDTH_VERTICAL = 110f;
+		protected const float CARD_WIDTH_HORIZONTAL = 180f;
+		protected const float SUB_LABEL_FONT_SIZE = 17f;
 		const float FEATURE_BUTTON_HEIGHT = 40f;
 		const float FEATURE_BUTTON_WIDTH = 40f;
 		const float FEATURE_BUTTON_MARGIN = 30f;
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
+		protected List<UserCard> Cards{ get; set; }
+		public UserCard SelectedCard{ get; set; }
 
 		UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 
@@ -28,8 +40,9 @@ namespace Busidex.Presentation.iOS
 		public bool IsFiltering{ get; set;}
 
 		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		protected string userToken;
 
-
+		public event CardSelected CardSelected;
 
 		protected void LoadNoCardMessage(UITableViewCell cell){
 
@@ -52,6 +65,102 @@ namespace Busidex.Presentation.iOS
 
 			cell.Frame = frame;
 
+		}
+
+		protected void GoToCard(int idx){
+			SelectedCard = Cards [idx];
+			if (CardSelected != null) {
+				CardSelected ();
+				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
+			}
+		}
+
+		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
+
+
+			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)Resources.UIElements.CardImage) as UIButton;
+			if (CardImageButton != null) {
+				CardImageButton.RemoveFromSuperview ();
+			}
+			CardImageButton = new UIButton (UIButtonType.Custom);
+
+			CardImageButton.Tag = (int)Resources.UIElements.CardImage;
+
+			var fileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
+
+			if (File.Exists (fileName)) {
+				CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 
+			} else {
+				CardImageButton.SetBackgroundImage (UIImage.FromBundle ("defaultUserImage.png"), UIControlState.Normal); 
+			}
+
+			CardImageButton.TouchUpInside += delegate {
+				GoToCard (idx);
+			};
+
+			// Highlight the user's card
+			if (card.Card.IsMyCard) {
+				CardImageButton.Layer.BorderWidth = 2;
+				CardImageButton.Layer.BorderColor = UIColor.Green.CGColor;
+			}
+
+			const float CARD_TOP = (LABEL_HEIGHT * 2f) + 10f;
+
+			CardImageButton.Frame =
+				card.Card.FrontOrientation == "H" 
+				? new RectangleF (LEFT_MARGIN, CARD_TOP, CARD_WIDTH_HORIZONTAL, CARD_HEIGHT_HORIZONTAL)
+				: new RectangleF (LEFT_MARGIN, CARD_TOP, CARD_WIDTH_VERTICAL, CARD_HEIGHT_VERTICAL);
+
+			cell.ContentView.AddSubview (CardImageButton);
+		}
+
+		protected void AddNameLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
+			var needsNameLabel = false;
+			var NameLabel = cell.ContentView.Subviews.SingleOrDefault(s=> s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
+
+			if (NameLabel == null) {
+				NameLabel = new UILabel (frame);
+				needsNameLabel = true;
+			}else{
+				NameLabel.Frame = frame;
+			}
+			NameLabel.Tag = (int)Resources.UIElements.NameLabel;
+			NameLabel.Text = string.IsNullOrEmpty(card.Card.Name) ? "(No Name)" : card.Card.Name;
+			NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 16f);
+
+			frame.Y += LABEL_HEIGHT;
+			if (needsNameLabel) {
+				cell.ContentView.AddSubview (NameLabel);
+			}
+		}
+
+		protected void AddCompanyLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
+			var needsCompanyLabel = false;
+
+			var CompanyLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.CompanyLabel) as UILabel;
+			if (CompanyLabel == null) {
+				CompanyLabel = new UILabel (frame);
+				needsCompanyLabel = true;
+			}else{
+				CompanyLabel.Frame = frame;
+			}
+
+			if (!string.IsNullOrWhiteSpace (card.Card.CompanyName)) {
+
+				CompanyLabel.Tag = (int)Resources.UIElements.CompanyLabel;
+				CompanyLabel.Text = card.Card.CompanyName;
+				CompanyLabel.Hidden = false;
+				CompanyLabel.Font = UIFont.FromName ("Helvetica", SUB_LABEL_FONT_SIZE);
+
+				frame.Y += LABEL_HEIGHT;
+				if (needsCompanyLabel) {
+					cell.ContentView.AddSubview (CompanyLabel);
+				}
+			} else {
+				if (CompanyLabel != null) {
+					CompanyLabel.RemoveFromSuperview ();
+				}
+			}
 		}
 
 		protected ButtonPanel GetPanel(float width, float height){

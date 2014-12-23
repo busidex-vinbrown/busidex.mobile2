@@ -32,8 +32,6 @@ namespace Busidex.Presentation.iOS
 			Organizations = new List<Organization> ();
 			Organizations.AddRange (organizations);
 			cellCache = new List<UITableViewCell> ();
-
-
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -106,20 +104,6 @@ namespace Busidex.Presentation.iOS
 			}
 
 			cell.Accessory = UITableViewCellAccessory.DetailButton;
-
-//			var swiperShow = new UISwipeGestureRecognizer ();
-//			swiperShow.Direction = UISwipeGestureRecognizerDirection.Left;
-//			swiperShow.AddTarget (() => {
-//				ClearOrgNavFromAllCells();
-//				ShowPanel(cell);
-//			});
-//
-//			var swiperHide = new UISwipeGestureRecognizer ();
-//			swiperHide.Direction = UISwipeGestureRecognizerDirection.Right;
-//			swiperHide.AddTarget (() => HidePanel (cell));
-//
-//			cell.ContentView.AddGestureRecognizer (swiperShow);
-//			cell.ContentView.AddGestureRecognizer (swiperHide);
 
 			AddSwipeView (ref cell, org);
 

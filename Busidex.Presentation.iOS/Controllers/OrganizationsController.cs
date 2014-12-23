@@ -24,6 +24,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.NavigationBar.SetBackgroundImage (null, UIBarMetrics.Default);
 			}
 		}
+
 		OrganizationTableSource ConfigureTableSourceEventHandlers(List<Organization> data){
 
 			var src = new OrganizationTableSource (data);
