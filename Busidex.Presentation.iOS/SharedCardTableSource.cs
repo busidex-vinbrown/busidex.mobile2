@@ -60,6 +60,22 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
+		void AddAcceptButton(UserCard card, UITableViewCell cell){
+			var frame = new RectangleF (CARD_WIDTH_HORIZONTAL + 10f, 70f, 120f, LABEL_HEIGHT);
+			var button = UIButton.FromType (UIButtonType.System);
+			button.Frame = frame;
+			button.SetTitle ("Accept", UIControlState.Normal);
+			cell.AddSubview (button);
+		}
+
+		void AddDeclineButton(UserCard card, UITableViewCell cell){
+			var frame = new RectangleF (CARD_WIDTH_HORIZONTAL + 10f, LABEL_HEIGHT + 90f, 120f, LABEL_HEIGHT);
+			var button = UIButton.FromType (UIButtonType.System);
+			button.Frame = frame;
+			button.SetTitle ("Decline", UIControlState.Normal);
+			cell.AddSubview (button);
+		}
+
 		void AddControls(UITableViewCell cell, SharedCard sharedCard){
 
 			if (!string.IsNullOrEmpty (sharedCard.Card.FrontFileName)) {
@@ -74,21 +90,9 @@ namespace Busidex.Presentation.iOS
 
 				AddNameLabel(userCard, cell, ref frame);
 				AddCompanyLabel (userCard, cell, ref frame);
-
-			} else {
-				var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
-				if (NameLabel != null) {
-					NameLabel.RemoveFromSuperview ();
-				}
-
-				var frame = new RectangleF (10f, 10f, 300f, 50f);
-				NameLabel = new UILabel (frame);
-				NameLabel.Tag = (int)Resources.UIElements.NameLabel;
-				NameLabel.Text = sharedCard.Card.Name;
-				NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 18f);
-
-				cell.ContentView.AddSubview (NameLabel);
-			}
+				AddAcceptButton (userCard, cell);
+				AddDeclineButton (userCard, cell);
+			} 
 		}
 	}
 }
