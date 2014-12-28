@@ -13,12 +13,6 @@ namespace Busidex.Mobile
 			var request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = method;
 
-//			if(data != null){
-//				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
-//				writer.Write (data);
-//				request.ContentType = "application/json";
-//				writer.Close ();
-//			}
 			request.Headers.Add ("X-Authorization-Token", token);
 
 			if (method == "POST" || method == "PUT") {

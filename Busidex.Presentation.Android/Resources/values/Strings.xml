@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, Click Me!</string>
+	<string name="app_name">Busidex</string>
+	<string name="StartPage_lblWelcome">Thanks for downloading the Busidex App! Choose one of the following to begin.</string>
+	<string name="StartPage_lblAlreadyAUser">Already a Busidex User?</string>
+	<string name="StartPage_btnConnect">Connect to Your Account</string>
+	<string name="StartPage_lblNewUser">New to Busidex?</string>
+	<string name="StartPage_btnStart">Start Using the App!</string>
+</resources>

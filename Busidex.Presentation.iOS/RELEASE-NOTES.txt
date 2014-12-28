@@ -1,1 +1,1 @@
-remove local cache files when switching accounts
+complete flow of sharing cards
