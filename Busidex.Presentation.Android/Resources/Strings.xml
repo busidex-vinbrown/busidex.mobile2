@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources> 
 	<string name="app_name">Busidex</string>
 	<string name="StartPage_lblWelcome">Thanks for downloading the Busidex App! Choose one of the following to begin.</string>
 	<string name="StartPage_lblAlreadyAUser">Already a Busidex User?</string>
@@ -11,5 +11,5 @@
 	<string name="Main_btnMyOrganizations">My Organizations</string>
 	<string name="Login_lblUserName">User Name</string>
 	<string name="Login_lblPassword">Password</string>
-	<string name="Login_btnLogin">Sign In</string>
+	<string name="Login_bntSignin">Sign In</string>
 </resources>

@@ -2,4 +2,5 @@
 <resources>
 	<color name="buttonFontColor">#ff0582f1</color>
 	<color name="labelFontColor">#ff666666</color>
+	<color name="layoutBackground">#ffffffff</color>
 </resources>

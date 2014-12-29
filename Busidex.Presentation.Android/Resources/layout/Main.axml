@@ -1,64 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:scrollbars="none"
-    android:background="#ffffff">
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="79.3dp"
-        android:id="@+id/textView1"
-        android:text="@string/StartPage_lblWelcome"
-        android:textColor="@color/labelFontColor"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"
-        android:layout_marginTop="20dp" />
-    <TextView
-        android:text="@string/StartPage_lblAlreadyAUser"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="28.3dp"
-        android:id="@+id/textView2"
-        android:textColor="@color/buttonFontColor"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="30dp" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnConnect"
-        android:text="@string/StartPage_btnConnect"
-        android:textColor="@color/buttonFontColor"
-        android:background="#ffffffff"
-        android:gravity="center_horizontal"
-        android:textStyle="bold" />
-    <TextView
-        android:text="@string/StartPage_lblNewUser"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="28.3dp"
-        android:id="@+id/textView2"
-        android:textColor="@color/buttonFontColor"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="30dp" />
-    <Button
-        android:layout_width="match_parent"
-        android:id="@+id/btnStart"
-        android:text="@string/StartPage_btnStart"
-        android:textColor="@color/buttonFontColor"
-        android:background="#ffffffff"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content"
-        android:textStyle="bold" />
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/relativeLayout1"
+    p1:background="@color/layoutBackground">
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imgLogo"
-        android:scaleType="matrix"
-        android:src="@drawable/LargeLogo" />
-</LinearLayout>
+        p1:src="@drawable/spotlight_icon"
+        p1:layout_width="75dp"
+        p1:layout_height="75dp"
+        p1:id="@+id/imageView1"
+        p1:layout_marginTop="50dp"
+        p1:layout_marginLeft="40dp" />
+    <ImageView
+        p1:src="@drawable/icon"
+        p1:layout_width="75dp"
+        p1:layout_height="75dp"
+        p1:layout_below="@id/imageView1"
+        p1:id="@+id/imageView2"
+        p1:layout_marginLeft="40dp"
+        p1:layout_marginTop="30dp" />
+    <ImageView
+        p1:src="@drawable/people"
+        p1:layout_width="75dp"
+        p1:layout_height="75dp"
+        p1:layout_below="@id/imageView2"
+        p1:id="@+id/imageView3"
+        p1:layout_marginLeft="40dp"
+        p1:layout_marginTop="30dp" />
+    <Button
+        p1:text="Search for a Card"
+        p1:layout_width="200dp"
+        p1:layout_height="75dp"
+        p1:layout_toRightOf="@id/imageView1"
+        p1:id="@+id/button1"
+        p1:textColor="@color/buttonFontColor"
+        p1:background="@color/layoutBackground"
+        p1:layout_marginTop="50dp" />
+    <Button
+        p1:text="My Busidex"
+        p1:layout_width="200dp"
+        p1:layout_height="75dp"
+        p1:layout_below="@id/button1"
+        p1:id="@+id/button2"
+        p1:layout_toRightOf="@id/imageView2"
+        p1:textColor="@color/buttonFontColor"
+        p1:background="@color/layoutBackground"
+        p1:layout_marginTop="30dp" />
+    <Button
+        p1:text="My Organizations"
+        p1:layout_width="200dp"
+        p1:layout_height="75dp"
+        p1:layout_toRightOf="@id/imageView3"
+        p1:id="@+id/button3"
+        p1:layout_below="@id/button2"
+        p1:textColor="@color/buttonFontColor"
+        p1:background="@color/layoutBackground"
+        p1:layout_marginTop="30dp" />
+</RelativeLayout>
