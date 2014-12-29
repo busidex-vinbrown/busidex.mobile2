@@ -57,8 +57,9 @@
         android:textStyle="bold" />
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="128.3dp"
         android:id="@+id/imgLogo"
         android:scaleType="centerInside"
-        android:src="@drawable/large_logo" />
+        android:src="@drawable/large_logo"
+        android:layout_marginTop="40dp" />
 </LinearLayout>
