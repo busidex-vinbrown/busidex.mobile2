@@ -1,17 +1,21 @@
 ﻿
-
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using Busidex.Mobile.Models;
+using Java.Net;
+using System;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "LoginActivity")]			
-	public class LoginActivity : Activity
+	[Activity (Label = "Sign In")]			
+	public class LoginActivity : BaseActivity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+
+			SetContentView (Resource.Layout.Login);
 
 			var button = FindViewById<Button> (Resource.Id.btnLogin);
 			button.Click += delegate {
@@ -27,9 +31,15 @@ namespace Busidex.Presentation.Android
 			var userName = txtUserName.Text;
 			var password = txtPassword.Text;
 
-			var controller = Busidex.Mobile.LoginController.DoLogin (userName, password);
+			var response = Busidex.Mobile.LoginController.DoLogin (userName, password);
+			var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+			var userId = loginResponse != null ? loginResponse.UserId : 0;
+			SetAuthCookie (userId);
 
+			RedirectToMainIfLoggedIn ();
 		}
+
+
 	}
 }
 

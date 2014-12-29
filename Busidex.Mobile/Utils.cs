@@ -43,7 +43,12 @@ namespace Busidex.Mobile
 			}
 		}
 
+		public static string EncodeUserId(long userId){
 
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
+			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
+			return returnValue;
+		}
 	}
 }
 

@@ -1,13 +1,28 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile/LoginController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/BaseActivity.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Android/Resources/values/Strings.xml" Line="39" Column="39" />
-      <File FileName="Busidex.Presentation.Android/StartupActivity.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.Android/MainActivity.cs" Line="66" Column="66" />
+      <File FileName="Busidex.Presentation.Android/StartupActivity.cs" Line="22" Column="22" />
       <File FileName="Busidex.Presentation.Android/LoginActivity.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Mobile/LoginController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Android/MainActivity.cs" Line="42" Column="42" />
+      <File FileName="Busidex.Presentation.Android/BaseActivity.cs" Line="3" Column="3" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Busidex.Mobile" expanded="True" />
+          <Node name="Busidex.Presentation.Android" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="Packages" expanded="True" />
+            <Node name="Resources" expanded="True">
+              <Node name="layout" expanded="True" />
+            </Node>
+            <Node name="BaseActivity.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -21,6 +36,6 @@
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
-    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="complete flow of sharing cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
+    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix search" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
 </Properties>

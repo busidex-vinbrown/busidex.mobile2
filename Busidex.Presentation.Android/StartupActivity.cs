@@ -1,20 +1,14 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "StartupActivity", MainLauncher = true)]			
-	public class StartupActivity : Activity
+	public class StartupActivity : BaseActivity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -25,9 +19,14 @@ namespace Busidex.Presentation.Android
 			var btnLogin = FindViewById<Button> (Resource.Id.btnConnect);
 
 			btnLogin.Click += delegate {
-				SetContentView (Resource.Layout.Login);
+				var intent = new Intent(this, typeof(LoginActivity));
+				StartActivity(intent);
 			};
+
+			RedirectToMainIfLoggedIn ();
 		}
+
+
 	}
 }
 

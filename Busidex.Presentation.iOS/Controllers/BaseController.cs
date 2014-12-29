@@ -28,7 +28,7 @@ namespace Busidex.Presentation.iOS
 			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
 			DateTime expiration = DateTime.Now.AddYears(1);
 			nCookie.Expires = expiration;
-			nCookie.Value = EncodeUserId(userId);
+			nCookie.Value = Busidex.Mobile.Utils.EncodeUserId(userId);
 			var cookie = new NSHttpCookie(nCookie);
 
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
@@ -159,12 +159,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		static string EncodeUserId(long userId){
 
-			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
-			return returnValue;
-		}
 
 		/// <summary>
 		/// Shows the alert.

@@ -10,7 +10,7 @@ using Android.OS;
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "Busidex", Icon = "@drawable/icon")]
-	public class MainActivity : Activity
+	public class MainActivity : BaseActivity
 	{
 		//int count = 1;
 
