@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="none"
+    android:background="#ffffff">
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="79.3dp"
+        android:id="@+id/textView1"
+        android:text="@string/StartPage_lblWelcome"
+        android:textColor="@color/labelFontColor"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="20dp" />
+    <TextView
+        android:text="@string/StartPage_lblAlreadyAUser"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="28.3dp"
+        android:id="@+id/textView2"
+        android:textColor="@color/buttonFontColor"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="30dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnConnect"
+        android:text="@string/StartPage_btnConnect"
+        android:textColor="@color/buttonFontColor"
+        android:background="#ffffffff"
+        android:gravity="center_horizontal"
+        android:textStyle="bold" />
+    <TextView
+        android:text="@string/StartPage_lblNewUser"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="28.3dp"
+        android:id="@+id/textView2"
+        android:textColor="@color/buttonFontColor"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="30dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/btnStart"
+        android:text="@string/StartPage_btnStart"
+        android:textColor="@color/buttonFontColor"
+        android:background="#ffffffff"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="128.3dp"
+        android:id="@+id/imgLogo"
+        android:scaleType="centerInside"
+        android:src="@drawable/large_logo"
+        android:layout_marginTop="40dp" />
+</LinearLayout>
