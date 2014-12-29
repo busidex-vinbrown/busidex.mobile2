@@ -49,6 +49,11 @@ namespace Busidex.Mobile
 			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
 		}
+
+		public static void SaveResponse(string response, string fileName){
+			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
+			File.WriteAllText (fullFilePath, response);
+		}
 	}
 }
 

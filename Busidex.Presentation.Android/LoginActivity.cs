@@ -3,7 +3,6 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Busidex.Mobile.Models;
-using Java.Net;
 using System;
 
 namespace Busidex.Presentation.Android
@@ -11,9 +10,9 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "Sign In")]			
 	public class LoginActivity : BaseActivity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Login);
 

@@ -145,10 +145,7 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected void SaveResponse(string response, string fileName){
-			var fullFilePath = Path.Combine (documentsPath, fileName);
-			File.WriteAllText (fullFilePath, response);
-		}
+
 
 		protected void LoadCardsFromFile(string fullFilePath){
 

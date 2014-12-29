@@ -53,6 +53,9 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f040002
 			public const int layoutBackground = 2130968578;
 			
+			// aapt resource value: 0x7f040003
+			public const int listBackground = 2130968579;
+			
 			static Color()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -97,8 +100,8 @@ namespace Busidex.Presentation.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06000d
-			public const int btnConnect = 2131099661;
+			// aapt resource value: 0x7f06000e
+			public const int btnConnect = 2131099662;
 			
 			// aapt resource value: 0x7f060005
 			public const int btnLogin = 2131099653;
@@ -112,8 +115,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f06000a
 			public const int btnSearch = 2131099658;
 			
-			// aapt resource value: 0x7f06000e
-			public const int btnStart = 2131099662;
+			// aapt resource value: 0x7f06000f
+			public const int btnStart = 2131099663;
 			
 			// aapt resource value: 0x7f060007
 			public const int imageView1 = 2131099655;
@@ -124,8 +127,14 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f060009
 			public const int imageView3 = 2131099657;
 			
+			// aapt resource value: 0x7f060012
+			public const int imgCard = 2131099666;
+			
 			// aapt resource value: 0x7f060006
 			public const int imgLogo = 2131099654;
+			
+			// aapt resource value: 0x7f06000d
+			public const int lstCards = 2131099661;
 			
 			// aapt resource value: 0x7f060000
 			public const int relativeLayout1 = 2131099648;
@@ -135,6 +144,12 @@ namespace Busidex.Presentation.Android
 			
 			// aapt resource value: 0x7f060003
 			public const int textView2 = 2131099651;
+			
+			// aapt resource value: 0x7f060011
+			public const int txtCompanyName = 2131099665;
+			
+			// aapt resource value: 0x7f060010
+			public const int txtName = 2131099664;
 			
 			// aapt resource value: 0x7f060004
 			public const int txtPassword = 2131099652;
@@ -162,7 +177,19 @@ namespace Busidex.Presentation.Android
 			public const int Main = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int StartUp = 2130903042;
+			public const int MyBusidex = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int MyOrganizations = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int Search = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int StartUp = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int UserCardListItem = 2130903046;
 			
 			static Layout()
 			{
@@ -176,6 +203,9 @@ namespace Busidex.Presentation.Android
 		
 		public partial class String
 		{
+			
+			// aapt resource value: 0x7f05000c
+			public const int Global_LoadingCards = 2131034124;
 			
 			// aapt resource value: 0x7f05000b
 			public const int Login_btnLogin = 2131034123;

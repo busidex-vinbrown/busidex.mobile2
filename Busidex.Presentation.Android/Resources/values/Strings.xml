@@ -12,4 +12,5 @@
 	<string name="Login_lblUserName">User Name</string>
 	<string name="Login_lblPassword">Password</string>
 	<string name="Login_btnLogin">Sign In</string>
+	<string name="Global_LoadingCards">Loading Your Cards</string>
 </resources>

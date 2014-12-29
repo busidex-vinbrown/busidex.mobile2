@@ -56,6 +56,10 @@
     <Compile Include="StartupActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="BaseActivity.cs" />
+    <Compile Include="SearchActivity.cs" />
+    <Compile Include="MyBusidexActivity.cs" />
+    <Compile Include="MyOrganizationsActivity.cs" />
+    <Compile Include="UserCardAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -77,6 +81,10 @@
     <AndroidResource Include="Resources\drawable\delete.png" />
     <AndroidResource Include="Resources\drawable\people.jpg" />
     <AndroidResource Include="Resources\drawable\Icon_2x.png" />
+    <AndroidResource Include="Resources\layout\Search.axml" />
+    <AndroidResource Include="Resources\layout\MyBusidex.axml" />
+    <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
+    <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

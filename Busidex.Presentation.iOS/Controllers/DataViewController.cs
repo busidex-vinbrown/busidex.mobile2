@@ -90,7 +90,7 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+		    Busidex.Mobile.Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
 
 			if(sharedCards != null){
 				return sharedCards.SharedCards.Count;
@@ -262,7 +262,7 @@ namespace Busidex.Presentation.iOS
 
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
-							SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
+							Busidex.Mobile.Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
 							SetRefreshCookie();
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
@@ -277,7 +277,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+									Busidex.Mobile.Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -307,7 +307,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationReferrals(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+									Busidex.Mobile.Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -365,7 +365,7 @@ namespace Busidex.Presentation.iOS
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
-							SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
+						    Busidex.Mobile.Utils.SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
 							SetRefreshCookie();
 
 							var cards = new List<UserCard> ();

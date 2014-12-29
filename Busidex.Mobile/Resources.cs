@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+
+
 namespace Busidex.Mobile
 {
 	public static class Resources
@@ -22,6 +24,8 @@ namespace Busidex.Mobile
 		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_";
 		public const string COOKIE_URI = "https://localhost";
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years
+
+		public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		public enum UIElements{
 			CardImage = 1,

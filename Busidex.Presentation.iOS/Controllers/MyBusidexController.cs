@@ -163,7 +163,7 @@ namespace Busidex.Presentation.iOS
 
 				if(!string.IsNullOrEmpty(response.Result)){
 					ProcessCards (response.Result);
-					SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
+					Busidex.Mobile.Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
 				}
 			}
 		}

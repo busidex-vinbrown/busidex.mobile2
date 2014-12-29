@@ -2,7 +2,6 @@
 using System;
 
 using Android.App;
-using Java.Net;
 using System.Linq;
 using Android.Content;
 using Xamarin.Auth;
@@ -19,8 +18,13 @@ namespace Busidex.Presentation.Android
 			var cookie = GetAuthCookie ();
 			if(cookie != null){
 				var intent = new Intent(this, typeof(MainActivity));
-				StartActivity(intent);
+				Redirect(intent);
 			}
+		}
+
+		protected void Redirect(Intent intent){
+
+			StartActivity(intent);
 		}
 
 		protected Account GetAuthCookie(){
