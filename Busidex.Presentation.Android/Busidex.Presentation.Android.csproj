@@ -45,22 +45,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\layout\StartUp.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\values\Colors.xml" />
-    <AndroidResource Include="Resources\drawable\LargeLogo.png">
+    <AndroidResource Include="Resources\layout\Login.axml" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\drawable\large_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\spotlight_icon.png" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable\delete.png" />
+    <AndroidResource Include="Resources\drawable\people.jpg" />
+    <AndroidResource Include="Resources\drawable\Icon_2x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>
