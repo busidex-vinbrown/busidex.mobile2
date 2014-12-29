@@ -138,17 +138,17 @@ namespace Busidex.Presentation.iOS
 			}
 
 			var ctrl = new Busidex.Mobile.SearchController ();
-			string response = await ctrl.DoSearch (txtSearch.Text, token);
+			ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
 
-			if (!string.IsNullOrEmpty (response)) {
+			//if (!string.IsNullOrEmpty (response.Result)) {
 
-				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response);
+				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
 				var cards = new List<UserCard> ();
 				float total = Search.SearchModel.Results.Count;
 				float processed = 0;
 
 				if (!Search.SearchModel.Results.Any ()) {
-					LoadSearchResults (new List<UserCard> ());
+					InvokeOnMainThread (() => LoadSearchResults (new List<UserCard> ()));
 				} else {
 					foreach (var item in Search.SearchModel.Results) {
 						if (item != null) {
@@ -163,7 +163,7 @@ namespace Busidex.Presentation.iOS
 							cards.Add (userCard);
 
 							if (!File.Exists (Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + item.FrontFileName))) {
-								await Utils.DownloadImage (imageUrl, documentsPath, fName).ContinueWith (t => {
+								Utils.DownloadImage (imageUrl, documentsPath, fName).ContinueWith (t => {
 									processed++;
 									if (processed.Equals(total)) {
 										InvokeOnMainThread (() => LoadSearchResults (cards));
@@ -172,13 +172,15 @@ namespace Busidex.Presentation.iOS
 							} else {
 								processed++;
 								if (processed.Equals(total)) {
-									LoadSearchResults (cards);
+									InvokeOnMainThread (() => LoadSearchResults (cards));
 								}
 							}
 						}
 					}
 				}
-			}
+			//}
+
+			});
 			return 1;
 		}
 	}

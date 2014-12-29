@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundation;
 using UIKit;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
@@ -43,8 +44,10 @@ namespace Busidex.Presentation.iOS
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
 
+				var response = Busidex.Mobile.LoginController.DoLogin(username, password);
+				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
 
-				UserId = Busidex.Mobile.LoginController.DoLogin(username, password);
+				UserId = loginResponse != null ? loginResponse.UserId : 0;
 
 				if(UserId > 0){
 

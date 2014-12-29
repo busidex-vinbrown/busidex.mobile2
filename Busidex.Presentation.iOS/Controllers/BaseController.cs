@@ -66,8 +66,8 @@ namespace Busidex.Presentation.iOS
 
 		protected virtual void StartSearch(){
 			InvokeOnMainThread (() => {
-				Overlay = Overlay ?? new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				Overlay.RemoveFromSuperview ();
+				Overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				//Overlay.RemoveFromSuperview ();
 				View.Add (Overlay);
 			});
 

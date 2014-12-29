@@ -1,13 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-
+﻿
 namespace Busidex.Mobile
 {
 	public class ActivityController : BaseController
 	{
-		public ActivityController ()
-		{
-		}
 
 		public static void SaveActivity(long eventSourceId, long cardId, string userToken){
 		

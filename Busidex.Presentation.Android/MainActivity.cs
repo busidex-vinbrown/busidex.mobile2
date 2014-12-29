@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Busidex", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "Busidex", Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
 		//int count = 1;
@@ -19,7 +19,7 @@ namespace Busidex.Presentation.Android
 			base.OnCreate (bundle);
 
 			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.StartUp);
+			SetContentView (Resource.Layout.Main);
 
 			// Get our button from the layout resource,
 			// and attach an event to it

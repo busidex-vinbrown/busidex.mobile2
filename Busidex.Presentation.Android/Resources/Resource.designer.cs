@@ -103,23 +103,17 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f060005
 			public const int btnLogin = 2131099653;
 			
-			// aapt resource value: 0x7f06000e
-			public const int btnStart = 2131099662;
-			
-			// aapt resource value: 0x7f06000a
-			public const int button1 = 2131099658;
-			
 			// aapt resource value: 0x7f06000b
-			public const int button2 = 2131099659;
+			public const int btnMyBusidex = 2131099659;
 			
 			// aapt resource value: 0x7f06000c
-			public const int button3 = 2131099660;
+			public const int btnMyOrganizations = 2131099660;
 			
-			// aapt resource value: 0x7f060002
-			public const int editText1 = 2131099650;
+			// aapt resource value: 0x7f06000a
+			public const int btnSearch = 2131099658;
 			
-			// aapt resource value: 0x7f060004
-			public const int editText2 = 2131099652;
+			// aapt resource value: 0x7f06000e
+			public const int btnStart = 2131099662;
 			
 			// aapt resource value: 0x7f060007
 			public const int imageView1 = 2131099655;
@@ -141,6 +135,12 @@ namespace Busidex.Presentation.Android
 			
 			// aapt resource value: 0x7f060003
 			public const int textView2 = 2131099651;
+			
+			// aapt resource value: 0x7f060004
+			public const int txtPassword = 2131099652;
+			
+			// aapt resource value: 0x7f060002
+			public const int txtUserName = 2131099650;
 			
 			static Id()
 			{

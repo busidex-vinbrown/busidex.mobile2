@@ -3,6 +3,7 @@ using Foundation;
 using System.Linq;
 using Busidex.Mobile;
 using UIKit;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
@@ -84,7 +85,10 @@ namespace Busidex.Presentation.iOS
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
 
-				var userId = Busidex.Mobile.LoginController.DoLogin (email, password);
+				var response = Busidex.Mobile.LoginController.DoLogin(email, password);
+				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+
+				var userId = loginResponse != null ? loginResponse.UserId : 0;
 
 				SetAuthCookie (userId);
 
