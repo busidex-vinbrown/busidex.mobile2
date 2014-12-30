@@ -85,6 +85,7 @@
     <AndroidResource Include="Resources\layout\MyBusidex.axml" />
     <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
     <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
+    <AndroidResource Include="Resources\layout\Card.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
