@@ -128,7 +128,10 @@ namespace Busidex.Presentation.Android
 			public const int imageView3 = 2131099657;
 			
 			// aapt resource value: 0x7f060012
-			public const int imgCard = 2131099666;
+			public const int imgCardHorizontal = 2131099666;
+			
+			// aapt resource value: 0x7f060013
+			public const int imgCardVertical = 2131099667;
 			
 			// aapt resource value: 0x7f060006
 			public const int imgLogo = 2131099654;

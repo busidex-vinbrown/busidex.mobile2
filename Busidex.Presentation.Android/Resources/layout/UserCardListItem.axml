@@ -3,23 +3,19 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/listBackground">
-    <RelativeLayout
-        android:minWidth="25px"
-        android:minHeight="25px"
+    android:background="@color/listBackground"
+    android:dividerPadding="10dp"
+    android:showDividers="end"
+    android:divider="#666666">
+    <TextView
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/relativeLayout1">
-        <TextView
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:id="@+id/txtName"
-            android:textColor="@color/labelFontColor"
-            android:gravity="center_vertical"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        android:id="@+id/txtName"
+        android:textColor="@color/labelFontColor"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp" />
     <TextView
         android:text="Company Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -32,5 +28,12 @@
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="302.7dp"
         android:layout_height="178.6dp"
-        android:id="@+id/imgCard" />
+        android:id="@+id/imgCardHorizontal"
+        android:layout_marginBottom="10dp" />
+    <ImageButton
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="183.3dp"
+        android:layout_height="236.6dp"
+        android:id="@+id/imgCardVertical"
+        android:layout_marginBottom="10dp" />
 </LinearLayout>
