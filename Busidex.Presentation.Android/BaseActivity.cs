@@ -5,6 +5,7 @@ using Android.App;
 using System.Linq;
 using Android.Content;
 using Xamarin.Auth;
+using System.IO;
 
 
 namespace Busidex.Presentation.Android
@@ -56,6 +57,21 @@ namespace Busidex.Presentation.Android
 					var userId = Busidex.Mobile.Utils.DecodeUserId (cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME].Value);
 					SetAuthCookie (userId, -1);
 				}
+			}
+		}
+
+		protected virtual void ProcessCards(string data){
+
+		}
+
+
+
+		protected void LoadCardsFromFile(string fullFilePath){
+
+			if(File.Exists(fullFilePath)){
+				var file = File.OpenText (fullFilePath);
+				var fileJson = file.ReadToEnd ();
+				ProcessCards (fileJson);
 			}
 		}
 	}

@@ -1,10 +1,10 @@
-﻿using System;
-using Android.Widget;
+﻿using Android.Widget;
 using Android.Views;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using Android.App;
 using Android.Net;
+using System.IO;
 
 namespace Busidex.Presentation.Android
 {
@@ -21,10 +21,7 @@ namespace Busidex.Presentation.Android
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
-			var view = convertView;
-			if(view == null) {
-				view = context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);
-			}
+			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);
 
 			var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
@@ -34,8 +31,10 @@ namespace Busidex.Presentation.Android
 			if(card != null){
 				txtName.Text = card.Card.Name;
 				txtCompanyName.Text = card.Card.CompanyName;
-				var uri = global::Android.Net.Uri.Parse (Busidex.Mobile.Resources.CARD_PATH + card.Card.FrontFileName);
+				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
+				var uri = Uri.Parse (fileName);
 				imgCard.SetImageURI (uri);
+				imgCard.SetScaleType (ImageView.ScaleType.FitXy);
 			}
 
 			return view;
