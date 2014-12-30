@@ -87,6 +87,14 @@
     <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
     <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
     <AndroidResource Include="Resources\layout\Card.axml" />
+    <AndroidResource Include="Resources\layout\ButtonPanel.axml" />
+    <AndroidResource Include="Resources\drawable\maps.png" />
+    <AndroidResource Include="Resources\drawable\notes.png" />
+    <AndroidResource Include="Resources\drawable\add.png" />
+    <AndroidResource Include="Resources\drawable\browser.png" />
+    <AndroidResource Include="Resources\drawable\email.png" />
+    <AndroidResource Include="Resources\drawable\remove.png" />
+    <AndroidResource Include="Resources\drawable\share.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:id="@+id/relativeLayout1"
+        android:background="@color/layoutBackground">
+        <ImageButton
+            android:src="@drawable/maps"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/btnMap"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp" />
+        <ImageButton
+            android:src="@drawable/notes"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_toRightOf="@id/btnMap"
+            android:id="@+id/btnNotes"
+            android:background="@color/layoutBackground"
+            android:scaleType="fitXY"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp" />
+        <ImageButton
+            android:src="@drawable/phone"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_toRightOf="@id/btnNotes"
+            android:id="@+id/btnPhone"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp" />
+        <ImageButton
+            android:src="@drawable/browser"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/btnMap"
+            android:id="@+id/btnBrowser"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp" />
+        <ImageButton
+            android:src="@drawable/email"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/btnNotes"
+            android:id="@+id/btnEmail"
+            android:layout_toRightOf="@id/btnBrowser"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp" />
+        <ImageButton
+            android:src="@drawable/add"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/btnPhone"
+            android:id="@+id/btnAdd"
+            android:layout_toRightOf="@id/btnEmail"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp" />
+        <ImageButton
+            android:src="@drawable/remove"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/btnBrowser"
+            android:id="@+id/btnRemove"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp" />
+    </RelativeLayout>
+</LinearLayout>
