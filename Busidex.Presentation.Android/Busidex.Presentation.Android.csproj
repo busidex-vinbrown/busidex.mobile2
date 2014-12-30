@@ -60,6 +60,7 @@
     <Compile Include="MyBusidexActivity.cs" />
     <Compile Include="MyOrganizationsActivity.cs" />
     <Compile Include="UserCardAdapter.cs" />
+    <Compile Include="CardDetailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />

@@ -10,6 +10,7 @@ using System.IO;
 
 namespace Busidex.Presentation.Android
 {
+	 
 	[Activity (Label = "BaseActivity")]			
 	public class BaseActivity : Activity
 	{

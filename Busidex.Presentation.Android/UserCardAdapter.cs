@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Net;
 using System.IO;
+using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
+	public delegate void RedirectToCardHandler(Intent intent);
+
 	public class UserCardAdapter : ArrayAdapter<UserCard>
 	{
+		public event RedirectToCardHandler Redirect;
+
 		protected const int CARD_HEIGHT_VERTICAL = 170;
 		protected const int CARD_HEIGHT_HORIZONTAL = 120;
 		protected const int CARD_WIDTH_VERTICAL = 110;
@@ -17,6 +22,13 @@ namespace Busidex.Presentation.Android
 
 		List<UserCard> Cards { get; set; }
 		readonly Activity context;
+
+		void doRedirect(Intent intent){
+
+			if(Redirect != null){
+				Redirect (intent);
+			}
+		}
 
 		public UserCardAdapter (Activity ctx, int id, List<UserCard> cards) : base(ctx, id, cards)
 		{
@@ -33,6 +45,24 @@ namespace Busidex.Presentation.Android
 			var imgCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
 			var imgCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 
+			imgCardH.Click += delegate {
+
+				var intent = new Intent(context, typeof(CardDetailActivity));
+				var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+
+				intent.PutExtra("Card", data);
+
+				doRedirect(intent);
+			};
+
+			imgCardV.Click += delegate {
+				var intent = new Intent(context, typeof(CardDetailActivity));
+				var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+
+				intent.PutExtra("Card", data);
+				doRedirect(intent);
+			};
+
 			var card = Cards [position];
 			if(card != null){
 				txtName.Text = card.Card.Name;
@@ -42,7 +72,6 @@ namespace Busidex.Presentation.Android
 				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
 
-				//imgCard.SetAdjustViewBounds (true);
 				if (card.Card.FrontOrientation == "H") {
 					imgCardH.SetImageURI (uri);
 					imgCardH.SetScaleType (ImageView.ScaleType.FitXy);
@@ -54,8 +83,6 @@ namespace Busidex.Presentation.Android
 					imgCardV.Visibility = ViewStates.Visible;
 					imgCardH.Visibility = ViewStates.Gone;
 				}
-				//imgCard.SetMinimumWidth(card.Card.FrontOrientation == "H" ? CARD_WIDTH_HORIZONTAL : CARD_WIDTH_VERTICAL);
-
 			}
 
 			return view;
