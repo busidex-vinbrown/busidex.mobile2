@@ -57,6 +57,12 @@ namespace Busidex.Presentation.Android
 		}
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
+
+			CardDetailIntent = new Intent(context, typeof(CardDetailActivity));
+			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+			CardDetailIntent.PutExtra ("Card", data);
+
 			doRedirect (CardDetailIntent);
 		}
 
@@ -142,17 +148,16 @@ namespace Busidex.Presentation.Android
 			};
 
 			var card = Cards [position];
+
+			btnCardH.Click -= OnCardDetailButtonClicked;
+			btnCardH.Click += OnCardDetailButtonClicked;
+			btnCardH.Tag = position;
+
+			btnCardV.Click -= OnCardDetailButtonClicked;
+			btnCardV.Click += OnCardDetailButtonClicked;
+			btnCardV.Tag = position;
+
 			if(card != null){
-
-				CardDetailIntent = new Intent(context, typeof(CardDetailActivity));
-				var data = Newtonsoft.Json.JsonConvert.SerializeObject(card);
-				CardDetailIntent.PutExtra("Card", data);
-
-				btnCardH.Click -= OnCardDetailButtonClicked;
-				btnCardH.Click += OnCardDetailButtonClicked;
-
-				btnCardV.Click -= OnCardDetailButtonClicked;
-				btnCardV.Click += OnCardDetailButtonClicked;
 
 				txtName.Text = card.Card.Name;
 				txtCompanyName.Text = card.Card.CompanyName;
