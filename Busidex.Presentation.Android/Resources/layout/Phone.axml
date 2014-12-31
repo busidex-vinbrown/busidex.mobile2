@@ -1,8 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:background="@color/layoutBackground"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/phoneLayout">
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="290.5dp"
+            android:layout_height="132.1dp"
+            android:id="@+id/imgPhoneCard"
+            android:scaleType="fitXY" />
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/imgPhoneCard"
+            android:id="@+id/lstPhoneNumbers"
+            android:layout_marginBottom="40.0dp"
+            android:layout_marginTop="20dp" />
+    </RelativeLayout>
 </LinearLayout>
-

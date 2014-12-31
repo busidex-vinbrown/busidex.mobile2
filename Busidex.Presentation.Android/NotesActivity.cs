@@ -19,7 +19,7 @@ namespace Busidex.Presentation.Android
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-
+			SetContentView (Resource.Layout.Notes);
 			// Create your application here
 		}
 	}

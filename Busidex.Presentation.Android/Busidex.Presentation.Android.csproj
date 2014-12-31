@@ -66,6 +66,7 @@
     <Compile Include="PhoneActivity.cs" />
     <Compile Include="NotesActivity.cs" />
     <Compile Include="ShareCardActivity.cs" />
+    <Compile Include="PhoneNumberEntryAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -106,6 +107,7 @@
     <AndroidResource Include="Resources\anim\SlideAnimation.xml" />
     <AndroidResource Include="Resources\layout\ButtonPanel.axml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimation.xml" />
+    <AndroidResource Include="Resources\layout\PhoneNumberEntry.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

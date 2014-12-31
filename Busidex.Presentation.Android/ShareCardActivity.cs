@@ -16,10 +16,10 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "ShareCardActivity")]			
 	public class ShareCardActivity : BaseCardActivity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
-
+			base.OnCreate (savedInstanceState);
+			SetContentView (Resource.Layout.SharedCard);
 			// Create your application here
 		}
 	}

@@ -52,9 +52,7 @@ namespace Busidex.Presentation.Android
 		}
 
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
-			var account = GetAuthCookie ();
-			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
-			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
+			var cookie = GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie() && !force) {
@@ -68,7 +66,7 @@ namespace Busidex.Presentation.Android
 //					View.AddSubview (overlay);
 
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
-					await ctrl.GetMyBusidex (cookie.Value).ContinueWith(async r => {
+					await ctrl.GetMyBusidex (cookie).ContinueWith(async r => {
 
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);

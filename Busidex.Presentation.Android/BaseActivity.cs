@@ -29,7 +29,14 @@ namespace Busidex.Presentation.Android
 			StartActivity(intent);
 		}
 
-		protected Account GetAuthCookie(){
+		protected string GetAuthCookie(){
+			var account = GetAuthAccount ();
+			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
+			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
+			return cookie.Value;
+		}
+
+		protected Account GetAuthAccount(){
 
 			return AccountStore.Create (this).FindAccountsForService (Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME).FirstOrDefault();
 		}
@@ -51,7 +58,7 @@ namespace Busidex.Presentation.Android
 		}
 
 		protected void RemoveAuthCookie(){
-			var account = GetAuthCookie ();
+			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 				var cookies = account.Cookies.GetCookies (new Uri(Busidex.Mobile.Resources.COOKIE_URI));
 				if(cookies != null){
