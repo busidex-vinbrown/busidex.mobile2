@@ -34,14 +34,14 @@
         <ImageButton
             android:src="@android:drawable/ic_menu_gallery"
             android:id="@+id/imgCardHorizontal"
-            android:layout_width="265.6dp"
-            android:layout_height="159.3dp"
+            android:layout_width="265dp"
+            android:layout_height="160dp"
             android:layout_below="@id/txtCompanyName" />
         <ImageButton
             android:src="@android:drawable/ic_menu_gallery"
             android:id="@+id/imgCardVertical"
-            android:layout_width="175.3dp"
-            android:layout_height="240.1dp"
+            android:layout_width="175dp"
+            android:layout_height="240dp"
             android:layout_below="@id/imgCardHorizontal" />
         <ImageButton
             android:src="@android:drawable/ic_menu_info_details"

@@ -143,14 +143,14 @@ namespace Busidex.Presentation.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070022
-			public const int btnConnect = 2131165218;
+			// aapt resource value: 0x7f070023
+			public const int btnConnect = 2131165219;
 			
 			// aapt resource value: 0x7f070009
 			public const int btnHideInfo = 2131165193;
 			
-			// aapt resource value: 0x7f07002b
-			public const int btnInfo = 2131165227;
+			// aapt resource value: 0x7f07002c
+			public const int btnInfo = 2131165228;
 			
 			// aapt resource value: 0x7f070010
 			public const int btnLogin = 2131165200;
@@ -185,14 +185,14 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f070006
 			public const int btnPanelShare = 2131165190;
 			
-			// aapt resource value: 0x7f07001f
-			public const int btnPhoneNumber = 2131165215;
+			// aapt resource value: 0x7f070020
+			public const int btnPhoneNumber = 2131165216;
 			
 			// aapt resource value: 0x7f070016
 			public const int btnSearch = 2131165206;
 			
-			// aapt resource value: 0x7f070024
-			public const int btnStart = 2131165220;
+			// aapt resource value: 0x7f070025
+			public const int btnStart = 2131165221;
 			
 			// aapt resource value: 0x7f070013
 			public const int imageView1 = 2131165203;
@@ -206,41 +206,44 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07000a
 			public const int imgCardDetail = 2131165194;
 			
-			// aapt resource value: 0x7f070029
-			public const int imgCardHorizontal = 2131165225;
-			
 			// aapt resource value: 0x7f07002a
-			public const int imgCardVertical = 2131165226;
+			public const int imgCardHorizontal = 2131165226;
 			
-			// aapt resource value: 0x7f070025
-			public const int imgLoginLogo = 2131165221;
+			// aapt resource value: 0x7f07002b
+			public const int imgCardVertical = 2131165227;
+			
+			// aapt resource value: 0x7f070026
+			public const int imgLoginLogo = 2131165222;
 			
 			// aapt resource value: 0x7f070011
 			public const int imgLogo = 2131165201;
 			
 			// aapt resource value: 0x7f07001b
-			public const int imgPhoneCard = 2131165211;
+			public const int imgPhoneCardHorizontal = 2131165211;
+			
+			// aapt resource value: 0x7f07001d
+			public const int imgPhoneCardVertical = 2131165213;
+			
+			// aapt resource value: 0x7f070022
+			public const int lblAlreadyAUser = 2131165218;
 			
 			// aapt resource value: 0x7f070021
-			public const int lblAlreadyAUser = 2131165217;
+			public const int lblIntro = 2131165217;
 			
-			// aapt resource value: 0x7f070020
-			public const int lblIntro = 2131165216;
-			
-			// aapt resource value: 0x7f070023
-			public const int lblNewUser = 2131165219;
+			// aapt resource value: 0x7f070024
+			public const int lblNewUser = 2131165220;
 			
 			// aapt resource value: 0x7f07000e
 			public const int lblPassword = 2131165198;
 			
-			// aapt resource value: 0x7f07001e
-			public const int lblPhoneNumberType = 2131165214;
+			// aapt resource value: 0x7f07001f
+			public const int lblPhoneNumberType = 2131165215;
 			
 			// aapt resource value: 0x7f07000c
 			public const int lblUserName = 2131165196;
 			
-			// aapt resource value: 0x7f070026
-			public const int listItemLayout = 2131165222;
+			// aapt resource value: 0x7f070027
+			public const int listItemLayout = 2131165223;
 			
 			// aapt resource value: 0x7f07000b
 			public const int loginLayout = 2131165195;
@@ -260,14 +263,14 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07001a
 			public const int phoneLayout = 2131165210;
 			
-			// aapt resource value: 0x7f07001d
-			public const int phoneNumberEntryLayout = 2131165213;
+			// aapt resource value: 0x7f07001e
+			public const int phoneNumberEntryLayout = 2131165214;
+			
+			// aapt resource value: 0x7f070029
+			public const int txtCompanyName = 2131165225;
 			
 			// aapt resource value: 0x7f070028
-			public const int txtCompanyName = 2131165224;
-			
-			// aapt resource value: 0x7f070027
-			public const int txtName = 2131165223;
+			public const int txtName = 2131165224;
 			
 			// aapt resource value: 0x7f07000f
 			public const int txtPassword = 2131165199;

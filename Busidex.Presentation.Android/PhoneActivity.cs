@@ -21,25 +21,35 @@ namespace Busidex.Presentation.Android
 			StartActivity (intent); 
 		}
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Phone);
 
-			var imgPhoneCard = FindViewById<ImageView> (Resource.Id.imgPhoneCard);
-			var frontFileName = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName);
+			var imgPhoneCardHorizontal = FindViewById<ImageView> (Resource.Id.imgPhoneCardHorizontal);
+			var imgPhoneCardVertical = FindViewById<ImageView> (Resource.Id.imgPhoneCardVertical);
+
+			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName);
 			var frontUri = Uri.Parse (frontFileName);
 
 			if (File.Exists (frontFileName)) {
-				imgPhoneCard.SetImageURI (frontUri);
+				if (Card.Card.FrontOrientation == "H") {
+					imgPhoneCardHorizontal.SetImageURI (frontUri);
+				}else{
+					imgPhoneCardVertical.SetImageURI (frontUri);
+				}
 			}else{
 
 				//ShowOverlay ();
 
 				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + Card.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName).ContinueWith (t => {
 					RunOnUiThread (() => {
-						imgPhoneCard.SetImageURI (frontUri);
+						if (Card.Card.FrontOrientation == "H") {
+							imgPhoneCardHorizontal.SetImageURI (frontUri);
+						}else{
+							imgPhoneCardVertical.SetImageURI (frontUri);
+						}
 						//Overlay.Hide();
 					});
 				});
