@@ -1,12 +1,8 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/PhoneActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/Properties/AndroidManifest.xml">
     <Files>
-      <File FileName="Busidex.Presentation.Android/ButtonPanelActivity.cs" Line="2" Column="2" />
-      <File FileName="Busidex.Presentation.Android/UserCardAdapter.cs" Line="5" Column="5" />
-      <File FileName="Busidex.Presentation.Android/PhoneActivity.cs" Line="7" Column="7" />
-      <File FileName="Busidex.Presentation.Android/CardDetailActivity.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/PhoneViewController.cs" Line="6" Column="6" />
+      <File FileName="Busidex.Presentation.Android/Properties/AndroidManifest.xml" Line="12" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
