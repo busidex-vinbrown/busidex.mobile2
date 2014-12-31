@@ -4,7 +4,7 @@
     p1:minHeight="25px"
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
-    p1:id="@+id/relativeLayout1"
+    p1:id="@+id/mainLayout"
     p1:background="@color/layoutBackground">
     <ImageView
         p1:src="@drawable/spotlight_icon"

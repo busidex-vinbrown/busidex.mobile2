@@ -6,6 +6,7 @@ using Android.App;
 using Android.Net;
 using System.IO;
 using Android.Content;
+using Android.Views.Animations;
 
 namespace Busidex.Presentation.Android
 {
@@ -36,30 +37,66 @@ namespace Busidex.Presentation.Android
 			context = ctx;
 		}
 
+		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent){
+
+			var panel = layout.FindViewById<View> (Resource.Layout.ButtonPanel);
+			if (panel == null) {
+				panel = context.LayoutInflater.Inflate (Resource.Layout.ButtonPanel, null);
+				layout.AddView (panel);
+			}
+			panel.Visibility = ViewStates.Visible;
+
+			var layoutParams = panel.LayoutParameters;
+			if(layoutParams == null){
+				layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
+			}else{
+				layoutParams.Width = parent.Width;
+				layoutParams.Height = view.Height;
+			}
+			panel.LayoutParameters = layoutParams;
+
+			var btnInfo = panel.FindViewById<ImageButton> (Resource.Id.btnInfo);
+			var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
+			btnInfo.Visibility = ViewStates.Visible;
+
+			btnHideInfo.Click += (object sender, System.EventArgs e) => {
+				var leftAndOut = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideOutAnimation);
+				panel.StartAnimation(leftAndOut);
+				panel.Visibility = ViewStates.Gone;
+			};
+			return panel;
+		}
+
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);
+
 
 			var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
 			var imgCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
 			var imgCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
+			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
+
+			btnInfo.Click += (object sender, System.EventArgs e) => {
+
+				var layout = view.FindViewById<RelativeLayout>(Resource.Id.listItemLayout);
+				var panel = SetButtonPanel(ref layout, view, parent);
+
+				var leftAndIn = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideAnimation);
+				btnInfo.Visibility = ViewStates.Invisible;
+				panel.StartAnimation(leftAndIn);
+			};
+
+			var intent = new Intent(context, typeof(CardDetailActivity));
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+			intent.PutExtra("Card", data);
 
 			imgCardH.Click += delegate {
-
-				var intent = new Intent(context, typeof(CardDetailActivity));
-				var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
-
-				intent.PutExtra("Card", data);
-
 				doRedirect(intent);
 			};
 
 			imgCardV.Click += delegate {
-				var intent = new Intent(context, typeof(CardDetailActivity));
-				var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
-
-				intent.PutExtra("Card", data);
 				doRedirect(intent);
 			};
 

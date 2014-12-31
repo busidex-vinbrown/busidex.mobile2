@@ -12,7 +12,7 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relativeLayout1">
+        android:id="@+id/listItemLayout">
         <TextView
             android:text="Name"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -44,7 +44,7 @@
             android:layout_height="240.1dp"
             android:layout_below="@id/imgCardHorizontal" />
         <ImageButton
-            android:src="@android:drawable/ic_dialog_info"
+            android:src="@android:drawable/ic_menu_info_details"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_toRightOf="@id/imgCardHorizontal"
@@ -52,6 +52,7 @@
             android:layout_marginTop="90dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="50dp"
-            android:background="@color/listBackground" />
+            android:background="@color/listBackground"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 </LinearLayout>

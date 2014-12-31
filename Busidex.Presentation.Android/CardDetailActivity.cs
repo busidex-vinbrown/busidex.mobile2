@@ -1,40 +1,32 @@
-﻿
-//using System;
-
+﻿using System.IO;
 using Android.App;
+using Android.Content;
 using Android.Net;
 using Android.OS;
 using Android.Widget;
-using Busidex.Mobile.Models;
-using System.IO;
-using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "Busidex")]			
-	public class CardDetailActivity : BaseActivity
+	public class CardDetailActivity : BaseCardActivity
 	{
-		public UserCard Card { get; set; }
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
+
+		ImageButton btnCard { get; set; }
+		CardViewState ViewState {get;set;}
 		enum CardViewState{
 			Loading = 1,
 			Front = 2,
 			Back = 3
 		}
-		ImageButton btnCard { get; set; }
-
-		CardViewState ViewState {get;set;}
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 
-			var data = Intent.GetStringExtra ("Card");
-			Card = Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data);
-
 			SetContentView (Resource.Layout.Card);
-			btnCard = FindViewById<ImageButton> (Resource.Id.imgCard);
+			btnCard = FindViewById<ImageButton> (Resource.Id.imgCardDetail);
 			btnCard.SetScaleType (ImageView.ScaleType.FitXy);
 
 			btnCard.Click += delegate {
@@ -96,14 +88,6 @@ namespace Busidex.Presentation.Android
 					Redirect(new Intent(this, typeof(MyBusidexActivity)));
 					break;
 				}
-			}
-		}
-
-		public override void OnAttachedToWindow ()
-		{
-			base.OnAttachedToWindow ();
-			if(Card != null){
-				this.Window.SetTitle(Card.Card.Name);
 			}
 		}
 	}
