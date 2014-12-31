@@ -37,7 +37,7 @@ namespace Busidex.Presentation.Android
 			context = ctx;
 		}
 
-		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent){
+		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent, int position){
 
 			var panel = layout.FindViewById<View> (Resource.Layout.ButtonPanel);
 			if (panel == null) {
@@ -55,7 +55,7 @@ namespace Busidex.Presentation.Android
 			}
 			panel.LayoutParameters = layoutParams;
 
-			var btnInfo = panel.FindViewById<ImageButton> (Resource.Id.btnInfo);
+			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 			var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
 			btnInfo.Visibility = ViewStates.Visible;
 
@@ -64,13 +64,36 @@ namespace Busidex.Presentation.Android
 				panel.StartAnimation(leftAndOut);
 				panel.Visibility = ViewStates.Gone;
 			};
+
+			var phoneIntent = new Intent(context, typeof(PhoneActivity));
+			var notesIntent = new Intent(context, typeof(NotesActivity));
+			var shareCardIntent = new Intent(context, typeof(ShareCardActivity));
+
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+			phoneIntent.PutExtra("Card", data);
+			notesIntent.PutExtra("Card", data);
+			shareCardIntent.PutExtra("Card", data);
+
+			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
+			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
+			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
+
+			btnPhone.Click += delegate {
+				doRedirect(phoneIntent);
+			};
+			btnNotes.Click += delegate {
+				doRedirect(notesIntent);
+			};
+			btnShareCard.Click += delegate {
+				doRedirect(shareCardIntent);
+			};
+
 			return panel;
 		}
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);
-
 
 			var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
@@ -81,7 +104,7 @@ namespace Busidex.Presentation.Android
 			btnInfo.Click += (object sender, System.EventArgs e) => {
 
 				var layout = view.FindViewById<RelativeLayout>(Resource.Id.listItemLayout);
-				var panel = SetButtonPanel(ref layout, view, parent);
+				var panel = SetButtonPanel(ref layout, view, parent, position);
 
 				var leftAndIn = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideAnimation);
 				btnInfo.Visibility = ViewStates.Invisible;
