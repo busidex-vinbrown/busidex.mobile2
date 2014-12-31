@@ -29,12 +29,16 @@ namespace Busidex.Presentation.Android
 		}
 
 		void ShowCard(Intent intent){
-
 			Redirect(intent);
 		}
 
 		void SendEmail(Intent intent){
 			StartActivity(intent);
+		}
+
+		void OpenBrowser(Intent intent){
+			var browserIntent = Intent.CreateChooser(intent, "Open with");
+			StartActivity (browserIntent);
 		}
 
 		protected override void ProcessCards(string data){
@@ -49,6 +53,8 @@ namespace Busidex.Presentation.Android
 
 			adapter.Redirect += ShowCard;
 			adapter.SendEmail += SendEmail;
+			adapter.OpenBrowser += OpenBrowser;
+
 			adapter.ShowNotes = true;
 
 			lstCards.Adapter = adapter;

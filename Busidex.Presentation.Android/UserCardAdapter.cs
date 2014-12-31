@@ -13,11 +13,13 @@ namespace Busidex.Presentation.Android
 {
 	public delegate void RedirectToCardHandler(Intent intent);
 	public delegate void SendEmailHandler(Intent intent);
+	public delegate void OpenBrowserHandler(Intent intent);
 
 	public class UserCardAdapter : ArrayAdapter<UserCard>
 	{
 		public event RedirectToCardHandler Redirect;
 		public event SendEmailHandler SendEmail;
+		public event OpenBrowserHandler OpenBrowser;
 
 		public bool ShowNotes{ get; set; }
 
@@ -34,6 +36,7 @@ namespace Busidex.Presentation.Android
 		Intent ShareCardIntent {get; set;}
 		Intent CardDetailIntent{ get; set; }
 		Intent SendEmailIntent{ get; set; }
+		Intent OpenBrowserIntent{ get; set; }
 
 		void doRedirect(Intent intent){
 			if(Redirect != null){
@@ -63,6 +66,12 @@ namespace Busidex.Presentation.Android
 		void OnEmailButtonClicked(object sender, System.EventArgs e){
 			if(SendEmail != null){
 				SendEmail (SendEmailIntent);
+			}
+		}
+
+		void OnBrowserButtonClicked(object sender, System.EventArgs e){
+			if(OpenBrowser != null){
+				OpenBrowser (OpenBrowserIntent);
 			}
 		}
 
@@ -115,6 +124,7 @@ namespace Busidex.Presentation.Android
 			NotesIntent = new Intent(context, typeof(NotesActivity));
 			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
 			SendEmailIntent = new Intent(Intent.ActionSend);
+			OpenBrowserIntent = new Intent (Intent.ActionView);
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
 			PhoneIntent.PutExtra("Card", data);
@@ -123,6 +133,10 @@ namespace Busidex.Presentation.Android
 
 			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{Cards[position].Card.Email} );
 			SendEmailIntent.SetType ("message/rfc822");
+
+			var url = !Cards [position].Card.Url.StartsWith ("http") ? "http://" + Cards [position].Card.Url : Cards [position].Card.Url;
+			var uri = Uri.Parse (url);
+			OpenBrowserIntent.SetData (uri);
 
 			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
 			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
@@ -152,6 +166,9 @@ namespace Busidex.Presentation.Android
 
 			btnEmail.Click -= OnEmailButtonClicked;
 			btnEmail.Click += OnEmailButtonClicked;
+
+			btnBrowser.Click -= OnBrowserButtonClicked;
+			btnBrowser.Click += OnBrowserButtonClicked;
 
 			return panel;
 		}
