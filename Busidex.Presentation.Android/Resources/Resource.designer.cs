@@ -221,8 +221,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07001b
 			public const int imgPhoneCardHorizontal = 2131165211;
 			
-			// aapt resource value: 0x7f07001d
-			public const int imgPhoneCardVertical = 2131165213;
+			// aapt resource value: 0x7f07001c
+			public const int imgPhoneCardVertical = 2131165212;
 			
 			// aapt resource value: 0x7f070022
 			public const int lblAlreadyAUser = 2131165218;
@@ -251,8 +251,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f070019
 			public const int lstCards = 2131165209;
 			
-			// aapt resource value: 0x7f07001c
-			public const int lstPhoneNumbers = 2131165212;
+			// aapt resource value: 0x7f07001d
+			public const int lstPhoneNumbers = 2131165213;
 			
 			// aapt resource value: 0x7f070012
 			public const int mainLayout = 2131165202;

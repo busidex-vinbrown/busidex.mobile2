@@ -19,15 +19,6 @@
             android:id="@+id/imgPhoneCardHorizontal"
             android:scaleType="fitXY"
             android:layout_marginLeft="40dp" />
-        <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@id/imgPhoneCardHorizontal"
-            android:id="@+id/lstPhoneNumbers"
-            android:layout_marginBottom="40.0dp"
-            android:layout_marginTop="20dp" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="175dp"
@@ -36,5 +27,14 @@
             android:id="@+id/imgPhoneCardVertical"
             android:layout_marginLeft="85dp"
             android:scaleType="fitXY" />
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/lstPhoneNumbers"
+            android:layout_marginBottom="40.0dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/imgPhoneCardVertical" />
     </RelativeLayout>
 </LinearLayout>
