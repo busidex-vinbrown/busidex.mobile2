@@ -128,10 +128,18 @@ namespace Busidex.Presentation.Android
 			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
 			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
 			var btnEmail = panel.FindViewById<ImageButton> (Resource.Id.btnPanelEmail);
+			var btnMap = panel.FindViewById<ImageButton> (Resource.Id.btnPanelMap);
+			var btnBrowser = panel.FindViewById<ImageButton> (Resource.Id.btnPanelBrowser);
+			var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
+			var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
 
-			btnPhone.Visibility = (Cards[position].Card.PhoneNumbers != null && Cards[position].Card.PhoneNumbers.Count > 0) : ViewStates.Visible : ViewStates.Gone;
-			btnEmail.Visibility = string.IsNullOrEmpty(Cards[position].Card.Email) ViewStates.Gone : ViewStates.Visible;
+			btnPhone.Visibility = (Cards[position].Card.PhoneNumbers != null && Cards[position].Card.PhoneNumbers.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
+			btnEmail.Visibility = string.IsNullOrEmpty(Cards[position].Card.Email) ? ViewStates.Gone : ViewStates.Visible;
 			btnNotes.Visibility = ShowNotes ? ViewStates.Visible : ViewStates.Gone;
+			btnBrowser.Visibility = string.IsNullOrEmpty(Cards[position].Card.Url) ? ViewStates.Gone : ViewStates.Visible;
+			btnMap.Visibility = (Cards[position].Card.Addresses != null && Cards[position].Card.Addresses.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
+			btnAddToMyBusidex.Visibility = Cards[position].Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
+			btnRemoveFromMyBusidex.Visibility = Cards[position].Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
 
 			btnPhone.Click -= OnPhoneButtonClicked;
 			btnPhone.Click += OnPhoneButtonClicked;

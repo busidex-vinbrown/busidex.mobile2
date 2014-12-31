@@ -20,7 +20,7 @@
             android:scaleType="fitXY"
             android:background="@color/layoutBackground"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="40dp" />
         <ImageButton
             android:src="@drawable/notes"
             android:layout_width="45dp"
@@ -50,7 +50,7 @@
             android:scaleType="fitXY"
             android:background="@color/layoutBackground"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="40dp" />
         <ImageButton
             android:src="@drawable/phone"
             android:layout_width="45dp"
@@ -77,31 +77,28 @@
             android:src="@drawable/remove"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_below="@id/btnPanelBrowser"
             android:id="@+id/btnPanelRemove"
             android:scaleType="fitXY"
             android:background="@color/layoutBackground"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginTop="160dp"
+            android:layout_marginLeft="40dp" />
         <ImageButton
             android:src="@drawable/add"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_toRightOf="@id/btnPanelRemove"
             android:id="@+id/btnPanelAdd"
-            android:layout_below="@id/btnPanelPhone"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="160dp"
             android:scaleType="fitXY"
             android:background="@color/layoutBackground" />
         <ImageButton
             android:src="@android:drawable/ic_menu_info_details"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_toRightOf="@id/btnPanelShare"
             android:id="@+id/btnHideInfo"
             android:layout_marginTop="90dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="300dp"
             android:background="@color/layoutBackground"
             android:scaleType="fitXY" />
     </RelativeLayout>
