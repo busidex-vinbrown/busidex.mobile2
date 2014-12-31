@@ -7,6 +7,7 @@ using Android.Net;
 using System.IO;
 using Android.Content;
 using Android.Views.Animations;
+using System.Linq;
 
 namespace Busidex.Presentation.Android
 {
@@ -22,7 +23,11 @@ namespace Busidex.Presentation.Android
 		protected const int CARD_WIDTH_HORIZONTAL = 180;
 
 		List<UserCard> Cards { get; set; }
+		List<int> PanelReferences {get;set;}
 		readonly Activity context;
+		Intent PhoneIntent {get; set;}
+		Intent NotesIntent {get; set;}
+		Intent ShareCardIntent {get; set;}
 
 		void doRedirect(Intent intent){
 
@@ -35,58 +40,77 @@ namespace Busidex.Presentation.Android
 		{
 			Cards = cards;
 			context = ctx;
+			PanelReferences = new List<int> ();
+		}
+
+		void OnPhoneButtonClicked(object sender, System.EventArgs e){
+			doRedirect(PhoneIntent);
+		}
+
+		void OnNotesButtonClicked(object sender, System.EventArgs e){
+			doRedirect(NotesIntent);
+		}
+
+		void OnShareCardButtonClicked(object sender, System.EventArgs e){
+			doRedirect(ShareCardIntent);
 		}
 
 		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent, int position){
-
-			var panel = layout.FindViewById<View> (Resource.Layout.ButtonPanel);
+		
+			var panel = view.FindViewById<View> (Resource.Layout.ButtonPanel);
 			if (panel == null) {
-				panel = context.LayoutInflater.Inflate (Resource.Layout.ButtonPanel, null);
-				layout.AddView (panel);
+
+				panel = layout.FindViewById<View> (Resource.Layout.ButtonPanel);
+				if (panel == null) {
+					panel = context.LayoutInflater.Inflate (Resource.Layout.ButtonPanel, null);
+					panel.Id = Resource.Layout.ButtonPanel;
+
+					var layoutParams = panel.LayoutParameters;
+					if(layoutParams == null){
+						layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
+					}else{
+						layoutParams.Width = parent.Width;
+						layoutParams.Height = view.Height;
+					}
+					panel.LayoutParameters = layoutParams;
+
+					var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
+					var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
+					btnInfo.Visibility = ViewStates.Visible;
+
+					btnHideInfo.Click += (object sender, System.EventArgs e) => {
+						var leftAndOut = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideOutAnimation);
+						panel.StartAnimation(leftAndOut);
+						panel.Visibility = ViewStates.Gone;
+						btnInfo.Visibility = ViewStates.Visible;
+					};
+
+					layout.AddView (panel);
+				}
 			}
 			panel.Visibility = ViewStates.Visible;
 
-			var layoutParams = panel.LayoutParameters;
-			if(layoutParams == null){
-				layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
-			}else{
-				layoutParams.Width = parent.Width;
-				layoutParams.Height = view.Height;
-			}
-			panel.LayoutParameters = layoutParams;
-
-			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
-			var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
-			btnInfo.Visibility = ViewStates.Visible;
-
-			btnHideInfo.Click += (object sender, System.EventArgs e) => {
-				var leftAndOut = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideOutAnimation);
-				panel.StartAnimation(leftAndOut);
-				panel.Visibility = ViewStates.Gone;
-			};
-
-			var phoneIntent = new Intent(context, typeof(PhoneActivity));
-			var notesIntent = new Intent(context, typeof(NotesActivity));
-			var shareCardIntent = new Intent(context, typeof(ShareCardActivity));
+			PhoneIntent = new Intent(context, typeof(PhoneActivity));
+			NotesIntent = new Intent(context, typeof(NotesActivity));
+			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
-			phoneIntent.PutExtra("Card", data);
-			notesIntent.PutExtra("Card", data);
-			shareCardIntent.PutExtra("Card", data);
+			PhoneIntent.PutExtra("Card", data);
+			NotesIntent.PutExtra("Card", data);
+			ShareCardIntent.PutExtra("Card", data);
 
 			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
 			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
 			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
 
-			btnPhone.Click += delegate {
-				doRedirect(phoneIntent);
-			};
-			btnNotes.Click += delegate {
-				doRedirect(notesIntent);
-			};
-			btnShareCard.Click += delegate {
-				doRedirect(shareCardIntent);
-			};
+			btnPhone.Click -= OnPhoneButtonClicked;
+			btnPhone.Click += OnPhoneButtonClicked;
+
+			btnNotes.Click -= OnNotesButtonClicked;
+			btnNotes.Click += OnNotesButtonClicked;
+
+			btnShareCard.Click -= OnShareCardButtonClicked;
+			btnShareCard.Click += OnShareCardButtonClicked;
 
 			return panel;
 		}
@@ -100,14 +124,24 @@ namespace Busidex.Presentation.Android
 			var imgCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
 			var imgCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
+			bool alreadyAdded = convertView != null;
 
 			btnInfo.Click += (object sender, System.EventArgs e) => {
 
+				if(convertView != null){
+					alreadyAdded = true;
+				}
 				var layout = view.FindViewById<RelativeLayout>(Resource.Id.listItemLayout);
 				var panel = SetButtonPanel(ref layout, view, parent, position);
 
+				if (!alreadyAdded) {
+					//layout.ch
+					//layout.AddView (panel);
+				}
+
 				var leftAndIn = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideAnimation);
 				btnInfo.Visibility = ViewStates.Invisible;
+				panel.Visibility = ViewStates.Visible;
 				panel.StartAnimation(leftAndIn);
 			};
 
