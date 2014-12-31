@@ -28,6 +28,7 @@ namespace Busidex.Presentation.Android
 		Intent PhoneIntent {get; set;}
 		Intent NotesIntent {get; set;}
 		Intent ShareCardIntent {get; set;}
+		Intent CardDetailIntent{ get; set; }
 
 		void doRedirect(Intent intent){
 
@@ -53,6 +54,10 @@ namespace Busidex.Presentation.Android
 
 		void OnShareCardButtonClicked(object sender, System.EventArgs e){
 			doRedirect(ShareCardIntent);
+		}
+
+		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
+			doRedirect (CardDetailIntent);
 		}
 
 		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent, int position){
@@ -121,23 +126,14 @@ namespace Busidex.Presentation.Android
 
 			var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
-			var imgCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
-			var imgCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
+			var btnCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
+			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
-			bool alreadyAdded = convertView != null;
 
 			btnInfo.Click += (object sender, System.EventArgs e) => {
-
-				if(convertView != null){
-					alreadyAdded = true;
-				}
+			
 				var layout = view.FindViewById<RelativeLayout>(Resource.Id.listItemLayout);
 				var panel = SetButtonPanel(ref layout, view, parent, position);
-
-				if (!alreadyAdded) {
-					//layout.ch
-					//layout.AddView (panel);
-				}
 
 				var leftAndIn = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideAnimation);
 				btnInfo.Visibility = ViewStates.Invisible;
@@ -145,20 +141,19 @@ namespace Busidex.Presentation.Android
 				panel.StartAnimation(leftAndIn);
 			};
 
-			var intent = new Intent(context, typeof(CardDetailActivity));
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
-			intent.PutExtra("Card", data);
-
-			imgCardH.Click += delegate {
-				doRedirect(intent);
-			};
-
-			imgCardV.Click += delegate {
-				doRedirect(intent);
-			};
-
 			var card = Cards [position];
 			if(card != null){
+
+				CardDetailIntent = new Intent(context, typeof(CardDetailActivity));
+				var data = Newtonsoft.Json.JsonConvert.SerializeObject(card);
+				CardDetailIntent.PutExtra("Card", data);
+
+				btnCardH.Click -= OnCardDetailButtonClicked;
+				btnCardH.Click += OnCardDetailButtonClicked;
+
+				btnCardV.Click -= OnCardDetailButtonClicked;
+				btnCardV.Click += OnCardDetailButtonClicked;
+
 				txtName.Text = card.Card.Name;
 				txtCompanyName.Text = card.Card.CompanyName;
 				txtCompanyName.Visibility = string.IsNullOrEmpty (card.Card.CompanyName) ? ViewStates.Gone : ViewStates.Visible;
@@ -167,15 +162,15 @@ namespace Busidex.Presentation.Android
 				var uri = Uri.Parse (fileName);
 
 				if (card.Card.FrontOrientation == "H") {
-					imgCardH.SetImageURI (uri);
-					imgCardH.SetScaleType (ImageView.ScaleType.FitXy);
-					imgCardH.Visibility = ViewStates.Visible;
-					imgCardV.Visibility = ViewStates.Gone;
+					btnCardH.SetImageURI (uri);
+					btnCardH.SetScaleType (ImageView.ScaleType.FitXy);
+					btnCardH.Visibility = ViewStates.Visible;
+					btnCardV.Visibility = ViewStates.Gone;
 				}else{
-					imgCardV.SetImageURI (uri);
-					imgCardV.SetScaleType (ImageView.ScaleType.FitXy);
-					imgCardV.Visibility = ViewStates.Visible;
-					imgCardH.Visibility = ViewStates.Gone;
+					btnCardV.SetImageURI (uri);
+					btnCardV.SetScaleType (ImageView.ScaleType.FitXy);
+					btnCardV.Visibility = ViewStates.Visible;
+					btnCardH.Visibility = ViewStates.Gone;
 				}
 			}
 
