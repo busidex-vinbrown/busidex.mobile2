@@ -66,6 +66,7 @@
     <Compile Include="NotesActivity.cs" />
     <Compile Include="ShareCardActivity.cs" />
     <Compile Include="PhoneNumberEntryAdapter.cs" />
+    <Compile Include="SendEmailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />

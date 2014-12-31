@@ -12,10 +12,14 @@ using System.Linq;
 namespace Busidex.Presentation.Android
 {
 	public delegate void RedirectToCardHandler(Intent intent);
+	public delegate void SendEmailHandler(Intent intent);
 
 	public class UserCardAdapter : ArrayAdapter<UserCard>
 	{
 		public event RedirectToCardHandler Redirect;
+		public event SendEmailHandler SendEmail;
+
+		public bool ShowNotes{ get; set; }
 
 		protected const int CARD_HEIGHT_VERTICAL = 170;
 		protected const int CARD_HEIGHT_HORIZONTAL = 120;
@@ -29,9 +33,9 @@ namespace Busidex.Presentation.Android
 		Intent NotesIntent {get; set;}
 		Intent ShareCardIntent {get; set;}
 		Intent CardDetailIntent{ get; set; }
+		Intent SendEmailIntent{ get; set; }
 
 		void doRedirect(Intent intent){
-
 			if(Redirect != null){
 				Redirect (intent);
 			}
@@ -54,6 +58,12 @@ namespace Busidex.Presentation.Android
 
 		void OnShareCardButtonClicked(object sender, System.EventArgs e){
 			doRedirect(ShareCardIntent);
+		}
+
+		void OnEmailButtonClicked(object sender, System.EventArgs e){
+			if(SendEmail != null){
+				SendEmail (SendEmailIntent);
+			}
 		}
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
@@ -104,15 +114,24 @@ namespace Busidex.Presentation.Android
 			PhoneIntent = new Intent(context, typeof(PhoneActivity));
 			NotesIntent = new Intent(context, typeof(NotesActivity));
 			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
+			SendEmailIntent = new Intent(Intent.ActionSend);
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
 			PhoneIntent.PutExtra("Card", data);
 			NotesIntent.PutExtra("Card", data);
 			ShareCardIntent.PutExtra("Card", data);
 
+			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{Cards[position].Card.Email} );
+			SendEmailIntent.SetType ("message/rfc822");
+
 			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
 			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
 			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
+			var btnEmail = panel.FindViewById<ImageButton> (Resource.Id.btnPanelEmail);
+
+			btnPhone.Visibility = (Cards[position].Card.PhoneNumbers != null && Cards[position].Card.PhoneNumbers.Count > 0) : ViewStates.Visible : ViewStates.Gone;
+			btnEmail.Visibility = string.IsNullOrEmpty(Cards[position].Card.Email) ViewStates.Gone : ViewStates.Visible;
+			btnNotes.Visibility = ShowNotes ? ViewStates.Visible : ViewStates.Gone;
 
 			btnPhone.Click -= OnPhoneButtonClicked;
 			btnPhone.Click += OnPhoneButtonClicked;
@@ -122,6 +141,9 @@ namespace Busidex.Presentation.Android
 
 			btnShareCard.Click -= OnShareCardButtonClicked;
 			btnShareCard.Click += OnShareCardButtonClicked;
+
+			btnEmail.Click -= OnEmailButtonClicked;
+			btnEmail.Click += OnEmailButtonClicked;
 
 			return panel;
 		}

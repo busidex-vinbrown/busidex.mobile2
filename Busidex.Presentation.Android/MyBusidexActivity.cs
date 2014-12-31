@@ -26,12 +26,15 @@ namespace Busidex.Presentation.Android
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 			LoadCardsFromFile (fullFilePath);
-
 		}
 
 		void ShowCard(Intent intent){
 
 			Redirect(intent);
+		}
+
+		void SendEmail(Intent intent){
+			StartActivity(intent);
 		}
 
 		protected override void ProcessCards(string data){
@@ -45,6 +48,8 @@ namespace Busidex.Presentation.Android
 			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
 
 			adapter.Redirect += ShowCard;
+			adapter.SendEmail += SendEmail;
+			adapter.ShowNotes = true;
 
 			lstCards.Adapter = adapter;
 		}
