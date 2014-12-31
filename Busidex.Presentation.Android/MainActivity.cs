@@ -38,6 +38,11 @@ namespace Busidex.Presentation.Android
 			};
 		}
 
+		public override void OnBackPressed ()
+		{
+			// noop
+			return;
+		}
 
 		void GoToMyBusidex(){
 			Redirect(new Intent(this, typeof(MyBusidexActivity)));
