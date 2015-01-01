@@ -18,15 +18,17 @@
             android:layout_height="160dp"
             android:id="@+id/imgPhoneCardHorizontal"
             android:scaleType="fitXY"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="50dp"
+            android:background="@android:drawable/picture_frame" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="175dp"
             android:layout_height="240dp"
             android:layout_below="@id/imgPhoneCardHorizontal"
             android:id="@+id/imgPhoneCardVertical"
-            android:layout_marginLeft="85dp"
-            android:scaleType="fitXY" />
+            android:layout_marginLeft="90dp"
+            android:scaleType="fitXY"
+            android:background="@android:drawable/picture_frame" />
         <ListView
             android:minWidth="25px"
             android:minHeight="25px"

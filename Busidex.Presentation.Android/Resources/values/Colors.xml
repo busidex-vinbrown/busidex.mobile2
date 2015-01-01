@@ -4,4 +4,5 @@
 	<color name="labelFontColor">#ff666666</color>
 	<color name="layoutBackground">#ffffffff</color>
 	<color name="listBackground">#ffd3d3d3</color>
+	<color name="primaryLabelColor">#ff000000</color>
 </resources>

@@ -77,7 +77,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\StartUp.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\values\Colors.xml" />
     <AndroidResource Include="Resources\layout\Login.axml" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\drawable\large_logo.png">
@@ -102,12 +101,13 @@
     <AndroidResource Include="Resources\drawable\phone.png" />
     <AndroidResource Include="Resources\drawable\email.png" />
     <AndroidResource Include="Resources\layout\Notes.axml" />
-    <AndroidResource Include="Resources\layout\Phone.axml" />
     <AndroidResource Include="Resources\layout\SharedCard.axml" />
     <AndroidResource Include="Resources\anim\SlideAnimation.xml" />
     <AndroidResource Include="Resources\layout\ButtonPanel.axml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimation.xml" />
     <AndroidResource Include="Resources\layout\PhoneNumberEntry.axml" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\layout\Phone.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
