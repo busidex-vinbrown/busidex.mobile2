@@ -36,13 +36,15 @@
             android:id="@+id/imgCardHorizontal"
             android:layout_width="265dp"
             android:layout_height="160dp"
-            android:layout_below="@id/txtCompanyName" />
+            android:layout_below="@id/txtCompanyName"
+            android:background="@android:drawable/picture_frame" />
         <ImageButton
             android:src="@android:drawable/ic_menu_gallery"
             android:id="@+id/imgCardVertical"
             android:layout_width="175dp"
             android:layout_height="240dp"
-            android:layout_below="@id/imgCardHorizontal" />
+            android:layout_below="@id/imgCardHorizontal"
+            android:background="@android:drawable/picture_frame" />
         <ImageButton
             android:src="@android:drawable/ic_menu_info_details"
             android:layout_width="45dp"

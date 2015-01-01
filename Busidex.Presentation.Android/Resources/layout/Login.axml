@@ -22,7 +22,8 @@
         p1:layout_below="@id/lblUserName"
         p1:id="@+id/txtUserName"
         p1:background="@android:drawable/edit_text"
-        p1:layout_marginLeft="65dp" />
+        p1:layout_marginLeft="65dp"
+        p1:textColor="@color/textInputColor" />
     <TextView
         p1:text="@string/Login_lblPassword"
         p1:textAppearance="?android:attr/textAppearanceSmall"
@@ -39,7 +40,8 @@
         p1:layout_below="@id/lblPassword"
         p1:id="@+id/txtPassword"
         p1:background="@android:drawable/edit_text"
-        p1:layout_marginLeft="65dp" />
+        p1:layout_marginLeft="65dp"
+        p1:textColor="@color/textInputColor" />
     <Button
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
