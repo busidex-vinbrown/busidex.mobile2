@@ -173,7 +173,10 @@ namespace Busidex.Presentation.Android
 			var geoUri = Uri.Parse (geoString);
 			OpenMapIntent = new Intent (Intent.ActionView, geoUri);
 
-			var url = !Cards [position].Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + userCard.Card.Url : userCard.Card.Url;
+			var url = string.Empty;
+			if(!string.IsNullOrEmpty(userCard.Card.Url)){
+				url = !userCard.Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + userCard.Card.Url : userCard.Card.Url;
+			}
 			var uri = Uri.Parse (url);
 			OpenBrowserIntent.SetData (uri);
 

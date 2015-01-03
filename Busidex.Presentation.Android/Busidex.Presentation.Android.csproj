@@ -87,7 +87,6 @@
     <AndroidResource Include="Resources\drawable\delete.png" />
     <AndroidResource Include="Resources\drawable\people.jpg" />
     <AndroidResource Include="Resources\drawable\Icon_2x.png" />
-    <AndroidResource Include="Resources\layout\Search.axml" />
     <AndroidResource Include="Resources\layout\MyBusidex.axml" />
     <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
     <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
@@ -109,6 +108,7 @@
     <AndroidResource Include="Resources\values\Colors.xml" />
     <AndroidResource Include="Resources\layout\Phone.axml" />
     <AndroidResource Include="Resources\drawable\checkmark.png" />
+    <AndroidResource Include="Resources\layout\Search.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
