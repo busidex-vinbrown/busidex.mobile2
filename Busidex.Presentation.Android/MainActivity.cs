@@ -30,7 +30,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			btnMyBusidex.Click += delegate {
-				LoadMyBusidexAsync(true);
+				LoadMyBusidexAsync();
 			};
 
 			btnMyOrganizations.Click += delegate {
@@ -48,20 +48,12 @@ namespace Busidex.Presentation.Android
 			Redirect(new Intent(this, typeof(MyBusidexActivity)));
 		}
 
-		bool CheckRefreshCookie(){
-			return true;
-		}
-
-		void SetRefreshCookie(){
-
-		}
-
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
 			var cookie = GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
-			if (File.Exists (fullFilePath) && CheckRefreshCookie() && !force) {
+			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && CheckRefreshCookie() && !force) {
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
@@ -83,7 +75,7 @@ namespace Busidex.Presentation.Android
 									myBusidexResponse.MyBusidex.Busidex.Count);
 							});
 
-						    Busidex.Mobile.Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+						    
 							SetRefreshCookie();
 
 							var cards = new List<UserCard> ();
@@ -134,11 +126,11 @@ namespace Busidex.Presentation.Android
 								}
 							}
 
-//							RunOnUiThread (() => {
-//								HideLoadingSpinner();
-//								GoToMyBusidex ();
-//							});
-
+							RunOnUiThread (() => {
+								Busidex.Mobile.Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+								HideLoadingSpinner();
+								GoToMyBusidex ();
+							});
 						}
 					});
 				}

@@ -30,6 +30,9 @@ namespace Busidex.Presentation.Android
 				DoSearch();
 			};
 
+
+			SearchBar.SetQueryHint ("Search for a card");
+
 			SearchBar.Touch += delegate {
 				SearchBar.Focusable = true;
 				SearchBar.RequestFocus();

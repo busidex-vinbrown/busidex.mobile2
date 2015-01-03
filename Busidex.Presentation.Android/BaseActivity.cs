@@ -6,9 +6,6 @@ using Xamarin.Auth;
 using System.IO;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
-using Android.Net;
-using System.Threading;
-using Android.Widget;
 using Android.Views.InputMethods;
 using Android.OS;
 using System.Threading.Tasks;
@@ -21,7 +18,32 @@ namespace Busidex.Presentation.Android
 	{
 
 		protected static ProgressDialog progressDialog;
-		private Handler progressBarHandler = new Handler();
+		Handler progressBarHandler = new Handler();
+
+		#region Loading
+		protected virtual void ProcessCards(string data){
+
+		}
+
+		protected bool CheckBusidexFileCache(string fullFilePath){
+			if(File.Exists(fullFilePath)){
+				var file = File.OpenText (fullFilePath);
+				var fileJson = file.ReadToEnd ();
+				file.Close ();
+				return !string.IsNullOrEmpty (fileJson);
+			}
+			return false;
+		}
+
+		protected void LoadCardsFromFile(string fullFilePath){
+
+			if(File.Exists(fullFilePath)){
+				var file = File.OpenText (fullFilePath);
+				var fileJson = file.ReadToEnd ();
+				file.Close ();
+				ProcessCards (fileJson);
+			}
+		}
 
 		protected void RedirectToMainIfLoggedIn(){
 
@@ -31,6 +53,7 @@ namespace Busidex.Presentation.Android
 				Redirect(intent);
 			}
 		}
+		#endregion
 
 		#region Authentication
 		protected string GetAuthCookie(){
@@ -54,11 +77,46 @@ namespace Busidex.Presentation.Android
 
 			var container = new System.Net.CookieContainer ();
 			container.SetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
-			//container.Add (cookie);
 
 			var account = new Account (userId.ToString (), container);
 
 			AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
+		}
+
+		protected void SetRefreshCookie(){
+			var account = GetAuthAccount ();
+			if(account != null && account.Cookies != null){
+				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
+				if(cookies != null){
+					var today = System.DateTime.Now;
+					var cookie = cookies [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] ?? new System.Net.Cookie (Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME, string.Empty);
+
+					var expireDate = new System.DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
+					cookie.Expires = expireDate;
+					//cookie.Domain = new System.Uri(Busidex.Mobile.Resources.COOKIE_URI).GetComponents(System.UriComponents.Host, System.UriFormat.Unescaped);
+			
+					account.Cookies.SetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString());
+
+					AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
+				}
+			}
+		}
+
+		protected bool CheckRefreshCookie(){
+			var account = GetAuthAccount ();
+			if(account != null && account.Cookies != null){
+				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
+				if(cookies != null){
+					var refreshCookie = cookies [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME];
+					if(refreshCookie == null){
+						SetRefreshCookie ();
+						return false;
+					}else{
+						return refreshCookie.Expires < System.DateTime.Now;
+					}
+				}
+			}
+			return false;
 		}
 
 		protected void RemoveAuthCookie(){
@@ -73,6 +131,7 @@ namespace Busidex.Presentation.Android
 		}
 		#endregion
 
+		#region Card Actions
 		protected void Redirect(Intent intent){
 
 			StartActivity(intent);
@@ -112,48 +171,6 @@ namespace Busidex.Presentation.Android
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
 
 			StartActivity (intent);
-		}
-
-		static UserCard GetUserCardFromIntent(Intent intent){
-
-			var data = intent.GetStringExtra ("Card");
-			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
-		}
-
-		protected async Task<bool> DismissKeyboard(IBinder token){
-			var imm = (InputMethodManager)GetSystemService(InputMethodService); 
-			return imm.HideSoftInputFromWindow(token, 0);
-		}
-
-		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
-
-			Context context = this;
-			var loadingText = message ?? context.GetString (Resource.String.Global_OneMoment);
-
-			progressDialog = new ProgressDialog (this);
-
-			progressDialog.Max = max;
-			progressDialog.SetProgressStyle (style);
-			progressDialog.SetMessage (loadingText);
-			progressDialog.Progress = 0;
-			progressDialog.Show ();
-			progressDialog.SetCanceledOnTouchOutside (false);
-
-//			new Thread(new ThreadStart(delegate
-//				{
-//					RunOnUiThread(() => Toast.MakeText(this, messageText, ToastLength.Long).Show());
-//				})
-//			).Start();
-		}
-
-		protected void UpdateLoadingSpinner(decimal current, decimal total){
-
-			var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
-			progressBarHandler.Post( () => { progressDialog.Progress = (int)progress; });
-		}
-
-		protected void HideLoadingSpinner(){
-			progressDialog.Hide ();
 		}
 
 		protected void AddCardToMyBusidex(Intent intent){
@@ -199,19 +216,53 @@ namespace Busidex.Presentation.Android
 				}
 			}
 		}
+		#endregion
 
-		protected virtual void ProcessCards(string data){
+		#region Keyboard
+		static UserCard GetUserCardFromIntent(Intent intent){
 
+			var data = intent.GetStringExtra ("Card");
+			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
 		}
 
-		protected void LoadCardsFromFile(string fullFilePath){
-
-			if(File.Exists(fullFilePath)){
-				var file = File.OpenText (fullFilePath);
-				var fileJson = file.ReadToEnd ();
-				ProcessCards (fileJson);
-			}
+		protected async Task<bool> DismissKeyboard(IBinder token){
+			var imm = (InputMethodManager)GetSystemService(InputMethodService); 
+			return imm.HideSoftInputFromWindow(token, 0);
 		}
+		#endregion
+
+		#region Progress Bar
+		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
+
+			Context context = this;
+			var loadingText = message ?? context.GetString (Resource.String.Global_OneMoment);
+
+			progressDialog = new ProgressDialog (this);
+
+			progressDialog.Max = max;
+			progressDialog.SetProgressStyle (style);
+			progressDialog.SetMessage (loadingText);
+			progressDialog.Progress = 0;
+			progressDialog.Show ();
+			progressDialog.SetCanceledOnTouchOutside (false);
+
+//			new Thread(new ThreadStart(delegate
+//				{
+//					RunOnUiThread(() => Toast.MakeText(this, messageText, ToastLength.Long).Show());
+//				})
+//			).Start();
+		}
+
+		protected void UpdateLoadingSpinner(decimal current, decimal total){
+
+			var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
+			progressBarHandler.Post( () => { progressDialog.Progress = (int)progress; });
+		}
+
+		protected void HideLoadingSpinner(){
+			progressDialog.Hide ();
+		}
+		#endregion
 	}
 }
 
