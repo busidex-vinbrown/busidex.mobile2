@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Widget;
-using System.IO;
 using Busidex.Mobile;
 using Android.Net;
 
@@ -13,15 +12,9 @@ namespace Busidex.Presentation.Android
 		TextView lblShareError;
 		ImageView imgCheckShared;
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnImageDownloadCompleted (Uri uri)
 		{
-			base.OnCreate (savedInstanceState);
-			SetContentView (Resource.Layout.SharedCard);
-
-			lblShareError = FindViewById<TextView> (Resource.Id.lblShareError);
-			imgCheckShared = FindViewById<ImageView> (Resource.Id.imgCheckShared);
-
-			HideFeedbackLabels ();
+			base.OnImageDownloadCompleted (uri);
 
 			var imgCardHorizontal = FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgCardVertical = FindViewById<ImageView> (Resource.Id.imgShareVertical);
@@ -30,29 +23,24 @@ namespace Busidex.Presentation.Android
 			imgCardHorizontal.Visibility = isHorizontal ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
 			imgCardVertical.Visibility = isHorizontal ? global::Android.Views.ViewStates.Gone : global::Android.Views.ViewStates.Visible;
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
-			var frontUri = Uri.Parse (frontFileName);
+			imgDisplay.SetImageURI (uri);
 
-			if (File.Exists (frontFileName)) {
-				imgDisplay.SetImageURI (frontUri);
-			}else{
+		}
 
-				//ShowOverlay ();
+		protected override void OnCreate (Bundle savedInstanceState)
+		{
+			SetContentView (Resource.Layout.SharedCard);
 
-				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
-					RunOnUiThread (() => {
-						imgDisplay.SetImageURI (frontUri);
-						//Overlay.Hide();
-					});
-				});
-			}
+			base.OnCreate (savedInstanceState);
 
+			lblShareError = FindViewById<TextView> (Resource.Id.lblShareError);
+			imgCheckShared = FindViewById<ImageView> (Resource.Id.imgCheckShared);
+
+			HideFeedbackLabels ();
 
 			var btnShareCard = FindViewById<Button> (Resource.Id.btnShareCard);
 			btnShareCard.Click += delegate {
-
 				ShareCard();
-
 			};
 //			Button saveButton = new Button (this);
 //			saveButton.SetTextColor (global::Android.Graphics.Color.ParseColor("#ff0582f1"));

@@ -48,18 +48,18 @@
             android:layout_height="160dp"
             android:layout_below="@id/txtShareEmail"
             android:id="@+id/imgShareHorizontal"
-            android:layout_marginLeft="40dp"
             android:layout_marginTop="45dp"
-            android:background="@android:drawable/picture_frame" />
+            android:background="@android:drawable/picture_frame"
+            android:layout_centerHorizontal="true" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="175dp"
             android:layout_height="240dp"
             android:layout_below="@id/txtShareEmail"
             android:id="@+id/imgShareVertical"
-            android:layout_marginLeft="90dp"
             android:layout_marginTop="45dp"
-            android:background="@android:drawable/picture_frame" />
+            android:background="@android:drawable/picture_frame"
+            android:layout_centerHorizontal="true" />
         <ImageView
             android:src="@drawable/checkmark"
             android:layout_width="25dp"

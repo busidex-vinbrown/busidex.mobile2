@@ -7,7 +7,6 @@ using Android.Net;
 using System.IO;
 using Android.Content;
 using Android.Views.Animations;
-using System.Linq;
 
 namespace Busidex.Presentation.Android
 {
@@ -103,7 +102,7 @@ namespace Busidex.Presentation.Android
 			doRedirect (CardDetailIntent);
 		}
 
-		View SetButtonPanel (ref RelativeLayout layout, View view, ViewGroup parent, int position){
+		View SetButtonPanel (ref RelativeLayout layout, View view, View parent, int position){
 		
 			var panel = view.FindViewById<View> (Resource.Layout.ButtonPanel);
 			if (panel == null) {
@@ -126,9 +125,9 @@ namespace Busidex.Presentation.Android
 					var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
 					btnInfo.Visibility = ViewStates.Visible;
 
-					btnHideInfo.Click += (object sender, System.EventArgs e) => {
-						var leftAndOut = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideOutAnimation);
-						panel.StartAnimation(leftAndOut);
+					btnHideInfo.Click += (sender, e) => {
+						var leftAndOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
+						panel.StartAnimation (leftAndOut);
 						panel.Visibility = ViewStates.Gone;
 						btnInfo.Visibility = ViewStates.Visible;
 					};
@@ -152,7 +151,7 @@ namespace Busidex.Presentation.Android
 			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{Cards[position].Card.Email} );
 			SendEmailIntent.SetType ("message/rfc822");
 
-			var url = !Cards [position].Card.Url.StartsWith ("http") ? "http://" + Cards [position].Card.Url : Cards [position].Card.Url;
+			var url = !Cards [position].Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + Cards [position].Card.Url : Cards [position].Card.Url;
 			var uri = Uri.Parse (url);
 			OpenBrowserIntent.SetData (uri);
 
@@ -207,15 +206,15 @@ namespace Busidex.Presentation.Android
 			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 
-			btnInfo.Click += (object sender, System.EventArgs e) => {
+			btnInfo.Click += (sender, e) => {
 			
-				var layout = view.FindViewById<RelativeLayout>(Resource.Id.listItemLayout);
-				var panel = SetButtonPanel(ref layout, view, parent, position);
+				var layout = view.FindViewById<RelativeLayout> (Resource.Id.listItemLayout);
+				var panel = SetButtonPanel (ref layout, view, parent, position);
 
-				var leftAndIn = AnimationUtils.LoadAnimation(context, Resource.Animation.SlideAnimation);
+				var leftAndIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
 				btnInfo.Visibility = ViewStates.Invisible;
 				panel.Visibility = ViewStates.Visible;
-				panel.StartAnimation(leftAndIn);
+				panel.StartAnimation (leftAndIn);
 			};
 
 			var card = Cards [position];

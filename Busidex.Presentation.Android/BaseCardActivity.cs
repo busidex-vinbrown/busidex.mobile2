@@ -1,9 +1,10 @@
 ﻿
-using System;
-
 using Android.App;
 using Android.OS;
 using Busidex.Mobile.Models;
+using System.IO;
+using Busidex.Mobile;
+using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
@@ -19,7 +20,27 @@ namespace Busidex.Presentation.Android
 			var data = Intent.GetStringExtra ("Card");
 			if (!string.IsNullOrEmpty (data)) {
 				UserCard = Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data);
+
+				var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
+				var frontUri = Uri.Parse (frontFileName);
+
+				if (File.Exists (frontFileName)) {
+					OnImageDownloadCompleted(frontUri);
+				}else{
+
+					//ShowOverlay ();
+
+					Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+						RunOnUiThread (() => {
+							OnImageDownloadCompleted(frontUri);
+						});
+					});
+				}
 			}
+		}
+
+		protected virtual void OnImageDownloadCompleted(Uri uri){
+
 		}
 
 		public override void OnAttachedToWindow ()

@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Widget;
-using System.IO;
 using Android.Net;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
@@ -21,11 +20,9 @@ namespace Busidex.Presentation.Android
 			StartActivity (intent); 
 		}
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnImageDownloadCompleted (Uri uri)
 		{
-			base.OnCreate (savedInstanceState);
-
-			SetContentView (Resource.Layout.Phone);
+			base.OnImageDownloadCompleted (uri);
 
 			var imgPhoneCardHorizontal = FindViewById<ImageView> (Resource.Id.imgPhoneCardHorizontal);
 			var imgPhoneCardVertical = FindViewById<ImageView> (Resource.Id.imgPhoneCardVertical);
@@ -34,22 +31,14 @@ namespace Busidex.Presentation.Android
 			imgPhoneCardHorizontal.Visibility = isHorizontal ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
 			imgPhoneCardVertical.Visibility = isHorizontal ? global::Android.Views.ViewStates.Gone : global::Android.Views.ViewStates.Visible;
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
-			var frontUri = Uri.Parse (frontFileName);
+			imgDisplay.SetImageURI (uri);
+		}
 
-			if (File.Exists (frontFileName)) {
-					imgDisplay.SetImageURI (frontUri);
-			}else{
+		protected override void OnCreate (Bundle savedInstanceState)
+		{
+			SetContentView (Resource.Layout.Phone);
 
-				//ShowOverlay ();
-
-				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
-					RunOnUiThread (() => {
-						imgDisplay.SetImageURI (frontUri);
-						//Overlay.Hide();
-					});
-				});
-			}
+			base.OnCreate (savedInstanceState);
 
 			if (UserCard != null && UserCard.Card.PhoneNumbers != null) {
 

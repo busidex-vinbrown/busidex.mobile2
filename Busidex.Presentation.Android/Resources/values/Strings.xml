@@ -17,4 +17,5 @@
 	<string name="Share_Description">Enter the email address of the person with whom you want to share this card.</string>
 	<string name="Share_ShareCard">Share</string>
 	<string name="Share_Error">There was a problem sharing your card</string>
+	<string name="Notes_Save">Save</string>
 </resources>

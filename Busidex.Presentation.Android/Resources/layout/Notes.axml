@@ -1,8 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:background="@color/layoutBackground"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout1">
+        <MultiAutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="150.9dp"
+            android:id="@+id/txtNotes"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textInputColor"
+            android:background="@android:drawable/editbox_background"
+            android:linksClickable="true"
+            android:inputType="textAutoCorrect"
+            android:layout_centerHorizontal="true"
+            android:gravity="top" />
+        <Button
+            android:text="@string/Notes_Save"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNotes"
+            android:id="@+id/btnSaveNotes"
+            android:textColor="@color/buttonFontColor"
+            android:background="@color/layoutBackground"
+            android:layout_centerInParent="true" />
+        <ImageView
+            android:src="@drawable/checkmark"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@id/btnSaveNotes"
+            android:id="@+id/imgNotesSaved"
+            android:layout_below="@id/txtNotes"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/layoutBackground" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="265dp"
+            android:layout_height="160dp"
+            android:layout_below="@id/btnSaveNotes"
+            android:id="@+id/imgNotesCardHorizontal"
+            android:scaleType="fitXY"
+            android:background="@android:drawable/picture_frame"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="175dp"
+            android:layout_height="240dp"
+            android:layout_below="@id/btnSaveNotes"
+            android:id="@+id/imgNotesCardVertical"
+            android:background="@android:drawable/picture_frame"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </LinearLayout>
-
