@@ -145,18 +145,15 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-
-
 		protected void LoadCardsFromFile(string fullFilePath){
 
 			if(File.Exists(fullFilePath)){
 				var file = File.OpenText (fullFilePath);
 				var fileJson = file.ReadToEnd ();
+				file.Close ();
 				ProcessCards (fileJson);
 			}
 		}
-
-
 
 		/// <summary>
 		/// Shows the alert.

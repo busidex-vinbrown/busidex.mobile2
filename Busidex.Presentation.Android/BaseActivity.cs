@@ -86,34 +86,31 @@ namespace Busidex.Presentation.Android
 		protected void SetRefreshCookie(){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
-				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
-				if(cookies != null){
-					var today = System.DateTime.Now;
-					var cookie = cookies [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] ?? new System.Net.Cookie (Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME, string.Empty);
 
-					var expireDate = new System.DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
-					cookie.Expires = expireDate;
-					//cookie.Domain = new System.Uri(Busidex.Mobile.Resources.COOKIE_URI).GetComponents(System.UriComponents.Host, System.UriFormat.Unescaped);
-			
-					account.Cookies.SetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString());
+				var today = System.DateTime.Now;
 
-					AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
+				var expireDate = new System.DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
+		
+				if(!account.Properties.ContainsKey(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME)){
+					account.Properties.Add (Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME, expireDate.ToString ());
+				}else{
+					account.Properties [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] = expireDate.ToString ();
 				}
+
+				AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 			}
 		}
 
-		protected bool CheckRefreshCookie(){
+		protected bool CheckRefreshDate(){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
-				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
-				if(cookies != null){
-					var refreshCookie = cookies [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME];
-					if(refreshCookie == null){
-						SetRefreshCookie ();
-						return false;
-					}else{
-						return refreshCookie.Expires < System.DateTime.Now;
-					}
+
+				System.DateTime expireDate;
+
+				if(account.Properties[Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] != null && 
+					System.DateTime.TryParse(account.Properties [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME], out expireDate)){
+
+					return expireDate > System.DateTime.Now;
 				}
 			}
 			return false;

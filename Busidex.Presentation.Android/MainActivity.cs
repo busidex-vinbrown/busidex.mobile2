@@ -53,7 +53,7 @@ namespace Busidex.Presentation.Android
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
-			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && CheckRefreshCookie() && !force) {
+			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && CheckRefreshDate() && !force) {
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
