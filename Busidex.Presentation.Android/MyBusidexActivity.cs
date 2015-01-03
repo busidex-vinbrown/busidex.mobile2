@@ -7,6 +7,7 @@ using Android.Widget;
 using Busidex.Mobile.Models;
 using System.IO;
 using System.Collections.Generic;
+using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
@@ -25,6 +26,11 @@ namespace Busidex.Presentation.Android
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 			LoadCardsFromFile (fullFilePath);
+		}
+
+		public override void OnBackPressed ()
+		{
+			Redirect(new Intent(this, typeof(MainActivity)));
 		}
 
 		protected override void ProcessCards(string data){

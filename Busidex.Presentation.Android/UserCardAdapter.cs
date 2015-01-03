@@ -221,6 +221,7 @@ namespace Busidex.Presentation.Android
 			btnMap.Click -= OnMapButtonClicked;
 			btnMap.Click += OnMapButtonClicked;
 
+
 			return panel;
 		}
 

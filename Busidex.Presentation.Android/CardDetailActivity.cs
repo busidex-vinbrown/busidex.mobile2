@@ -52,12 +52,12 @@ namespace Busidex.Presentation.Android
 						btnCard.SetImageURI (frontUri);
 					}else{
 
-						//ShowOverlay ();
+						ShowLoadingSpinner ();
 
 						Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							RunOnUiThread (() => {
 								btnCard.SetImageURI (frontUri);
-								//Overlay.Hide();
+								HideLoadingSpinner();
 							});
 						});
 					}
@@ -72,11 +72,11 @@ namespace Busidex.Presentation.Android
 						if (File.Exists (backFileName)) {
 							btnCard.SetImageURI (backUri);
 						} else {
-							//ShowOverlay ();
+							ShowLoadingSpinner ();
 							Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								RunOnUiThread (() => {
 									btnCard.SetImageURI (backUri);
-									//Overlay.Hide();
+									HideLoadingSpinner();
 								});
 							});
 						}
@@ -85,7 +85,8 @@ namespace Busidex.Presentation.Android
 					break;
 				}
 			case CardViewState.Back:{
-					Redirect(new Intent(this, typeof(MyBusidexActivity)));
+					//Redirect(new Intent(this, typeof(MyBusidexActivity)));
+					Finish ();
 					break;
 				}
 			}

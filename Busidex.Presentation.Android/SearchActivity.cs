@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
+using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
@@ -43,6 +44,11 @@ namespace Busidex.Presentation.Android
 
 			lstSearchResults.RequestFocus ();
 			await DismissKeyboard (SearchBar.WindowToken);
+		}
+
+		public override void OnBackPressed ()
+		{
+			Redirect(new Intent(this, typeof(MainActivity)));
 		}
 
 		async void LoadSearchResults(List<UserCard> cards){
