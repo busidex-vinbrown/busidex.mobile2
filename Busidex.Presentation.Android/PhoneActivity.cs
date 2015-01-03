@@ -17,7 +17,7 @@ namespace Busidex.Presentation.Android
 			var userToken = GetAuthCookie ();
 			var uri = Uri.Parse ("tel:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
-			ActivityController.SaveActivity ((long)EventSources.Call, Card.Card.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
 			StartActivity (intent); 
 		}
 
@@ -29,12 +29,12 @@ namespace Busidex.Presentation.Android
 
 			var imgPhoneCardHorizontal = FindViewById<ImageView> (Resource.Id.imgPhoneCardHorizontal);
 			var imgPhoneCardVertical = FindViewById<ImageView> (Resource.Id.imgPhoneCardVertical);
-			var isHorizontal = Card.Card.FrontOrientation == "H";
+			var isHorizontal = UserCard.Card.FrontOrientation == "H";
 			var imgDisplay = isHorizontal ? imgPhoneCardHorizontal : imgPhoneCardVertical;
 			imgPhoneCardHorizontal.Visibility = isHorizontal ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
 			imgPhoneCardVertical.Visibility = isHorizontal ? global::Android.Views.ViewStates.Gone : global::Android.Views.ViewStates.Visible;
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName);
+			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
 			var frontUri = Uri.Parse (frontFileName);
 
 			if (File.Exists (frontFileName)) {
@@ -43,7 +43,7 @@ namespace Busidex.Presentation.Android
 
 				//ShowOverlay ();
 
-				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + Card.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName).ContinueWith (t => {
+				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 					RunOnUiThread (() => {
 						imgDisplay.SetImageURI (frontUri);
 						//Overlay.Hide();
@@ -51,10 +51,10 @@ namespace Busidex.Presentation.Android
 				});
 			}
 
-			if (Card != null && Card.Card.PhoneNumbers != null) {
+			if (UserCard != null && UserCard.Card.PhoneNumbers != null) {
 
 				var lstPhoneNumbers = FindViewById<ListView> (Resource.Id.lstPhoneNumbers);
-				var adapter = new PhoneNumberEntryAdapter (this, Resource.Id.lstPhoneNumbers, Card.Card.PhoneNumbers);
+				var adapter = new PhoneNumberEntryAdapter (this, Resource.Id.lstPhoneNumbers, UserCard.Card.PhoneNumbers);
 				adapter.PhoneNumberDialed += DialPhoneNumber;
 
 				lstPhoneNumbers.Adapter = adapter;

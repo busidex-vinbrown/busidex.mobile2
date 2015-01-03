@@ -10,7 +10,7 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "BaseCardActivity")]			
 	public class BaseCardActivity : BaseActivity
 	{
-		protected UserCard Card { get; set; }
+		protected UserCard UserCard { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -18,16 +18,15 @@ namespace Busidex.Presentation.Android
 
 			var data = Intent.GetStringExtra ("Card");
 			if (!string.IsNullOrEmpty (data)) {
-				Card = Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data);
+				UserCard = Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data);
 			}
-
 		}
 
 		public override void OnAttachedToWindow ()
 		{
 			base.OnAttachedToWindow ();
-			if(Card != null){
-				Window.SetTitle(Card.Card.Name);
+			if(UserCard != null){
+				Window.SetTitle(UserCard.Card.Name);
 			}
 		}
 	}

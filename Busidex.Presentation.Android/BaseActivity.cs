@@ -6,7 +6,8 @@ using System.Linq;
 using Android.Content;
 using Xamarin.Auth;
 using System.IO;
-
+using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.Android
 {
@@ -24,11 +25,7 @@ namespace Busidex.Presentation.Android
 			}
 		}
 
-		protected void Redirect(Intent intent){
-
-			StartActivity(intent);
-		}
-
+		#region Authentication
 		protected string GetAuthCookie(){
 			var account = GetAuthAccount ();
 			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
@@ -67,12 +64,93 @@ namespace Busidex.Presentation.Android
 				}
 			}
 		}
+		#endregion
+
+		protected void Redirect(Intent intent){
+
+			StartActivity(intent);
+		}
+
+		protected void ShowCard(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Details, userCard.CardId, token);
+			Redirect(intent);
+		}
+
+		protected void SendEmail(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
+
+			StartActivity(intent);
+		}
+
+		protected void OpenBrowser(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
+
+			var browserIntent = Intent.CreateChooser(intent, "Open with");
+			StartActivity (browserIntent);
+		}
+
+		static UserCard GetUserCardFromIntent(Intent intent){
+
+			var data = intent.GetStringExtra ("Card");
+			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
+		}
+
+		protected void AddCardToMyBusidex(Intent intent){
+
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+			var userCard = GetUserCardFromIntent (intent);
+			if (userCard!= null) {
+
+				string file;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						var myBusidexJson = myBusidexFile.ReadToEnd ();
+						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+						file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+
+						var token = GetAuthCookie ();
+						ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, token);
+					}
+
+					File.WriteAllText (fullFilePath, file);
+				}
+			}
+		}
+
+		protected void RemoveCardFromMyBusidex(Intent intent){
+
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+			var userCard = GetUserCardFromIntent (intent);
+
+			if (userCard!= null) {
+
+				string file;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						var myBusidexJson = myBusidexFile.ReadToEnd ();
+						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+						myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
+						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+					}
+
+					File.WriteAllText (fullFilePath, file);
+				}
+			}
+		}
 
 		protected virtual void ProcessCards(string data){
 
 		}
-
-
 
 		protected void LoadCardsFromFile(string fullFilePath){
 

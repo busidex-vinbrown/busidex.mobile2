@@ -6,13 +6,12 @@ using Android.OS;
 using Android.Widget;
 using Busidex.Mobile.Models;
 using System.IO;
-using Android.Content;
 using System.Collections.Generic;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "My Busidex")]			
-	public class MyBusidexActivity : BaseActivity
+	public class MyBusidexActivity : BaseCardActivity
 	{
 		List<UserCard> Cards { get; set; }
 
@@ -28,19 +27,6 @@ namespace Busidex.Presentation.Android
 			LoadCardsFromFile (fullFilePath);
 		}
 
-		void ShowCard(Intent intent){
-			Redirect(intent);
-		}
-
-		void SendEmail(Intent intent){
-			StartActivity(intent);
-		}
-
-		void OpenBrowser(Intent intent){
-			var browserIntent = Intent.CreateChooser(intent, "Open with");
-			StartActivity (browserIntent);
-		}
-
 		protected override void ProcessCards(string data){
 
 			var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
@@ -54,6 +40,8 @@ namespace Busidex.Presentation.Android
 			adapter.Redirect += ShowCard;
 			adapter.SendEmail += SendEmail;
 			adapter.OpenBrowser += OpenBrowser;
+			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 
 			adapter.ShowNotes = true;
 

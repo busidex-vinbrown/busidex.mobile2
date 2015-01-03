@@ -14,12 +14,16 @@ namespace Busidex.Presentation.Android
 	public delegate void RedirectToCardHandler(Intent intent);
 	public delegate void SendEmailHandler(Intent intent);
 	public delegate void OpenBrowserHandler(Intent intent);
+	public delegate void CardAddedToMyBusidexHandler(Intent intent);
+	public delegate void CardRemovedFromMyBusidexHandler(Intent intent);
 
 	public class UserCardAdapter : ArrayAdapter<UserCard>
 	{
 		public event RedirectToCardHandler Redirect;
 		public event SendEmailHandler SendEmail;
 		public event OpenBrowserHandler OpenBrowser;
+		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
+		public event CardRemovedFromMyBusidexHandler CardRemovedFromMyBusidex;
 
 		public bool ShowNotes{ get; set; }
 
@@ -31,12 +35,14 @@ namespace Busidex.Presentation.Android
 		List<UserCard> Cards { get; set; }
 		List<int> PanelReferences {get;set;}
 		readonly Activity context;
-		Intent PhoneIntent {get; set;}
-		Intent NotesIntent {get; set;}
-		Intent ShareCardIntent {get; set;}
+		Intent PhoneIntent { get; set; }
+		Intent NotesIntent { get; set; }
+		Intent ShareCardIntent { get; set; }
 		Intent CardDetailIntent{ get; set; }
 		Intent SendEmailIntent{ get; set; }
 		Intent OpenBrowserIntent{ get; set; }
+		Intent AddToMyBusidexIntent{ get; set; }
+		Intent RemoveFromMyBusidexIntent{ get; set; }
 
 		void doRedirect(Intent intent){
 			if(Redirect != null){
@@ -72,6 +78,18 @@ namespace Busidex.Presentation.Android
 		void OnBrowserButtonClicked(object sender, System.EventArgs e){
 			if(OpenBrowser != null){
 				OpenBrowser (OpenBrowserIntent);
+			}
+		}
+
+		void OnAddToMyBusidexClicked(object sender, System.EventArgs e){
+			if (CardAddedToMyBusidex != null){
+				CardAddedToMyBusidex (AddToMyBusidexIntent);
+			}
+		}
+
+		void OnRemoveFromMyBusidexClicked(object sender, System.EventArgs e){
+			if(CardRemovedFromMyBusidex != null){
+				CardRemovedFromMyBusidex (RemoveFromMyBusidexIntent);
 			}
 		}
 
@@ -170,6 +188,12 @@ namespace Busidex.Presentation.Android
 			btnBrowser.Click -= OnBrowserButtonClicked;
 			btnBrowser.Click += OnBrowserButtonClicked;
 
+			btnAddToMyBusidex.Click -= OnAddToMyBusidexClicked;
+			btnAddToMyBusidex.Click += OnAddToMyBusidexClicked;
+
+			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
+			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
+
 			return panel;
 		}
 
@@ -196,6 +220,8 @@ namespace Busidex.Presentation.Android
 
 			var card = Cards [position];
 
+			// for these buttons, need to set the tag property to the cardID because the
+			// buttons are reused
 			btnCardH.Click -= OnCardDetailButtonClicked;
 			btnCardH.Click += OnCardDetailButtonClicked;
 			btnCardH.Tag = position;

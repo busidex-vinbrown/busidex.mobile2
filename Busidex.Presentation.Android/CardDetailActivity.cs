@@ -40,8 +40,8 @@ namespace Busidex.Presentation.Android
 			
 		void ToggleImage(){
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName);
-			var backFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Card.Card.BackFileName);
+			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
+			var backFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName);
 			var frontUri = Uri.Parse (frontFileName);
 			var backUri = Uri.Parse (backFileName);
 
@@ -54,7 +54,7 @@ namespace Busidex.Presentation.Android
 
 						//ShowOverlay ();
 
-						Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + Card.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, Card.Card.FrontFileName).ContinueWith (t => {
+						Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							RunOnUiThread (() => {
 								btnCard.SetImageURI (frontUri);
 								//Overlay.Hide();
@@ -66,14 +66,14 @@ namespace Busidex.Presentation.Android
 				}
 			case CardViewState.Front:{
 
-					if (Card.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID)) {
+					if (UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID)) {
 						Redirect(new Intent(this, typeof(MyBusidexActivity)));
 					} else {
 						if (File.Exists (backFileName)) {
 							btnCard.SetImageURI (backUri);
 						} else {
 							//ShowOverlay ();
-							Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + Card.Card.BackFileName, Busidex.Mobile.Resources.DocumentsPath, Card.Card.BackFileName).ContinueWith (t => {
+							Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								RunOnUiThread (() => {
 									btnCard.SetImageURI (backUri);
 									//Overlay.Hide();
