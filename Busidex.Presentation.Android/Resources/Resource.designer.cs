@@ -403,8 +403,14 @@ namespace Busidex.Presentation.Android
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f06000d
+			public const int Global_LoadingCards = 2131099661;
+			
+			// aapt resource value: 0x7f06000e
+			public const int Global_LoadingCardsProgress = 2131099662;
+			
 			// aapt resource value: 0x7f06000c
-			public const int Global_LoadingCards = 2131099660;
+			public const int Global_OneMoment = 2131099660;
 			
 			// aapt resource value: 0x7f06000b
 			public const int Login_btnLogin = 2131099659;
@@ -424,20 +430,20 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f060006
 			public const int Main_btnSearch = 2131099654;
 			
-			// aapt resource value: 0x7f060011
-			public const int Notes_Save = 2131099665;
-			
-			// aapt resource value: 0x7f06000e
-			public const int Share_Description = 2131099662;
+			// aapt resource value: 0x7f060013
+			public const int Notes_Save = 2131099667;
 			
 			// aapt resource value: 0x7f060010
-			public const int Share_Error = 2131099664;
+			public const int Share_Description = 2131099664;
+			
+			// aapt resource value: 0x7f060012
+			public const int Share_Error = 2131099666;
+			
+			// aapt resource value: 0x7f060011
+			public const int Share_ShareCard = 2131099665;
 			
 			// aapt resource value: 0x7f06000f
-			public const int Share_ShareCard = 2131099663;
-			
-			// aapt resource value: 0x7f06000d
-			public const int Share_Title = 2131099661;
+			public const int Share_Title = 2131099663;
 			
 			// aapt resource value: 0x7f060003
 			public const int StartPage_btnConnect = 2131099651;

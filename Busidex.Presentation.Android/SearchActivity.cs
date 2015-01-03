@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
-using Android.Views.InputMethods;
 
 namespace Busidex.Presentation.Android
 {
@@ -16,6 +15,7 @@ namespace Busidex.Presentation.Android
 	public class SearchActivity : BaseCardActivity
 	{
 		SearchView SearchBar;
+		ListView lstSearchResults;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -24,17 +24,26 @@ namespace Busidex.Presentation.Android
 			SetContentView (Resource.Layout.Search);
 
 			SearchBar = FindViewById<SearchView> (Resource.Id.txtSearch);
+			lstSearchResults = FindViewById<ListView> (Resource.Id.lstSearchResults);
 
 			SearchBar.QueryTextSubmit += delegate {
 				DoSearch();
 			};
 
-			// Create your application here
+			SearchBar.Touch += delegate {
+				SearchBar.Focusable = true;
+				SearchBar.RequestFocus();
+			};
 		}
 
-		void LoadSearchResults(List<UserCard> cards){
+		async void ClearFocus(){
 
-			var lstSearchResults = FindViewById<ListView> (Resource.Id.lstSearchResults);
+			lstSearchResults.RequestFocus ();
+			await DismissKeyboard (SearchBar.WindowToken);
+		}
+
+		async void LoadSearchResults(List<UserCard> cards){
+
 			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, cards);
 
 			adapter.Redirect += ShowCard;
@@ -48,13 +57,17 @@ namespace Busidex.Presentation.Android
 
 			lstSearchResults.Adapter = adapter;
 
-			var imm = (InputMethodManager)GetSystemService(InputMethodService); 
-			imm.HideSoftInputFromWindow(SearchBar.WindowToken, 0);
+			HideLoadingSpinner ();
+			lstSearchResults.RequestFocus ();
+			SearchBar.Focusable = false;
+
+			await DismissKeyboard (SearchBar.WindowToken);
 		}
 
 		void DoSearch(){
 		
 			string token = GetAuthCookie ();
+			ShowLoadingSpinner ();
 
 			var ctrl = new SearchController ();
 			ctrl.DoSearch (SearchBar.Query, token).ContinueWith(response => {

@@ -30,7 +30,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			btnMyBusidex.Click += delegate {
-				LoadMyBusidexAsync();
+				LoadMyBusidexAsync(true);
 			};
 
 			btnMyOrganizations.Click += delegate {
@@ -60,15 +60,13 @@ namespace Busidex.Presentation.Android
 			var cookie = GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+
 			if (File.Exists (fullFilePath) && CheckRefreshCookie() && !force) {
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
 
-//					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-//					overlay.MessageText = Resources.GetString(Resource.String.Global_LoadingCards);
-//
-//					View.AddSubview (overlay);
+					ShowLoadingSpinner(Resources.GetString (Resource.String.Global_OneMoment));
 
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
 					await ctrl.GetMyBusidex (cookie).ContinueWith(async r => {
@@ -76,15 +74,23 @@ namespace Busidex.Presentation.Android
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
+							RunOnUiThread (() => {
+								HideLoadingSpinner();
+
+								ShowLoadingSpinner (
+									Resources.GetString (Resource.String.Global_LoadingCards), 
+									ProgressDialogStyle.Horizontal, 
+									myBusidexResponse.MyBusidex.Busidex.Count);
+							});
+
 						    Busidex.Mobile.Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 							SetRefreshCookie();
 
 							var cards = new List<UserCard> ();
 							var idx = 0;
-//							InvokeOnMainThread (() =>{
-//								overlay.TotalItems = myBusidexResponse.MyBusidex.Busidex.Count();
-//								overlay.UpdateProgress (idx);
-//							});
+							var total = myBusidexResponse.MyBusidex.Busidex.Count;
+
+							RunOnUiThread (() => UpdateLoadingSpinner (idx, total));
 
 							foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
 								if (item.Card != null) {
@@ -98,24 +104,40 @@ namespace Busidex.Presentation.Android
 
 									if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName) || force) {
 										await Busidex.Mobile.Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
-											//InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
+											RunOnUiThread (() => {
+												idx++;
+												if(idx == total){
+													HideLoadingSpinner();
+													GoToMyBusidex ();
+												}else{
+													UpdateLoadingSpinner (idx, total);
+												}
+											});
 										});
 									} else{
-										//InvokeOnMainThread (() => overlay.UpdateProgress (idx));
+										RunOnUiThread (() => {
+											idx++;
+											if(idx == total){
+												HideLoadingSpinner();
+												GoToMyBusidex ();
+											}else{
+												UpdateLoadingSpinner (idx, total);
+											}
+										});
 									}
 
 									if ((!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName) || force) && item.Card.BackFileId.ToString () != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
 										await Busidex.Mobile.Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
 										});
 									}
-									idx++;
+
 								}
 							}
 
-							RunOnUiThread (() => {
-								//overlay.Hide();
-								GoToMyBusidex ();
-							});
+//							RunOnUiThread (() => {
+//								HideLoadingSpinner();
+//								GoToMyBusidex ();
+//							});
 
 						}
 					});

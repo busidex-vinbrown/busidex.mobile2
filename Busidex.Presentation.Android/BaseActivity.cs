@@ -7,6 +7,11 @@ using System.IO;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using Android.Net;
+using System.Threading;
+using Android.Widget;
+using Android.Views.InputMethods;
+using Android.OS;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Android
 {
@@ -14,6 +19,9 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "BaseActivity")]			
 	public class BaseActivity : Activity
 	{
+
+		protected static ProgressDialog progressDialog;
+		private Handler progressBarHandler = new Handler();
 
 		protected void RedirectToMainIfLoggedIn(){
 
@@ -110,6 +118,42 @@ namespace Busidex.Presentation.Android
 
 			var data = intent.GetStringExtra ("Card");
 			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
+		}
+
+		protected async Task<bool> DismissKeyboard(IBinder token){
+			var imm = (InputMethodManager)GetSystemService(InputMethodService); 
+			return imm.HideSoftInputFromWindow(token, 0);
+		}
+
+		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
+
+			Context context = this;
+			var loadingText = message ?? context.GetString (Resource.String.Global_OneMoment);
+
+			progressDialog = new ProgressDialog (this);
+
+			progressDialog.Max = max;
+			progressDialog.SetProgressStyle (style);
+			progressDialog.SetMessage (loadingText);
+			progressDialog.Progress = 0;
+			progressDialog.Show ();
+			progressDialog.SetCanceledOnTouchOutside (false);
+
+//			new Thread(new ThreadStart(delegate
+//				{
+//					RunOnUiThread(() => Toast.MakeText(this, messageText, ToastLength.Long).Show());
+//				})
+//			).Start();
+		}
+
+		protected void UpdateLoadingSpinner(decimal current, decimal total){
+
+			var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
+			progressBarHandler.Post( () => { progressDialog.Progress = (int)progress; });
+		}
+
+		protected void HideLoadingSpinner(){
+			progressDialog.Hide ();
 		}
 
 		protected void AddCardToMyBusidex(Intent intent){
