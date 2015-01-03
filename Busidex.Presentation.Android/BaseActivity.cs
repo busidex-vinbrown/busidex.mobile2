@@ -98,6 +98,11 @@ namespace Busidex.Presentation.Android
 		}
 
 		protected void OpenMap(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
+
 			StartActivity (intent);
 		}
 
