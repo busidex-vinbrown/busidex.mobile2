@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 using Android.App;
 using System.Linq;
 using Android.Content;
@@ -8,6 +6,7 @@ using Xamarin.Auth;
 using System.IO;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
@@ -28,7 +27,7 @@ namespace Busidex.Presentation.Android
 		#region Authentication
 		protected string GetAuthCookie(){
 			var account = GetAuthAccount ();
-			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
+			var cookies = account.Cookies.GetCookies(new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
 			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
 			return cookie.Value;
 		}
@@ -40,13 +39,13 @@ namespace Busidex.Presentation.Android
 
 		protected void SetAuthCookie(long userId, int expires = 1){
 
-			var cookieVal = Busidex.Mobile.Utils.EncodeUserId (userId);
+			var cookieVal = Utils.EncodeUserId (userId);
 			var cookie = new System.Net.Cookie(Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
-			cookie.Expires = DateTime.Now.AddYears (expires);
-			cookie.Value = Busidex.Mobile.Utils.EncodeUserId(userId);
+			cookie.Expires = System.DateTime.Now.AddYears (expires);
+			cookie.Value = Utils.EncodeUserId(userId);
 
 			var container = new System.Net.CookieContainer ();
-			container.SetCookies (new Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
+			container.SetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
 			//container.Add (cookie);
 
 			var account = new Account (userId.ToString (), container);
@@ -57,9 +56,9 @@ namespace Busidex.Presentation.Android
 		protected void RemoveAuthCookie(){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
-				var cookies = account.Cookies.GetCookies (new Uri(Busidex.Mobile.Resources.COOKIE_URI));
+				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
 				if(cookies != null){
-					var userId = Busidex.Mobile.Utils.DecodeUserId (cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME].Value);
+					var userId = Utils.DecodeUserId (cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME].Value);
 					SetAuthCookie (userId, -1);
 				}
 			}
@@ -96,6 +95,10 @@ namespace Busidex.Presentation.Android
 
 			var browserIntent = Intent.CreateChooser(intent, "Open with");
 			StartActivity (browserIntent);
+		}
+
+		protected void OpenMap(Intent intent){
+			StartActivity (intent);
 		}
 
 		static UserCard GetUserCardFromIntent(Intent intent){

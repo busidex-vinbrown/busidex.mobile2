@@ -12,6 +12,7 @@ namespace Busidex.Presentation.Android
 {
 	public delegate void RedirectToCardHandler(Intent intent);
 	public delegate void SendEmailHandler(Intent intent);
+	public delegate void OpenMapHandler(Intent intent);
 	public delegate void OpenBrowserHandler(Intent intent);
 	public delegate void CardAddedToMyBusidexHandler(Intent intent);
 	public delegate void CardRemovedFromMyBusidexHandler(Intent intent);
@@ -20,6 +21,7 @@ namespace Busidex.Presentation.Android
 	{
 		public event RedirectToCardHandler Redirect;
 		public event SendEmailHandler SendEmail;
+		public event OpenMapHandler OpenMap;
 		public event OpenBrowserHandler OpenBrowser;
 		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
 		public event CardRemovedFromMyBusidexHandler CardRemovedFromMyBusidex;
@@ -33,11 +35,14 @@ namespace Busidex.Presentation.Android
 
 		List<UserCard> Cards { get; set; }
 		List<int> PanelReferences {get;set;}
+
 		readonly Activity context;
+
 		Intent PhoneIntent { get; set; }
 		Intent NotesIntent { get; set; }
 		Intent ShareCardIntent { get; set; }
 		Intent CardDetailIntent{ get; set; }
+		Intent OpenMapIntent{ get; set; }
 		Intent SendEmailIntent{ get; set; }
 		Intent OpenBrowserIntent{ get; set; }
 		Intent AddToMyBusidexIntent{ get; set; }
@@ -66,6 +71,12 @@ namespace Busidex.Presentation.Android
 
 		void OnShareCardButtonClicked(object sender, System.EventArgs e){
 			doRedirect(ShareCardIntent);
+		}
+
+		void OnMapButtonClicked(object sender, System.EventArgs e){
+			if(OpenMap != null){
+				OpenMap (OpenMapIntent);
+			}
 		}
 
 		void OnEmailButtonClicked(object sender, System.EventArgs e){
@@ -137,21 +148,32 @@ namespace Busidex.Presentation.Android
 			}
 			panel.Visibility = ViewStates.Visible;
 
+			var userCard = Cards [position];
 			PhoneIntent = new Intent(context, typeof(PhoneActivity));
 			NotesIntent = new Intent(context, typeof(NotesActivity));
 			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
 			SendEmailIntent = new Intent(Intent.ActionSend);
+
 			OpenBrowserIntent = new Intent (Intent.ActionView);
 
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(userCard);
 			PhoneIntent.PutExtra("Card", data);
 			NotesIntent.PutExtra("Card", data);
 			ShareCardIntent.PutExtra("Card", data);
 
-			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{Cards[position].Card.Email} );
+			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{userCard.Card.Email} );
 			SendEmailIntent.SetType ("message/rfc822");
 
-			var url = !Cards [position].Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + Cards [position].Card.Url : Cards [position].Card.Url;
+			var geoString = "geo:0,0";
+			if(userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0){
+				var address = userCard.Card.Addresses [0];
+				geoString = string.Format ("geo:0,0?q={0}", address);
+			}
+
+			var geoUri = Uri.Parse (geoString);
+			OpenMapIntent = new Intent (Intent.ActionView, geoUri);
+
+			var url = !Cards [position].Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + userCard.Card.Url : userCard.Card.Url;
 			var uri = Uri.Parse (url);
 			OpenBrowserIntent.SetData (uri);
 
@@ -164,13 +186,13 @@ namespace Busidex.Presentation.Android
 			var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
 			var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
 
-			btnPhone.Visibility = (Cards[position].Card.PhoneNumbers != null && Cards[position].Card.PhoneNumbers.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
-			btnEmail.Visibility = string.IsNullOrEmpty(Cards[position].Card.Email) ? ViewStates.Gone : ViewStates.Visible;
+			btnPhone.Visibility = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
+			btnEmail.Visibility = string.IsNullOrEmpty(userCard.Card.Email) ? ViewStates.Gone : ViewStates.Visible;
 			btnNotes.Visibility = ShowNotes ? ViewStates.Visible : ViewStates.Gone;
-			btnBrowser.Visibility = string.IsNullOrEmpty(Cards[position].Card.Url) ? ViewStates.Gone : ViewStates.Visible;
-			btnMap.Visibility = (Cards[position].Card.Addresses != null && Cards[position].Card.Addresses.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
-			btnAddToMyBusidex.Visibility = Cards[position].Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
-			btnRemoveFromMyBusidex.Visibility = Cards[position].Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
+			btnBrowser.Visibility = string.IsNullOrEmpty(userCard.Card.Url) ? ViewStates.Gone : ViewStates.Visible;
+			btnMap.Visibility = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses[0].HasAddress) ? ViewStates.Visible : ViewStates.Gone;
+			btnAddToMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
+			btnRemoveFromMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
 
 			btnPhone.Click -= OnPhoneButtonClicked;
 			btnPhone.Click += OnPhoneButtonClicked;
@@ -192,6 +214,9 @@ namespace Busidex.Presentation.Android
 
 			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
 			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
+
+			btnMap.Click -= OnMapButtonClicked;
+			btnMap.Click += OnMapButtonClicked;
 
 			return panel;
 		}

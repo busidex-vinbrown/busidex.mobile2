@@ -1,12 +1,8 @@
-﻿using System;
-
+﻿
 namespace Busidex.Mobile.Models
 {
 	public class Address
 	{
-		public Address ()
-		{
-		}
 
 		public long CardAddressId{ get; set; }
 		public long CardId{ get; set; }
@@ -22,6 +18,21 @@ namespace Busidex.Mobile.Models
 		public double Latitude{ get; set; }
 		public double Longitude{ get; set; }
 
+		public override string ToString ()
+		{
+			return string.Format ("{0} {1} {2}, {3} {4} {5} {6}", Address1, Address2, City, StateCode, ZipCode, Region, Country);
+		}
+
+		string StateCode{
+			get{
+				return State != null ? State.Code : string.Empty;
+			}
+		}
+		public bool HasAddress{get {
+				var addressString = string.Format ("{0}{1}{2}{3}{4}{5}{6}", Address1, Address2, City, StateCode, ZipCode, Region, Country);
+				return !string.IsNullOrEmpty (addressString);
+			}
+		}
 	}
 }
 

@@ -42,6 +42,7 @@ namespace Busidex.Presentation.Android
 			adapter.OpenBrowser += OpenBrowser;
 			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
 			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			adapter.OpenMap += OpenMap;
 
 			adapter.ShowNotes = true;
 
