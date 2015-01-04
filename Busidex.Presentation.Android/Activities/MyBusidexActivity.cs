@@ -25,7 +25,7 @@ namespace Busidex.Presentation.Android
 			Cards = new List<UserCard> ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
-			LoadCardsFromFile (fullFilePath);
+			LoadFromFile (fullFilePath);
 		}
 
 		public override void OnBackPressed ()
@@ -33,7 +33,7 @@ namespace Busidex.Presentation.Android
 			Redirect(new Intent(this, typeof(MainActivity)));
 		}
 
-		protected override void ProcessCards(string data){
+		protected override void ProcessFile(string data){
 
 			var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 			myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);

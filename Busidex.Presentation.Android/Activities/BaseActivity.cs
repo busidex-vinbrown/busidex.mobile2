@@ -21,7 +21,7 @@ namespace Busidex.Presentation.Android
 		Handler progressBarHandler = new Handler();
 
 		#region Loading
-		protected virtual void ProcessCards(string data){
+		protected virtual void ProcessFile(string data){
 
 		}
 
@@ -35,13 +35,13 @@ namespace Busidex.Presentation.Android
 			return false;
 		}
 
-		protected void LoadCardsFromFile(string fullFilePath){
+		protected void LoadFromFile(string fullFilePath){
 
 			if(File.Exists(fullFilePath)){
 				var file = File.OpenText (fullFilePath);
 				var fileJson = file.ReadToEnd ();
 				file.Close ();
-				ProcessCards (fileJson);
+				ProcessFile (fileJson);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Busidex.Presentation.Android
 			AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 		}
 
-		protected void SetRefreshCookie(){
+		protected void SetRefreshCookie(string prop){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
@@ -91,24 +91,24 @@ namespace Busidex.Presentation.Android
 
 				var expireDate = new System.DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
 		
-				if(!account.Properties.ContainsKey(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME)){
-					account.Properties.Add (Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME, expireDate.ToString ());
+				if(!account.Properties.ContainsKey(prop)){
+					account.Properties.Add (prop, expireDate.ToString ());
 				}else{
-					account.Properties [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] = expireDate.ToString ();
+					account.Properties [prop] = expireDate.ToString ();
 				}
 
 				AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 			}
 		}
 
-		protected bool CheckRefreshDate(){
+		protected bool CheckRefreshDate(string prop){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
 				System.DateTime expireDate;
 
-				if(account.Properties[Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME] != null && 
-					System.DateTime.TryParse(account.Properties [Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME], out expireDate)){
+				if(account.Properties.ContainsKey(prop) && 
+					System.DateTime.TryParse(account.Properties [prop], out expireDate)){
 
 					return expireDate > System.DateTime.Now;
 				}

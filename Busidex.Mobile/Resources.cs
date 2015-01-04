@@ -7,6 +7,7 @@ namespace Busidex.Mobile
 	{
 		public const string AUTHENTICATION_COOKIE_NAME = "UserId";
 		public const string BUSIDEX_REFRESH_COOKIE_NAME = "BusidexRefresh";
+		public const string ORGANIZATION_REFRESH_COOKIE_NAME = "OrganizationRefresh";
 		public const string USER_SETTING_USERNAME = "UserName";
 		public const string USER_SETTING_PASSWORD = "Password";
 		public const string USER_SETTING_EMAIL = "Email";

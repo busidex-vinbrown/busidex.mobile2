@@ -13,11 +13,13 @@ using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "My Organizations")]			
-	public class MyOrganizationsActivity : Activity
+	[Activity (Label = "OrganizationDetailActivity")]			
+	public class OrganizationDetailActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+			SetContentView (Resource.Layout.Organization);
+
 			base.OnCreate (savedInstanceState);
 
 			// Create your application here

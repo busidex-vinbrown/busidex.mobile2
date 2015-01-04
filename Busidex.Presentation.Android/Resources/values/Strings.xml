@@ -20,4 +20,5 @@
 	<string name="Share_ShareCard">Share</string>
 	<string name="Share_Error">There was a problem sharing your card</string>
 	<string name="Notes_Save">Save</string>
+	<string name="Organization_NoOrganizations">You do not belong to any organizations right now.</string>
 </resources>

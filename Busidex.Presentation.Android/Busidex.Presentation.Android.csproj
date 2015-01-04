@@ -50,23 +50,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="StartupActivity.cs" />
-    <Compile Include="LoginActivity.cs" />
-    <Compile Include="BaseActivity.cs" />
-    <Compile Include="SearchActivity.cs" />
-    <Compile Include="MyBusidexActivity.cs" />
-    <Compile Include="MyOrganizationsActivity.cs" />
-    <Compile Include="UserCardAdapter.cs" />
-    <Compile Include="CardDetailActivity.cs" />
-    <Compile Include="BaseCardActivity.cs" />
-    <Compile Include="PhoneActivity.cs" />
-    <Compile Include="NotesActivity.cs" />
-    <Compile Include="ShareCardActivity.cs" />
-    <Compile Include="PhoneNumberEntryAdapter.cs" />
-    <Compile Include="SendEmailActivity.cs" />
+    <Compile Include="Activities\BaseActivity.cs" />
+    <Compile Include="Activities\BaseCardActivity.cs" />
+    <Compile Include="Activities\CardDetailActivity.cs" />
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Activities\MyBusidexActivity.cs" />
+    <Compile Include="Activities\MyOrganizationsActivity.cs" />
+    <Compile Include="Activities\NotesActivity.cs" />
+    <Compile Include="Activities\PhoneActivity.cs" />
+    <Compile Include="Activities\OrganizationDetailActivity.cs" />
+    <Compile Include="Activities\OrganizationMembersActivity.cs" />
+    <Compile Include="Activities\SearchActivity.cs" />
+    <Compile Include="Activities\SendEmailActivity.cs" />
+    <Compile Include="Activities\ShareCardActivity.cs" />
+    <Compile Include="Activities\StartupActivity.cs" />
+    <Compile Include="Adapters\OrganizationAdapter.cs" />
+    <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
+    <Compile Include="Adapters\UserCardAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -109,6 +112,9 @@
     <AndroidResource Include="Resources\layout\Phone.axml" />
     <AndroidResource Include="Resources\drawable\checkmark.png" />
     <AndroidResource Include="Resources\layout\Search.axml" />
+    <AndroidResource Include="Resources\layout\OrganizationMembers.axml" />
+    <AndroidResource Include="Resources\layout\Organization.axml" />
+    <AndroidResource Include="Resources\layout\OrganizationListItem.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -120,5 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\anim\" />
+    <Folder Include="Activities\" />
+    <Folder Include="Adapters\" />
   </ItemGroup>
 </Project>
