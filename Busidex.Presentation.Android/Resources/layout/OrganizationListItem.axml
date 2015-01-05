@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/layoutBackground"
-    android:minWidth="25px"
-    android:minHeight="25px">
+<RelativeLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/orgLayout"
+    p1:background="@color/listBackground">
     <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="124.6dp"
-        android:id="@+id/imgOrganizationThumbnail"
-        android:scaleType="fitXY"
-        android:layout_margin="15dp"
-        android:background="@android:drawable/picture_frame" />
-</LinearLayout>
+        p1:src="@android:drawable/ic_menu_gallery"
+        p1:layout_width="286.7dp"
+        p1:layout_height="131.0dp"
+        p1:id="@+id/imgOrganizationThumbnail"
+        p1:scaleType="fitXY"
+        p1:layout_marginLeft="15dp"
+        p1:layout_marginTop="15dp" />
+    <ImageButton
+        p1:src="@android:drawable/ic_menu_info_details"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:layout_toRightOf="@id/imgOrganizationThumbnail"
+        p1:id="@+id/btnOrgInfo"
+        p1:scaleType="fitXY"
+        p1:background="@color/listBackground"
+        p1:layout_marginTop="55dp"
+        p1:layout_marginLeft="10dp" />
+    <LinearLayout
+        p1:orientation="horizontal"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="78.0dp"
+        p1:layout_below="@id/imgOrganizationThumbnail"
+        p1:id="@+id/orgButtonContainer"
+        p1:background="@android:drawable/picture_frame">
+        <Button
+            p1:text="Details"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/btnOrgDetails"
+            p1:layout_margin="12dp"
+            p1:textColor="@color/buttonFontColor"
+            p1:background="@android:drawable/editbox_background" />
+        <Button
+            p1:text="Members"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/btnOrgMembers"
+            p1:layout_margin="12dp"
+            p1:textColor="@color/buttonFontColor"
+            p1:background="@android:drawable/editbox_background" />
+        <Button
+            p1:text="Referrals"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/btnOrgReferrals"
+            p1:layout_margin="12dp"
+            p1:background="@android:drawable/editbox_background"
+            p1:textColor="@color/buttonFontColor" />
+    </LinearLayout>
+</RelativeLayout>

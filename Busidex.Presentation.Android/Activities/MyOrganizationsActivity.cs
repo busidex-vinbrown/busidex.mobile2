@@ -39,6 +39,10 @@ namespace Busidex.Presentation.Android
 				var lstOrganizations = FindViewById<ListView> (Resource.Id.lstOrganizations);
 				var adapter = new OrganizationAdapter (this, Resource.Id.lstCards, Organizations);
 
+				adapter.RedirectToOrganizationDetails += Redirect;
+				adapter.RedirectToOrganizationMembers += Redirect;
+				adapter.RedirectToOrganizationReferrals += Redirect;
+
 				lstOrganizations.Adapter = adapter;
 			}else{
 				Toast.MakeText (this, Resource.String.Organization_NoOrganizations, ToastLength.Long);
