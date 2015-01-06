@@ -84,7 +84,6 @@ namespace Busidex.Presentation.Android
 				layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
 			}else{
 				layoutParams.Width = parent.Width;
-				//layoutParams.Height = view.Height;
 			}
 			orgButtonContainer.LayoutParameters = layoutParams;
 			orgButtonContainer.Visibility = ViewStates.Gone;

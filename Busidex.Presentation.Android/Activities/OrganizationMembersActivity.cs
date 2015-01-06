@@ -1,17 +1,13 @@
 ﻿
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using System.IO;
+using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
@@ -26,6 +22,17 @@ namespace Busidex.Presentation.Android
 
 			base.OnCreate (savedInstanceState);
 
+			var data = Intent.GetStringExtra ("Organization");
+			var organization = Newtonsoft.Json.JsonConvert.DeserializeObject<Organization> (data);
+
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.ORGANIZATION_MEMBERS_FILE + organization.OrganizationId);
+			LoadFromFile (fullFilePath);
+
+			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var uri = Uri.Parse (fileName);
+
+			var img = FindViewById<ImageView> (Resource.Id.imgOrganizationHeaderImage);
+			img.SetImageURI (uri);
 		}
 
 
@@ -49,7 +56,7 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			var lstCards = FindViewById<ListView> (Resource.Id.lstCards);
+			var lstOrganizationMembers = FindViewById<ListView> (Resource.Id.lstOrganizationMembers);
 			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
 
 			adapter.Redirect += ShowCard;
@@ -61,7 +68,7 @@ namespace Busidex.Presentation.Android
 
 			adapter.ShowNotes = true;
 
-			lstCards.Adapter = adapter;
+			lstOrganizationMembers.Adapter = adapter;
 		}
 	}
 }
