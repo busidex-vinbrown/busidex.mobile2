@@ -36,7 +36,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			btnMyOrganizations.Click += delegate {
-				LoadMyOrganizationsAsync(true);
+				LoadMyOrganizationsAsync();
 			};
 		}
 

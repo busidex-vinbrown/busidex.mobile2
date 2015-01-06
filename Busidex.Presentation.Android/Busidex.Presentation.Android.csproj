@@ -70,6 +70,7 @@
     <Compile Include="Adapters\OrganizationAdapter.cs" />
     <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
     <Compile Include="Adapters\UserCardAdapter.cs" />
+    <Compile Include="Activities\OrganizationReferralsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />

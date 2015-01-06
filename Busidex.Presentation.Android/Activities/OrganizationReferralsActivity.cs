@@ -11,8 +11,8 @@ using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Members")]			
-	public class OrganizationMembersActivity : BaseCardActivity
+	[Activity (Label = "Referrals")]			
+	public class OrganizationReferralsActivity : BaseCardActivity
 	{
 		List<UserCard> Cards { get; set; }
 
@@ -25,7 +25,7 @@ namespace Busidex.Presentation.Android
 			var data = Intent.GetStringExtra ("Organization");
 			var organization = Newtonsoft.Json.JsonConvert.DeserializeObject<Organization> (data);
 
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.ORGANIZATION_MEMBERS_FILE + organization.OrganizationId);
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.ORGANIZATION_REFERRALS_FILE + organization.OrganizationId);
 			LoadFromFile (fullFilePath);
 
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
@@ -38,25 +38,10 @@ namespace Busidex.Presentation.Android
 
 		protected override void ProcessFile(string data){
 
-			var orgMembersResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (data);
-
-			Cards = new List<UserCard> ();
-
-			foreach (var item in orgMembersResponse.Model) {
-				if (item != null) {
-
-					var userCard = new UserCard ();
-
-					userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
-					userCard.Card = item;
-					userCard.CardId = item.CardId;
-
-					Cards.Add (userCard);
-				}
-			}
+			var orgMembersResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (data);
 
 			var lstOrganizationMembers = FindViewById<ListView> (Resource.Id.lstOrganizationMembers);
-			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
+			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, orgMembersResponse.Model);
 
 			adapter.Redirect += ShowCard;
 			adapter.SendEmail += SendEmail;

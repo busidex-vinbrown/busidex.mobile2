@@ -65,7 +65,7 @@ namespace Busidex.Presentation.Android
 
 			OrgDetailIntent = new Intent(context, typeof(OrganizationDetailActivity));
 			OrgMembersIntent = new Intent(context, typeof(OrganizationMembersActivity));
-			OrgReferralsIntent = new Intent(context, typeof(OrganizationMembersActivity));
+			OrgReferralsIntent = new Intent(context, typeof(OrganizationReferralsActivity));
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(organization);
 
