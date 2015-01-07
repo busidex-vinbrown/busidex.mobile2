@@ -116,6 +116,8 @@
     <AndroidResource Include="Resources\layout\OrganizationMembers.axml" />
     <AndroidResource Include="Resources\layout\Organization.axml" />
     <AndroidResource Include="Resources\layout\OrganizationListItem.axml" />
+    <AndroidResource Include="Resources\drawable\fb.png" />
+    <AndroidResource Include="Resources\drawable\twitter.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
