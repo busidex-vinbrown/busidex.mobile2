@@ -112,12 +112,43 @@
             android:layout_below="@id/txtPhone"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" />
+        <ImageButton
+            android:src="@drawable/browser"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/lblFax"
+            android:id="@+id/btnOrganizationWeb"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp" />
+        <ImageButton
+            android:src="@drawable/twitter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/txtFax"
+            android:id="@+id/btnOrganizationTwitter"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_toRightOf="@id/btnOrganizationWeb"
+            android:layout_marginLeft="60dp" />
+        <ImageButton
+            android:src="@drawable/fb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/txtFax"
+            android:id="@+id/btnOrganizationFacebook"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_toRightOf="@id/btnOrganizationTwitter" />
         <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/lblFax"
+            android:layout_below="@id/btnOrganizationWeb"
             android:id="@+id/vwWeb"
-            android:layout_marginTop="10dp"
-            android:background="@color/layoutBackground" />
+            android:layout_marginTop="10dp" />
     </RelativeLayout>
 </LinearLayout>
