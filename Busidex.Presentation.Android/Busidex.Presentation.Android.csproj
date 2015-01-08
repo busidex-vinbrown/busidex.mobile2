@@ -71,6 +71,7 @@
     <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
     <Compile Include="Adapters\UserCardAdapter.cs" />
     <Compile Include="Activities\OrganizationReferralsActivity.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -118,6 +119,7 @@
     <AndroidResource Include="Resources\layout\OrganizationListItem.axml" />
     <AndroidResource Include="Resources\drawable\fb.png" />
     <AndroidResource Include="Resources\drawable\twitter.png" />
+    <AndroidResource Include="Resources\layout\Profile.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
