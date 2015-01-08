@@ -1,6 +1,4 @@
-﻿
-
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
@@ -17,16 +15,17 @@ namespace Busidex.Presentation.Android
 			SetContentView (Resource.Layout.StartUp);
 
 			var btnLogin = FindViewById<Button> (Resource.Id.btnConnect);
+			var btnStart = FindViewById<Button> (Resource.Id.btnStart);
 
 			btnLogin.Click += delegate {
-				var intent = new Intent(this, typeof(LoginActivity));
-				StartActivity(intent);
+				StartActivity(new Intent(this, typeof(LoginActivity)));
+			};
+
+			btnStart.Click += delegate {
+				StartActivity(new Intent(this, typeof(ProfileActivity)));	
 			};
 
 			RedirectToMainIfLoggedIn ();
 		}
-
-
 	}
 }
-

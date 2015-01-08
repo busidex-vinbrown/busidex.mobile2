@@ -10,30 +10,30 @@
         p1:src="@drawable/spotlight_icon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:id="@+id/imageView1"
-        p1:layout_marginTop="50dp"
+        p1:id="@+id/imgSearchIcon"
+        p1:layout_marginTop="55dp"
         p1:layout_marginLeft="40dp" />
     <ImageView
         p1:src="@drawable/icon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:layout_below="@id/imageView1"
-        p1:id="@+id/imageView2"
+        p1:layout_below="@id/imgSearchIcon"
+        p1:id="@+id/imgBusidexIcon"
         p1:layout_marginLeft="40dp"
         p1:layout_marginTop="30dp" />
     <ImageView
         p1:src="@drawable/people"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:layout_below="@id/imageView2"
-        p1:id="@+id/imageView3"
+        p1:layout_below="@id/imgBusidexIcon"
+        p1:id="@+id/imgOrgIcon"
         p1:layout_marginLeft="40dp"
         p1:layout_marginTop="30dp" />
     <Button
         p1:text="Search for a Card"
         p1:layout_width="200dp"
         p1:layout_height="75dp"
-        p1:layout_toRightOf="@id/imageView1"
+        p1:layout_toRightOf="@id/imgSearchIcon"
         p1:id="@+id/btnSearch"
         p1:textColor="@color/buttonFontColor"
         p1:background="@color/layoutBackground"
@@ -44,7 +44,7 @@
         p1:layout_height="75dp"
         p1:layout_below="@id/btnSearch"
         p1:id="@+id/btnMyBusidex"
-        p1:layout_toRightOf="@id/imageView2"
+        p1:layout_toRightOf="@id/imgBusidexIcon"
         p1:textColor="@color/buttonFontColor"
         p1:background="@color/layoutBackground"
         p1:layout_marginTop="30dp" />
@@ -52,10 +52,39 @@
         p1:text="My Organizations"
         p1:layout_width="200dp"
         p1:layout_height="75dp"
-        p1:layout_toRightOf="@id/imageView3"
+        p1:layout_toRightOf="@id/imgOrgIcon"
         p1:id="@+id/btnMyOrganizations"
         p1:layout_below="@id/btnMyBusidex"
         p1:textColor="@color/buttonFontColor"
         p1:background="@color/layoutBackground"
         p1:layout_marginTop="30dp" />
+    <ImageButton
+        p1:src="@drawable/Exit"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:id="@+id/btnLogout"
+        p1:scaleType="fitXY"
+        p1:background="@android:drawable/btn_default"
+        p1:layout_alignParentBottom="true"
+        p1:layout_alignParentLeft="true"
+        p1:layout_marginLeft="5dp" />
+    <ImageButton
+        p1:src="@drawable/sync"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:id="@+id/btnSync"
+        p1:layout_alignParentBottom="true"
+        p1:background="@android:drawable/btn_default"
+        p1:scaleType="fitXY"
+        p1:layout_alignParentRight="true"
+        p1:layout_marginRight="5dp" />
+    <ImageButton
+        p1:src="@android:drawable/ic_menu_manage"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:layout_toLeftOf="@id/btnSync"
+        p1:id="@+id/btnSettings"
+        p1:layout_alignParentBottom="true"
+        p1:background="@android:drawable/btn_default"
+        p1:layout_marginRight="5dp" />
 </RelativeLayout>

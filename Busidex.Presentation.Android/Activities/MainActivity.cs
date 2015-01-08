@@ -22,6 +22,10 @@ namespace Busidex.Presentation.Android
 			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Main);
+			var tlbMain = FindViewById<Toolbar> (Resource.Id.tlbMain);
+			SetActionBar (tlbMain);
+			ActionBar.Title = "Buisdex";
+
 
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
