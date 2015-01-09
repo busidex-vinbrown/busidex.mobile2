@@ -48,6 +48,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)LoggingController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedCardResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BusidexUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AccountType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AccountAddress.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

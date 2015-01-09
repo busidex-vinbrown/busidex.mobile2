@@ -1,20 +1,14 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "My Profile")]			
-	public class ProfileActivity : Activity
+	public class ProfileActivity : BaseActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -22,7 +16,14 @@ namespace Busidex.Presentation.Android
 
 			base.OnCreate (savedInstanceState);
 
+			var txtProfileEmail = FindViewById<TextView> (Resource.Id.txtProfileEmail);
 
+			var token = GetAuthCookie ();
+			var accountJSON = Busidex.Mobile.AccountController.GetAccount (token);
+			var account = Newtonsoft.Json.JsonConvert.DeserializeObject<Busidex.Mobile.BusidexUser> (accountJSON);
+			if(account != null){
+				txtProfileEmail.Text = account.Email;
+			}
 		}
 	}
 }
