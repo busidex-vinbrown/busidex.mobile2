@@ -58,6 +58,9 @@ namespace Busidex.Presentation.Android
 		#region Authentication
 		protected string GetAuthCookie(){
 			var account = GetAuthAccount ();
+			if(account == null){
+				return null;
+			}
 			var cookies = account.Cookies.GetCookies(new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
 			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
 			return cookie.Value;
@@ -119,13 +122,10 @@ namespace Busidex.Presentation.Android
 		protected void RemoveAuthCookie(){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
-				var cookies = account.Cookies.GetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
-				if(cookies != null){
-					var userId = Utils.DecodeUserId (cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME].Value);
-					SetAuthCookie (userId, -1);
-				}
+				AccountStore.Create (this).Delete (account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
 			}
 		}
+
 		#endregion
 
 		#region Card Actions

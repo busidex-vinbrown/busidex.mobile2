@@ -18,10 +18,10 @@
     <EditText
         p1:inputType="textPersonName"
         p1:layout_width="225.6dp"
-        p1:layout_height="30dp"
+        p1:layout_height="35dp"
         p1:layout_below="@id/lblUserName"
         p1:id="@+id/txtUserName"
-        p1:background="@android:drawable/edit_text"
+        p1:background="@android:drawable/editbox_background"
         p1:layout_marginLeft="65dp"
         p1:textColor="@color/textInputColor" />
     <TextView
@@ -36,10 +36,10 @@
     <EditText
         p1:inputType="textPassword"
         p1:layout_width="226.5dp"
-        p1:layout_height="30dp"
+        p1:layout_height="35dp"
         p1:layout_below="@id/lblPassword"
         p1:id="@+id/txtPassword"
-        p1:background="@android:drawable/edit_text"
+        p1:background="@android:drawable/editbox_background"
         p1:layout_marginLeft="65dp"
         p1:textColor="@color/textInputColor" />
     <Button

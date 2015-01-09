@@ -22,14 +22,14 @@ namespace Busidex.Presentation.Android
 			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Main);
-			var tlbMain = FindViewById<Toolbar> (Resource.Id.tlbMain);
-			SetActionBar (tlbMain);
-			ActionBar.Title = "Buisdex";
-
 
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
 			var btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
+
+			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
+			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
+			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
 
 			btnSearch.Click += delegate {
 				Redirect(new Intent(this, typeof(SearchActivity)));
@@ -42,12 +42,40 @@ namespace Busidex.Presentation.Android
 			btnMyOrganizations.Click += delegate {
 				LoadMyOrganizationsAsync();
 			};
+
+			btnLogout.Click += delegate {
+				Logout();
+			};
+
+			btnSettings.Click += delegate {
+				GoToMyProfile();
+			};
+
+			btnSync.Click += delegate {
+				Sync();
+			};
 		}
 
 		public override void OnBackPressed ()
 		{
 			// noop
 			return;
+		}
+
+		void Logout(){
+			RemoveAuthCookie ();
+			Utils.RemoveCacheFiles ();
+			Redirect (new Intent (this, typeof(StartupActivity)));
+		}
+
+		void Sync(){
+			const bool FORCE = true;
+			LoadMyBusidexAsync(FORCE);
+			LoadMyOrganizationsAsync(FORCE);
+		}
+
+		void GoToMyProfile(){
+			Redirect(new Intent(this, typeof(ProfileActivity)));
 		}
 
 		void GoToMyOrganizations(){

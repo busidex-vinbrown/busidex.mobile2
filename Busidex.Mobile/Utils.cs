@@ -54,6 +54,23 @@ namespace Busidex.Mobile
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
 			File.WriteAllText (fullFilePath, response);
 		}
+
+		public static void RemoveCacheFiles(){
+			var myBusidexLocalFile = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+			if (File.Exists (myBusidexLocalFile)) {
+				File.Delete (myBusidexLocalFile);
+			}
+
+			var myOrganizationsLocalFile = Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE);
+			if (File.Exists (myOrganizationsLocalFile)) {
+				File.Delete (myOrganizationsLocalFile);
+			}
+
+			var organizationMembersLocalFile = Path.Combine (Resources.DocumentsPath, Resources.ORGANIZATION_MEMBERS_FILE);
+			if (File.Exists (organizationMembersLocalFile)) {
+				File.Delete (organizationMembersLocalFile);
+			}
+		}
 	}
 }
 
