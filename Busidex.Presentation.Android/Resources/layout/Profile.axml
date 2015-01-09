@@ -22,7 +22,7 @@
         android:id="@+id/txtProfileDescription"
         android:textColor="@color/labelFontColor"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="15dp" />
     <RelativeLayout
         android:minWidth="25px"
@@ -57,7 +57,7 @@
             android:id="@+id/lblProfilePassword"
             android:textColor="@color/labelFontColor"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
         <EditText
             android:inputType="textPassword"
             android:layout_width="270dp"
@@ -98,6 +98,24 @@
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/buttonFontColor"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="15dp" />
+        <TextView
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtProfileEmail"
+            android:id="@+id/lblEmailError"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginLeft="25dp" />
+        <TextView
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtProfilePassword"
+            android:id="@+id/lblPasswordError"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginLeft="25dp" />
     </RelativeLayout>
 </LinearLayout>

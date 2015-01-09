@@ -21,4 +21,9 @@
 	<string name="Share_Error">There was a problem sharing your card</string>
 	<string name="Notes_Save">Save</string>
 	<string name="Organization_NoOrganizations">You do not belong to any organizations right now.</string>
+	<string name="Profile_ErrorEmailInUse">Email is already in use</string>
+	<string name="Profile_ErrorEmailGeneral">There was a problem saving your email</string>
+	<string name="Profile_ErrorUnableToCreateAccount">unable to create new account</string>
+	<string name="Profile_ErrorAccountExists">account already exists</string>
+	<string name="Profile_ErrorAccountGeneral">There was a problem updating your account</string>
 </resources>
