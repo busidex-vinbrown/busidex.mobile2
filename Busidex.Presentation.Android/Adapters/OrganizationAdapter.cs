@@ -28,10 +28,23 @@ namespace Busidex.Presentation.Android
 		Intent OrgMembersIntent{ get; set; }
 		Intent OrgReferralsIntent{ get; set; }
 
+		bool ShowingPanel = false;
+		List<View> ViewCache;
+		Animation SlideOut;
+		Animation SlideIn;
+
 		public OrganizationAdapter (Activity ctx, int id, List<Organization> organizations) : base(ctx, id, organizations)
 		{
 			Organizations = organizations;
 			context = ctx;
+			ViewCache = new List<View> ();
+			for(var i=0;i<organizations.Count;i++){
+				ViewCache.Add (new View (ctx));
+			}
+
+			SlideOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
+			SlideIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
+
 		}
 
 		void OnRedirectToOrganizationDetails(object sender, System.EventArgs e){
@@ -92,10 +105,53 @@ namespace Busidex.Presentation.Android
 			return BitmapFactory.DecodeFile(fileName, options);
 		}
 
+		LinearLayout SetButtonPanel(View view, View parent, int position){
+
+			var orgButtonContainer = view.FindViewById<LinearLayout> (Resource.Id.orgButtonContainer);
+			var layoutParams = orgButtonContainer.LayoutParameters;
+			if(layoutParams == null){
+				layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
+			}else{
+				layoutParams.Width = parent.Width;
+			}
+			orgButtonContainer.LayoutParameters = layoutParams;
+
+			return orgButtonContainer;
+		}
+
+		void SetOrganizationData(Organization organization){
+			OrgDetailIntent = new Intent(context, typeof(OrganizationDetailActivity));
+			OrgMembersIntent = new Intent(context, typeof(OrganizationMembersActivity));
+			OrgReferralsIntent = new Intent(context, typeof(OrganizationReferralsActivity));
+
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(organization);
+
+			OrgDetailIntent.PutExtra ("Organization", data);
+			OrgMembersIntent.PutExtra ("Organization", data);
+			OrgReferralsIntent.PutExtra ("Organization", data);
+		}
+
+		void HideAllPanelInstances(int position){
+		
+
+			var slideOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
+
+			for(var i=0; i < ViewCache.Count; i++){
+				var view = ViewCache [i];
+				var panel = view.FindViewById<LinearLayout> (Resource.Id.orgButtonContainer);
+				if(panel != null && position != i){
+					panel.StartAnimation (slideOut);
+					slideOut.AnimationEnd += delegate {
+						panel.Visibility = ViewStates.Gone;
+					};
+				}
+			}
+		}
+
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.OrganizationListItem, null);
-
+			ViewCache [position] = view;
 			var organization = Organizations [position];
 
 			var fileName = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
@@ -109,31 +165,18 @@ namespace Busidex.Presentation.Android
 
 			img.SetImageBitmap (bm);
 
-			OrgDetailIntent = new Intent(context, typeof(OrganizationDetailActivity));
-			OrgMembersIntent = new Intent(context, typeof(OrganizationMembersActivity));
-			OrgReferralsIntent = new Intent(context, typeof(OrganizationReferralsActivity));
-
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(organization);
-
-			OrgDetailIntent.PutExtra ("Organization", data);
-			OrgMembersIntent.PutExtra ("Organization", data);
-			OrgReferralsIntent.PutExtra ("Organization", data);
-
 			var btnOrgDetails = view.FindViewById<Button> (Resource.Id.btnOrgDetails);
 			var btnOrgMembers = view.FindViewById<Button> (Resource.Id.btnOrgMembers);
 			var btnOrgReferrals = view.FindViewById<Button> (Resource.Id.btnOrgReferrals);
-			var orgButtonContainer = view.FindViewById<LinearLayout> (Resource.Id.orgButtonContainer);
 			var btnOrgInfo = view.FindViewById<ImageButton> (Resource.Id.btnOrgInfo);
+			var orgButtonContainer = view.FindViewById<LinearLayout> (Resource.Id.orgButtonContainer);
 
-			var layoutParams = orgButtonContainer.LayoutParameters;
-			if(layoutParams == null){
-				layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
-			}else{
-				layoutParams.Width = parent.Width;
-			}
-			orgButtonContainer.LayoutParameters = layoutParams;
-			orgButtonContainer.Visibility = ViewStates.Gone;
 			btnOrgInfo.Click += (sender, e) => {
+
+				HideAllPanelInstances(position);
+
+				orgButtonContainer = SetButtonPanel (view, parent, position);
+
 				var slideIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
 				var slideOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
 				slideOut.AnimationEnd += delegate {
@@ -144,9 +187,12 @@ namespace Busidex.Presentation.Android
 					orgButtonContainer.StartAnimation (slideOut);
 				}else{
 					orgButtonContainer.Visibility = ViewStates.Visible;
+					SetOrganizationData(organization);
 					orgButtonContainer.StartAnimation (slideIn);
 				}
 			};
+
+			orgButtonContainer.Visibility = ViewStates.Gone;
 
 			btnOrgDetails.Click -= OnRedirectToOrganizationDetails;
 			btnOrgDetails.Click += OnRedirectToOrganizationDetails;
