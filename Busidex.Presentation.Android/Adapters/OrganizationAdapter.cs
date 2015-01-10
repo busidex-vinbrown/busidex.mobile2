@@ -3,7 +3,6 @@ using Busidex.Mobile.Models;
 using Android.App;
 using System.Collections.Generic;
 using Android.Views;
-using Android.Net;
 using Android.Content;
 using Android.Views.Animations;
 using Android.Graphics.Drawables;
@@ -28,10 +27,7 @@ namespace Busidex.Presentation.Android
 		Intent OrgMembersIntent{ get; set; }
 		Intent OrgReferralsIntent{ get; set; }
 
-		bool ShowingPanel = false;
-		List<View> ViewCache;
-		Animation SlideOut;
-		Animation SlideIn;
+		readonly List<View> ViewCache;
 
 		public OrganizationAdapter (Activity ctx, int id, List<Organization> organizations) : base(ctx, id, organizations)
 		{
@@ -41,9 +37,6 @@ namespace Busidex.Presentation.Android
 			for(var i=0;i<organizations.Count;i++){
 				ViewCache.Add (new View (ctx));
 			}
-
-			SlideOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
-			SlideIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
 
 		}
 
@@ -65,47 +58,7 @@ namespace Busidex.Presentation.Android
 			}
 		}
 
-		public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-			// Raw height and width of image
-		 	int height = options.OutHeight;
-			int width = options.OutWidth;
-			int inSampleSize = 2;
-
-			if (height > reqHeight || width > reqWidth) {
-
-				int halfHeight = height / 2;
-				int halfWidth = width / 2;
-
-				// Calculate the largest inSampleSize value that is a power of 2 and keeps both
-				// height and width larger than the requested height and width.
-				while ((halfHeight / inSampleSize) > reqHeight
-					&& (halfWidth / inSampleSize) > reqWidth) {
-					inSampleSize *= 2;
-				}
-			}
-
-			return inSampleSize;
-		}
-
-		public static Bitmap decodeSampledBitmapFromFile(string fileName,
-			int reqWidth, int reqHeight) {
-
-			// First decode with inJustDecodeBounds=true to check dimensions
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.InScaled = true;
-			options.InJustDecodeBounds = true;
-			BitmapFactory.DecodeFile(fileName, options);
-
-			// Calculate inSampleSize
-			options.InSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-			// Decode bitmap with inSampleSize set
-			options.InJustDecodeBounds = false;
-			options.InScaled = true;
-			return BitmapFactory.DecodeFile(fileName, options);
-		}
-
-		LinearLayout SetButtonPanel(View view, View parent, int position){
+		static LinearLayout SetButtonPanel(View view, View parent){
 
 			var orgButtonContainer = view.FindViewById<LinearLayout> (Resource.Id.orgButtonContainer);
 			var layoutParams = orgButtonContainer.LayoutParameters;
@@ -119,7 +72,7 @@ namespace Busidex.Presentation.Android
 			return orgButtonContainer;
 		}
 
-		void SetOrganizationData(Organization organization){
+		void SetOrganizationData(object organization){
 			OrgDetailIntent = new Intent(context, typeof(OrganizationDetailActivity));
 			OrgMembersIntent = new Intent(context, typeof(OrganizationMembersActivity));
 			OrgReferralsIntent = new Intent(context, typeof(OrganizationReferralsActivity));
@@ -161,7 +114,7 @@ namespace Busidex.Presentation.Android
 
 			const int LOGO_WIDTH = 286;
 			const int LOGO_HEIGHT = 181;
-			var bm = decodeSampledBitmapFromFile (fileName, LOGO_WIDTH, LOGO_HEIGHT);
+			var bm = AndroidUtils.DecodeSampledBitmapFromFile (fileName, LOGO_WIDTH, LOGO_HEIGHT);
 
 			img.SetImageBitmap (bm);
 
@@ -175,7 +128,7 @@ namespace Busidex.Presentation.Android
 
 				HideAllPanelInstances(position);
 
-				orgButtonContainer = SetButtonPanel (view, parent, position);
+				orgButtonContainer = SetButtonPanel (view, parent);
 
 				var slideIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
 				var slideOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);

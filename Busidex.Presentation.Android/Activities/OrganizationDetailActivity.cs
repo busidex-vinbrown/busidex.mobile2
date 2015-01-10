@@ -36,10 +36,14 @@ namespace Busidex.Presentation.Android
 
 			var vwWeb = FindViewById<WebView> (Resource.Id.vwWeb);
 
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
-			var uri = Uri.Parse (fileName);
+			const int IMAGE_HEIGHT = 82;
 
-			ingOrgDetailLogoBanner.SetImageURI (uri);
+			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			using (var imgOrgDetailLogoBanner = FindViewById<ImageView> (Resource.Id.imgOrganizationHeaderImage)) {
+				var bm = AndroidUtils.DecodeSampledBitmapFromFile (fileName, Resources.DisplayMetrics.WidthPixels, IMAGE_HEIGHT);
+				ingOrgDetailLogoBanner.SetImageBitmap (bm);
+			}
+
 			txtContacts.Text = organization.Contacts;
 			txtEmail.Text = organization.Email;
 			txtPhone.Text = organization.Phone1;

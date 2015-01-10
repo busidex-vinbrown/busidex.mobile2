@@ -7,7 +7,6 @@ using Android.Widget;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using System.IO;
-using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
@@ -28,11 +27,12 @@ namespace Busidex.Presentation.Android
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.ORGANIZATION_REFERRALS_FILE + organization.OrganizationId);
 			LoadFromFile (fullFilePath);
 
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
-			var uri = Uri.Parse (fileName);
+			const int IMAGE_HEIGHT = 82;
 
+			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var img = FindViewById<ImageView> (Resource.Id.imgOrganizationHeaderImage);
-			img.SetImageURI (uri);
+			var bm = AndroidUtils.DecodeSampledBitmapFromFile (fileName, Resources.DisplayMetrics.WidthPixels, IMAGE_HEIGHT);
+			img.SetImageBitmap (bm);
 		}
 
 

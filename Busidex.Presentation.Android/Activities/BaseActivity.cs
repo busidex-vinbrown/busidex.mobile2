@@ -73,7 +73,7 @@ namespace Busidex.Presentation.Android
 
 		protected void SetAuthCookie(long userId, int expires = 1){
 
-			var cookieVal = Utils.EncodeUserId (userId);
+			var cookieVal = Busidex.Mobile.Utils.EncodeUserId (userId);
 			var cookie = new System.Net.Cookie(Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
 			cookie.Expires = System.DateTime.Now.AddYears (expires);
 			cookie.Value = Utils.EncodeUserId(userId);
