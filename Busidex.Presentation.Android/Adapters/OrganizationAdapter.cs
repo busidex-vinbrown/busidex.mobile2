@@ -3,10 +3,11 @@ using Busidex.Mobile.Models;
 using Android.App;
 using System.Collections.Generic;
 using Android.Views;
-using System.IO;
 using Android.Net;
 using Android.Content;
 using Android.Views.Animations;
+using Android.Graphics.Drawables;
+using Android.Graphics;
 
 namespace Busidex.Presentation.Android
 {
@@ -46,9 +47,49 @@ namespace Busidex.Presentation.Android
 		}
 
 		void OnRedirectToOrganizationReferrals(object sender, System.EventArgs e){
-			if(RedirectToOrganizationReferrals != null){
+			if (RedirectToOrganizationReferrals != null) {
 				RedirectToOrganizationReferrals (OrgReferralsIntent);
 			}
+		}
+
+		public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+			// Raw height and width of image
+		 	int height = options.OutHeight;
+			int width = options.OutWidth;
+			int inSampleSize = 2;
+
+			if (height > reqHeight || width > reqWidth) {
+
+				int halfHeight = height / 2;
+				int halfWidth = width / 2;
+
+				// Calculate the largest inSampleSize value that is a power of 2 and keeps both
+				// height and width larger than the requested height and width.
+				while ((halfHeight / inSampleSize) > reqHeight
+					&& (halfWidth / inSampleSize) > reqWidth) {
+					inSampleSize *= 2;
+				}
+			}
+
+			return inSampleSize;
+		}
+
+		public static Bitmap decodeSampledBitmapFromFile(string fileName,
+			int reqWidth, int reqHeight) {
+
+			// First decode with inJustDecodeBounds=true to check dimensions
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.InScaled = true;
+			options.InJustDecodeBounds = true;
+			BitmapFactory.DecodeFile(fileName, options);
+
+			// Calculate inSampleSize
+			options.InSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+			// Decode bitmap with inSampleSize set
+			options.InJustDecodeBounds = false;
+			options.InScaled = true;
+			return BitmapFactory.DecodeFile(fileName, options);
 		}
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
@@ -57,11 +98,16 @@ namespace Busidex.Presentation.Android
 
 			var organization = Organizations [position];
 
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
-			var uri = Uri.Parse (fileName);
+			var fileName = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 
 			var img = view.FindViewById<ImageView> (Resource.Id.imgOrganizationThumbnail);
-			img.SetImageURI (uri);
+			(img.Drawable as BitmapDrawable).Bitmap.Recycle();
+
+			const int LOGO_WIDTH = 286;
+			const int LOGO_HEIGHT = 181;
+			var bm = decodeSampledBitmapFromFile (fileName, LOGO_WIDTH, LOGO_HEIGHT);
+
+			img.SetImageBitmap (bm);
 
 			OrgDetailIntent = new Intent(context, typeof(OrganizationDetailActivity));
 			OrgMembersIntent = new Intent(context, typeof(OrganizationMembersActivity));

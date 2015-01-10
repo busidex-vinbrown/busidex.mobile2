@@ -74,7 +74,6 @@ namespace Busidex.Presentation.Android
 
 		void SetCheckAccountResult(string email, string password, string result){
 			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
-			//const string ERROR_ACCOUNT_EXISTS = "account already exists";
 			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
 
 			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
