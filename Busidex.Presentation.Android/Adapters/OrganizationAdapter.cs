@@ -110,7 +110,7 @@ namespace Busidex.Presentation.Android
 			var fileName = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 
 			var img = view.FindViewById<ImageView> (Resource.Id.imgOrganizationThumbnail);
-			(img.Drawable as BitmapDrawable).Bitmap.Recycle();
+			//(img.Drawable as BitmapDrawable).Bitmap.Recycle();
 
 			const int LOGO_WIDTH = 286;
 			const int LOGO_HEIGHT = 181;

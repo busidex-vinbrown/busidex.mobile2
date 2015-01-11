@@ -23,9 +23,10 @@ namespace Busidex.Presentation.Android
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+			SetContentView (Resource.Layout.Card);
+
 			base.OnCreate (savedInstanceState);
 
-			SetContentView (Resource.Layout.Card);
 			btnCard = FindViewById<ImageButton> (Resource.Id.imgCardDetail);
 			btnCard.SetScaleType (ImageView.ScaleType.FitXy);
 
@@ -37,7 +38,13 @@ namespace Busidex.Presentation.Android
 
 			ToggleImage();
 		}
-			
+
+		protected override void OnImageDownloadCompleted (Uri uri){
+			btnCard = FindViewById<ImageButton> (Resource.Id.imgCardDetail);
+			btnCard.SetImageURI (uri);
+			HideLoadingSpinner();
+		}
+
 		void ToggleImage(){
 
 			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
@@ -49,15 +56,17 @@ namespace Busidex.Presentation.Android
 			case CardViewState.Loading:{
 
 					if (File.Exists (frontFileName)) {
-						btnCard.SetImageURI (frontUri);
+						OnImageDownloadCompleted (frontUri);
 					}else{
 
 						ShowLoadingSpinner ();
 
-						Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+						var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName;
+
+						Busidex.Mobile.Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							RunOnUiThread (() => {
-								btnCard.SetImageURI (frontUri);
-								HideLoadingSpinner();
+
+								OnImageDownloadCompleted(frontUri);
 							});
 						});
 					}
@@ -67,16 +76,19 @@ namespace Busidex.Presentation.Android
 			case CardViewState.Front:{
 
 					if (UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID)) {
-						Redirect(new Intent(this, typeof(MyBusidexActivity)));
+						Finish ();
 					} else {
 						if (File.Exists (backFileName)) {
-							btnCard.SetImageURI (backUri);
+							OnImageDownloadCompleted(backUri);
 						} else {
 							ShowLoadingSpinner ();
-							Busidex.Mobile.Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
+
+							var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName;
+
+							Busidex.Mobile.Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								RunOnUiThread (() => {
-									btnCard.SetImageURI (backUri);
 									HideLoadingSpinner();
+									OnImageDownloadCompleted(backUri);
 								});
 							});
 						}

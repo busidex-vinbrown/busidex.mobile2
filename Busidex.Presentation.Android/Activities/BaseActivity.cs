@@ -257,7 +257,7 @@ namespace Busidex.Presentation.Android
 		}
 
 		protected void HideLoadingSpinner(){
-			progressDialog.Hide ();
+			progressDialog.Dismiss ();
 		}
 		#endregion
 	}

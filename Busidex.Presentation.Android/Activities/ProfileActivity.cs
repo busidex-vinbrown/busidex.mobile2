@@ -26,6 +26,8 @@ namespace Busidex.Presentation.Android
 
 			var txtProfileEmail = FindViewById<TextView> (Resource.Id.txtProfileEmail);
 			var txtProfilePassword = FindViewById<TextView> (Resource.Id.txtProfilePassword);
+			var txtProfileDescription = FindViewById<TextView> (Resource.Id.txtProfileDescription);
+			var lblProfilePassword = FindViewById<TextView> (Resource.Id.lblProfilePassword);
 			imgProfileEmailSaved = FindViewById<ImageView> (Resource.Id.imgProfileEmailSaved);
 			imgProfilePasswordSaved = FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
 			lblEmailError = FindViewById<TextView> (Resource.Id.lblEmailError);
@@ -41,28 +43,31 @@ namespace Busidex.Presentation.Android
 
 			if(account != null){
 				txtProfileEmail.Text = account.Email;
-				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = global::Android.Views.ViewStates.Gone;
+				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = global::Android.Views.ViewStates.Gone;
+				lblEmailError.Visibility = lblProfilePassword.Visibility = global::Android.Views.ViewStates.Gone;
+
 				showPassword = false;
+				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
 
 				btnSaveProfile.Click += delegate {
 					UpdateEmail(token, txtProfileEmail.Text);
 				};
 			}else{
+				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
+
 				btnSaveProfile.Click += delegate {
 					CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
 				};
 			}
 		}
 
-		void SetEmailChangedResult(string email, string result){
+		void SetEmailChangedResult(string result){
 
 			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
 				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
 				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
 				lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
 			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
-				//user.SetString (email, Resources.USER_SETTING_EMAIL);
-				//user.Synchronize ();
 				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
 				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
 			} else {
@@ -85,9 +90,6 @@ namespace Busidex.Presentation.Android
 				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
 				lblEmailError.Text = "This email is already in use";
 			} else if (oResult != null && oResult.Success) {
-				//user.SetString (email, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
-				//user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-				//user.Synchronize ();
 				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
 				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
 				if (showPassword) {
@@ -111,9 +113,8 @@ namespace Busidex.Presentation.Android
 		}
 
 		void UpdateEmail(string token, string email){
-
 			var response = SettingsController.ChangeEmail (email, token);
-			SetEmailChangedResult (email, response.Result);
+			SetEmailChangedResult (response.Result);
 		}
 
 		void CheckAccount(string token, string email, string password){

@@ -28,19 +28,23 @@ namespace Busidex.Mobile
 
 		public static async Task<string> DownloadImage(string imagePath, string documentsPath, string fileName)
 		{
-			string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
+			string jpgFilename = Path.Combine (documentsPath, fileName);
 
-			using (var webClient = new WebClient ()) {
+			try{
+				using (var webClient = new WebClient ()) {
 
-				var imageData = webClient.DownloadDataTaskAsync (new Uri (imagePath));
+					var imageData = webClient.DownloadDataTaskAsync (new Uri (imagePath));
 
-				string localPath = Path.Combine (documentsPath, fileName);
-				if (await imageData != null) {
-					File.WriteAllBytes (localPath, imageData.Result); // writes to local storage  
+					string localPath = Path.Combine (documentsPath, fileName);
+					if (await imageData != null) {
+						File.WriteAllBytes (localPath, imageData.Result); // writes to local storage  
+					}
 				}
-
-				return jpgFilename;
 			}
+			catch(Exception ex){
+				//return jpgFilename; 
+			}
+			return jpgFilename;
 		}
 
 		public static string EncodeUserId(long userId){

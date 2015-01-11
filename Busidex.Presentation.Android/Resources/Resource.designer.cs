@@ -583,6 +583,12 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f060014
 			public const int Organization_NoOrganizations = 2131099668;
 			
+			// aapt resource value: 0x7f06001a
+			public const int Profile_DescriptionNewAccount = 2131099674;
+			
+			// aapt resource value: 0x7f06001b
+			public const int Profile_DescriptionUpdateAccount = 2131099675;
+			
 			// aapt resource value: 0x7f060018
 			public const int Profile_ErrorAccountExists = 2131099672;
 			

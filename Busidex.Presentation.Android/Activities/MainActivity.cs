@@ -234,7 +234,9 @@ namespace Busidex.Presentation.Android
 												idx++;
 												if(idx == total){
 													HideLoadingSpinner();
-													GoToMyBusidex ();
+													if(!force){
+														GoToMyBusidex ();
+													}
 												}else{
 													UpdateLoadingSpinner (idx, total);
 												}
@@ -245,7 +247,9 @@ namespace Busidex.Presentation.Android
 											idx++;
 											if(idx == total){
 												HideLoadingSpinner();
-												GoToMyBusidex ();
+												if(!force){
+													GoToMyBusidex ();
+												}
 											}else{
 												UpdateLoadingSpinner (idx, total);
 											}
@@ -256,14 +260,15 @@ namespace Busidex.Presentation.Android
 										await Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
 										});
 									}
-
 								}
 							}
 
 							RunOnUiThread (() => {
 								Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 								HideLoadingSpinner();
-								GoToMyBusidex ();
+								if(!force){
+									GoToMyBusidex ();
+								}
 							});
 						}
 					});
