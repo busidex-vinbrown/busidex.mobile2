@@ -42,11 +42,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Auth.Android">
       <HintPath>..\Components\xamarin.auth-1.2.3\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +73,7 @@
     <Compile Include="Activities\OrganizationReferralsActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="AndroidUtils.cs" />
+    <Compile Include="Activities\SharedCardsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -123,6 +124,8 @@
     <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\drawable\Exit.png" />
     <AndroidResource Include="Resources\drawable\sync.png" />
+    <AndroidResource Include="Resources\layout\SharedCardList.axml" />
+    <AndroidResource Include="Resources\layout\SharedCardListItem.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

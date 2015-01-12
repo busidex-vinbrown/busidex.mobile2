@@ -16,12 +16,15 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "Busidex", Icon = "@drawable/icon")]
 	public class MainActivity : BaseActivity
 	{
+		ImageButton btnSharedCardsNotification;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Main);
+
+			var notificationCount = GetNotifications();
 
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
@@ -30,6 +33,12 @@ namespace Busidex.Presentation.Android
 			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
 			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
 			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
+			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
+
+			var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
+			txtNotificationCount.Text = notificationCount.ToString();
+
+			btnSharedCardsNotification.Visibility = txtNotificationCount.Visibility = notificationCount > 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
 
 			btnSearch.Click += delegate {
 				Redirect(new Intent(this, typeof(SearchActivity)));
@@ -53,6 +62,10 @@ namespace Busidex.Presentation.Android
 
 			btnSync.Click += delegate {
 				Sync();
+			};
+
+			btnSharedCardsNotification.Click += delegate {
+				GoToSharedCards();
 			};
 		}
 
@@ -84,6 +97,35 @@ namespace Busidex.Presentation.Android
 
 		void GoToMyBusidex(){
 			Redirect(new Intent(this, typeof(MyBusidexActivity)));
+		}
+
+		void GoToSharedCards(){
+			Redirect(new Intent(this, typeof(SharedCardsActivity)));
+		}
+
+		int GetNotifications(){
+
+			var ctrl = new SharedCardController ();
+			var cookie = GetAuthCookie ();
+			var sharedCardsResponse = ctrl.GetSharedCards (cookie);
+			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
+
+			foreach (SharedCard card in sharedCards.SharedCards) {
+				var fileName = card.Card.FrontFileName;
+				var fImagePath = Busidex.Mobile.Resources.CARD_PATH + fileName;
+				if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fileName)) {
+					Utils.DownloadImage (fImagePath, Busidex.Mobile.Resources.DocumentsPath, fileName).ContinueWith (t => {
+
+					});
+				}
+			}
+
+			Utils.SaveResponse (sharedCardsResponse, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+
+			if(sharedCards != null){
+				return sharedCards.SharedCards.Count;
+			}
+			return 0;
 		}
 
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){

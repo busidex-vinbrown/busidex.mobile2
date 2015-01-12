@@ -61,7 +61,6 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnMyOrganizations.TouchUpInside += delegate {
-				//GoToMyOrganizations();
 				LoadMyOrganizationsAsync();
 			};
 		}
