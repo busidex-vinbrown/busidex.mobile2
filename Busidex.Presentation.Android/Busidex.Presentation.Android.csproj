@@ -74,6 +74,7 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="Activities\SharedCardsActivity.cs" />
+    <Compile Include="Adapters\SharedCardListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />

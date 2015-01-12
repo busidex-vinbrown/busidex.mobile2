@@ -164,20 +164,20 @@ namespace Busidex.Presentation.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070062
-			public const int btnAccept = 2131165282;
-			
-			// aapt resource value: 0x7f070066
-			public const int btnConnect = 2131165286;
-			
 			// aapt resource value: 0x7f070063
-			public const int btnDecline = 2131165283;
+			public const int btnAccept = 2131165283;
+			
+			// aapt resource value: 0x7f070067
+			public const int btnConnect = 2131165287;
+			
+			// aapt resource value: 0x7f070064
+			public const int btnDecline = 2131165284;
 			
 			// aapt resource value: 0x7f070009
 			public const int btnHideInfo = 2131165193;
 			
-			// aapt resource value: 0x7f07006f
-			public const int btnInfo = 2131165295;
+			// aapt resource value: 0x7f070070
+			public const int btnInfo = 2131165296;
 			
 			// aapt resource value: 0x7f070010
 			public const int btnLogin = 2131165200;
@@ -257,8 +257,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07001c
 			public const int btnSharedCardsNotification = 2131165212;
 			
-			// aapt resource value: 0x7f070068
-			public const int btnStart = 2131165288;
+			// aapt resource value: 0x7f070069
+			public const int btnStart = 2131165289;
 			
 			// aapt resource value: 0x7f07001a
 			public const int btnSync = 2131165210;
@@ -269,17 +269,17 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07000a
 			public const int imgCardDetail = 2131165194;
 			
-			// aapt resource value: 0x7f07006d
-			public const int imgCardHorizontal = 2131165293;
-			
 			// aapt resource value: 0x7f07006e
-			public const int imgCardVertical = 2131165294;
+			public const int imgCardHorizontal = 2131165294;
+			
+			// aapt resource value: 0x7f07006f
+			public const int imgCardVertical = 2131165295;
 			
 			// aapt resource value: 0x7f07005a
 			public const int imgCheckShared = 2131165274;
 			
-			// aapt resource value: 0x7f070069
-			public const int imgLoginLogo = 2131165289;
+			// aapt resource value: 0x7f07006a
+			public const int imgLoginLogo = 2131165290;
 			
 			// aapt resource value: 0x7f070011
 			public const int imgLogo = 2131165201;
@@ -323,17 +323,17 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f070059
 			public const int imgShareVertical = 2131165273;
 			
-			// aapt resource value: 0x7f070060
-			public const int imgSharedCardHorizontal = 2131165280;
-			
 			// aapt resource value: 0x7f070061
-			public const int imgSharedCardVertical = 2131165281;
+			public const int imgSharedCardHorizontal = 2131165281;
+			
+			// aapt resource value: 0x7f070062
+			public const int imgSharedCardVertical = 2131165282;
 			
 			// aapt resource value: 0x7f070027
 			public const int ingOrgDetailLogoBanner = 2131165223;
 			
-			// aapt resource value: 0x7f070065
-			public const int lblAlreadyAUser = 2131165285;
+			// aapt resource value: 0x7f070066
+			public const int lblAlreadyAUser = 2131165286;
 			
 			// aapt resource value: 0x7f070028
 			public const int lblContacts = 2131165224;
@@ -347,11 +347,11 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07002b
 			public const int lblFax = 2131165227;
 			
-			// aapt resource value: 0x7f070064
-			public const int lblIntro = 2131165284;
+			// aapt resource value: 0x7f070065
+			public const int lblIntro = 2131165285;
 			
-			// aapt resource value: 0x7f070067
-			public const int lblNewUser = 2131165287;
+			// aapt resource value: 0x7f070068
+			public const int lblNewUser = 2131165288;
 			
 			// aapt resource value: 0x7f07000e
 			public const int lblPassword = 2131165198;
@@ -386,8 +386,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07000c
 			public const int lblUserName = 2131165196;
 			
-			// aapt resource value: 0x7f07006a
-			public const int listItemLayout = 2131165290;
+			// aapt resource value: 0x7f07006b
+			public const int listItemLayout = 2131165291;
 			
 			// aapt resource value: 0x7f07000b
 			public const int loginLayout = 2131165195;
@@ -406,6 +406,9 @@ namespace Busidex.Presentation.Android
 			
 			// aapt resource value: 0x7f070053
 			public const int lstSearchResults = 2131165267;
+			
+			// aapt resource value: 0x7f07005d
+			public const int lstSharedCards = 2131165277;
 			
 			// aapt resource value: 0x7f070012
 			public const int mainLayout = 2131165202;
@@ -440,11 +443,11 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f070054
 			public const int shareCardLayout = 2131165268;
 			
-			// aapt resource value: 0x7f07005d
-			public const int sharedCardListItemLayout = 2131165277;
+			// aapt resource value: 0x7f07005e
+			public const int sharedCardListItemLayout = 2131165278;
 			
-			// aapt resource value: 0x7f07006c
-			public const int txtCompanyName = 2131165292;
+			// aapt resource value: 0x7f07006d
+			public const int txtCompanyName = 2131165293;
 			
 			// aapt resource value: 0x7f07002c
 			public const int txtContacts = 2131165228;
@@ -455,8 +458,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f07002f
 			public const int txtFax = 2131165231;
 			
-			// aapt resource value: 0x7f07006b
-			public const int txtName = 2131165291;
+			// aapt resource value: 0x7f07006c
+			public const int txtName = 2131165292;
 			
 			// aapt resource value: 0x7f070021
 			public const int txtNotes = 2131165217;
@@ -488,11 +491,11 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f070057
 			public const int txtShareEmail = 2131165271;
 			
-			// aapt resource value: 0x7f07005f
-			public const int txtSharedCardCompanyName = 2131165279;
+			// aapt resource value: 0x7f070060
+			public const int txtSharedCardCompanyName = 2131165280;
 			
-			// aapt resource value: 0x7f07005e
-			public const int txtSharedCardName = 2131165278;
+			// aapt resource value: 0x7f07005f
+			public const int txtSharedCardName = 2131165279;
 			
 			// aapt resource value: 0x7f07000d
 			public const int txtUserName = 2131165197;
