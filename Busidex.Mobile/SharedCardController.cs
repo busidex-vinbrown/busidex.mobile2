@@ -78,16 +78,16 @@ namespace Busidex.Mobile
 //				PersonalMessage = string.Empty
 //			};
 			var data =  string.Format(
-				"'AcceptedCardIdList': {0}," +
-				"'DeclinedCardIdList': {1}," +
-				"'CardIdList': ''," +
+				"'UserId': 0," +
+				"'AcceptedCardIdList': [{0}]," +
+				"'DeclinedCardIdList': [{1}]," +
+				"'CardIdList': []," +
 				"'SharedWith': '', " +
 				"'Accepted': 'false', " +
 				"'Declined': 'false', " +
-				"'UserId': 0," +
 				"'PersonalMessage': ''", 
-				acceptedCardId.HasValue ? new []{ acceptedCardId.Value } : new long[]{}, 
-				declinedCardId.HasValue ? new []{ declinedCardId.Value } : new long[]{});
+				acceptedCardId.HasValue ? acceptedCardId.Value.ToString() : null, 
+				declinedCardId.HasValue ? declinedCardId.Value.ToString() : null);
 			data = "{" + data + "}";
 			//var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 			return MakeRequest (URL, "PUT", userToken, data);

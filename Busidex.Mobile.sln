@@ -64,7 +64,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Busidex.Presentation.Android\Busidex.Presentation.Android.csproj
+		StartupItem = Busidex.Presentation.iOS\Busidex.Presentation.iOS.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
