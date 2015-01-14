@@ -91,10 +91,7 @@ namespace Busidex.Presentation.iOS
 
 		    Busidex.Mobile.Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
 
-			if(sharedCards != null){
-				return sharedCards.SharedCards.Count;
-			}
-			return 0;
+			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
 		}
 
 		void ConfigureToolbarItems(){
@@ -233,7 +230,9 @@ namespace Busidex.Presentation.iOS
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
-			if (cookie == null || cookie.ExpiresDate < DateTime.Now) {
+			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
+
+			if (cookie == null ||  expireDate < DateTime.Now) {
 
 				SetRefreshCookie ();
 				return false;

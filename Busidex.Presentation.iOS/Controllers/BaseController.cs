@@ -23,6 +23,13 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		public static DateTime NSDateToDateTime(NSDate date)
+		{
+			DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime( 
+				new DateTime(2001, 1, 1, 0, 0, 0) );
+			return reference.AddSeconds(date.SecondsSinceReferenceDate);
+		}
+
 		protected NSHttpCookie SetAuthCookie(long userId){
 			var nCookie = new System.Net.Cookie();
 			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
@@ -36,8 +43,12 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected NSHttpCookie GetAuthCookie(){
+
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-			return (cookie != null && cookie.ExpiresDate > DateTime.Now) ? cookie : null;
+
+			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
+
+			return (cookie != null && expireDate > DateTime.Now) ? cookie : null;
 		}
 
 		protected void RemoveAuthCookie(){
