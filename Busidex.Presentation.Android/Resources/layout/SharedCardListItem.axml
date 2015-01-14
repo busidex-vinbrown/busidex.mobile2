@@ -67,5 +67,14 @@
             android:background="@android:drawable/editbox_background"
             android:layout_marginTop="15dp"
             android:layout_marginRight="5dp" />
+        <ImageView
+            android:src="@drawable/red_minus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/btnAccept"
+            android:id="@+id/imgResults"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_marginRight="30dp" />
     </RelativeLayout>
 </LinearLayout>

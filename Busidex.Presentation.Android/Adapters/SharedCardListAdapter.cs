@@ -5,6 +5,7 @@ using Android.App;
 using Android.Views;
 using System.IO;
 using Android.Net;
+using System.Linq;
 
 namespace Busidex.Presentation.Android
 {
@@ -13,6 +14,7 @@ namespace Busidex.Presentation.Android
 	public class SharedCardListAdapter : ArrayAdapter<SharedCard>
 	{
 		List<SharedCard> Cards { get; set; }
+		List<View> ViewCache{ get; set; }
 		readonly Activity context;
 
 		public event SharingCardHandler SharingCard;
@@ -21,13 +23,48 @@ namespace Busidex.Presentation.Android
 		{
 			Cards = cards;
 			context = ctx;
+			ViewCache = new List<View>();
 		}
 
-		protected void ShareCard(object sender, System.EventArgs e){
+		protected void AcceptCard(object sender, System.EventArgs e){
 
-			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+			var position = System.Convert.ToInt32(((Button)sender).Tag);
 			var card = Cards [position];
 
+			card.Accepted = true;
+			card.Declined = false;
+
+			SaveSharedCard (card);
+			UpdateSharingUI (position, true);
+		}
+
+		protected void DeclineCard(object sender, System.EventArgs e){
+
+			var position = System.Convert.ToInt32(((Button)sender).Tag);
+			var card = Cards [position];
+
+			card.Accepted = false;
+			card.Declined = true;
+
+			SaveSharedCard (card);
+			UpdateSharingUI (position, false);
+		}
+
+		void UpdateSharingUI(int position, bool accepted){
+
+			var view = ViewCache.SingleOrDefault(v=> System.Convert.ToInt32(v.Tag) == position);
+			if(view != null){
+				var btnAccept = view.FindViewById<TextView> (Resource.Id.btnAccept);
+				var btnDecline = view.FindViewById<TextView> (Resource.Id.btnDecline);
+				var imgResults = view.FindViewById<ImageView> (Resource.Id.imgResults);
+
+				btnAccept.Visibility = btnDecline.Visibility = ViewStates.Invisible;
+				imgResults.SetImageResource (accepted ? Resource.Drawable.checkmark : Resource.Drawable.red_minus);
+				imgResults.Visibility = ViewStates.Visible;
+			}
+		}
+
+		void SaveSharedCard(SharedCard card){
 			if(SharingCard != null){
 				SharingCard (card);
 			}
@@ -45,6 +82,9 @@ namespace Busidex.Presentation.Android
 			var imgSharedCardVertical =  view.FindViewById<ImageView> (Resource.Id.imgSharedCardVertical);
 			var btnAccept = view.FindViewById<TextView> (Resource.Id.btnAccept);
 			var btnDecline = view.FindViewById<TextView> (Resource.Id.btnDecline);
+			var imgResults = view.FindViewById<ImageView> (Resource.Id.imgResults);
+
+			imgResults.Visibility = ViewStates.Gone;
 
 			txtSharedCardName.Text = card.Card.Name;
 			txtSharedCardCompanyName.Text = card.Card.CompanyName;
@@ -65,7 +105,17 @@ namespace Busidex.Presentation.Android
 				imgSharedCardHorizontal.Visibility = ViewStates.Gone;
 			}
 
-			btnAccept.Tag = btnDecline.Tag = position;
+			btnAccept.Click -= AcceptCard;
+			btnAccept.Click += AcceptCard;
+
+			btnDecline.Click -= DeclineCard;
+			btnDecline.Click += DeclineCard;
+
+			btnAccept.Tag = btnDecline.Tag = view.Tag = position;
+
+			if(ViewCache.SingleOrDefault(v=> System.Convert.ToInt32(v.Tag) == position) == null){
+				ViewCache.Add (view);
+			}
 
 			return view;
 		}

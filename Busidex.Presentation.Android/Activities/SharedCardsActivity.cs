@@ -41,6 +41,7 @@ namespace Busidex.Presentation.Android
 			sharedCardList.AddRange (sharedCardResponse.SharedCards);
 
 			var adapter = new SharedCardListAdapter (this, Resource.Id.lstCards, sharedCardList);
+			adapter.SharingCard += SaveSharedCard;
 
 			var lstSharedCards = FindViewById<ListView> (Resource.Id.lstSharedCards); 
 
