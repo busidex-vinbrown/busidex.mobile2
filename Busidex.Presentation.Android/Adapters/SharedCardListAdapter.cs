@@ -26,9 +26,23 @@ namespace Busidex.Presentation.Android
 			ViewCache = new List<View>();
 		}
 
-		protected void AcceptCard(object sender, System.EventArgs e){
+		protected void ConfirmAcceptCard(object sender, System.EventArgs e){
 
-			var position = System.Convert.ToInt32(((Button)sender).Tag);
+			var title = context.GetString (Resource.String.Share_ConfirmShareTitleAccept);
+			var message = context.GetString (Resource.String.Share_ConfirmAccept);
+			var position = System.Convert.ToInt32 (((Button)sender).Tag);
+
+			var builder = new AlertDialog.Builder(context);
+
+			builder.SetTitle (title);
+			builder.SetMessage (message);
+			builder.SetPositiveButton("OK", (ss, ee) => AcceptCard (position));
+			builder.SetNegativeButton("Cancel", (ss, ee) => { return; });
+			builder.SetCancelable (false);
+			builder.Create().Show();
+		}
+
+		void AcceptCard(int position){
 			var card = Cards [position];
 
 			card.Accepted = true;
@@ -38,9 +52,24 @@ namespace Busidex.Presentation.Android
 			UpdateSharingUI (position, true);
 		}
 
-		protected void DeclineCard(object sender, System.EventArgs e){
+		protected void ConfirmDeclineCard(object sender, System.EventArgs e){
 
-			var position = System.Convert.ToInt32(((Button)sender).Tag);
+			var title = context.GetString (Resource.String.Share_ConfirmShareTitleDecline);
+			var message = context.GetString (Resource.String.Share_ConfirmDecline);
+
+			var position = System.Convert.ToInt32 (((Button)sender).Tag);
+
+			var builder = new AlertDialog.Builder(context);
+
+			builder.SetTitle (title);
+			builder.SetMessage (message);
+			builder.SetPositiveButton("OK", (ss, ee) => DeclineCard (position));
+			builder.SetNegativeButton("Cancel", (ss, ee) => { return; });
+			builder.SetCancelable (false);
+			builder.Create().Show();
+		}
+
+		void DeclineCard(int position){
 			var card = Cards [position];
 
 			card.Accepted = false;
@@ -105,11 +134,11 @@ namespace Busidex.Presentation.Android
 				imgSharedCardHorizontal.Visibility = ViewStates.Gone;
 			}
 
-			btnAccept.Click -= AcceptCard;
-			btnAccept.Click += AcceptCard;
+			btnAccept.Click -= ConfirmAcceptCard;
+			btnAccept.Click += ConfirmAcceptCard;
 
-			btnDecline.Click -= DeclineCard;
-			btnDecline.Click += DeclineCard;
+			btnDecline.Click -= ConfirmDeclineCard;
+			btnDecline.Click += ConfirmDeclineCard;
 
 			btnAccept.Tag = btnDecline.Tag = view.Tag = position;
 

@@ -619,32 +619,44 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f060006
 			public const int Main_btnSearch = 2131099654;
 			
-			// aapt resource value: 0x7f060013
-			public const int Notes_Save = 2131099667;
-			
-			// aapt resource value: 0x7f060014
-			public const int Organization_NoOrganizations = 2131099668;
-			
-			// aapt resource value: 0x7f06001a
-			public const int Profile_DescriptionNewAccount = 2131099674;
-			
-			// aapt resource value: 0x7f06001b
-			public const int Profile_DescriptionUpdateAccount = 2131099675;
+			// aapt resource value: 0x7f060017
+			public const int Notes_Save = 2131099671;
 			
 			// aapt resource value: 0x7f060018
-			public const int Profile_ErrorAccountExists = 2131099672;
+			public const int Organization_NoOrganizations = 2131099672;
+			
+			// aapt resource value: 0x7f06001e
+			public const int Profile_DescriptionNewAccount = 2131099678;
+			
+			// aapt resource value: 0x7f06001f
+			public const int Profile_DescriptionUpdateAccount = 2131099679;
+			
+			// aapt resource value: 0x7f06001c
+			public const int Profile_ErrorAccountExists = 2131099676;
+			
+			// aapt resource value: 0x7f06001d
+			public const int Profile_ErrorAccountGeneral = 2131099677;
+			
+			// aapt resource value: 0x7f06001a
+			public const int Profile_ErrorEmailGeneral = 2131099674;
 			
 			// aapt resource value: 0x7f060019
-			public const int Profile_ErrorAccountGeneral = 2131099673;
+			public const int Profile_ErrorEmailInUse = 2131099673;
 			
-			// aapt resource value: 0x7f060016
-			public const int Profile_ErrorEmailGeneral = 2131099670;
+			// aapt resource value: 0x7f06001b
+			public const int Profile_ErrorUnableToCreateAccount = 2131099675;
 			
 			// aapt resource value: 0x7f060015
-			public const int Profile_ErrorEmailInUse = 2131099669;
+			public const int Share_ConfirmAccept = 2131099669;
 			
-			// aapt resource value: 0x7f060017
-			public const int Profile_ErrorUnableToCreateAccount = 2131099671;
+			// aapt resource value: 0x7f060016
+			public const int Share_ConfirmDecline = 2131099670;
+			
+			// aapt resource value: 0x7f060013
+			public const int Share_ConfirmShareTitleAccept = 2131099667;
+			
+			// aapt resource value: 0x7f060014
+			public const int Share_ConfirmShareTitleDecline = 2131099668;
 			
 			// aapt resource value: 0x7f060010
 			public const int Share_Description = 2131099664;

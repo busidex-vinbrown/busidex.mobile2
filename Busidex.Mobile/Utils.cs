@@ -7,9 +7,6 @@ namespace Busidex.Mobile
 {
 	public static class Utils
 	{
-
-
-
 		public static long DecodeUserId(string id){
 
 			long userId = 0;
