@@ -7,6 +7,8 @@ using Android.Net;
 using System.IO;
 using Android.Content;
 using Android.Views.Animations;
+using Java.Lang;
+using System.Linq;
 
 namespace Busidex.Presentation.Android
 {
@@ -17,7 +19,7 @@ namespace Busidex.Presentation.Android
 	public delegate void CardAddedToMyBusidexHandler(Intent intent);
 	public delegate void CardRemovedFromMyBusidexHandler(Intent intent);
 
-	public class UserCardAdapter : ArrayAdapter<UserCard>
+	public class UserCardAdapter : ArrayAdapter<UserCard>, IFilterable
 	{
 		public event RedirectToCardHandler Redirect;
 		public event SendEmailHandler SendEmail;
@@ -34,6 +36,7 @@ namespace Busidex.Presentation.Android
 		protected const int CARD_WIDTH_HORIZONTAL = 180;
 
 		List<UserCard> Cards { get; set; }
+		List<UserCard> _originalItems { get; set; }
 		List<int> PanelReferences {get;set;}
 
 		readonly Activity context;
@@ -54,12 +57,27 @@ namespace Busidex.Presentation.Android
 			}
 		}
 
+		public override int Count
+		{
+			get { return Cards.Count; }
+		}
+
+		public Filter Filter { get; private set; }
+
 		public UserCardAdapter (Activity ctx, int id, List<UserCard> cards) : base(ctx, id, cards)
 		{
-			Cards = cards;
+			Cards = _originalItems = cards;
 			context = ctx;
 			PanelReferences = new List<int> ();
+			Filter = new UserCardFilter (this);
 		}
+
+		public UserCard this[int position]{ 
+			get{ 
+				return Cards [position]; 
+			}
+		}
+
 
 		void OnPhoneButtonClicked(object sender, System.EventArgs e){
 			doRedirect(PhoneIntent);
@@ -281,6 +299,64 @@ namespace Busidex.Presentation.Android
 			}
 
 			return view;
+		}
+
+		public class UserCardFilter : Filter
+		{
+			readonly UserCardAdapter _adapter;
+
+			public UserCardFilter (UserCardAdapter adapter)
+			{
+				_adapter = adapter;
+			}
+
+			protected override FilterResults PerformFiltering(ICharSequence constraint)
+			{
+				var returnObj = new FilterResults();
+				var results = new List<UserCard>();
+				if (_adapter.Cards == null || constraint == null || string.IsNullOrWhiteSpace (constraint.ToString ())) {
+					_adapter.Cards = _adapter._originalItems;
+					results.AddRange (_adapter.Cards);
+				} else {
+
+					//if (constraint == null) return returnObj;
+
+					if (_adapter.Cards != null && _adapter.Cards.Any ()) {
+						// Compare constraint to all names lowercased. 
+						// It they are contained they are added to results.
+						results.AddRange (
+							_adapter.Cards.Where (
+								card => 
+							(!string.IsNullOrEmpty (card.Card.Name) && card.Card.Name.ToLower ().Contains (constraint.ToString ())) ||
+								(!string.IsNullOrEmpty (card.Card.CompanyName) && card.Card.CompanyName.ToLower ().Contains (constraint.ToString ())) ||
+								(!string.IsNullOrEmpty (card.Card.Email) && card.Card.Email.ToLower ().Contains (constraint.ToString ())) ||
+								(!string.IsNullOrEmpty (card.Card.Url) && card.Card.Url.ToLower ().Contains (constraint.ToString ()))
+							) 
+						);
+					}
+				}
+
+				// Nasty piece of .NET to Java wrapping, be careful with this!
+				returnObj.Values = FromArray(results.Select(r => r.ToJavaObject()).ToArray());
+				returnObj.Count = results.Count;
+
+				constraint.Dispose();
+
+				return returnObj;
+			}
+
+			protected override void PublishResults(ICharSequence constraint, FilterResults results)
+			{
+				using (var values = results.Values)
+					_adapter.Cards = values.ToArray<Object>()
+						.Select(r => r.ToNetObject<UserCard>()).ToList();
+
+				_adapter.NotifyDataSetChanged();
+
+				// Don't do this and see GREF counts rising
+				constraint.Dispose();
+				results.Dispose();
+			}
 		}
 	}
 }

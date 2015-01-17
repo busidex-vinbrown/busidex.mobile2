@@ -15,6 +15,8 @@ namespace Busidex.Presentation.Android
 	public class MyBusidexActivity : BaseCardActivity
 	{
 		List<UserCard> Cards { get; set; }
+		static UserCardAdapter MyBusidexAdapter { get; set; }
+		static EditText txtFilter { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -33,6 +35,14 @@ namespace Busidex.Presentation.Android
 			Redirect(new Intent(this, typeof(MainActivity)));
 		}
 
+		static void DoFilter(string filter){
+			if(string.IsNullOrEmpty(filter)){
+				MyBusidexAdapter.Filter.InvokeFilter ("");
+			}else{
+				MyBusidexAdapter.Filter.InvokeFilter(filter);
+			}
+		}
+
 		protected override void ProcessFile(string data){
 
 			var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
@@ -41,18 +51,28 @@ namespace Busidex.Presentation.Android
 			Cards = myBusidexResponse.MyBusidex.Busidex;
 
 			var lstCards = FindViewById<ListView> (Resource.Id.lstCards);
-			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
+			txtFilter = FindViewById<EditText> (Resource.Id.txtFilter);
+			MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
 
-			adapter.Redirect += ShowCard;
-			adapter.SendEmail += SendEmail;
-			adapter.OpenBrowser += OpenBrowser;
-			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			adapter.OpenMap += OpenMap;
+			MyBusidexAdapter.Redirect += ShowCard;
+			MyBusidexAdapter.SendEmail += SendEmail;
+			MyBusidexAdapter.OpenBrowser += OpenBrowser;
+			MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			MyBusidexAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			MyBusidexAdapter.OpenMap += OpenMap;
 
-			adapter.ShowNotes = true;
+			MyBusidexAdapter.ShowNotes = true;
 
-			lstCards.Adapter = adapter;
+			lstCards.Adapter = MyBusidexAdapter;
+
+
+//			txtFilter.Touch += delegate {
+//				txtFilter.Focusable = true;
+//				txtFilter.RequestFocus();
+//			};
+				
+
+			txtFilter.TextChanged += (s, e) => DoFilter (txtFilter.Text);
 		}
 	}
 }
