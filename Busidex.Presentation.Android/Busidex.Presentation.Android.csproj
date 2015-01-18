@@ -77,6 +77,7 @@
     <Compile Include="Adapters\SharedCardListAdapter.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="JavaHolder.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -130,6 +131,10 @@
     <AndroidResource Include="Resources\layout\SharedCardList.axml" />
     <AndroidResource Include="Resources\layout\SharedCardListItem.axml" />
     <AndroidResource Include="Resources\drawable\red_minus.png" />
+    <AndroidResource Include="Resources\layout\Splash.axml" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable\splash2.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -52,6 +52,8 @@ namespace Busidex.Presentation.Android
 
 			var lstCards = FindViewById<ListView> (Resource.Id.lstCards);
 			txtFilter = FindViewById<EditText> (Resource.Id.txtFilter);
+
+			var txtFilter1 = FindViewById<SearchView> (Resource.Id.txtFilter1);
 			MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
 
 			MyBusidexAdapter.Redirect += ShowCard;
@@ -65,13 +67,16 @@ namespace Busidex.Presentation.Android
 
 			lstCards.Adapter = MyBusidexAdapter;
 
+			txtFilter1.QueryTextChange += delegate {
+				DoFilter(txtFilter1.Query);
+			};
 
-//			txtFilter.Touch += delegate {
-//				txtFilter.Focusable = true;
-//				txtFilter.RequestFocus();
-//			};
+			txtFilter1.Touch += delegate {
+				txtFilter.Focusable = true;
+				txtFilter.RequestFocus();
+			};
 				
-
+			txtFilter.Visibility = global::Android.Views.ViewStates.Gone;
 			txtFilter.TextChanged += (s, e) => DoFilter (txtFilter.Text);
 		}
 	}

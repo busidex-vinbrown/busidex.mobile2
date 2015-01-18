@@ -5,7 +5,7 @@ using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Busidex", MainLauncher = true)]			
+	[Activity (Label = "Busidex")]			
 	public class StartupActivity : BaseActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

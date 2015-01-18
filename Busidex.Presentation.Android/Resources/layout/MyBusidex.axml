@@ -12,6 +12,13 @@
         p1:textColor="@color/textInputColor"
         p1:background="@android:drawable/editbox_background_normal"
         p1:hint="Filter" />
+    <SearchView
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/txtFilter1"
+        p1:queryHint="Filter" />
     <ListView
         p1:minWidth="25px"
         p1:minHeight="25px"
