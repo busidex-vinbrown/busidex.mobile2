@@ -12,6 +12,7 @@
 	<string name="Login_lblUserName">User Name</string>
 	<string name="Login_lblPassword">Password</string>
 	<string name="Login_btnLogin">Sign In</string>
+	<string name="MyBusidex_NoCards">You do not have any cards in your collection. Search for some and add them.</string>
 	<string name="Global_OneMoment">One moment</string>
 	<string name="Global_LoadingCards">Loading your cards</string>
 	<string name="Global_LoadingCardsProgress">Loading {0} of {1} cards</string>

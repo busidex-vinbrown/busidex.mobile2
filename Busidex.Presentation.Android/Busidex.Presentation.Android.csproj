@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidSigningKeyStore>/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/busidex.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>ride9736</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>busidex</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>ride9736</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

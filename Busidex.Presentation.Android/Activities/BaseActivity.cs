@@ -183,13 +183,16 @@ namespace Busidex.Presentation.Android
 						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
 						file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-
-						var token = GetAuthCookie ();
-						ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, token);
 					}
 
 					File.WriteAllText (fullFilePath, file);
 				}
+				var token = GetAuthCookie ();
+
+				var controller = new MyBusidexController ();
+				controller.AddToMyBusidex (userCard.Card.CardId, token);
+
+				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, token);
 			}
 		}
 
@@ -211,6 +214,10 @@ namespace Busidex.Presentation.Android
 
 					File.WriteAllText (fullFilePath, file);
 				}
+				var token = GetAuthCookie ();
+
+				var controller = new MyBusidexController ();
+				controller.RemoveFromMyBusidex (userCard.Card.CardId, token);
 			}
 		}
 		#endregion

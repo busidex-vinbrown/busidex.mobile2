@@ -171,6 +171,8 @@ namespace Busidex.Presentation.Android
 			NotesIntent = new Intent(context, typeof(NotesActivity));
 			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
 			SendEmailIntent = new Intent(Intent.ActionSend);
+			AddToMyBusidexIntent = new Intent (context, context.GetType ());
+			RemoveFromMyBusidexIntent = new Intent (context, context.GetType ());
 
 			OpenBrowserIntent = new Intent (Intent.ActionView);
 
@@ -178,6 +180,8 @@ namespace Busidex.Presentation.Android
 			PhoneIntent.PutExtra("Card", data);
 			NotesIntent.PutExtra("Card", data);
 			ShareCardIntent.PutExtra("Card", data);
+			AddToMyBusidexIntent.PutExtra ("Card", data);
+			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
 
 			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{userCard.Card.Email} );
 			SendEmailIntent.SetType ("message/rfc822");

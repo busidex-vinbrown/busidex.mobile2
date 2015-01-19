@@ -3,7 +3,8 @@
     p1:orientation="vertical"
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
-    p1:id="@+id/linearLayout1">
+    p1:id="@+id/linearLayout1"
+    p1:background="@color/listBackground">
     <EditText
         p1:inputType="textPersonName"
         p1:layout_width="match_parent"
@@ -19,6 +20,13 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/txtFilter1"
         p1:queryHint="Filter" />
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/lblNoCardsMessage"
+        p1:textColor="@color/labelFontColor"
+        p1:gravity="center_horizontal" />
     <ListView
         p1:minWidth="25px"
         p1:minHeight="25px"

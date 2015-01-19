@@ -56,6 +56,11 @@ namespace Busidex.Presentation.Android
 			var txtFilter1 = FindViewById<SearchView> (Resource.Id.txtFilter1);
 			MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
 
+			var lblNoCardsMessage = FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
+			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
+
+			lblNoCardsMessage.Visibility = Cards.Count == 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
+
 			MyBusidexAdapter.Redirect += ShowCard;
 			MyBusidexAdapter.SendEmail += SendEmail;
 			MyBusidexAdapter.OpenBrowser += OpenBrowser;
