@@ -173,20 +173,20 @@ namespace Busidex.Presentation.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f080066
+			public const int btnAccept = 2131230822;
+			
+			// aapt resource value: 0x7f08006b
+			public const int btnConnect = 2131230827;
+			
 			// aapt resource value: 0x7f080067
-			public const int btnAccept = 2131230823;
-			
-			// aapt resource value: 0x7f08006c
-			public const int btnConnect = 2131230828;
-			
-			// aapt resource value: 0x7f080068
-			public const int btnDecline = 2131230824;
+			public const int btnDecline = 2131230823;
 			
 			// aapt resource value: 0x7f080009
 			public const int btnHideInfo = 2131230729;
 			
-			// aapt resource value: 0x7f080075
-			public const int btnInfo = 2131230837;
+			// aapt resource value: 0x7f080074
+			public const int btnInfo = 2131230836;
 			
 			// aapt resource value: 0x7f080010
 			public const int btnLogin = 2131230736;
@@ -200,26 +200,26 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f080018
 			public const int btnMyOrganizations = 2131230744;
 			
-			// aapt resource value: 0x7f08003c
-			public const int btnOrgDetails = 2131230780;
+			// aapt resource value: 0x7f08003b
+			public const int btnOrgDetails = 2131230779;
 			
-			// aapt resource value: 0x7f08003a
-			public const int btnOrgInfo = 2131230778;
+			// aapt resource value: 0x7f080039
+			public const int btnOrgInfo = 2131230777;
+			
+			// aapt resource value: 0x7f08003c
+			public const int btnOrgMembers = 2131230780;
 			
 			// aapt resource value: 0x7f08003d
-			public const int btnOrgMembers = 2131230781;
-			
-			// aapt resource value: 0x7f08003e
-			public const int btnOrgReferrals = 2131230782;
-			
-			// aapt resource value: 0x7f080036
-			public const int btnOrganizationFacebook = 2131230774;
+			public const int btnOrgReferrals = 2131230781;
 			
 			// aapt resource value: 0x7f080035
-			public const int btnOrganizationTwitter = 2131230773;
+			public const int btnOrganizationFacebook = 2131230773;
 			
 			// aapt resource value: 0x7f080034
-			public const int btnOrganizationWeb = 2131230772;
+			public const int btnOrganizationTwitter = 2131230772;
+			
+			// aapt resource value: 0x7f080033
+			public const int btnOrganizationWeb = 2131230771;
 			
 			// aapt resource value: 0x7f080008
 			public const int btnPanelAdd = 2131230728;
@@ -245,14 +245,14 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f080006
 			public const int btnPanelShare = 2131230726;
 			
-			// aapt resource value: 0x7f080049
-			public const int btnPhoneNumber = 2131230793;
+			// aapt resource value: 0x7f080048
+			public const int btnPhoneNumber = 2131230792;
 			
-			// aapt resource value: 0x7f080026
-			public const int btnSaveNotes = 2131230758;
+			// aapt resource value: 0x7f080025
+			public const int btnSaveNotes = 2131230757;
 			
-			// aapt resource value: 0x7f080053
-			public const int btnSaveProfile = 2131230803;
+			// aapt resource value: 0x7f080052
+			public const int btnSaveProfile = 2131230802;
 			
 			// aapt resource value: 0x7f080016
 			public const int btnSearch = 2131230742;
@@ -260,14 +260,14 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f08001b
 			public const int btnSettings = 2131230747;
 			
-			// aapt resource value: 0x7f08005f
-			public const int btnShareCard = 2131230815;
+			// aapt resource value: 0x7f08005e
+			public const int btnShareCard = 2131230814;
 			
 			// aapt resource value: 0x7f08001c
 			public const int btnSharedCardsNotification = 2131230748;
 			
-			// aapt resource value: 0x7f08006e
-			public const int btnStart = 2131230830;
+			// aapt resource value: 0x7f08006d
+			public const int btnStart = 2131230829;
 			
 			// aapt resource value: 0x7f08001a
 			public const int btnSync = 2131230746;
@@ -278,125 +278,125 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f08000a
 			public const int imgCardDetail = 2131230730;
 			
+			// aapt resource value: 0x7f080072
+			public const int imgCardHorizontal = 2131230834;
+			
 			// aapt resource value: 0x7f080073
-			public const int imgCardHorizontal = 2131230835;
+			public const int imgCardVertical = 2131230835;
 			
-			// aapt resource value: 0x7f080074
-			public const int imgCardVertical = 2131230836;
+			// aapt resource value: 0x7f08005d
+			public const int imgCheckShared = 2131230813;
 			
-			// aapt resource value: 0x7f08005e
-			public const int imgCheckShared = 2131230814;
-			
-			// aapt resource value: 0x7f08006f
-			public const int imgLoginLogo = 2131230831;
+			// aapt resource value: 0x7f08006e
+			public const int imgLoginLogo = 2131230830;
 			
 			// aapt resource value: 0x7f080011
 			public const int imgLogo = 2131230737;
 			
-			// aapt resource value: 0x7f080028
-			public const int imgNotesCardHorizontal = 2131230760;
-			
-			// aapt resource value: 0x7f080029
-			public const int imgNotesCardVertical = 2131230761;
-			
 			// aapt resource value: 0x7f080027
-			public const int imgNotesSaved = 2131230759;
+			public const int imgNotesCardHorizontal = 2131230759;
+			
+			// aapt resource value: 0x7f080028
+			public const int imgNotesCardVertical = 2131230760;
+			
+			// aapt resource value: 0x7f080026
+			public const int imgNotesSaved = 2131230758;
 			
 			// aapt resource value: 0x7f080015
 			public const int imgOrgIcon = 2131230741;
 			
-			// aapt resource value: 0x7f080040
-			public const int imgOrganizationHeaderImage = 2131230784;
+			// aapt resource value: 0x7f08003f
+			public const int imgOrganizationHeaderImage = 2131230783;
 			
-			// aapt resource value: 0x7f080039
-			public const int imgOrganizationThumbnail = 2131230777;
+			// aapt resource value: 0x7f080038
+			public const int imgOrganizationThumbnail = 2131230776;
+			
+			// aapt resource value: 0x7f080043
+			public const int imgPhoneCardHorizontal = 2131230787;
 			
 			// aapt resource value: 0x7f080044
-			public const int imgPhoneCardHorizontal = 2131230788;
+			public const int imgPhoneCardVertical = 2131230788;
 			
-			// aapt resource value: 0x7f080045
-			public const int imgPhoneCardVertical = 2131230789;
+			// aapt resource value: 0x7f080050
+			public const int imgProfileEmailSaved = 2131230800;
 			
 			// aapt resource value: 0x7f080051
-			public const int imgProfileEmailSaved = 2131230801;
+			public const int imgProfilePasswordSaved = 2131230801;
 			
-			// aapt resource value: 0x7f080052
-			public const int imgProfilePasswordSaved = 2131230802;
-			
-			// aapt resource value: 0x7f080069
-			public const int imgResults = 2131230825;
+			// aapt resource value: 0x7f080068
+			public const int imgResults = 2131230824;
 			
 			// aapt resource value: 0x7f080013
 			public const int imgSearchIcon = 2131230739;
 			
-			// aapt resource value: 0x7f08005c
-			public const int imgShareHorizontal = 2131230812;
+			// aapt resource value: 0x7f08005b
+			public const int imgShareHorizontal = 2131230811;
 			
-			// aapt resource value: 0x7f08005d
-			public const int imgShareVertical = 2131230813;
+			// aapt resource value: 0x7f08005c
+			public const int imgShareVertical = 2131230812;
+			
+			// aapt resource value: 0x7f080064
+			public const int imgSharedCardHorizontal = 2131230820;
 			
 			// aapt resource value: 0x7f080065
-			public const int imgSharedCardHorizontal = 2131230821;
+			public const int imgSharedCardVertical = 2131230821;
 			
-			// aapt resource value: 0x7f080066
-			public const int imgSharedCardVertical = 2131230822;
-			
-			// aapt resource value: 0x7f08002b
-			public const int ingOrgDetailLogoBanner = 2131230763;
-			
-			// aapt resource value: 0x7f08006b
-			public const int lblAlreadyAUser = 2131230827;
-			
-			// aapt resource value: 0x7f08002c
-			public const int lblContacts = 2131230764;
-			
-			// aapt resource value: 0x7f08002d
-			public const int lblEmail = 2131230765;
-			
-			// aapt resource value: 0x7f080054
-			public const int lblEmailError = 2131230804;
-			
-			// aapt resource value: 0x7f08002f
-			public const int lblFax = 2131230767;
+			// aapt resource value: 0x7f08002a
+			public const int ingOrgDetailLogoBanner = 2131230762;
 			
 			// aapt resource value: 0x7f08006a
-			public const int lblIntro = 2131230826;
+			public const int lblAlreadyAUser = 2131230826;
 			
-			// aapt resource value: 0x7f08006d
-			public const int lblNewUser = 2131230829;
+			// aapt resource value: 0x7f08002b
+			public const int lblContacts = 2131230763;
 			
-			// aapt resource value: 0x7f080021
-			public const int lblNoCardsMessage = 2131230753;
+			// aapt resource value: 0x7f08002c
+			public const int lblEmail = 2131230764;
+			
+			// aapt resource value: 0x7f080053
+			public const int lblEmailError = 2131230803;
+			
+			// aapt resource value: 0x7f08002e
+			public const int lblFax = 2131230766;
+			
+			// aapt resource value: 0x7f080069
+			public const int lblIntro = 2131230825;
+			
+			// aapt resource value: 0x7f08006c
+			public const int lblNewUser = 2131230828;
+			
+			// aapt resource value: 0x7f080020
+			public const int lblNoCardsMessage = 2131230752;
 			
 			// aapt resource value: 0x7f08000e
 			public const int lblPassword = 2131230734;
 			
-			// aapt resource value: 0x7f080055
-			public const int lblPasswordError = 2131230805;
+			// aapt resource value: 0x7f080054
+			public const int lblPasswordError = 2131230804;
 			
-			// aapt resource value: 0x7f08002e
-			public const int lblPhone = 2131230766;
+			// aapt resource value: 0x7f08002d
+			public const int lblPhone = 2131230765;
 			
-			// aapt resource value: 0x7f080048
-			public const int lblPhoneNumberType = 2131230792;
+			// aapt resource value: 0x7f080047
+			public const int lblPhoneNumberType = 2131230791;
 			
-			// aapt resource value: 0x7f08004d
-			public const int lblProfileEmail = 2131230797;
+			// aapt resource value: 0x7f08004c
+			public const int lblProfileEmail = 2131230796;
 			
-			// aapt resource value: 0x7f08004a
-			public const int lblProfileHeader = 2131230794;
+			// aapt resource value: 0x7f080049
+			public const int lblProfileHeader = 2131230793;
 			
-			// aapt resource value: 0x7f08004f
-			public const int lblProfilePassword = 2131230799;
-			
-			// aapt resource value: 0x7f08005a
-			public const int lblShareDescription = 2131230810;
-			
-			// aapt resource value: 0x7f080060
-			public const int lblShareError = 2131230816;
+			// aapt resource value: 0x7f08004e
+			public const int lblProfilePassword = 2131230798;
 			
 			// aapt resource value: 0x7f080059
-			public const int lblShareTitle = 2131230809;
+			public const int lblShareDescription = 2131230809;
+			
+			// aapt resource value: 0x7f08005f
+			public const int lblShareError = 2131230815;
+			
+			// aapt resource value: 0x7f080058
+			public const int lblShareTitle = 2131230808;
 			
 			// aapt resource value: 0x7f08000c
 			public const int lblUserName = 2131230732;
@@ -404,89 +404,86 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f08001e
 			public const int linearLayout1 = 2131230750;
 			
-			// aapt resource value: 0x7f080070
-			public const int listItemLayout = 2131230832;
+			// aapt resource value: 0x7f08006f
+			public const int listItemLayout = 2131230831;
 			
 			// aapt resource value: 0x7f08000b
 			public const int loginLayout = 2131230731;
 			
+			// aapt resource value: 0x7f080021
+			public const int lstCards = 2131230753;
+			
+			// aapt resource value: 0x7f080041
+			public const int lstOrganizationMembers = 2131230785;
+			
 			// aapt resource value: 0x7f080022
-			public const int lstCards = 2131230754;
+			public const int lstOrganizations = 2131230754;
 			
-			// aapt resource value: 0x7f080042
-			public const int lstOrganizationMembers = 2131230786;
+			// aapt resource value: 0x7f080045
+			public const int lstPhoneNumbers = 2131230789;
 			
-			// aapt resource value: 0x7f080023
-			public const int lstOrganizations = 2131230755;
+			// aapt resource value: 0x7f080056
+			public const int lstSearchResults = 2131230806;
 			
-			// aapt resource value: 0x7f080046
-			public const int lstPhoneNumbers = 2131230790;
-			
-			// aapt resource value: 0x7f080057
-			public const int lstSearchResults = 2131230807;
-			
-			// aapt resource value: 0x7f080061
-			public const int lstSharedCards = 2131230817;
+			// aapt resource value: 0x7f080060
+			public const int lstSharedCards = 2131230816;
 			
 			// aapt resource value: 0x7f080012
 			public const int mainLayout = 2131230738;
 			
-			// aapt resource value: 0x7f08003b
-			public const int orgButtonContainer = 2131230779;
+			// aapt resource value: 0x7f08003a
+			public const int orgButtonContainer = 2131230778;
 			
-			// aapt resource value: 0x7f080038
-			public const int orgLayout = 2131230776;
+			// aapt resource value: 0x7f080037
+			public const int orgLayout = 2131230775;
 			
-			// aapt resource value: 0x7f08003f
-			public const int orgMemberLayout = 2131230783;
+			// aapt resource value: 0x7f08003e
+			public const int orgMemberLayout = 2131230782;
 			
-			// aapt resource value: 0x7f08002a
-			public const int organizationLayout = 2131230762;
+			// aapt resource value: 0x7f080029
+			public const int organizationLayout = 2131230761;
 			
 			// aapt resource value: 0x7f080000
 			public const int panelLayout = 2131230720;
 			
-			// aapt resource value: 0x7f080043
-			public const int phoneLayout = 2131230787;
+			// aapt resource value: 0x7f080042
+			public const int phoneLayout = 2131230786;
 			
-			// aapt resource value: 0x7f080047
-			public const int phoneNumberEntryLayout = 2131230791;
+			// aapt resource value: 0x7f080046
+			public const int phoneNumberEntryLayout = 2131230790;
 			
-			// aapt resource value: 0x7f08004c
-			public const int profileLayout = 2131230796;
+			// aapt resource value: 0x7f08004b
+			public const int profileLayout = 2131230795;
 			
-			// aapt resource value: 0x7f080024
-			public const int relativeLayout1 = 2131230756;
+			// aapt resource value: 0x7f080023
+			public const int relativeLayout1 = 2131230755;
 			
-			// aapt resource value: 0x7f080058
-			public const int shareCardLayout = 2131230808;
+			// aapt resource value: 0x7f080057
+			public const int shareCardLayout = 2131230807;
 			
-			// aapt resource value: 0x7f080062
-			public const int sharedCardListItemLayout = 2131230818;
+			// aapt resource value: 0x7f080061
+			public const int sharedCardListItemLayout = 2131230817;
 			
-			// aapt resource value: 0x7f080072
-			public const int txtCompanyName = 2131230834;
+			// aapt resource value: 0x7f080071
+			public const int txtCompanyName = 2131230833;
+			
+			// aapt resource value: 0x7f08002f
+			public const int txtContacts = 2131230767;
 			
 			// aapt resource value: 0x7f080030
-			public const int txtContacts = 2131230768;
+			public const int txtEmail = 2131230768;
 			
-			// aapt resource value: 0x7f080031
-			public const int txtEmail = 2131230769;
-			
-			// aapt resource value: 0x7f080033
-			public const int txtFax = 2131230771;
+			// aapt resource value: 0x7f080032
+			public const int txtFax = 2131230770;
 			
 			// aapt resource value: 0x7f08001f
 			public const int txtFilter = 2131230751;
 			
-			// aapt resource value: 0x7f080020
-			public const int txtFilter1 = 2131230752;
+			// aapt resource value: 0x7f080070
+			public const int txtName = 2131230832;
 			
-			// aapt resource value: 0x7f080071
-			public const int txtName = 2131230833;
-			
-			// aapt resource value: 0x7f080025
-			public const int txtNotes = 2131230757;
+			// aapt resource value: 0x7f080024
+			public const int txtNotes = 2131230756;
 			
 			// aapt resource value: 0x7f08001d
 			public const int txtNotificationCount = 2131230749;
@@ -494,38 +491,38 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f08000f
 			public const int txtPassword = 2131230735;
 			
-			// aapt resource value: 0x7f080032
-			public const int txtPhone = 2131230770;
+			// aapt resource value: 0x7f080031
+			public const int txtPhone = 2131230769;
 			
-			// aapt resource value: 0x7f08004b
-			public const int txtProfileDescription = 2131230795;
+			// aapt resource value: 0x7f08004a
+			public const int txtProfileDescription = 2131230794;
 			
-			// aapt resource value: 0x7f08004e
-			public const int txtProfileEmail = 2131230798;
+			// aapt resource value: 0x7f08004d
+			public const int txtProfileEmail = 2131230797;
 			
-			// aapt resource value: 0x7f080050
-			public const int txtProfilePassword = 2131230800;
+			// aapt resource value: 0x7f08004f
+			public const int txtProfilePassword = 2131230799;
 			
-			// aapt resource value: 0x7f080056
-			public const int txtSearch = 2131230806;
+			// aapt resource value: 0x7f080055
+			public const int txtSearch = 2131230805;
 			
-			// aapt resource value: 0x7f080041
-			public const int txtSearchOrgMembers = 2131230785;
+			// aapt resource value: 0x7f080040
+			public const int txtSearchOrgMembers = 2131230784;
 			
-			// aapt resource value: 0x7f08005b
-			public const int txtShareEmail = 2131230811;
-			
-			// aapt resource value: 0x7f080064
-			public const int txtSharedCardCompanyName = 2131230820;
+			// aapt resource value: 0x7f08005a
+			public const int txtShareEmail = 2131230810;
 			
 			// aapt resource value: 0x7f080063
-			public const int txtSharedCardName = 2131230819;
+			public const int txtSharedCardCompanyName = 2131230819;
+			
+			// aapt resource value: 0x7f080062
+			public const int txtSharedCardName = 2131230818;
 			
 			// aapt resource value: 0x7f08000d
 			public const int txtUserName = 2131230733;
 			
-			// aapt resource value: 0x7f080037
-			public const int vwWeb = 2131230775;
+			// aapt resource value: 0x7f080036
+			public const int vwWeb = 2131230774;
 			
 			static Id()
 			{

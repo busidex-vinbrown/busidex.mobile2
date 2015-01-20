@@ -175,7 +175,7 @@ namespace Busidex.Presentation.Android
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 			var userCard = GetUserCardFromIntent (intent);
 			if (userCard!= null) {
-
+				userCard.Card.ExistsInMyBusidex = true;
 				string file;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {

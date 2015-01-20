@@ -113,11 +113,25 @@ namespace Busidex.Presentation.Android
 			if (CardAddedToMyBusidex != null){
 				CardAddedToMyBusidex (AddToMyBusidexIntent);
 			}
+			var btnAddToMyBusidex = (ImageButton)sender;
+			btnAddToMyBusidex.Visibility = ViewStates.Gone;
+			var panel = btnAddToMyBusidex.Parent as View;
+			if (panel != null) {
+				var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
+				btnRemoveFromMyBusidex.Visibility = ViewStates.Visible;
+			}
 		}
 
 		void OnRemoveFromMyBusidexClicked(object sender, System.EventArgs e){
 			if(CardRemovedFromMyBusidex != null){
 				CardRemovedFromMyBusidex (RemoveFromMyBusidexIntent);
+			}
+			var btnRemoveFromMyBusidex = (ImageButton)sender;
+			btnRemoveFromMyBusidex.Visibility = ViewStates.Gone;
+			var panel = btnRemoveFromMyBusidex.Parent as View;
+			if (panel != null) {
+				var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
+				btnAddToMyBusidex.Visibility = ViewStates.Visible;
 			}
 		}
 

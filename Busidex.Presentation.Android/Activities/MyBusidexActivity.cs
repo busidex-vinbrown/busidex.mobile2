@@ -16,7 +16,7 @@ namespace Busidex.Presentation.Android
 	{
 		List<UserCard> Cards { get; set; }
 		static UserCardAdapter MyBusidexAdapter { get; set; }
-		static EditText txtFilter { get; set; }
+		static SearchView txtFilter { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -51,15 +51,15 @@ namespace Busidex.Presentation.Android
 			Cards = myBusidexResponse.MyBusidex.Busidex;
 
 			var lstCards = FindViewById<ListView> (Resource.Id.lstCards);
-			txtFilter = FindViewById<EditText> (Resource.Id.txtFilter);
+			txtFilter = FindViewById<SearchView> (Resource.Id.txtFilter);
 
-			var txtFilter1 = FindViewById<SearchView> (Resource.Id.txtFilter1);
 			MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, myBusidexResponse.MyBusidex.Busidex);
 
 			var lblNoCardsMessage = FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
 			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
 
 			lblNoCardsMessage.Visibility = Cards.Count == 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
+			txtFilter.Visibility = Cards.Count == 0 ? global::Android.Views.ViewStates.Gone : global::Android.Views.ViewStates.Visible;
 
 			MyBusidexAdapter.Redirect += ShowCard;
 			MyBusidexAdapter.SendEmail += SendEmail;
@@ -72,17 +72,15 @@ namespace Busidex.Presentation.Android
 
 			lstCards.Adapter = MyBusidexAdapter;
 
-			txtFilter1.QueryTextChange += delegate {
-				DoFilter(txtFilter1.Query);
+			txtFilter.QueryTextChange += delegate {
+				DoFilter(txtFilter.Query);
 			};
 
-			txtFilter1.Touch += delegate {
+			txtFilter.Touch += delegate {
 				txtFilter.Focusable = true;
 				txtFilter.RequestFocus();
 			};
 				
-			txtFilter.Visibility = global::Android.Views.ViewStates.Gone;
-			txtFilter.TextChanged += (s, e) => DoFilter (txtFilter.Text);
 		}
 	}
 }
