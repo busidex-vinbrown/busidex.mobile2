@@ -241,7 +241,13 @@ namespace Busidex.Presentation.Android
 			Context context = this;
 			var loadingText = message ?? context.GetString (Resource.String.Global_OneMoment);
 
-			progressDialog = new ProgressDialog (this);
+//			if(progressDialog != null){
+//				progressDialog.Dispose ();
+//			}
+
+			if (progressDialog == null) {
+				progressDialog = new ProgressDialog (this);
+			}
 
 			progressDialog.Max = max;
 			progressDialog.SetProgressStyle (style);
@@ -258,15 +264,18 @@ namespace Busidex.Presentation.Android
 		}
 
 		protected void UpdateLoadingSpinner(decimal current, decimal total){
-
-			var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
-			progressBarHandler.Post( () => { progressDialog.Progress = (int)progress; });
+			if (progressDialog != null) {
+				var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
+				progressBarHandler.Post (() => {
+					progressDialog.Progress = (int)progress;
+				});
+			}
 		}
 
 		protected void HideLoadingSpinner(){
-			if (progressDialog != null) {
-				progressDialog.Dismiss ();
-			}
+			//if (progressDialog != null) {
+			progressDialog.Dismiss();
+			//}
 		}
 		#endregion
 	}

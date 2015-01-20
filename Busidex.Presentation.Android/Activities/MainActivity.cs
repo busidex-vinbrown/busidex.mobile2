@@ -137,7 +137,7 @@ namespace Busidex.Presentation.Android
 			} else {
 				if (cookie != null) {
 
-					ShowLoadingSpinner(Resources.GetString (Resource.String.Global_OneMoment));
+					RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
 
 					var controller = new OrganizationController ();
 					await controller.GetMyOrganizations (cookie).ContinueWith (async response => {
@@ -215,7 +215,9 @@ namespace Busidex.Presentation.Android
 
 							RunOnUiThread (() => {
 								HideLoadingSpinner();
-								GoToMyOrganizations ();
+								if(!force){
+									GoToMyOrganizations ();
+								}
 							});
 						}
 					});
@@ -234,7 +236,7 @@ namespace Busidex.Presentation.Android
 			} else {
 				if (cookie != null) {
 
-					ShowLoadingSpinner(Resources.GetString (Resource.String.Global_OneMoment));
+					RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
 
 					var ctrl = new MyBusidexController ();
 					await ctrl.GetMyBusidex (cookie).ContinueWith(async r => {
