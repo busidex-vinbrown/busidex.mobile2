@@ -40,6 +40,7 @@
     <AndroidSigningStorePass>ride9736</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>busidex</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>ride9736</AndroidSigningKeyPass>
+    <AndroidKeyStore>True</AndroidKeyStore>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
