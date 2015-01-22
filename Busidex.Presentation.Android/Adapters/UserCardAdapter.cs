@@ -196,6 +196,7 @@ namespace Busidex.Presentation.Android
 			ShareCardIntent.PutExtra("Card", data);
 			AddToMyBusidexIntent.PutExtra ("Card", data);
 			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
+			SendEmailIntent.PutExtra ("Card", data);
 
 			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{userCard.Card.Email} );
 			SendEmailIntent.SetType ("message/rfc822");
@@ -208,6 +209,7 @@ namespace Busidex.Presentation.Android
 
 			var geoUri = Uri.Parse (geoString);
 			OpenMapIntent = new Intent (Intent.ActionView, geoUri);
+			OpenMapIntent.PutExtra ("Card", data);
 
 			var url = string.Empty;
 			if(!string.IsNullOrEmpty(userCard.Card.Url)){
@@ -215,6 +217,7 @@ namespace Busidex.Presentation.Android
 			}
 			var uri = Uri.Parse (url);
 			OpenBrowserIntent.SetData (uri);
+			OpenBrowserIntent.PutExtra ("Card", data);
 
 			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
 			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
