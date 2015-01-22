@@ -5,6 +5,43 @@ namespace Busidex.Mobile.Models
 {
 	public class Card
 	{
+		public Card(CardDetailModel model){
+
+			CardId = model.CardId;
+			Name = model.Name;
+			FrontOrientation = model.FrontOrientation;
+			BackOrientation = model.BackOrientation;
+			Searchable = model.Searchable;
+			Email = model.Email;
+			Url = model.Url;
+
+			CreatedBy = model.CreatedBy;
+			OwnerId = model.OwnerId;
+			CompanyName = model.CompanyName;
+			OwnerToken = model.OwnerToken;
+			FrontFileId = model.FrontFileId.GetValueOrDefault();
+			BackFileId = model.BackFileId.GetValueOrDefault();
+			Title = model.Title;
+			Markup = model.Markup;
+			Display = (int)model.Display;
+			FrontType = model.FrontFileType;
+			BackType = model.BackFileType;
+			Tags = new List<Tag> ();// model.Tags;
+			Addresses = new List<Address> ();// model.Addresses;
+			PhoneNumbers = new List<PhoneNumber>();
+			ExistsInMyBusidex = model.ExistsInMyBusidex;
+
+			if (model.Tags != null) {
+				Tags.AddRange (model.Tags);
+			}
+			if (model.Addresses != null) {
+				Addresses.AddRange (model.Addresses);
+			}
+			if(model.PhoneNumbers != null){
+				PhoneNumbers.AddRange (model.PhoneNumbers);
+			}
+		}
+
 		public Card ()
 		{
 		}

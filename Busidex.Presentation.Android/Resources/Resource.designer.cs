@@ -640,32 +640,32 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f06000c
 			public const int MyBusidex_NoCards = 2131099660;
 			
-			// aapt resource value: 0x7f060018
-			public const int Notes_Save = 2131099672;
-			
 			// aapt resource value: 0x7f060019
-			public const int Organization_NoOrganizations = 2131099673;
-			
-			// aapt resource value: 0x7f06001f
-			public const int Profile_DescriptionNewAccount = 2131099679;
-			
-			// aapt resource value: 0x7f060020
-			public const int Profile_DescriptionUpdateAccount = 2131099680;
-			
-			// aapt resource value: 0x7f06001d
-			public const int Profile_ErrorAccountExists = 2131099677;
-			
-			// aapt resource value: 0x7f06001e
-			public const int Profile_ErrorAccountGeneral = 2131099678;
-			
-			// aapt resource value: 0x7f06001b
-			public const int Profile_ErrorEmailGeneral = 2131099675;
+			public const int Notes_Save = 2131099673;
 			
 			// aapt resource value: 0x7f06001a
-			public const int Profile_ErrorEmailInUse = 2131099674;
+			public const int Organization_NoOrganizations = 2131099674;
+			
+			// aapt resource value: 0x7f060020
+			public const int Profile_DescriptionNewAccount = 2131099680;
+			
+			// aapt resource value: 0x7f060021
+			public const int Profile_DescriptionUpdateAccount = 2131099681;
+			
+			// aapt resource value: 0x7f06001e
+			public const int Profile_ErrorAccountExists = 2131099678;
+			
+			// aapt resource value: 0x7f06001f
+			public const int Profile_ErrorAccountGeneral = 2131099679;
 			
 			// aapt resource value: 0x7f06001c
-			public const int Profile_ErrorUnableToCreateAccount = 2131099676;
+			public const int Profile_ErrorEmailGeneral = 2131099676;
+			
+			// aapt resource value: 0x7f06001b
+			public const int Profile_ErrorEmailInUse = 2131099675;
+			
+			// aapt resource value: 0x7f06001d
+			public const int Profile_ErrorUnableToCreateAccount = 2131099677;
 			
 			// aapt resource value: 0x7f060016
 			public const int Share_ConfirmAccept = 2131099670;
@@ -684,6 +684,9 @@ namespace Busidex.Presentation.Android
 			
 			// aapt resource value: 0x7f060013
 			public const int Share_Error = 2131099667;
+			
+			// aapt resource value: 0x7f060018
+			public const int Share_ErrorCardNotAdded = 2131099672;
 			
 			// aapt resource value: 0x7f060012
 			public const int Share_ShareCard = 2131099666;

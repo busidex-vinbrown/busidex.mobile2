@@ -53,6 +53,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccountType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccountAddress.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CardDetailModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CardType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DisplayType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CardDetailResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

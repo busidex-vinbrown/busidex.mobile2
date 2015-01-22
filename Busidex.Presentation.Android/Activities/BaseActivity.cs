@@ -177,15 +177,16 @@ namespace Busidex.Presentation.Android
 			if (userCard!= null) {
 				userCard.Card.ExistsInMyBusidex = true;
 				string file;
+				string myBusidexJson;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						var myBusidexJson = myBusidexFile.ReadToEnd ();
-						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-						file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+						myBusidexJson = myBusidexFile.ReadToEnd ();
 					}
 
-					File.WriteAllText (fullFilePath, file);
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
 				var token = GetAuthCookie ();
 
@@ -204,15 +205,15 @@ namespace Busidex.Presentation.Android
 			if (userCard!= null) {
 
 				string file;
+				string myBusidexJson;
 				if (File.Exists (fullFilePath)) {
 					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						var myBusidexJson = myBusidexFile.ReadToEnd ();
-						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-						myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+						myBusidexJson = myBusidexFile.ReadToEnd ();
 					}
-
-					File.WriteAllText (fullFilePath, file);
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
 				var token = GetAuthCookie ();
 

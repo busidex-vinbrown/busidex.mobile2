@@ -85,6 +85,13 @@ namespace Busidex.Presentation.Android
 			const bool FORCE = true;
 			LoadMyBusidexAsync(FORCE);
 			LoadMyOrganizationsAsync(FORCE);
+			var notificationCount = GetNotifications();
+			if(notificationCount > 0){
+				var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
+				txtNotificationCount.Text = notificationCount.ToString();
+
+				btnSharedCardsNotification.Visibility = global::Android.Views.ViewStates.Visible;
+			}
 		}
 
 		void GoToMyProfile(){

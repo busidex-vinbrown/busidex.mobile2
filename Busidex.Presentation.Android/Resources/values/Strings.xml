@@ -24,6 +24,7 @@
 	<string name="Share_ConfirmShareTitleDecline">Decline</string>
 	<string name="Share_ConfirmAccept">Accept this card?</string>
 	<string name="Share_ConfirmDecline">Decline this card?</string>
+	<string name="Share_ErrorCardNotAdded">There was a problem adding this card to your collection. Please sync to complete the action.</string>
 	<string name="Notes_Save">Save</string>
 	<string name="Organization_NoOrganizations">You do not belong to any organizations right now.</string>
 	<string name="Profile_ErrorEmailInUse">Email is already in use</string>

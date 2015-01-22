@@ -48,11 +48,25 @@ namespace Busidex.Presentation.Android
 			lstSharedCards.Adapter = adapter;
 		}
 
+		static Card GetCardFromSharedCard(string token, long cardId){
+
+			try{
+				var cardData = CardController.GetCardById(token, cardId);
+				if(!string.IsNullOrEmpty(cardData)){
+					var response = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse>(cardData);
+					return new Card(response.Model);
+				}
+			}catch(Exception ex){
+				return null;
+			}
+			return null;
+		}
+
 		void SaveSharedCard(SharedCard sharedCard){
 
 			var cookie = GetAuthCookie ();
 			// Accept/Decline the card
-			var ctrl = new Busidex.Mobile.SharedCardController ();
+			var ctrl = new SharedCardController ();
 			var cardId = new long? (sharedCard.Card.CardId);
 
 			ctrl.UpdateSharedCards (
@@ -64,27 +78,34 @@ namespace Busidex.Presentation.Android
 			if(sharedCard.Accepted.GetValueOrDefault()){
 
 				var intent = new Intent(this, typeof(SharedCardsActivity));
-				var data = Newtonsoft.Json.JsonConvert.SerializeObject(sharedCard);
+				var card = GetCardFromSharedCard (cookie, sharedCard.CardId);
 
-				intent.PutExtra ("SharedCard", data);
-				AddCardToMyBusidex (intent);
+				if (card != null) {
+					var userCard = new UserCard {
+						Card = card,
+						CardId = card.CardId
+					};
+					var data = Newtonsoft.Json.JsonConvert.SerializeObject (userCard);
 
-				// track the event
-				ActivityController.SaveActivity ((long)EventSources.Add, sharedCard.Card.CardId, cookie);
+					intent.PutExtra ("Card", data);
+					AddCardToMyBusidex (intent);
+				}else{
+					Toast.MakeText (this, Resource.String.Share_ErrorCardNotAdded, ToastLength.Long);
+				}
 			}
 
 			// update local copy of Shared Cards
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
 			if(File.Exists(fullFilePath)){
-				var sharedCardsFile = File.OpenText (fullFilePath);
-				var sharedCardsJson = sharedCardsFile.ReadToEnd ();
-
+				string sharedCardsJson;
+				using (var sharedCardsFile = File.OpenText (fullFilePath)) {
+					sharedCardsJson = sharedCardsFile.ReadToEnd ();
+					sharedCardsFile.Close ();
+				}
 				var sharedCardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsJson);
 				sharedCardResponse.SharedCards.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
 
 				sharedCardsJson = Newtonsoft.Json.JsonConvert.SerializeObject (sharedCardResponse);
-
-				sharedCardsFile.Close ();
 
 				Utils.SaveResponse (sharedCardsJson, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
 			}

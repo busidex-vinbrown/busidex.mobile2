@@ -62,6 +62,11 @@ namespace Busidex.Mobile
 				File.Delete (myBusidexLocalFile);
 			}
 
+			var mySharedCardsFile = Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE);
+			if (File.Exists (mySharedCardsFile)) {
+				File.Delete (mySharedCardsFile);
+			}
+
 			var myOrganizationsLocalFile = Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (myOrganizationsLocalFile)) {
 				File.Delete (myOrganizationsLocalFile);
