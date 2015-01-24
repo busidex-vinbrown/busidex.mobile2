@@ -24,8 +24,6 @@ namespace Busidex.Presentation.Android
 
 			SetContentView (Resource.Layout.Main);
 
-			var notificationCount = GetNotifications();
-
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
 			var btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
@@ -34,11 +32,6 @@ namespace Busidex.Presentation.Android
 			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
 			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
 			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
-
-			var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
-			txtNotificationCount.Text = notificationCount.ToString();
-
-			btnSharedCardsNotification.Visibility = txtNotificationCount.Visibility = notificationCount > 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
 
 			btnSearch.Click += delegate {
 				Redirect(new Intent(this, typeof(SearchActivity)));
@@ -67,6 +60,21 @@ namespace Busidex.Presentation.Android
 			btnSharedCardsNotification.Click += delegate {
 				GoToSharedCards();
 			};
+		}
+
+		void SetNotificationUI(){
+			var notificationCount = GetNotifications();
+			var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
+			txtNotificationCount.Text = notificationCount.ToString();
+
+			btnSharedCardsNotification.Visibility = txtNotificationCount.Visibility = notificationCount > 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
+
+		}
+
+		protected override void OnResume ()
+		{
+			SetNotificationUI ();
+			base.OnResume ();
 		}
 
 		public override void OnBackPressed ()
@@ -117,6 +125,8 @@ namespace Busidex.Presentation.Android
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie);
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
+			Utils.SaveResponse (sharedCardsResponse, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+
 			foreach (SharedCard card in sharedCards.SharedCards) {
 				var fileName = card.Card.FrontFileName;
 				var fImagePath = Busidex.Mobile.Resources.CARD_PATH + fileName;
@@ -127,15 +137,13 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			Utils.SaveResponse (sharedCardsResponse, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
-
 			if(sharedCards != null){
 				return sharedCards.SharedCards.Count;
 			}
 			return 0;
 		}
 
-		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
+		async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);

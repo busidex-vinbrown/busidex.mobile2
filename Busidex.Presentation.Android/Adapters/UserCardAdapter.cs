@@ -228,11 +228,24 @@ namespace Busidex.Presentation.Android
 			var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
 			var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
 
-			btnPhone.Visibility = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0) ? ViewStates.Visible : ViewStates.Gone;
-			btnEmail.Visibility = string.IsNullOrEmpty(userCard.Card.Email) ? ViewStates.Gone : ViewStates.Visible;
-			btnNotes.Visibility = ShowNotes ? ViewStates.Visible : ViewStates.Gone;
-			btnBrowser.Visibility = string.IsNullOrEmpty(userCard.Card.Url) ? ViewStates.Gone : ViewStates.Visible;
-			btnMap.Visibility = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses[0].HasAddress) ? ViewStates.Visible : ViewStates.Gone;
+			const float ENABLED = 1f;
+			const float DISABLED = .2f;
+
+			btnPhone.Enabled = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0) ? true : false;
+			btnPhone.Alpha = btnPhone.Enabled ? ENABLED : DISABLED;
+
+			btnEmail.Enabled = !string.IsNullOrEmpty (userCard.Card.Email);
+			btnEmail.Alpha = btnEmail.Enabled ? ENABLED : DISABLED;
+
+			btnNotes.Enabled = ShowNotes ? true : false;
+			btnNotes.Alpha = btnNotes.Enabled ? ENABLED : DISABLED;
+
+			btnBrowser.Enabled = !string.IsNullOrEmpty (userCard.Card.Url);
+			btnBrowser.Alpha = btnBrowser.Enabled ? ENABLED : DISABLED;
+
+			btnMap.Enabled = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses[0].HasAddress) ? true : false;
+			btnMap.Alpha = btnMap.Enabled ? ENABLED : DISABLED;
+
 			btnAddToMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
 			btnRemoveFromMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
 
