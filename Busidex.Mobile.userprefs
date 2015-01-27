@@ -1,9 +1,8 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Android/Busidex.Presentation.Android.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench>
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/Activities/SearchActivity.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Android/Adapters/UserCardAdapter.cs" Line="29" Column="29" />
-      <File FileName="Busidex.Presentation.Android/Activities/BaseActivity.cs" Line="27" Column="27" />
+      <File FileName="Busidex.Presentation.Android/Activities/SearchActivity.cs" Line="22" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

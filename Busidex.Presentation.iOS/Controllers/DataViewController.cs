@@ -79,19 +79,32 @@ namespace Busidex.Presentation.iOS
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
+			try{
+				Busidex.Mobile.Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+			}catch{
+
+			}
+
 			foreach (SharedCard card in sharedCards.SharedCards) {
 				var fileName = card.Card.FrontFileName;
 				var fImagePath = Resources.CARD_PATH + fileName;
-				if (!File.Exists (documentsPath + "/" + fileName)) {
-					Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
+				if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
+					Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
 
 					});
 				}
 			}
 
-		    Busidex.Mobile.Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
-
 			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
+		}
+
+		void Sync(){
+			LoadMyBusidexAsync (true);
+			LoadMyOrganizationsAsync (true);
+		}
+
+		void SetNotificationUI(){
+
 		}
 
 		void ConfigureToolbarItems(){
@@ -100,7 +113,7 @@ namespace Busidex.Presentation.iOS
 			// Sync button
 			var syncImage = new UIButton (imgFrame);
 			syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
-			syncImage.TouchUpInside += ((s, e) => LoadMyBusidexAsync (true));
+			syncImage.TouchUpInside += ((s, e) => Sync());
 			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			syncButton.CustomView = syncImage;
 
@@ -218,21 +231,29 @@ namespace Busidex.Presentation.iOS
 		static void SetRefreshCookie(){
 			var nCookie = new System.Net.Cookie();
 			nCookie.Name = Resources.BUSIDEX_REFRESH_COOKIE_NAME;
-			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1).AddDays(1);
+			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1, DateTimeKind.Local).AddDays(1);
+
 			nCookie.Expires = expiration;
 
-			var cookie = new NSHttpCookie (nCookie);
-
-			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+			try{
+				var cookie = new NSHttpCookie (nCookie);
+				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+			}catch(Exception ex){
+				var i = 0;
+			}
 		}
 
 		static bool CheckRefreshCookie(){
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
-			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
+			if (cookie == null){
+				SetRefreshCookie ();
+				return false;
+			}
 
-			if (cookie == null ||  expireDate < DateTime.Now) {
+			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
+			if(expireDate < DateTime.Now) {
 
 				SetRefreshCookie ();
 				return false;
@@ -335,7 +356,9 @@ namespace Busidex.Presentation.iOS
 
 							InvokeOnMainThread (() => {
 								overlay.Hide();
-								GoToMyOrganizations ();
+								if(!force){
+									GoToMyOrganizations ();
+								}
 							});
 						}
 					});
@@ -401,7 +424,9 @@ namespace Busidex.Presentation.iOS
 
 							InvokeOnMainThread (() => {
 								overlay.Hide();
-								GoToMyBusidex ();
+								if(!force){
+									GoToMyBusidex ();
+								}
 							});
 
 						}

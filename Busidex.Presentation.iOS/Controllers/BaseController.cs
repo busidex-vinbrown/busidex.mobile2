@@ -46,9 +46,12 @@ namespace Busidex.Presentation.iOS
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
+			if(cookie == null){
+				return null;
+			}
 			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
 
-			return (cookie != null && expireDate > DateTime.Now) ? cookie : null;
+			return (expireDate > DateTime.Now) ? cookie : null;
 		}
 
 		protected void RemoveAuthCookie(){

@@ -39,9 +39,10 @@ namespace Busidex.Presentation.iOS
 
 		void LoadSharedCardsFromFile(string fullFilePath){
 			if(File.Exists(fullFilePath)){
-				var sharedCardsFile = File.OpenText (fullFilePath);
-				var sharedCardsJson = sharedCardsFile.ReadToEnd ();
-				ProcessSharedCards (sharedCardsJson);
+				using (var sharedCardsFile = File.OpenText (fullFilePath)) {
+					var sharedCardsJson = sharedCardsFile.ReadToEnd ();
+					ProcessSharedCards (sharedCardsJson);
+				}
 			}
 		}
 
