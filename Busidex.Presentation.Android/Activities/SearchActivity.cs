@@ -27,6 +27,8 @@ namespace Busidex.Presentation.Android
 			SearchBar = FindViewById<SearchView> (Resource.Id.txtSearch);
 			lstSearchResults = FindViewById<ListView> (Resource.Id.lstSearchResults);
 
+			SearchBar.Iconified = false;
+
 			SearchBar.QueryTextSubmit += delegate {
 				DoSearch();
 			};
