@@ -69,7 +69,6 @@ namespace Busidex.Presentation.Android
 						}
 					}
 					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-					//Application.MyBusidex = myBusidexResponse.MyBusidex.Busidex;
 				}
 
 				File.WriteAllText (fullFilePath, file);
@@ -80,6 +79,8 @@ namespace Busidex.Presentation.Android
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			SetContentView (Resource.Layout.Notes);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_NOTES, 0);
 
 			base.OnCreate (savedInstanceState);
 

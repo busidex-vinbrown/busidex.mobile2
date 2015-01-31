@@ -10,6 +10,8 @@ using Android.Views.InputMethods;
 using Android.OS;
 using System.Threading.Tasks;
 using System;
+using Android.Gms.Analytics;
+using System.Collections.Generic;
 
 namespace Busidex.Presentation.Android
 {
@@ -17,9 +19,20 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "BaseActivity")]			
 	public class BaseActivity : Activity
 	{
-
+		private static Tracker _tracker;
+		protected static Tracker GATracker { 
+			get { 
+				return _tracker; 
+			} 
+		}
 		protected static ProgressDialog progressDialog;
 		Handler progressBarHandler = new Handler();
+
+		protected override void OnCreate (Bundle savedInstanceState)
+		{
+			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+			base.OnCreate (savedInstanceState);
+		}
 
 		#region Loading
 		protected virtual void ProcessFile(string data){
@@ -140,6 +153,9 @@ namespace Busidex.Presentation.Android
 			var userCard = GetUserCardFromIntent (intent);
 			var token = GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
+
 			Redirect(intent);
 		}
 
@@ -148,6 +164,8 @@ namespace Busidex.Presentation.Android
 			var userCard = GetUserCardFromIntent (intent);
 			var token = GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
 
 			StartActivity(intent);
 		}
@@ -158,6 +176,8 @@ namespace Busidex.Presentation.Android
 			var token = GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
 
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
+
 			var browserIntent = Intent.CreateChooser(intent, "Open with");
 			StartActivity (browserIntent);
 		}
@@ -167,6 +187,8 @@ namespace Busidex.Presentation.Android
 			var userCard = GetUserCardFromIntent (intent);
 			var token = GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
 
 			StartActivity (intent);
 		}
@@ -194,6 +216,8 @@ namespace Busidex.Presentation.Android
 				var controller = new MyBusidexController ();
 				controller.AddToMyBusidex (userCard.Card.CardId, token);
 
+				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_ADD, 0);
+
 				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, token);
 			}
 		}
@@ -218,6 +242,8 @@ namespace Busidex.Presentation.Android
 				}
 				var token = GetAuthCookie ();
 
+				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
+
 				var controller = new MyBusidexController ();
 				controller.RemoveFromMyBusidex (userCard.Card.CardId, token);
 			}
@@ -236,6 +262,25 @@ namespace Busidex.Presentation.Android
 			return imm.HideSoftInputFromWindow(token, 0);
 		}
 		#endregion
+
+		#region Google Analytics
+
+		#endregion
+		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
+
+				var build = new HitBuilders.EventBuilder ()
+					.SetCategory (category)
+					.SetLabel (label)	
+					.SetAction (action)
+					.SetValue (value) 
+					.Build ();
+			var build2 = new Dictionary<string,string>();
+			foreach (var key in build.Keys)
+			{
+				build2.Add(key.ToString(), build[key].ToString());
+			}
+			GATracker.Send (build2);
+		}
 
 		#region Progress Bar
 		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
@@ -261,6 +306,17 @@ namespace Busidex.Presentation.Android
 				}
 				catch(Exception ex){
 					// TODO perhaps add google anayltics here
+
+					var build = new HitBuilders.ExceptionBuilder ()
+						.SetDescription (ex.Message)
+						.SetFatal (false) // This is useful for uncaught exceptions
+						.Build();
+					var build2 = new Dictionary<string,string>();
+					foreach (var key in build.Keys)
+					{
+						build2.Add(key.ToString(), build[key]);
+					}
+					GATracker.Send(build2);
 				}
 			}
 //			new Thread(new ThreadStart(delegate

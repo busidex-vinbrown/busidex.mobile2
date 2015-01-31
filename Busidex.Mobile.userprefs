@@ -1,11 +1,28 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Android/Busidex.Presentation.Android.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/Activities/OrganizationMembersActivity.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../Library/Frameworks/Mono.framework/External/xbuild/Xamarin/Android/Xamarin.Android.Common.targets">
     <Files>
-      <File FileName="Busidex.Presentation.Android/Activities/SearchActivity.cs" Line="3" Column="3" />
-      <File FileName="Busidex.Presentation.Android/Activities/MyBusidexActivity.cs" Line="65" Column="65" />
-      <File FileName="Busidex.Presentation.Android/Activities/OrganizationMembersActivity.cs" Line="6" Column="6" />
+      <File FileName="Busidex.Presentation.Android/Activities/SearchActivity.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Android/Activities/MyBusidexActivity.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Android/Activities/OrganizationMembersActivity.cs" Line="17" Column="17" />
+      <File FileName="Busidex.Presentation.Android/Adapters/UserCardAdapter.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.Android/Activities/BaseActivity.cs" Line="6" Column="6" />
+      <File FileName="Busidex.Presentation.Android/Activities/BaseCardActivity.cs" Line="6" Column="6" />
+      <File FileName="Busidex.Mobile/Resources.cs" Line="70" Column="70" />
+      <File FileName="../../../../Library/Frameworks/Mono.framework/External/xbuild/Xamarin/Android/Xamarin.Android.Common.targets" Line="7" Column="7" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Busidex.Mobile" expanded="True" />
+          <Node name="Busidex.Presentation.Android" expanded="True" selected="True">
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="Activities" expanded="True" />
+            <Node name="Adapters" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -23,9 +40,9 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="bug fixes" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
 </Properties>

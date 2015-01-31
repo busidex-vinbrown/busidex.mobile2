@@ -22,6 +22,8 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnCreate (savedInstanceState);
 
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
+
 			SetContentView (Resource.Layout.MyBusidex);
 
 			Cards = new List<UserCard> ();

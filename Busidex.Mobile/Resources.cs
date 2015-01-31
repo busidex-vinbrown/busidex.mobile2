@@ -26,6 +26,21 @@ namespace Busidex.Mobile
 		public const string COOKIE_URI = "https://localhost";
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years
 
+		public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
+		public const string GA_CATEGORY_ACTIVITY = "Activity";
+		public const string GA_MY_BUSIDEX_LABEL = "My Busidex";
+		public const string GA_LABEL_LIST = "List";
+		public const string GA_LABEL_DETAILS = "Details";
+		public const string GA_LABEL_PHONE = "Called";
+		public const string GA_LABEL_EMAIL = "EMailed";
+		public const string GA_LABEL_URL = "Url";
+		public const string GA_LABEL_NOTES = "Notes";
+		public const string GA_LABEL_SHARE = "Shared";
+		public const string GA_LABEL_MAP = "Map";
+		public const string GA_LABEL_ADD = "Added";
+		public const string GA_LABEL_REMOVED = "Removed";
+
+
 		public enum HttpActions{ GET, POST, PUT, DELETE };
 
 		public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
