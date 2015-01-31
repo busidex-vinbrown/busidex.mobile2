@@ -74,6 +74,12 @@ namespace Busidex.Presentation.Android
 
 		public UserCard this[int position]{ 
 			get{ 
+				if(Count == 0){
+					return null;
+				}
+				if(position > Count){
+					return Cards [Count - 1];
+				}
 				return Cards [position]; 
 			}
 		}
@@ -180,7 +186,7 @@ namespace Busidex.Presentation.Android
 			}
 			panel.Visibility = ViewStates.Visible;
 
-			var userCard = Cards [position];
+			var userCard = this [position];// Cards [position];
 			PhoneIntent = new Intent(context, typeof(PhoneActivity));
 			NotesIntent = new Intent(context, typeof(NotesActivity));
 			ShareCardIntent = new Intent(context, typeof(ShareCardActivity));

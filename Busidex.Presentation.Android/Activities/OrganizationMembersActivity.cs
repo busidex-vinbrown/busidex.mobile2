@@ -15,6 +15,8 @@ namespace Busidex.Presentation.Android
 	public class OrganizationMembersActivity : BaseCardActivity
 	{
 		List<UserCard> Cards { get; set; }
+		static SearchView txtSearchOrgMembers { get; set; }
+		static UserCardAdapter MembersAdapter { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -36,6 +38,13 @@ namespace Busidex.Presentation.Android
 			img.SetImageBitmap (bm);
 		}
 
+		static void DoFilter(string filter){
+			if(string.IsNullOrEmpty(filter)){
+				MembersAdapter.Filter.InvokeFilter ("");
+			}else{
+				MembersAdapter.Filter.InvokeFilter(filter);
+			}
+		}
 
 		protected override void ProcessFile(string data){
 
@@ -56,19 +65,32 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
+			txtSearchOrgMembers = FindViewById<SearchView> (Resource.Id.txtSearchOrgMembers);
+
 			var lstOrganizationMembers = FindViewById<ListView> (Resource.Id.lstOrganizationMembers);
-			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
+			MembersAdapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
 
-			adapter.Redirect += ShowCard;
-			adapter.SendEmail += SendEmail;
-			adapter.OpenBrowser += OpenBrowser;
-			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			adapter.OpenMap += OpenMap;
+			MembersAdapter.Redirect += ShowCard;
+			MembersAdapter.SendEmail += SendEmail;
+			MembersAdapter.OpenBrowser += OpenBrowser;
+			MembersAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			MembersAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			MembersAdapter.OpenMap += OpenMap;
 
-			adapter.ShowNotes = true;
+			MembersAdapter.ShowNotes = true;
 
-			lstOrganizationMembers.Adapter = adapter;
+			lstOrganizationMembers.Adapter = MembersAdapter;
+
+			txtSearchOrgMembers.QueryTextChange += delegate {
+				DoFilter(txtSearchOrgMembers.Query);
+			};
+
+			txtSearchOrgMembers.Iconified = false;
+
+			txtSearchOrgMembers.Touch += delegate {
+				txtSearchOrgMembers.Focusable = true;
+				txtSearchOrgMembers.RequestFocus();
+			};
 		}
 	}
 }

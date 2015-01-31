@@ -76,6 +76,8 @@ namespace Busidex.Presentation.Android
 				DoFilter(txtFilter.Query);
 			};
 
+			txtFilter.Iconified = false;
+
 			txtFilter.Touch += delegate {
 				txtFilter.Focusable = true;
 				txtFilter.RequestFocus();

@@ -9,6 +9,7 @@ using Busidex.Mobile;
 using Android.Views.InputMethods;
 using Android.OS;
 using System.Threading.Tasks;
+using System;
 
 namespace Busidex.Presentation.Android
 {
@@ -249,14 +250,19 @@ namespace Busidex.Presentation.Android
 			if (progressDialog == null) {
 				progressDialog = new ProgressDialog (this);
 			}
-
-			progressDialog.Max = max;
-			progressDialog.SetProgressStyle (style);
-			progressDialog.SetMessage (loadingText);
-			progressDialog.Progress = 0;
-			progressDialog.Show ();
-			progressDialog.SetCanceledOnTouchOutside (false);
-
+			if (!IsFinishing) {
+				progressDialog.Max = max;
+				progressDialog.SetProgressStyle (style);
+				progressDialog.SetMessage (loadingText);
+				progressDialog.Progress = 0;
+				progressDialog.SetCanceledOnTouchOutside (false);
+				try{
+					progressDialog.Show ();
+				}
+				catch(Exception ex){
+					// TODO perhaps add google anayltics here
+				}
+			}
 //			new Thread(new ThreadStart(delegate
 //				{
 //					RunOnUiThread(() => Toast.MakeText(this, messageText, ToastLength.Long).Show());
