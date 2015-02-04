@@ -8,6 +8,8 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Collections.Generic;
 using Android.Content;
+using Android.Views;
+using Android.Util;
 
 namespace Busidex.Presentation.Android
 {
@@ -18,9 +20,47 @@ namespace Busidex.Presentation.Android
 		static UserCardAdapter MyBusidexAdapter { get; set; }
 		static SearchView txtFilter { get; set; }
 
+		public override bool OnCreateOptionsMenu(IMenu menu) {
+			//MenuInflater.Inflate(Resource.Menu.ActionBarMenu, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			this.Finish();
+			return base.OnOptionsItemSelected(item);
+		}
+
+		void SetActionBarTabs(Context ctx){
+			this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+			var searchTab = this.ActionBar.NewTab ();
+			var myBusidexTab = this.ActionBar.NewTab ();
+			var myOrganizationTab = this.ActionBar.NewTab ();
+
+			var searchView = new ImageView (ctx);
+			searchView.SetImageResource (Resource.Drawable.spotlight_icon);
+			searchTab.SetCustomView(searchView);
+
+			var myBusidexView = new ImageView (ctx);
+			myBusidexView.SetImageResource (Resource.Drawable.icon);
+			myBusidexTab.SetCustomView(myBusidexView);
+
+			var myOrganizationView = new ImageView (ctx);
+			myOrganizationView.SetImageResource (Resource.Drawable.people);
+			myOrganizationTab.SetCustomView(myOrganizationView);
+		}
+
+		public override View OnCreateView (string name, Context context, IAttributeSet attrs)
+		{
+			//SetActionBarTabs (context);
+			return base.OnCreateView (name, context, attrs);
+
+		}
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+
+
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
 

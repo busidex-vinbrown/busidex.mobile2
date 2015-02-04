@@ -1,0 +1,20 @@
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+    android:id = "@+id/actionSearch"
+    android:icon ="@drawable/spotlight_icon"
+    android:background = "@style/ActionBarStyle"
+    android:showAsAction="always"
+  />
+  <item
+    android:id = "@+id/actionMyBusidex"
+    android:icon ="@drawable/icon"
+    android:background = "@style/ActionBarStyle"
+    android:showAsAction="always"
+  />
+  <item
+    android:id = "@+id/actionMyOrganization"
+    android:icon ="@drawable/people"
+    android:background = "@style/ActionBarStyle"
+    android:showAsAction="always"
+  />
+</menu>

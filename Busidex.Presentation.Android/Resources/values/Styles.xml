@@ -3,4 +3,7 @@
     <item name="android:windowBackground">@drawable/splash2</item>
     <item name="android:windowNoTitle">true</item>
   </style>
+<style name="ActionBarStyle">
+  	<item name="android:background">@color/layoutBackground</item>
+</style>
 </resources>

@@ -1,24 +1,30 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Android/Busidex.Presentation.Android.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../Library/Frameworks/Mono.framework/External/xbuild/Xamarin/Android/Xamarin.Android.Common.targets">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile/Utils.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Android/Activities/SearchActivity.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Android/Activities/MyBusidexActivity.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Android/Activities/OrganizationMembersActivity.cs" Line="17" Column="17" />
-      <File FileName="Busidex.Presentation.Android/Adapters/UserCardAdapter.cs" Line="3" Column="3" />
-      <File FileName="Busidex.Presentation.Android/Activities/BaseActivity.cs" Line="6" Column="6" />
-      <File FileName="Busidex.Presentation.Android/Activities/BaseCardActivity.cs" Line="6" Column="6" />
-      <File FileName="Busidex.Mobile/Resources.cs" Line="70" Column="70" />
-      <File FileName="../../../../Library/Frameworks/Mono.framework/External/xbuild/Xamarin/Android/Xamarin.Android.Common.targets" Line="7" Column="7" />
+      <File FileName="Busidex.Presentation.Android/Activities/BaseActivity.cs" Line="5" Column="5" />
+      <File FileName="Busidex.Presentation.Android/Activities/SharedCardsActivity.cs" Line="19" Column="19" />
+      <File FileName="Busidex.Mobile/Utils.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.Android/Adapters/SharedCardListAdapter.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Mobile/Resources.cs" Line="23" Column="23" />
+      <File FileName="Busidex.Presentation.Android/Activities/MyBusidexActivity.cs" Line="3" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Busidex.Mobile" expanded="True" />
           <Node name="Busidex.Presentation.Android" expanded="True" selected="True">
             <Node name="ComponentReferenceFolder" expanded="True" />
             <Node name="Activities" expanded="True" />
             <Node name="Adapters" expanded="True" />
+            <Node name="Properties" expanded="True" />
+            <Node name="Resources" expanded="True">
+              <Node name="layout" expanded="True" />
+              <Node name="menu" expanded="True" />
+              <Node name="values" expanded="True" />
+            </Node>
+          </Node>
+          <Node name="Busidex.Presentation.iOS" expanded="True">
+            <Node name="Controllers" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -34,9 +40,9 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/MyBusidexActivity.cs" line="26" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="109" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/SharedCardsActivity.cs" line="55" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/SharedCardsActivity.cs" line="81" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" line="157" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/ProfileActivity.cs" line="84" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/BaseActivity.cs" line="93" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

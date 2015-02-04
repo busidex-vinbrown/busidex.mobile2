@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System;
 using Android.Gms.Analytics;
 using System.Collections.Generic;
+using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
@@ -35,6 +36,8 @@ namespace Busidex.Presentation.Android
 		}
 
 		#region Loading
+
+
 		protected virtual void ProcessFile(string data){
 
 		}
@@ -264,16 +267,14 @@ namespace Busidex.Presentation.Android
 		#endregion
 
 		#region Google Analytics
-
-		#endregion
 		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
 
-				var build = new HitBuilders.EventBuilder ()
-					.SetCategory (category)
-					.SetLabel (label)	
-					.SetAction (action)
-					.SetValue (value) 
-					.Build ();
+			var build = new HitBuilders.EventBuilder ()
+				.SetCategory (category)
+				.SetLabel (label)	
+				.SetAction (action)
+				.SetValue (value) 
+				.Build ();
 			var build2 = new Dictionary<string,string>();
 			foreach (var key in build.Keys)
 			{
@@ -281,6 +282,25 @@ namespace Busidex.Presentation.Android
 			}
 			GATracker.Send (build2);
 		}
+
+		protected static void TrackException(Exception ex){
+			try{
+				var build = new HitBuilders.ExceptionBuilder ()
+					.SetDescription (ex.Message)
+					.SetFatal (false) // This is useful for uncaught exceptions
+					.Build();
+				var build2 = new Dictionary<string,string>();
+				foreach (var key in build.Keys)
+				{
+					build2.Add(key.ToString(), build[key]);
+				}
+				GATracker.Send(build2);
+			}catch{
+
+			}
+		}
+		#endregion
+
 
 		#region Progress Bar
 		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
@@ -305,18 +325,7 @@ namespace Busidex.Presentation.Android
 					progressDialog.Show ();
 				}
 				catch(Exception ex){
-					// TODO perhaps add google anayltics here
-
-					var build = new HitBuilders.ExceptionBuilder ()
-						.SetDescription (ex.Message)
-						.SetFatal (false) // This is useful for uncaught exceptions
-						.Build();
-					var build2 = new Dictionary<string,string>();
-					foreach (var key in build.Keys)
-					{
-						build2.Add(key.ToString(), build[key]);
-					}
-					GATracker.Send(build2);
+					TrackException (ex);
 				}
 			}
 //			new Thread(new ThreadStart(delegate

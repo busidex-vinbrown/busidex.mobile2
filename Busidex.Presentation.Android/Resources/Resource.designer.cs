@@ -1552,6 +1552,15 @@ namespace Busidex.Presentation.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f0c00ce
+			public const int actionMyBusidex = 2131493070;
+			
+			// aapt resource value: 0x7f0c00cf
+			public const int actionMyOrganization = 2131493071;
+			
+			// aapt resource value: 0x7f0c00cd
+			public const int actionSearch = 2131493069;
+			
 			// aapt resource value: 0x7f0c0045
 			public const int action_bar = 2131492933;
 			
@@ -2350,6 +2359,22 @@ namespace Busidex.Presentation.Android
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0d0000
+			public const int ActionBarMenu = 2131558400;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class Raw
 		{
 			
@@ -2654,6 +2679,9 @@ namespace Busidex.Presentation.Android
 		
 		public partial class Style
 		{
+			
+			// aapt resource value: 0x7f0600f5
+			public const int ActionBarStyle = 2131099893;
 			
 			// aapt resource value: 0x7f060009
 			public const int Base_TextAppearance_AppCompat = 2131099657;

@@ -53,7 +53,36 @@ namespace Busidex.Mobile
 
 		public static void SaveResponse(string response, string fileName){
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
-			File.WriteAllText (fullFilePath, response);
+			try{
+				if(!IsFileInUse(new FileInfo(fullFilePath))){
+					File.WriteAllText (fullFilePath, response);
+				}
+			}catch(Exception ex){
+
+			}
+		}
+
+		static bool IsFileInUse(FileInfo file){
+			FileStream stream = null;
+
+			try
+			{
+				stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+			}
+			catch (IOException)
+			{
+				//the file is unavailable because it is:
+				//still being written to
+				//or being processed by another thread
+				//or does not exist (has already been processed)
+				return true;
+			}
+			finally
+			{
+				if (stream != null)
+					stream.Close();
+			}
+			return false; 
 		}
 
 		public static void RemoveCacheFiles(){
