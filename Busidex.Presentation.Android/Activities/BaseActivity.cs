@@ -308,9 +308,11 @@ namespace Busidex.Presentation.Android
 			Context context = this;
 			var loadingText = message ?? context.GetString (Resource.String.Global_OneMoment);
 
-//			if(progressDialog != null){
-//				progressDialog.Dispose ();
-//			}
+			if(progressDialog != null){
+				progressDialog.Dismiss ();
+				progressDialog.Dispose ();
+				progressDialog = null;
+			}
 
 			if (progressDialog == null) {
 				progressDialog = new ProgressDialog (this);
@@ -321,6 +323,7 @@ namespace Busidex.Presentation.Android
 				progressDialog.SetMessage (loadingText);
 				progressDialog.Progress = 0;
 				progressDialog.SetCanceledOnTouchOutside (false);
+
 				try{
 					progressDialog.Show ();
 				}

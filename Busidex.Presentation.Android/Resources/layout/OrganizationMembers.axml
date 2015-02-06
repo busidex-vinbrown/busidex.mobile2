@@ -24,7 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imgOrganizationHeaderImage"
-            android:id="@+id/txtSearchOrgMembers" />
+            android:id="@+id/txtSearchOrgMembers"
+            android:queryHint="Filter"
+            android:iconifiedByDefault="false" />
         <ListView
             android:minWidth="25px"
             android:minHeight="25px"

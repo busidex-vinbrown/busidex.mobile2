@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.IO;
 using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -26,6 +27,13 @@ namespace Busidex.Presentation.iOS
 			vwSharedCards.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 
 			// Perform any additional setup after loading the view, typically from a nib.
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Shared Card List");
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewWillAppear (bool animated)

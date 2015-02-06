@@ -98,6 +98,12 @@ namespace Busidex.Presentation.iOS
 			if (EditingNotes != null){
 				EditingNotes ();
 			}
+			string name = Resources.GA_LABEL_NOTES;
+			if(SelectedCard != null && SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
 		}
 
 		protected void ShowPhoneNumbers(int idx){
@@ -105,6 +111,12 @@ namespace Busidex.Presentation.iOS
 			if (CallingPhoneNumber != null){
 				CallingPhoneNumber ();
 			}
+			string name = Resources.GA_LABEL_PHONE;
+			if(SelectedCard != null && SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);
 		}
 
 		protected void SendEmail(string email){
@@ -115,6 +127,9 @@ namespace Busidex.Presentation.iOS
 				if (card != null) {
 					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
 				}
+				string name = Resources.GA_LABEL_EMAIL;
+
+				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_EMAIL, name, 0);
 			}
 		}
 
@@ -124,6 +139,14 @@ namespace Busidex.Presentation.iOS
 				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
 				var card = Cards.SingleOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
 				if (card != null) {
+
+					string name = Resources.GA_LABEL_URL;
+					if(SelectedCard != null && SelectedCard.Card != null){
+						name = string.IsNullOrEmpty(card.Card.Name) ? card.Card.CompanyName : card.Card.Name;
+					}
+
+					AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_URL, name, 0);
+
 					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
 				}
 			}
@@ -134,6 +157,12 @@ namespace Busidex.Presentation.iOS
 			if(SharingCard != null){
 				SharingCard ();
 			}
+			string name = Resources.GA_LABEL_SHARE;
+			if(SelectedCard != null && SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
 		}
 
 		static void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
@@ -163,6 +192,12 @@ namespace Busidex.Presentation.iOS
 						CardAddedToMyBusidex (userCard);
 						ActivityController.SaveActivity ((long)EventSources.Add, userCard.Card.CardId, userToken);
 					}
+					string name = Resources.GA_LABEL_ADD;
+					if(userCard != null && userCard.Card != null){
+						name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
+					}
+
+					AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
 				}
 			}
 		}
@@ -183,6 +218,13 @@ namespace Busidex.Presentation.iOS
 								if (CardRemovedFromMyBusidex != null) {
 									CardRemovedFromMyBusidex (userCard);
 								}
+
+								string name = Resources.GA_LABEL_REMOVED;
+								if(userCard != null && userCard.Card != null){
+									name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
+								}
+
+								AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_REMOVED, name, 0);
 							}
 						}
 					});
@@ -205,6 +247,13 @@ namespace Busidex.Presentation.iOS
 							var url = new NSUrl ("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
 							UIApplication.SharedApplication.OpenUrl (url);
 							ActivityController.SaveActivity ((long)EventSources.Map, card.Card.CardId, userToken);
+
+							string name = Resources.GA_LABEL_MAP;
+							if(card != null && card.Card != null){
+								name = string.IsNullOrEmpty(card.Card.Name) ? card.Card.CompanyName : card.Card.Name;
+							}
+
+							AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_MAP, name, 0);
 						});	
 					};
 						
@@ -350,9 +399,7 @@ namespace Busidex.Presentation.iOS
 				AddFeatureButtons (cell, FeatureButtonList);
 			}
 		}
-
-
-
+			
 		protected string buildAddress(Card card){
 
 			var address = string.Empty;

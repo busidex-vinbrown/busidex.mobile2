@@ -3,6 +3,7 @@ using Foundation;
 using UIKit;
 using System.Linq;
 using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -47,7 +48,10 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Startup");
+
 			base.ViewDidAppear (animated);
+
 			SetPosition ();
 		}
 		void SetPosition(){

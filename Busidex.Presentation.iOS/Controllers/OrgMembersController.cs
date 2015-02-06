@@ -8,6 +8,7 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
 using MessageUI;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -33,15 +34,6 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-				SetNavBarOrgImage ();
-			}
-		}
-
 		void SetNavBarOrgImage(){
 			var fileName = Path.Combine (documentsPath, OrganizationLogo);
 
@@ -58,15 +50,19 @@ namespace Busidex.Presentation.iOS
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
 
-			FilterResults.AddRange (
-				Cards.Where (c => 
-					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant().Contains (loweredFilter)) ||
-					(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant().Contains (loweredFilter)) ||
-					(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant().Contains (loweredFilter)) ||
-					(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant().Contains (loweredFilter)) ||
-					(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter)))
-				));
+			//Cards = Cards ?? new List<UserCard> ();
 
+			if (Cards != null) {
+				FilterResults.AddRange (
+					Cards.Where (c => 
+					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter)))
+					));
+
+			}
 			TableSource src = ConfigureTableSourceEventHandlers(FilterResults);
 			src.IsFiltering = true;
 			tblMembers.Source = src;
@@ -249,10 +245,10 @@ namespace Busidex.Presentation.iOS
 
 		protected override void ProcessCards(string data){
 
-			var cards = getCardsFromModel (data);
+			Cards = getCardsFromModel (data);
 
 			if (tblMembers.Source == null) {
-				var src = ConfigureTableSourceEventHandlers(cards);
+				var src = ConfigureTableSourceEventHandlers(Cards);
 				src.NoCardsMessage = NO_CARDS;
 				tblMembers.Source = src;
 			}
@@ -267,6 +263,23 @@ namespace Busidex.Presentation.iOS
 			);
 		}
 
+		public override void ViewDidAppear (bool animated)
+		{
+			string name = OrganizationMemberMode == MemberMode.Members ? "Organization Members" : "Organization Referrals";
+
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, name + " - " + OrganizationId);
+
+			base.ViewDidAppear (animated);
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
+				SetNavBarOrgImage ();
+			}
+		}
 
 		public override void ViewDidLoad ()
 		{

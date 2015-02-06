@@ -48,19 +48,10 @@ namespace Busidex.Presentation.Android
 			myOrganizationView.SetImageResource (Resource.Drawable.people);
 			myOrganizationTab.SetCustomView(myOrganizationView);
 		}
-
-		public override View OnCreateView (string name, Context context, IAttributeSet attrs)
-		{
-			//SetActionBarTabs (context);
-			return base.OnCreateView (name, context, attrs);
-
-		}
-
+			
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
-
-
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
 
@@ -100,8 +91,8 @@ namespace Busidex.Presentation.Android
 			var lblNoCardsMessage = FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
 			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
 
-			lblNoCardsMessage.Visibility = Cards.Count == 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
-			txtFilter.Visibility = Cards.Count == 0 ? global::Android.Views.ViewStates.Gone : global::Android.Views.ViewStates.Visible;
+			lblNoCardsMessage.Visibility = Cards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+			txtFilter.Visibility = Cards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 			MyBusidexAdapter.Redirect += ShowCard;
 			MyBusidexAdapter.SendEmail += SendEmail;

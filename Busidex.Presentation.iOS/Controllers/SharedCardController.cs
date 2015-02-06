@@ -5,6 +5,7 @@ using UIKit;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -70,6 +71,13 @@ namespace Busidex.Presentation.iOS
 				lblError.Hidden = false;
 				imgCardShared.Hidden = true;
 			}
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Share Card");
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewWillAppear (bool animated)

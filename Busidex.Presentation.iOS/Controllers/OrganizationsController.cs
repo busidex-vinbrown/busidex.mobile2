@@ -5,6 +5,7 @@ using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using System.IO;
 using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -114,6 +115,13 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 			
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Organizations");
+
+			base.ViewDidAppear (animated);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();

@@ -3,6 +3,7 @@ using UIKit;
 using System.IO;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -77,10 +78,20 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 		}
-			
+
+		public override void ViewDidAppear (bool animated)
+		{
+			if (UserCard != null && UserCard.Card != null && !string.IsNullOrEmpty (UserCard.Card.Name)) {
+				GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Detail - " + UserCard.Card.Name);
+			}
+
+			base.ViewDidAppear (animated);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
 			var userToken = GetAuthCookie ();
 			try{
 
@@ -95,6 +106,7 @@ namespace Busidex.Presentation.iOS
 				btnCard.TouchUpInside += delegate {
 					ToggleImage();
 				};
+
 			}catch(Exception ex){
 				LoggingController.LogError (ex, userToken != null ? userToken.Value : string.Empty);
 			}

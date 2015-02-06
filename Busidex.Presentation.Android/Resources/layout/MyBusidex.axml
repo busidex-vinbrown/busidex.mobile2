@@ -11,7 +11,8 @@
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/txtFilter"
-        p1:queryHint="Filter" />
+        p1:queryHint="Filter"
+        p1:iconifiedByDefault="false" />
     <TextView
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"

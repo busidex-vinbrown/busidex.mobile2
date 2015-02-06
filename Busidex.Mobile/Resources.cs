@@ -27,6 +27,7 @@ namespace Busidex.Mobile
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years
 
 		public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
+		public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
 		public const string GA_CATEGORY_ACTIVITY = "Activity";
 		public const string GA_MY_BUSIDEX_LABEL = "My Busidex";
 		public const string GA_LABEL_LIST = "List";

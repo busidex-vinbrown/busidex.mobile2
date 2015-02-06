@@ -4,6 +4,7 @@ using System.Linq;
 using Busidex.Mobile;
 using UIKit;
 using Busidex.Mobile.Models;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -105,6 +106,13 @@ namespace Busidex.Presentation.iOS
 			imgEmailSaved.Hidden = imgPasswordSaved.Hidden = lblEmailError.Hidden = lblPasswordError.Hidden = true;
 		}
 			
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Settings");
+
+			base.ViewDidAppear (animated);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			HideStatusIndicators ();

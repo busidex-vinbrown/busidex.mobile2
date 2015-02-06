@@ -3,6 +3,7 @@ using Foundation;
 using UIKit;
 using WindowsAzure.Messaging;
 using System;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -15,6 +16,7 @@ namespace Busidex.Presentation.iOS
 		// class-level declarations
 		public string _deviceToken { get; set;}
 		public override UIWindow Window { get; set; }
+		public IGAITracker Tracker;
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
@@ -26,12 +28,31 @@ namespace Busidex.Presentation.iOS
 				UIRemoteNotificationType.Alert |
 				UIRemoteNotificationType.Badge );
 
+			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+			GAI.SharedInstance.DispatchInterval = 20;
+
+			// Optional: automatically send uncaught exceptions to Google Analytics.
+			GAI.SharedInstance.TrackUncaughtExceptions = true;
+
+			// Initialize tracker.
+			Tracker = GAI.SharedInstance.GetTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_IOS);
+
 			// ...
 			// Your other code here
 			// ...
 			return true;
 		}
 			
+		#region Google Analytics
+		public static void TrackAnalyticsEvent(string category, string action, string label, NSNumber value){
+
+			var builder = GAIDictionaryBuilder.CreateEvent (category, action, label, value);
+
+			GAI.SharedInstance.DefaultTracker.Send(builder.Build());
+		}
+
+		#endregion
+
 		public override void RegisteredForRemoteNotifications (UIApplication application, NSData deviceToken)
 		{
 			// Connection string from your azure dashboard

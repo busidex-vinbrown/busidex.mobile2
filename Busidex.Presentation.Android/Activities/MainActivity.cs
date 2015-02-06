@@ -28,36 +28,58 @@ namespace Busidex.Presentation.Android
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
 			var btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
 
+			var imgSearchIcon = FindViewById<ImageView> (Resource.Id.imgSearchIcon);
+			var imgBusidexIcon = FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
+			var imgOrgIcon = FindViewById<ImageView> (Resource.Id.imgOrgIcon);
+
 			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
 			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
 			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
 			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
 
-			btnSearch.Click += delegate {
+			btnSearch.Touch += delegate {
+				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
-			btnMyBusidex.Click += delegate {
+			imgSearchIcon.Touch += delegate {
+				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				Redirect(new Intent(this, typeof(SearchActivity)));
+			};
+
+			btnMyBusidex.Touch += delegate {
+				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyBusidexAsync();
 			};
 
-			btnMyOrganizations.Click += delegate {
+			imgBusidexIcon.Touch += delegate {
+				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				LoadMyBusidexAsync();
+			};
+
+			btnMyOrganizations.Touch += delegate {
+				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyOrganizationsAsync();
 			};
 
-			btnLogout.Click += delegate {
+			imgOrgIcon.Touch += delegate {
+				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				LoadMyOrganizationsAsync();
+			};
+
+			btnLogout.Touch += delegate {
 				Logout();
 			};
 
-			btnSettings.Click += delegate {
+			btnSettings.Touch += delegate {
 				GoToMyProfile();
 			};
 
-			btnSync.Click += delegate {
+			btnSync.Touch += delegate {
 				Sync();
 			};
 
-			btnSharedCardsNotification.Click += delegate {
+			btnSharedCardsNotification.Touch += delegate {
 				GoToSharedCards();
 			};
 		}

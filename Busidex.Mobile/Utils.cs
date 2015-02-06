@@ -58,7 +58,6 @@ namespace Busidex.Mobile
 					File.WriteAllText (fullFilePath, response);
 				}
 			}catch(Exception ex){
-
 			}
 		}
 
@@ -67,9 +66,13 @@ namespace Busidex.Mobile
 
 			try
 			{
+				if(!File.Exists(file.FullName)){
+					return false;
+				}
+
 				stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
 			}
-			catch (IOException)
+			catch (IOException ioEx)
 			{
 				//the file is unavailable because it is:
 				//still being written to

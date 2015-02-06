@@ -6,6 +6,7 @@ using System.Linq;
 using System.Drawing;
 using System.IO;
 using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -80,6 +81,13 @@ namespace Busidex.Presentation.iOS
 					}
 				}
 			}
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Phone");
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewDidLoad ()

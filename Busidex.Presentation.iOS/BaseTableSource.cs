@@ -7,6 +7,7 @@ using UIKit;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {

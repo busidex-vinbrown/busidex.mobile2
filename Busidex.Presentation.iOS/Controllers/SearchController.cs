@@ -12,6 +12,7 @@ namespace Busidex.Presentation.iOS
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using MessageUI;
+	using GoogleAnalytics.iOS;
 
 	partial class SearchController : BaseController
 	{
@@ -20,6 +21,13 @@ namespace Busidex.Presentation.iOS
 		public SearchController (IntPtr handle) : base (handle)
 		{
 			//TableView.RegisterClassForCell (typeof(SearchViewCell), cellID);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Search");
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewDidLoad ()

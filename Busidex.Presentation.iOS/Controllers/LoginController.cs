@@ -2,6 +2,7 @@
 using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -20,6 +21,12 @@ namespace Busidex.Presentation.iOS
 
 		static long UserId{ get; set; }
 
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Login");
+
+			base.ViewDidAppear (animated);
+		}
 
 		public override void ViewDidLoad ()
 		{

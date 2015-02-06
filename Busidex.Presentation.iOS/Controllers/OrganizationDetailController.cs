@@ -3,6 +3,7 @@ using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
 using System.IO;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -20,6 +21,13 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Organization Detail - " + OrganizationId);
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewDidLoad ()

@@ -6,6 +6,8 @@ using System.Linq;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using System.Threading.Tasks;
+using GoogleAnalytics.iOS;
+using System.Collections.Generic;
 
 namespace Busidex.Presentation.iOS
 {
@@ -21,6 +23,19 @@ namespace Busidex.Presentation.iOS
 
 		public BaseController ()
 		{
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			NavigationController.SetToolbarHidden (true, false);
+			base.ViewWillAppear (animated);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateAppView ().Build ());
+
+			base.ViewDidAppear (animated);
 		}
 
 		public static DateTime NSDateToDateTime(NSDate date)
@@ -96,6 +111,14 @@ namespace Busidex.Presentation.iOS
 				if (sharedCardController != null) {
 					NavigationController.PushViewController (sharedCardController, true);
 				}
+
+				string name = Resources.GA_LABEL_SHARE;
+				if(sharedCardController.UserCard != null && sharedCardController.UserCard.Card != null){
+					name = string.IsNullOrEmpty(sharedCardController.UserCard.Card.Name) ? sharedCardController.UserCard.Card.CompanyName : sharedCardController.UserCard.Card.Name;
+				}
+
+				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
+
 			}catch(Exception ex){
 				new UIAlertView("Row Selected", ex.Message, null, "OK", null).Show();
 			}
@@ -120,6 +143,13 @@ namespace Busidex.Presentation.iOS
 
 				File.WriteAllText (fullFilePath, file);
 			}
+
+			string name = Resources.GA_LABEL_ADD;
+			if(userCard != null && userCard.Card != null){
+				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
 		}
 
 		protected void RemoveCardFromMyBusidex(UserCard userCard){

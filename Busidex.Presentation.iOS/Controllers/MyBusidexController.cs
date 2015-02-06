@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using MessageUI;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -127,6 +128,13 @@ namespace Busidex.Presentation.iOS
 			if (notesController != null) {
 				NavigationController.PushViewController (notesController, true);
 			}
+
+			string name = Resources.GA_LABEL_NOTES;
+			if(notesController.UserCard != null && notesController.UserCard.Card != null){
+				name = string.IsNullOrEmpty(notesController.UserCard.Card.Name) ? notesController.UserCard.Card.CompanyName : notesController.UserCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
 		}
 
 		void ShowPhoneNumbers(){
@@ -136,6 +144,13 @@ namespace Busidex.Presentation.iOS
 			if (phoneViewController != null) {
 				NavigationController.PushViewController (phoneViewController, true);
 			}
+
+			string name = Resources.GA_LABEL_PHONE;
+			if(phoneViewController.UserCard != null && phoneViewController.UserCard.Card != null){
+				name = string.IsNullOrEmpty(phoneViewController.UserCard.Card.Name) ? phoneViewController.UserCard.Card.CompanyName : phoneViewController.UserCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);
 		}
 
 		protected override void ProcessCards(string data){
@@ -159,12 +174,12 @@ namespace Busidex.Presentation.iOS
 			if (cookie != null) {
 
 				var ctrl = new Busidex.Mobile.MyBusidexController ();
-				var response = ctrl.GetMyBusidex (cookie.Value);
-
-				if(!string.IsNullOrEmpty(response.Result)){
-					ProcessCards (response.Result);
-					Busidex.Mobile.Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
-				}
+				ctrl.GetMyBusidex (cookie.Value).ContinueWith(response => {
+					if(!string.IsNullOrEmpty(response.Result)){
+						ProcessCards (response.Result);
+						Busidex.Mobile.Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
+					}
+				});
 			}
 		}
 
@@ -174,6 +189,7 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
+
 		}
 
 		public void LoadMyBusidex(){
@@ -185,9 +201,18 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
+
+			base.ViewDidAppear (animated);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_LIST, 0);
 
 			ConfigureSearchBar ();
 
