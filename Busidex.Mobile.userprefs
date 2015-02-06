@@ -1,30 +1,27 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/StartupController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/AppDelegate.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="26" Column="26" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/LoginController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/NotesController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="25" Column="25" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="16" Column="16" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardViewController.cs" Line="3" Column="3" />
       <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationDetailController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationsController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="3" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/PhoneViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="2" Column="2" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SettingsController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardListController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="28" Column="28" />
+      <File FileName="Busidex.Presentation.iOS/BaseTableSource.cs" Line="27" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="21" Column="21" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/NotesController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/PhoneViewController.cs" Line="18" Column="18" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="32" Column="32" />
+      <File FileName="Busidex.Presentation.iOS/Info.plist" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Busidex.Mobile" expanded="True" />
-          <Node name="Busidex.Presentation.Android" expanded="True" selected="True" />
-          <Node name="Busidex.Presentation.iOS" expanded="True">
+          <Node name="Busidex.Presentation.Android" expanded="True">
+            <Node name="Activities" expanded="True" />
+          </Node>
+          <Node name="Busidex.Presentation.iOS" expanded="True" selected="True">
             <Node name="ComponentReferenceFolder" expanded="True" />
             <Node name="Controllers" expanded="True" />
           </Node>
@@ -43,13 +40,13 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="109" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/ProfileActivity.cs" line="84" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Activities/BaseActivity.cs" line="93" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="172" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
-    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="bug fixes" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
+    <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="added google analytics" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
 </Properties>
