@@ -36,7 +36,6 @@ namespace Busidex.Presentation.iOS
 
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
-
 			vwSearchResults.Hidden = true;
 			txtSearch.SearchButtonClicked += delegate {
 				StartSearch ();
@@ -48,6 +47,10 @@ namespace Busidex.Presentation.iOS
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
+
+			var height = NavigationController.NavigationBar.Frame.Size.Height;
+			height += UIApplication.SharedApplication.StatusBarFrame.Height;
+			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -148,8 +151,6 @@ namespace Busidex.Presentation.iOS
 			var ctrl = new Busidex.Mobile.SearchController ();
 			ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
 
-			//if (!string.IsNullOrEmpty (response.Result)) {
-
 				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
 				var cards = new List<UserCard> ();
 				float total = Search.SearchModel.Results.Count;
@@ -186,7 +187,6 @@ namespace Busidex.Presentation.iOS
 						}
 					}
 				}
-			//}
 
 			});
 			return 1;

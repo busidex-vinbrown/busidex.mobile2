@@ -218,6 +218,10 @@ namespace Busidex.Presentation.iOS
 
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyBusidex ();
+
+			var height = NavigationController.NavigationBar.Frame.Size.Height;
+			height += UIApplication.SharedApplication.StatusBarFrame.Height;
+			SearchBar.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
 	}
 }

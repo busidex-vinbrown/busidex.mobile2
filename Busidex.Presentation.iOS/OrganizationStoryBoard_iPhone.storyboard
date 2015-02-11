@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4443" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4443" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="5">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
     </dependencies>
@@ -7,109 +7,104 @@
         <scene sceneID="4">
             <objects>
                 <viewController id="5" sceneMemberID="viewController" storyboardIdentifier="OrganizationDetailController" restorationIdentifier="" customClass="OrganizationDetailController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="2"/>
-                        <viewControllerLayoutGuide type="bottom" id="3"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71" fixedFrame="YES">
                                 <rect key="frame" x="58" y="320" width="40" height="40"/>
                                 <state key="normal" title="" backgroundImage="browser.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="72" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="72" fixedFrame="YES">
                                 <rect key="frame" x="135" y="317" width="50" height="50"/>
                                 <state key="normal" title="" backgroundImage="twitter.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73" fixedFrame="YES">
                                 <rect key="frame" x="218" y="320" width="40" height="40"/>
                                 <state key="normal" title="" backgroundImage="fb.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contacts:" lineBreakMode="tailTruncation" minimumFontSize="10" id="74" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contacts:" lineBreakMode="tailTruncation" minimumFontSize="10" id="74" fixedFrame="YES" textAlignment="right">
                                 <rect key="frame" x="20" y="191" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email:" lineBreakMode="tailTruncation" minimumFontSize="10" id="75" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email:" lineBreakMode="tailTruncation" minimumFontSize="10" id="75" fixedFrame="YES" textAlignment="right">
                                 <rect key="frame" x="20" y="220" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Phone:" lineBreakMode="tailTruncation" minimumFontSize="10" id="76" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Phone:" lineBreakMode="tailTruncation" minimumFontSize="10" id="76" fixedFrame="YES" textAlignment="right">
                                 <rect key="frame" x="20" y="249" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fax:" lineBreakMode="tailTruncation" minimumFontSize="10" id="77" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fax:" lineBreakMode="tailTruncation" minimumFontSize="10" id="77" fixedFrame="YES" textAlignment="right">
                                 <rect key="frame" x="20" y="278" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <webView contentMode="scaleToFill" id="78" translatesAutoresizingMaskIntoConstraints="NO">
+                            <webView contentMode="scaleToFill" id="78" fixedFrame="YES">
                                 <rect key="frame" x="12" y="383" width="302" height="165"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="302" id="89"/>
-                                    <constraint firstAttribute="height" constant="165" id="90"/>
-                                </constraints>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" address="YES" link="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </webView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Contacts]" lineBreakMode="tailTruncation" minimumFontSize="10" id="91" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Contacts]" lineBreakMode="tailTruncation" minimumFontSize="10" id="91" fixedFrame="YES">
                                 <rect key="frame" x="106" y="191" width="194" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="99" translatesAutoresizingMaskIntoConstraints="NO">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="99" fixedFrame="YES">
                                 <rect key="frame" x="20" y="79" width="280" height="91"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="114"/>
-                                    <constraint firstAttribute="height" constant="91" id="115"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="131" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Email]">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="131" fixedFrame="YES" text="[Email]">
                                 <rect key="frame" x="106" y="213" width="194" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="134" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Phone]">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="134" fixedFrame="YES" text="[Phone]">
                                 <rect key="frame" x="106" y="241" width="194" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="135" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" text="[Fax]">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="135" fixedFrame="YES" text="[Fax]">
                                 <rect key="frame" x="106" y="270" width="194" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
                         </subviews>
-                        <constraints>
-                            <constraint id="87" firstItem="6" firstAttribute="trailing" secondItem="78" secondAttribute="trailing" constant="6"/>
-                            <constraint id="88" firstItem="6" firstAttribute="bottom" secondItem="78" secondAttribute="bottom" constant="20"/>
-                            <constraint id="112" firstItem="6" firstAttribute="trailing" secondItem="99" secondAttribute="trailing" constant="20"/>
-                            <constraint id="113" firstItem="99" firstAttribute="top" secondItem="6" secondAttribute="top" constant="79"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="wvMessage" destination="78" id="name-outlet-78"/>
@@ -130,43 +125,28 @@
         <scene sceneID="205">
             <objects>
                 <viewController id="206" sceneMemberID="viewController" storyboardIdentifier="OrgMembersController" customClass="OrgMembersController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="203"/>
-                        <viewControllerLayoutGuide type="bottom" id="204"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleAspectFit" id="207" autoresizesSubviews="NO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="307" translatesAutoresizingMaskIntoConstraints="NO" allowsSelection="NO">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="307" allowsSelection="NO" fixedFrame="YES">
                                 <rect key="frame" x="0.0" y="108" width="314" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                 </prototypes>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="314" id="345"/>
-                                    <constraint firstAttribute="height" constant="460" id="346"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </tableView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" id="319" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Filter" showsCancelButton="YES">
-                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                            <searchBar contentMode="redraw" fixedFrame="YES" id="319" placeholder="Filter" showsCancelButton="YES">
+                                <rect key="frame" x="0.0" y="42" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </searchBar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="328" key="tableHeaderView">
-                                <rect key="frame" x="3" y="108" width="314" height="57"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="314" id="331"/>
-                                    <constraint firstAttribute="height" constant="57" id="332"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="328" key="tableHeaderView" fixedFrame="YES">
+                                <rect key="frame" x="3" y="87" width="314" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </imageView>
                         </subviews>
-                        <constraints>
-                            <constraint id="329" firstItem="207" firstAttribute="trailing" secondItem="328" secondAttribute="trailing" constant="3"/>
-                            <constraint id="330" firstItem="328" firstAttribute="top" secondItem="207" secondAttribute="top" constant="108"/>
-                            <constraint firstItem="207" firstAttribute="bottom" secondItem="307" secondAttribute="bottom" constant="0.0" id="343"/>
-                            <constraint id="344" firstItem="307" firstAttribute="leading" secondItem="207" secondAttribute="leading" constant="0.0"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tblMembers" destination="307" id="name-outlet-307"/>
@@ -194,7 +174,7 @@
         <image name="notes.png" width="256" height="256"/>
         <image name="browser.png" width="512" height="512"/>
         <image name="email-icon.png" width="396" height="408"/>
-        <image name="phone.png" width="256" height="256"/>
+        <image name="phone.png" width="64" height="64"/>
         <image name="Busidex-icon.png" width="252" height="220"/>
         <image name="card-ring.png" width="412" height="372"/>
         <image name="fb.png" width="256" height="256"/>
@@ -227,5 +207,20 @@
         <image name="Default-Portrait.png" width="768" height="1024"/>
         <image name="Default-Landscape.png" width="1024" height="768"/>
         <image name="People.jpg" width="259" height="194"/>
+        <image name="add.png" width="128" height="128"/>
+        <image name="red_minus.png" width="128" height="128"/>
+        <image name="remove.png" width="128" height="128"/>
+        <image name="share.png" width="128" height="128"/>
+        <image name="sync.png" width="42" height="43"/>
+        <image name="icons/Default-568h.png" width="640" height="1136"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Exit.png" width="60" height="60"/>
+        <image name="delete.png" width="102" height="102"/>
+        <image name="delete.jpeg" width="204" height="204"/>
     </resources>
 </document>

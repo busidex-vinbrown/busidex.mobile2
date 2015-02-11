@@ -26,7 +26,7 @@
                 <viewController storyboardIdentifier="SearchController" id="130" customClass="SearchController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="131">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="339">
                                 <rect key="frame" x="0.0" y="46" width="320" height="522"/>
@@ -34,10 +34,10 @@
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </tableView>
                             <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search for a card" showsCancelButton="YES" translucent="NO" id="1648">
-                                <rect key="frame" x="0.0" y="62" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="47" width="320" height="44"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -271,7 +271,7 @@
                 <viewController storyboardIdentifier="MyBusidexController" id="1532" customClass="MyBusidexController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1533">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537" fixedFrame="YES">
                                 <rect key="frame" x="5" y="40" width="310" height="525"/>
@@ -281,9 +281,9 @@
                                 <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                             </tableView>
                             <searchBar contentMode="redraw" fixedFrame="YES" id="1536">
-                                <rect key="frame" x="0.0" y="62" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="42" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
