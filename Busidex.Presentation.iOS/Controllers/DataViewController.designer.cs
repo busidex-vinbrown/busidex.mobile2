@@ -28,6 +28,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnEvents { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnGoToMyBusidex { get; set; }
 
 		[Outlet]
@@ -44,6 +48,10 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnEvents != null) {
+				btnEvents.Dispose ();
+				btnEvents = null;
+			}
 			if (btnGoToMyBusidex != null) {
 				btnGoToMyBusidex.Dispose ();
 				btnGoToMyBusidex = null;

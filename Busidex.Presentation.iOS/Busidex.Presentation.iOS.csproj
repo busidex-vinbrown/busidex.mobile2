@@ -161,10 +161,6 @@
     <Compile Include="Controllers\OrganizationsController.designer.cs">
       <DependentUpon>OrganizationsController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\OrgMembersController.cs" />
-    <Compile Include="Controllers\OrgMembersController.designer.cs">
-      <DependentUpon>OrgMembersController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\PhoneViewController.cs" />
     <Compile Include="Controllers\PhoneViewController.designer.cs">
       <DependentUpon>PhoneViewController.cs</DependentUpon>
@@ -206,6 +202,10 @@
     <Compile Include="Controllers\SharedCardListController.designer.cs">
       <DependentUpon>SharedCardListController.cs</DependentUpon>
     </Compile>
+    <Compile Include="OrgMembersController.cs" />
+    <Compile Include="OrgMembersController.designer.cs">
+      <DependentUpon>OrgMembersController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -221,10 +221,10 @@
     <InterfaceDefinition Include="Controllers\SettingsController.xib" />
     <InterfaceDefinition Include="Controllers\StartupController.xib" />
     <InterfaceDefinition Include="Controllers\BaseController.xib" />
-    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="OrganizationStoryBoard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\SharedCardController.xib" />
     <InterfaceDefinition Include="Controllers\SharedCardListController.xib" />
+    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -290,6 +290,8 @@
     <BundleResource Include="Resources\Exit.png" />
     <BundleResource Include="Resources\delete.png" />
     <BundleResource Include="Resources\delete.jpeg" />
+    <BundleResource Include="Resources\event.jpg" />
+    <BundleResource Include="Resources\event.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

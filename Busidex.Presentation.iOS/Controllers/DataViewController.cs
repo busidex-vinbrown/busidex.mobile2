@@ -63,6 +63,10 @@ namespace Busidex.Presentation.iOS
 			btnMyOrganizations.TouchUpInside += delegate {
 				LoadMyOrganizationsAsync();
 			};
+
+			btnEvents.TouchUpInside += delegate {
+				GoToEvents();
+			};
 		}
 
 		static string EncodeUserId(long userId){
@@ -437,6 +441,9 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
+		void GoToEvents(){
+
+		}
 	}
 }
 

@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
-	public class SearchController
+	public class SearchController : BaseController
 	{
-		public SearchController ()
-		{
-		}
-
 		public async Task<string> DoSearch(string criteria, string userToken){
 
-			string url = "https://www.busidexapi.com/api/search/Search";
+			const string url = Resources.BASE_API_URL + "search/Search";
 			string data = 
 			@"{" + 
 				"'Success': true," + 
@@ -42,31 +32,17 @@ namespace Busidex.Mobile
 			"'CardType': 1" + 
 			"}";
 
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = "POST";
-			request.ContentType = "application/json";
+			return await MakeRequestAsync (url, "POST", userToken, data);
+		}
 
-			using (var writer = new StreamWriter (request.GetRequestStream ())) {
-				writer.Write (data);
-			}
+		public async Task<string> SearchBySystemTag(string tag, string userToken){
+			string url = Resources.BASE_API_URL + "search/SystemTagSearch?systag=" + tag;
+			return await MakeRequestAsync (url, "GET", userToken);
+		}
 
-			request.Headers.Add ("X-Authorization-Token", userToken);
-
-			try {
-				WebResponse webResponse = await request.GetResponseAsync();
-				Stream webStream = webResponse.GetResponseStream();
-				StreamReader responseReader = new StreamReader(webStream);
-				string response = responseReader.ReadToEnd();
-
-				responseReader.Close();
-
-				return response;
-
-			} catch (Exception e) {
-				Console.Out.WriteLine("-----------------");
-				Console.Out.WriteLine(e.Message);
-			}
-			return string.Empty;
+		public string GetEventTags(string tag, string userToken){
+			const string url = Resources.BASE_API_URL + "search/GetEventTags";
+			return MakeRequest (url, "GET", userToken);
 		}
 	}
 }
