@@ -65,7 +65,7 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnEvents.TouchUpInside += delegate {
-				GoToEvents();
+				LoadEventList();
 			};
 		}
 
@@ -441,8 +441,19 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		void GoToEvents(){
+		void LoadEventList(bool force = false){
+			var cookie = GetAuthCookie ();
 
+
+			GoToEvents ();
+		}
+
+		void GoToEvents(){
+			var eventListController = Storyboard.InstantiateViewController ("EventListController") as EventListController;
+
+			if (eventListController != null) {
+				NavigationController.PushViewController (eventListController, true);
+			}
 		}
 	}
 }

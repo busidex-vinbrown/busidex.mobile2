@@ -78,7 +78,6 @@ namespace Busidex.Presentation.iOS
 
 			cell.Tag = indexPath.Row;
 			if (cellCache.All (c => c.Tag != indexPath.Row)) {
-
 				cellCache.Add (cell);
 			} 
 

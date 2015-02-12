@@ -58,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\CardType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DisplayType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CardDetailResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

@@ -206,6 +206,15 @@
     <Compile Include="OrgMembersController.designer.cs">
       <DependentUpon>OrgMembersController.cs</DependentUpon>
     </Compile>
+    <Compile Include="vwEventList.cs" />
+    <Compile Include="vwEventList.designer.cs">
+      <DependentUpon>vwEventList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\EventListController.cs" />
+    <Compile Include="Controllers\EventListController.designer.cs">
+      <DependentUpon>EventListController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventListTableSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -225,6 +234,7 @@
     <InterfaceDefinition Include="Controllers\SharedCardController.xib" />
     <InterfaceDefinition Include="Controllers\SharedCardListController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
+    <InterfaceDefinition Include="Controllers\EventListController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

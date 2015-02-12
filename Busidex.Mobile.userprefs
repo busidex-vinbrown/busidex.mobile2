@@ -1,6 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5.8.1" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/EventListTableSource.cs">
+    <Files>
+      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/EventListController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/EventListTableSource.cs" Line="2" Column="2" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="18" Column="18" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation/OrganizationsController.cs" line="70" column="1" />

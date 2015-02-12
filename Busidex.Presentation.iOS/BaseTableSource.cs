@@ -41,7 +41,7 @@ namespace Busidex.Presentation.iOS
 		public bool ShowNoCardMessage{ get; set; }
 		public bool IsFiltering{ get; set;}
 
-		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		protected string documentsPath = Resources.DocumentsPath;
 		protected string userToken;
 
 		public event CardSelected CardSelected;

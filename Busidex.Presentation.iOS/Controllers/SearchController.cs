@@ -55,7 +55,6 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewWillAppear (bool animated)
 		{
-
 			base.ViewWillAppear (animated);
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
