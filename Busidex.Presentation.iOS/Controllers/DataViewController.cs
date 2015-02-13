@@ -444,13 +444,25 @@ namespace Busidex.Presentation.iOS
 		void LoadEventList(bool force = false){
 			var cookie = GetAuthCookie ();
 
+			try{
+				var controller = new Busidex.Mobile.SearchController ();
+				var eventListResponse = controller.GetEventTags (cookie.Value);
+				if(!string.IsNullOrEmpty(eventListResponse)){
 
-			GoToEvents ();
+					Busidex.Mobile.Utils.SaveResponse(eventListResponse, Resources.EVENT_LIST_FILE);
+
+					GoToEvents ();
+				}
+
+
+			}
+			catch(Exception ex){
+
+			}
 		}
 
 		void GoToEvents(){
 			var eventListController = Storyboard.InstantiateViewController ("EventListController") as EventListController;
-
 			if (eventListController != null) {
 				NavigationController.PushViewController (eventListController, true);
 			}

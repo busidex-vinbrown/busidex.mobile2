@@ -183,14 +183,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1193">
-                                <rect key="frame" x="42" y="90" width="252" height="75"/>
+                                <rect key="frame" x="39" y="67" width="252" height="75"/>
                                 <state key="normal" title="">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Search for a Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="1203">
-                                <rect key="frame" x="125" y="110" width="163" height="21"/>
+                                <rect key="frame" x="122" y="87" width="163" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -198,7 +198,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1192">
-                                <rect key="frame" x="42" y="195" width="252" height="75"/>
+                                <rect key="frame" x="39" y="162" width="252" height="75"/>
                                 <state key="normal" title="">
                                     <color key="titleColor" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -206,7 +206,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="My Busidex" lineBreakMode="tailTruncation" minimumFontSize="10" id="1204">
-                                <rect key="frame" x="125" y="215" width="163" height="21"/>
+                                <rect key="frame" x="122" y="182" width="163" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -214,15 +214,15 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="spotlight-icon.png" id="1234">
-                                <rect key="frame" x="42" y="90" width="70" height="70"/>
+                                <rect key="frame" x="42" y="67" width="65" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="Busidex Logo Concepts.png" id="1235">
-                                <rect key="frame" x="37" y="195" width="75" height="75"/>
+                                <rect key="frame" x="34" y="161" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2220" fixedFrame="YES">
-                                <rect key="frame" x="42" y="310" width="252" height="75"/>
+                                <rect key="frame" x="39" y="257" width="252" height="75"/>
                                 <state key="normal" title="">
                                     <color key="titleColor" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -230,11 +230,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="People.jpg" id="2042" fixedFrame="YES">
-                                <rect key="frame" x="32" y="310" width="97" height="75"/>
+                                <rect key="frame" x="29" y="257" width="97" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="My Organizations" lineBreakMode="tailTruncation" minimumFontSize="10" id="2808" fixedFrame="YES">
-                                <rect key="frame" x="125" y="330" width="163" height="21"/>
+                                <rect key="frame" x="122" y="279" width="163" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -242,7 +242,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </label>
                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3299" fixedFrame="YES" textAlignment="left" hidden="YES">
-                                <rect key="frame" x="151" y="273" width="77" height="21"/>
+                                <rect key="frame" x="148" y="244" width="77" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -250,7 +250,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3692" fixedFrame="YES">
-                                <rect key="frame" x="42" y="415" width="252" height="75"/>
+                                <rect key="frame" x="39" y="352" width="252" height="75"/>
                                 <state key="normal" title="">
                                     <color key="titleColor" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -258,11 +258,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="event.png" id="3690" fixedFrame="YES">
-                                <rect key="frame" x="47" y="425" width="68" height="58"/>
+                                <rect key="frame" x="44" y="352" width="68" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Events" lineBreakMode="tailTruncation" minimumFontSize="10" id="3691" fixedFrame="YES">
-                                <rect key="frame" x="125" y="440" width="163" height="21"/>
+                                <rect key="frame" x="122" y="367" width="163" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>

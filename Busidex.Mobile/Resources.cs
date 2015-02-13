@@ -20,6 +20,7 @@ namespace Busidex.Mobile
 		public const string THUMBNAIL_FILE_NAME_PREFIX = "lowres_";
 		public const string MY_BUSIDEX_FILE = "mybusidex.json";
 		public const string MY_ORGANIZATIONS_FILE = "myorganizations.json";
+		public const string EVENT_LIST_FILE = "eventlist.json";
 		public const string SHARED_CARDS_FILE = "sharedcards.json";
 		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_";
 		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_";

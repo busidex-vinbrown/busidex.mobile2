@@ -16,7 +16,8 @@ namespace Busidex.Presentation.iOS
 	public class EventListTableSource : UITableViewSource
 	{
 
-		const float BASE_CELL_HEIGHT = 180f;
+		const float BASE_CELL_HEIGHT = 50f;
+		const float TOP_MARGIN = 10f;
 		List<UITableViewCell> cellCache;
 		List<EventTag> EventList;
 		public EventTag SelectedEvent;
@@ -50,12 +51,31 @@ namespace Busidex.Presentation.iOS
 			return BASE_CELL_HEIGHT;
 		}
 
+		protected void AddTagLabel(EventTag tag, UITableViewCell cell){
+			var TagLabel = cell.ContentView.Subviews.SingleOrDefault(s=> s is UIButton) as UIButton;
+			var frame = new CoreGraphics.CGRect (5f, TOP_MARGIN, UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT - TOP_MARGIN);
+			if (TagLabel == null) {
+				TagLabel = new UIButton (frame);
+			}else{
+				TagLabel.Frame = frame;
+			}
+			TagLabel.Tag = (int)Resources.UIElements.NameLabel;
+			TagLabel.SetTitle (tag.Description, UIControlState.Normal);
+			TagLabel.Font = UIFont.FromName ("Helvetica-Bold", 16f);
+			TagLabel.SetTitleColor (UIColor.Blue, UIControlState.Normal);
+			TagLabel.VerticalAlignment = UIControlContentVerticalAlignment.Center;
+
+			cell.ContentView.AddSubview (TagLabel);
+		}
+
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell = tableView.DequeueReusableCell (MyBusidexController.BusidexCellId, indexPath);
 			cell.SelectionStyle = UITableViewCellSelectionStyle.Default;
 
 			cell.Tag = indexPath.Row;
+			AddTagLabel (EventList [indexPath.Row], cell);
+
 			if (cellCache.All (c => c.Tag != indexPath.Row)) {
 				cellCache.Add (cell);
 			}

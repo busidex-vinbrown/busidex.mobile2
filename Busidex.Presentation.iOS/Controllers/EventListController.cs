@@ -7,6 +7,7 @@ using UIKit;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using GoogleAnalytics.iOS;
+using System.IO;
 
 namespace Busidex.Presentation.iOS
 {
@@ -29,6 +30,11 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
+			if(NavigationController != null){
+				NavigationController.SetNavigationBarHidden(true, true);
+			}
+
+
 			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 			LoadEventList ();
 		}
@@ -38,12 +44,26 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
+				NavigationController.SetToolbarHidden (true, false);
 			}
+		}
+
+		List<EventTag> GetEventListFromFile(){
+
+			var eventListFilePath = Path.Combine(Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+			if(File.Exists(eventListFilePath)){
+				using(var eventListFile = File.OpenText (eventListFilePath)){
+					var responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (eventListFile.ReadToEnd());
+					return responseObject.Model;
+				}
+
+			}
+			return new List<EventTag> ();
 		}
 
 		void LoadEventList(){
 
-			var list = new List<EventTag> ();
+			var list = GetEventListFromFile ();
 			var src = ConfigureTableSourceEventHandlers (list);
 			vwEventList.Source = src;
 		}
