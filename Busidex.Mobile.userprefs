@@ -1,13 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5.8.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/EventListTableSource.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile/Models/UserCard.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/EventListController.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="4" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/EventListTableSource.cs" Line="2" Column="2" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="3" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="18" Column="18" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/EventListController.cs" Line="51" Column="51" />
+      <File FileName="Busidex.Presentation.iOS/TableSource.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/EventListTableSource.cs" Line="3" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/EventCardsController.cs" Line="4" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="104" Column="104" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="10" Column="10" />
+      <File FileName="Busidex.Mobile/Models/UserCard.cs" Line="30" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -24,9 +26,9 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="added google analytics" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" />
 </Properties>

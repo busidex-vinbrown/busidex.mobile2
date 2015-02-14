@@ -97,11 +97,15 @@ namespace Busidex.Presentation.iOS
 			Busidex.Mobile.Utils.SaveResponse(json, string.Format(Resources.EVENT_CARDS_FILE, tag.Text));
 		}
 
-		bool CheckEventSearchRefreshCookie(EventTag tag){
+		/// <summary>
+		/// Check the last refresh date of the cached object.
+		/// </summary>
+		/// <returns><c>true</c>, if event search refresh cookie was checked, <c>false</c> otherwise.</returns>
+		/// <param name="tag">Tag.</param>
+		bool CheckEventSearchRefreshDate(EventTag tag){
 
 			var eventList = GetEventCardsFromFile(tag);
 			if (eventList == null){
-				SetEventCardRefreshCookie (eventList, tag);
 				return false;
 			}
 
@@ -118,19 +122,18 @@ namespace Busidex.Presentation.iOS
 			var cookie = GetAuthCookie ();
 
 			try{
-				var fullFilePath = Path.Combine (documentsPath, Resources.EVENT_CARDS_FILE);
-				if (File.Exists (fullFilePath) && CheckEventSearchRefreshCookie(item)) {
+				string fileName = string.Format(Resources.EVENT_CARDS_FILE, item.Text);
+				var fullFilePath = Path.Combine (documentsPath, fileName);
+				if (File.Exists (fullFilePath) && CheckEventSearchRefreshDate(item)) {
 					GoToEvent(item);
 				} else {
 					var controller = new Busidex.Mobile.SearchController ();
 					controller.SearchBySystemTag (item.Text, cookie.Value).ContinueWith(eventSearchResponse => {
 						if(!string.IsNullOrEmpty(eventSearchResponse.Result)){
 
-							Busidex.Mobile.Utils.SaveResponse(eventSearchResponse.Result, Resources.EVENT_CARDS_FILE);
+							Busidex.Mobile.Utils.SaveResponse(eventSearchResponse.Result, fileName);
 
-							InvokeOnMainThread (() =>{
-								GoToEvent(item);
-							});
+							InvokeOnMainThread (() => GoToEvent (item));
 						}
 					});
 				}

@@ -105,6 +105,7 @@ namespace Busidex.Presentation.iOS
 		void Sync(){
 			LoadMyBusidexAsync (true);
 			LoadMyOrganizationsAsync (true);
+			LoadEventList (true);
 		}
 
 		void SetNotificationUI(){
@@ -231,40 +232,7 @@ namespace Busidex.Presentation.iOS
 				new UIAlertView("Error", ex.Message, null, "OK", null).Show();
 			}
 		}
-
-		static void SetRefreshCookie(string name){
-			var nCookie = new System.Net.Cookie();
-			nCookie.Name = name;
-			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1, DateTimeKind.Local).AddDays(1);
-
-			nCookie.Expires = expiration;
-
-			try{
-				var cookie = new NSHttpCookie (nCookie);
-				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-			}catch(Exception ex){
-				var i = 0;
-			}
-		}
-
-		static bool CheckRefreshCookie(string name){
-
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == name);
-
-			if (cookie == null){
-				SetRefreshCookie (name);
-				return false;
-			}
-
-			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
-			if(expireDate < DateTime.Now) {
-
-				SetRefreshCookie (name);
-				return false;
-			}
-			return true;
-		}
-			
+	
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
 			var cookie = GetAuthCookie ();

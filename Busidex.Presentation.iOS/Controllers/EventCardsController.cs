@@ -18,6 +18,7 @@ namespace Busidex.Presentation.iOS
 		List<UserCard> FilterResults;
 		List<UserCard> Cards;
 		public EventTag SelectedTag { get; set; }
+		const string NO_CARDS = "There are no cards in this event yet";
 
 		public EventCardsController (IntPtr handle) : base (handle)
 		{
@@ -127,12 +128,36 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
+		protected override void ProcessCards(string data){
+
+			var cardList = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (data).SearchModel.Results;
+			Cards = new List<UserCard> ();
+			Cards.AddRange(cardList.Select (c => new UserCard (c)));
+
+			var src = ConfigureTableSourceEventHandlers(Cards);
+			src.NoCardsMessage = NO_CARDS;
+			tblEventCards.Source = src;
+			tblEventCards.AllowsSelection = true;
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			if (SelectedTag != null) {
+				GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Event - " + SelectedTag.Description);
+			}
+			base.ViewDidAppear (animated);
+		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
-			// Perform any additional setup after loading the view, typically from a nib.
+
+			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
+
+			var fullFilePath = Path.Combine (documentsPath, string.Format(Resources.EVENT_CARDS_FILE, SelectedTag.Text));
+			if (File.Exists (fullFilePath)) {
+				LoadCardsFromFile (fullFilePath);
+			}
 		}
 	}
 }

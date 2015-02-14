@@ -8,6 +8,19 @@ namespace Busidex.Mobile.Models
 		public UserCard ()
 		{
 		}
+
+		public UserCard(Card card){
+			UserCardId = 0;
+			CardId = card.CardId;
+			UserId = 0;
+			OwnerId = card.OwnerId;
+			Card = card;
+			Created = card.Created;
+			Deleted = card.Deleted;
+			Notes = string.Empty;
+			ExistsInMyBusidex = card.ExistsInMyBusidex;
+		}
+
 		public long UserCardId{ get; set; }
 		public long CardId{ get; set; }
 		public long UserId{ get; set; }

@@ -34,8 +34,8 @@ namespace Busidex.Presentation.iOS
 
 		public event ItemSelected OnItemSelected;
 
-		protected void SelectItem(int idx){
-			SelectedEvent = EventList [idx];
+		protected void SelectItem(EventTag tag){
+			SelectedEvent = tag;
 			if (OnItemSelected != null) {
 				OnItemSelected ();
 			}
@@ -64,7 +64,9 @@ namespace Busidex.Presentation.iOS
 			TagLabel.Font = UIFont.FromName ("Helvetica-Bold", 16f);
 			TagLabel.SetTitleColor (UIColor.Blue, UIControlState.Normal);
 			TagLabel.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-
+			TagLabel.TouchUpInside += delegate {
+				SelectItem(tag);
+			};
 			cell.ContentView.AddSubview (TagLabel);
 		}
 
