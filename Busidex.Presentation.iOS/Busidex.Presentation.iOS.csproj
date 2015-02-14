@@ -125,7 +125,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ModelController.cs" />
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="BusidexDataCell.cs" />
     <Compile Include="DownloadProgress.cs" />
@@ -202,19 +201,20 @@
     <Compile Include="Controllers\SharedCardListController.designer.cs">
       <DependentUpon>SharedCardListController.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrgMembersController.cs" />
-    <Compile Include="OrgMembersController.designer.cs">
-      <DependentUpon>OrgMembersController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="vwEventList.cs" />
-    <Compile Include="vwEventList.designer.cs">
-      <DependentUpon>vwEventList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\EventListController.cs" />
     <Compile Include="Controllers\EventListController.designer.cs">
       <DependentUpon>EventListController.cs</DependentUpon>
     </Compile>
     <Compile Include="EventListTableSource.cs" />
+    <Compile Include="Controllers\OrgMembersController.cs" />
+    <Compile Include="Controllers\OrgMembersController.designer.cs">
+      <DependentUpon>OrgMembersController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ModelController.cs" />
+    <Compile Include="Controllers\EventCardsController.cs" />
+    <Compile Include="Controllers\EventCardsController.designer.cs">
+      <DependentUpon>EventCardsController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -235,6 +235,7 @@
     <InterfaceDefinition Include="Controllers\SharedCardListController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\EventListController.xib" />
+    <InterfaceDefinition Include="Controllers\EventCardsController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

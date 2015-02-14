@@ -7,5 +7,6 @@ namespace Busidex.Mobile.Models
 	{
 		public bool Success { get; set; }
 		public List<EventTag> Model { get; set; }
+		public DateTime LastRefresh { get; set; }
 	}
 }

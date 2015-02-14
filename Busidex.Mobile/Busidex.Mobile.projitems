@@ -60,6 +60,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\CardDetailResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventListResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventSearchResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

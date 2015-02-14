@@ -232,9 +232,9 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		static void SetRefreshCookie(){
+		static void SetRefreshCookie(string name){
 			var nCookie = new System.Net.Cookie();
-			nCookie.Name = Resources.BUSIDEX_REFRESH_COOKIE_NAME;
+			nCookie.Name = name;
 			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1, DateTimeKind.Local).AddDays(1);
 
 			nCookie.Expires = expiration;
@@ -247,19 +247,19 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		static bool CheckRefreshCookie(){
+		static bool CheckRefreshCookie(string name){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.BUSIDEX_REFRESH_COOKIE_NAME);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == name);
 
 			if (cookie == null){
-				SetRefreshCookie ();
+				SetRefreshCookie (name);
 				return false;
 			}
 
 			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
 			if(expireDate < DateTime.Now) {
 
-				SetRefreshCookie ();
+				SetRefreshCookie (name);
 				return false;
 			}
 			return true;
@@ -269,7 +269,7 @@ namespace Busidex.Presentation.iOS
 
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie () && !force) {
+			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
 				GoToMyOrganizations ();
 			} else {
 				if (cookie != null) {
@@ -286,7 +286,7 @@ namespace Busidex.Presentation.iOS
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
 							Busidex.Mobile.Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
-							SetRefreshCookie();
+							SetRefreshCookie(Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
@@ -374,7 +374,7 @@ namespace Busidex.Presentation.iOS
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie() && !force) {
+			if (File.Exists (fullFilePath) && CheckRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
@@ -391,7 +391,7 @@ namespace Busidex.Presentation.iOS
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
 						    Busidex.Mobile.Utils.SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
-							SetRefreshCookie();
+							SetRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 							var cards = new List<UserCard> ();
 							var idx = 0;
@@ -444,20 +444,24 @@ namespace Busidex.Presentation.iOS
 		void LoadEventList(bool force = false){
 			var cookie = GetAuthCookie ();
 
-			try{
-				var controller = new Busidex.Mobile.SearchController ();
-				var eventListResponse = controller.GetEventTags (cookie.Value);
-				if(!string.IsNullOrEmpty(eventListResponse)){
+			var fullFilePath = Path.Combine (documentsPath, Resources.EVENT_LIST_FILE);
+			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
+				GoToEvents ();
+			} else {
+				try {
+					var controller = new Busidex.Mobile.SearchController ();
+					var eventListResponse = controller.GetEventTags (cookie.Value);
+					if (!string.IsNullOrEmpty (eventListResponse)) {
 
-					Busidex.Mobile.Utils.SaveResponse(eventListResponse, Resources.EVENT_LIST_FILE);
+						Busidex.Mobile.Utils.SaveResponse (eventListResponse, Resources.EVENT_LIST_FILE);
 
-					GoToEvents ();
+						SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+
+						GoToEvents ();
+					}
+				} catch (Exception ex) {
+
 				}
-
-
-			}
-			catch(Exception ex){
-
 			}
 		}
 
