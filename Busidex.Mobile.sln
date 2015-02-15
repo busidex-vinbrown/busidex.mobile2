@@ -155,7 +155,7 @@ Global
 		$19.Name = Constant Fields
 		$19.AffectedEntity = ConstantField
 		$19.VisibilityMask = Protected, Public
-		$19.NamingStyle = PascalCase
+		$19.NamingStyle = AllUpper
 		$19.IncludeInstanceMembers = True
 		$19.IncludeStaticEntities = True
 		$4.NamingRule = $20

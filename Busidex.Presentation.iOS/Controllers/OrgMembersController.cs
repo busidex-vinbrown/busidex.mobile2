@@ -134,7 +134,7 @@ namespace Busidex.Presentation.iOS
 
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new OrgMemberTableSource (data);
-			src.ShowNotes = OrganizationMemberMode == MemberMode.Referrals;
+			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No members have been loaded for this organization";
 			src.CardSelected += delegate {
@@ -292,11 +292,17 @@ namespace Busidex.Presentation.iOS
 			ConfigureSearchBar ();
 
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
+			var width = UIScreen.MainScreen.Bounds.Width;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;
-			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
+			txtSearch.Frame = new CoreGraphics.CGRect (0, height, width, 52);
 
 			height += txtSearch.Frame.Size.Height;
-			imgLogo.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 57);
+			imgLogo.Frame = new CoreGraphics.CGRect (0, height, width, 57);
+
+			var top = height;
+			height = UIScreen.MainScreen.Bounds.Height - top;
+
+			tblMembers.Frame = new CoreGraphics.CGRect (0, top, width, height);
 		}
 	}
 }

@@ -74,7 +74,7 @@ namespace Busidex.Presentation.iOS
 			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
 			if (!string.IsNullOrEmpty (org.LogoFileName)) {
-				var frame = new RectangleF (10f, 10f, 220f, 80f);
+				var frame = new CoreGraphics.CGRect (10f, 10f, UIScreen.MainScreen.Bounds.Width - 80f, 80f);
 				var imageFile = fileName + "." + org.LogoType;
 
 				var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIImageView;
