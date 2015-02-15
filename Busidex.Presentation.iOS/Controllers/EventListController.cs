@@ -1,12 +1,13 @@
-﻿
-using System;
+﻿using System;
+using System.Linq;
 using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
-using Busidex.Mobile;
 using System.Collections.Generic;
-using GoogleAnalytics.iOS;
 using System.IO;
+using System.Threading.Tasks;
+using Busidex.Mobile;
+using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
@@ -117,30 +118,87 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		void LoadEvent(EventTag item){
+		async Task<bool> LoadEvent(EventTag tag){
 
 			var cookie = GetAuthCookie ();
 
-			try{
-				string fileName = string.Format(Resources.EVENT_CARDS_FILE, item.Text);
+			try {
+				string fileName = string.Format(Resources.EVENT_CARDS_FILE, tag.Text);
 				var fullFilePath = Path.Combine (documentsPath, fileName);
-				if (File.Exists (fullFilePath) && CheckEventSearchRefreshDate(item)) {
-					GoToEvent(item);
+				if (File.Exists (fullFilePath) && CheckEventSearchRefreshDate(tag)) {
+					GoToEvent(tag);
 				} else {
-					var controller = new Busidex.Mobile.SearchController ();
-					controller.SearchBySystemTag (item.Text, cookie.Value).ContinueWith(eventSearchResponse => {
-						if(!string.IsNullOrEmpty(eventSearchResponse.Result)){
+//					var controller = new Busidex.Mobile.SearchController ();
+//					controller.SearchBySystemTag (item.Text, cookie.Value).ContinueWith(eventSearchResponse => {
+//						if(!string.IsNullOrEmpty(eventSearchResponse.Result)){
+//
+//							Busidex.Mobile.Utils.SaveResponse(eventSearchResponse.Result, fileName);
+//
+//							InvokeOnMainThread (() => GoToEvent (item));
+//						}
+//					});
+					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+					overlay.MessageText = tag.Description;
 
-							Busidex.Mobile.Utils.SaveResponse(eventSearchResponse.Result, fileName);
+					View.AddSubview (overlay);
 
-							InvokeOnMainThread (() => GoToEvent (item));
+					var ctrl = new Busidex.Mobile.SearchController ();
+					await ctrl.SearchBySystemTag (tag.Text, cookie.Value).ContinueWith(async r => {
+
+						if(!string.IsNullOrEmpty(r.Result)){
+							EventSearchResponse eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (r.Result);
+
+							var ownedCards = eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList(); 
+
+							Busidex.Mobile.Utils.SaveResponse(r.Result, fileName);
+							SetEventCardRefreshCookie(eventSearchResponse, tag);
+
+							var idx = 0;
+							InvokeOnMainThread (() =>{
+								overlay.TotalItems = ownedCards.Count;
+								overlay.UpdateProgress (idx);
+							});
+
+
+							foreach (var card in ownedCards) {
+								if (card != null) {
+
+									var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
+									var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
+									var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+									var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+
+									if (!File.Exists (documentsPath + "/" + fName)){// || force) {
+										await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+											InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
+										});
+									} else{
+										InvokeOnMainThread (() => overlay.UpdateProgress (idx));
+									}
+
+									if ((!File.Exists (documentsPath + "/" + bName)/* || force*/) && card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
+										await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+										});
+									}
+									idx++;
+								}
+							}
+
+							InvokeOnMainThread (() => {
+								overlay.Hide();
+								GoToEvent (tag);
+							});
+
 						}
 					});
 				}
+				
 			}
 			catch(Exception ex){
 
 			}
+
+			return true;
 		}
 
 		EventListTableSource ConfigureTableSourceEventHandlers(List<EventTag> data){

@@ -106,10 +106,8 @@ namespace Busidex.Presentation.iOS
 			LoadMyBusidexAsync (true);
 			LoadMyOrganizationsAsync (true);
 			LoadEventList (true);
-		}
-
-		void SetNotificationUI(){
-
+			GetNotifications ();
+			ConfigureToolbarItems ();
 		}
 
 		void ConfigureToolbarItems(){
@@ -425,7 +423,9 @@ namespace Busidex.Presentation.iOS
 
 						SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
-						GoToEvents ();
+						if(!force){
+							GoToEvents ();
+						}
 					}
 				} catch (Exception ex) {
 

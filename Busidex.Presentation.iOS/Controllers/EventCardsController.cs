@@ -28,19 +28,16 @@ namespace Busidex.Presentation.iOS
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
 
-			//Cards = Cards ?? new List<UserCard> ();
+			FilterResults.AddRange (
+				Cards.Where (c => 
+					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant ().Contains (loweredFilter)) ||
+					(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter))) ||
+					(c.Card.Tags != null && c.Card.Tags.Any(t => t.Text.ToLowerInvariant().Contains(loweredFilter)))
+				));
 
-			if (Cards != null) {
-				FilterResults.AddRange (
-					Cards.Where (c => 
-						(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant ().Contains (loweredFilter)) ||
-						(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant ().Contains (loweredFilter)) ||
-						(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant ().Contains (loweredFilter)) ||
-						(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant ().Contains (loweredFilter)) ||
-						(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter)))
-					));
-
-			}
 			TableSource src = ConfigureTableSourceEventHandlers(FilterResults);
 			src.IsFiltering = true;
 			tblEventCards.Source = src;
@@ -132,7 +129,7 @@ namespace Busidex.Presentation.iOS
 
 			var cardList = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (data).SearchModel.Results;
 			Cards = new List<UserCard> ();
-			Cards.AddRange(cardList.Select (c => new UserCard (c)));
+			Cards.AddRange(cardList.Where(c=>c.OwnerId.HasValue).Select (c => new UserCard (c)));
 
 			var src = ConfigureTableSourceEventHandlers(Cards);
 			src.NoCardsMessage = NO_CARDS;
@@ -152,7 +149,11 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
+			ConfigureSearchBar ();
+
 			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
+
+			this.Title = SelectedTag.Description;
 
 			var fullFilePath = Path.Combine (documentsPath, string.Format(Resources.EVENT_CARDS_FILE, SelectedTag.Text));
 			if (File.Exists (fullFilePath)) {
