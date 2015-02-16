@@ -128,15 +128,6 @@ namespace Busidex.Presentation.iOS
 				if (File.Exists (fullFilePath) && CheckEventSearchRefreshDate(tag)) {
 					GoToEvent(tag);
 				} else {
-//					var controller = new Busidex.Mobile.SearchController ();
-//					controller.SearchBySystemTag (item.Text, cookie.Value).ContinueWith(eventSearchResponse => {
-//						if(!string.IsNullOrEmpty(eventSearchResponse.Result)){
-//
-//							Busidex.Mobile.Utils.SaveResponse(eventSearchResponse.Result, fileName);
-//
-//							InvokeOnMainThread (() => GoToEvent (item));
-//						}
-//					});
 					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 					overlay.MessageText = tag.Description;
 

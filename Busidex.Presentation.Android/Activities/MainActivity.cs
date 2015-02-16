@@ -27,10 +27,12 @@ namespace Busidex.Presentation.Android
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
 			var btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
+			var btnEvents = FindViewById<Button> (Resource.Id.btnEvents);
 
 			var imgSearchIcon = FindViewById<ImageView> (Resource.Id.imgSearchIcon);
 			var imgBusidexIcon = FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
 			var imgOrgIcon = FindViewById<ImageView> (Resource.Id.imgOrgIcon);
+			var imgEventIcon = FindViewById<ImageView> (Resource.Id.imgEventIcon);
 
 			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
 			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
@@ -65,6 +67,16 @@ namespace Busidex.Presentation.Android
 			imgOrgIcon.Touch += delegate {
 				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyOrganizationsAsync();
+			};
+
+			imgEventIcon.Touch += delegate {
+				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				LoadEventList();
+			};
+
+			btnEvents.Touch += delegate {
+				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				LoadEventList();
 			};
 
 			btnLogout.Touch += delegate {
@@ -115,6 +127,7 @@ namespace Busidex.Presentation.Android
 			const bool FORCE = true;
 			LoadMyBusidexAsync(FORCE);
 			LoadMyOrganizationsAsync(FORCE);
+			LoadEventList (FORCE);
 			var notificationCount = GetNotifications();
 			if(notificationCount > 0){
 				var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
@@ -140,6 +153,10 @@ namespace Busidex.Presentation.Android
 			Redirect(new Intent(this, typeof(SharedCardsActivity)));
 		}
 
+		void GoToEventList(){
+			Redirect(new Intent(this, typeof(EventListActivity)));
+		}
+
 		int GetNotifications(){
 
 			var ctrl = new SharedCardController ();
@@ -159,10 +176,7 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			if(sharedCards != null){
-				return sharedCards.SharedCards.Count;
-			}
-			return 0;
+			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
 		}
 
 		async Task<bool> LoadMyOrganizationsAsync(bool force = false){
@@ -356,6 +370,35 @@ namespace Busidex.Presentation.Android
 				}
 
 			}
+			return true;
+		}
+
+		async Task<bool> LoadEventList(bool force = false){
+
+			var cookie = GetAuthCookie ();
+
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+			if (File.Exists (fullFilePath) && CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
+				GoToEventList ();
+			} else {
+				try {
+					var controller = new SearchController ();
+					var eventListResponse = controller.GetEventTags (cookie);
+					if (!string.IsNullOrEmpty (eventListResponse)) {
+
+						Utils.SaveResponse (eventListResponse, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+
+						SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+
+						if(!force){
+							GoToEventList ();
+						}
+					}
+				} catch (Exception ex) {
+
+				}
+			}
+
 			return true;
 		}
 	}

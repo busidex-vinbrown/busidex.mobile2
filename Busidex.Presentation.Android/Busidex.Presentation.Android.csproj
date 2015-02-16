@@ -98,6 +98,9 @@
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="JavaHolder.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
+    <Compile Include="Activities\EventListActivity.cs" />
+    <Compile Include="Activities\EventCardsActivity.cs" />
+    <Compile Include="Adapters\EventListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -156,6 +159,10 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable\splash2.png" />
     <AndroidResource Include="Resources\menu\ActionBarMenu.xml" />
+    <AndroidResource Include="Resources\drawable\event.png" />
+    <AndroidResource Include="Resources\layout\EventListListItem.axml" />
+    <AndroidResource Include="Resources\layout\EventList.axml" />
+    <AndroidResource Include="Resources\layout\EventCards.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

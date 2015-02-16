@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System;
 using Android.Gms.Analytics;
 using System.Collections.Generic;
-using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
@@ -20,7 +19,7 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "BaseActivity")]			
 	public class BaseActivity : Activity
 	{
-		private static Tracker _tracker;
+		static Tracker _tracker;
 		protected static Tracker GATracker { 
 			get { 
 				return _tracker; 
@@ -78,7 +77,7 @@ namespace Busidex.Presentation.Android
 			if(account == null){
 				return null;
 			}
-			var cookies = account.Cookies.GetCookies(new System.Uri(Busidex.Mobile.Resources.COOKIE_URI));
+			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
 			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
 			return cookie.Value;
 		}
@@ -90,13 +89,13 @@ namespace Busidex.Presentation.Android
 
 		protected void SetAuthCookie(long userId, int expires = 1){
 
-			var cookieVal = Busidex.Mobile.Utils.EncodeUserId (userId);
+			var cookieVal = Utils.EncodeUserId (userId);
 			var cookie = new System.Net.Cookie(Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
-			cookie.Expires = System.DateTime.Now.AddYears (expires);
+			cookie.Expires = DateTime.Now.AddYears (expires);
 			cookie.Value = Utils.EncodeUserId(userId);
 
 			var container = new System.Net.CookieContainer ();
-			container.SetCookies (new System.Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
+			container.SetCookies (new Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
 
 			var account = new Account (userId.ToString (), container);
 
@@ -107,9 +106,9 @@ namespace Busidex.Presentation.Android
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
-				var today = System.DateTime.Now;
+				var today = DateTime.Now;
 
-				var expireDate = new System.DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
+				var expireDate = new DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
 		
 				if(!account.Properties.ContainsKey(prop)){
 					account.Properties.Add (prop, expireDate.ToString ());
@@ -125,12 +124,12 @@ namespace Busidex.Presentation.Android
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
-				System.DateTime expireDate;
+				DateTime expireDate;
 
 				if(account.Properties.ContainsKey(prop) && 
-					System.DateTime.TryParse(account.Properties [prop], out expireDate)){
+					DateTime.TryParse(account.Properties [prop], out expireDate)){
 
-					return expireDate > System.DateTime.Now;
+					return expireDate > DateTime.Now;
 				}
 			}
 			return false;
@@ -278,7 +277,7 @@ namespace Busidex.Presentation.Android
 			var build2 = new Dictionary<string,string>();
 			foreach (var key in build.Keys)
 			{
-				build2.Add(key.ToString(), build[key].ToString());
+				build2.Add (key, build [key]);
 			}
 			GATracker.Send (build2);
 		}
@@ -292,7 +291,7 @@ namespace Busidex.Presentation.Android
 				var build2 = new Dictionary<string,string>();
 				foreach (var key in build.Keys)
 				{
-					build2.Add(key.ToString(), build[key]);
+					build2.Add (key, build [key]);
 				}
 				GATracker.Send(build2);
 			}catch{
@@ -340,7 +339,7 @@ namespace Busidex.Presentation.Android
 
 		protected void UpdateLoadingSpinner(decimal current, decimal total){
 			if (progressDialog != null) {
-				var progress = total == 0 ? 0 : (System.Math.Round (current / total, 2)) * 100;
+				var progress = total == 0 ? 0 : (Math.Round (current / total, 2)) * 100;
 				progressBarHandler.Post (() => {
 					progressDialog.Progress = (int)progress;
 				});
