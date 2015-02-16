@@ -48,7 +48,9 @@ namespace Busidex.Mobile
 		public const string GA_LABEL_MAP = "Map";
 		public const string GA_LABEL_ADD = "Added";
 		public const string GA_LABEL_REMOVED = "Removed";
-
+		public const string GA_LABEL_EVENT_LIST = "Event List";
+		public const string GA_LABEL_EVENT = "Event";
+		public const string GA_LABEL_EVENT_NAME = "Event: {0}";
 
 		public enum HttpActions{ GET, POST, PUT, DELETE };
 

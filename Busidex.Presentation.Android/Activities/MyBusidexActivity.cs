@@ -110,6 +110,8 @@ namespace Busidex.Presentation.Android
 			};
 
 			txtFilter.Iconified = false;
+			lstCards.RequestFocus (FocusSearchDirection.Down);
+			DismissKeyboard (txtFilter.WindowToken);
 
 			txtFilter.Touch += delegate {
 				txtFilter.Focusable = true;

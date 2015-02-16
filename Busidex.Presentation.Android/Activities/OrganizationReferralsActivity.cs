@@ -14,6 +14,7 @@ namespace Busidex.Presentation.Android
 	public class OrganizationReferralsActivity : BaseCardActivity
 	{
 		List<UserCard> Cards { get; set; }
+		static UserCardAdapter ReferralsAdapter { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -35,24 +36,46 @@ namespace Busidex.Presentation.Android
 			img.SetImageBitmap (bm);
 		}
 
+		static void DoFilter(string filter){
+			if(string.IsNullOrEmpty(filter)){
+				ReferralsAdapter.Filter.InvokeFilter ("");
+			}else{
+				ReferralsAdapter.Filter.InvokeFilter(filter);
+			}
+		}
 
 		protected override void ProcessFile(string data){
 
 			var orgMembersResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (data);
 
 			var lstOrganizationMembers = FindViewById<ListView> (Resource.Id.lstOrganizationMembers);
-			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, orgMembersResponse.Model);
+			ReferralsAdapter = new UserCardAdapter (this, Resource.Id.lstCards, orgMembersResponse.Model);
 
-			adapter.Redirect += ShowCard;
-			adapter.SendEmail += SendEmail;
-			adapter.OpenBrowser += OpenBrowser;
-			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			adapter.OpenMap += OpenMap;
+			ReferralsAdapter.Redirect += ShowCard;
+			ReferralsAdapter.SendEmail += SendEmail;
+			ReferralsAdapter.OpenBrowser += OpenBrowser;
+			ReferralsAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			ReferralsAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			ReferralsAdapter.OpenMap += OpenMap;
 
-			adapter.ShowNotes = true;
+			ReferralsAdapter.ShowNotes = false;
 
-			lstOrganizationMembers.Adapter = adapter;
+			lstOrganizationMembers.Adapter = ReferralsAdapter;
+
+			var txtSearchOrgMembers = FindViewById<SearchView> (Resource.Id.txtSearchOrgMembers);
+
+			txtSearchOrgMembers.QueryTextChange += delegate {
+				DoFilter(txtSearchOrgMembers.Query);
+			};
+
+			txtSearchOrgMembers.Iconified = false;
+			lstOrganizationMembers.RequestFocus (global::Android.Views.FocusSearchDirection.Down);
+			DismissKeyboard (txtSearchOrgMembers.WindowToken);
+
+			txtSearchOrgMembers.Touch += delegate {
+				txtSearchOrgMembers.Focusable = true;
+				txtSearchOrgMembers.RequestFocus();
+			};
 		}
 	}
 }

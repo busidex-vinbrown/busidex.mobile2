@@ -77,7 +77,7 @@ namespace Busidex.Presentation.Android
 			MembersAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 			MembersAdapter.OpenMap += OpenMap;
 
-			MembersAdapter.ShowNotes = true;
+			MembersAdapter.ShowNotes = false;
 
 			lstOrganizationMembers.Adapter = MembersAdapter;
 
@@ -86,6 +86,8 @@ namespace Busidex.Presentation.Android
 			};
 
 			txtSearchOrgMembers.Iconified = false;
+			lstOrganizationMembers.RequestFocus (global::Android.Views.FocusSearchDirection.Down);
+			DismissKeyboard (txtSearchOrgMembers.WindowToken);
 
 			txtSearchOrgMembers.Touch += delegate {
 				txtSearchOrgMembers.Focusable = true;

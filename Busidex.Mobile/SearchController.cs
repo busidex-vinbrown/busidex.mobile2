@@ -36,7 +36,7 @@ namespace Busidex.Mobile
 		}
 
 		public async Task<string> SearchBySystemTag(string tag, string userToken){
-			string url = Resources.BASE_API_URL + "search/SystemTagSearch?systag=" + tag;
+			string url = Resources.BASE_API_URL + "search/SystemTagSearch?systag=" + tag + "&ownedOnly=true";
 			return await MakeRequestAsync (url, "POST", userToken);
 		}
 

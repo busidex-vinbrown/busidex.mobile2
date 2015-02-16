@@ -28,6 +28,9 @@ namespace Busidex.Presentation.Android
 
 			SetContentView (Resource.Layout.EventList);
 
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, 0);
+
+
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 			LoadFromFile (fullFilePath);
 		}
@@ -82,12 +85,7 @@ namespace Busidex.Presentation.Android
 
 			eventListAdapter = new EventListAdapter (this, Resource.Id.lstCards, Tags);
 
-//			var lblNoCardsMessage = FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
-//			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
-//
-//			lblNoCardsMessage.Visibility = Tags.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-
-			eventListAdapter.RedirectToEventCards += GoToEvent;
+			eventListAdapter.RedirectToEventCards += LoadEvent;
 
 			lstEvents.Adapter = eventListAdapter;
 		}
@@ -109,9 +107,14 @@ namespace Busidex.Presentation.Android
 
 		void GoToEvent(EventTag tag){
 			SelectedEvent = tag;
-			Redirect(new Intent(this, typeof(EventCardsActivity)));
+			var eventCardsIntent = new Intent (this, typeof(EventCardsActivity));
+
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(tag);
+			eventCardsIntent.PutExtra ("Event", data);
+			Redirect(eventCardsIntent);
 		}
 
+		// need this wrapper because a delegate can't be Task
 		void LoadEvent(EventTag tag){
 			LoadEventAsync (tag);
 		}
@@ -140,7 +143,7 @@ namespace Busidex.Presentation.Android
 							SetEventCardRefreshCookie(eventSearchResponse, tag);
 
 							var idx = 0;
-							var total = eventSearchResponse.SearchModel.Results.Count;
+							var total = ownedCards.Count;
 							RunOnUiThread (() => {
 								HideLoadingSpinner();
 
