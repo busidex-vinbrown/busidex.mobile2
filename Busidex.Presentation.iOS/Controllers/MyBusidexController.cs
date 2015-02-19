@@ -190,7 +190,6 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
-
 		}
 
 		public void LoadMyBusidex(){

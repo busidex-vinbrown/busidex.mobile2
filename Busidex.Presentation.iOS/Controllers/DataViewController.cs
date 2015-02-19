@@ -150,9 +150,13 @@ namespace Busidex.Presentation.iOS
 					Width = 10
 				},
 				new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
-					var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
-					if (settingsController != null && NavigationController.ChildViewControllers.Count (c => c is SettingsController) == 0) {
-						NavigationController.PushViewController (settingsController, true);
+					try{
+						var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+						if (settingsController != null /* && NavigationController.ChildViewControllers.Count (c => c is SettingsController) == 0*/) {
+							NavigationController.PushViewController (settingsController, true);
+						}
+					}catch(Exception ex){
+
 					}
 				})
 			}, true);
@@ -191,12 +195,22 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		void ClearSettings(){
+
+			var user = NSUserDefaults.StandardUserDefaults;
+			user.SetString (string.Empty, Resources.USER_SETTING_USERNAME);
+			user.SetString (string.Empty, Resources.USER_SETTING_PASSWORD);
+			user.SetString (string.Empty, Resources.USER_SETTING_EMAIL);
+			user.Synchronize ();
+		}
+
 		void LogOut(){
 
 			ShowAlert ("Logout", "Sign out of Busidex?", "Ok", "Cancel").ContinueWith (button => {
 
 				if(button.Result == 0){
 					InvokeOnMainThread( () => {
+						ClearSettings ();
 						RemoveAuthCookie ();
 						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
 

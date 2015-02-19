@@ -139,20 +139,26 @@ namespace Busidex.Presentation.iOS
 			if(cookie != null){
 				token = cookie.Value;
 
-
 				user.StringForKey (Resources.USER_SETTING_USERNAME);
 				string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
 				string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
 				if(!oldPassword.Equals(newPassword)){
-					var passwordResponse = Busidex.Mobile.SettingsController.ChangePassword(oldPassword, newPassword, token);
-					var passwordResult = passwordResponse.Result;
-					SetPasswordChangedResult(newPassword, passwordResult, ref user);
+					Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
+
+						InvokeOnMainThread( ()=> {
+							var passwordResult = passwordResponse.Result;
+							SetPasswordChangedResult(newPassword, passwordResult, ref user);
+						});
+					});
 				}
 				if(!oldEmail.Equals(newEmail)){
-					var emailResponse = Busidex.Mobile.SettingsController.ChangeEmail(newEmail, token);
-					var emailResult = emailResponse.Result;
-					SetEmailChangedResult(newEmail, emailResult, ref user);
+					Busidex.Mobile.SettingsController.ChangeEmail (newEmail, token).ContinueWith (emailResponse => {
+						InvokeOnMainThread( ()=> {
+							var emailResult = emailResponse.Result;
+							SetEmailChangedResult(newEmail, emailResult, ref user);
+						});
+					});
 				}
 			}else{
 				token = Guid.NewGuid ().ToString ();
@@ -160,6 +166,21 @@ namespace Busidex.Presentation.iOS
 
 				SetCheckAccountResult (newEmail, newPassword, response, ref user);
 			}
+		}
+
+		string UpdateUserEmailSetting(NSUserDefaults user){
+			string email = user.StringForKey(Resources.USER_SETTING_EMAIL);
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
+			if(cookie != null){
+				var busidexAccountResponse = AccountController.GetAccount (cookie.Value);
+				var busidexAccount = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (busidexAccountResponse);
+				if(busidexAccount != null){
+					user.SetString (busidexAccount.Email, Resources.USER_SETTING_EMAIL);
+					user.Synchronize ();
+					email = busidexAccount.Email;
+				}
+			}
+			return email;
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -174,11 +195,14 @@ namespace Busidex.Presentation.iOS
 					, true);
 			}
 
+
 			var user = NSUserDefaults.StandardUserDefaults;
 			user.StringForKey (Resources.USER_SETTING_USERNAME);
 			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
 			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
-
+			if(oldEmail.IndexOf("@") < 0){
+				oldEmail = UpdateUserEmailSetting (user);
+			}
 			txtPassword.Text = oldPassword;
 			txtEmail.Text = oldEmail;
 		}

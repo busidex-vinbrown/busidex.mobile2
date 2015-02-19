@@ -137,6 +137,14 @@ namespace Busidex.Presentation.iOS
 			tblEventCards.AllowsSelection = true;
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
+			}
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			if (SelectedTag != null) {

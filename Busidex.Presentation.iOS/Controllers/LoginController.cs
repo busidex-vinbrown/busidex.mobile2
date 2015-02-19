@@ -21,6 +21,16 @@ namespace Busidex.Presentation.iOS
 
 		static long UserId{ get; set; }
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.Title = "Login";
+				NavigationController.SetNavigationBarHidden (false, true);
+				NavigationController.SetToolbarHidden (true, false);
+			}
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Login");

@@ -1,1 +1,1 @@
-update for iPad layout
+fix missing back button in toolbar after viewing card detail from events
