@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "EventListActivity")]			
+	[Activity (Label = "Busidex Events")]			
 	public class EventListActivity : BaseActivity
 	{
 		static EventListAdapter eventListAdapter { get; set; }
@@ -59,10 +59,12 @@ namespace Busidex.Presentation.Android
 			var eventCardsFilePath = Path.Combine(Busidex.Mobile.Resources.DocumentsPath, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, tag.Text));
 			if(File.Exists(eventCardsFilePath)){
 				using(var eventCardsFile = File.OpenText (eventCardsFilePath)){
-					var responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (eventCardsFile.ReadToEnd());
-					return responseObject;
+					string json = eventCardsFile.ReadToEnd ();
+					if(!string.IsNullOrEmpty(json)){
+						var responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (json);
+						return responseObject;
+					}
 				}
-
 			}
 			return null;
 		}
