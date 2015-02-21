@@ -57,6 +57,21 @@ namespace Busidex.Presentation.Android
 			lblShareError.Visibility = imgCheckShared.Visibility = global::Android.Views.ViewStates.Invisible;
 		}
 
+		void UpdateDisplayName(string token){
+
+			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
+
+			var displayName = txtShareDisplayName.Text;
+//			var user = NSUserDefaults.StandardUserDefaults;
+//			var savedDisplayName = user.StringForKey (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+//
+//			if(!displayName.Equals(savedDisplayName)){
+//				AccountController.UpdateDisplayName (displayName, token);
+//				user.SetString (displayName, Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+//				user.Synchronize ();
+//			}
+		}
+
 		void ShareCard(){
 
 			var token = GetAuthCookie ();
