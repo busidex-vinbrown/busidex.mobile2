@@ -32,6 +32,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtDisplayName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtEmail { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -51,6 +55,10 @@ namespace Busidex.Presentation.iOS
 			if (ShareCardView != null) {
 				ShareCardView.Dispose ();
 				ShareCardView = null;
+			}
+			if (txtDisplayName != null) {
+				txtDisplayName.Dispose ();
+				txtDisplayName = null;
 			}
 			if (txtEmail != null) {
 				txtEmail.Dispose ();

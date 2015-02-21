@@ -52,15 +52,41 @@ namespace Busidex.Presentation.iOS
 			imgCardShared.Hidden = true;
 		}
 
+		void UpdateDisplayName(string token){
+
+			var displayName = txtDisplayName.Text;
+			var user = NSUserDefaults.StandardUserDefaults;
+			var savedDisplayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+
+			if(!displayName.Equals(savedDisplayName)){
+				AccountController.UpdateDisplayName (displayName, token);
+				user.SetString (displayName, Resources.USER_SETTING_DISPLAYNAME);
+				user.Synchronize ();
+			}
+		}
+
 		public void ShareCard(){
 
-			if(string.IsNullOrEmpty(txtEmail.Text)){
+			if(string.IsNullOrEmpty(txtDisplayName.Text)){
+				ShowAlert ("Missing Information", "Please enter your display name", "Ok");
+				txtDisplayName.BecomeFirstResponder ();
 				return;
 			}
 
-			lblError.Hidden = true;
+			if(string.IsNullOrEmpty(txtEmail.Text)){
+				ShowAlert ("Missing Information", "Please enter an email address", "Ok");
+				txtEmail.BecomeFirstResponder ();
+				return;
+			}
 
 			var cookie = GetAuthCookie ();
+			if(cookie == null){
+				return;
+			}
+
+			UpdateDisplayName (cookie.Value);
+
+			lblError.Hidden = true;
 
 			var controller = new Busidex.Mobile.SharedCardController ();
 			var response = controller.ShareCard (UserCard.Card, txtEmail.Text, cookie.Value);
@@ -109,6 +135,10 @@ namespace Busidex.Presentation.iOS
 
 			lblError.Hidden = true;
 			imgCardShared.Hidden = true;
+
+			var user = NSUserDefaults.StandardUserDefaults;
+			var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+			txtDisplayName.Text = displayName;
 
 			LoadCard ();
 

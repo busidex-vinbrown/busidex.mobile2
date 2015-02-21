@@ -11,6 +11,7 @@ namespace Busidex.Mobile
 		public const string EVENT_LIST_REFRESH_COOKIE_NAME = "EventListRefresh";
 		public const string EVENT_CARDS_REFRESH_COOKIE_NAME = "EventCards{0}";
 
+		public const string USER_SETTING_DISPLAYNAME = "DisplayName";
 		public const string USER_SETTING_USERNAME = "UserName";
 		public const string USER_SETTING_PASSWORD = "Password";
 		public const string USER_SETTING_EMAIL = "Email";

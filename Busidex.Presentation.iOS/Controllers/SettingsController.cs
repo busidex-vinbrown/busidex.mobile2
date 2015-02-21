@@ -168,7 +168,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		string UpdateUserEmailSetting(NSUserDefaults user){
+		static string UpdateUserEmailSetting(NSUserDefaults user){
 			string email = user.StringForKey(Resources.USER_SETTING_EMAIL);
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 			if(cookie != null){
@@ -197,10 +197,10 @@ namespace Busidex.Presentation.iOS
 
 
 			var user = NSUserDefaults.StandardUserDefaults;
-			user.StringForKey (Resources.USER_SETTING_USERNAME);
+
 			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
 			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
-			if(oldEmail.IndexOf("@") < 0){
+			if(oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0){
 				oldEmail = UpdateUserEmailSetting (user);
 			}
 			txtPassword.Text = oldPassword;
