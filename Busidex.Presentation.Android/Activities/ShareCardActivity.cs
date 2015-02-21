@@ -60,11 +60,12 @@ namespace Busidex.Presentation.Android
 		void ShareCard(){
 
 			var token = GetAuthCookie ();
-			var txtEmail = FindViewById<TextView> (Resource.Id.txtShareEmail);
+			var txtShareEmail = FindViewById<TextView> (Resource.Id.txtShareEmail);
+			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
 
 			HideFeedbackLabels ();
 
-			var email = txtEmail.Text;
+			var email = txtShareEmail.Text;
 
 			var ctrl = new SharedCardController();
 			var response = ctrl.ShareCard (UserCard.Card, email, token);

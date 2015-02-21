@@ -27,61 +27,50 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblShareTitle"
             android:id="@+id/lblShareTo"
             android:layout_marginLeft="40dp"
             android:textColor="@color/labelFontColor"
             android:inputType="none"
             android:layout_marginTop="15dp"
-            android:gravity="right" />
+            android:gravity="right"
+            android:layout_below="@id/lblShareTitle" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="265dp"
             android:layout_height="160dp"
-            android:layout_below="@id/txtShareDisplayName"
             android:id="@+id/imgShareHorizontal"
             android:layout_marginTop="45dp"
             android:background="@android:drawable/picture_frame"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtShareDisplayName" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="175dp"
             android:layout_height="240dp"
-            android:layout_below="@id/txtShareDisplayName"
             android:id="@+id/imgShareVertical"
             android:layout_marginTop="45dp"
             android:background="@android:drawable/picture_frame"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtShareDisplayName" />
         <ImageView
             android:src="@drawable/checkmark"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_toRightOf="@id/txtShareDisplayName"
             android:id="@+id/imgCheckShared"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:layout_marginLeft="10dp"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_toRightOf="@id/txtShareEmail" />
         <Button
             android:text="@string/Share_ShareCard"
             android:layout_width="70dp"
             android:layout_height="40dp"
-            android:layout_below="@id/lblShareFrom"
             android:id="@+id/btnShareCard"
             android:textColor="@color/buttonFontColor"
             android:background="@color/layoutBackground"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp" />
-        <TextView
-            android:text="@string/Share_Error"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/btnShareCard"
-            android:id="@+id/lblShareError"
-            android:layout_below="@id/txtShareDisplayName"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/holo_red_dark" />
+            android:layout_below="@id/lblShareFrom" />
         <EditText
             android:inputType="textEmailAddress"
             android:layout_width="205.5dp"
@@ -91,21 +80,21 @@
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/textInputColor"
             android:hint="Email Address"
-            android:layout_toRightOf="@id/lblShareFrom"
-            android:layout_below="@+id/lblShareTitle"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/lblShareTo"
+            android:layout_below="@id/lblShareTitle" />
         <TextView
             android:text="From:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lblShareTo"
             android:id="@+id/lblShareFrom"
             android:layout_marginLeft="40dp"
             android:textColor="@color/labelFontColor"
             android:inputType="none"
             android:layout_marginTop="20dp"
-            android:gravity="right" />
+            android:gravity="right"
+            android:layout_below="@id/lblShareTo" />
         <EditText
             android:inputType="textEmailAddress"
             android:layout_width="206.1dp"
@@ -115,8 +104,19 @@
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/textInputColor"
             android:hint="Display Name"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/lblShareFrom"
-            android:layout_below="@+id/txtShareEmail"
-            android:layout_marginTop="5dp" />
+            android:layout_below="@id/txtShareEmail" />
+        <TextView
+            android:text="@string/Share_Error"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblShareError"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_toRightOf="@id/btnShareCard"
+            android:layout_below="@id/txtShareDisplayName" />
     </RelativeLayout>
 </LinearLayout>
