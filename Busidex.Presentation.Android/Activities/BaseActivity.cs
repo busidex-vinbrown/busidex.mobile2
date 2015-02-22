@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System;
 using Android.Gms.Analytics;
 using System.Collections.Generic;
+using Android.Preferences;
 
 namespace Busidex.Presentation.Android
 {
@@ -300,6 +301,26 @@ namespace Busidex.Presentation.Android
 		}
 		#endregion
 
+		#region Preferences
+		ISharedPreferences GetBusidexSharedPreferences(){
+			return Application.Context.GetSharedPreferences("Busidex", FileCreationMode.Private); 
+		}
+
+		protected void SaveStringPreference(string key, string value){
+
+			ISharedPreferences prefs = GetBusidexSharedPreferences ();
+			ISharedPreferencesEditor editor = prefs.Edit();
+			//editor.PutInt(("number_of_times_accessed", accessCount++);
+			editor.PutString(key, value);
+			editor.Apply();
+		}
+
+		protected string GetStringPreference(string key){
+
+			ISharedPreferences prefs = GetBusidexSharedPreferences ();
+			return prefs.GetString (key, string.Empty);
+		}
+		#endregion
 
 		#region Progress Bar
 		protected void ShowLoadingSpinner(string message = null, ProgressDialogStyle style = ProgressDialogStyle.Spinner, int max = 100){
@@ -352,6 +373,17 @@ namespace Busidex.Presentation.Android
 			}
 		}
 		#endregion
+
+		#region Alerts
+		protected void ShowAlert(string title, string message){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.SetTitle(title);
+			builder.SetMessage(message);
+			builder.SetCancelable(false);
+			builder.SetPositiveButton("OK", delegate { return; });
+			builder.Show();
+		}
+		#endregion 
 	}
 }
 

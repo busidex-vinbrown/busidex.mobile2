@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Widget;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
 using Android.Net;
 
 namespace Busidex.Presentation.Android
@@ -31,6 +32,11 @@ namespace Busidex.Presentation.Android
 		{
 			SetContentView (Resource.Layout.SharedCard);
 
+			var imgCardHorizontal = FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
+			var imgCardVertical = FindViewById<ImageView> (Resource.Id.imgShareVertical);
+
+			imgCardHorizontal.Visibility = imgCardVertical.Visibility = global::Android.Views.ViewStates.Invisible;
+
 			base.OnCreate (savedInstanceState);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
@@ -44,6 +50,12 @@ namespace Busidex.Presentation.Android
 			btnShareCard.Click += delegate {
 				ShareCard();
 			};
+
+			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
+			txtShareDisplayName.Text = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+
+
+
 //			Button saveButton = new Button (this);
 //			saveButton.SetTextColor (global::Android.Graphics.Color.ParseColor("#ff0582f1"));
 //			saveButton.SetText (Resource.String.Share_ShareCard);
@@ -62,14 +74,18 @@ namespace Busidex.Presentation.Android
 			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
 
 			var displayName = txtShareDisplayName.Text;
-//			var user = NSUserDefaults.StandardUserDefaults;
-//			var savedDisplayName = user.StringForKey (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
-//
-//			if(!displayName.Equals(savedDisplayName)){
-//				AccountController.UpdateDisplayName (displayName, token);
-//				user.SetString (displayName, Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
-//				user.Synchronize ();
-//			}
+			var savedDisplayName = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+
+			if(string.IsNullOrEmpty(savedDisplayName)){
+				var accountJSON = AccountController.GetAccount (token);
+				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
+				savedDisplayName = account.UserAccount.DisplayName;
+			}
+
+			if(!displayName.Equals(savedDisplayName)){
+				AccountController.UpdateDisplayName (displayName, token);
+				SaveStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME, displayName);
+			}
 		}
 
 		void ShareCard(){
@@ -81,6 +97,19 @@ namespace Busidex.Presentation.Android
 			HideFeedbackLabels ();
 
 			var email = txtShareEmail.Text;
+			var displayName = txtShareDisplayName.Text;
+
+			if(string.IsNullOrEmpty(email)){
+				ShowAlert("Missing Information", "Please enter an email address");
+				return;
+			}
+
+			if(string.IsNullOrEmpty(displayName)){
+				ShowAlert("Missing Information", "Please enter a display name");
+				return;
+			}
+
+			UpdateDisplayName (token);
 
 			var ctrl = new SharedCardController();
 			var response = ctrl.ShareCard (UserCard.Card, email, token);

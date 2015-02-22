@@ -1,7 +1,7 @@
 ﻿using System;
 using Busidex.Mobile.Models;
 
-namespace Busidex.Mobile
+namespace Busidex.Mobile.Models
 {
 	public class BusidexUser
 	{

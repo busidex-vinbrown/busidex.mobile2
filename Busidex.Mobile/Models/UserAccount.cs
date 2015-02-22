@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Busidex.Mobile
+namespace Busidex.Mobile.Models
 {
 	public class UserAccount
 	{
