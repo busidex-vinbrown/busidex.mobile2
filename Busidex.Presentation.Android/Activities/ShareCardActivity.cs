@@ -7,7 +7,7 @@ using Android.Net;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "ShareCardActivity")]			
+	[Activity (Label = "Share A Card")]			
 	public class ShareCardActivity : BaseCardActivity
 	{
 		TextView lblShareError;

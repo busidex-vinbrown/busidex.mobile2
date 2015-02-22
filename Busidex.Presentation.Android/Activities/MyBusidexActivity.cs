@@ -9,7 +9,6 @@ using System.IO;
 using System.Collections.Generic;
 using Android.Content;
 using Android.Views;
-using Android.Util;
 
 namespace Busidex.Presentation.Android
 {
@@ -20,21 +19,17 @@ namespace Busidex.Presentation.Android
 		static UserCardAdapter MyBusidexAdapter { get; set; }
 		static SearchView txtFilter { get; set; }
 
-		public override bool OnCreateOptionsMenu(IMenu menu) {
-			//MenuInflater.Inflate(Resource.Menu.ActionBarMenu, menu);
-			return base.OnCreateOptionsMenu(menu);
-		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
-			this.Finish();
+			Finish ();
 			return base.OnOptionsItemSelected(item);
 		}
 
 		void SetActionBarTabs(Context ctx){
-			this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-			var searchTab = this.ActionBar.NewTab ();
-			var myBusidexTab = this.ActionBar.NewTab ();
-			var myOrganizationTab = this.ActionBar.NewTab ();
+			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+			var searchTab = ActionBar.NewTab ();
+			var myBusidexTab = ActionBar.NewTab ();
+			var myOrganizationTab = ActionBar.NewTab ();
 
 			var searchView = new ImageView (ctx);
 			searchView.SetImageResource (Resource.Drawable.spotlight_icon);

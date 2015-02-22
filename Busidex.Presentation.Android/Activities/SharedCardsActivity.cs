@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "SharedCardsActivity")]			
+	[Activity (Label = "Shared Cards")]			
 	public class SharedCardsActivity : BaseActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

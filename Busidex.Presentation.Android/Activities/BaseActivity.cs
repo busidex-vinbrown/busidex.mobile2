@@ -149,6 +149,8 @@ namespace Busidex.Presentation.Android
 		protected void Redirect(Intent intent){
 
 			StartActivity(intent);
+			this.OverridePendingTransition(Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
+
 		}
 
 		protected void ShowCard(Intent intent){

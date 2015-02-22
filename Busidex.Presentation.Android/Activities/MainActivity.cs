@@ -39,61 +39,58 @@ namespace Busidex.Presentation.Android
 			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
 			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
 
-			btnSearch.Touch += delegate {
+			btnSearch.Click += delegate {
 				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
-			imgSearchIcon.Touch += delegate {
+			imgSearchIcon.Click += delegate {
 				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
-			btnMyBusidex.Touch += delegate {
+			btnMyBusidex.Click += delegate {
 				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyBusidexAsync();
 			};
 
-			imgBusidexIcon.Touch += delegate {
+			imgBusidexIcon.Click += delegate {
 				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyBusidexAsync();
 			};
 
-			btnMyOrganizations.Touch += delegate {
+			btnMyOrganizations.Click += delegate {
 				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyOrganizationsAsync();
 			};
 
-			imgOrgIcon.Touch += delegate {
+			imgOrgIcon.Click += delegate {
 				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadMyOrganizationsAsync();
 			};
 
-			imgEventIcon.Touch += delegate {
+			imgEventIcon.Click += delegate {
 				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadEventList();
 			};
 
-			btnEvents.Touch += delegate {
+			btnEvents.Click += delegate {
 				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 				LoadEventList();
 			};
 
-			btnLogout.Touch += delegate {
+			btnLogout.Click += delegate {
 				Logout();
 			};
 
-			btnSettings.Touch += delegate {
-				GoToMyProfile();
-			};
+			btnSettings.Click -= GoToMyProfile;
+			btnSettings.Click += GoToMyProfile;
 
-			btnSync.Touch += delegate {
-				Sync();
-			};
+			btnSync.Click -= Sync;
+			btnSync.Click += Sync;
 
-			btnSharedCardsNotification.Touch += delegate {
-				GoToSharedCards();
-			};
+			btnSharedCardsNotification.Click -= GoToSharedCards;
+			btnSharedCardsNotification.Click += GoToSharedCards;
 		}
 
 		void SetNotificationUI(){
@@ -123,7 +120,7 @@ namespace Busidex.Presentation.Android
 			Redirect (new Intent (this, typeof(StartupActivity)));
 		}
 
-		void Sync(){
+		void Sync(object sender, EventArgs args){
 			const bool FORCE = true;
 			LoadMyBusidexAsync(FORCE);
 			LoadMyOrganizationsAsync(FORCE);
@@ -137,7 +134,7 @@ namespace Busidex.Presentation.Android
 			}
 		}
 
-		void GoToMyProfile(){
+		void GoToMyProfile(object sender, EventArgs args){
 			Redirect(new Intent(this, typeof(ProfileActivity)));
 		}
 
@@ -149,7 +146,7 @@ namespace Busidex.Presentation.Android
 			Redirect(new Intent(this, typeof(MyBusidexActivity)));
 		}
 
-		void GoToSharedCards(){
+		void GoToSharedCards(object sender, EventArgs args){
 			Redirect(new Intent(this, typeof(SharedCardsActivity)));
 		}
 
