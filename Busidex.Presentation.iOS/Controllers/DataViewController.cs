@@ -198,6 +198,7 @@ namespace Busidex.Presentation.iOS
 		void ClearSettings(){
 
 			var user = NSUserDefaults.StandardUserDefaults;
+			user.SetString (string.Empty, Resources.USER_SETTING_DISPLAYNAME);
 			user.SetString (string.Empty, Resources.USER_SETTING_USERNAME);
 			user.SetString (string.Empty, Resources.USER_SETTING_PASSWORD);
 			user.SetString (string.Empty, Resources.USER_SETTING_EMAIL);

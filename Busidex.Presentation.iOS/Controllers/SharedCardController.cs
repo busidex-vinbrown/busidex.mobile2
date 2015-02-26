@@ -6,6 +6,9 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
 using GoogleAnalytics.iOS;
+using CoreAnimation;
+using System.Drawing;
+using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
@@ -46,6 +49,9 @@ namespace Busidex.Presentation.iOS
 					FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + userCard.Card.FrontFileName);
 					if (File.Exists (FrontFileName)) {
 						imgCard.Image = UIImage.FromFile (FrontFileName);
+						imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
+						//imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.LightGray.CGColor, 1f, 1.5f));
+						//imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.LightGray.CGColor, 2f));
 					}
 				}
 			}
@@ -99,6 +105,17 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
+			var layer = new CALayer ();
+			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
+			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
+			layer.ContentsGravity = CALayer.GravityResize;
+			layer.BorderWidth = borderWidth;
+			layer.BorderColor = color;
+
+			return layer;
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Share Card");
@@ -138,6 +155,12 @@ namespace Busidex.Presentation.iOS
 
 			var user = NSUserDefaults.StandardUserDefaults;
 			var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+			if(string.IsNullOrEmpty(displayName)){
+				var token = GetAuthCookie ().Value;
+				var accountResponse = AccountController.GetAccount (token);
+				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
+				displayName = account.UserAccount.DisplayName;
+			}
 			txtDisplayName.Text = displayName;
 
 			LoadCard ();
