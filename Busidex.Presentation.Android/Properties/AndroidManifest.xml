@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.1.9a" package="com.busidex" android:versionCode="518">
-	<uses-sdk android:targetSdkVersion="19" android:minSdkVersion="19" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.2" package="com.busidex" android:versionCode="519">
+	<uses-sdk android:targetSdkVersion="19" android:minSdkVersion="16" />
 	<application android:label="Busidex" android:icon="@drawable/icon">
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
