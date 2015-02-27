@@ -51,46 +51,51 @@ namespace Busidex.Presentation.iOS
 				} 
 			} 
 
-			btnLogin.TouchUpInside += (o,s) => {
+			btnLogin.TouchUpInside += (o, s) => DoLogin ();
+		}
 
-				try{
-					lblLoginResult.Text = string.Empty;
+		private void DoLogin(){
+			try {
+				lblLoginResult.Text = string.Empty;
 
-					loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-					View.Add (loadingOverlay);
+				loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				View.Add (loadingOverlay);
 
-					string username = txtUserName.Text;
-					string password = txtPassword.Text;
+				string username = txtUserName.Text;
+				string password = txtPassword.Text;
 
-					var response = Busidex.Mobile.LoginController.DoLogin(username, password);
+				var response = Busidex.Mobile.LoginController.DoLogin (username, password);
+				if (!string.IsNullOrEmpty (response) && !response.Contains ("404")) {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
 
 					UserId = loginResponse != null ? loginResponse.UserId : 0;
 
-					if(UserId > 0){
+					if (UserId > 0) {
 
-						SetAuthCookie(UserId);
+						SetAuthCookie (UserId);
 
 						var user = NSUserDefaults.StandardUserDefaults;
 
-						user.SetString(username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-						user.SetString(password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-						user.SetString(username, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
-						user.SetBool(true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
-						user.Synchronize();
+						user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+						user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+						user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+						user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
+						user.Synchronize ();
 
-						GoToHome();
-					}else{
-						lblLoginResult.Text = "Login Failed";
-						lblLoginResult.TextColor = UIColor.Red;
+						GoToHome ();
+						return;
 					}
-					loadingOverlay.Hide();
-				}catch(Exception ex){
-					ShowAlert("Login Error", "There was a problem logging in.", new string[]{"Ok"});
 				}
+				lblLoginResult.Text = "Login Failed";
+				lblLoginResult.TextColor = UIColor.Red;
 
-			};
-			// Perform any additional setup after loading the view, typically from a nib.
+			} catch (Exception ex) {
+				ShowAlert ("Login Error", "There was a problem logging in.", new string[]{ "Ok" });
+			} finally {
+				if (loadingOverlay != null) {
+					loadingOverlay.Hide ();
+				}
+			}
 		}
 
 		private void GoToHome ()
