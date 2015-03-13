@@ -42,18 +42,28 @@
         p1:background="@android:drawable/editbox_background"
         p1:layout_marginLeft="65dp"
         p1:textColor="@color/textInputColor" />
+    <TextView
+        p1:text="Login Failed"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/txtLoginFailed"
+        p1:background="#ffff4d4d"
+        p1:textColor="#ffffffff"
+        p1:gravity="center"
+        p1:layout_below="@id/txtPassword" />
     <Button
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:layout_below="@id/txtPassword"
         p1:id="@+id/btnLogin"
         p1:textColor="@color/buttonFontColor"
         p1:background="@color/layoutBackground"
-        p1:text="@string/Login_btnLogin" />
+        p1:text="@string/Login_btnLogin"
+        p1:layout_below="@id/txtLoginFailed" />
     <ImageView
         p1:src="@drawable/large_logo"
         p1:layout_width="match_parent"
         p1:layout_height="95.5dp"
-        p1:layout_below="@id/btnLogin"
-        p1:id="@+id/imgLogo" />
+        p1:id="@+id/imgLogo"
+        p1:layout_below="@id/btnLogin" />
 </RelativeLayout>
