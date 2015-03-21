@@ -1,4 +1,6 @@
-﻿
+﻿using Busidex.Mobile.Models;
+
+
 namespace Busidex.Mobile
 {
 	public class ActivityController : BaseController
@@ -6,11 +8,15 @@ namespace Busidex.Mobile
 
 		public static void SaveActivity(long eventSourceId, long cardId, string userToken){
 		
-			string data = @"{'CardId':'" + cardId + "','UserId':null, 'EventSourceId'" + eventSourceId + "'}";
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject (new ActivityDTO {
+				CardId = cardId,
+				EventSourceId = eventSourceId,
+				UserId = null
+			});
 
-			string url = Busidex.Mobile.Resources.BASE_API_URL + "Activity";
+			const string URL = Resources.BASE_API_URL + "Activity";
 
-			MakeRequestAsync (url, "POST", userToken, data).ContinueWith(r => {
+			MakeRequestAsync (URL, "POST", userToken, data).ContinueWith(r => {
 
 			});
 		}

@@ -200,7 +200,7 @@ namespace Busidex.Presentation.iOS
 
 			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
 			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
-			if(oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0){
+			if(oldEmail != null && oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0){
 				oldEmail = UpdateUserEmailSetting (user);
 			}
 			txtPassword.Text = oldPassword;
