@@ -205,6 +205,24 @@ namespace Busidex.Presentation.iOS
 			}
 			txtPassword.Text = oldPassword;
 			txtEmail.Text = oldEmail;
+
+			btnTerms.TouchUpInside += delegate {
+				showTerms();
+			};
+		}
+
+		void showTerms()
+		{
+			var termsController = Storyboard.InstantiateViewController ("TermsController") as TermsController;
+
+			if (termsController != null && NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0){
+				NavigationController.PushViewController (termsController, true);
+			}
+//			var sharedCardListController = Storyboard.InstantiateViewController ("SharedCardListController") as SharedCardListController;
+//
+//			if (sharedCardListController != null && NavigationController.ChildViewControllers.Count (c => c is SharedCardListController) == 0){
+//				NavigationController.PushViewController (sharedCardListController, true);
+//			}
 		}
 	}
 }

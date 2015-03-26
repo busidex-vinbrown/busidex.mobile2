@@ -18,6 +18,7 @@ namespace Busidex.Mobile
 		public const string USER_SETTING_AUTOSYNC = "AutoSync";
 		public const string USER_SETTING_USE_STAR_82 = "UseStar82";
 
+		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
 		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";

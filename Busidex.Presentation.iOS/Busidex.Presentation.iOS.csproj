@@ -215,6 +215,14 @@
     <Compile Include="Controllers\EventCardsController.designer.cs">
       <DependentUpon>EventCardsController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\TermsController.cs" />
+    <Compile Include="Controllers\TermsController.designer.cs">
+      <DependentUpon>TermsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonPanelController.cs" />
+    <Compile Include="ButtonPanelController.designer.cs">
+      <DependentUpon>ButtonPanelController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -236,6 +244,7 @@
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\EventListController.xib" />
     <InterfaceDefinition Include="Controllers\EventCardsController.xib" />
+    <InterfaceDefinition Include="Controllers\TermsController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
