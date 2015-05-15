@@ -16,7 +16,15 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnAcceptTerms { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnTerms { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView imgAccept { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -44,9 +52,17 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAcceptTerms != null) {
+				btnAcceptTerms.Dispose ();
+				btnAcceptTerms = null;
+			}
 			if (btnTerms != null) {
 				btnTerms.Dispose ();
 				btnTerms = null;
+			}
+			if (imgAccept != null) {
+				imgAccept.Dispose ();
+				imgAccept = null;
 			}
 			if (imgEmailSaved != null) {
 				imgEmailSaved.Dispose ();

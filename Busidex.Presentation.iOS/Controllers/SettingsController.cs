@@ -14,6 +14,9 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		bool termsAccepted = false;
+		const float TERMS_NOT_ACCEPTED_DISPLAY = .2f;
+		const float TERMS_ACCEPTED_DISPLAY = 1f;
 
 //		private void SetUserNameChangedResult(string username, string result, ref NSUserDefaults user){
 //			if (result.IndexOf ("400") >= 0) {
@@ -124,6 +127,14 @@ namespace Busidex.Presentation.iOS
 			txtPassword.ValueChanged += delegate {
 				HideStatusIndicators ();
 			};
+
+			btnAcceptTerms.TouchUpInside += delegate {
+				handleTermsClick();	
+			}; 
+
+			btnTerms.TouchUpInside += delegate {
+				showTerms();
+			};
 		}
 
 		void SaveSettings(){
@@ -161,10 +172,17 @@ namespace Busidex.Presentation.iOS
 					});
 				}
 			}else{
-				token = Guid.NewGuid ().ToString ();
-				var response = AccountController.CheckAccount (token, newEmail, newPassword);
-
-				SetCheckAccountResult (newEmail, newPassword, response, ref user);
+				if (termsAccepted) {
+					if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
+						ShowAlert ("Username and Password", "Please add your username and password to continue", "Ok");
+					} else {
+						token = Guid.NewGuid ().ToString ();
+						var response = AccountController.CheckAccount (token, newEmail, newPassword);
+						SetCheckAccountResult (newEmail, newPassword, response, ref user);
+					}
+				}else {
+					ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
+				}
 			}
 		}
 
@@ -206,9 +224,14 @@ namespace Busidex.Presentation.iOS
 			txtPassword.Text = oldPassword;
 			txtEmail.Text = oldEmail;
 
-			btnTerms.TouchUpInside += delegate {
-				showTerms();
-			};
+			imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
+
+
+		}
+
+		void handleTermsClick(){
+			termsAccepted = !termsAccepted;
+			imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
 		}
 
 		void showTerms()
@@ -218,11 +241,6 @@ namespace Busidex.Presentation.iOS
 			if (termsController != null && NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0){
 				NavigationController.PushViewController (termsController, true);
 			}
-//			var sharedCardListController = Storyboard.InstantiateViewController ("SharedCardListController") as SharedCardListController;
-//
-//			if (sharedCardListController != null && NavigationController.ChildViewControllers.Count (c => c is SharedCardListController) == 0){
-//				NavigationController.PushViewController (sharedCardListController, true);
-//			}
 		}
 	}
 }
