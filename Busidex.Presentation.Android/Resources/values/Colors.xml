@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
 	<color name="buttonFontColor">#ff0582f1</color>
+	<color name="buttonWhite">#ffffffff</color>
 	<color name="labelFontColor">#ff666666</color>
+	<color name="labelFontColorDark">#ff363636</color>
 	<color name="layoutBackground">#ffffffff</color>
 	<color name="listBackground">#ffd3d3d3</color>
 	<color name="primaryLabelColor">#ff000000</color>

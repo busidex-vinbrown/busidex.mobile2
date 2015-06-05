@@ -223,6 +223,7 @@
     <Compile Include="ButtonPanelController.designer.cs">
       <DependentUpon>ButtonPanelController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reachability.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -241,10 +242,10 @@
     <InterfaceDefinition Include="OrganizationStoryBoard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\SharedCardController.xib" />
     <InterfaceDefinition Include="Controllers\SharedCardListController.xib" />
-    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\EventListController.xib" />
     <InterfaceDefinition Include="Controllers\EventCardsController.xib" />
     <InterfaceDefinition Include="Controllers\TermsController.xib" />
+    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -312,6 +313,19 @@
     <BundleResource Include="Resources\delete.jpeg" />
     <BundleResource Include="Resources\event.jpg" />
     <BundleResource Include="Resources\event.png" />
+    <BundleResource Include="Resources\background_blur3.png" />
+    <BundleResource Include="Resources\logo3.png" />
+    <BundleResource Include="Resources\spotlight-icon2.png" />
+    <BundleResource Include="Resources\EventIcon.png" />
+    <BundleResource Include="Resources\MyBusidexIcon.png" />
+    <BundleResource Include="Resources\OrganizationsIcon.png" />
+    <BundleResource Include="Resources\SearchIcon.png" />
+    <BundleResource Include="Resources\Lato-Black.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\background_blur4.png" />
+    <BundleResource Include="Resources\background_blur5.png" />
+    <BundleResource Include="Resources\cards_back.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

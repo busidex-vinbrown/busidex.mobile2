@@ -79,7 +79,7 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			if(string.IsNullOrEmpty(txtEmail.Text)){
+			if(string.IsNullOrEmpty(txtEmail.Text) || txtEmail.Text.IndexOf("@") < 0){
 				ShowAlert ("Missing Information", "Please enter an email address", "Ok");
 				txtEmail.BecomeFirstResponder ();
 				return;

@@ -24,9 +24,9 @@ namespace Busidex.Presentation.iOS
 			//ProcessNotification (options);
 
 			// Register for Notifications
-			UIApplication.SharedApplication.RegisterForRemoteNotificationTypes (
-				UIRemoteNotificationType.Alert |
-				UIRemoteNotificationType.Badge );
+			//UIApplication.SharedApplication.RegisterForRemoteNotificationTypes (
+			//	UIRemoteNotificationType.Alert |
+			//	UIRemoteNotificationType.Badge );
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
 			GAI.SharedInstance.DispatchInterval = 20;
@@ -53,7 +53,7 @@ namespace Busidex.Presentation.iOS
 
 		#endregion
 
-		public override void RegisteredForRemoteNotifications (UIApplication application, NSData deviceToken)
+		/*public override void RegisteredForRemoteNotifications (UIApplication application, NSData deviceToken)
 		{
 			// Connection string from your azure dashboard
 			var cs = SBConnectionString.CreateListenAccess(
@@ -68,7 +68,7 @@ namespace Busidex.Presentation.iOS
 				else
 					Console.WriteLine("Success");
 			});
-		}
+		}*/
 
 		public override void ReceivedRemoteNotification (UIApplication application, NSDictionary userInfo)
 		{

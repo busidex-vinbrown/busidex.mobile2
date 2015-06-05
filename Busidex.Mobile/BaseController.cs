@@ -2,15 +2,23 @@
 using System.Net;
 using System.IO;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 
 namespace Busidex.Mobile
 {
 	public class BaseController
 	{
+		const string ERROR_MESSAGE = "Error";
 
 
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, string data = null){
 			var request = (HttpWebRequest)WebRequest.Create(url);
+			string response = string.Empty;
+
+//			if(!NetworkInterface.GetIsNetworkAvailable()){
+//				return ERROR_MESSAGE;
+//			}
+
 			request.Method = method;
 
 			request.Headers.Add ("X-Authorization-Token", token);
@@ -26,7 +34,7 @@ namespace Busidex.Mobile
 				requestWriter.Close();
 			}
 
-			string response = string.Empty;
+
 			try {
 				await request.GetResponseAsync().ContinueWith(async r => {
 					using (var webStream = r.Result.GetResponseStream()) {
@@ -49,7 +57,7 @@ namespace Busidex.Mobile
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				LoggingController.LogError (e, token);
-				response = "Error";
+				response = ERROR_MESSAGE;
 			}
 			return response;
 		}
@@ -58,6 +66,10 @@ namespace Busidex.Mobile
 			var request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = method;
 
+//			if(!NetworkInterface.GetIsNetworkAvailable()){
+//				return ERROR_MESSAGE;
+//			}
+				
 			if(data != null){
 				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
 				writer.Write (data);
@@ -90,13 +102,17 @@ namespace Busidex.Mobile
 				if(e.Status == WebExceptionStatus.ProtocolError){
 					response = e.Message;
 				}else{
-					throw new Exception (e.Message);
+					if (e.Message.Contains ("NameResolutionFailure")) {
+						response = ERROR_MESSAGE;
+					} else {
+						throw new Exception (e.Message);
+					}
 				}
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				LoggingController.LogError (e, token);
-				response = "Error";
+				response = ERROR_MESSAGE;
 			}
 			return response;
 		}

@@ -51,23 +51,42 @@ namespace Busidex.Presentation.iOS
 			 * the userId. Set the authentication cookie and continue.
 			 */
 
+			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = UIFont.FromName ("Lato-Black", 22f);
 
 			btnGoToSearch.TouchUpInside += delegate {
 				GoToSearch();
 			};
 
-			btnGoToMyBusidex.TouchUpInside += delegate {
-				LoadMyBusidexAsync();
+			btnGoToMyBusidex.TouchUpInside += async delegate {
+				var task = LoadMyBusidexAsync ();
+				if (await Task.WhenAny (task, Task.Delay (15000)) == task) {
+					await task;
+					if(!task.Result){
+						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+					}
+				} else {
+					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+				}
 			};
 
-			btnMyOrganizations.TouchUpInside += delegate {
-				LoadMyOrganizationsAsync();
+			btnMyOrganizations.TouchUpInside += async delegate {
+				
+				var task = LoadMyOrganizationsAsync ();
+				if (await Task.WhenAny (task, Task.Delay (15000)) == task) {
+					await task;
+					if(!task.Result){
+						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+					}
+				} else {
+					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+				}
 			};
 
 			btnEvents.TouchUpInside += delegate {
 				LoadEventList();
 			};
 		}
+
 
 		static string EncodeUserId(long userId){
 
@@ -81,10 +100,14 @@ namespace Busidex.Presentation.iOS
 			var ctrl = new Busidex.Mobile.SharedCardController ();
 			var cookie = GetAuthCookie ();
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
+			if(sharedCardsResponse.Equals("Error")){
+				return 0;
+			}
+
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
 			try{
-				Busidex.Mobile.Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+				Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
 			}catch{
 
 			}
@@ -93,7 +116,7 @@ namespace Busidex.Presentation.iOS
 				var fileName = card.Card.FrontFileName;
 				var fImagePath = Resources.CARD_PATH + fileName;
 				if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
-					Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
+					Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
 
 					});
 				}
@@ -195,7 +218,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void ClearSettings(){
+		static void ClearSettings(){
 
 			var user = NSUserDefaults.StandardUserDefaults;
 			user.SetString (string.Empty, Resources.USER_SETTING_DISPLAYNAME);
@@ -247,7 +270,7 @@ namespace Busidex.Presentation.iOS
 		}
 	
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
-
+			
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
@@ -266,14 +289,14 @@ namespace Busidex.Presentation.iOS
 
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
-							Busidex.Mobile.Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
+							Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
 							SetRefreshCookie(Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
 								if (!File.Exists (documentsPath + "/" + fileName)) {
-									await Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
+									await Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
 
 									});
 								} 
@@ -281,7 +304,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									Busidex.Mobile.Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -295,12 +318,12 @@ namespace Busidex.Presentation.iOS
 										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
 										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
 										if (!File.Exists (documentsPath + "/" + fName) || force) {
-											await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+											await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
 												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
 											});
 										}
 										if (!File.Exists (documentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+											await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
 
 											});
 										}
@@ -311,7 +334,7 @@ namespace Busidex.Presentation.iOS
 								await controller.GetOrganizationReferrals(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
 
 									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									Busidex.Mobile.Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
 
 									var idx = 0;
 									InvokeOnMainThread (() =>{
@@ -325,12 +348,12 @@ namespace Busidex.Presentation.iOS
 										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
 										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
 										if (!File.Exists (documentsPath + "/" + fName) || force) {
-											await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+											await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
 												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
 											});
 										}
 										if (!File.Exists (documentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+											await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
 
 											});
 										}
@@ -345,6 +368,11 @@ namespace Busidex.Presentation.iOS
 									GoToMyOrganizations ();
 								}
 							});
+						}else{
+							InvokeOnMainThread (() => {
+								ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+								overlay.Hide();
+							});
 						}
 					});
 				}
@@ -357,6 +385,7 @@ namespace Busidex.Presentation.iOS
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
 				GoToMyBusidex ();
+				return true;
 			} else {
 				if (cookie != null) {
 
@@ -367,11 +396,11 @@ namespace Busidex.Presentation.iOS
 
 					var ctrl = new Busidex.Mobile.MyBusidexController ();
 					await ctrl.GetMyBusidex (cookie.Value).ContinueWith(async r => {
-
+						
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
-						    Busidex.Mobile.Utils.SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
+						    Utils.SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
 							SetRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 							var cards = new List<UserCard> ();
@@ -392,7 +421,7 @@ namespace Busidex.Presentation.iOS
 									cards.Add (item);
 
 									if (!File.Exists (documentsPath + "/" + fName) || force) {
-										await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+										await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
 											InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
 										});
 									} else{
@@ -400,7 +429,7 @@ namespace Busidex.Presentation.iOS
 									}
 
 									if ((!File.Exists (documentsPath + "/" + bName) || force) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-										await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+										await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
 										});
 									}
 									idx++;
@@ -413,11 +442,14 @@ namespace Busidex.Presentation.iOS
 									GoToMyBusidex ();
 								}
 							});
-
+						}else{
+							InvokeOnMainThread (() => {
+								ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+								overlay.Hide();
+							});
 						}
 					});
 				}
-
 			}
 			return true;
 		}
@@ -434,7 +466,7 @@ namespace Busidex.Presentation.iOS
 					var eventListResponse = controller.GetEventTags (cookie.Value);
 					if (!string.IsNullOrEmpty (eventListResponse)) {
 
-						Busidex.Mobile.Utils.SaveResponse (eventListResponse, Resources.EVENT_LIST_FILE);
+						Utils.SaveResponse (eventListResponse, Resources.EVENT_LIST_FILE);
 
 						SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 

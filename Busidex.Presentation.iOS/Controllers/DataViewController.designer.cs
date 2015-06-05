@@ -44,7 +44,23 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblEvents { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblMyBusidex { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblOrganizations { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblProgress { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblSearch { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -64,9 +80,25 @@ namespace Busidex.Presentation.iOS
 				btnMyOrganizations.Dispose ();
 				btnMyOrganizations = null;
 			}
+			if (lblEvents != null) {
+				lblEvents.Dispose ();
+				lblEvents = null;
+			}
+			if (lblMyBusidex != null) {
+				lblMyBusidex.Dispose ();
+				lblMyBusidex = null;
+			}
+			if (lblOrganizations != null) {
+				lblOrganizations.Dispose ();
+				lblOrganizations = null;
+			}
 			if (lblProgress != null) {
 				lblProgress.Dispose ();
 				lblProgress = null;
+			}
+			if (lblSearch != null) {
+				lblSearch.Dispose ();
+				lblSearch = null;
 			}
 		}
 	}

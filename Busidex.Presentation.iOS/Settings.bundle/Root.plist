@@ -18,20 +18,6 @@
 			<key>FalseValue</key>
 			<false/>
 		</dict>
-		<dict>
-			<key>Title</key>
-			<string>Use *82 For Dialing</string>
-			<key>Key</key>
-			<string>UseStar82</string>
-			<key>TrueValue</key>
-			<true/>
-			<key>FalseValue</key>
-			<false/>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

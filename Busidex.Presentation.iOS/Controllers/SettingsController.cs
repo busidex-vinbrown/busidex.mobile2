@@ -14,7 +14,7 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		bool termsAccepted = false;
+		bool termsAccepted;
 		const float TERMS_NOT_ACCEPTED_DISPLAY = .2f;
 		const float TERMS_ACCEPTED_DISPLAY = 1f;
 
@@ -174,7 +174,9 @@ namespace Busidex.Presentation.iOS
 			}else{
 				if (termsAccepted) {
 					if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
-						ShowAlert ("Username and Password", "Please add your username and password to continue", "Ok");
+						ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
+					}else if(txtEmail.Text.IndexOf('@') < 0){
+						ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
 					} else {
 						token = Guid.NewGuid ().ToString ();
 						var response = AccountController.CheckAccount (token, newEmail, newPassword);
@@ -224,8 +226,23 @@ namespace Busidex.Presentation.iOS
 			txtPassword.Text = oldPassword;
 			txtEmail.Text = oldEmail;
 
-			imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
+			txtPassword.ShouldReturn += textField => { 
+				textField.ResignFirstResponder ();
+				return true; 
+			};
 
+			txtEmail.ShouldReturn += textField => {
+				textField.ResignFirstResponder ();
+				return true; 
+			};
+
+			if (!string.IsNullOrEmpty (oldEmail)) {
+				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = true;
+
+			} else {
+				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = false;
+				imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
+			}
 
 		}
 

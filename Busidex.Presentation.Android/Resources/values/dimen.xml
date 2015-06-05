@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <dimen name="font_size_label_large">21dp</dimen>
+    <dimen name="indeterminate_progress_size">32dp</dimen>
+</resources>

@@ -5,16 +5,18 @@
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
     p1:id="@+id/mainLayout"
-    p1:background="@color/layoutBackground">
+    p1:background="@drawable/background_blur4">
     <ImageView
-        p1:src="@drawable/spotlight_icon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
         p1:id="@+id/imgSearchIcon"
         p1:layout_marginTop="55dp"
-        p1:layout_marginLeft="40dp" />
+        p1:layout_marginLeft="40dp"
+        p1:scaleType="fitXY"
+        p1:adjustViewBounds="false"
+        p1:src="@drawable/searchicon" />
     <ImageView
-        p1:src="@drawable/icon"
+        p1:src="@drawable/mybusidexicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
         p1:layout_below="@id/imgSearchIcon"
@@ -22,7 +24,7 @@
         p1:layout_marginLeft="40dp"
         p1:layout_marginTop="30dp" />
     <ImageView
-        p1:src="@drawable/people"
+        p1:src="@drawable/organizationsicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
         p1:layout_below="@id/imgBusidexIcon"
@@ -30,41 +32,51 @@
         p1:layout_marginLeft="40dp"
         p1:layout_marginTop="30dp" />
     <Button
-        p1:text="Search for a Card"
-        p1:layout_width="200dp"
+        p1:text="Search "
+        p1:layout_width="wrap_content"
         p1:layout_height="75dp"
         p1:layout_toRightOf="@id/imgSearchIcon"
         p1:id="@+id/btnSearch"
-        p1:textColor="@color/buttonFontColor"
-        p1:background="@color/layoutBackground"
-        p1:layout_marginTop="50dp" />
+        p1:textColor="@color/buttonWhite"
+        p1:background="@android:color/transparent"
+        p1:layout_marginTop="50dp"
+        p1:textSize="@dimen/font_size_label_large"
+        p1:gravity="center_vertical"
+        p1:autoText="false"
+        p1:layout_marginLeft="20dp" />
     <Button
         p1:text="My Busidex"
-        p1:layout_width="200dp"
+        p1:layout_width="wrap_content"
         p1:layout_height="75dp"
         p1:layout_below="@id/btnSearch"
         p1:id="@+id/btnMyBusidex"
         p1:layout_toRightOf="@id/imgBusidexIcon"
-        p1:textColor="@color/buttonFontColor"
-        p1:background="@color/layoutBackground"
-        p1:layout_marginTop="30dp" />
+        p1:textColor="@color/buttonWhite"
+        p1:background="@android:color/transparent"
+        p1:layout_marginTop="30dp"
+        p1:textSize="@dimen/font_size_label_large"
+        p1:gravity="center_vertical"
+        p1:layout_marginLeft="20dp" />
     <Button
-        p1:text="My Organizations"
-        p1:layout_width="200dp"
+        p1:text="Organizations"
+        p1:layout_width="wrap_content"
         p1:layout_height="75dp"
         p1:layout_toRightOf="@id/imgOrgIcon"
         p1:id="@+id/btnMyOrganizations"
         p1:layout_below="@id/btnMyBusidex"
-        p1:textColor="@color/buttonFontColor"
-        p1:background="@color/layoutBackground"
-        p1:layout_marginTop="30dp" />
+        p1:textColor="@color/buttonWhite"
+        p1:background="@android:color/transparent"
+        p1:layout_marginTop="30dp"
+        p1:textSize="@dimen/font_size_label_large"
+        p1:gravity="center_vertical"
+        p1:layout_marginLeft="20dp" />
     <ImageButton
         p1:src="@drawable/Exit"
         p1:layout_width="45dp"
         p1:layout_height="45dp"
         p1:id="@+id/btnLogout"
         p1:scaleType="fitXY"
-        p1:background="@android:drawable/btn_default"
+        p1:background="@android:color/transparent"
         p1:layout_alignParentBottom="true"
         p1:layout_alignParentLeft="true"
         p1:layout_marginLeft="5dp" />
@@ -88,7 +100,7 @@
         p1:background="@android:drawable/btn_default"
         p1:layout_marginRight="5dp" />
     <ImageButton
-        p1:src="@drawable/icon"
+        p1:src="@drawable/mybusidexicon"
         p1:layout_width="42dp"
         p1:layout_height="42dp"
         p1:layout_toLeftOf="@id/btnSettings"
@@ -113,7 +125,7 @@
         p1:textStyle="bold"
         p1:textSize="11pt" />
     <ImageView
-        p1:src="@drawable/event"
+        p1:src="@drawable/eventicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
         p1:layout_below="@id/imgOrgIcon"
@@ -122,12 +134,15 @@
         p1:layout_marginTop="30dp" />
     <Button
         p1:text="Events"
-        p1:layout_width="200dp"
+        p1:layout_width="wrap_content"
         p1:layout_height="75dp"
         p1:layout_toRightOf="@id/imgEventIcon"
         p1:id="@+id/btnEvents"
         p1:layout_below="@id/btnMyOrganizations"
         p1:layout_marginTop="30dp"
-        p1:textColor="@color/buttonFontColor"
-        p1:background="@color/layoutBackground" />
+        p1:textColor="@color/buttonWhite"
+        p1:background="@android:color/transparent"
+        p1:textSize="@dimen/font_size_label_large"
+        p1:gravity="center_vertical"
+        p1:layout_marginLeft="20dp" />
 </RelativeLayout>

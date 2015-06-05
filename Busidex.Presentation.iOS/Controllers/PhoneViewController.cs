@@ -14,7 +14,6 @@ namespace Busidex.Presentation.iOS
 	{
 		public UserCard UserCard{ get; set; }
 		string userToken;
-		bool UseStar82;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
 		{
@@ -35,10 +34,10 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			var labelX = 25f;
-			var labelY = 280f;
-			var labelHeight = 30f;
-			var labelWidth = 100f;
+			const float labelX = 25f;
+			const float labelY = 280f;
+			const float labelHeight = 30f;
+			const float labelWidth = 100f;
 
 			var labelFrame = new RectangleF (labelX, labelY, labelWidth, labelHeight);
 			var phoneFrame = new RectangleF (labelX + labelWidth + 10, labelY, labelWidth * 2, labelHeight);
@@ -70,9 +69,20 @@ namespace Busidex.Presentation.iOS
 						newNumber.UserInteractionEnabled = true;
 						newNumber.Frame = phoneFrame;
 						newNumber.TouchUpInside += delegate {
-							UIApplication.SharedApplication.OpenUrl (new NSUrl ("tel:" + (UseStar82 ? "*82." : string.Empty) + number.Number));
+
+							var phoneNumber = new NSUrl ("telprompt://" + number.Number);
+
+							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
+								var av = new UIAlertView ("Phone Number Error",
+									"The number: " + number.Number + " is not valid. You may need to dial this number manually.",
+									null,
+									"OK",
+									null);
+								av.Show ();
+							}else{
 							//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-							ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+								ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+							}
 						};
 						labelFrame.Y = phoneFrame.Y += 35;
 
@@ -103,9 +113,6 @@ namespace Busidex.Presentation.iOS
 				if (cookie != null) {
 					userToken = cookie.Value;
 				}
-
-				var user = NSUserDefaults.StandardUserDefaults;
-				UseStar82 = user.BoolForKey(Resources.USER_SETTING_USE_STAR_82);
 
 			}catch(Exception ex){
 				LoggingController.LogError (ex, userToken);

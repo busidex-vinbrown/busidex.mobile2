@@ -22,6 +22,9 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnCreate (savedInstanceState);
 
+			//Remove title bar
+			RequestWindowFeature(global::Android.Views.WindowFeatures.NoTitle);
+
 			SetContentView (Resource.Layout.Main);
 
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
@@ -49,34 +52,34 @@ namespace Busidex.Presentation.Android
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
-			btnMyBusidex.Click += delegate {
+			btnMyBusidex.Click += async delegate {
 				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadMyBusidexAsync();
+				await LoadMyBusidexAsync();
 			};
 
-			imgBusidexIcon.Click += delegate {
+			imgBusidexIcon.Click += async delegate {
 				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadMyBusidexAsync();
+				await LoadMyBusidexAsync();
 			};
 
-			btnMyOrganizations.Click += delegate {
+			btnMyOrganizations.Click += async delegate {
 				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadMyOrganizationsAsync();
+				await LoadMyOrganizationsAsync();
 			};
 
-			imgOrgIcon.Click += delegate {
+			imgOrgIcon.Click += async delegate {
 				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadMyOrganizationsAsync();
+				await LoadMyOrganizationsAsync();
 			};
 
-			imgEventIcon.Click += delegate {
+			imgEventIcon.Click += async delegate {
 				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadEventList();
+				await LoadEventList();
 			};
 
-			btnEvents.Click += delegate {
+			btnEvents.Click += async delegate {
 				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				LoadEventList();
+				await LoadEventList();
 			};
 
 			btnLogout.Click += delegate {
@@ -85,9 +88,10 @@ namespace Busidex.Presentation.Android
 
 			btnSettings.Click -= GoToMyProfile;
 			btnSettings.Click += GoToMyProfile;
-
-			btnSync.Click -= Sync;
-			btnSync.Click += Sync;
+			 
+			btnSync.Click += async delegate {
+				await Sync();	
+			}; 
 
 			btnSharedCardsNotification.Click -= GoToSharedCards;
 			btnSharedCardsNotification.Click += GoToSharedCards;
@@ -120,11 +124,11 @@ namespace Busidex.Presentation.Android
 			Redirect (new Intent (this, typeof(StartupActivity)));
 		}
 
-		void Sync(object sender, EventArgs args){
+		async Task<bool> Sync(){
 			const bool FORCE = true;
-			LoadMyBusidexAsync(FORCE);
-			LoadMyOrganizationsAsync(FORCE);
-			LoadEventList (FORCE);
+			await LoadMyBusidexAsync(FORCE);
+			await LoadMyOrganizationsAsync(FORCE);
+			await LoadEventList (FORCE);
 			var notificationCount = GetNotifications();
 			if(notificationCount > 0){
 				var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
@@ -132,6 +136,7 @@ namespace Busidex.Presentation.Android
 
 				btnSharedCardsNotification.Visibility = global::Android.Views.ViewStates.Visible;
 			}
+			return true;
 		}
 
 		void GoToMyProfile(object sender, EventArgs args){
@@ -380,18 +385,22 @@ namespace Busidex.Presentation.Android
 			} else {
 				try {
 					var controller = new SearchController ();
-					var eventListResponse = controller.GetEventTags (cookie);
-					if (!string.IsNullOrEmpty (eventListResponse)) {
+					await controller.GetEventTags (cookie).ContinueWith(r => {
+						if (!string.IsNullOrEmpty (r.Result)) {
 
-						Utils.SaveResponse (eventListResponse, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+							RunOnUiThread (() => {
+								Utils.SaveResponse (r.Result, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 
-						SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+								SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
-						if(!force){
-							GoToEventList ();
+								if(!force){
+									GoToEventList ();
+								}
+							});
 						}
-					}
-				} catch (Exception ex) {
+					});
+
+				} catch (Exception ignore) {
 
 				}
 			}

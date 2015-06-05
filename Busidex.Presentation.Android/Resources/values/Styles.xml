@@ -6,4 +6,7 @@
 <style name="ActionBarStyle">
   	<item name="android:background">@color/layoutBackground</item>
 </style>
+<style name="generalnotitle" parent="android:Theme">
+    <item name="android:windowNoTitle">true</item>
+</style>
 </resources>

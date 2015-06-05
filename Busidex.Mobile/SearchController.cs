@@ -40,9 +40,9 @@ namespace Busidex.Mobile
 			return await MakeRequestAsync (url, "POST", userToken);
 		}
 
-		public string GetEventTags(string userToken){
+		public async Task<string> GetEventTags(string userToken){
 			const string url = Resources.BASE_API_URL + "search/GetEventTags";
-			return MakeRequest (url, "GET", userToken);
+			return await MakeRequestAsync (url, "GET", userToken);
 		}
 	}
 }

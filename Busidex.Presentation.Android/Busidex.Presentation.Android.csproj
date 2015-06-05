@@ -53,17 +53,17 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
-      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
-      <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
-    </Reference>
     <Reference Include="GooglePlayServicesLib">
       <HintPath>..\packages\Xamarin.GooglePlayServices.22.0.0.2\lib\MonoAndroid41\GooglePlayServicesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.22.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +160,14 @@
     <AndroidResource Include="Resources\layout\EventListListItem.axml" />
     <AndroidResource Include="Resources\layout\EventList.axml" />
     <AndroidResource Include="Resources\layout\EventCards.axml" />
+    <AndroidResource Include="Resources\drawable\background_blur4.png" />
+    <AndroidResource Include="Resources\drawable\background_blur5.png" />
+    <AndroidResource Include="Resources\drawable\logo3.png" />
+    <AndroidResource Include="Resources\drawable\MyBusidexIcon.png" />
+    <AndroidResource Include="Resources\drawable\SearchIcon.png" />
+    <AndroidResource Include="Resources\drawable\EventIcon.png" />
+    <AndroidResource Include="Resources\drawable\OrganizationsIcon.png" />
+    <AndroidResource Include="Resources\values\dimen.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -178,5 +186,13 @@
     <Folder Include="Activities\" />
     <Folder Include="Adapters\" />
     <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\fonts\" />
+    <Folder Include="Assets\font\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\drawable\cards_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\font\Lato-Black.ttf" />
   </ItemGroup>
 </Project>

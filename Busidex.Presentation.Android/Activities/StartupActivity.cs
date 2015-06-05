@@ -12,6 +12,10 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnCreate (savedInstanceState);
 
+			//Remove title bar
+			this.RequestWindowFeature(global::Android.Views.WindowFeatures.NoTitle);
+
+
 			SetContentView (Resource.Layout.StartUp);
 
 			var btnLogin = FindViewById<Button> (Resource.Id.btnConnect);

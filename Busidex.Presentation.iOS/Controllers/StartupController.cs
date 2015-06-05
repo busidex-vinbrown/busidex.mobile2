@@ -44,10 +44,18 @@ namespace Busidex.Presentation.iOS
 			btnConnect.TouchUpInside += delegate {
 				GoToLogin();
 			};
+
+
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
+			if(NavigationController != null){
+				NavigationController.SetNavigationBarHidden(true, true);
+			}
+
+			NavigationController.SetToolbarHidden (true, true);
+
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Startup");
 
 			base.ViewDidAppear (animated);
@@ -56,7 +64,7 @@ namespace Busidex.Presentation.iOS
 		}
 		void SetPosition(){
 
-			nfloat height = UIScreen.MainScreen.Bounds.Height < 500f ? 100f : 160f;
+			nfloat height = UIScreen.MainScreen.Bounds.Height < 500f ? 100f : 130f;
 			nfloat width = height;
 			nfloat top = UIScreen.MainScreen.Bounds.Height - height - (height / 4f);
 			nfloat left = (UIScreen.MainScreen.Bounds.Width / 2f) - (width / 2f);

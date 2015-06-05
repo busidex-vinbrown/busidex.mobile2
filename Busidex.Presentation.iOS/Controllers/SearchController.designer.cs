@@ -16,6 +16,10 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView imgBackground { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UISearchBar txtSearch { get; set; }
 
 		[Outlet]
@@ -24,6 +28,10 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (imgBackground != null) {
+				imgBackground.Dispose ();
+				imgBackground = null;
+			}
 			if (txtSearch != null) {
 				txtSearch.Dispose ();
 				txtSearch = null;
