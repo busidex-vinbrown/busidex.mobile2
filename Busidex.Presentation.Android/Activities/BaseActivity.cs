@@ -20,6 +20,8 @@ namespace Busidex.Presentation.Android
 	[Activity (Label = "BaseActivity")]			
 	public class BaseActivity : Activity
 	{
+		protected BaseApplicationResource applicationResource;
+
 		static Tracker _tracker;
 		protected static Tracker GATracker { 
 			get { 
@@ -31,8 +33,11 @@ namespace Busidex.Presentation.Android
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+
 			base.OnCreate (savedInstanceState);
+
+			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+			applicationResource = new BaseApplicationResource (this);
 		}
 
 		#region Loading
@@ -64,7 +69,7 @@ namespace Busidex.Presentation.Android
 
 		protected void RedirectToMainIfLoggedIn(){
 
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 			if(cookie != null){
 				var intent = new Intent(this, typeof(MainActivity));
 				Redirect(intent);
@@ -72,91 +77,20 @@ namespace Busidex.Presentation.Android
 		}
 		#endregion
 
-		#region Authentication
-		protected string GetAuthCookie(){
-			var account = GetAuthAccount ();
-			if(account == null){
-				return null;
-			}
-			var cookies = account.Cookies.GetCookies(new Uri(Busidex.Mobile.Resources.COOKIE_URI));
-			var cookie = cookies [Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME];
-			return cookie.Value;
-		}
 
-		protected Account GetAuthAccount(){
-
-			return AccountStore.Create (this).FindAccountsForService (Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME).FirstOrDefault();
-		}
-
-		protected void SetAuthCookie(long userId, int expires = 1){
-
-			var cookieVal = Utils.EncodeUserId (userId);
-			var cookie = new System.Net.Cookie(Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
-			cookie.Expires = DateTime.Now.AddYears (expires);
-			cookie.Value = Utils.EncodeUserId(userId);
-
-			var container = new System.Net.CookieContainer ();
-			container.SetCookies (new Uri(Busidex.Mobile.Resources.COOKIE_URI), cookie.ToString ());
-
-			var account = new Account (userId.ToString (), container);
-
-			AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
-		}
-
-		protected void SetRefreshCookie(string prop){
-			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
-
-				var today = DateTime.Now;
-
-				var expireDate = new DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
-		
-				if(!account.Properties.ContainsKey(prop)){
-					account.Properties.Add (prop, expireDate.ToString ());
-				}else{
-					account.Properties [prop] = expireDate.ToString ();
-				}
-
-				AccountStore.Create (this).Save(account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
-			}
-		}
-
-		protected bool CheckRefreshDate(string prop){
-			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
-
-				DateTime expireDate;
-
-				if(account.Properties.ContainsKey(prop) && 
-					DateTime.TryParse(account.Properties [prop], out expireDate)){
-
-					return expireDate > DateTime.Now;
-				}
-			}
-			return false;
-		}
-
-		protected void RemoveAuthCookie(){
-			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
-				AccountStore.Create (this).Delete (account, Busidex.Mobile.Resources.AUTHENTICATION_COOKIE_NAME);
-			}
-		}
-
-		#endregion
 
 		#region Card Actions
 		protected void Redirect(Intent intent){
 
 			StartActivity(intent);
-			this.OverridePendingTransition(Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
+			OverridePendingTransition(Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
 
 		}
 
 		protected void ShowCard(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
@@ -167,7 +101,7 @@ namespace Busidex.Presentation.Android
 		protected void SendEmail(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
@@ -178,7 +112,7 @@ namespace Busidex.Presentation.Android
 		protected void OpenBrowser(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
@@ -190,7 +124,7 @@ namespace Busidex.Presentation.Android
 		protected void OpenMap(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
@@ -216,7 +150,7 @@ namespace Busidex.Presentation.Android
 					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
 					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
-				var token = GetAuthCookie ();
+				var token = applicationResource.GetAuthCookie ();
 
 				var controller = new MyBusidexController ();
 				controller.AddToMyBusidex (userCard.Card.CardId, token);
@@ -245,7 +179,7 @@ namespace Busidex.Presentation.Android
 					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
 					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
-				var token = GetAuthCookie ();
+				var token = applicationResource.GetAuthCookie ();
 
 				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
 

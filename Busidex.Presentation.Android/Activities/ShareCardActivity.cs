@@ -90,7 +90,7 @@ namespace Busidex.Presentation.Android
 
 		void ShareCard(){
 
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 			var txtShareEmail = FindViewById<TextView> (Resource.Id.txtShareEmail);
 			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
 

@@ -64,7 +64,7 @@ namespace Busidex.Presentation.Android
 
 		void SaveSharedCard(SharedCard sharedCard){
 
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 			// Accept/Decline the card
 			var ctrl = new SharedCardController ();
 			var cardId = new long? (sharedCard.Card.CardId);

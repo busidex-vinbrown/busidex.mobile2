@@ -98,6 +98,9 @@
     <Compile Include="Activities\EventListActivity.cs" />
     <Compile Include="Activities\EventCardsActivity.cs" />
     <Compile Include="Adapters\EventListAdapter.cs" />
+    <Compile Include="Utilities\SwipeGestureListener.cs" />
+    <Compile Include="Fragments\ProfileFragment.cs" />
+    <Compile Include="Activities\BaseApplicationResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -109,7 +112,6 @@
     <AndroidResource Include="Resources\layout\StartUp.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\layout\Login.axml" />
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\drawable\large_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AndroidResource>
@@ -168,6 +170,9 @@
     <AndroidResource Include="Resources\drawable\EventIcon.png" />
     <AndroidResource Include="Resources\drawable\OrganizationsIcon.png" />
     <AndroidResource Include="Resources\values\dimen.xml" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\anim\SlideAnimationFast.xml" />
+    <AndroidResource Include="Resources\anim\SlideOutAnimationFast.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -188,6 +193,8 @@
     <Folder Include="Resources\menu\" />
     <Folder Include="Resources\fonts\" />
     <Folder Include="Assets\font\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Fragments\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\drawable\cards_back.png" />

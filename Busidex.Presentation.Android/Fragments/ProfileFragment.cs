@@ -1,16 +1,16 @@
 ﻿
 using System;
-
 using Android.App;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
+using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "My Profile")]			
-	public class ProfileActivity : BaseActivity
+	public class ProfileFragment : Fragment
 	{
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
@@ -18,33 +18,38 @@ namespace Busidex.Presentation.Android
 		TextView lblPasswordError;
 		bool showPassword = true;
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected BaseApplicationResource applicationResource;
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			SetContentView (Resource.Layout.Profile);
+		
+			// Use this to return your custom view for this Fragment
+			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+			View profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
 
-			base.OnCreate (savedInstanceState);
+			var txtProfileEmail = profileView.FindViewById<TextView> (Resource.Id.txtProfileEmail);
+			var txtProfilePassword = profileView.FindViewById<TextView> (Resource.Id.txtProfilePassword);
+			var txtProfileDescription = profileView.FindViewById<TextView> (Resource.Id.txtProfileDescription);
+			var lblProfilePassword = profileView.FindViewById<TextView> (Resource.Id.lblProfilePassword);
+			imgProfileEmailSaved = profileView.FindViewById<ImageView> (Resource.Id.imgProfileEmailSaved);
+			imgProfilePasswordSaved = profileView.FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
+			lblEmailError = profileView.FindViewById<TextView> (Resource.Id.lblEmailError);
+			lblPasswordError = profileView.FindViewById<TextView> (Resource.Id.lblPasswordError);
 
-			var txtProfileEmail = FindViewById<TextView> (Resource.Id.txtProfileEmail);
-			var txtProfilePassword = FindViewById<TextView> (Resource.Id.txtProfilePassword);
-			var txtProfileDescription = FindViewById<TextView> (Resource.Id.txtProfileDescription);
-			var lblProfilePassword = FindViewById<TextView> (Resource.Id.lblProfilePassword);
-			imgProfileEmailSaved = FindViewById<ImageView> (Resource.Id.imgProfileEmailSaved);
-			imgProfilePasswordSaved = FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
-			lblEmailError = FindViewById<TextView> (Resource.Id.lblEmailError);
-			lblPasswordError = FindViewById<TextView> (Resource.Id.lblPasswordError);
+			var btnSaveProfile = profileView.FindViewById<Button> (Resource.Id.btnSaveProfile);
 
-			var btnSaveProfile = FindViewById<Button> (Resource.Id.btnSaveProfile);
+			applicationResource = new BaseApplicationResource (this.Activity);
 
 			var token = applicationResource.GetAuthCookie ();
 			var accountJSON = AccountController.GetAccount (token);
 			var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
 
-			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = global::Android.Views.ViewStates.Invisible;
+			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
 
 			if(account != null){
 				txtProfileEmail.Text = account.Email;
-				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = global::Android.Views.ViewStates.Gone;
-				lblEmailError.Visibility = lblProfilePassword.Visibility = global::Android.Views.ViewStates.Gone;
+				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
+				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 
 				showPassword = false;
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
@@ -59,20 +64,22 @@ namespace Busidex.Presentation.Android
 					CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
 				};
 			}
+
+			return profileView;
 		}
 
 		void SetEmailChangedResult(string result){
 
 			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
 			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
+				imgProfileEmailSaved.Visibility = ViewStates.Visible;
+				lblEmailError.Visibility = ViewStates.Invisible;
 			} else {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText(Resource.String.Profile_ErrorEmailGeneral);
 			}
 		}
@@ -82,19 +89,19 @@ namespace Busidex.Presentation.Android
 			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
 
 			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
 			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = "This email is already in use";
 			} else if (oResult != null && oResult.Success) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
+				imgProfileEmailSaved.Visibility = ViewStates.Visible;
+				lblEmailError.Visibility = ViewStates.Invisible;
 				if (showPassword) {
-					imgProfilePasswordSaved.Visibility = global::Android.Views.ViewStates.Visible;
-					lblPasswordError.Visibility = global::Android.Views.ViewStates.Invisible;
+					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
+					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
 				var response = LoginController.DoLogin(email, password);
 				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
@@ -106,8 +113,8 @@ namespace Busidex.Presentation.Android
 				RedirectToMainIfLoggedIn ();
 
 			} else {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = GetString (Resource.String.Profile_ErrorAccountGeneral);
 			}
 		}
@@ -121,6 +128,21 @@ namespace Busidex.Presentation.Android
 			token = Guid.NewGuid ().ToString ();
 			var response = AccountController.CheckAccount (token, email, password);
 			SetCheckAccountResult (email, password, response);
+		}
+
+		protected void RedirectToMainIfLoggedIn(){
+
+			var cookie = applicationResource.GetAuthCookie ();
+			if(cookie != null){
+				var intent = new Intent(this.Activity.BaseContext, typeof(MainActivity));
+				Redirect(intent);
+			}
+		}
+
+		protected void Redirect(Intent intent){
+
+			StartActivity(intent);
+
 		}
 	}
 }

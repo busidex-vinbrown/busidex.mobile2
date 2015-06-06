@@ -10,22 +10,103 @@ using System;
 using System.Collections.Generic;
 using Busidex.Mobile;
 using System.Linq;
+using Android.Views;
+using Android.Views.Animations;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "Busidex", Icon = "@drawable/icon")]
-	public class MainActivity : BaseActivity
+	public class MainActivity : BaseActivity, GestureDetector.IOnGestureListener
 	{
+		View profileFragment;
+		bool isLoggedIn;
+
+		public bool OnDown (MotionEvent e)
+		{
+			return true;
+		}
+
+		public bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+		{
+			// detect swipe right
+			if (e2.GetX () - e1.GetX () > 300) {
+				
+				var slideIn = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideAnimationFast);
+				profileFragment.Visibility = ViewStates.Visible;
+				profileFragment.Elevation = 999;
+				profileFragment.StartAnimation (slideIn);
+
+
+				//Redirect (new Intent (this, typeof(ProfileActivity)));
+
+			}
+
+			if (e1.GetX () - e2.GetX () > 300) {
+
+				var slideOut = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideOutAnimationFast);
+
+				profileFragment.StartAnimation (slideOut);
+				profileFragment.Visibility = ViewStates.Gone;
+
+				//Redirect (new Intent (this, typeof(ProfileActivity)));
+
+			}
+			return true;
+		}
+
+		public void OnLongPress (MotionEvent e)
+		{
+			
+		}
+
+		public bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+		{
+			return false;
+		}
+
+		public void OnShowPress (MotionEvent e)
+		{
+			
+		}
+
+		public bool OnSingleTapUp (MotionEvent e)
+		{
+			return false;
+		}
+
+		public override bool OnTouchEvent(MotionEvent e)
+		{
+			_detector.OnTouchEvent(e);
+			return false;
+		}
+
 		ImageButton btnSharedCardsNotification;
+
+		GestureDetector _detector;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+
+			isLoggedIn = false;
+
 			base.OnCreate (savedInstanceState);
 
 			//Remove title bar
-			RequestWindowFeature(global::Android.Views.WindowFeatures.NoTitle);
+			RequestWindowFeature(WindowFeatures.NoTitle);
 
 			SetContentView (Resource.Layout.Main);
+
+			_detector = new GestureDetector(this);
+
+			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
+			var cookie = applicationResource.GetAuthCookie ();
+			if (cookie != null) {
+				profileFragment.Visibility = ViewStates.Gone;
+				isLoggedIn = true;
+			}else{
+				profileFragment.Visibility = ViewStates.Visible;
+			}
+
 
 			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
 			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
@@ -102,13 +183,15 @@ namespace Busidex.Presentation.Android
 			var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
 			txtNotificationCount.Text = notificationCount.ToString();
 
-			btnSharedCardsNotification.Visibility = txtNotificationCount.Visibility = notificationCount > 0 ? global::Android.Views.ViewStates.Visible : global::Android.Views.ViewStates.Gone;
+			btnSharedCardsNotification.Visibility = txtNotificationCount.Visibility = notificationCount > 0 ? ViewStates.Visible : ViewStates.Gone;
 
 		}
 
 		protected override void OnResume ()
 		{
-			SetNotificationUI ();
+			if (isLoggedIn) {
+				SetNotificationUI ();
+			}
 			base.OnResume ();
 		}
 
@@ -119,7 +202,7 @@ namespace Busidex.Presentation.Android
 		}
 
 		void Logout(){
-			RemoveAuthCookie ();
+			applicationResource.RemoveAuthCookie ();
 			Utils.RemoveCacheFiles ();
 			Redirect (new Intent (this, typeof(StartupActivity)));
 		}
@@ -134,7 +217,7 @@ namespace Busidex.Presentation.Android
 				var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
 				txtNotificationCount.Text = notificationCount.ToString();
 
-				btnSharedCardsNotification.Visibility = global::Android.Views.ViewStates.Visible;
+				btnSharedCardsNotification.Visibility = ViewStates.Visible;
 			}
 			return true;
 		}
@@ -162,7 +245,7 @@ namespace Busidex.Presentation.Android
 		int GetNotifications(){
 
 			var ctrl = new SharedCardController ();
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie);
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
@@ -183,9 +266,9 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
+			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
 				GoToMyOrganizations ();
 			} else {
 				if (cookie != null) {
@@ -199,7 +282,7 @@ namespace Busidex.Presentation.Android
 							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 
 							Utils.SaveResponse(response.Result, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
-							SetRefreshCookie(Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
+							applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
@@ -280,11 +363,11 @@ namespace Busidex.Presentation.Android
 		}
 
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
-			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
+			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
@@ -307,7 +390,7 @@ namespace Busidex.Presentation.Android
 							});
 
 						    
-							SetRefreshCookie(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME);
+							applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 							var cards = new List<UserCard> ();
 							var idx = 0;
@@ -377,10 +460,10 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadEventList(bool force = false){
 
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
+			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
 				GoToEventList ();
 			} else {
 				try {
@@ -391,7 +474,7 @@ namespace Busidex.Presentation.Android
 							RunOnUiThread (() => {
 								Utils.SaveResponse (r.Result, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 
-								SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+								applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
 								if(!force){
 									GoToEventList ();

@@ -6,6 +6,14 @@
     p1:layout_height="match_parent"
     p1:id="@+id/mainLayout"
     p1:background="@drawable/background_blur4">
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+        class="Busidex.Presentation.Android.ProfileFragment"
+        p1:id="@+id/profileFragment"
+        p1:layout_width="fill_parent"
+        p1:layout_height="fill_parent"
+        p1:visibility="gone"
+        p1:elevation="300dp"
+        tools:visibility="gone" />
     <ImageView
         p1:layout_width="75dp"
         p1:layout_height="75dp"
@@ -14,7 +22,8 @@
         p1:layout_marginLeft="40dp"
         p1:scaleType="fitXY"
         p1:adjustViewBounds="false"
-        p1:src="@drawable/searchicon" />
+        p1:src="@drawable/searchicon"
+        p1:elevation="0dp" />
     <ImageView
         p1:src="@drawable/mybusidexicon"
         p1:layout_width="75dp"
@@ -22,7 +31,8 @@
         p1:layout_below="@id/imgSearchIcon"
         p1:id="@+id/imgBusidexIcon"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp" />
+        p1:layout_marginTop="30dp"
+        p1:elevation="0dp" />
     <ImageView
         p1:src="@drawable/organizationsicon"
         p1:layout_width="75dp"
@@ -30,7 +40,8 @@
         p1:layout_below="@id/imgBusidexIcon"
         p1:id="@+id/imgOrgIcon"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp" />
+        p1:layout_marginTop="30dp"
+        p1:elevation="0dp" />
     <Button
         p1:text="Search "
         p1:layout_width="wrap_content"
@@ -43,7 +54,8 @@
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
         p1:autoText="false"
-        p1:layout_marginLeft="20dp" />
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp" />
     <Button
         p1:text="My Busidex"
         p1:layout_width="wrap_content"
@@ -56,7 +68,8 @@
         p1:layout_marginTop="30dp"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
-        p1:layout_marginLeft="20dp" />
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp" />
     <Button
         p1:text="Organizations"
         p1:layout_width="wrap_content"
@@ -69,7 +82,8 @@
         p1:layout_marginTop="30dp"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
-        p1:layout_marginLeft="20dp" />
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp" />
     <ImageButton
         p1:src="@drawable/Exit"
         p1:layout_width="45dp"
@@ -131,7 +145,8 @@
         p1:layout_below="@id/imgOrgIcon"
         p1:id="@+id/imgEventIcon"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp" />
+        p1:layout_marginTop="30dp"
+        p1:elevation="0dp" />
     <Button
         p1:text="Events"
         p1:layout_width="wrap_content"
@@ -144,5 +159,6 @@
         p1:background="@android:color/transparent"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
-        p1:layout_marginLeft="20dp" />
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp" />
 </RelativeLayout>

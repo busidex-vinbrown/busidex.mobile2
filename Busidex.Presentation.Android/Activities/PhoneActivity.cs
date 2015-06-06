@@ -13,7 +13,7 @@ namespace Busidex.Presentation.Android
 	{
 
 		void DialPhoneNumber(PhoneNumber number){
-			var userToken = GetAuthCookie ();
+			var userToken = applicationResource.GetAuthCookie ();
 			var uri = Uri.Parse ("tel:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
 			ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);

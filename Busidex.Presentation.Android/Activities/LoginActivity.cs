@@ -50,7 +50,7 @@ namespace Busidex.Presentation.Android
 			if (!response.Contains ("404")) {
 				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
 				var userId = loginResponse != null ? loginResponse.UserId : 0;
-				SetAuthCookie (userId);
+				applicationResource.SetAuthCookie (userId);
 
 				RedirectToMainIfLoggedIn ();
 			}else{

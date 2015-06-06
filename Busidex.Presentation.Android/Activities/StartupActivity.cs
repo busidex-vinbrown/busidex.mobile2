@@ -10,11 +10,11 @@ namespace Busidex.Presentation.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+			
 			base.OnCreate (savedInstanceState);
 
 			//Remove title bar
 			this.RequestWindowFeature(global::Android.Views.WindowFeatures.NoTitle);
-
 
 			SetContentView (Resource.Layout.StartUp);
 
@@ -26,7 +26,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			btnStart.Click += delegate {
-				StartActivity(new Intent(this, typeof(ProfileActivity)));	
+				StartActivity(new Intent(this, typeof(MainActivity)));	
 			};
 
 			RedirectToMainIfLoggedIn ();

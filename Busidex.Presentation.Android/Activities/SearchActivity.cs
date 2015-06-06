@@ -77,7 +77,7 @@ namespace Busidex.Presentation.Android
 
 		void DoSearch(){
 		
-			string token = GetAuthCookie ();
+			string token = applicationResource.GetAuthCookie ();
 			ShowLoadingSpinner ();
 
 			var ctrl = new SearchController ();

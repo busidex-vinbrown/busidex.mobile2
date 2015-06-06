@@ -123,7 +123,7 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadEventAsync(EventTag tag){
 
-			var cookie = GetAuthCookie ();
+			var cookie = applicationResource.GetAuthCookie ();
 
 			try {
 				string fileName = string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, tag.Text);

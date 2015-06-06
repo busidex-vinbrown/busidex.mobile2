@@ -31,7 +31,7 @@ namespace Busidex.Presentation.Android
 
 		void SaveNotes(){
 
-			var token = GetAuthCookie ();
+			var token = applicationResource.GetAuthCookie ();
 
 			var controller = new Busidex.Mobile.NotesController ();
 			controller.SaveNotes (UserCard.UserCardId, txtNotes.Text.Trim (), token).ContinueWith (response => {
