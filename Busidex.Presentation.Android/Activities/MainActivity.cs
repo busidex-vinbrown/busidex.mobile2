@@ -23,6 +23,11 @@ namespace Busidex.Presentation.Android
 		View profileFragment;
 		bool isLoggedIn;
 
+		bool eventsRefreshing;
+		bool organizationsRefreshing;
+		bool myBusidexRefreshing;
+		bool profileIsOpen;
+
 		Button btnSearch;
 		Button btnMyBusidex;
 		Button btnMyOrganizations;
@@ -43,12 +48,16 @@ namespace Busidex.Presentation.Android
 		{
 			// detect swipe right
 			if (e2.GetX () - e1.GetX () > 300) {
-				var slideIn = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideAnimationFast);
-				profileFragment.Visibility = ViewStates.Visible;
-				profileFragment.StartAnimation (slideIn);
+				if (!profileIsOpen) {
+					profileIsOpen = true;
+					var slideIn = AnimationUtils.LoadAnimation (this, Resource.Animation.SlideAnimationFast);
+					profileFragment.Visibility = ViewStates.Visible;
+					profileFragment.StartAnimation (slideIn);
+				}
 			}
 
 			if (e1.GetX () - e2.GetX () > 300) {
+				profileIsOpen = false;
 				var slideOut = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideOutAnimationFast);
 				profileFragment.StartAnimation (slideOut);
 				profileFragment.Visibility = ViewStates.Gone;
@@ -91,6 +100,10 @@ namespace Busidex.Presentation.Android
 
 		GestureDetector _detector;
 	
+		bool isRefreshing(){
+			return organizationsRefreshing || myBusidexRefreshing || eventsRefreshing;
+		}
+
 		int ConvertPixelsToDp(float pixelValue)
 		{
 			var dp = (int) ((pixelValue) * Resources.DisplayMetrics.Density);
@@ -313,6 +326,11 @@ namespace Busidex.Presentation.Android
 		}
 
 		async Task<bool> Sync(){
+
+			if(isRefreshing()){
+				return false;
+			}
+
 			const bool FORCE = true;
 			await LoadMyBusidexAsync(FORCE);
 			await LoadMyOrganizationsAsync(FORCE);
@@ -371,9 +389,12 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
+			organizationsRefreshing = true;
+
 			var cookie = applicationResource.GetAuthCookie ();
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
+				organizationsRefreshing = false;
 				GoToMyOrganizations ();
 			} else {
 				if (cookie != null) {
@@ -457,6 +478,7 @@ namespace Busidex.Presentation.Android
 							RunOnUiThread (() => {
 								HideLoadingSpinner();
 								if(!force){
+									organizationsRefreshing = false;
 									GoToMyOrganizations ();
 								}
 							});
@@ -468,11 +490,15 @@ namespace Busidex.Presentation.Android
 		}
 
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
+
+			myBusidexRefreshing = true;
+
 			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
+				myBusidexRefreshing = false;
 				GoToMyBusidex ();
 			} else {
 				if (cookie != null) {
@@ -520,6 +546,7 @@ namespace Busidex.Presentation.Android
 												if(idx == total){
 													HideLoadingSpinner();
 													if(!force){
+														myBusidexRefreshing = false;
 														GoToMyBusidex ();
 													}
 												}else{
@@ -533,6 +560,7 @@ namespace Busidex.Presentation.Android
 											if(idx == total){
 												HideLoadingSpinner();
 												if(!force){
+													myBusidexRefreshing = false;
 													GoToMyBusidex ();
 												}
 											}else{
@@ -552,6 +580,7 @@ namespace Busidex.Presentation.Android
 								Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 								HideLoadingSpinner();
 								if(!force){
+									myBusidexRefreshing = false;
 									GoToMyBusidex ();
 								}
 							});
@@ -565,10 +594,12 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadEventList(bool force = false){
 
+			eventsRefreshing = true;
 			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
+				eventsRefreshing = false;
 				GoToEventList ();
 			} else {
 				try {
@@ -582,6 +613,7 @@ namespace Busidex.Presentation.Android
 								applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
 								if(!force){
+									eventsRefreshing = false;
 									GoToEventList ();
 								}
 							});
