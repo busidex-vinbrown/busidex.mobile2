@@ -101,7 +101,7 @@ namespace Busidex.Presentation.Android
 		GestureDetector _detector;
 	
 		bool isRefreshing(){
-			return organizationsRefreshing || myBusidexRefreshing || eventsRefreshing;
+			return organizationsRefreshing || myBusidexRefreshing || eventsRefreshing || profileIsOpen;
 		}
 
 		int ConvertPixelsToDp(float pixelValue)
