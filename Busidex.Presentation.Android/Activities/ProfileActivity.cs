@@ -1,11 +1,13 @@
 ﻿
-using System;
 
 using Android.App;
 using Android.OS;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
+using Android.Views;
+using Android.Net;
+using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
@@ -14,20 +16,31 @@ namespace Busidex.Presentation.Android
 	{
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
+		ImageView imgAcceptTerms;
+
 		TextView lblEmailError;
 		TextView lblPasswordError;
+
 		bool showPassword = true;
+		bool termsAccepted;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			SetContentView (Resource.Layout.Profile);
-
+			
 			base.OnCreate (savedInstanceState);
+
+			//Remove title bar
+			RequestWindowFeature(WindowFeatures.NoTitle);
+
+			SetContentView (Resource.Layout.Profile);
 
 			var txtProfileEmail = FindViewById<TextView> (Resource.Id.txtProfileEmail);
 			var txtProfilePassword = FindViewById<TextView> (Resource.Id.txtProfilePassword);
 			var txtProfileDescription = FindViewById<TextView> (Resource.Id.txtProfileDescription);
 			var lblProfilePassword = FindViewById<TextView> (Resource.Id.lblProfilePassword);
+			var txtAcceptTerms = FindViewById<TextView> (Resource.Id.txtAcceptTerms);
+			var txtViewTerms = FindViewById<TextView> (Resource.Id.txtViewTerms);
+			imgAcceptTerms = FindViewById<ImageView> (Resource.Id.imgAcceptTerms);
 			imgProfileEmailSaved = FindViewById<ImageView> (Resource.Id.imgProfileEmailSaved);
 			imgProfilePasswordSaved = FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
 			lblEmailError = FindViewById<TextView> (Resource.Id.lblEmailError);
@@ -39,12 +52,12 @@ namespace Busidex.Presentation.Android
 			var accountJSON = AccountController.GetAccount (token);
 			var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
 
-			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = global::Android.Views.ViewStates.Invisible;
+			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
 
 			if(account != null){
 				txtProfileEmail.Text = account.Email;
-				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = global::Android.Views.ViewStates.Gone;
-				lblEmailError.Visibility = lblProfilePassword.Visibility = global::Android.Views.ViewStates.Gone;
+				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
+				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 
 				showPassword = false;
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
@@ -55,24 +68,53 @@ namespace Busidex.Presentation.Android
 			}else{
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 
+				txtAcceptTerms.Click += delegate {
+					toggleTerms();
+				};
+
+				imgAcceptTerms.Click += delegate {
+					toggleTerms();
+				};
+
+
+				txtViewTerms.Click += delegate {
+
+					var uri = Uri.Parse (Busidex.Mobile.Resources.TERMS_AND_CONDITIONS_URL);
+					var OpenBrowserIntent = new Intent (Intent.ActionView);
+					OpenBrowserIntent.SetData (uri);
+
+					var browserIntent = Intent.CreateChooser(OpenBrowserIntent, "Open with");
+					StartActivity (browserIntent);
+
+				};
+
 				btnSaveProfile.Click += delegate {
-					CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
+					if(termsAccepted){
+						CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
+					}else{
+						ShowAlert("Terms and Conditions", "Please accept the terms and conditions to continue.");
+					}
 				};
 			}
 		}
 
+		void toggleTerms(){
+			termsAccepted = !termsAccepted;
+			imgAcceptTerms.Alpha = termsAccepted ? 1 : .4f;
+		}
+
 		void SetEmailChangedResult(string result){
 
-			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+			if (result.IndexOf ("400", System.StringComparison.Ordinal) >= 0) {
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
-			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
+			} else if (result.ToLowerInvariant ().IndexOf ("email updated", System.StringComparison.Ordinal) >= 0) {
+				imgProfileEmailSaved.Visibility = ViewStates.Visible;
+				lblEmailError.Visibility = ViewStates.Invisible;
 			} else {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText(Resource.String.Profile_ErrorEmailGeneral);
 			}
 		}
@@ -81,23 +123,23 @@ namespace Busidex.Presentation.Android
 			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
 			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
 
-			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, System.StringComparison.Ordinal) >= 0) {
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
-			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), System.StringComparison.Ordinal) >= 0) {
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = "This email is already in use";
 			} else if (oResult != null && oResult.Success) {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Visible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Invisible;
+				imgProfileEmailSaved.Visibility = ViewStates.Visible;
+				lblEmailError.Visibility = ViewStates.Invisible;
 				if (showPassword) {
-					imgProfilePasswordSaved.Visibility = global::Android.Views.ViewStates.Visible;
-					lblPasswordError.Visibility = global::Android.Views.ViewStates.Invisible;
+					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
+					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
 				var response = LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 				var userId = loginResponse != null ? loginResponse.UserId : 0;
 
@@ -106,8 +148,8 @@ namespace Busidex.Presentation.Android
 				RedirectToMainIfLoggedIn ();
 
 			} else {
-				imgProfileEmailSaved.Visibility = global::Android.Views.ViewStates.Invisible;
-				lblEmailError.Visibility = global::Android.Views.ViewStates.Visible;
+				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = GetString (Resource.String.Profile_ErrorAccountGeneral);
 			}
 		}
@@ -118,7 +160,7 @@ namespace Busidex.Presentation.Android
 		}
 
 		void CheckAccount(string token, string email, string password){
-			token = Guid.NewGuid ().ToString ();
+			token = System.Guid.NewGuid ().ToString ();
 			var response = AccountController.CheckAccount (token, email, password);
 			SetCheckAccountResult (email, password, response);
 		}

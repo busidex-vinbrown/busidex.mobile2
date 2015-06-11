@@ -88,7 +88,6 @@
     <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
     <Compile Include="Adapters\UserCardAdapter.cs" />
     <Compile Include="Activities\OrganizationReferralsActivity.cs" />
-    <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="Activities\SharedCardsActivity.cs" />
     <Compile Include="Adapters\SharedCardListAdapter.cs" />
@@ -101,6 +100,9 @@
     <Compile Include="Utilities\SwipeGestureListener.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Activities\BaseApplicationResource.cs" />
+    <Compile Include="Fragments\BaseFragment.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
+    <Compile Include="Fragments\TermsAndConditions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -111,7 +113,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\StartUp.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\layout\Login.axml" />
     <AndroidResource Include="Resources\drawable\large_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AndroidResource>
@@ -173,6 +174,18 @@
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\anim\SlideAnimationFast.xml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimationFast.xml" />
+    <AndroidResource Include="Resources\drawable\white_underline.xml" />
+    <AndroidResource Include="Resources\layout\TermsAndConditions.axml" />
+    <AndroidResource Include="Resources\drawable\puzzle_background.png" />
+    <AndroidResource Include="Resources\drawable\underline.xml" />
+    <AndroidResource Include="Resources\drawable\profile_background_1.png" />
+    <AndroidResource Include="Resources\anim\MyBusidexIconStart.xml" />
+    <AndroidResource Include="Resources\drawable\MainButtonStyle.xml" />
+    <AndroidResource Include="Resources\anim\Rotate.xml" />
+    <AndroidResource Include="Resources\layout\Login.axml" />
+    <AndroidResource Include="Resources\layout\StartPopup.axml" />
+    <AndroidResource Include="Resources\drawable\swipe_down.gif" />
+    <AndroidResource Include="Resources\drawable\swipe_right.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

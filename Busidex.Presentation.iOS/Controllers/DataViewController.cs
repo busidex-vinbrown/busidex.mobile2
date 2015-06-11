@@ -464,9 +464,9 @@ namespace Busidex.Presentation.iOS
 				try {
 					var controller = new Busidex.Mobile.SearchController ();
 					var eventListResponse = controller.GetEventTags (cookie.Value);
-					if (!string.IsNullOrEmpty (eventListResponse)) {
+					if (!string.IsNullOrEmpty (eventListResponse.Result)) {
 
-						Utils.SaveResponse (eventListResponse, Resources.EVENT_LIST_FILE);
+						Utils.SaveResponse (eventListResponse.Result, Resources.EVENT_LIST_FILE);
 
 						SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 

@@ -12,6 +12,8 @@ using Busidex.Mobile;
 using System.Linq;
 using Android.Views;
 using Android.Views.Animations;
+using Android.Animation;
+using Android.Preferences;
 
 namespace Busidex.Presentation.Android
 {
@@ -21,6 +23,17 @@ namespace Busidex.Presentation.Android
 		View profileFragment;
 		bool isLoggedIn;
 
+		Button btnSearch;
+		Button btnMyBusidex;
+		Button btnMyOrganizations;
+		Button btnEvents;
+		ImageView imgSearchIcon;
+		ImageView imgBusidexIcon;
+		ImageView imgOrgIcon;
+		ImageView imgEventIcon;
+		Dialog helpDialog;
+
+		#region Touch Events
 		public bool OnDown (MotionEvent e)
 		{
 			return true;
@@ -30,26 +43,19 @@ namespace Busidex.Presentation.Android
 		{
 			// detect swipe right
 			if (e2.GetX () - e1.GetX () > 300) {
-				
 				var slideIn = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideAnimationFast);
 				profileFragment.Visibility = ViewStates.Visible;
-				profileFragment.Elevation = 999;
 				profileFragment.StartAnimation (slideIn);
-
-
-				//Redirect (new Intent (this, typeof(ProfileActivity)));
-
 			}
 
 			if (e1.GetX () - e2.GetX () > 300) {
-
 				var slideOut = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideOutAnimationFast);
-
 				profileFragment.StartAnimation (slideOut);
 				profileFragment.Visibility = ViewStates.Gone;
+			}
 
-				//Redirect (new Intent (this, typeof(ProfileActivity)));
-
+			if (e2.GetY () - e1.GetY () > 300) {
+				Sync ();
 			}
 			return true;
 		}
@@ -79,26 +85,52 @@ namespace Busidex.Presentation.Android
 			_detector.OnTouchEvent(e);
 			return false;
 		}
+		#endregion
 
 		ImageButton btnSharedCardsNotification;
 
 		GestureDetector _detector;
+	
+		int ConvertPixelsToDp(float pixelValue)
+		{
+			var dp = (int) ((pixelValue) * Resources.DisplayMetrics.Density);
+			return dp;
+		}
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+			RequestWindowFeature(WindowFeatures.NoTitle);
 
 			isLoggedIn = false;
 
+			var inflater = (LayoutInflater)GetSystemService(Context.LayoutInflaterService);
+			View popupContent = inflater.Inflate (Resource.Layout.StartPopup, null);
+
+			helpDialog = new Dialog (this);
+			helpDialog.AddContentView (popupContent,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent));
+			helpDialog.SetCancelable (false);
+
+			Button btnOk = popupContent.FindViewById<Button> (Resource.Id.btnOk);
+			btnOk.Click += (sender, e) => {
+				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this); 
+				ISharedPreferencesEditor editor = prefs.Edit();
+				editor.PutBoolean (Busidex.Mobile.Resources.PREFERENCE_FIRST_USE_POPUP_SEEN, true);
+				editor.Apply ();
+				helpDialog.Dismiss ();
+			};
+			//Remove title bar
+
 			base.OnCreate (savedInstanceState);
 
-			//Remove title bar
-			RequestWindowFeature(WindowFeatures.NoTitle);
+
 
 			SetContentView (Resource.Layout.Main);
 
 			_detector = new GestureDetector(this);
 
 			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
+			profileFragment.Elevation = 999;
+
 			var cookie = applicationResource.GetAuthCookie ();
 			if (cookie != null) {
 				profileFragment.Visibility = ViewStates.Gone;
@@ -108,19 +140,86 @@ namespace Busidex.Presentation.Android
 			}
 
 
-			var btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
-			var btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
-			var btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
-			var btnEvents = FindViewById<Button> (Resource.Id.btnEvents);
+			 btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
+			 btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
+			 btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
+			 btnEvents = FindViewById<Button> (Resource.Id.btnEvents);
 
-			var imgSearchIcon = FindViewById<ImageView> (Resource.Id.imgSearchIcon);
-			var imgBusidexIcon = FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
-			var imgOrgIcon = FindViewById<ImageView> (Resource.Id.imgOrgIcon);
-			var imgEventIcon = FindViewById<ImageView> (Resource.Id.imgEventIcon);
+			imgSearchIcon = FindViewById<ImageView> (Resource.Id.imgSearchIcon);
+			imgBusidexIcon = FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
+			imgOrgIcon = FindViewById<ImageView> (Resource.Id.imgOrgIcon);
+			imgEventIcon = FindViewById<ImageView> (Resource.Id.imgEventIcon);
+
+			#region Startup Animations
+
+			const int duration = 300;
+			const float mStart = -400;
+			const float mEnd = 40;
+
+			imgSearchIcon.Visibility = imgBusidexIcon.Visibility = imgOrgIcon.Visibility = imgEventIcon.Visibility = ViewStates.Invisible;
+			btnSearch.Visibility = btnMyBusidex.Visibility = btnMyOrganizations.Visibility = btnEvents.Visibility = ViewStates.Invisible;
+
+			ValueAnimator animator1 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+			animator1.SetDuration(duration);
+			animator1.Update += (sender, e) => {
+				imgSearchIcon.Visibility = ViewStates.Visible;
+				float newLeft = (float)e.Animation.AnimatedValue;
+				var layoutParams = (RelativeLayout.LayoutParams)imgSearchIcon.LayoutParameters;
+				layoutParams.LeftMargin = (int)newLeft;
+				imgSearchIcon.LayoutParameters = layoutParams;
+			};
+
+			ValueAnimator animator2 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+			animator2.SetDuration(duration);
+			animator2.Update += (sender, e) => {
+				float newLeft = (float)e.Animation.AnimatedValue;
+				var layoutParams = (RelativeLayout.LayoutParams)imgBusidexIcon.LayoutParameters;
+				layoutParams.LeftMargin = (int)newLeft;
+				imgBusidexIcon.LayoutParameters = layoutParams;
+			};
+
+			ValueAnimator animator3 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+			animator3.SetDuration(duration);
+			animator3.Update += (sender, e) => {
+				float newLeft = (float)e.Animation.AnimatedValue;
+				var layoutParams = (RelativeLayout.LayoutParams)imgOrgIcon.LayoutParameters;
+				layoutParams.LeftMargin = (int)newLeft;
+				imgOrgIcon.LayoutParameters = layoutParams;
+			};
+
+			ValueAnimator animator4 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+			animator4.SetDuration(duration);
+			animator4.Update += (sender, e) => {
+				float newLeft = (float)e.Animation.AnimatedValue;
+				var layoutParams = (RelativeLayout.LayoutParams)imgEventIcon.LayoutParameters;
+				layoutParams.LeftMargin = (int)newLeft;
+				imgEventIcon.LayoutParameters = layoutParams;
+			};
+
+			animator1.Start();
+
+			animator1.AnimationEnd += (sender, e) => {
+				imgBusidexIcon.Visibility = ViewStates.Visible;
+				btnSearch.Visibility = ViewStates.Visible;
+				animator2.Start ();
+			};
+			animator2.AnimationEnd += (s, ee) => {
+				imgOrgIcon.Visibility = ViewStates.Visible;
+				btnMyBusidex.Visibility = ViewStates.Visible;
+				animator3.Start ();
+			};
+			animator3.AnimationEnd += (s, ee) => {
+				imgEventIcon.Visibility = ViewStates.Visible;
+				btnMyOrganizations.Visibility = ViewStates.Visible;
+				animator4.Start ();
+			};
+			animator4.AnimationEnd += (s, ee) => {
+				btnEvents.Visibility = ViewStates.Visible;
+			};
+			#endregion
+		
 
 			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
-			var btnSettings = FindViewById<ImageButton> (Resource.Id.btnSettings);
-			var btnSync = FindViewById<ImageButton> (Resource.Id.btnSync);
 			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
 
 			btnSearch.Click += delegate {
@@ -133,9 +232,11 @@ namespace Busidex.Presentation.Android
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
-			btnMyBusidex.Click += async delegate {
-				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
-				await LoadMyBusidexAsync();
+			btnMyBusidex.Touch += async delegate(object sender, View.TouchEventArgs e) {
+				if(e.Event.Action == MotionEventActions.Up){
+					btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+					await LoadMyBusidexAsync();
+				}
 			};
 
 			imgBusidexIcon.Click += async delegate {
@@ -167,15 +268,18 @@ namespace Busidex.Presentation.Android
 				Logout();
 			};
 
-			btnSettings.Click -= GoToMyProfile;
-			btnSettings.Click += GoToMyProfile;
-			 
-			btnSync.Click += async delegate {
-				await Sync();	
-			}; 
-
 			btnSharedCardsNotification.Click -= GoToSharedCards;
 			btnSharedCardsNotification.Click += GoToSharedCards;
+		
+		}
+
+		void CheckPreferences(){
+
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this); 
+			bool popupSeen = prefs.GetBoolean (Busidex.Mobile.Resources.PREFERENCE_FIRST_USE_POPUP_SEEN, false);
+			if(!popupSeen){
+				helpDialog.Show ();
+			}
 		}
 
 		void SetNotificationUI(){
@@ -192,6 +296,7 @@ namespace Busidex.Presentation.Android
 			if (isLoggedIn) {
 				SetNotificationUI ();
 			}
+			CheckPreferences ();
 			base.OnResume ();
 		}
 
@@ -221,11 +326,7 @@ namespace Busidex.Presentation.Android
 			}
 			return true;
 		}
-
-		void GoToMyProfile(object sender, EventArgs args){
-			Redirect(new Intent(this, typeof(ProfileActivity)));
-		}
-
+			
 		void GoToMyOrganizations(){
 			Redirect(new Intent(this, typeof(MyOrganizationsActivity)));
 		}
@@ -247,6 +348,10 @@ namespace Busidex.Presentation.Android
 			var ctrl = new SharedCardController ();
 			var cookie = applicationResource.GetAuthCookie ();
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie);
+			if(sharedCardsResponse.Contains("404")){
+				return 0;
+			}
+
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
 			Utils.SaveResponse (sharedCardsResponse, Busidex.Mobile.Resources.SHARED_CARDS_FILE);

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@android:drawable/alert_dark_frame"
+    android:theme="@style/generalnotitle"
+    style="@style/generalnotitle"
+    android:padding="20dp">
+    <TextView
+        android:text="Helpful Hints!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtTitle"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="@dimen/indeterminate_progress_size" />
+    <TextView
+        android:text="Swipe down to refresh your Busidex information from this screen."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtHint1"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/txtTitle"
+        android:layout_marginRight="0.0dp"
+        android:textColor="@color/layoutBackground" />
+    <ImageView
+        android:src="@drawable/swipe_down"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@id/txtHint1"
+        android:id="@+id/imgSwipeDown"
+        android:layout_below="@id/txtTitle"
+        android:layout_marginLeft="10dp" />
+    <TextView
+        android:text="Swipe right to view your profile settings."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtHint1"
+        android:id="@+id/txtHint2"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/layoutBackground" />
+    <ImageView
+        android:src="@drawable/swipe_right"
+        android:layout_width="63.2dp"
+        android:layout_height="55.7dp"
+        android:layout_toRightOf="@id/txtHint2"
+        android:id="@+id/imgSwipeRight"
+        android:layout_below="@id/imgSwipeDown"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="0.0dp" />
+    <Button
+        android:text="Ok Got It!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtHint2"
+        android:id="@+id/btnOk"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textStyle="bold" />
+</RelativeLayout>

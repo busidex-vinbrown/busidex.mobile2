@@ -1,24 +1,20 @@
 ﻿
 using System;
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using Android.Content;
 
 namespace Busidex.Presentation.Android
 {
-	public class ProfileFragment : Fragment
+	public class ProfileFragment : BaseFragment
 	{
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
 		TextView lblEmailError;
 		TextView lblPasswordError;
 		bool showPassword = true;
-
-		protected BaseApplicationResource applicationResource;
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
@@ -38,7 +34,7 @@ namespace Busidex.Presentation.Android
 
 			var btnSaveProfile = profileView.FindViewById<Button> (Resource.Id.btnSaveProfile);
 
-			applicationResource = new BaseApplicationResource (this.Activity);
+			applicationResource = new BaseApplicationResource (Activity);
 
 			var token = applicationResource.GetAuthCookie ();
 			var accountJSON = AccountController.GetAccount (token);
@@ -104,7 +100,7 @@ namespace Busidex.Presentation.Android
 					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
 				var response = LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 				var userId = loginResponse != null ? loginResponse.UserId : 0;
 
@@ -130,20 +126,7 @@ namespace Busidex.Presentation.Android
 			SetCheckAccountResult (email, password, response);
 		}
 
-		protected void RedirectToMainIfLoggedIn(){
 
-			var cookie = applicationResource.GetAuthCookie ();
-			if(cookie != null){
-				var intent = new Intent(this.Activity.BaseContext, typeof(MainActivity));
-				Redirect(intent);
-			}
-		}
-
-		protected void Redirect(Intent intent){
-
-			StartActivity(intent);
-
-		}
 	}
 }
 

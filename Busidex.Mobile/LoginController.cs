@@ -1,4 +1,6 @@
-﻿
+﻿using System.Threading.Tasks;
+
+
 namespace Busidex.Mobile
 {
 	public class LoginController: BaseController
@@ -6,11 +8,11 @@ namespace Busidex.Mobile
 		const string LOGIN_URL = "Account/Login";
 
 
-		public static string DoLogin(string username, string password){
+		public static Task<string> DoLogin(string username, string password){
 		
 			string data = "{'UserName':'" + username + "','Password':'" + password + "','Token':'','RememberMe':'true'}";
 			string url = string.Format ("{0}{1}", Resources.BASE_API_URL, LOGIN_URL);
-			return MakeRequest (url, "POST", string.Empty, data);
+			return MakeRequestAsync (url, "POST", string.Empty, data);
 		}
 	}
 }

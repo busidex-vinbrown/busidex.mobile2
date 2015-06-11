@@ -12,7 +12,7 @@
         p1:layout_width="fill_parent"
         p1:layout_height="fill_parent"
         p1:visibility="gone"
-        p1:elevation="300dp"
+        p1:elevation="999dp"
         tools:visibility="gone" />
     <ImageView
         p1:layout_width="75dp"
@@ -49,7 +49,7 @@
         p1:layout_toRightOf="@id/imgSearchIcon"
         p1:id="@+id/btnSearch"
         p1:textColor="@color/buttonWhite"
-        p1:background="@android:color/transparent"
+        p1:background="@drawable/mainbuttonstyle"
         p1:layout_marginTop="50dp"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
@@ -64,7 +64,7 @@
         p1:id="@+id/btnMyBusidex"
         p1:layout_toRightOf="@id/imgBusidexIcon"
         p1:textColor="@color/buttonWhite"
-        p1:background="@android:color/transparent"
+        p1:background="@drawable/mainbuttonstyle"
         p1:layout_marginTop="30dp"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
@@ -78,7 +78,7 @@
         p1:id="@+id/btnMyOrganizations"
         p1:layout_below="@id/btnMyBusidex"
         p1:textColor="@color/buttonWhite"
-        p1:background="@android:color/transparent"
+        p1:background="@drawable/mainbuttonstyle"
         p1:layout_marginTop="30dp"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
@@ -95,35 +95,17 @@
         p1:layout_alignParentLeft="true"
         p1:layout_marginLeft="5dp" />
     <ImageButton
-        p1:src="@drawable/sync"
-        p1:layout_width="45dp"
-        p1:layout_height="45dp"
-        p1:id="@+id/btnSync"
-        p1:layout_alignParentBottom="true"
-        p1:background="@android:drawable/btn_default"
-        p1:scaleType="fitXY"
-        p1:layout_alignParentRight="true"
-        p1:layout_marginRight="5dp" />
-    <ImageButton
-        p1:src="@android:drawable/ic_menu_manage"
-        p1:layout_width="45dp"
-        p1:layout_height="45dp"
-        p1:layout_toLeftOf="@id/btnSync"
-        p1:id="@+id/btnSettings"
-        p1:layout_alignParentBottom="true"
-        p1:background="@android:drawable/btn_default"
-        p1:layout_marginRight="5dp" />
-    <ImageButton
         p1:src="@drawable/mybusidexicon"
         p1:layout_width="42dp"
         p1:layout_height="42dp"
-        p1:layout_toLeftOf="@id/btnSettings"
         p1:id="@+id/btnSharedCardsNotification"
         p1:scaleType="fitXY"
         p1:background="@android:drawable/editbox_dropdown_light_frame"
         p1:layout_alignParentBottom="true"
         p1:textAlignment="gravity"
-        p1:layout_marginBottom="3dp" />
+        p1:layout_marginBottom="3dp"
+        p1:layout_marginRight="15dp"
+        p1:layout_alignParentRight="true" />
     <TextView
         p1:text="1"
         p1:textAppearance="?android:attr/textAppearanceSmall"
@@ -156,7 +138,7 @@
         p1:layout_below="@id/btnMyOrganizations"
         p1:layout_marginTop="30dp"
         p1:textColor="@color/buttonWhite"
-        p1:background="@android:color/transparent"
+        p1:background="@drawable/mainbuttonstyle"
         p1:textSize="@dimen/font_size_label_large"
         p1:gravity="center_vertical"
         p1:layout_marginLeft="20dp"

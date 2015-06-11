@@ -26,7 +26,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			btnStart.Click += delegate {
-				StartActivity(new Intent(this, typeof(MainActivity)));	
+				StartActivity(new Intent(this, typeof(ProfileActivity)));	
 			};
 
 			RedirectToMainIfLoggedIn ();
