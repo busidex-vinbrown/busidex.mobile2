@@ -142,6 +142,7 @@ namespace Busidex.Presentation.Android.Fragments
 						this.View.Visibility = ViewStates.Gone;
 						this.View.StartAnimation(slideOut);
 						((MainActivity)this.Activity).profileIsOpen = false;
+						((MainActivity)this.Activity).interceptTouchEvents = true;
 					}
 				});
 			});
