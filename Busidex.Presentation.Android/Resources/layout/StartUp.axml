@@ -47,7 +47,9 @@
         android:textSize="@dimen/font_size_label_large"
         android:layout_marginRight="43dp"
         android:layout_marginLeft="43dp"
-        android:layout_below="@id/lblAlreadyAUser" />
+        android:layout_below="@id/lblAlreadyAUser"
+        android:paddingTop="25dp"
+        android:layout_marginTop="-25dp" />
     <TextView
         android:text="@string/StartPage_lblNewUser"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -72,7 +74,9 @@
         android:textSize="@dimen/font_size_label_large"
         android:layout_marginLeft="43dp"
         android:layout_marginRight="43dp"
-        android:layout_below="@id/lblNewUser" />
+        android:layout_below="@id/lblNewUser"
+        android:paddingTop="25dp"
+        android:layout_marginTop="-25dp" />
     <ImageView
         android:layout_width="130dp"
         android:layout_height="130dp"

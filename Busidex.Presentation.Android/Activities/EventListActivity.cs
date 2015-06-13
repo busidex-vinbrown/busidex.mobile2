@@ -150,7 +150,7 @@ namespace Busidex.Presentation.Android
 								HideLoadingSpinner();
 
 								ShowLoadingSpinner (
-									Resources.GetString (Resource.String.Global_LoadingCards), 
+									Resources.GetString (Resource.String.Global_LoadingEvent), 
 									ProgressDialogStyle.Horizontal, 
 									eventSearchResponse.SearchModel.Results.Count);
 							});

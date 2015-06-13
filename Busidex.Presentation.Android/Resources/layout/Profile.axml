@@ -4,14 +4,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/profile_background_1">
+    android:background="@drawable/profile2_blur">
     <TextView
         android:text="Update Your Profile"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lblProfileHeader"
-        android:textColor="@color/labelFontColorDark"
+        android:textColor="@color/buttonWhite"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp" />
@@ -21,10 +21,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtProfileDescription"
-        android:textColor="@color/labelFontColor"
-        android:layout_marginLeft="20dp"
+        android:textColor="@color/labelFontColorDark"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="25dp"
+        android:paddingLeft="25dp"
+        android:background="@color/buttonWhite"
+        android:alpha=".7"
+        android:paddingBottom="5dp" />
     <RelativeLayout
         android:minWidth="25px"
         android:minHeight="25px"
@@ -39,7 +45,8 @@
             android:id="@+id/lblProfileEmail"
             android:textColor="@color/labelFontColorDark"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:padding="5dp" />
         <EditText
             android:inputType="textEmailAddress"
             android:layout_width="270dp"
@@ -104,6 +111,22 @@
             android:id="@+id/lblPasswordError"
             android:textColor="@android:color/holo_red_dark"
             android:layout_marginLeft="25dp" />
+        <TextView
+            android:text="I accept the"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtAcceptTerms"
+            android:layout_below="@id/txtProfilePassword"
+            android:layout_marginTop="28dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginLeft="20dp"
+            android:inputType="none"
+            android:textColor="@color/labelFontColorDark"
+            android:alpha=".7"
+            android:background="#ffffff"
+            android:paddingLeft="30dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp" />
         <ImageView
             android:src="@drawable/checkmark"
             android:layout_width="25dp"
@@ -111,21 +134,9 @@
             android:id="@+id/imgAcceptTerms"
             android:layout_below="@id/txtProfilePassword"
             android:scaleType="fitXY"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="20dp"
             android:alpha=".4" />
-        <TextView
-            android:text="I accept the"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imgAcceptTerms"
-            android:id="@+id/txtAcceptTerms"
-            android:layout_below="@id/txtProfilePassword"
-            android:layout_marginTop="18dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="5dp"
-            android:inputType="none"
-            android:textColor="@color/labelFontColorDark" />
         <Button
             android:text="Save"
             android:layout_width="wrap_content"
@@ -143,11 +154,17 @@
             android:layout_toRightOf="@id/txtAcceptTerms"
             android:id="@+id/txtViewTerms"
             android:layout_below="@id/txtProfilePassword"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="28dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:inputType="none"
             android:textColor="@color/labelFontColorDark"
-            android:background="@drawable/underline"
-            android:layout_marginLeft="3dp" />
+            android:background="@color/buttonWhite"
+            android:layout_marginLeft="0dp"
+            android:alpha=".6"
+            android:paddingLeft="2dp"
+            android:textStyle="bold"
+            android:paddingRight="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp" />
     </RelativeLayout>
 </LinearLayout>

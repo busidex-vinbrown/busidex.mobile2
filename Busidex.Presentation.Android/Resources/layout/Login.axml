@@ -9,12 +9,14 @@
     <TextView
         p1:text="@string/Login_lblUserName"
         p1:textAppearance="?android:attr/textAppearanceSmall"
-        p1:layout_width="107.3dp"
+        p1:layout_width="wrap_content"
         p1:layout_height="22.0dp"
         p1:id="@+id/lblUserName"
         p1:textColor="@color/labelFontColor"
         p1:layout_marginTop="40dp"
-        p1:layout_marginLeft="65dp" />
+        p1:layout_centerInParent="false"
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_large" />
     <EditText
         p1:inputType="textPersonName"
         p1:layout_width="225.6dp"
@@ -22,17 +24,20 @@
         p1:layout_below="@id/lblUserName"
         p1:id="@+id/txtUserName"
         p1:background="@android:drawable/editbox_background"
-        p1:layout_marginLeft="65dp"
-        p1:textColor="@color/textInputColor" />
+        p1:textColor="@color/labelFontColor"
+        p1:gravity="center_horizontal"
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_medium" />
     <TextView
         p1:text="@string/Login_lblPassword"
         p1:textAppearance="?android:attr/textAppearanceSmall"
-        p1:layout_width="87.2dp"
+        p1:layout_width="wrap_content"
         p1:layout_height="25.9dp"
         p1:layout_below="@id/txtUserName"
         p1:id="@+id/lblPassword"
         p1:textColor="@color/labelFontColor"
-        p1:layout_marginLeft="65dp" />
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_large" />
     <EditText
         p1:inputType="textPassword"
         p1:layout_width="226.5dp"
@@ -40,8 +45,9 @@
         p1:layout_below="@id/lblPassword"
         p1:id="@+id/txtPassword"
         p1:background="@android:drawable/editbox_background"
-        p1:layout_marginLeft="65dp"
-        p1:textColor="@color/textInputColor" />
+        p1:textColor="@color/labelFontColor"
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_medium" />
     <TextView
         p1:text="Login Failed"
         p1:textAppearance="?android:attr/textAppearanceMedium"
@@ -51,19 +57,24 @@
         p1:background="#ffff4d4d"
         p1:textColor="#ffffffff"
         p1:gravity="center"
-        p1:layout_below="@id/txtPassword" />
+        p1:layout_below="@id/txtPassword"
+        p1:layout_centerHorizontal="true" />
     <Button
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/btnLogin"
         p1:textColor="@color/buttonFontColor"
-        p1:background="@color/layoutBackground"
+        p1:background="@drawable/mainbuttonstyle"
         p1:text="@string/Login_btnLogin"
-        p1:layout_below="@id/txtLoginFailed" />
+        p1:layout_below="@id/txtLoginFailed"
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_large" />
     <ImageView
         p1:src="@drawable/large_logo"
         p1:layout_width="match_parent"
         p1:layout_height="95.5dp"
         p1:id="@+id/imgLogo"
-        p1:layout_below="@id/btnLogin" />
+        p1:layout_below="@id/btnLogin"
+        p1:elevation="0dp"
+        p1:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -98,11 +98,11 @@
     <Compile Include="Activities\EventCardsActivity.cs" />
     <Compile Include="Adapters\EventListAdapter.cs" />
     <Compile Include="Utilities\SwipeGestureListener.cs" />
-    <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Activities\BaseApplicationResource.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Fragments\TermsAndConditions.cs" />
+    <Compile Include="Fragments\ProfileFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -163,7 +163,6 @@
     <AndroidResource Include="Resources\layout\EventListListItem.axml" />
     <AndroidResource Include="Resources\layout\EventList.axml" />
     <AndroidResource Include="Resources\layout\EventCards.axml" />
-    <AndroidResource Include="Resources\drawable\background_blur4.png" />
     <AndroidResource Include="Resources\drawable\background_blur5.png" />
     <AndroidResource Include="Resources\drawable\logo3.png" />
     <AndroidResource Include="Resources\drawable\MyBusidexIcon.png" />
@@ -171,7 +170,6 @@
     <AndroidResource Include="Resources\drawable\EventIcon.png" />
     <AndroidResource Include="Resources\drawable\OrganizationsIcon.png" />
     <AndroidResource Include="Resources\values\dimen.xml" />
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\anim\SlideAnimationFast.xml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimationFast.xml" />
     <AndroidResource Include="Resources\drawable\white_underline.xml" />
@@ -186,6 +184,9 @@
     <AndroidResource Include="Resources\layout\StartPopup.axml" />
     <AndroidResource Include="Resources\drawable\swipe_down.gif" />
     <AndroidResource Include="Resources\drawable\swipe_right.png" />
+    <AndroidResource Include="Resources\drawable\profile2_blur.png" />
+    <AndroidResource Include="Resources\drawable\main_blur.png" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

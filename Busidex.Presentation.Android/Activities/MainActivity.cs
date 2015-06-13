@@ -14,19 +14,26 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Animation;
 using Android.Preferences;
+using Android.Graphics;
+using Busidex.Presentation.Android.Fragments;
 
 namespace Busidex.Presentation.Android
 {
 	[Activity (Label = "Busidex", Icon = "@drawable/icon")]
-	public class MainActivity : BaseActivity, GestureDetector.IOnGestureListener
+	public class MainActivity : BaseActivity, GestureDetector.IOnGestureListener, View.IOnTouchListener
 	{
+		public bool OnTouch (View v, MotionEvent e)
+		{
+			return interceptTouchEvents;
+		}
+
 		View profileFragment;
 		bool isLoggedIn;
 
 		bool eventsRefreshing;
 		bool organizationsRefreshing;
 		bool myBusidexRefreshing;
-		bool profileIsOpen;
+		public bool profileIsOpen;
 
 		Button btnSearch;
 		Button btnMyBusidex;
@@ -37,11 +44,26 @@ namespace Busidex.Presentation.Android
 		ImageView imgOrgIcon;
 		ImageView imgEventIcon;
 		Dialog helpDialog;
+		public bool interceptTouchEvents = true;
 
+		private void LoadProfileFragment(){
+			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
+			//profileFragment.SetOnTouchListener (this);
+			profileFragment.Elevation = 999;
+
+			var cookie = applicationResource.GetAuthCookie ();
+			if (cookie != null) {
+				profileFragment.Visibility = ViewStates.Gone;
+				isLoggedIn = true;
+			}else{
+				profileFragment.Visibility = ViewStates.Visible;
+			}
+
+		}
 		#region Touch Events
 		public bool OnDown (MotionEvent e)
 		{
-			return true;
+			return interceptTouchEvents;
 		}
 
 		public bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
@@ -50,6 +72,7 @@ namespace Busidex.Presentation.Android
 			if (e2.GetX () - e1.GetX () > 300) {
 				if (!profileIsOpen) {
 					profileIsOpen = true;
+					interceptTouchEvents = false;
 					var slideIn = AnimationUtils.LoadAnimation (this, Resource.Animation.SlideAnimationFast);
 					profileFragment.Visibility = ViewStates.Visible;
 					profileFragment.StartAnimation (slideIn);
@@ -58,6 +81,7 @@ namespace Busidex.Presentation.Android
 
 			if (e1.GetX () - e2.GetX () > 300) {
 				profileIsOpen = false;
+				interceptTouchEvents = true;
 				var slideOut = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideOutAnimationFast);
 				profileFragment.StartAnimation (slideOut);
 				profileFragment.Visibility = ViewStates.Gone;
@@ -91,7 +115,7 @@ namespace Busidex.Presentation.Android
 
 		public override bool OnTouchEvent(MotionEvent e)
 		{
-			_detector.OnTouchEvent(e);
+			_detector.OnTouchEvent (e);
 			return false;
 		}
 		#endregion
@@ -141,22 +165,14 @@ namespace Busidex.Presentation.Android
 
 			_detector = new GestureDetector(this);
 
-			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
-			profileFragment.Elevation = 999;
-
-			var cookie = applicationResource.GetAuthCookie ();
-			if (cookie != null) {
-				profileFragment.Visibility = ViewStates.Gone;
-				isLoggedIn = true;
-			}else{
-				profileFragment.Visibility = ViewStates.Visible;
-			}
+			LoadProfileFragment ();
 
 
-			 btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
-			 btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
-			 btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
-			 btnEvents = FindViewById<Button> (Resource.Id.btnEvents);
+			btnSearch = FindViewById<Button> (Resource.Id.btnSearch);
+			btnMyBusidex = FindViewById<Button> (Resource.Id.btnMyBusidex);
+			btnMyOrganizations = FindViewById<Button> (Resource.Id.btnMyOrganizations);
+			btnEvents = FindViewById<Button> (Resource.Id.btnEvents);
+
 
 			imgSearchIcon = FindViewById<ImageView> (Resource.Id.imgSearchIcon);
 			imgBusidexIcon = FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
@@ -236,48 +252,51 @@ namespace Busidex.Presentation.Android
 			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
 
 			btnSearch.Click += delegate {
-				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
+				btnSearch.SetBackgroundColor (Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
 			imgSearchIcon.Click += delegate {
-				btnSearch.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
+				btnSearch.SetBackgroundColor (Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
 			btnMyBusidex.Touch += async delegate(object sender, View.TouchEventArgs e) {
+				if(!interceptTouchEvents) return;
 				if(e.Event.Action == MotionEventActions.Up){
-					btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
 					await LoadMyBusidexAsync();
 				}
 			};
 
 			imgBusidexIcon.Click += async delegate {
-				btnMyBusidex.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
 				await LoadMyBusidexAsync();
 			};
 
 			btnMyOrganizations.Click += async delegate {
-				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
 				await LoadMyOrganizationsAsync();
 			};
 
 			imgOrgIcon.Click += async delegate {
-				btnMyOrganizations.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
 				await LoadMyOrganizationsAsync();
 			};
 
 			imgEventIcon.Click += async delegate {
-				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
 				await LoadEventList();
 			};
 
 			btnEvents.Click += async delegate {
-				btnEvents.SetBackgroundColor (global::Android.Graphics.Color.Silver);
+				if(!interceptTouchEvents) return;
 				await LoadEventList();
 			};
 
 			btnLogout.Click += delegate {
+				if(!interceptTouchEvents) return;
 				Logout();
 			};
 
@@ -392,7 +411,7 @@ namespace Busidex.Presentation.Android
 			organizationsRefreshing = true;
 
 			var cookie = applicationResource.GetAuthCookie ();
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
+			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
 				organizationsRefreshing = false;
 				GoToMyOrganizations ();
@@ -495,7 +514,7 @@ namespace Busidex.Presentation.Android
 
 			var cookie = applicationResource.GetAuthCookie ();
 
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
 				myBusidexRefreshing = false;
@@ -597,7 +616,7 @@ namespace Busidex.Presentation.Android
 			eventsRefreshing = true;
 			var cookie = applicationResource.GetAuthCookie ();
 
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
 				eventsRefreshing = false;
 				GoToEventList ();
@@ -621,7 +640,7 @@ namespace Busidex.Presentation.Android
 					});
 
 				} catch (Exception ignore) {
-
+					
 				}
 			}
 

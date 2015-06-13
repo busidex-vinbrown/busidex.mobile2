@@ -5,23 +5,36 @@ using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
+using Android.Views.Animations;
+using System.Threading.Tasks;
 
-namespace Busidex.Presentation.Android
+namespace Busidex.Presentation.Android.Fragments
 {
 	public class ProfileFragment : BaseFragment
 	{
+
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
 		TextView lblEmailError;
 		TextView lblPasswordError;
 		bool showPassword = true;
 
+		GestureDetector.IOnGestureListener _detector;
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		
+			_detector = (MainActivity)this.Activity;
+
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 			View profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
+
+			var txtAcceptTerms = profileView.FindViewById<TextView> (Resource.Id.txtAcceptTerms);
+			var txtViewTerms = profileView.FindViewById<TextView> (Resource.Id.txtViewTerms);
+			var imgAcceptTerms = profileView.FindViewById<ImageView> (Resource.Id.imgAcceptTerms);
+
+			txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Gone;
 
 			var txtProfileEmail = profileView.FindViewById<TextView> (Resource.Id.txtProfileEmail);
 			var txtProfilePassword = profileView.FindViewById<TextView> (Resource.Id.txtProfilePassword);
@@ -50,33 +63,38 @@ namespace Busidex.Presentation.Android
 				showPassword = false;
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
 
-				btnSaveProfile.Click += delegate {
-					UpdateEmail(token, txtProfileEmail.Text);
+				btnSaveProfile.Click += async delegate {
+					await UpdateEmail (token, txtProfileEmail.Text);
 				};
-			}else{
+			}/*else{
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 
 				btnSaveProfile.Click += delegate {
 					CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
 				};
-			}
+			}*/
 
 			return profileView;
 		}
 
-		void SetEmailChangedResult(string result){
+		bool SetEmailChangedResult(string result){
 
 			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
+				return false;
 			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
 				imgProfileEmailSaved.Visibility = ViewStates.Visible;
 				lblEmailError.Visibility = ViewStates.Invisible;
+				return true;
+			}else if(string.IsNullOrEmpty(result)){
+				return true;
 			} else {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText(Resource.String.Profile_ErrorEmailGeneral);
+				return false;
 			}
 		}
 
@@ -115,9 +133,19 @@ namespace Busidex.Presentation.Android
 			}
 		}
 
-		void UpdateEmail(string token, string email){
-			var response = SettingsController.ChangeEmail (email, token);
-			SetEmailChangedResult (response.Result);
+		async Task<bool> UpdateEmail(string token, string email){
+			 await SettingsController.ChangeEmail (email, token).ContinueWith(response => {
+
+				this.Activity.RunOnUiThread (() => {
+					if(SetEmailChangedResult (response.Result)){
+						var slideOut = AnimationUtils.LoadAnimation (this.Activity, Resource.Animation.SlideOutAnimationFast);
+						this.View.Visibility = ViewStates.Gone;
+						this.View.StartAnimation(slideOut);
+						((MainActivity)this.Activity).profileIsOpen = false;
+					}
+				});
+			});
+			return true;
 		}
 
 		void CheckAccount(string token, string email, string password){

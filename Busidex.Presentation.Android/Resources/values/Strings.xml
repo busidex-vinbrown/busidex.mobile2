@@ -15,6 +15,7 @@
 	<string name="MyBusidex_NoCards">You do not have any cards in your collection. Search for some and add them.</string>
 	<string name="Global_OneMoment">One moment</string>
 	<string name="Global_LoadingCards">Loading your cards</string>
+	<string name="Global_LoadingEvent">Loading your event</string>
 	<string name="Global_LoadingCardsProgress">Loading {0} of {1} cards</string>
 	<string name="Share_Title">Share This Card</string>
 	<string name="Share_Description">Enter the email address of the person with whom you want to share this card.</string>
