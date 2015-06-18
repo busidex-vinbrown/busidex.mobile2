@@ -1,13 +1,14 @@
 ﻿using System.IO;
 using Android.App;
-using Android.Content;
+//using Android.Content;
 using Android.Net;
 using Android.OS;
 using Android.Widget;
+using Android.Graphics.Drawables;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Busidex")]			
+	[Activity (Label = "Busidex", ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]			
 	public class CardDetailActivity : BaseCardActivity
 	{
 		string FrontFileName{ get; set; }
@@ -35,8 +36,17 @@ namespace Busidex.Presentation.Android
 			};
 
 			ViewState = CardViewState.Loading;
-
+			
 			ToggleImage();
+		}
+
+		protected override void OnDestroy ()
+		{
+			BitmapDrawable bd = (BitmapDrawable)btnCard.Drawable;
+			bd.Bitmap.Recycle ();
+			btnCard.SetImageURI (null);
+
+			base.OnDestroy ();
 		}
 
 		protected override void OnImageDownloadCompleted (Uri uri){
@@ -55,6 +65,10 @@ namespace Busidex.Presentation.Android
 			switch(ViewState){
 			case CardViewState.Loading:{
 
+					this.RequestedOrientation = UserCard.Card.FrontOrientation == "H" 
+						? global::Android.Content.PM.ScreenOrientation.Landscape
+						: global::Android.Content.PM.ScreenOrientation.Portrait;
+					
 					if (File.Exists (frontFileName)) {
 						OnImageDownloadCompleted (frontUri);
 					}else{
@@ -78,6 +92,11 @@ namespace Busidex.Presentation.Android
 					if (UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID)) {
 						Finish ();
 					} else {
+
+						this.RequestedOrientation = UserCard.Card.BackOrientation == "H" 
+							? global::Android.Content.PM.ScreenOrientation.Landscape
+							: global::Android.Content.PM.ScreenOrientation.Portrait;
+						
 						if (File.Exists (backFileName)) {
 							OnImageDownloadCompleted(backUri);
 						} else {

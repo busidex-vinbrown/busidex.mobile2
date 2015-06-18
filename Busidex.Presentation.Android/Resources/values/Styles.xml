@@ -5,8 +5,13 @@
   </style>
 <style name="ActionBarStyle">
   	<item name="android:background">@color/layoutBackground</item>
+  	<item name="android:textColor">@color/labelFontColorDark</item>
 </style>
 <style name="generalnotitle" parent="android:Theme">
     <item name="android:windowNoTitle">true</item>
+</style>
+<style name="SearchBar" parent="android:Theme">
+	<item name="android:textColor">@color/labelFontColorDark</item>
+	<item name="android:background">@color/layoutBackground</item>
 </style>
 </resources>

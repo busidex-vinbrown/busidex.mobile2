@@ -1,8 +1,6 @@
 ﻿
 using Android.App;
-using System.Linq;
 using Android.Content;
-using Xamarin.Auth;
 using System.IO;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
@@ -12,12 +10,11 @@ using System.Threading.Tasks;
 using System;
 using Android.Gms.Analytics;
 using System.Collections.Generic;
-using Android.Preferences;
 
 namespace Busidex.Presentation.Android
 {
 	 
-	[Activity (Label = "BaseActivity")]			
+	[Activity (Label = "BaseActivity", ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]			
 	public class BaseActivity : Activity
 	{
 		protected BaseApplicationResource applicationResource;
@@ -35,7 +32,7 @@ namespace Busidex.Presentation.Android
 		{
 
 			base.OnCreate (savedInstanceState);
-
+			this.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 			applicationResource = new BaseApplicationResource (this);
 		}

@@ -8,7 +8,7 @@ using Busidex.Mobile.Models;
 using Android.Views.Animations;
 using System.Threading.Tasks;
 
-namespace Busidex.Presentation.Android.Fragments
+namespace Busidex.Presentation.Android
 {
 	public class ProfileFragment : BaseFragment
 	{

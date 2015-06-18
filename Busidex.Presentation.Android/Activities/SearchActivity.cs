@@ -9,6 +9,7 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
 using Android.Content;
+using Android.Views;
 
 namespace Busidex.Presentation.Android
 {
@@ -20,6 +21,8 @@ namespace Busidex.Presentation.Android
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
+			RequestWindowFeature(WindowFeatures.NoTitle);
+
 			base.OnCreate (savedInstanceState);
 
 			SetContentView (Resource.Layout.Search);
@@ -64,7 +67,7 @@ namespace Busidex.Presentation.Android
 			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 			adapter.OpenMap += OpenMap;
 
-			adapter.ShowNotes = true;
+			adapter.ShowNotes = false;
 
 			lstSearchResults.Adapter = adapter;
 

@@ -185,8 +185,9 @@
     <AndroidResource Include="Resources\drawable\swipe_down.gif" />
     <AndroidResource Include="Resources\drawable\swipe_right.png" />
     <AndroidResource Include="Resources\drawable\profile2_blur.png" />
-    <AndroidResource Include="Resources\drawable\main_blur.png" />
     <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\drawable\main_blur2.png" />
+    <AndroidResource Include="Resources\drawable\cards_back2.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -209,9 +210,6 @@
     <Folder Include="Assets\font\" />
     <Folder Include="Utilities\" />
     <Folder Include="Fragments\" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\drawable\cards_back.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\font\Lato-Black.ttf" />

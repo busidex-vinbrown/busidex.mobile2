@@ -90,7 +90,7 @@ namespace Busidex.Presentation.iOS
 				lblPasswordError.Hidden = true;
 
 				var response = Busidex.Mobile.LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 				var userId = loginResponse != null ? loginResponse.UserId : 0;
 

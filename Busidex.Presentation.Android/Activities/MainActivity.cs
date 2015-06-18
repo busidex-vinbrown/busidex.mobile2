@@ -15,7 +15,6 @@ using Android.Views.Animations;
 using Android.Animation;
 using Android.Preferences;
 using Android.Graphics;
-using Busidex.Presentation.Android.Fragments;
 
 namespace Busidex.Presentation.Android
 {
@@ -48,7 +47,6 @@ namespace Busidex.Presentation.Android
 
 		private void LoadProfileFragment(){
 			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
-			//profileFragment.SetOnTouchListener (this);
 			profileFragment.Elevation = 999;
 
 			var cookie = applicationResource.GetAuthCookie ();
@@ -68,8 +66,9 @@ namespace Busidex.Presentation.Android
 
 		public bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
 		{
+			const float SWIPE_THRESHOLD = 400;
 			// detect swipe right
-			if (e2.GetX () - e1.GetX () > 300) {
+			if (e2.GetX () - e1.GetX () > SWIPE_THRESHOLD) {
 				if (!profileIsOpen) {
 					profileIsOpen = true;
 					interceptTouchEvents = false;
@@ -79,7 +78,7 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			if (e1.GetX () - e2.GetX () > 300) {
+			if (e1.GetX () - e2.GetX () > SWIPE_THRESHOLD && profileIsOpen) {
 				profileIsOpen = false;
 				interceptTouchEvents = true;
 				var slideOut = AnimationUtils.LoadAnimation(this, Resource.Animation.SlideOutAnimationFast);
@@ -87,8 +86,10 @@ namespace Busidex.Presentation.Android
 				profileFragment.Visibility = ViewStates.Gone;
 			}
 
-			if (e2.GetY () - e1.GetY () > 300) {
-				Sync ();
+			if (e2.GetY () - e1.GetY () > SWIPE_THRESHOLD) {
+				Sync ().ContinueWith(r => {
+					
+				});
 			}
 			return true;
 		}
@@ -253,13 +254,11 @@ namespace Busidex.Presentation.Android
 
 			btnSearch.Click += delegate {
 				if(!interceptTouchEvents) return;
-				btnSearch.SetBackgroundColor (Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
 			imgSearchIcon.Click += delegate {
 				if(!interceptTouchEvents) return;
-				btnSearch.SetBackgroundColor (Color.Silver);
 				Redirect(new Intent(this, typeof(SearchActivity)));
 			};
 
@@ -350,10 +349,6 @@ namespace Busidex.Presentation.Android
 				return false;
 			}
 
-			const bool FORCE = true;
-			await LoadMyBusidexAsync(FORCE);
-			await LoadMyOrganizationsAsync(FORCE);
-			await LoadEventList (FORCE);
 			var notificationCount = GetNotifications();
 			if(notificationCount > 0){
 				var txtNotificationCount = FindViewById<TextView> (Resource.Id.txtNotificationCount);
@@ -361,6 +356,14 @@ namespace Busidex.Presentation.Android
 
 				btnSharedCardsNotification.Visibility = ViewStates.Visible;
 			}
+
+			const bool FORCE = true;
+			await LoadMyBusidexAsync(FORCE).ContinueWith( async r=>{
+				await LoadMyOrganizationsAsync(FORCE).ContinueWith( async r2 => {
+					await LoadEventList (FORCE);
+				});
+			});
+				
 			return true;
 		}
 			
@@ -496,8 +499,8 @@ namespace Busidex.Presentation.Android
 
 							RunOnUiThread (() => {
 								HideLoadingSpinner();
+								organizationsRefreshing = false;
 								if(!force){
-									organizationsRefreshing = false;
 									GoToMyOrganizations ();
 								}
 							});
@@ -564,8 +567,8 @@ namespace Busidex.Presentation.Android
 												idx++;
 												if(idx == total){
 													HideLoadingSpinner();
+													myBusidexRefreshing = false;
 													if(!force){
-														myBusidexRefreshing = false;
 														GoToMyBusidex ();
 													}
 												}else{
@@ -578,8 +581,8 @@ namespace Busidex.Presentation.Android
 											idx++;
 											if(idx == total){
 												HideLoadingSpinner();
+												myBusidexRefreshing = false;
 												if(!force){
-													myBusidexRefreshing = false;
 													GoToMyBusidex ();
 												}
 											}else{
@@ -598,13 +601,17 @@ namespace Busidex.Presentation.Android
 							RunOnUiThread (() => {
 								Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 								HideLoadingSpinner();
+								myBusidexRefreshing = false;
 								if(!force){
-									myBusidexRefreshing = false;
 									GoToMyBusidex ();
 								}
 							});
+						}else{
+							myBusidexRefreshing = false;
 						}
 					});
+				}else{
+					myBusidexRefreshing = false;
 				}
 
 			}
@@ -630,9 +637,8 @@ namespace Busidex.Presentation.Android
 								Utils.SaveResponse (r.Result, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 
 								applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
-
+								eventsRefreshing = false;
 								if(!force){
-									eventsRefreshing = false;
 									GoToEventList ();
 								}
 							});

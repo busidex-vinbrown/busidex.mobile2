@@ -65,8 +65,8 @@ namespace Busidex.Presentation.iOS
 				string password = txtPassword.Text;
 
 				var response = Busidex.Mobile.LoginController.DoLogin (username, password);
-				if (!string.IsNullOrEmpty (response) && !response.Contains ("404")) {
-					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response);
+				if (!string.IsNullOrEmpty (response.Result) && !response.Result.Contains ("404")) {
+					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					UserId = loginResponse != null ? loginResponse.UserId : 0;
 
