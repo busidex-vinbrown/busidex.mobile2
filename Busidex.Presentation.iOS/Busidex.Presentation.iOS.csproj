@@ -121,6 +121,9 @@
     <None Include="RELEASE-NOTES.txt" />
     <None Include="icons\.DS_Store" />
     <None Include="packages.config" />
+    <None Include="Controllers\Info.plist">
+      <DependentUpon>BaseController.cs</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -135,10 +138,6 @@
     <Compile Include="Controllers\CardViewController.cs" />
     <Compile Include="Controllers\CardViewController.designer.cs">
       <DependentUpon>CardViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\DataViewController.cs" />
-    <Compile Include="Controllers\DataViewController.designer.cs">
-      <DependentUpon>DataViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LoginController.designer.cs">
@@ -224,6 +223,18 @@
       <DependentUpon>ButtonPanelController.cs</DependentUpon>
     </Compile>
     <Compile Include="Reachability.cs" />
+    <Compile Include="Controllers\DataViewController.cs" />
+    <Compile Include="Controllers\DataViewController.designer.cs">
+      <DependentUpon>DataViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\BaseNavigationController.cs" />
+    <Compile Include="Controllers\BaseNavigationController.designer.cs">
+      <DependentUpon>BaseNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\BaseCardViewController.cs" />
+    <Compile Include="Controllers\BaseCardViewController.designer.cs">
+      <DependentUpon>BaseCardViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -246,6 +257,8 @@
     <InterfaceDefinition Include="Controllers\EventCardsController.xib" />
     <InterfaceDefinition Include="Controllers\TermsController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
+    <InterfaceDefinition Include="Controllers\BaseNavigationController.xib" />
+    <InterfaceDefinition Include="Controllers\BaseCardViewController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -313,19 +326,19 @@
     <BundleResource Include="Resources\delete.jpeg" />
     <BundleResource Include="Resources\event.jpg" />
     <BundleResource Include="Resources\event.png" />
-    <BundleResource Include="Resources\background_blur3.png" />
     <BundleResource Include="Resources\logo3.png" />
     <BundleResource Include="Resources\spotlight-icon2.png" />
     <BundleResource Include="Resources\EventIcon.png" />
     <BundleResource Include="Resources\MyBusidexIcon.png" />
     <BundleResource Include="Resources\OrganizationsIcon.png" />
     <BundleResource Include="Resources\SearchIcon.png" />
+    <BundleResource Include="Resources\background_blur5.png" />
+    <BundleResource Include="Resources\cards_back2.png" />
+    <BundleResource Include="Resources\main_blur2.png" />
+    <BundleResource Include="Resources\profile2_blur.png" />
     <BundleResource Include="Resources\Lato-Black.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
-    <BundleResource Include="Resources\background_blur4.png" />
-    <BundleResource Include="Resources\background_blur5.png" />
-    <BundleResource Include="Resources\cards_back.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

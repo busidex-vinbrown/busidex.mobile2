@@ -12,7 +12,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrgMembersController : BaseController
+	partial class OrgMembersController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		public long OrganizationId{ get; set; }
@@ -94,19 +94,6 @@ namespace Busidex.Presentation.iOS
 				ResetFilter();
 				txtSearch.ResignFirstResponder();
 			};
-		}
-
-		void GoToCard(){
-
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-
-			var cardController = board.InstantiateViewController ("CardViewController") as CardViewController;
-
-			cardController.UserCard = ((TableSource)tblMembers.Source).SelectedCard;
-
-			if (cardController != null) {
-				NavigationController.PushViewController (cardController, true);
-			}
 		}
 
 		void ShowPhoneNumbers(){
@@ -203,7 +190,7 @@ namespace Busidex.Presentation.iOS
 						cards.Add (userCard);
 
 						if (!File.Exists (Path.Combine (documentsPath, frontFileId + "." + frontType))) {
-							await Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+							await Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
 								if (isProgressFinished(++processed, total)) {
 									InvokeOnMainThread (() => LoadMembers (cards));
 								} 
@@ -281,6 +268,8 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			base.TableView = tblMembers;
 
 			tblMembers.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 

@@ -51,7 +51,9 @@ namespace Busidex.Presentation.iOS
 			 * the userId. Set the authentication cookie and continue.
 			 */
 
-			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = UIFont.FromName ("Lato-Black", 22f);
+			UIFont font = UIFont.FromName ("Lato-Black", 22f);
+		
+			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = font;
 
 			btnGoToSearch.TouchUpInside += delegate {
 				GoToSearch();
@@ -184,6 +186,13 @@ namespace Busidex.Presentation.iOS
 				})
 			}, true);
 		}
+
+		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
+		{
+			return UIInterfaceOrientationMask.Portrait;
+		}
+
+
 
 		public override void ViewWillAppear (bool animated)
 		{
@@ -454,7 +463,7 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		void LoadEventList(bool force = false){
+		async Task<bool> LoadEventList(bool force = false){
 			var cookie = GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (documentsPath, Resources.EVENT_LIST_FILE);
@@ -463,21 +472,24 @@ namespace Busidex.Presentation.iOS
 			} else {
 				try {
 					var controller = new Busidex.Mobile.SearchController ();
-					var eventListResponse = controller.GetEventTags (cookie.Value);
-					if (!string.IsNullOrEmpty (eventListResponse.Result)) {
+					await controller.GetEventTags (cookie.Value).ContinueWith(async eventListResponse => {
+						if (!string.IsNullOrEmpty (eventListResponse.Result)) {
 
-						Utils.SaveResponse (eventListResponse.Result, Resources.EVENT_LIST_FILE);
+							Utils.SaveResponse (eventListResponse.Result, Resources.EVENT_LIST_FILE);
 
-						SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+							SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
-						if(!force){
-							GoToEvents ();
-						}
-					}
-				} catch (Exception ex) {
+							if(!force){
+								InvokeOnMainThread (GoToEvents);
+							}
+						}	
+					});
+
+				} catch (Exception ignore) {
 
 				}
 			}
+			return true;
 		}
 
 		void GoToEvents(){

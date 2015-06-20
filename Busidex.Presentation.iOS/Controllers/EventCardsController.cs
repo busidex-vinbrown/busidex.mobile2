@@ -13,7 +13,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class EventCardsController : BaseController
+	public partial class EventCardsController : BaseCardViewController
 	{
 		List<UserCard> FilterResults;
 		List<UserCard> Cards;
@@ -72,15 +72,6 @@ namespace Busidex.Presentation.iOS
 				ResetFilter();
 				txtFilter.ResignFirstResponder();
 			};
-		}
-
-		void GoToCard(){
-			var cardController = Storyboard.InstantiateViewController ("CardViewController") as CardViewController;
-			cardController.UserCard = ((TableSource)tblEventCards.Source).SelectedCard;
-
-			if (cardController != null) {
-				NavigationController.PushViewController (cardController, true);
-			}
 		}
 
 		void ShowPhoneNumbers(){
@@ -156,6 +147,8 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			TableView = tblEventCards;
 
 			ConfigureSearchBar ();
 

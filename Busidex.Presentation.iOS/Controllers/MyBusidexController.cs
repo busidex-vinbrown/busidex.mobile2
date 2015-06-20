@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.IO;
 using MessageUI;
 using GoogleAnalytics.iOS;
+using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class MyBusidexController : BaseController
+	partial class MyBusidexController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		List<UserCard> FilterResults;
@@ -112,15 +113,6 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void GoToCard(){
-			var cardController = Storyboard.InstantiateViewController ("CardViewController") as CardViewController;
-			cardController.UserCard = ((TableSource)TableView.Source).SelectedCard;
-
-			if (cardController != null) {
-				NavigationController.PushViewController (cardController, true);
-			}
-		}
-
 		void EditNotes(){
 
 			var notesController = Storyboard.InstantiateViewController ("NotesController") as NotesController;
@@ -178,7 +170,7 @@ namespace Busidex.Presentation.iOS
 				ctrl.GetMyBusidex (cookie.Value).ContinueWith(response => {
 					if(!string.IsNullOrEmpty(response.Result)){
 						ProcessCards (response.Result);
-						Busidex.Mobile.Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
+						Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
 					}
 				});
 			}
@@ -216,12 +208,14 @@ namespace Busidex.Presentation.iOS
 
 			ConfigureSearchBar ();
 
+			base.TableView = TableView;
+
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyBusidex ();
 
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;
-			SearchBar.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
+			SearchBar.Frame = new CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
 	}
 }

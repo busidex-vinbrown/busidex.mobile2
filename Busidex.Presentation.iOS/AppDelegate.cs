@@ -29,7 +29,7 @@ namespace Busidex.Presentation.iOS
 			//	UIRemoteNotificationType.Badge );
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-			GAI.SharedInstance.DispatchInterval = 20;
+			GAI.SharedInstance.DispatchInterval = 5;
 
 			// Optional: automatically send uncaught exceptions to Google Analytics.
 			GAI.SharedInstance.TrackUncaughtExceptions = true;

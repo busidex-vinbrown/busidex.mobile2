@@ -10,8 +10,12 @@ namespace Busidex.Presentation.iOS
 	partial class CardViewController : BaseController
 	{
 		public UserCard UserCard{ get; set; }
+		public bool IsLandscape { get; set; }
+		public bool IsPortrate { get; set; }
+
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
+
 		enum CardViewState{
 			Loading = 1,
 			Front = 2,
@@ -42,7 +46,7 @@ namespace Busidex.Presentation.iOS
 
 						ShowOverlay ();
 
-						Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.FrontFileName, documentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+						Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.FrontFileName, documentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
 								btnCard.SetBackgroundImage (UIImage.FromFile (frontFileName), UIControlState.Normal);
 								Overlay.Hide();
@@ -50,6 +54,9 @@ namespace Busidex.Presentation.iOS
 						});
 					}
 					ViewState = CardViewState.Front;
+					IsLandscape = UserCard.Card.FrontOrientation == "H";
+					IsPortrate = UserCard.Card.FrontOrientation == "V";
+
 					break;
 				}
 			case CardViewState.Front:{
@@ -61,7 +68,7 @@ namespace Busidex.Presentation.iOS
 							btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
 						} else {
 							ShowOverlay ();
-							Busidex.Mobile.Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.BackFileName, documentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
+							Utils.DownloadImage (Resources.CARD_PATH + UserCard.Card.BackFileName, documentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								InvokeOnMainThread (() => {
 									btnCard.SetBackgroundImage (UIImage.FromFile (backFileName), UIControlState.Normal);
 									Overlay.Hide();
@@ -69,6 +76,9 @@ namespace Busidex.Presentation.iOS
 							});
 						}
 					}
+					IsLandscape = UserCard.Card.BackOrientation == "H";
+					IsPortrate = UserCard.Card.BackOrientation == "V";
+
 					ViewState = CardViewState.Back;
 					break;
 				}
@@ -77,6 +87,12 @@ namespace Busidex.Presentation.iOS
 					break;
 				}
 			}
+			((BaseNavigationController)NavigationController).GetSupportedInterfaceOrientations ();
+		}
+
+		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(){
+			ToggleImage();
+			return ((BaseNavigationController)NavigationController).GetSupportedInterfaceOrientations ();
 		}
 
 		public override void ViewDidAppear (bool animated)

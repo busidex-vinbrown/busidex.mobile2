@@ -14,7 +14,7 @@ namespace Busidex.Presentation.iOS
 	using MessageUI;
 	using GoogleAnalytics.iOS;
 
-	partial class SearchController : BaseController
+	partial class SearchController : BaseCardViewController
 	{
 		public static NSString cellID = new NSString ("cellId");
 
@@ -33,6 +33,8 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			base.TableView = vwSearchResults;
 
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
@@ -58,15 +60,6 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
-			}
-		}
-
-		void GoToCard(){
-			var cardController = Storyboard.InstantiateViewController ("CardViewController") as CardViewController;
-			cardController.UserCard = ((TableSource)vwSearchResults.Source).SelectedCard;
-
-			if (cardController != null) {
-				NavigationController.PushViewController (cardController, true);
 			}
 		}
 

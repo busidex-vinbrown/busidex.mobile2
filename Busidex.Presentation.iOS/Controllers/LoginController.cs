@@ -3,6 +3,8 @@ using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
+using System.Threading.Tasks;
+using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
@@ -54,57 +56,77 @@ namespace Busidex.Presentation.iOS
 			btnLogin.TouchUpInside += (o, s) => DoLogin ();
 		}
 
-		private void DoLogin(){
+		async Task<bool> DoLogin(){
 			try {
 				lblLoginResult.Text = string.Empty;
 
-				loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				View.Add (loadingOverlay);
+				//loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				//View.Add (loadingOverlay);
 
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
+				//int duration = 2;
+				//int delay = 0;
+				var pt = imgLogo.Center;
+				var animation = new CoreAnimation.CAAnimation();
 
-				var response = Busidex.Mobile.LoginController.DoLogin (username, password);
-				if (!string.IsNullOrEmpty (response.Result) && !response.Result.Contains ("404")) {
-					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
+				// dismiss the keyboard
+				txtPassword.ResignFirstResponder();
+				txtUserName.ResignFirstResponder();
 
-					UserId = loginResponse != null ? loginResponse.UserId : 0;
+				UIView.Animate (1, 0, UIViewAnimationOptions.Repeat | UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () =>
+					{
+						imgLogo.Transform = CGAffineTransform.MakeScale(0.01f, 1.1f);
+					}, null);
 
-					if (UserId > 0) {
+				await Busidex.Mobile.LoginController.DoLogin (username, password).ContinueWith(response => {
+					string result = response.Result;
+					if (!string.IsNullOrEmpty (result) && !result.Contains ("404")) {
+						var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
 
-						SetAuthCookie (UserId);
+						UserId = loginResponse != null ? loginResponse.UserId : 0;
 
-						var user = NSUserDefaults.StandardUserDefaults;
+						if (UserId > 0) {
 
-						user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-						user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-						user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
-						user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
-						user.Synchronize ();
+							SetAuthCookie (UserId);
 
-						GoToHome ();
-						return;
+							var user = NSUserDefaults.StandardUserDefaults;
+
+							user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+							user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+							user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+							user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
+							user.Synchronize ();
+
+							InvokeOnMainThread (GoToHome);
+							return true;
+						}
 					}
-				}
-				lblLoginResult.Text = "Login Failed";
-				lblLoginResult.TextColor = UIColor.Red;
+					InvokeOnMainThread(()=> {
+						lblLoginResult.Text = "Login Failed";
+						lblLoginResult.TextColor = UIColor.Red;
+					});
+					return true;
+				});
 
-			} catch (Exception ex) {
-				ShowAlert ("Login Error", "There was a problem logging in.", new string[]{ "Ok" });
+
+			} catch (Exception ignore) {
+				await ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
 			} finally {
 				if (loadingOverlay != null) {
 					loadingOverlay.Hide ();
 				}
 			}
+			return true;
 		}
 
-		private void GoToHome ()
+		void GoToHome ()
 		{
 
-			var dataViewController = this.Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
+			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
 			if (dataViewController != null) {
-				this.NavigationController.PushViewController (dataViewController, true);
+				NavigationController.PushViewController (dataViewController, true);
 
 			}
 		}

@@ -102,6 +102,22 @@ namespace Busidex.Presentation.iOS
 			return (expireDate > DateTime.Now) ? cookie : null;
 		}
 
+		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
+		{
+			var shouldAllowOtherOrientation = ShouldAllowLandscape (); // same here
+			if (shouldAllowOtherOrientation) 
+			{
+				return UIInterfaceOrientationMask.AllButUpsideDown;
+			} 
+
+			return UIInterfaceOrientationMask.Portrait;
+		}
+
+		protected bool ShouldAllowLandscape ()
+		{
+			return false; // implement this to return true when u want it
+		}
+
 		protected void RemoveAuthCookie(){
 
 			var nCookie = new System.Net.Cookie();
