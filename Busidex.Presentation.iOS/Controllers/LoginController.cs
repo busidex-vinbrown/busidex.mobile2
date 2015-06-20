@@ -56,28 +56,37 @@ namespace Busidex.Presentation.iOS
 			btnLogin.TouchUpInside += (o, s) => DoLogin ();
 		}
 
+		bool loggingIn;
+
+		void spinImage(){
+			UIView.AnimateNotify (.5, 0, UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () =>
+				{
+					imgLogo.Transform = CGAffineTransform.MakeScale(0.01f, 1.1f);
+				}, (finished) => {
+					if(loggingIn){
+						spinImage();
+					}else{
+						imgLogo.Transform = CGAffineTransform.MakeScale(1.0f, 1.0f);
+					}
+				});
+		}
+
 		async Task<bool> DoLogin(){
 			try {
 				lblLoginResult.Text = string.Empty;
 
-				//loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				//View.Add (loadingOverlay);
-
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
-				//int duration = 2;
-				//int delay = 0;
+
 				var pt = imgLogo.Center;
-				var animation = new CoreAnimation.CAAnimation();
 
 				// dismiss the keyboard
 				txtPassword.ResignFirstResponder();
 				txtUserName.ResignFirstResponder();
 
-				UIView.Animate (1, 0, UIViewAnimationOptions.Repeat | UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () =>
-					{
-						imgLogo.Transform = CGAffineTransform.MakeScale(0.01f, 1.1f);
-					}, null);
+				loggingIn = true;
+
+				spinImage();
 
 				await Busidex.Mobile.LoginController.DoLogin (username, password).ContinueWith(response => {
 					string result = response.Result;
@@ -98,11 +107,15 @@ namespace Busidex.Presentation.iOS
 							user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
 							user.Synchronize ();
 
+							loggingIn = false;
+
 							InvokeOnMainThread (GoToHome);
+
 							return true;
 						}
 					}
 					InvokeOnMainThread(()=> {
+						loggingIn = false;
 						lblLoginResult.Text = "Login Failed";
 						lblLoginResult.TextColor = UIColor.Red;
 					});
@@ -112,11 +125,8 @@ namespace Busidex.Presentation.iOS
 
 			} catch (Exception ignore) {
 				await ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
-			} finally {
-				if (loadingOverlay != null) {
-					loadingOverlay.Hide ();
-				}
-			}
+				loggingIn = false;
+			} 
 			return true;
 		}
 

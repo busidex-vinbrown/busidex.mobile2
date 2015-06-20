@@ -40,7 +40,15 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblPassword { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblPasswordError { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView padding { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -76,9 +84,17 @@ namespace Busidex.Presentation.iOS
 				lblEmailError.Dispose ();
 				lblEmailError = null;
 			}
+			if (lblPassword != null) {
+				lblPassword.Dispose ();
+				lblPassword = null;
+			}
 			if (lblPasswordError != null) {
 				lblPasswordError.Dispose ();
 				lblPasswordError = null;
+			}
+			if (padding != null) {
+				padding.Dispose ();
+				padding = null;
 			}
 			if (txtEmail != null) {
 				txtEmail.Dispose ();

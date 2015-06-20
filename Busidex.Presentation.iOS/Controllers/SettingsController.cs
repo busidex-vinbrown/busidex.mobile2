@@ -17,6 +17,7 @@ namespace Busidex.Presentation.iOS
 		bool termsAccepted;
 		const float TERMS_NOT_ACCEPTED_DISPLAY = .2f;
 		const float TERMS_ACCEPTED_DISPLAY = 1f;
+		bool loggedIn;
 
 //		private void SetUserNameChangedResult(string username, string result, ref NSUserDefaults user){
 //			if (result.IndexOf ("400") >= 0) {
@@ -89,14 +90,16 @@ namespace Busidex.Presentation.iOS
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
 
-				var response = Busidex.Mobile.LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
+				Busidex.Mobile.LoginController.DoLogin(email, password).ContinueWith(response => {
+					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
-				var userId = loginResponse != null ? loginResponse.UserId : 0;
+					var userId = loginResponse != null ? loginResponse.UserId : 0;
 
-				SetAuthCookie (userId);
+					SetAuthCookie (userId);
 
-				GoToMain ();
+					InvokeOnMainThread (GoToMain);
+				});
+
 
 			} else {
 				imgEmailSaved.Hidden = true;
@@ -135,6 +138,39 @@ namespace Busidex.Presentation.iOS
 			btnTerms.TouchUpInside += delegate {
 				showTerms();
 			};
+		}
+
+		public override void ViewDidLayoutSubviews ()
+		{
+			base.ViewDidLayoutSubviews ();
+
+			UITextView lblInstructions = new UITextView ();
+			lblInstructions.BackgroundColor = UIColor.Clear;
+			lblInstructions.UserInteractionEnabled = false;
+			lblInstructions.TextColor = UIColor.DarkGray;
+			lblInstructions.Text = loggedIn 
+				? "Update your email address so you can access your cards on the web and all your devices."
+				: "Choose an email address and password so you can access your cards on the web and all your devices.";
+			
+			lblInstructions.TextAlignment = UITextAlignment.Justified;
+
+			float height = loggedIn ? 65f : 95f;
+			var frame = new CoreGraphics.CGRect (
+				padding.Frame.X, 
+				padding.Frame.Y, 
+				padding.Frame.Width, 
+				height);
+
+			padding.Frame = frame;
+
+			lblInstructions.Frame = new CoreGraphics.CGRect (
+				padding.Bounds.X + 10, 
+				padding.Bounds.Y + 10, 
+				padding.Bounds.Width - 20, 
+				padding.Bounds.Height - 10);
+			
+			padding.AddSubview (lblInstructions);
+
 		}
 
 		void SaveSettings(){
@@ -206,6 +242,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
 			if (NavigationController != null) {
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
@@ -238,9 +275,13 @@ namespace Busidex.Presentation.iOS
 
 			if (!string.IsNullOrEmpty (oldEmail)) {
 				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = true;
-
+				txtPassword.Hidden = lblPassword.Hidden = true;
+				loggedIn = true;
 			} else {
+				loggedIn = false;
 				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = false;
+				txtPassword.Hidden = lblPassword.Hidden = false;
+
 				imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
 			}
 

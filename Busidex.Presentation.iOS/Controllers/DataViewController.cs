@@ -453,7 +453,7 @@ namespace Busidex.Presentation.iOS
 							});
 						}else{
 							InvokeOnMainThread (() => {
-								ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+								//ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
 								overlay.Hide();
 							});
 						}
