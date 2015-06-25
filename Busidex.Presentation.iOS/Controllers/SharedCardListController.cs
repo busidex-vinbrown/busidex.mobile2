@@ -10,7 +10,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class SharedCardListController : BaseController
+	public partial class SharedCardListController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 
@@ -22,9 +22,11 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			LoadSharedCards ();
+			base.TableView = vwSharedCards;
 
 			vwSharedCards.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
+
+			LoadSharedCards ();
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
@@ -71,19 +73,6 @@ namespace Busidex.Presentation.iOS
 			} else {
 				var controller = new DataViewController ();
 				controller.GetNotifications ();
-			}
-		}
-
-		void GoToCard(){
-
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-
-			var cardController = board.InstantiateViewController ("CardViewController") as CardViewController;
-
-			cardController.UserCard = ((SharedCardTableSource)vwSharedCards.Source).SelectedCard;
-
-			if (cardController != null) {
-				NavigationController.PushViewController (cardController, true);
 			}
 		}
 

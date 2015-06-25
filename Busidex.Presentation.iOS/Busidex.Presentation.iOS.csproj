@@ -102,9 +102,6 @@
     <Reference Include="Microsoft.WindowsAzure.Messaging.iOS">
       <HintPath>..\Components\azure-messaging-1.1.5.2\lib\ios-unified\Microsoft.WindowsAzure.Messaging.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="GoogleAnalytics.iOS">
       <HintPath>..\Components\googleanalytics-3.0.10.2\lib\ios-unified\GoogleAnalytics.iOS.dll</HintPath>
     </Reference>
@@ -113,6 +110,9 @@
     </Reference>
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -135,10 +135,6 @@
     <Compile Include="OrgMemberTableSource.cs" />
     <Compile Include="OrganizationTableSource.cs" />
     <Compile Include="SearchViewCell.cs" />
-    <Compile Include="Controllers\CardViewController.cs" />
-    <Compile Include="Controllers\CardViewController.designer.cs">
-      <DependentUpon>CardViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LoginController.designer.cs">
       <DependentUpon>LoginController.cs</DependentUpon>
@@ -238,7 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
-    <InterfaceDefinition Include="Controllers\CardViewController.xib" />
     <InterfaceDefinition Include="Controllers\LoginController.xib" />
     <InterfaceDefinition Include="Controllers\MyBusidexController.xib" />
     <InterfaceDefinition Include="Controllers\NotesController.xib" />

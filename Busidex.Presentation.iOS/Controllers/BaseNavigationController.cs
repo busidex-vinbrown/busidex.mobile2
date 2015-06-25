@@ -19,26 +19,26 @@ namespace Busidex.Presentation.iOS
 		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
 		{
 			var shouldAllowOtherOrientation = ShouldAllowLandscape (); // same here
-			if (shouldAllowOtherOrientation) 
-			{
-				var cardViewController = TopViewController as CardViewController;
-				if(cardViewController != null){
-					if(cardViewController.IsLandscape){
-						return UIInterfaceOrientationMask.Landscape;
-					}
-					if(cardViewController.IsPortrate){
-						return UIInterfaceOrientationMask.Portrait;
-					}
-				}
-				return UIInterfaceOrientationMask.AllButUpsideDown;
-			} 
+//			if (shouldAllowOtherOrientation) 
+//			{
+//				var cardViewController = TopViewController as CardViewController;
+//				if(cardViewController != null){
+//					if(cardViewController.IsLandscape){
+//						return UIInterfaceOrientationMask.Landscape;
+//					}
+//					if(cardViewController.IsPortrate){
+//						return UIInterfaceOrientationMask.Portrait;
+//					}
+//				}
+//				return UIInterfaceOrientationMask.AllButUpsideDown;
+//			} 
 
 			return UIInterfaceOrientationMask.Portrait;
 		}
 
 		bool ShouldAllowLandscape ()
 		{
-			return TopViewController is CardViewController; // implement this to return true when u want it
+			return false;//TopViewController is CardViewController; // implement this to return true when u want it
 		}
 	}
 }

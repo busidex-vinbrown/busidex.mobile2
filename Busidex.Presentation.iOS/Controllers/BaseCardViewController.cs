@@ -123,7 +123,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void GoToCard(){
 			ViewState = CardViewState.Loading;
-			selectedCard = ((TableSource)TableView.Source).SelectedCard;
+			selectedCard = ((BaseTableSource)TableView.Source).SelectedCard;
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_DETAILS, selectedCard.Card.Name, 0);
 

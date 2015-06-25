@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.9</string>
+	<string>1.2.10</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -62,6 +62,6 @@
 		<string>Lato-Black.ttf</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>0</string>
 </dict>
 </plist>
