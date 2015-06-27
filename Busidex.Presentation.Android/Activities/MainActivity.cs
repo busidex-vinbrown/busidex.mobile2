@@ -14,7 +14,6 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Animation;
 using Android.Preferences;
-using Android.Graphics;
 
 namespace Busidex.Presentation.Android
 {
@@ -47,7 +46,6 @@ namespace Busidex.Presentation.Android
 
 		private void LoadProfileFragment(){
 			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
-			profileFragment.Elevation = 999;
 
 			var cookie = applicationResource.GetAuthCookie ();
 			if (cookie != null) {
@@ -56,7 +54,6 @@ namespace Busidex.Presentation.Android
 			}else{
 				profileFragment.Visibility = ViewStates.Visible;
 			}
-
 		}
 		#region Touch Events
 		public bool OnDown (MotionEvent e)

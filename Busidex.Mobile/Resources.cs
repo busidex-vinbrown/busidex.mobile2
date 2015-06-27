@@ -50,6 +50,7 @@ namespace Busidex.Mobile
 		public const string GA_LABEL_NOTES = "Notes";
 		public const string GA_LABEL_SHARE = "Shared";
 		public const string GA_LABEL_MAP = "Map";
+		public const string GA_LABEL_QUESTIONS = "Questions";
 		public const string GA_LABEL_ADD = "Added";
 		public const string GA_LABEL_REMOVED = "Removed";
 		public const string GA_LABEL_EVENT_LIST = "Event List";

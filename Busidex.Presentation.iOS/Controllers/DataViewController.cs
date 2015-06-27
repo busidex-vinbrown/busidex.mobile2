@@ -53,7 +53,7 @@ namespace Busidex.Presentation.iOS
 
 			UIFont font = UIFont.FromName ("Lato-Black", 22f);
 		
-			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = font;
+			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = lblQuestions.Font = font;
 
 			btnGoToSearch.TouchUpInside += delegate {
 				GoToSearch();
@@ -87,6 +87,10 @@ namespace Busidex.Presentation.iOS
 			btnEvents.TouchUpInside += delegate {
 				LoadEventList();
 			};
+
+			btnQuestions.TouchUpInside += delegate {
+				OpenFaq();
+			};
 		}
 
 
@@ -95,6 +99,13 @@ namespace Busidex.Presentation.iOS
 			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
 			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
+		}
+
+		public void OpenFaq(){
+			var url = new NSUrl ("https://pro.busidex.com/#/faq");
+			UIApplication.SharedApplication.OpenUrl (url);
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);
 		}
 
 		public int GetNotifications(){

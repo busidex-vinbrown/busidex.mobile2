@@ -6,14 +6,6 @@
     p1:layout_height="match_parent"
     p1:id="@+id/mainLayout"
     p1:background="@drawable/main_blur2">
-    <fragment xmlns:tools="http://schemas.android.com/tools"
-        class="Busidex.Presentation.Android.ProfileFragment"
-        p1:id="@+id/profileFragment"
-        p1:layout_width="fill_parent"
-        p1:layout_height="fill_parent"
-        p1:visibility="gone"
-        p1:elevation="999dp"
-        tools:visibility="gone" />
     <ImageView
         p1:layout_width="75dp"
         p1:layout_height="75dp"
@@ -162,4 +154,12 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+        class="Busidex.Presentation.Android.ProfileFragment"
+        p1:id="@+id/profileFragment"
+        p1:layout_width="fill_parent"
+        p1:layout_height="fill_parent"
+        p1:visibility="gone"
+        p1:elevation="999dp"
+        tools:visibility="gone" />
 </RelativeLayout>
