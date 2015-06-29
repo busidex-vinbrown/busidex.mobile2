@@ -26,10 +26,10 @@ namespace Busidex.Mobile
 			return MakeRequest (url, Resources.HttpActions.PUT.ToString(), userToken, data);
 		}
 
-		public static string CheckAccount(string token, string email, string password){
+		public static Task<string> CheckAccount(string token, string email, string password){
 			string data = @"{'uidId':'" + token + "','email':'" + email + "', 'pswd':'" + password + "'}";
 
-			return MakeRequest (CHECK_ACCOUNT_URL, Resources.HttpActions.POST.ToString(), token, data);
+			return MakeRequestAsync (CHECK_ACCOUNT_URL, Resources.HttpActions.POST.ToString(), token, data);
 		}
 
 		public static string GetAccount(string token){

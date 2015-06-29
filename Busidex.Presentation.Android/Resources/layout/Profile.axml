@@ -102,7 +102,12 @@
             android:layout_below="@id/txtProfileEmail"
             android:id="@+id/lblEmailError"
             android:textColor="@android:color/holo_red_dark"
-            android:layout_marginLeft="25dp" />
+            android:layout_marginLeft="25dp"
+            android:text="error text"
+            android:background="@color/layoutBackground"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp" />
         <TextView
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
@@ -110,7 +115,12 @@
             android:layout_below="@id/txtProfilePassword"
             android:id="@+id/lblPasswordError"
             android:textColor="@android:color/holo_red_dark"
-            android:layout_marginLeft="25dp" />
+            android:layout_marginLeft="25dp"
+            android:text="error text"
+            android:background="@color/layoutBackground"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp" />
         <TextView
             android:text="I accept the"
             android:layout_width="wrap_content"

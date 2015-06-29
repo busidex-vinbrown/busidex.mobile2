@@ -8,6 +8,7 @@ using Busidex.Mobile.Models;
 using Android.Views;
 using Android.Net;
 using Android.Content;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Android
 {
@@ -45,6 +46,9 @@ namespace Busidex.Presentation.Android
 			imgProfilePasswordSaved = FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
 			lblEmailError = FindViewById<TextView> (Resource.Id.lblEmailError);
 			lblPasswordError = FindViewById<TextView> (Resource.Id.lblPasswordError);
+
+			lblPasswordError.Visibility = ViewStates.Invisible;
+			lblEmailError.Visibility = ViewStates.Invisible;
 
 			var btnSaveProfile = FindViewById<Button> (Resource.Id.btnSaveProfile);
 
@@ -88,9 +92,20 @@ namespace Busidex.Presentation.Android
 
 				};
 
-				btnSaveProfile.Click += delegate {
+				btnSaveProfile.Click += async delegate {
+
+					var email = txtProfileEmail.Text;
+					if(!email.Contains("@")){
+						ShowAlert("User Information", "Please use a valid email address.");
+						return;
+					}
+
+					if(string.IsNullOrEmpty(txtProfilePassword.Text)){
+						ShowAlert("User Information", "Please enter a password.");
+						return;
+					}
 					if(termsAccepted){
-						CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
+						await CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
 					}else{
 						ShowAlert("Terms and Conditions", "Please accept the terms and conditions to continue.");
 					}
@@ -138,15 +153,21 @@ namespace Busidex.Presentation.Android
 					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
 					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
-				var response = LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
-				var userId = loginResponse != null ? loginResponse.UserId : 0;
+				RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_LoggingYouIn)));
 
-				applicationResource.SetAuthCookie (userId);
+				LoginController.DoLogin(email, password).ContinueWith(response => {
+					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
-				RedirectToMainIfLoggedIn ();
+					var userId = loginResponse != null ? loginResponse.UserId : 0;
 
+					applicationResource.SetAuthCookie (userId);
+
+					RunOnUiThread ( ()=> {
+						HideLoadingSpinner();
+						RedirectToMainIfLoggedIn();
+					});	
+				});
 			} else {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
@@ -159,10 +180,22 @@ namespace Busidex.Presentation.Android
 			SetEmailChangedResult (response.Result);
 		}
 
-		void CheckAccount(string token, string email, string password){
+		async Task<bool> CheckAccount(string token, string email, string password){
 			token = System.Guid.NewGuid ().ToString ();
-			var response = AccountController.CheckAccount (token, email, password);
-			SetCheckAccountResult (email, password, response);
+
+			RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
+
+			await AccountController.CheckAccount (token, email, password).ContinueWith (response => {
+
+				RunOnUiThread( ()=> {
+					HideLoadingSpinner();
+					SetCheckAccountResult (email, password, response.Result);
+				});
+
+			});
+
+
+			return true;
 		}
 	}
 }

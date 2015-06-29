@@ -17,6 +17,7 @@
 	<string name="Global_LoadingCards">Loading your cards</string>
 	<string name="Global_LoadingEvent">Loading your event</string>
 	<string name="Global_LoadingCardsProgress">Loading {0} of {1} cards</string>
+	<string name="Global_LoggingYouIn">Signing you in</string>
 	<string name="Share_Title">Share This Card</string>
 	<string name="Share_Description">Enter the email address of the person with whom you want to share this card.</string>
 	<string name="Share_ShareCard">Share</string>

@@ -21,12 +21,15 @@
         <SearchView
             android:minWidth="25px"
             android:minHeight="25px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_below="@id/imgOrganizationHeaderImage"
             android:id="@+id/txtSearchOrgMembers"
+            android:theme="@style/SearchBar"
             android:queryHint="Filter"
-            android:iconifiedByDefault="false" />
+            style="@style/SearchBar"
+            android:iconifiedByDefault="false"
+            android:searchIcon="@drawable/spotlight_icon" />
         <ListView
             android:minWidth="25px"
             android:minHeight="25px"

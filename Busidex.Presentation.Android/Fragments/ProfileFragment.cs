@@ -24,7 +24,7 @@ namespace Busidex.Presentation.Android
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		
-			_detector = (MainActivity)this.Activity;
+			_detector = (MainActivity)Activity;
 
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
@@ -66,94 +66,98 @@ namespace Busidex.Presentation.Android
 				btnSaveProfile.Click += async delegate {
 					await UpdateEmail (token, txtProfileEmail.Text);
 				};
-			}/*else{
-				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
-
-				btnSaveProfile.Click += delegate {
-					CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
-				};
-			}*/
+			}
 
 			return profileView;
 		}
 
-		bool SetEmailChangedResult(string result){
+		bool SetEmailChangedResult(string result)
+		{
 
 			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
 				return false;
-			} else if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
+			}
+
+			if (result.ToLowerInvariant ().IndexOf ("email updated", StringComparison.Ordinal) >= 0) {
 				imgProfileEmailSaved.Visibility = ViewStates.Visible;
 				lblEmailError.Visibility = ViewStates.Invisible;
 				return true;
-			}else if(string.IsNullOrEmpty(result)){
+			}
+
+			if (string.IsNullOrEmpty (result)) {
 				return true;
-			} else {
-				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
-				lblEmailError.Visibility = ViewStates.Visible;
-				lblEmailError.SetText(Resource.String.Profile_ErrorEmailGeneral);
-				return false;
 			}
+
+			imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+			lblEmailError.Visibility = ViewStates.Visible;
+			lblEmailError.SetText (Resource.String.Profile_ErrorEmailGeneral);
+			return false;
 		}
 
-		void SetCheckAccountResult(string email, string password, string result){
-			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
-			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
-
-			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
-				lblEmailError.Visibility = ViewStates.Visible;
-				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
-			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), StringComparison.Ordinal) >= 0) {
-				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
-				lblEmailError.Visibility = ViewStates.Visible;
-				lblEmailError.Text = "This email is already in use";
-			} else if (oResult != null && oResult.Success) {
-				imgProfileEmailSaved.Visibility = ViewStates.Visible;
-				lblEmailError.Visibility = ViewStates.Invisible;
-				if (showPassword) {
-					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
-					lblPasswordError.Visibility = ViewStates.Invisible;
-				}
-				var response = LoginController.DoLogin(email, password);
-				var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
-
-				var userId = loginResponse != null ? loginResponse.UserId : 0;
-
-				applicationResource.SetAuthCookie (userId);
-
-				RedirectToMainIfLoggedIn ();
-
-			} else {
-				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
-				lblEmailError.Visibility = ViewStates.Visible;
-				lblEmailError.Text = GetString (Resource.String.Profile_ErrorAccountGeneral);
-			}
-		}
+//		void SetCheckAccountResult(string email, string password, string result){
+//			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
+//			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
+//
+//			if (result.ToLowerInvariant ().IndexOf (ERROR_UNABLE_TO_CREATE_ACCOUNT, StringComparison.Ordinal) >= 0) {
+//				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+//				lblEmailError.Visibility = ViewStates.Visible;
+//				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
+//			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), StringComparison.Ordinal) >= 0) {
+//				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+//				lblEmailError.Visibility = ViewStates.Visible;
+//				lblEmailError.Text = "This email is already in use";
+//			} else if (oResult != null && oResult.Success) {
+//				imgProfileEmailSaved.Visibility = ViewStates.Visible;
+//				lblEmailError.Visibility = ViewStates.Invisible;
+//				if (showPassword) {
+//					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
+//					lblPasswordError.Visibility = ViewStates.Invisible;
+//				}
+//				LoginController.DoLogin(email, password).ContinueWith(response => {
+//					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
+//
+//					var userId = loginResponse != null ? loginResponse.UserId : 0;
+//
+//					applicationResource.SetAuthCookie (userId);
+//
+//					Activity.RunOnUiThread (RedirectToMainIfLoggedIn);	
+//				});
+//			} else {
+//				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
+//				lblEmailError.Visibility = ViewStates.Visible;
+//				lblEmailError.Text = GetString (Resource.String.Profile_ErrorAccountGeneral);
+//			}
+//		}
 
 		async Task<bool> UpdateEmail(string token, string email){
 			 await SettingsController.ChangeEmail (email, token).ContinueWith(response => {
 
-				this.Activity.RunOnUiThread (() => {
+				Activity.RunOnUiThread (() => {
 					if(SetEmailChangedResult (response.Result)){
-						var slideOut = AnimationUtils.LoadAnimation (this.Activity, Resource.Animation.SlideOutAnimationFast);
-						this.View.Visibility = ViewStates.Gone;
-						this.View.StartAnimation(slideOut);
-						((MainActivity)this.Activity).profileIsOpen = false;
-						((MainActivity)this.Activity).interceptTouchEvents = true;
+						var slideOut = AnimationUtils.LoadAnimation (Activity, Resource.Animation.SlideOutAnimationFast);
+						View.Visibility = ViewStates.Gone;
+						View.StartAnimation(slideOut);
+						((MainActivity)Activity).profileIsOpen = false;
+						((MainActivity)Activity).interceptTouchEvents = true;
 					}
 				});
 			});
 			return true;
 		}
 
-		void CheckAccount(string token, string email, string password){
-			token = Guid.NewGuid ().ToString ();
-			var response = AccountController.CheckAccount (token, email, password);
-			SetCheckAccountResult (email, password, response);
-		}
+//		async Task<bool> CheckAccount(string token, string email, string password){
+//			token = Guid.NewGuid ().ToString ();
+//			await AccountController.CheckAccount (token, email, password).ContinueWith (response => {
+//
+//				Activity.RunOnUiThread( ()=> SetCheckAccountResult (email, password, response.Result));
+//
+//			});
+//				
+//			return true;
+//		}
 
 
 	}

@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
-    p1:orientation="vertical"
-    p1:layout_width="match_parent"
-    p1:layout_height="match_parent"
-    p1:id="@+id/linearLayout1"
-    p1:background="@color/listBackground">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linearLayout1"
+    android:background="@color/listBackground">
     <SearchView
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/txtFilter"
-        p1:queryHint="Filter"
-        p1:iconifiedByDefault="false" />
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/txtFilter"
+        android:theme="@style/SearchBar"
+        android:queryHint="Filter"
+        style="@style/SearchBar"
+        android:iconifiedByDefault="false"
+        android:searchIcon="@drawable/spotlight_icon" />
     <TextView
-        p1:textAppearance="?android:attr/textAppearanceMedium"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/lblNoCardsMessage"
-        p1:textColor="@color/labelFontColor"
-        p1:gravity="center_horizontal" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblNoCardsMessage"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal" />
     <ListView
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/lstCards"
-        p1:divider="@color/textInputColor"
-        p1:dividerHeight="4px"
-        p1:layout_marginTop="10dp" />
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lstCards"
+        android:divider="@color/textInputColor"
+        android:dividerHeight="4px"
+        android:layout_marginTop="10dp" />
 </LinearLayout>
