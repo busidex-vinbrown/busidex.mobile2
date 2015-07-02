@@ -20,7 +20,7 @@ namespace Busidex.Presentation.iOS
 
 		public SearchController (IntPtr handle) : base (handle)
 		{
-			//TableView.RegisterClassForCell (typeof(SearchViewCell), cellID);
+			
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -30,22 +30,48 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+
+		public static bool SearchButtonHandlerAssigned;
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			base.TableView = vwSearchResults;
+			TableView = vwSearchResults;
 
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
 			vwSearchResults.Hidden = true;
-			txtSearch.SearchButtonClicked += delegate {
-				StartSearch ();
-				DoSearch ().Wait(new System.Threading.CancellationToken());
-				vwSearchResults.Hidden = false;
-				txtSearch.ResignFirstResponder (); // hide keyboard
-			};
 
+			if (!SearchButtonHandlerAssigned) {
+				SearchButtonHandlerAssigned = true;
+
+				txtSearch.TextChanged += delegate {
+					if(txtSearch.Text.Length == 0){
+						vwSearchResults.Hidden = true;
+					}
+				};
+
+				txtSearch.CancelButtonClicked += delegate {
+					txtSearch.Text = string.Empty;
+					vwSearchResults.Hidden = true;
+				};
+
+				txtSearch.SearchButtonClicked += async delegate {
+					StartSearch ();
+					txtSearch.ResignFirstResponder ();
+
+					await DoSearch ().ContinueWith (r => {
+
+						InvokeOnMainThread (()=>{
+							vwSearchResults.Hidden = false;
+						});
+
+						// hide keyboard
+					});//.Wait(new System.Threading.CancellationToken());
+
+				};
+			}
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
@@ -131,7 +157,7 @@ namespace Busidex.Presentation.iOS
 			View.SetNeedsDisplay ();
 		}
 
-		public new async Task<int> DoSearch(){
+		protected override async Task<int> DoSearch(){
 
 			var cookie = GetAuthCookie ();
 			string token = string.Empty;
@@ -141,7 +167,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 			var ctrl = new Busidex.Mobile.SearchController ();
-			ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
+			await ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
 
 				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
 				var cards = new List<UserCard> ();
@@ -181,6 +207,9 @@ namespace Busidex.Presentation.iOS
 				}
 
 			});
+
+			base.DoSearch ();
+
 			return 1;
 		}
 	}

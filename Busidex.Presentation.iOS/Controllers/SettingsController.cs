@@ -216,7 +216,7 @@ namespace Busidex.Presentation.iOS
 					} else {
 						token = Guid.NewGuid ().ToString ();
 						var response = AccountController.CheckAccount (token, newEmail, newPassword);
-						SetCheckAccountResult (newEmail, newPassword, response, ref user);
+						SetCheckAccountResult (newEmail, newPassword, response.Result, ref user);
 					}
 				}else {
 					ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");

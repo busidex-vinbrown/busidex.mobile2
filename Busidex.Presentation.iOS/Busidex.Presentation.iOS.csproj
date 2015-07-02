@@ -231,6 +231,10 @@
     <Compile Include="Controllers\BaseCardViewController.designer.cs">
       <DependentUpon>BaseCardViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\UIBarButtonItemWithImageViewController.cs" />
+    <Compile Include="Controllers\UIBarButtonItemWithImageViewController.designer.cs">
+      <DependentUpon>UIBarButtonItemWithImageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -254,6 +258,7 @@
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\BaseNavigationController.xib" />
     <InterfaceDefinition Include="Controllers\BaseCardViewController.xib" />
+    <InterfaceDefinition Include="Controllers\UIBarButtonItemWithImageViewController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

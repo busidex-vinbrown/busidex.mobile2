@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
 
+
 namespace Busidex.Presentation.iOS
 {
-	public partial class EventListController : BaseController
+	public partial class EventListController : UIBarButtonItemWithImageViewController
 	{
 		public static NSString cellID = new NSString ("cellId");
 
@@ -30,11 +31,6 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			if(NavigationController != null){
-				NavigationController.SetNavigationBarHidden(true, true);
-			}
-
-
 			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 			LoadEventList ();
 		}
@@ -43,7 +39,6 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
 				NavigationController.SetToolbarHidden (true, false);
 			}
 		}

@@ -31,6 +31,7 @@ namespace Busidex.Mobile.Models
 		public DateTime Updated { get; set; }
 		public bool Deleted { get; set; }
 		public object Groups { get; set; }
+		public short Visibility { get; set; }
 	}
 }
 

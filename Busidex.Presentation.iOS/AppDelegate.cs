@@ -18,6 +18,10 @@ namespace Busidex.Presentation.iOS
 		public override UIWindow Window { get; set; }
 		public IGAITracker Tracker;
 
+		UIWindow window;
+		UIBarButtonItemWithImageViewController viewController;
+		UINavigationController nav;
+
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			// Process any potential notification data from launch
@@ -40,6 +44,11 @@ namespace Busidex.Presentation.iOS
 			// ...
 			// Your other code here
 			// ...
+			window = new UIWindow (UIScreen.MainScreen.Bounds);
+			viewController = new UIBarButtonItemWithImageViewController ();
+			nav = new UINavigationController (viewController);
+			window.RootViewController = nav;
+			window.MakeKeyAndVisible ();
 			return true;
 		}
 			

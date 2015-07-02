@@ -9,7 +9,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrganizationsController : BaseController
+	partial class OrganizationsController : UIBarButtonItemWithImageViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 

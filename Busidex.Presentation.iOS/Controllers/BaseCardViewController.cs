@@ -9,7 +9,7 @@ using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class BaseCardViewController : BaseController
+	public partial class BaseCardViewController : UIBarButtonItemWithImageViewController
 	{
 		public BaseCardViewController (IntPtr handle) : base (handle)
 		{

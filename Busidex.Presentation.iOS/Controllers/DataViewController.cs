@@ -10,7 +10,7 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class DataViewController : BaseController
+	public partial class DataViewController : UIBarButtonItemWithImageViewController
 	{
 		public DataViewController ()
 		{
@@ -138,12 +138,14 @@ namespace Busidex.Presentation.iOS
 			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
 		}
 
-		void Sync(){
-			LoadMyBusidexAsync (true);
-			LoadMyOrganizationsAsync (true);
-			LoadEventList (true);
+		async Task<bool> Sync(){
+			await LoadMyBusidexAsync (true);
+			await LoadMyOrganizationsAsync (true);
+			await LoadEventList (true);
 			GetNotifications ();
 			ConfigureToolbarItems ();
+
+			return true;
 		}
 
 		void ConfigureToolbarItems(){
@@ -228,16 +230,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (sharedCardListController, true);
 			}
 		}
-
-		void GoToMyBusidex ()
-		{
-			var myBusidexController = Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-
-			if (myBusidexController != null && NavigationController.ChildViewControllers.Count (c => c is MyBusidexController) == 0){
-				NavigationController.PushViewController (myBusidexController, true);
-			}
-		}
-
+			
 		static void ClearSettings(){
 
 			var user = NSUserDefaults.StandardUserDefaults;
@@ -264,29 +257,6 @@ namespace Busidex.Presentation.iOS
 					});
 				}
 			});
-		}
-
-		void GoToSearch ()
-		{
-			var searchController = Storyboard.InstantiateViewController ("SearchController") as SearchController;
-
-			if (searchController != null) {
-				NavigationController.PushViewController (searchController, true);
-			}
-		}
-
-		void GoToMyOrganizations ()
-		{
-			try{
-			var organizationsController = Storyboard.InstantiateViewController ("OrganizationsController") as OrganizationsController;
-
-			if (organizationsController != null && NavigationController.ChildViewControllers.Count (c => c is OrganizationsController) == 0){
-				NavigationController.PushViewController (organizationsController, true);
-			}
-			}
-			catch(Exception ex){
-				new UIAlertView("Error", ex.Message, null, "OK", null).Show();
-			}
 		}
 	
 		public async Task<bool> LoadMyOrganizationsAsync(bool force = false){
@@ -501,13 +471,6 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 			return true;
-		}
-
-		void GoToEvents(){
-			var eventListController = Storyboard.InstantiateViewController ("EventListController") as EventListController;
-			if (eventListController != null) {
-				NavigationController.PushViewController (eventListController, true);
-			}
 		}
 	}
 }

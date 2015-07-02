@@ -41,7 +41,14 @@ namespace Busidex.Presentation.iOS
 
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			return !Organizations.Any () ? BASE_CELL_HEIGHT * 3 : BASE_CELL_HEIGHT;
+			if(!Organizations.Any ()){
+				return BASE_CELL_HEIGHT * 3;
+			}
+			if (Organizations [indexPath.Row].Visibility == 0) {
+				return BASE_CELL_HEIGHT / 1.5f;
+			}
+
+			return BASE_CELL_HEIGHT / 3f;
 		}
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -73,39 +80,45 @@ namespace Busidex.Presentation.iOS
 		
 			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
-			if (!string.IsNullOrEmpty (org.LogoFileName)) {
-				var frame = new CoreGraphics.CGRect (10f, 10f, UIScreen.MainScreen.Bounds.Width - 80f, 80f);
-				var imageFile = fileName + "." + org.LogoType;
+			if (org.Visibility == 0) {
+				if (!string.IsNullOrEmpty (org.LogoFileName)) {
+					var frame = new CoreGraphics.CGRect (10f, 10f, UIScreen.MainScreen.Bounds.Width - 80f, 80f);
+					var imageFile = fileName + "." + org.LogoType;
 
-				var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIImageView;
-				if (orgImage != null) {
-					orgImage.RemoveFromSuperview ();
+					var orgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIImageView;
+					if (orgImage != null) {
+						orgImage.RemoveFromSuperview ();
+					}
+					orgImage = new UIImageView (frame);
+					orgImage.Image = UIImage.FromFile (imageFile);
+					orgImage.Tag = (int)Resources.UIElements.OrganizationImage;
+
+					cell.ContentView.AddSubview (orgImage);
+
+
+				} else {
+					var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
+					if (NameLabel != null) {
+						NameLabel.RemoveFromSuperview ();
+					}
+
+					var frame = new RectangleF (10f, 10f, 300f, 50f);
+					NameLabel = new UILabel (frame);
+					NameLabel.Tag = (int)Resources.UIElements.NameLabel;
+					NameLabel.Text = org.Name;
+					NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 18f);
+
+					cell.ContentView.AddSubview (NameLabel);
 				}
-				orgImage = new UIImageView (frame);
-				orgImage.Image = UIImage.FromFile (imageFile);
-				orgImage.Tag = (int)Resources.UIElements.OrganizationImage;
-
-				cell.ContentView.AddSubview (orgImage);
-
-
-			} else {
-				var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
-				if (NameLabel != null) {
-					NameLabel.RemoveFromSuperview ();
-				}
-
-				var frame = new RectangleF (10f, 10f, 300f, 50f);
-				NameLabel = new UILabel (frame);
-				NameLabel.Tag = (int)Resources.UIElements.NameLabel;
-				NameLabel.Text = org.Name;
-				NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 18f);
-
-				cell.ContentView.AddSubview (NameLabel);
+				cell.Accessory = UITableViewCellAccessory.DetailButton;
 			}
 
-			cell.Accessory = UITableViewCellAccessory.DetailButton;
 
-			AddSwipeView (ref cell, org);
+			if (org.Visibility == 0) {
+				AddSwipeView (ref cell, org);
+			}else{
+				AddLabelView (ref cell, org);
+			}
 
 		}
 
@@ -125,6 +138,28 @@ namespace Busidex.Presentation.iOS
 			return button;
 		}
 
+		void AddLabelView(ref UITableViewCell cell, Organization org){
+
+			var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UIButton;
+			if (NameLabel != null) {
+				NameLabel.RemoveFromSuperview ();
+			}
+
+			var frame = new RectangleF (10f, 10f, 300f, 50f);
+			NameLabel = new UIButton (frame);
+			NameLabel.Tag = (int)Resources.UIElements.NameLabel;
+			NameLabel.SetTitle(org.Name, UIControlState.Normal);
+			NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 18f);
+			NameLabel.SetTitleColor (UIColor.Blue, UIControlState.Normal);
+			NameLabel.TouchUpInside += delegate {
+				ViewOrganizationMembers (org);
+			};
+
+			cell.ContentView.AddSubview (NameLabel);
+			cell.Accessory = UITableViewCellAccessory.None;
+
+		}
+
 		void AddSwipeView(ref UITableViewCell cell, Organization org){
 
 			const float LEFT_MARGIN = 20f;
@@ -132,7 +167,7 @@ namespace Busidex.Presentation.iOS
 			const float BUTTON_WIDTH = 120f;
 			const float BUTTON_HEIGHT = 45f;
 
-			var panel = GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT);
+			var panel = GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT / 1.5f);
 
 			var buttonFrame = new CoreGraphics.CGRect (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
 

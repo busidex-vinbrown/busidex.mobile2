@@ -173,9 +173,11 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected virtual void DoSearch(){
+		protected virtual async Task<int> DoSearch(){
 
 			Overlay.Hide ();
+
+			return 1;
 		}
 
 		protected void AddCardToMyBusidexCache(UserCard userCard){
