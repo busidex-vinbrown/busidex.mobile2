@@ -42,6 +42,8 @@ namespace Busidex.Presentation.iOS
 
 			switch(ViewState){
 			case CardViewState.Loading:{
+					NavigationController.SetNavigationBarHidden (true, false);
+
 					var frontFileName = Path.Combine (documentsPath, selectedCard.Card.FrontFileId + "." + selectedCard.Card.FrontType);
 					if (File.Exists (frontFileName)) {
 						if(selectedCard.Card.FrontOrientation == "H"){
@@ -74,6 +76,7 @@ namespace Busidex.Presentation.iOS
 					break;
 				}
 			case CardViewState.Front:{
+					NavigationController.SetNavigationBarHidden (true, false);
 					var backFileName = Path.Combine (documentsPath, selectedCard.Card.BackFileId + "." + selectedCard.Card.BackType);
 					if (selectedCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID)) {
 						HideCardDetail ();
@@ -116,6 +119,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected void HideCardDetail(){
+			NavigationController.SetNavigationBarHidden (false, false);
 			TableView.Hidden = false;
 			cardImageLandscape.Hidden = cardImagePortrait.Hidden = true; 
 			cardImageLandscape.Image = cardImagePortrait.Image = null;
@@ -133,6 +137,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
 			cardImagePortrait = new UIImageView ();
 			cardImageLandscape = new UIImageView ();
 			var togglerP = new UIButton ();
@@ -140,14 +145,14 @@ namespace Busidex.Presentation.iOS
 
 			var navBarHeight = NavigationController.NavigationBar.Frame.Size.Height;
 
-			cardImagePortrait.Frame = new CGRect (0, navBarHeight, View.Frame.Width, View.Frame.Height - navBarHeight);
-			cardImageLandscape.Frame = new CGRect (0, navBarHeight, View.Frame.Width, View.Frame.Height - navBarHeight);
+			cardImagePortrait.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
+			cardImageLandscape.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
 
 			cardImagePortrait.UserInteractionEnabled = cardImageLandscape.UserInteractionEnabled = true;
 
 
-			togglerP.Frame = new CGRect (0, navBarHeight, View.Frame.Width, View.Frame.Height - navBarHeight);
-			togglerL.Frame = new CGRect (0, navBarHeight, View.Frame.Width, View.Frame.Height - navBarHeight);
+			togglerP.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
+			togglerL.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
 
 			togglerP.TouchUpInside += delegate {
 				ToggleImage();

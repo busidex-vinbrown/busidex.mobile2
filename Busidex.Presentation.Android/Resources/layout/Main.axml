@@ -100,32 +100,6 @@
         p1:layout_alignParentBottom="true"
         p1:layout_alignParentLeft="true"
         p1:layout_marginLeft="5dp" />
-    <ImageButton
-        p1:src="@drawable/mybusidexicon"
-        p1:layout_width="42dp"
-        p1:layout_height="42dp"
-        p1:id="@+id/btnSharedCardsNotification"
-        p1:scaleType="fitXY"
-        p1:background="@android:drawable/editbox_dropdown_light_frame"
-        p1:layout_alignParentBottom="true"
-        p1:textAlignment="gravity"
-        p1:layout_marginBottom="3dp"
-        p1:layout_marginRight="15dp"
-        p1:layout_alignParentRight="true" />
-    <TextView
-        p1:text="1"
-        p1:textAppearance="?android:attr/textAppearanceSmall"
-        p1:layout_width="wrap_content"
-        p1:layout_height="wrap_content"
-        p1:layout_toLeftOf="@id/btnSharedCardsNotification"
-        p1:id="@+id/txtNotificationCount"
-        p1:textColor="@color/buttonFontColor"
-        p1:padding="3dp"
-        p1:layout_alignParentBottom="true"
-        p1:layout_marginRight="-40dp"
-        p1:layout_marginBottom="27dp"
-        p1:textStyle="bold"
-        p1:textSize="11pt" />
     <ImageView
         p1:src="@drawable/eventicon"
         p1:layout_width="75dp"
@@ -154,6 +128,31 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
+    <ImageView
+        p1:src="@drawable/mybusidexicon"
+        p1:layout_width="50dp"
+        p1:layout_height="50dp"
+        p1:id="@+id/btnSharedCardsNotification"
+        p1:scaleType="fitXY"
+        p1:layout_alignParentBottom="true"
+        p1:textAlignment="gravity"
+        p1:layout_marginBottom="3dp"
+        p1:layout_marginRight="15dp"
+        p1:layout_alignParentRight="true" />
+    <TextView
+        p1:text="1"
+        p1:textAppearance="?android:attr/textAppearanceSmall"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:layout_toLeftOf="@id/btnSharedCardsNotification"
+        p1:id="@+id/txtNotificationCount"
+        p1:textColor="@color/buttonFontColor"
+        p1:padding="3dp"
+        p1:layout_alignParentBottom="true"
+        p1:layout_marginRight="-46dp"
+        p1:layout_marginBottom="28dp"
+        p1:textStyle="bold"
+        p1:textSize="12pt" />
     <fragment xmlns:tools="http://schemas.android.com/tools"
         class="Busidex.Presentation.Android.ProfileFragment"
         p1:id="@+id/profileFragment"

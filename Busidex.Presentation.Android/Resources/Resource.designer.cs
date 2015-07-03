@@ -3486,8 +3486,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f090074
 			public const int btnEventTag = 2131296372;
 			
-			// aapt resource value: 0x7f090088
-			public const int btnEvents = 2131296392;
+			// aapt resource value: 0x7f090086
+			public const int btnEvents = 2131296390;
 			
 			// aapt resource value: 0x7f09006f
 			public const int btnHideInfo = 2131296367;
@@ -3570,8 +3570,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f0900e8
 			public const int btnShareCard = 2131296488;
 			
-			// aapt resource value: 0x7f090085
-			public const int btnSharedCardsNotification = 2131296389;
+			// aapt resource value: 0x7f090087
+			public const int btnSharedCardsNotification = 2131296391;
 			
 			// aapt resource value: 0x7f090100
 			public const int btnStart = 2131296512;
@@ -3702,8 +3702,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f0900e7
 			public const int imgCheckShared = 2131296487;
 			
-			// aapt resource value: 0x7f090087
-			public const int imgEventIcon = 2131296391;
+			// aapt resource value: 0x7f090085
+			public const int imgEventIcon = 2131296389;
 			
 			// aapt resource value: 0x7f090101
 			public const int imgLoginLogo = 2131296513;
@@ -4137,8 +4137,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f09009f
 			public const int txtNotes = 2131296415;
 			
-			// aapt resource value: 0x7f090086
-			public const int txtNotificationCount = 2131296390;
+			// aapt resource value: 0x7f090088
+			public const int txtNotificationCount = 2131296392;
 			
 			// aapt resource value: 0x7f090079
 			public const int txtPassword = 2131296377;

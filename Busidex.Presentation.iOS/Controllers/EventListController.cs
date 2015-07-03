@@ -30,21 +30,14 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
+		
 			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 			LoadEventList ();
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetToolbarHidden (true, false);
-			}
-		}
 
 		#region Get cached files
-		EventListResponse GetEventListFromFile(){
+		static EventListResponse GetEventListFromFile(){
 
 			var eventListFilePath = Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE);
 			if(File.Exists(eventListFilePath)){
@@ -57,7 +50,7 @@ namespace Busidex.Presentation.iOS
 			return null;
 		}
 
-		EventSearchResponse GetEventCardsFromFile(EventTag tag){
+		static EventSearchResponse GetEventCardsFromFile(EventTag tag){
 
 			var eventCardsFilePath = Path.Combine(Resources.DocumentsPath, string.Format(Resources.EVENT_CARDS_FILE, tag.Text));
 			if(File.Exists(eventCardsFilePath)){
@@ -90,7 +83,7 @@ namespace Busidex.Presentation.iOS
 
 			eventList.LastRefreshDate = DateTime.Now;
 			var json = Newtonsoft.Json.JsonConvert.SerializeObject (eventList);
-			Busidex.Mobile.Utils.SaveResponse(json, string.Format(Resources.EVENT_CARDS_FILE, tag.Text));
+			Utils.SaveResponse(json, string.Format(Resources.EVENT_CARDS_FILE, tag.Text));
 		}
 
 		/// <summary>
@@ -98,7 +91,7 @@ namespace Busidex.Presentation.iOS
 		/// </summary>
 		/// <returns><c>true</c>, if event search refresh cookie was checked, <c>false</c> otherwise.</returns>
 		/// <param name="tag">Tag.</param>
-		bool CheckEventSearchRefreshDate(EventTag tag){
+		static bool CheckEventSearchRefreshDate(EventTag tag){
 
 			var eventList = GetEventCardsFromFile(tag);
 			if (eventList == null){
@@ -136,7 +129,7 @@ namespace Busidex.Presentation.iOS
 
 							var ownedCards = eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList(); 
 
-							Busidex.Mobile.Utils.SaveResponse(r.Result, fileName);
+							Utils.SaveResponse(r.Result, fileName);
 							SetEventCardRefreshCookie(eventSearchResponse, tag);
 
 							var idx = 0;
@@ -155,7 +148,7 @@ namespace Busidex.Presentation.iOS
 									var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
 
 									if (!File.Exists (documentsPath + "/" + fName)){// || force) {
-										await Busidex.Mobile.Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
+										await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
 											InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
 										});
 									} else{
@@ -163,7 +156,7 @@ namespace Busidex.Presentation.iOS
 									}
 
 									if ((!File.Exists (documentsPath + "/" + bName)/* || force*/) && card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-										await Busidex.Mobile.Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
+										await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
 										});
 									}
 									idx++;
@@ -180,7 +173,7 @@ namespace Busidex.Presentation.iOS
 				}
 				
 			}
-			catch(Exception ex){
+			catch(Exception ignore){
 
 			}
 
@@ -190,8 +183,8 @@ namespace Busidex.Presentation.iOS
 		EventListTableSource ConfigureTableSourceEventHandlers(List<EventTag> data){
 			var src = new EventListTableSource (data);
 
-			src.OnItemSelected += delegate {
-				LoadEvent (((EventListTableSource)vwEventList.Source).SelectedEvent);
+			src.OnItemSelected += async delegate {
+				await LoadEvent (((EventListTableSource)vwEventList.Source).SelectedEvent);
 			};
 
 			return src;

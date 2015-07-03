@@ -47,9 +47,7 @@ namespace Busidex.Presentation.iOS
 				SearchButtonHandlerAssigned = true;
 
 				txtSearch.TextChanged += delegate {
-					if(txtSearch.Text.Length == 0){
-						vwSearchResults.Hidden = true;
-					}
+					vwSearchResults.Hidden |= txtSearch.Text.Length == 0;
 				};
 
 				txtSearch.CancelButtonClicked += delegate {

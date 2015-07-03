@@ -44,7 +44,7 @@ namespace Busidex.Presentation.Android
 		Dialog helpDialog;
 		public bool interceptTouchEvents = true;
 
-		private void LoadProfileFragment(){
+		void LoadProfileFragment(){
 			profileFragment = FindViewById<View> (Resource.Id.profileFragment);
 
 			var cookie = applicationResource.GetAuthCookie ();
@@ -118,7 +118,7 @@ namespace Busidex.Presentation.Android
 		}
 		#endregion
 
-		ImageButton btnSharedCardsNotification;
+		ImageView btnSharedCardsNotification;
 
 		GestureDetector _detector;
 	
@@ -247,7 +247,8 @@ namespace Busidex.Presentation.Android
 		
 
 			var btnLogout = FindViewById<ImageButton> (Resource.Id.btnLogout);
-			btnSharedCardsNotification = FindViewById<ImageButton> (Resource.Id.btnSharedCardsNotification);
+			btnSharedCardsNotification = FindViewById<ImageView> (Resource.Id.btnSharedCardsNotification);
+
 
 			btnSearch.Click += delegate {
 				if(!interceptTouchEvents) return;
@@ -385,7 +386,7 @@ namespace Busidex.Presentation.Android
 			var ctrl = new SharedCardController ();
 			var cookie = applicationResource.GetAuthCookie ();
 			var sharedCardsResponse = ctrl.GetSharedCards (cookie);
-			if(sharedCardsResponse.Contains("404")){
+			if(sharedCardsResponse.Contains(":404")){
 				return 0;
 			}
 
@@ -411,7 +412,7 @@ namespace Busidex.Presentation.Android
 			organizationsRefreshing = true;
 
 			var cookie = applicationResource.GetAuthCookie ();
-			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
 				organizationsRefreshing = false;
 				GoToMyOrganizations ();
@@ -514,7 +515,7 @@ namespace Busidex.Presentation.Android
 
 			var cookie = applicationResource.GetAuthCookie ();
 
-			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
 				myBusidexRefreshing = false;
@@ -620,7 +621,7 @@ namespace Busidex.Presentation.Android
 			eventsRefreshing = true;
 			var cookie = applicationResource.GetAuthCookie ();
 
-			var fullFilePath = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
 				eventsRefreshing = false;
 				GoToEventList ();

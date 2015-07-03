@@ -7,7 +7,6 @@ using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using System.Threading.Tasks;
 using GoogleAnalytics.iOS;
-using System.Collections.Generic;
 
 namespace Busidex.Presentation.iOS
 {
@@ -33,7 +32,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateAppView ().Build ());
+			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateScreenView ().Build ());
 
 			base.ViewDidAppear (animated);
 		}
@@ -48,8 +47,8 @@ namespace Busidex.Presentation.iOS
 			try{
 				var cookie = new NSHttpCookie (nCookie);
 				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-			}catch(Exception ex){
-				var i = 0;
+			}catch(Exception ignore){
+				
 			}
 		}
 
@@ -83,7 +82,7 @@ namespace Busidex.Presentation.iOS
 			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
 			DateTime expiration = DateTime.Now.AddYears(1);
 			nCookie.Expires = expiration;
-			nCookie.Value = Busidex.Mobile.Utils.EncodeUserId(userId);
+			nCookie.Value = Utils.EncodeUserId(userId);
 			var cookie = new NSHttpCookie(nCookie);
 
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
@@ -105,12 +104,8 @@ namespace Busidex.Presentation.iOS
 		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
 		{
 			var shouldAllowOtherOrientation = ShouldAllowLandscape (); // same here
-			if (shouldAllowOtherOrientation) 
-			{
-				return UIInterfaceOrientationMask.AllButUpsideDown;
-			} 
+			return shouldAllowOtherOrientation ? UIInterfaceOrientationMask.AllButUpsideDown : UIInterfaceOrientationMask.Portrait; 
 
-			return UIInterfaceOrientationMask.Portrait;
 		}
 
 		protected bool ShouldAllowLandscape ()
@@ -126,7 +121,7 @@ namespace Busidex.Presentation.iOS
 			var cookie = new NSHttpCookie(nCookie);
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
 
-			Busidex.Mobile.Utils.RemoveCacheFiles ();
+			Utils.RemoveCacheFiles ();
 		}
 
 		protected virtual void StartSearch(){

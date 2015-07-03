@@ -1,15 +1,10 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.3" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/SearchController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="149" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationsController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/EventListController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/OrganizationTableSource.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Android/Activities/MainActivity.cs" Line="284" Column="4" />
+      <File FileName="Busidex.Mobile/SharedCardController.cs" Line="58" Column="1" />
+      <File FileName="Busidex.Mobile/BaseController.cs" Line="98" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
