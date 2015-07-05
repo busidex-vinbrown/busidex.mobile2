@@ -110,8 +110,7 @@ namespace Busidex.Presentation.iOS
 			if (File.Exists (fullFilePath)) {
 				LoadMyOrganizationsFromFile (fullFilePath);
 			} else {
-				var controller = new DataViewController ();
-				await controller.LoadMyOrganizationsAsync ();
+				await LoadMyOrganizationsAsync ();
 			}
 		}
 			

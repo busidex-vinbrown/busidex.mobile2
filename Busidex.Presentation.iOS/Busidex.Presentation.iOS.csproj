@@ -340,6 +340,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Resources\roundback.png" />
+    <BundleResource Include="Resources\EventIcon_disabled.png" />
+    <BundleResource Include="Resources\MyBusidexIcon_disabled.png" />
+    <BundleResource Include="Resources\OrganizationsIcon_disabled.png" />
+    <BundleResource Include="Resources\SearchIcon_disabled.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

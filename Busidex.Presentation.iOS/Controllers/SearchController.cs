@@ -43,33 +43,30 @@ namespace Busidex.Presentation.iOS
 
 			vwSearchResults.Hidden = true;
 
-			if (!SearchButtonHandlerAssigned) {
-				SearchButtonHandlerAssigned = true;
+			SearchButtonHandlerAssigned = true;
 
-				txtSearch.TextChanged += delegate {
-					vwSearchResults.Hidden |= txtSearch.Text.Length == 0;
-				};
+			txtSearch.TextChanged += delegate {
+				vwSearchResults.Hidden |= txtSearch.Text.Length == 0;
+			};
 
-				txtSearch.CancelButtonClicked += delegate {
-					txtSearch.Text = string.Empty;
-					vwSearchResults.Hidden = true;
-				};
+			txtSearch.CancelButtonClicked += delegate {
+				txtSearch.Text = string.Empty;
+				vwSearchResults.Hidden = true;
+			};
 
-				txtSearch.SearchButtonClicked += async delegate {
-					StartSearch ();
-					txtSearch.ResignFirstResponder ();
+			txtSearch.SearchButtonClicked += async delegate {
+				StartSearch ();
+				txtSearch.ResignFirstResponder ();
 
-					await DoSearch ().ContinueWith (r => {
+				await DoSearch ().ContinueWith (r => {
 
-						InvokeOnMainThread (()=>{
-							vwSearchResults.Hidden = false;
-						});
+					InvokeOnMainThread (()=>{
+						vwSearchResults.Hidden = false;
+					});
 
-						// hide keyboard
-					});//.Wait(new System.Threading.CancellationToken());
+				});
 
-				};
-			}
+			};
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
