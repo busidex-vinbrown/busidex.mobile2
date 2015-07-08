@@ -114,6 +114,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Badge.Plugin">
+      <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\Xamarin.iOS10\Badge.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Badge.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\Xamarin.iOS10\Badge.Plugin.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -346,6 +352,7 @@
     <BundleResource Include="Resources\SearchIcon_disabled.png" />
     <BundleResource Include="Resources\EventIconBack.png" />
     <BundleResource Include="Resources\FAQ.png" />
+    <BundleResource Include="Resources\Notification.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

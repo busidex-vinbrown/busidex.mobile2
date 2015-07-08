@@ -878,6 +878,7 @@
         <image name="SearchIcon_disabled.png" width="105" height="105"/>
         <image name="EventIconBack.png" width="105" height="105"/>
         <image name="FAQ.png" width="105" height="105"/>
+        <image name="Notification.png" width="105" height="105"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

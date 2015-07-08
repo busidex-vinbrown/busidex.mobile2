@@ -105,10 +105,6 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);
 		}
 
-
-
-
-
 		void ConfigureToolbarItems(){
 			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
 
@@ -128,10 +124,11 @@ namespace Busidex.Presentation.iOS
 			logOutSystemButton.CustomView = logOutButton;
 
 			// Notifications
+			var notificationFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 3f, 45f, 45f);
 			var notificationCount = GetNotifications();
 			var notificationButton = new NotificationButton (notificationCount);
 			notificationButton.TouchUpInside += ((s, e) => GoToSharedCards());
-			notificationButton.Frame = imgFrame;
+			notificationButton.Frame = notificationFrame;
 			var notificationSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			notificationSystemButton.CustomView = notificationButton;
 

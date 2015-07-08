@@ -63,6 +63,8 @@ namespace Busidex.Presentation.iOS
 			sharedCardList.AddRange (sharedCardResponse.SharedCards);
 
 			vwSharedCards.Source = ConfigureTableSourceEventHandlers(sharedCardList);
+
+			Badge.Plugin.CrossBadge.Current.SetBadge (sharedCardList.Count);	
 		}
 
 		void LoadSharedCards(){

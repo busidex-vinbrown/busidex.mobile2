@@ -110,6 +110,12 @@ namespace Busidex.Presentation.iOS
 
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
+			if(sharedCards.SharedCards.Count > 0){
+				Badge.Plugin.CrossBadge.Current.SetBadge (sharedCards.SharedCards.Count);	
+			}else{
+				Badge.Plugin.CrossBadge.Current.ClearBadge ();
+			}
+
 			try{
 				Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
 			}catch{
