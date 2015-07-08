@@ -143,8 +143,6 @@ namespace Busidex.Presentation.iOS
 			var togglerP = new UIButton ();
 			var togglerL = new UIButton ();
 
-			var navBarHeight = NavigationController.NavigationBar.Frame.Size.Height;
-
 			cardImagePortrait.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
 			cardImageLandscape.Frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height);
 

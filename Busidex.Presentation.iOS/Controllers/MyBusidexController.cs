@@ -111,6 +111,12 @@ namespace Busidex.Presentation.iOS
 				ResetFilter();
 				SearchBar.ResignFirstResponder();
 			};
+			SearchBar.TextChanged += delegate {
+				if(SearchBar.Text.Length == 0){
+					ResetFilter();
+					SearchBar.ResignFirstResponder();
+				}
+			};
 		}
 
 		void EditNotes(){

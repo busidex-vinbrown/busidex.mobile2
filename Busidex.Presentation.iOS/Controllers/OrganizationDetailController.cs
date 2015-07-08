@@ -7,7 +7,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrganizationDetailController : BaseController
+	partial class OrganizationDetailController : UIBarButtonItemWithImageViewController
 	{
 		public long OrganizationId{ get; set;}
 

@@ -94,6 +94,12 @@ namespace Busidex.Presentation.iOS
 				ResetFilter();
 				txtSearch.ResignFirstResponder();
 			};
+			txtSearch.TextChanged += delegate {
+				if(txtSearch.Text.Length == 0){
+					ResetFilter();
+					txtSearch.ResignFirstResponder();
+				}
+			};
 		}
 
 		void ShowPhoneNumbers(){

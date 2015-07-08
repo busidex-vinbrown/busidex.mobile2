@@ -70,7 +70,6 @@ namespace Busidex.Presentation.iOS
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
-
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;
 			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);

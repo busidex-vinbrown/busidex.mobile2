@@ -344,6 +344,8 @@
     <BundleResource Include="Resources\MyBusidexIcon_disabled.png" />
     <BundleResource Include="Resources\OrganizationsIcon_disabled.png" />
     <BundleResource Include="Resources\SearchIcon_disabled.png" />
+    <BundleResource Include="Resources\EventIconBack.png" />
+    <BundleResource Include="Resources\FAQ.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

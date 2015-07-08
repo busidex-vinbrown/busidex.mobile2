@@ -72,6 +72,12 @@ namespace Busidex.Presentation.iOS
 				ResetFilter();
 				txtFilter.ResignFirstResponder();
 			};
+			txtFilter.TextChanged += delegate {
+				if(txtFilter.Text.Length == 0){
+					ResetFilter();
+					txtFilter.ResignFirstResponder();
+				}
+			};
 		}
 
 		void ShowPhoneNumbers(){
@@ -128,14 +134,6 @@ namespace Busidex.Presentation.iOS
 			tblEventCards.AllowsSelection = true;
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-			}
-		}
-
 		public override void ViewDidAppear (bool animated)
 		{
 			if (SelectedTag != null) {
@@ -154,7 +152,7 @@ namespace Busidex.Presentation.iOS
 
 			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
 
-			this.Title = SelectedTag.Description;
+			lblEventName.Text = SelectedTag.Description;
 
 			var fullFilePath = Path.Combine (documentsPath, string.Format(Resources.EVENT_CARDS_FILE, SelectedTag.Text));
 			if (File.Exists (fullFilePath)) {

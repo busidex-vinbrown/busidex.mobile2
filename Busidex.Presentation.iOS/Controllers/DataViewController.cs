@@ -2,8 +2,6 @@
 using System.Linq;
 using Foundation;
 using UIKit;
-using Busidex.Mobile.Models;
-using System.IO;
 using System.Threading.Tasks;
 using Busidex.Mobile;
 
@@ -55,7 +53,7 @@ namespace Busidex.Presentation.iOS
 			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = lblQuestions.Font = font;
 
 			btnGoToSearch.TouchUpInside += delegate {
-				GoToSearch();
+				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
 			};
 
 			btnGoToMyBusidex.TouchUpInside += async delegate {
@@ -107,45 +105,9 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);
 		}
 
-		public int GetNotifications(){
 
-			var ctrl = new Busidex.Mobile.SharedCardController ();
-			var cookie = GetAuthCookie ();
-			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
-			if(sharedCardsResponse.Equals("Error")){
-				return 0;
-			}
 
-			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
-			try{
-				Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
-			}catch{
-
-			}
-
-			foreach (SharedCard card in sharedCards.SharedCards) {
-				var fileName = card.Card.FrontFileName;
-				var fImagePath = Resources.CARD_PATH + fileName;
-				if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
-					Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
-
-					});
-				}
-			}
-
-			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
-		}
-
-		async Task<bool> Sync(){
-			await LoadMyBusidexAsync (true);
-			await LoadMyOrganizationsAsync (true);
-			await LoadEventList (true);
-			GetNotifications ();
-			ConfigureToolbarItems ();
-
-			return true;
-		}
 
 		void ConfigureToolbarItems(){
 			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);

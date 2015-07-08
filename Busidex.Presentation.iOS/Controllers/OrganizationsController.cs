@@ -128,12 +128,12 @@ namespace Busidex.Presentation.iOS
 			vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyOrganizations ();
 
-			txtSearch.SearchButtonClicked += delegate {
-				StartSearch ();
-				DoSearch();
-
-				txtSearch.ResignFirstResponder(); // hide keyboard
-			};
+//			txtSearch.SearchButtonClicked += delegate {
+//				StartSearch ();
+//				DoSearch();
+//
+//				txtSearch.ResignFirstResponder(); // hide keyboard
+//			};
 		} 
 	}
 }

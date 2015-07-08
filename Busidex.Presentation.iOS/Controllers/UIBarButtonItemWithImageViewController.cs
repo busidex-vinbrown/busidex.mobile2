@@ -16,7 +16,7 @@ namespace Busidex.Presentation.iOS
 		UIButton searchButtonView;
 		UIButton myOrganizationsButtonView;
 		UIButton eventsButtonView;
-		UISwipeGestureRecognizer swiper;
+
 
 
 		public UIBarButtonItemWithImageViewController (IntPtr handle) : base (handle)
@@ -27,41 +27,127 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 			
+		protected void OnSwipeRight(){
+			if(this is EventListController){
+				LoadMyOrganizationsAsync(false, BaseNavigationController.NavigationDirection.Backward);
+			}
+			if(this is OrganizationsController){
+				LoadMyBusidexAsync(false, BaseNavigationController.NavigationDirection.Backward);
+			}
+			if(this is MyBusidexController){
+				GoToSearch (BaseNavigationController.NavigationDirection.Backward);
+			}
+			if(this is SearchController){
+				GoHome();
+			}
+		}
+
+		protected void OnSwipeLeft(){
+			if(this is DataViewController){
+				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
+			}
+			if(this is SearchController){
+				LoadMyBusidexAsync();
+			}
+			if(this is MyBusidexController){
+				LoadMyOrganizationsAsync();
+			}
+			if(this is OrganizationsController){
+				LoadEventList ();
+			}
+		}
+
+		protected void OnSwipeDown(){
+			Sync();
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			var swiperRight = new UISwipeGestureRecognizer(new Action(OnSwipeRight));
+			swiperRight.Direction = UISwipeGestureRecognizerDirection.Right;
+
+			var swiperLeft = new UISwipeGestureRecognizer(new Action(OnSwipeLeft));
+			swiperLeft.Direction = UISwipeGestureRecognizerDirection.Left;
+
+			var swiperDown = new UISwipeGestureRecognizer(new Action(OnSwipeDown));
+			swiperDown.Direction = UISwipeGestureRecognizerDirection.Down;
+
+			View.AddGestureRecognizer (swiperRight);
+			View.AddGestureRecognizer (swiperLeft);
+			View.AddGestureRecognizer (swiperDown);
+
+//			SwiperLeft.PerformSelector (new ObjCRuntime.Selector ("SwipeLeftSelector:"));
+//			SwiperDown.PerformSelector (new ObjCRuntime.Selector ("SwipeDownSelector:"));
+//			SwiperRight.PerformSelector (new ObjCRuntime.Selector ("SwipeRightSelector:"));
 
 			SetUpNavBarButtons();
 				if (NavigationController != null) {
 					NavigationController.SetNavigationBarHidden (false, false);
 				}
 			NavigationItem.SetHidesBackButton (true, true);
-
-
-			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		protected void GoToMyBusidex ()
+		protected async Task<bool> Sync(){
+			await LoadMyBusidexAsync (true);
+			await LoadMyOrganizationsAsync (true);
+			await LoadEventList (true);
+			GetNotifications ();
+			//ConfigureToolbarItems ();
+
+			return true;
+		}
+
+		public int GetNotifications(){
+
+			var ctrl = new Busidex.Mobile.SharedCardController ();
+			var cookie = GetAuthCookie ();
+			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
+			if(sharedCardsResponse.Equals("Error")){
+				return 0;
+			}
+
+			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
+
+			try{
+				Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+			}catch{
+
+			}
+
+			foreach (SharedCard card in sharedCards.SharedCards) {
+				var fileName = card.Card.FrontFileName;
+				var fImagePath = Resources.CARD_PATH + fileName;
+				if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
+					Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
+
+					});
+				}
+			}
+
+			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
+		}
+
+		protected void GoToMyBusidex (BaseNavigationController.NavigationDirection direction)
 		{
 			if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is MyBusidexController){
 				return;
 			}
-
+			((BaseNavigationController)NavigationController).Direction = direction;
 			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			var myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-
-			if (myBusidexController != null){
+			if (myBusidexController != null) {
 				NavigationController.PushViewController (myBusidexController, true);
 			}
 		}
 
-		protected void GoToSearch ()
+		protected void GoToSearch (BaseNavigationController.NavigationDirection direction)
 		{
 			if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is SearchController){
 				return;
 			}
-
+			((BaseNavigationController)NavigationController).Direction = direction;
 			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			var searchController = board.InstantiateViewController ("SearchController") as SearchController;
 			if (searchController != null) {
@@ -69,16 +155,16 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void GoToMyOrganizations ()
+		protected void GoToMyOrganizations (BaseNavigationController.NavigationDirection direction)
 		{
 			try{
 				if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is OrganizationsController){
 					return;
 				}
-
+				((BaseNavigationController)NavigationController).Direction = direction;
 				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 				var organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
-				if (organizationsController != null){
+				if (organizationsController != null) {
 					NavigationController.PushViewController (organizationsController, true);
 				}
 			}
@@ -87,12 +173,12 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void GoToEvents(){
+		protected void GoToEvents(BaseNavigationController.NavigationDirection direction){
 
 			if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is EventListController){
 				return;
 			}
-
+			((BaseNavigationController)NavigationController).Direction = direction;
 			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			var eventListController = board.InstantiateViewController ("EventListController") as EventListController;
 			if (eventListController != null) {
@@ -100,19 +186,57 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected void NoOp(){
+			
+		}
+
 		protected void GoHome(){
 			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			((BaseNavigationController)NavigationController).Direction = BaseNavigationController.NavigationDirection.Backward;
 			var dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
 			if (dataViewController != null) {
 				NavigationController.PushViewController (dataViewController, true);
 			}
 		}
 
+
+
 		protected void SetUpNavBarButtons(){
 
 			nfloat imageSize = 40f;
 			var frame = new CoreGraphics.CGRect(imageSize * 2, 0, imageSize, imageSize);
 
+			// EVENTS
+			eventsButtonView = new UIButton();
+			if(this is EventListController){
+				eventsButtonView.SetBackgroundImage(UIImage.FromFile ("EventIcon.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}else if(this is EventCardsController){
+				eventsButtonView.SetBackgroundImage(UIImage.FromFile ("EventIconBack.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}else{
+				eventsButtonView.SetBackgroundImage(UIImage.FromFile ("EventIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}
+			eventsButtonView.Frame = frame;
+			eventsButtonView.TouchUpInside += async delegate {
+				await LoadEventList();
+			};
+
+			// ORGANIZATIONS
+			frame.X *= 2;
+			myOrganizationsButtonView = new UIButton();
+			if(this is OrganizationsController){
+				myOrganizationsButtonView.SetBackgroundImage(UIImage.FromFile ("OrganizationsIcon.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}else if(this is OrganizationDetailController || this is OrgMembersController){
+				myOrganizationsButtonView.SetBackgroundImage(UIImage.FromFile ("EventIconBack.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}else{
+				myOrganizationsButtonView.SetBackgroundImage(UIImage.FromFile ("OrganizationsIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
+			}
+			myOrganizationsButtonView.Frame = frame;
+			myOrganizationsButtonView.TouchUpInside += async delegate {
+				await LoadMyOrganizationsAsync();
+			}; 
+
+			frame.X *= 2;
+			// MY BUSIDEX
 			myBusidexButtonView = new UIButton();
 			myBusidexButtonView.SetBackgroundImage(UIImage.FromFile (this is MyBusidexController ? "MyBusidexIcon.png" : "MyBusidexIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			myBusidexButtonView.Frame = frame;
@@ -120,72 +244,55 @@ namespace Busidex.Presentation.iOS
 				await LoadMyBusidexAsync();
 			}; 
 
+			// SEARCH
 			frame.X *= 2;
 			searchButtonView = new UIButton();
 			searchButtonView.SetBackgroundImage(UIImage.FromFile (this is SearchController ? "SearchIcon.png" : "SearchIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			searchButtonView.Frame = frame;
 			searchButtonView.TouchUpInside += delegate {
-				GoToSearch ();	
+				GoToSearch (BaseNavigationController.NavigationDirection.Forward);	
 			}; 
-				
-			frame.X *= 2;
-			myOrganizationsButtonView = new UIButton();
-			myOrganizationsButtonView.SetBackgroundImage(UIImage.FromFile (this is OrganizationsController ? "OrganizationsIcon.png" : "OrganizationsIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
-			myOrganizationsButtonView.Frame = frame;
-			myOrganizationsButtonView.TouchUpInside += async delegate {
-				//GoToMyOrganizations ();	
-				await LoadMyOrganizationsAsync();
-			}; 
-				
-			frame.X *= 2;
-			eventsButtonView = new UIButton();
-			eventsButtonView.SetBackgroundImage(UIImage.FromFile (this is EventListController ? "EventIcon.png" : "EventIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
-			eventsButtonView.Frame = frame;
-			eventsButtonView.TouchUpInside += async delegate {
-				//GoToEvents ();	
-				await LoadEventList();
-			};
-
 
 			var myBusidexButton = new UIBarButtonItem (
 				myBusidexButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => GoToMyBusidex()
+				(s, e) => LoadMyBusidexAsync()
 			);
 			myBusidexButton.CustomView = myBusidexButtonView;
 
 			var searchButton = new UIBarButtonItem (
 				searchButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => GoToSearch ()
+				(s, e) => GoToSearch (BaseNavigationController.NavigationDirection.Forward)
 			);
 			searchButton.CustomView = searchButtonView;
 
 			var myOrganizationsButton = new UIBarButtonItem (
 				myOrganizationsButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => GoToMyOrganizations()
+				(s, e) => LoadMyOrganizationsAsync()
 			);
 			myOrganizationsButton.CustomView = myOrganizationsButtonView;
 
 			var eventsButton = new UIBarButtonItem (
 				eventsButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => GoToEvents()
+				(s, e) => GoToEvents(BaseNavigationController.NavigationDirection.Forward)
 			);
 			eventsButton.CustomView = eventsButtonView;
 
 			var buttonItems = new UIBarButtonItem[4];
-			buttonItems [0] = myBusidexButton;
-			buttonItems [1] = searchButton;
-			buttonItems [2] = myOrganizationsButton;
-			buttonItems [3] = eventsButton;
+			buttonItems [0] = eventsButton;
+			buttonItems [1] = myOrganizationsButton;
+			buttonItems [2] = myBusidexButton;
+			buttonItems [3] = searchButton;
 
 
 			NavigationItem.RightBarButtonItems = buttonItems;
 
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ();
 
+			// HOME BUTTON
 			var homeButton = new UIButton (UIButtonType.System);
 			homeButton.SetTitle ("Home", UIControlState.Normal);
 			homeButton.Frame = new CoreGraphics.CGRect(0, 0, 90f, imageSize);
@@ -194,15 +301,16 @@ namespace Busidex.Presentation.iOS
 			};
 
 			NavigationItem.LeftBarButtonItem.CustomView = homeButton;
+			NavigationItem.LeftBarButtonItem.CustomView.Hidden = false;
 
 		}
 
-		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false){
+		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
 
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
-				GoToMyOrganizations ();
+				GoToMyOrganizations (direction);
 			} else {
 				if (cookie != null) {
 
@@ -293,7 +401,7 @@ namespace Busidex.Presentation.iOS
 							InvokeOnMainThread (() => {
 								overlay.Hide();
 								if(!force){
-									GoToMyOrganizations ();
+									GoToMyOrganizations (direction);
 								}
 							});
 						}else{
@@ -308,11 +416,11 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		protected async Task<bool> LoadMyBusidexAsync(bool force = false){
+		protected async Task<bool> LoadMyBusidexAsync(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
-				GoToMyBusidex ();
+				GoToMyBusidex (direction);
 				return true;
 			} else {
 				if (cookie != null) {
@@ -367,7 +475,7 @@ namespace Busidex.Presentation.iOS
 							InvokeOnMainThread (() => {
 								overlay.Hide();
 								if(!force){
-									GoToMyBusidex ();
+									GoToMyBusidex (direction);
 								}
 							});
 						}else{
@@ -382,16 +490,16 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		protected async Task<bool> LoadEventList(bool force = false){
+		protected async Task<bool> LoadEventList(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
 			var cookie = GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (documentsPath, Resources.EVENT_LIST_FILE);
 			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
-				GoToEvents ();
+				GoToEvents (direction);
 			} else {
 				try {
 					var controller = new Busidex.Mobile.SearchController ();
-					await controller.GetEventTags (cookie.Value).ContinueWith(async eventListResponse => {
+					await controller.GetEventTags (cookie.Value).ContinueWith(eventListResponse => {
 						if (!string.IsNullOrEmpty (eventListResponse.Result)) {
 
 							Utils.SaveResponse (eventListResponse.Result, Resources.EVENT_LIST_FILE);
@@ -399,7 +507,7 @@ namespace Busidex.Presentation.iOS
 							SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
 
 							if(!force){
-								InvokeOnMainThread (GoToEvents);
+								InvokeOnMainThread (() => GoToEvents (direction));
 							}
 						}	
 					});

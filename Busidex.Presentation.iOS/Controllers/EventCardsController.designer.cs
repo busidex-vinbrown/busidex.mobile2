@@ -16,6 +16,10 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblEventName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView tblEventCards { get; set; }
 
 		[Outlet]
@@ -24,6 +28,10 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (lblEventName != null) {
+				lblEventName.Dispose ();
+				lblEventName = null;
+			}
 			if (tblEventCards != null) {
 				tblEventCards.Dispose ();
 				tblEventCards = null;
