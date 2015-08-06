@@ -4,6 +4,8 @@ using UIKit;
 using System.Linq;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
+using CoreGraphics;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -21,10 +23,12 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			SetPosition ();
 		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			SetPosition ();
+
 			var cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
 			long userId;

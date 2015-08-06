@@ -9,10 +9,11 @@ using System.IO;
 using MessageUI;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class MyBusidexController : BaseCardViewController
+	public partial class MyBusidexController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		List<UserCard> FilterResults;
@@ -159,43 +160,40 @@ namespace Busidex.Presentation.iOS
 			myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
 			Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
-			if (TableView.Source == null) {
-				var src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
-				src.NoCardsMessage = NO_CARDS;
-				TableView.Source = src;
-			}
-			TableView.AllowsSelection = true;
+			InvokeOnMainThread (() => {
+				if (TableView.Source == null) {
+					var src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
+					src.NoCardsMessage = NO_CARDS;
+					TableView.Source = src;
+				}
+				TableView.AllowsSelection = true;
+
+				TableView.ReloadData();
+			});
 		}
 			
-		void LoadMyBusidexAsync(){
+		async Task<bool> LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
 
 			if (cookie != null) {
 
 				var ctrl = new Busidex.Mobile.MyBusidexController ();
-				ctrl.GetMyBusidex (cookie.Value).ContinueWith(response => {
+				await ctrl.GetMyBusidex (cookie.Value).ContinueWith(response => {
 					if(!string.IsNullOrEmpty(response.Result)){
 						ProcessCards (response.Result);
 						Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
 					}
 				});
 			}
+			return true;
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-			}
-		}
-
-		public void LoadMyBusidex(){
+		public async void LoadMyBusidex(){
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (fullFilePath)) {
 				LoadCardsFromFile (fullFilePath);
 			} else {
-				LoadMyBusidexAsync ();
+				await LoadMyBusidexAsync ();
 			}
 		}
 

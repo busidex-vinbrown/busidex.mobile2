@@ -44,7 +44,7 @@ namespace Busidex.Presentation.iOS
 			if(!Organizations.Any ()){
 				return BASE_CELL_HEIGHT * 3;
 			}
-			if (Organizations [indexPath.Row].Visibility == 0) {
+			if (Organizations [indexPath.Row].IsMember) {
 				return BASE_CELL_HEIGHT / 1.5f;
 			}
 
@@ -80,7 +80,7 @@ namespace Busidex.Presentation.iOS
 		
 			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
-			if (org.Visibility == 0) {
+			if (org.IsMember) {
 				if (!string.IsNullOrEmpty (org.LogoFileName)) {
 					var frame = new CoreGraphics.CGRect (10f, 10f, UIScreen.MainScreen.Bounds.Width - 80f, 80f);
 					var imageFile = fileName + "." + org.LogoType;
@@ -114,7 +114,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 
-			if (org.Visibility == 0) {
+			if (org.IsMember) {
 				AddSwipeView (ref cell, org);
 			}else{
 				AddLabelView (ref cell, org);

@@ -5,6 +5,7 @@ using Busidex.Mobile;
 using UIKit;
 using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -148,13 +149,14 @@ namespace Busidex.Presentation.iOS
 			lblInstructions.BackgroundColor = UIColor.Clear;
 			lblInstructions.UserInteractionEnabled = false;
 			lblInstructions.TextColor = UIColor.DarkGray;
+			lblInstructions.Editable = false;
 			lblInstructions.Text = loggedIn 
 				? "Update your email address so you can access your cards on the web and all your devices."
 				: "Choose an email address and password so you can access your cards on the web and all your devices.";
 			
 			lblInstructions.TextAlignment = UITextAlignment.Justified;
-
-			float height = loggedIn ? 65f : 95f;
+			lblInstructions.Font = UIFont.FromName ("Helvetica", 15f);
+			float height = loggedIn ? 85f : 105f;
 			var frame = new CoreGraphics.CGRect (
 				padding.Frame.X, 
 				padding.Frame.Y, 
@@ -173,7 +175,7 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		void SaveSettings(){
+		async Task<bool> SaveSettings(){
 			HideStatusIndicators ();
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
@@ -191,7 +193,7 @@ namespace Busidex.Presentation.iOS
 				string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
 
 				if(!oldPassword.Equals(newPassword)){
-					Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
+					await  Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
 
 						InvokeOnMainThread( ()=> {
 							var passwordResult = passwordResponse.Result;
@@ -200,7 +202,7 @@ namespace Busidex.Presentation.iOS
 					});
 				}
 				if(!oldEmail.Equals(newEmail)){
-					Busidex.Mobile.SettingsController.ChangeEmail (newEmail, token).ContinueWith (emailResponse => {
+					await Busidex.Mobile.SettingsController.ChangeEmail (newEmail, token).ContinueWith (emailResponse => {
 						InvokeOnMainThread( ()=> {
 							var emailResult = emailResponse.Result;
 							SetEmailChangedResult(newEmail, emailResult, ref user);
@@ -210,18 +212,21 @@ namespace Busidex.Presentation.iOS
 			}else{
 				if (termsAccepted) {
 					if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
-						ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
+						await ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
 					}else if(txtEmail.Text.IndexOf('@') < 0){
-						ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
+						await ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
 					} else {
 						token = Guid.NewGuid ().ToString ();
-						var response = AccountController.CheckAccount (token, newEmail, newPassword);
-						SetCheckAccountResult (newEmail, newPassword, response.Result, ref user);
+						await AccountController.CheckAccount (token, newEmail, newPassword).ContinueWith(response => {
+							InvokeOnMainThread(() => SetCheckAccountResult (newEmail, newPassword, response.Result, ref user));
+						});
+
 					}
 				}else {
-					ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
+					await ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
 				}
 			}
+			return true;
 		}
 
 		static string UpdateUserEmailSetting(NSUserDefaults user){

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Mobile
 {
@@ -27,7 +28,13 @@ namespace Busidex.Mobile
 		}
 
 		public static Task<string> CheckAccount(string token, string email, string password){
-			string data = @"{'uidId':'" + token + "','email':'" + email + "', 'pswd':'" + password + "'}";
+
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject (new AutoResponseForm{
+				uidId = token,
+				email = email,
+				pswd = password
+			});
+			//string data = @"{'uidId':'" + token + "','email':'" + email + "', 'pswd':'" + password + "'}";
 
 			return MakeRequestAsync (CHECK_ACCOUNT_URL, Resources.HttpActions.POST.ToString(), token, data);
 		}

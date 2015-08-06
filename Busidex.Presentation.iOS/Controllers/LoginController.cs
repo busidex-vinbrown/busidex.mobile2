@@ -78,8 +78,6 @@ namespace Busidex.Presentation.iOS
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
 
-				var pt = imgLogo.Center;
-
 				// dismiss the keyboard
 				txtPassword.ResignFirstResponder();
 				txtUserName.ResignFirstResponder();

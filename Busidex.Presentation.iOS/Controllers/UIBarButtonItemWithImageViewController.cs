@@ -17,22 +17,28 @@ namespace Busidex.Presentation.iOS
 		UIButton myOrganizationsButtonView;
 		UIButton eventsButtonView;
 
-
-
 		public UIBarButtonItemWithImageViewController (IntPtr handle) : base (handle)
 		{
 		}
 
-		public UIBarButtonItemWithImageViewController () 
+		public UIBarButtonItemWithImageViewController () : base () 
 		{
 		}
-			
-		protected void OnSwipeRight(){
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
+			}
+		}
+
+		protected async void OnSwipeRight(){
 			if(this is EventListController){
-				LoadMyOrganizationsAsync(false, BaseNavigationController.NavigationDirection.Backward);
+				await LoadMyOrganizationsAsync(false, BaseNavigationController.NavigationDirection.Backward);
 			}
 			if(this is OrganizationsController){
-				LoadMyBusidexAsync(false, BaseNavigationController.NavigationDirection.Backward);
+				await LoadMyBusidexAsync(false, BaseNavigationController.NavigationDirection.Backward);
 			}
 			if(this is MyBusidexController){
 				GoToSearch (BaseNavigationController.NavigationDirection.Backward);
@@ -42,23 +48,23 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void OnSwipeLeft(){
+		protected async void OnSwipeLeft(){
 			if(this is DataViewController){
 				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
 			}
 			if(this is SearchController){
-				LoadMyBusidexAsync();
+				await LoadMyBusidexAsync();
 			}
 			if(this is MyBusidexController){
-				LoadMyOrganizationsAsync();
+				await LoadMyOrganizationsAsync();
 			}
 			if(this is OrganizationsController){
-				LoadEventList ();
+				await LoadEventList ();
 			}
 		}
 
-		protected void OnSwipeDown(){
-			Sync();
+		protected async void OnSwipeDown(){
+			await Sync();
 		}
 
 		public override void ViewDidLoad ()
@@ -76,8 +82,10 @@ namespace Busidex.Presentation.iOS
 
 			View.AddGestureRecognizer (swiperRight);
 			View.AddGestureRecognizer (swiperLeft);
-			View.AddGestureRecognizer (swiperDown);
 
+			if (this is DataViewController) {
+				View.AddGestureRecognizer (swiperDown);
+			}
 //			SwiperLeft.PerformSelector (new ObjCRuntime.Selector ("SwipeLeftSelector:"));
 //			SwiperDown.PerformSelector (new ObjCRuntime.Selector ("SwipeDownSelector:"));
 //			SwiperRight.PerformSelector (new ObjCRuntime.Selector ("SwipeRightSelector:"));
@@ -141,11 +149,8 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 			((BaseNavigationController)NavigationController).Direction = direction;
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			var myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-			if (myBusidexController != null) {
-				NavigationController.PushViewController (myBusidexController, true);
-			}
+
+			NavigationController.PushViewController (myBusidexController, true);
 		}
 
 		protected void GoToSearch (BaseNavigationController.NavigationDirection direction)
@@ -154,11 +159,8 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 			((BaseNavigationController)NavigationController).Direction = direction;
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			var searchController = board.InstantiateViewController ("SearchController") as SearchController;
-			if (searchController != null) {
-				NavigationController.PushViewController (searchController, true);
-			}
+
+			NavigationController.PushViewController (searchController, true);
 		}
 
 		protected void GoToMyOrganizations (BaseNavigationController.NavigationDirection direction)
@@ -168,11 +170,8 @@ namespace Busidex.Presentation.iOS
 					return;
 				}
 				((BaseNavigationController)NavigationController).Direction = direction;
-				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-				var organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
-				if (organizationsController != null) {
-					NavigationController.PushViewController (organizationsController, true);
-				}
+
+				NavigationController.PushViewController (organizationsController, true);
 			}
 			catch(Exception ex){
 				new UIAlertView("Error", ex.Message, null, "OK", null).Show();
@@ -185,27 +184,16 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 			((BaseNavigationController)NavigationController).Direction = direction;
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			var eventListController = board.InstantiateViewController ("EventListController") as EventListController;
-			if (eventListController != null) {
-				NavigationController.PushViewController (eventListController, true);
-			}
-		}
 
-		protected void NoOp(){
-			
+			NavigationController.PushViewController (eventListController, true);
 		}
 
 		protected void GoHome(){
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			
 			((BaseNavigationController)NavigationController).Direction = BaseNavigationController.NavigationDirection.Backward;
-			var dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
-			if (dataViewController != null) {
-				NavigationController.PushViewController (dataViewController, true);
-			}
+
+			NavigationController.PopToViewController (NavigationController.ViewControllers.First (c => c is DataViewController), true);
 		}
-
-
 
 		protected void SetUpNavBarButtons(){
 
@@ -311,11 +299,13 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
+		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false, 
+			BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward, 
+			bool forceLoadFromFile = false){
 
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
+			if (File.Exists (fullFilePath) && (CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) || forceLoadFromFile) && !force) {
 				GoToMyOrganizations (direction);
 			} else {
 				if (cookie != null) {
@@ -334,7 +324,7 @@ namespace Busidex.Presentation.iOS
 							Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
 							SetRefreshCookie(Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
 
-							foreach (Organization org in myOrganizationsResponse.Model) {
+							foreach (Organization org in myOrganizationsResponse.Model.OrderByDescending(o=>o.IsMember)) {
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
 								if (!File.Exists (documentsPath + "/" + fileName)) {
@@ -422,10 +412,13 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		protected async Task<bool> LoadMyBusidexAsync(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
+		protected async Task<bool> LoadMyBusidexAsync(bool force = false, 
+			BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward,
+			bool forceLoadFromFile = false){
+
 			var cookie = GetAuthCookie ();
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
+			if (File.Exists (fullFilePath) && (CheckRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME) || forceLoadFromFile) && !force) {
 				GoToMyBusidex (direction);
 				return true;
 			} else {
@@ -485,10 +478,7 @@ namespace Busidex.Presentation.iOS
 								}
 							});
 						}else{
-							InvokeOnMainThread (() => {
-								//ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-								overlay.Hide();
-							});
+							InvokeOnMainThread (overlay.Hide);
 						}
 					});
 				}

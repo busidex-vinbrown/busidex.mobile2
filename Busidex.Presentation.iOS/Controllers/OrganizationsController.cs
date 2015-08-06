@@ -9,21 +9,12 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrganizationsController : UIBarButtonItemWithImageViewController
+	public partial class OrganizationsController : UIBarButtonItemWithImageViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 
 		public OrganizationsController (IntPtr handle) : base (handle)
 		{
-		}
-
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-				NavigationController.NavigationBar.SetBackgroundImage (null, UIBarMetrics.Default);
-			}
 		}
 
 		OrganizationTableSource ConfigureTableSourceEventHandlers(List<Organization> data){
@@ -127,13 +118,6 @@ namespace Busidex.Presentation.iOS
 
 			vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyOrganizations ();
-
-//			txtSearch.SearchButtonClicked += delegate {
-//				StartSearch ();
-//				DoSearch();
-//
-//				txtSearch.ResignFirstResponder(); // hide keyboard
-//			};
 		} 
 	}
 }

@@ -14,7 +14,7 @@ namespace Busidex.Presentation.iOS
 	using MessageUI;
 	using GoogleAnalytics.iOS;
 
-	partial class SearchController : BaseCardViewController
+	public partial class SearchController : BaseCardViewController
 	{
 		public static NSString cellID = new NSString ("cellId");
 
@@ -75,13 +75,7 @@ namespace Busidex.Presentation.iOS
 			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-			}
-		}
+
 
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;

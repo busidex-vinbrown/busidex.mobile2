@@ -24,6 +24,9 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -51,6 +54,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <BuildIpa>true</BuildIpa>
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -220,10 +225,6 @@
     <Compile Include="Controllers\TermsController.designer.cs">
       <DependentUpon>TermsController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ButtonPanelController.cs" />
-    <Compile Include="ButtonPanelController.designer.cs">
-      <DependentUpon>ButtonPanelController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Reachability.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\DataViewController.designer.cs">
@@ -240,6 +241,10 @@
     <Compile Include="Controllers\UIBarButtonItemWithImageViewController.cs" />
     <Compile Include="Controllers\UIBarButtonItemWithImageViewController.designer.cs">
       <DependentUpon>UIBarButtonItemWithImageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ButtonPanelController.cs" />
+    <Compile Include="Controllers\ButtonPanelController.designer.cs">
+      <DependentUpon>ButtonPanelController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -28,15 +28,6 @@ namespace Busidex.Presentation.iOS
 			Hide = 2
 		}
 
-		static string GetDeviceId(){
-			var thisDeviceId = UIDevice.CurrentDevice.IdentifierForVendor;
-			if (thisDeviceId != null) {
-				var dIdString = thisDeviceId.AsString ();
-				return dIdString;
-			}
-			return string.Empty;
-		}
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -48,6 +39,8 @@ namespace Busidex.Presentation.iOS
 			 * the userId. Set the authentication cookie and continue.
 			 */
 
+			ConfigureToolbarItems ();
+
 			UIFont font = UIFont.FromName ("Lato-Black", 22f);
 		
 			lblEvents.Font = lblMyBusidex.Font = lblOrganizations.Font = lblSearch.Font = lblQuestions.Font = font;
@@ -57,27 +50,32 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnGoToMyBusidex.TouchUpInside += async delegate {
+				
 				var task = LoadMyBusidexAsync ();
-				if (await Task.WhenAny (task, Task.Delay (15000)) == task) {
+				if (await Task.WhenAny (task, Task.Delay (10000)) == task) {
 					await task;
 					if(!task.Result){
 						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+						await LoadMyBusidexAsync(forceLoadFromFile: true);
 					}
 				} else {
 					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+					await LoadMyBusidexAsync(forceLoadFromFile: true);
 				}
 			};
 
 			btnMyOrganizations.TouchUpInside += async delegate {
-				
+
 				var task = LoadMyOrganizationsAsync ();
-				if (await Task.WhenAny (task, Task.Delay (15000)) == task) {
+				if (await Task.WhenAny (task, Task.Delay (10000)) == task) {
 					await task;
 					if(!task.Result){
 						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+						await LoadMyOrganizationsAsync(forceLoadFromFile: true);
 					}
 				} else {
 					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
+					await LoadMyOrganizationsAsync(forceLoadFromFile: true);
 				}
 			};
 
@@ -157,14 +155,7 @@ namespace Busidex.Presentation.iOS
 				})
 			}, true);
 		}
-
-		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
-		{
-			return UIInterfaceOrientationMask.Portrait;
-		}
-
-
-
+			
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
@@ -176,7 +167,7 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			ConfigureToolbarItems ();
+
 
 			NavigationController.SetToolbarHidden (false, true);
 		}

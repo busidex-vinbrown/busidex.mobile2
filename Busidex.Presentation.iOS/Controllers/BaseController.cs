@@ -16,6 +16,13 @@ namespace Busidex.Presentation.iOS
 		protected LoadingOverlay Overlay;
 		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
+		public static UIStoryboard board;
+		public static EventListController eventListController;
+		public static MyBusidexController myBusidexController;
+		public static SearchController searchController;
+		public static OrganizationsController organizationsController;
+		public static DataViewController dataViewController;
+
 		public BaseController (IntPtr handle) : base (handle)
 		{
 		}
@@ -35,18 +42,23 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateScreenView ().Build ());
 
 			base.ViewDidAppear (animated);
+
+			board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			eventListController = board.InstantiateViewController ("EventListController") as EventListController;
+			myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+			searchController = board.InstantiateViewController ("SearchController") as SearchController;
+			organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
+			dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
 		}
 
 		protected static void SetRefreshCookie(string name){
-			var nCookie = new System.Net.Cookie();
-			nCookie.Name = name;
-			DateTime expiration = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,0, 0, 1, DateTimeKind.Local).AddDays(1);
-
-			nCookie.Expires = expiration;
 
 			try{
-				var cookie = new NSHttpCookie (nCookie);
-				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+
+				var user = NSUserDefaults.StandardUserDefaults;
+				DateTime nextRefresh = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays(1);
+				user.SetString(nextRefresh.ToString(), name);
+
 			}catch(Exception ignore){
 				
 			}
@@ -54,18 +66,18 @@ namespace Busidex.Presentation.iOS
 
 		protected static bool CheckRefreshCookie(string name){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == name);
-
-			if (cookie == null){
+			var user = NSUserDefaults.StandardUserDefaults;
+			String val = user.StringForKey (name);
+			if(string.IsNullOrEmpty(val)){
 				SetRefreshCookie (name);
 				return false;
-			}
-
-			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
-			if(expireDate < DateTime.Now) {
-
-				SetRefreshCookie (name);
-				return false;
+			}else{
+				DateTime lastRefresh;
+				DateTime.TryParse (val, out lastRefresh);
+				if(lastRefresh <= DateTime.Now){
+					SetRefreshCookie (name);
+					return false;
+				}
 			}
 			return true;
 		}
@@ -137,7 +149,7 @@ namespace Busidex.Presentation.iOS
 		{
 			NavigationController.SetNavigationBarHidden (true, true);
 
-			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
+			dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
 			if (dataViewController != null) {
 				NavigationController.PushViewController (dataViewController, true);
@@ -228,7 +240,7 @@ namespace Busidex.Presentation.iOS
 				var file = File.OpenText (fullFilePath);
 				var fileJson = file.ReadToEnd ();
 				file.Close ();
-				ProcessCards (fileJson);
+				InvokeInBackground (() => ProcessCards (fileJson));
 			}
 		}
 

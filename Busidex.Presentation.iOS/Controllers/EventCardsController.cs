@@ -130,8 +130,13 @@ namespace Busidex.Presentation.iOS
 
 			var src = ConfigureTableSourceEventHandlers(Cards);
 			src.NoCardsMessage = NO_CARDS;
-			tblEventCards.Source = src;
-			tblEventCards.AllowsSelection = true;
+
+			InvokeOnMainThread (() => {
+				tblEventCards.Source = src;
+				tblEventCards.AllowsSelection = true;
+				tblEventCards.ReloadData();
+			});
+
 		}
 
 		public override void ViewDidAppear (bool animated)

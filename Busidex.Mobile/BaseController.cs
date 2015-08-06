@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
-using System.Net.NetworkInformation;
 
 namespace Busidex.Mobile
 {
@@ -14,10 +13,6 @@ namespace Busidex.Mobile
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, string data = null){
 			var request = (HttpWebRequest)WebRequest.Create(url);
 			string response = string.Empty;
-
-//			if(!NetworkInterface.GetIsNetworkAvailable()){
-//				return ERROR_MESSAGE;
-//			}
 
 			request.Method = method;
 
@@ -36,7 +31,7 @@ namespace Busidex.Mobile
 
 
 			try {
-				await request.GetResponseAsync().ContinueWith(async r => {
+				await request.GetResponseAsync().ContinueWith(r => {
 					using (var webStream = r.Result.GetResponseStream()) {
 						var responseReader = new StreamReader (webStream);
 						response = responseReader.ReadToEnd();
@@ -47,17 +42,22 @@ namespace Busidex.Mobile
 					}
 				});
 			} 
-			catch(WebException e){
-				if(e.Status == WebExceptionStatus.ProtocolError){
-					response = e.Message;
-				}else{
-					throw new Exception (e.Message);
-				}
+
+			catch(System.AggregateException e){
+				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
+					Success = false,
+					UserId = -1,
+					ReasonPhrase = e.InnerException.Message
+				});
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				LoggingController.LogError (e, token);
-				response = ERROR_MESSAGE;
+				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
+					Success = false,
+					UserId = -1,
+					ReasonPhrase = e.Message
+				});
 			}
 			return response;
 		}

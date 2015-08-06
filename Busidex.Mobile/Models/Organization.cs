@@ -32,6 +32,7 @@ namespace Busidex.Mobile.Models
 		public bool Deleted { get; set; }
 		public object Groups { get; set; }
 		public short Visibility { get; set; }
+		public bool IsMember { get; set; }
 	}
 }
 

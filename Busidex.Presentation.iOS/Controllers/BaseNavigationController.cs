@@ -8,6 +8,8 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class BaseNavigationController : UINavigationController
 	{
+		static CATransition transition;
+
 		public enum NavigationDirection{
 			Forward = 1,
 			Backward = 2
@@ -33,6 +35,9 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
+			transition = CATransition.CreateAnimation ();
+			transition.Duration = 0.25f;
+			transition.Type = CAAnimation.TransitionPush;
 		}
 
 		protected void OnSwipeRight(UIGestureRecognizer sender){
@@ -49,14 +54,12 @@ namespace Busidex.Presentation.iOS
 			
 		public override void PushViewController (UIViewController viewController, bool animated)
 		{
-			var transition = CATransition.CreateAnimation ();
-			transition.Duration = 0.25f;
-			transition.Type = CAAnimation.TransitionPush;
+			
 			transition.Subtype = Direction == NavigationDirection.Backward ? CAAnimation.TransitionFromLeft : CAAnimation.TransitionFromRight;
 
 			this.View.Layer.AddAnimation (transition, "slide");
 
-			base.PushViewController (viewController, animated);
+			base.PushViewController (viewController, true);
 
 			this.View.Layer.RemoveAnimation ( "slide");
 

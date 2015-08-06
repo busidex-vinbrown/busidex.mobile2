@@ -237,12 +237,16 @@ namespace Busidex.Presentation.iOS
 
 			Cards = getCardsFromModel (data);
 
-			if (tblMembers.Source == null) {
-				var src = ConfigureTableSourceEventHandlers(Cards);
-				src.NoCardsMessage = NO_CARDS;
-				tblMembers.Source = src;
-			}
-			tblMembers.AllowsSelection = true;
+			InvokeOnMainThread (() => {
+				if (tblMembers.Source == null) {
+					var src = ConfigureTableSourceEventHandlers(Cards);
+					src.NoCardsMessage = NO_CARDS;
+					tblMembers.Source = src;
+				}
+				tblMembers.AllowsSelection = true;
+				tblMembers.ReloadData();
+			});
+
 		}
 
 		void GetMembers(){
