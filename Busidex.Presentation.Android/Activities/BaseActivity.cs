@@ -26,24 +26,38 @@ namespace Busidex.Presentation.Android
 			} 
 		}
 		protected static ProgressDialog progressDialog;
+		protected bool isLoggedIn;
+
 		Handler progressBarHandler = new Handler();
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-
 			base.OnCreate (savedInstanceState);
 			this.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 			applicationResource = new BaseApplicationResource (this);
 		}
+		public override void OnBackPressed ()
+		{
+			base.OnBackPressed ();
 
+			if (FragmentManager.BackStackEntryCount == 0) {
+				LoadFragment (typeof(MainFragment));
+			} else {
+				var frag = FragmentManager.GetBackStackEntryAt (0);
+				if (frag is MainFragment) {
+					// no op
+				} else {
+					base.OnBackPressed ();
+
+				}
+			}
+		}
 		#region Loading
-
-
 		protected virtual void ProcessFile(string data){
 
 		}
-
+		/*
 		protected bool CheckBusidexFileCache(string fullFilePath){
 			if(File.Exists(fullFilePath)){
 				var file = File.OpenText (fullFilePath);
@@ -63,19 +77,113 @@ namespace Busidex.Presentation.Android
 				ProcessFile (fileJson);
 			}
 		}
-
+		*/
 		protected void RedirectToMainIfLoggedIn(){
 
-			var cookie = applicationResource.GetAuthCookie ();
-			if(cookie != null){
-				var intent = new Intent(this, typeof(MainActivity));
-				Redirect(intent);
+			if(applicationResource.GetAuthCookie () == null){
+				LoadFragment (typeof(StartUpFragment));
+			}else{
+				LoadFragment (typeof(MainFragment));
+			}
+
+		}
+
+		public void LoadFragment(Type type){
+
+			//			if (type != typeof(BaseFragment)) {
+			//				return;
+			//			}
+
+			var fragment = (BaseFragment)FragmentManager.FindFragmentByTag (type.Name);
+			using (var transaction = FragmentManager.BeginTransaction ()) {
+
+				transaction.SetCustomAnimations (
+					Resource.Animator.SlideAnimation, 
+					Resource.Animator.SlideOutAnimation, 
+					Resource.Animator.SlideAnimation, 
+					Resource.Animator.SlideOutAnimation);
+
+				FragmentManager.PopBackStack ();
+				if (fragment != null) {
+					transaction.Show (fragment);
+				}
+				else {
+					fragment = getFragmentByType (type.Name);
+					transaction.Add (Resource.Id.fragment_holder, fragment, fragment.uniqueId).Show(fragment);
+						//.Add (fragment, fragment.uniqueId);
+						//.Replace(Resource.Id.fragment_holder, fragment, fragment.uniqueId);
+				}
+				transaction.AddToBackStack (fragment.uniqueId).Commit ();
+				//fragment.OnResume ();
 			}
 		}
+
+		private BaseFragment getFragmentByType(string typeName){
+
+			BaseFragment fragment;
+
+			switch (typeName) {
+			case "MainFragment":
+				{
+					fragment = new MainFragment ();
+					break;
+				}
+			case "StartUpFragment":
+				{
+					fragment = new StartUpFragment ();
+					break;
+				}
+			case "LoginFragment":
+				{
+					fragment = new LoginFragment ();
+					break;
+				}
+			case "MyBusidexFragment":
+				{
+					fragment = new MyBusidexFragment ();
+					break;
+				}
+			case "SearchFragment":
+				{
+					fragment = new SearchFragment ();
+					break;
+				}
+			case "EventListFragment":
+				{
+					fragment = new EventListFragment ();
+					break;
+				}
+			case "MyOrganizationsFragment":
+				{
+					fragment = new MyOrganizationsFragment ();
+					break;
+				}
+			default:{
+					fragment = new MainFragment ();
+					break;
+				}
+			}
+			return fragment;
+		}
+
+		protected BaseFragment getFragment(string tag){
+			return (BaseFragment)FragmentManager.FindFragmentByTag (tag);		
+		}
+
+		protected void UnloadFragment(Type type){
+			var fragment = getFragment (type.Name);
+			if(fragment != null){
+				using (var transaction = FragmentManager.BeginTransaction ()) {
+					transaction.Hide (fragment);
+				}
+			}
+		}
+
+
 		#endregion
 
 
-
+		/*
 		#region Card Actions
 		protected void Redirect(Intent intent){
 
@@ -309,7 +417,7 @@ namespace Busidex.Presentation.Android
 
 		#region Alerts
 		protected void ShowAlert(string title, string message){
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			var builder = new AlertDialog.Builder(this);
 			builder.SetTitle(title);
 			builder.SetMessage(message);
 			builder.SetCancelable(false);
@@ -317,6 +425,7 @@ namespace Busidex.Presentation.Android
 			builder.Show();
 		}
 		#endregion 
+		*/
 	}
 }
 

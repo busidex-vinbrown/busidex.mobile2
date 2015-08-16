@@ -52,7 +52,7 @@ namespace Busidex.Presentation.Android
 		protected override void OnImageDownloadCompleted (Uri uri){
 			btnCard = FindViewById<ImageButton> (Resource.Id.imgCardDetail);
 			btnCard.SetImageURI (uri);
-			HideLoadingSpinner();
+			//HideLoadingSpinner();
 		}
 
 		void ToggleImage(){
@@ -73,7 +73,7 @@ namespace Busidex.Presentation.Android
 						OnImageDownloadCompleted (frontUri);
 					}else{
 
-						ShowLoadingSpinner ();
+						//ShowLoadingSpinner ();
 
 						var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName;
 
@@ -100,13 +100,13 @@ namespace Busidex.Presentation.Android
 						if (File.Exists (backFileName)) {
 							OnImageDownloadCompleted(backUri);
 						} else {
-							ShowLoadingSpinner ();
+							//ShowLoadingSpinner ();
 
 							var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName;
 
 							Busidex.Mobile.Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								RunOnUiThread (() => {
-									HideLoadingSpinner();
+									//HideLoadingSpinner();
 									OnImageDownloadCompleted(backUri);
 								});
 							});

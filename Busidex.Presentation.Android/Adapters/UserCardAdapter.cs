@@ -283,6 +283,7 @@ namespace Busidex.Presentation.Android
 			return panel;
 		}
 
+
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);

@@ -153,12 +153,12 @@
         p1:layout_marginBottom="28dp"
         p1:textStyle="bold"
         p1:textSize="12pt" />
-    <fragment xmlns:tools="http://schemas.android.com/tools"
+<!--    <fragment xmlns:tools="http://schemas.android.com/tools"
         class="Busidex.Presentation.Android.ProfileFragment"
         p1:id="@+id/profileFragment"
         p1:layout_width="fill_parent"
         p1:layout_height="fill_parent"
         p1:visibility="gone"
-        p1:elevation="999dp"
-        tools:visibility="gone" />
+        tools:visibility="gone"
+        p1:elevation="999dp" />-->
 </RelativeLayout>

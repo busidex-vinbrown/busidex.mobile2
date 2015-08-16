@@ -28,11 +28,11 @@ namespace Busidex.Presentation.Android
 					OnImageDownloadCompleted(frontUri);
 				}else{
 
-					ShowLoadingSpinner ();
+					//ShowLoadingSpinner ();
 
 					Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 						RunOnUiThread (() => {
-							HideLoadingSpinner ();
+							//HideLoadingSpinner ();
 							OnImageDownloadCompleted (frontUri);
 						});
 					});

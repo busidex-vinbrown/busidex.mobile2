@@ -96,18 +96,18 @@ namespace Busidex.Presentation.Android
 
 					var email = txtProfileEmail.Text;
 					if(!email.Contains("@")){
-						ShowAlert("User Information", "Please use a valid email address.");
+						//ShowAlert("User Information", "Please use a valid email address.");
 						return;
 					}
 
 					if(string.IsNullOrEmpty(txtProfilePassword.Text)){
-						ShowAlert("User Information", "Please enter a password.");
+						//ShowAlert("User Information", "Please enter a password.");
 						return;
 					}
 					if(termsAccepted){
 						await CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
 					}else{
-						ShowAlert("Terms and Conditions", "Please accept the terms and conditions to continue.");
+						//ShowAlert("Terms and Conditions", "Please accept the terms and conditions to continue.");
 					}
 				};
 			}
@@ -154,7 +154,7 @@ namespace Busidex.Presentation.Android
 					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
 
-				RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_LoggingYouIn)));
+				//RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_LoggingYouIn)));
 
 				LoginController.DoLogin(email, password).ContinueWith(response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
@@ -164,7 +164,7 @@ namespace Busidex.Presentation.Android
 					applicationResource.SetAuthCookie (userId);
 
 					RunOnUiThread ( ()=> {
-						HideLoadingSpinner();
+						//HideLoadingSpinner();
 						RedirectToMainIfLoggedIn();
 					});	
 				});
@@ -183,12 +183,12 @@ namespace Busidex.Presentation.Android
 		async Task<bool> CheckAccount(string token, string email, string password){
 			token = System.Guid.NewGuid ().ToString ();
 
-			RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
+			//RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
 
 			await AccountController.CheckAccount (token, email, password).ContinueWith (response => {
 
 				RunOnUiThread( ()=> {
-					HideLoadingSpinner();
+					//HideLoadingSpinner();
 					SetCheckAccountResult (email, password, response.Result);
 				});
 

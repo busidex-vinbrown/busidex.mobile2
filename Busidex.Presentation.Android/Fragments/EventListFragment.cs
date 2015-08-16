@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
@@ -15,29 +14,26 @@ using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Busidex Events")]			
-	public class EventListActivity : BaseActivity
+	public class EventListFragment : BaseFragment
 	{
 		static EventListAdapter eventListAdapter { get; set; }
 		List<EventTag> Tags { get; set; }
 		EventTag SelectedEvent { get; set; }
 
-		protected override void OnCreate (Bundle bundle)
+		public override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 
-			SetContentView (Resource.Layout.EventList);
-
-			//TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, 0);
-
-
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
-			//LoadFromFile (fullFilePath);
+			// Create your fragment here
 		}
 
-		public override void OnBackPressed ()
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			//Redirect(new Intent(this, typeof(MainActivity)));
+			// Use this to return your custom view for this Fragment
+			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+
+			var mainView = inflater.Inflate (Resource.Layout.EventList, container, false);
+			return mainView;
 		}
 
 		#region Get cached files
@@ -77,19 +73,21 @@ namespace Busidex.Presentation.Android
 			Utils.SaveResponse(json, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, tag.Text));
 		}
 
-		protected override void ProcessFile(string data){
+		protected async override Task<bool> ProcessFile(string data){
 
 			var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (data);
 
 			Tags = eventListResponse.Model;
 
-			var lstEvents = FindViewById<ListView> (Resource.Id.lstEvents);
+			var lstEvents = Activity.FindViewById<ListView> (Resource.Id.lstEvents);
 
-			eventListAdapter = new EventListAdapter (this, Resource.Id.lstCards, Tags);
+			eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, Tags);
 
 			eventListAdapter.RedirectToEventCards += LoadEvent;
 
 			lstEvents.Adapter = eventListAdapter;
+
+			return true;
 		}
 
 		static bool CheckEventSearchRefreshDate(EventTag tag){
@@ -109,7 +107,7 @@ namespace Busidex.Presentation.Android
 
 		void GoToEvent(EventTag tag){
 			SelectedEvent = tag;
-			var eventCardsIntent = new Intent (this, typeof(EventCardsActivity));
+			var eventCardsIntent = new Intent (Activity, typeof(EventCardsActivity));
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(tag);
 			eventCardsIntent.PutExtra ("Event", data);
@@ -146,7 +144,7 @@ namespace Busidex.Presentation.Android
 
 							var idx = 0;
 							var total = ownedCards.Count;
-							RunOnUiThread (() => {
+							Activity.RunOnUiThread (() => {
 								//HideLoadingSpinner();
 
 								//ShowLoadingSpinner (
@@ -180,7 +178,7 @@ namespace Busidex.Presentation.Android
 								}
 							}
 
-							RunOnUiThread (() => {
+							Activity.RunOnUiThread (() => {
 								//HideLoadingSpinner();
 								GoToEvent (tag);
 							});

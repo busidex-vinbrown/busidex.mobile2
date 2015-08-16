@@ -88,7 +88,7 @@ namespace Busidex.Presentation.Android
 					var data = Newtonsoft.Json.JsonConvert.SerializeObject (userCard);
 
 					intent.PutExtra ("Card", data);
-					AddCardToMyBusidex (intent);
+					//AddCardToMyBusidex (intent);
 				}else{
 					Toast.MakeText (this, Resource.String.Share_ErrorCardNotAdded, ToastLength.Long);
 				}

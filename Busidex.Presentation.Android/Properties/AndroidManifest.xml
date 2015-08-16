@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.2.7" package="com.busidex" android:versionCode="526">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.3.0" package="com.busidex" android:versionCode="527">
 	<uses-sdk android:targetSdkVersion="19" android:minSdkVersion="16" />
-	<application android:label="Busidex" android:icon="@drawable/icon">
+	<application 
+		android:icon="@drawable/icon" 
+		android:label="Busidex">
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.READ_OWNER_DATA" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<activity android:name="Busidex.Presentation.Android.MainActivity" android:orientation="vertical" />
 	<activity android:name="Busidex.Presentation.Android.SearchActivity" android:orientation="vertical" />
+	<activity android:name="Busidex.Presentation.Android.MyBusidexActivity" android:orientation="vertical" />
+	<activity android:name="Busidex.Presentation.Android.MyOrganizationsActivity" android:orientation="vertical" />
+	<activity android:name="Busidex.Presentation.Android.EventListActivity" android:orientation="vertical" />
 </manifest>

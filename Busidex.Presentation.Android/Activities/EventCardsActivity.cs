@@ -33,13 +33,13 @@ namespace Busidex.Presentation.Android
 			var tag = Newtonsoft.Json.JsonConvert.DeserializeObject<EventTag> (data);
 			Title = tag.Description;
 
-			TrackAnalyticsEvent (
-				Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, 
-				Busidex.Mobile.Resources.GA_LABEL_EVENT, 
-				string.Format(Busidex.Mobile.Resources.GA_LABEL_EVENT_NAME, Title), 0);
+			//TrackAnalyticsEvent (
+			//Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, 
+			//Busidex.Mobile.Resources.GA_LABEL_EVENT, 
+			//string.Format(Busidex.Mobile.Resources.GA_LABEL_EVENT_NAME, Title), 0);
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, tag.Text));
-			LoadFromFile (fullFilePath);
+			//LoadFromFile (fullFilePath);
 		}
 
 		static void DoFilter(string filter){
@@ -74,12 +74,12 @@ namespace Busidex.Presentation.Android
 			var lstEventCards = FindViewById<ListView> (Resource.Id.lstEventCards);
 			EventCardsAdapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
 
-			EventCardsAdapter.Redirect += ShowCard;
-			EventCardsAdapter.SendEmail += SendEmail;
-			EventCardsAdapter.OpenBrowser += OpenBrowser;
-			EventCardsAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			EventCardsAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			EventCardsAdapter.OpenMap += OpenMap;
+//			EventCardsAdapter.Redirect += ShowCard;
+//			EventCardsAdapter.SendEmail += SendEmail;
+//			EventCardsAdapter.OpenBrowser += OpenBrowser;
+//			EventCardsAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+//			EventCardsAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+//			EventCardsAdapter.OpenMap += OpenMap;
 
 			EventCardsAdapter.ShowNotes = false;
 
@@ -91,7 +91,7 @@ namespace Busidex.Presentation.Android
 
 			txtFilterEventCards.Iconified = false;
 			lstEventCards.RequestFocus (global::Android.Views.FocusSearchDirection.Down);
-			DismissKeyboard (txtFilterEventCards.WindowToken);
+			//DismissKeyboard (txtFilterEventCards.WindowToken);
 
 			txtFilterEventCards.Touch += delegate {
 				txtFilterEventCards.Focusable = true;

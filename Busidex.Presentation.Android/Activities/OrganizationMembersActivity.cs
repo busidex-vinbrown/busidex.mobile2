@@ -28,7 +28,7 @@ namespace Busidex.Presentation.Android
 			var organization = Newtonsoft.Json.JsonConvert.DeserializeObject<Organization> (data);
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.ORGANIZATION_MEMBERS_FILE + organization.OrganizationId);
-			LoadFromFile (fullFilePath);
+			//LoadFromFile (fullFilePath);
 
 			const int IMAGE_HEIGHT = 82;
 
@@ -70,12 +70,12 @@ namespace Busidex.Presentation.Android
 			var lstOrganizationMembers = FindViewById<ListView> (Resource.Id.lstOrganizationMembers);
 			MembersAdapter = new UserCardAdapter (this, Resource.Id.lstCards, Cards);
 
-			MembersAdapter.Redirect += ShowCard;
-			MembersAdapter.SendEmail += SendEmail;
-			MembersAdapter.OpenBrowser += OpenBrowser;
-			MembersAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			MembersAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			MembersAdapter.OpenMap += OpenMap;
+//			MembersAdapter.Redirect += ShowCard;
+//			MembersAdapter.SendEmail += SendEmail;
+//			MembersAdapter.OpenBrowser += OpenBrowser;
+//			MembersAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+//			MembersAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+//			MembersAdapter.OpenMap += OpenMap;
 
 			MembersAdapter.ShowNotes = false;
 
@@ -87,7 +87,7 @@ namespace Busidex.Presentation.Android
 
 			txtSearchOrgMembers.Iconified = false;
 			lstOrganizationMembers.RequestFocus (global::Android.Views.FocusSearchDirection.Down);
-			DismissKeyboard (txtSearchOrgMembers.WindowToken);
+			//DismissKeyboard (txtSearchOrgMembers.WindowToken);
 
 			txtSearchOrgMembers.Touch += delegate {
 				txtSearchOrgMembers.Focusable = true;

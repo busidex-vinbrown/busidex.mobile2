@@ -25,7 +25,7 @@ namespace Busidex.Presentation.Android
 			Organizations = new List<Organization> ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
-			LoadFromFile (fullFilePath);
+			//LoadFromFile (fullFilePath);
 		}
 
 		protected override void ProcessFile(string data){
@@ -39,9 +39,9 @@ namespace Busidex.Presentation.Android
 				var lstOrganizations = FindViewById<ListView> (Resource.Id.lstOrganizations);
 				var adapter = new OrganizationAdapter (this, Resource.Id.lstCards, Organizations);
 
-				adapter.RedirectToOrganizationDetails += Redirect;
-				adapter.RedirectToOrganizationMembers += Redirect;
-				adapter.RedirectToOrganizationReferrals += Redirect;
+//				adapter.RedirectToOrganizationDetails += Redirect;
+//				adapter.RedirectToOrganizationMembers += Redirect;
+//				adapter.RedirectToOrganizationReferrals += Redirect;
 
 				lstOrganizations.Adapter = adapter;
 			}else{
@@ -51,7 +51,7 @@ namespace Busidex.Presentation.Android
 
 		public override void OnBackPressed ()
 		{
-			Redirect(new Intent(this, typeof(MainActivity)));
+			//Redirect(new Intent(this, typeof(MainActivity)));
 		}
 	}
 }

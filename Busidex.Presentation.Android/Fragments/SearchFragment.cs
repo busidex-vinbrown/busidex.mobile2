@@ -1,34 +1,29 @@
 ﻿
-
-using Android.App;
-using Android.OS;
-using Android.Widget;
-using Busidex.Mobile;
+using System;
 using System.Collections.Generic;
-using Busidex.Mobile.Models;
-using System.IO;
 using System.Linq;
-using Android.Content;
+
+using Android.OS;
 using Android.Views;
+using Android.Widget;
+using Busidex.Mobile.Models;
+using Busidex.Mobile;
+using System.IO;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Label = "Search")]			
-	public class SearchActivity : BaseCardActivity
+	public class SearchFragment : BaseFragment
 	{
 		SearchView SearchBar;
 		ListView lstSearchResults;
-
-		protected override void OnCreate (Bundle savedInstanceState)
+	
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			RequestWindowFeature(WindowFeatures.NoTitle);
+			// Use this to return your custom view for this Fragment
+			var view = inflater.Inflate(Resource.Layout.Search, container, false);
 
-			base.OnCreate (savedInstanceState);
-
-			SetContentView (Resource.Layout.Search);
-
-			SearchBar = FindViewById<SearchView> (Resource.Id.txtSearch);
-			lstSearchResults = FindViewById<ListView> (Resource.Id.lstSearchResults);
+			SearchBar = view.FindViewById<SearchView> (Resource.Id.txtSearch);
+			lstSearchResults = view.FindViewById<ListView> (Resource.Id.lstSearchResults);
 
 			SearchBar.Iconified = false;
 
@@ -43,45 +38,43 @@ namespace Busidex.Presentation.Android
 				SearchBar.Focusable = true;
 				SearchBar.RequestFocus();
 			};
+
+			SearchBar.ClearFocus ();
+			return view;
 		}
 
 		async void ClearFocus(){
 
 			lstSearchResults.RequestFocus ();
-			//await DismissKeyboard (SearchBar.WindowToken);
-		}
-
-		public override void OnBackPressed ()
-		{
-			//Redirect(new Intent(this, typeof(MainActivity)));
+			DismissKeyboard (SearchBar.WindowToken, Activity);
 		}
 
 		async void LoadSearchResults(List<UserCard> cards){
 
-			var adapter = new UserCardAdapter (this, Resource.Id.lstCards, cards);
+			var adapter = new UserCardAdapter (Activity, Resource.Id.lstCards, cards);
 
-//			adapter.Redirect += ShowCard;
-//			adapter.SendEmail += SendEmail;
-//			adapter.OpenBrowser += OpenBrowser;
-//			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-//			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-//			adapter.OpenMap += OpenMap;
+			adapter.Redirect += ShowCard;
+			adapter.SendEmail += SendEmail;
+			adapter.OpenBrowser += OpenBrowser;
+			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			adapter.OpenMap += OpenMap;
 
 			adapter.ShowNotes = false;
 
 			lstSearchResults.Adapter = adapter;
 
-			//HideLoadingSpinner ();
+			HideLoadingSpinner ();
 			lstSearchResults.RequestFocus ();
-			SearchBar.Focusable = false;
+			SearchBar.ClearFocus();
 
-			//await DismissKeyboard (SearchBar.WindowToken);
+			DismissKeyboard (SearchBar.WindowToken, Activity);
 		}
 
 		void DoSearch(){
-		
+
 			string token = applicationResource.GetAuthCookie ();
-			//ShowLoadingSpinner ();
+			ShowLoadingSpinner ();
 
 			var ctrl = new SearchController ();
 			ctrl.DoSearch (SearchBar.Query, token).ContinueWith(response => {
@@ -92,7 +85,7 @@ namespace Busidex.Presentation.Android
 				float processed = 0;
 
 				if (!Search.SearchModel.Results.Any ()) {
-					RunOnUiThread (() => LoadSearchResults (new List<UserCard> ()));
+					Activity.RunOnUiThread (() => LoadSearchResults (new List<UserCard> ()));
 				} else {
 					foreach (var item in Search.SearchModel.Results) {
 						if (item != null) {
@@ -110,13 +103,13 @@ namespace Busidex.Presentation.Android
 								Utils.DownloadImage (imageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
 									processed++;
 									if (processed.Equals(total)) {
-										RunOnUiThread (() => LoadSearchResults (cards));
+										Activity.RunOnUiThread (() => LoadSearchResults (cards));
 									} 
 								});
 							} else {
 								processed++;
 								if (processed.Equals(total)) {
-									RunOnUiThread (() => LoadSearchResults (cards));
+									Activity.RunOnUiThread (() => LoadSearchResults (cards));
 								}
 							}
 						}

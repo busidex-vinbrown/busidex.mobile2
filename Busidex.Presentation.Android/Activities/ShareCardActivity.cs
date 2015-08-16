@@ -39,7 +39,7 @@ namespace Busidex.Presentation.Android
 
 			base.OnCreate (savedInstanceState);
 
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
+			//TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
 
 			lblShareError = FindViewById<TextView> (Resource.Id.lblShareError);
 			imgCheckShared = FindViewById<ImageView> (Resource.Id.imgCheckShared);
@@ -52,7 +52,7 @@ namespace Busidex.Presentation.Android
 			};
 
 			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
-			txtShareDisplayName.Text = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+			//txtShareDisplayName.Text = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
 
 
 
@@ -74,18 +74,18 @@ namespace Busidex.Presentation.Android
 			var txtShareDisplayName = FindViewById<TextView> (Resource.Id.txtShareDisplayName);
 
 			var displayName = txtShareDisplayName.Text;
-			var savedDisplayName = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
+			//var savedDisplayName = GetStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME);
 
-			if(string.IsNullOrEmpty(savedDisplayName)){
-				var accountJSON = AccountController.GetAccount (token);
-				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
-				savedDisplayName = account.UserAccount.DisplayName;
-			}
-
-			if(!displayName.Equals(savedDisplayName)){
-				AccountController.UpdateDisplayName (displayName, token);
-				SaveStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME, displayName);
-			}
+//			if(string.IsNullOrEmpty(savedDisplayName)){
+//				var accountJSON = AccountController.GetAccount (token);
+//				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
+//				savedDisplayName = account.UserAccount.DisplayName;
+//			}
+//
+//			if(!displayName.Equals(savedDisplayName)){
+//				AccountController.UpdateDisplayName (displayName, token);
+//				//SaveStringPreference (Busidex.Mobile.Resources.USER_SETTING_DISPLAYNAME, displayName);
+//			}
 		}
 
 		void ShareCard(){
@@ -100,12 +100,12 @@ namespace Busidex.Presentation.Android
 			var displayName = txtShareDisplayName.Text;
 
 			if(string.IsNullOrEmpty(email)){
-				ShowAlert("Missing Information", "Please enter an email address");
+				//ShowAlert("Missing Information", "Please enter an email address");
 				return;
 			}
 
 			if(string.IsNullOrEmpty(displayName)){
-				ShowAlert("Missing Information", "Please enter a display name");
+				//ShowAlert("Missing Information", "Please enter a display name");
 				return;
 			}
 

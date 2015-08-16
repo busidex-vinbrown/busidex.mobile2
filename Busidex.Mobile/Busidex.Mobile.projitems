@@ -63,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventSearchResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ActivityDTO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AutoResponseForm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UISubscriptionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
