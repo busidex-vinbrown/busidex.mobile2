@@ -243,12 +243,12 @@ namespace Busidex.Presentation.Android
 
 			btnSearch.Click += delegate {
 				if(!interceptTouchEvents) return;
-				Redirect(typeof(SearchFragment));
+				Redirect(new SearchFragment());
 			};
 
 			imgSearchIcon.Click += delegate {
 				if(!interceptTouchEvents) return;
-				Redirect(typeof(SearchFragment));
+				Redirect(new SearchFragment());
 			};
 
 			btnMyBusidex.Touch += async delegate(object sender, View.TouchEventArgs e) {
@@ -267,13 +267,11 @@ namespace Busidex.Presentation.Android
 
 			btnMyOrganizations.Click += async delegate {
 				if(!interceptTouchEvents) return;
-				//await LoadMyOrganizationsAsync();
 				GoToMyOrganizations();
 			};
 
 			imgOrgIcon.Click += async delegate {
 				if(!interceptTouchEvents) return;
-				//await LoadMyOrganizationsAsync();
 				GoToMyOrganizations();
 			};
 
@@ -333,7 +331,7 @@ namespace Busidex.Presentation.Android
 			applicationResource.RemoveAuthCookie ();
 			Utils.RemoveCacheFiles ();
 
-			Redirect(typeof(StartUpFragment));
+			Redirect(new StartUpFragment());
 		}
 
 		async Task<bool> Sync(){
@@ -360,19 +358,19 @@ namespace Busidex.Presentation.Android
 		}
 
 		void GoToMyOrganizations(){
-			Redirect(typeof(MyOrganizationsFragment));
+			Redirect(new MyOrganizationsFragment());
 		}
 
 		void GoToMyBusidex(){
-			Redirect(typeof(MyBusidexFragment));
+			Redirect (new MyBusidexFragment ());
 		}
 
 		void GoToSharedCards(object sender, EventArgs args){
-			Redirect(typeof(SharedCardsFragment));
+			Redirect (new SharedCardsFragment ());
 		}
 
 		void GoToEventList(){
-			Redirect(typeof(EventListFragment));
+			Redirect (new EventListFragment ());
 		}
 
 		int GetNotifications(){

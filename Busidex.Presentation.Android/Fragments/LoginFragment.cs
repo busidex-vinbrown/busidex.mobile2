@@ -71,7 +71,7 @@ namespace Busidex.Presentation.Android
 
 					Activity.RunOnUiThread (() => {
 						imgLogo.ClearAnimation ();
-						((BaseActivity)Activity).LoadFragment(typeof(MainFragment));
+						((SplashActivity)Activity).LoadFragment(new MainFragment());
 					});
 
 				}else{

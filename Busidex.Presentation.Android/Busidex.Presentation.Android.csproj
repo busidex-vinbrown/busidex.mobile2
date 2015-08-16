@@ -172,6 +172,7 @@
     <Compile Include="Fragments\SharedCardsFragment.cs" />
     <Compile Include="Fragments\EventListFragment.cs" />
     <Compile Include="Fragments\BusidexFragmentManager.cs" />
+    <Compile Include="Fragments\EventCardsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />

@@ -165,7 +165,7 @@ namespace Busidex.Presentation.Android
 
 					RunOnUiThread ( ()=> {
 						//HideLoadingSpinner();
-						RedirectToMainIfLoggedIn();
+						//RedirectToMainIfLoggedIn();
 					});	
 				});
 			} else {

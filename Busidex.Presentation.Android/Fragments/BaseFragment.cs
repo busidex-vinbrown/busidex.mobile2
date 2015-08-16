@@ -90,13 +90,13 @@ namespace Busidex.Presentation.Android
 
 			var cookie = applicationResource.GetAuthCookie ();
 			if(cookie != null){
-				Redirect(typeof(MainFragment));
+				Redirect(new MainFragment());
 			}
 		}
 			
-		protected void Redirect(Type fragmentType){
+		protected void Redirect(Fragment fragment){
 
-			((BaseActivity)Activity).LoadFragment (fragmentType);
+			((SplashActivity)Activity).LoadFragment (fragment);
 		}
 		#endregion
 

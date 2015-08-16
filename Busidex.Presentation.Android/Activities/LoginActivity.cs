@@ -68,7 +68,7 @@ namespace Busidex.Presentation.Android
 
 					RunOnUiThread (() => {
 						imgLogo.ClearAnimation ();
-						RedirectToMainIfLoggedIn ();
+					    //SplashActivity.RedirectToMainIfLoggedIn ();
 					});
 						
 				}else{

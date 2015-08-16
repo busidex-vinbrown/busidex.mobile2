@@ -55,14 +55,11 @@ namespace Busidex.Presentation.Android
 
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
 
-			//myBusidexRefreshing = true;
-
 			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
-				//myBusidexRefreshing = false;
 				if(UISubscriptionService.UserCards == null){
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_LoadingCards)));
 
@@ -120,11 +117,6 @@ namespace Busidex.Presentation.Android
 												idx++;
 												if(idx == total){
 													HideLoadingSpinner();
-													//myBusidexRefreshing = false;
-													if(!force){
-														//GoToMyBusidex ();
-														//LoadFromFile (fullFilePath);
-													}
 												}else{
 													UpdateLoadingSpinner (idx, total);
 												}
@@ -135,11 +127,6 @@ namespace Busidex.Presentation.Android
 											idx++;
 											if(idx == total){
 												HideLoadingSpinner();
-												//myBusidexRefreshing = false;
-												if(!force){
-													//GoToMyBusidex ();
-													//LoadFromFile (fullFilePath);
-												}
 											}else{
 												UpdateLoadingSpinner (idx, total);
 											}
@@ -156,9 +143,7 @@ namespace Busidex.Presentation.Android
 							Activity.RunOnUiThread (() => {
 								Utils.SaveResponse(r.Result, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 								HideLoadingSpinner();
-								//myBusidexRefreshing = false;
 								if(!force){
-									//GoToMyBusidex ();
 									LoadFromFile (fullFilePath);
 								}
 							});

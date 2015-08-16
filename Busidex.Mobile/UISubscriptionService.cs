@@ -8,6 +8,7 @@ namespace Busidex.Mobile
 	{
 
 		public static List<UserCard> UserCards { get; set; }
+		public static List<EventTag> EventList { get; set; }
 	}
 }
 

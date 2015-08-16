@@ -44,12 +44,12 @@ namespace Busidex.Presentation.Android
 
 			btnLogin.Click += delegate {
 				//StartActivity(new Intent(this, typeof(LoginActivity)));
-				Redirect(typeof(LoginFragment));
+				Redirect(new LoginFragment());
 			};
 
 			btnStart.Click += delegate {
 				//StartActivity(new Intent(this.Activity, typeof(ProfileActivity)));	
-				Redirect(typeof(LoginFragment));
+				Redirect(new LoginFragment());
 			};
 
 			return view;

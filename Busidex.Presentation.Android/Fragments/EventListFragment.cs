@@ -11,6 +11,7 @@ using Busidex.Mobile.Models;
 using System.IO;
 using Busidex.Mobile;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Busidex.Presentation.Android
 {
@@ -20,11 +21,11 @@ namespace Busidex.Presentation.Android
 		List<EventTag> Tags { get; set; }
 		EventTag SelectedEvent { get; set; }
 
-		public override void OnCreate (Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
 
-			// Create your fragment here
+		public override void OnResume ()
+		{
+			base.OnResume ();
+
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -32,22 +33,26 @@ namespace Busidex.Presentation.Android
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-			var mainView = inflater.Inflate (Resource.Layout.EventList, container, false);
-			return mainView;
+			var view = inflater.Inflate (Resource.Layout.EventList, container, false);
+
+			ThreadPool.QueueUserWorkItem( o =>  LoadEventList());
+
+			return view;
 		}
 
 		#region Get cached files
-		static EventListResponse GetEventListFromFile(){
+		async Task<bool> GetEventListFromFile(){
 
 			var eventListFilePath = Path.Combine(Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
 			if(File.Exists(eventListFilePath)){
 				using(var eventListFile = File.OpenText (eventListFilePath)){
-					var responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (eventListFile.ReadToEnd());
-					return responseObject;
+//					var responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (eventListFile.ReadToEnd());
+//					return responseObject;
+					return await ProcessFile(eventListFile.ReadToEnd());
 				}
 
 			}
-			return null;
+			return true;
 		}
 
 		static EventSearchResponse GetEventCardsFromFile(EventTag tag){
@@ -66,6 +71,40 @@ namespace Busidex.Presentation.Android
 		}
 		#endregion
 
+		async Task<bool> LoadEventList(){
+
+			var cookie = applicationResource.GetAuthCookie ();
+
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+			if (UISubscriptionService.EventList != null) {
+				Activity.RunOnUiThread (() => {
+					LoadUI ();	
+				});
+			}else if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME)) {
+				Activity.RunOnUiThread (async () => {
+						ShowLoadingSpinner (GetString (Resource.String.Global_OneMoment));
+						await GetEventListFromFile ();
+					});
+			} else {
+				try {
+					var controller = new SearchController ();
+					await controller.GetEventTags (cookie).ContinueWith(r => {
+						if (!string.IsNullOrEmpty (r.Result)) {
+
+							Utils.SaveResponse (r.Result, Busidex.Mobile.Resources.EVENT_LIST_FILE);
+							applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
+							Activity.RunOnUiThread (async () => await GetEventListFromFile ());
+						}
+					});
+
+				} catch (Exception ignore) {
+
+				}
+			}
+
+			return true;
+		}
+
 		static void SetEventCardRefreshCookie(EventSearchResponse eventList, EventTag tag){
 
 			eventList.LastRefreshDate = DateTime.Now;
@@ -73,20 +112,33 @@ namespace Busidex.Presentation.Android
 			Utils.SaveResponse(json, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, tag.Text));
 		}
 
+		private void LoadUI(){
+			if (UISubscriptionService.EventList != null) {
+				
+				Tags = UISubscriptionService.EventList;
+
+				var lstEvents = Activity.FindViewById<ListView> (Resource.Id.lstEvents);
+
+				eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, Tags);
+
+				eventListAdapter.RedirectToEventCards += LoadEvent;
+
+				lstEvents.Adapter = eventListAdapter;
+
+			}
+			HideLoadingSpinner ();
+		}
+
 		protected async override Task<bool> ProcessFile(string data){
 
-			var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (data);
-
-			Tags = eventListResponse.Model;
-
-			var lstEvents = Activity.FindViewById<ListView> (Resource.Id.lstEvents);
-
-			eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, Tags);
-
-			eventListAdapter.RedirectToEventCards += LoadEvent;
-
-			lstEvents.Adapter = eventListAdapter;
-
+			if(UISubscriptionService.EventList == null){
+				var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (data);
+				UISubscriptionService.EventList = eventListResponse.Model;
+			}
+				
+			Activity.RunOnUiThread (() => {
+				LoadUI ();
+			});
 			return true;
 		}
 
@@ -107,16 +159,12 @@ namespace Busidex.Presentation.Android
 
 		void GoToEvent(EventTag tag){
 			SelectedEvent = tag;
-			var eventCardsIntent = new Intent (Activity, typeof(EventCardsActivity));
-
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(tag);
-			eventCardsIntent.PutExtra ("Event", data);
-			//Redirect(eventCardsIntent);
+			Redirect(new EventCardsFragment(tag));
 		}
 
 		// need this wrapper because a delegate can't be Task
 		void LoadEvent(EventTag tag){
-			//LoadEventAsync (tag);
+			LoadEventAsync (tag);
 		}
 
 		async Task<bool> LoadEventAsync(EventTag tag){
@@ -129,7 +177,7 @@ namespace Busidex.Presentation.Android
 				if (File.Exists (fullFilePath) && CheckEventSearchRefreshDate(tag)) {
 					GoToEvent(tag);
 				} else {
-					//RunOnUiThread (() => ShowLoadingSpinner (tag.Description));
+					Activity.RunOnUiThread (() => ShowLoadingSpinner (tag.Description));
 
 					var ctrl = new SearchController ();
 					await ctrl.SearchBySystemTag (tag.Text, cookie).ContinueWith(async r => {
@@ -144,14 +192,14 @@ namespace Busidex.Presentation.Android
 
 							var idx = 0;
 							var total = ownedCards.Count;
-							Activity.RunOnUiThread (() => {
+							//Activity.RunOnUiThread (() => {
 								//HideLoadingSpinner();
 
 								//ShowLoadingSpinner (
 								//Resources.GetString (Resource.String.Global_LoadingEvent), 
 								//ProgressDialogStyle.Horizontal, 
 								//eventSearchResponse.SearchModel.Results.Count);
-							});
+							//});
 
 
 							foreach (var card in ownedCards) {
@@ -164,10 +212,10 @@ namespace Busidex.Presentation.Android
 
 									if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName)){// || force) {
 										await Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
-											//UpdateLoadingSpinner (idx, total);
+											Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, total));
 										});
 									} else{
-										//UpdateLoadingSpinner (idx, total);
+										Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, total));
 									}
 
 									if ((!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName)/* || force*/) && card.BackFileId.ToString () != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
@@ -179,7 +227,7 @@ namespace Busidex.Presentation.Android
 							}
 
 							Activity.RunOnUiThread (() => {
-								//HideLoadingSpinner();
+								HideLoadingSpinner();
 								GoToEvent (tag);
 							});
 
