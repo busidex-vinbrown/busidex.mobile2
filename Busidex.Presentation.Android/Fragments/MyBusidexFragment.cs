@@ -30,7 +30,12 @@ namespace Busidex.Presentation.Android
 		public override void OnResume ()
 		{
 			base.OnResume ();
-			ThreadPool.QueueUserWorkItem( o => LoadMyBusidexAsync ());
+			if(UISubscriptionService.UserCards.Count > 0){
+				LoadUI ();
+			}else{
+				ThreadPool.QueueUserWorkItem( o => LoadMyBusidexAsync ());
+			}
+
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -60,7 +65,7 @@ namespace Busidex.Presentation.Android
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
-				if(UISubscriptionService.UserCards == null){
+				if(UISubscriptionService.UserCards.Count == 0){
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_LoadingCards)));
 
 					await LoadFromFile (fullFilePath);
@@ -73,7 +78,7 @@ namespace Busidex.Presentation.Android
 
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_LoadingCards)));
 
-					UISubscriptionService.UserCards = null;
+					UISubscriptionService.UserCards.Clear ();
 
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
 
@@ -157,7 +162,7 @@ namespace Busidex.Presentation.Android
 
 		protected override async Task<bool> ProcessFile(string data){
 
-			if (UISubscriptionService.UserCards == null) {
+			if (UISubscriptionService.UserCards.Count == 0) {
 				var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
 
@@ -166,46 +171,52 @@ namespace Busidex.Presentation.Android
 
 			if (UISubscriptionService.UserCards != null) {
 				Activity.RunOnUiThread (() => {
-					MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
-
-					MyBusidexAdapter.Redirect += ShowCard;
-					MyBusidexAdapter.SendEmail += SendEmail;
-					MyBusidexAdapter.OpenBrowser += OpenBrowser;
-					MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-					MyBusidexAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-					MyBusidexAdapter.OpenMap += OpenMap;
-
-					MyBusidexAdapter.ShowNotes = true;
-
-
-					lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
-
-					lblNoCardsMessage.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-					txtFilter.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-
-					lstCards.Adapter = MyBusidexAdapter;
-
-					txtFilter.QueryTextChange += delegate {
-						DoFilter (txtFilter.Query);
-					};
-
-					txtFilter.Iconified = false;
-					txtFilter.ClearFocus();
-
-					lstCards.RequestFocus (FocusSearchDirection.Down);
-
-
-					txtFilter.Touch += delegate {
-						txtFilter.Focusable = true;
-						txtFilter.RequestFocus ();
-					};
-
-					HideLoadingSpinner ();
-					DismissKeyboard (txtFilter.WindowToken, Activity);
+					LoadUI();
 				});
 			}
 
 			return true;
+		}
+
+		void LoadUI(){
+			MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
+
+			MyBusidexAdapter.Redirect += ShowCard;
+			MyBusidexAdapter.SendEmail += SendEmail;
+			MyBusidexAdapter.OpenBrowser += OpenBrowser;
+			MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			MyBusidexAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			MyBusidexAdapter.OpenMap += OpenMap;
+
+			MyBusidexAdapter.ShowNotes = true;
+
+
+			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
+
+			lblNoCardsMessage.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+			txtFilter.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+
+			lstCards.Adapter = MyBusidexAdapter;
+
+			txtFilter.QueryTextChange += delegate {
+				DoFilter (txtFilter.Query);
+			};
+
+			txtFilter.Iconified = false;
+			txtFilter.ClearFocus();
+
+			lstCards.RequestFocus (FocusSearchDirection.Down);
+
+
+			txtFilter.Touch += delegate {
+				txtFilter.Focusable = true;
+				txtFilter.RequestFocus ();
+			};
+
+			HideLoadingSpinner ();
+			DismissKeyboard (txtFilter.WindowToken, Activity);
+
+			((SplashActivity)Activity).fragments[GetType().Name] = this;
 		}
 	}
 }

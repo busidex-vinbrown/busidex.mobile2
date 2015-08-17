@@ -358,19 +358,19 @@ namespace Busidex.Presentation.Android
 		}
 
 		void GoToMyOrganizations(){
-			Redirect(new MyOrganizationsFragment());
+			Redirect(((SplashActivity)Activity).fragments[typeof(MyOrganizationsFragment).Name]);
 		}
 
 		void GoToMyBusidex(){
-			Redirect (new MyBusidexFragment ());
+			Redirect(((SplashActivity)Activity).fragments[typeof(MyBusidexFragment).Name]);
 		}
 
 		void GoToSharedCards(object sender, EventArgs args){
-			Redirect (new SharedCardsFragment ());
+			Redirect(((SplashActivity)Activity).fragments[typeof(SharedCardsFragment).Name]);
 		}
 
 		void GoToEventList(){
-			Redirect (new EventListFragment ());
+			Redirect(((SplashActivity)Activity).fragments[typeof(EventListFragment).Name]);
 		}
 
 		int GetNotifications(){

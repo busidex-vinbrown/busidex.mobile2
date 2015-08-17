@@ -25,7 +25,13 @@ namespace Busidex.Presentation.Android
 		public override void OnResume ()
 		{
 			base.OnResume ();
-
+			if (IsVisible) {
+				if(UISubscriptionService.EventList.Count > 0){
+					LoadUI();
+				}else{
+					ThreadPool.QueueUserWorkItem (o => LoadEventList ());
+				}
+			}
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,7 +41,7 @@ namespace Busidex.Presentation.Android
 
 			var view = inflater.Inflate (Resource.Layout.EventList, container, false);
 
-			ThreadPool.QueueUserWorkItem( o =>  LoadEventList());
+
 
 			return view;
 		}
@@ -76,10 +82,9 @@ namespace Busidex.Presentation.Android
 			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
-			if (UISubscriptionService.EventList != null) {
-				Activity.RunOnUiThread (() => {
-					LoadUI ();	
-				});
+			if (UISubscriptionService.EventList.Count > 0) {
+				Activity.RunOnUiThread (LoadUI);
+
 			}else if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME)) {
 				Activity.RunOnUiThread (async () => {
 						ShowLoadingSpinner (GetString (Resource.String.Global_OneMoment));
@@ -127,11 +132,13 @@ namespace Busidex.Presentation.Android
 
 			}
 			HideLoadingSpinner ();
+
+			((SplashActivity)Activity).fragments[GetType().Name] = this;
 		}
 
 		protected async override Task<bool> ProcessFile(string data){
 
-			if(UISubscriptionService.EventList == null){
+			if(UISubscriptionService.EventList.Count == 0){
 				var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (data);
 				UISubscriptionService.EventList = eventListResponse.Model;
 			}
@@ -189,6 +196,26 @@ namespace Busidex.Presentation.Android
 
 							Utils.SaveResponse(r.Result, fileName);
 							SetEventCardRefreshCookie(eventSearchResponse, tag);
+
+							var cards = new List<UserCard>();
+							foreach (var card in ownedCards) {
+								if (card != null) {
+
+									var userCard = new UserCard (card);
+
+									userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
+									userCard.Card = card;
+									userCard.CardId = card.CardId;
+
+									cards.Add (userCard);
+								}
+							}
+
+							if(UISubscriptionService.EventCards.ContainsKey(tag.Text)){
+								UISubscriptionService.EventCards[tag.Text] = cards;
+							}else{
+								UISubscriptionService.EventCards.Add(tag.Text, cards);
+							}
 
 							var idx = 0;
 							var total = ownedCards.Count;

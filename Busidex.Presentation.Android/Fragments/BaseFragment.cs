@@ -90,7 +90,7 @@ namespace Busidex.Presentation.Android
 
 			var cookie = applicationResource.GetAuthCookie ();
 			if(cookie != null){
-				Redirect(new MainFragment());
+				Redirect(((SplashActivity)Activity).fragments[typeof(MainFragment).Name]);
 			}
 		}
 			
@@ -139,7 +139,6 @@ namespace Busidex.Presentation.Android
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
 
-			//Redirect(intent);
 		}
 
 		protected void SendEmail(Intent intent){

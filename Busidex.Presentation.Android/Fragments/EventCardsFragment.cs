@@ -30,7 +30,14 @@ namespace Busidex.Presentation.Android
 			base.OnResume ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, EventTag.Text));
-			ThreadPool.QueueUserWorkItem( o =>  LoadFromFile(fullFilePath));
+
+
+			if(UISubscriptionService.EventCards.ContainsKey(EventTag.Text)){
+				LoadUI ();
+			}else{
+				ThreadPool.QueueUserWorkItem( o =>  LoadFromFile(fullFilePath));
+			}
+
 			Activity.Title = EventTag.Text;
 		}
 
@@ -49,6 +56,42 @@ namespace Busidex.Presentation.Android
 			}else{
 				EventCardsAdapter.Filter.InvokeFilter(filter);
 			}
+		}
+
+		private void LoadUI(){
+			
+			txtFilterEventCards = Activity.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
+
+			var lstEventCards = Activity.FindViewById<ListView> (Resource.Id.lstEventCards);
+			EventCardsAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.EventCards[EventTag.Text]);
+
+			EventCardsAdapter.Redirect += ShowCard;
+			EventCardsAdapter.SendEmail += SendEmail;
+			EventCardsAdapter.OpenBrowser += OpenBrowser;
+			EventCardsAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
+			EventCardsAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+			EventCardsAdapter.OpenMap += OpenMap;
+
+			EventCardsAdapter.ShowNotes = false;
+
+			lstEventCards.Adapter = EventCardsAdapter;
+
+			txtFilterEventCards.QueryTextChange += delegate {
+				DoFilter (txtFilterEventCards.Query);
+			};
+
+
+
+			txtFilterEventCards.Iconified = false;
+			txtFilterEventCards.ClearFocus ();
+
+			lstEventCards.RequestFocus (FocusSearchDirection.Down);
+			DismissKeyboard (txtFilterEventCards.WindowToken, Activity);
+
+			txtFilterEventCards.Touch += delegate {
+				txtFilterEventCards.Focusable = true;
+				txtFilterEventCards.RequestFocus ();
+			};
 		}
 
 		protected override async Task<bool> ProcessFile(string data){
@@ -70,36 +113,13 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			Activity.RunOnUiThread (() => {
-				txtFilterEventCards = Activity.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
+			if (UISubscriptionService.EventCards.ContainsKey (EventTag.Text)) {
+				UISubscriptionService.EventCards [EventTag.Text] = Cards;
+			}else{
+				UISubscriptionService.EventCards.Add (EventTag.Text, Cards);	
+			}
 
-				var lstEventCards = Activity.FindViewById<ListView> (Resource.Id.lstEventCards);
-				EventCardsAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, Cards);
-
-				EventCardsAdapter.Redirect += ShowCard;
-				EventCardsAdapter.SendEmail += SendEmail;
-				EventCardsAdapter.OpenBrowser += OpenBrowser;
-				EventCardsAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-				EventCardsAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-				EventCardsAdapter.OpenMap += OpenMap;
-
-				EventCardsAdapter.ShowNotes = false;
-
-				lstEventCards.Adapter = EventCardsAdapter;
-
-				txtFilterEventCards.QueryTextChange += delegate {
-					DoFilter (txtFilterEventCards.Query);
-				};
-
-				txtFilterEventCards.Iconified = false;
-				lstEventCards.RequestFocus (FocusSearchDirection.Down);
-				//DismissKeyboard (txtFilterEventCards.WindowToken);
-
-				txtFilterEventCards.Touch += delegate {
-					txtFilterEventCards.Focusable = true;
-					txtFilterEventCards.RequestFocus ();
-				};
-			});
+			Activity.RunOnUiThread (LoadUI);
 
 			return true;
 		}

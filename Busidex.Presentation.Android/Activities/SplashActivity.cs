@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
+using System.Collections.Generic;
 
 namespace Busidex.Presentation.Android
 {
@@ -7,19 +8,33 @@ namespace Busidex.Presentation.Android
 	public class SplashActivity : BaseActivity
 	{
 
+		public Dictionary<string, Fragment> fragments;
 
 		protected override void OnStart ()
 		{
 			base.OnStart ();
+
+			fragments = new Dictionary<string, Fragment> ();
+
+			fragments.Add (typeof(EventListFragment).Name, new EventListFragment ());
+			fragments.Add (typeof(LoginFragment).Name, new LoginFragment ());
+			fragments.Add (typeof(MainFragment).Name, new MainFragment ());
+			fragments.Add (typeof(MyBusidexFragment).Name, new MyBusidexFragment ());
+			fragments.Add (typeof(MyOrganizationsFragment).Name, new MyOrganizationsFragment ());
+			fragments.Add (typeof(ProfileFragment).Name, new ProfileFragment ());
+			fragments.Add (typeof(SearchFragment).Name, new SearchFragment ());
+			fragments.Add (typeof(SharedCardsFragment).Name, new SharedCardsFragment ());
+			fragments.Add (typeof(StartUpFragment).Name, new StartUpFragment ());
+
 			RedirectToMainIfLoggedIn ();
 		}
 
 		protected void RedirectToMainIfLoggedIn(){
 
 			if(applicationResource.GetAuthCookie () == null){
-				LoadFragment (new StartUpFragment());
+				LoadFragment (fragments[typeof(StartUpFragment).Name]);
 			}else{
-				LoadFragment (new MainFragment());
+				LoadFragment (fragments[typeof(MainFragment).Name]);
 			}
 
 		}
@@ -29,7 +44,7 @@ namespace Busidex.Presentation.Android
 			base.OnBackPressed ();
 
 			if (FragmentManager.BackStackEntryCount <= 1) {
-				LoadFragment (new MainFragment());
+				LoadFragment (fragments[typeof(MainFragment).Name]);
 			} else {
 				UnloadFragment ();
 			}
