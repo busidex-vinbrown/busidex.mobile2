@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Android.Views.Animations;
 using Busidex.Mobile.Models;
 using Android.Views.InputMethods;
+using Android.App;
 
 namespace Busidex.Presentation.Android
 {

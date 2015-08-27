@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 namespace Busidex.Presentation.Android
 {
-	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true)]			
+	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges=global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]			
 	public class SplashActivity : BaseActivity
 	{
 
 		public Dictionary<string, Fragment> fragments;
+
 
 		protected override void OnStart ()
 		{
@@ -25,8 +26,24 @@ namespace Busidex.Presentation.Android
 			fragments.Add (typeof(SearchFragment).Name, new SearchFragment ());
 			fragments.Add (typeof(SharedCardsFragment).Name, new SharedCardsFragment ());
 			fragments.Add (typeof(StartUpFragment).Name, new StartUpFragment ());
+			fragments.Add (typeof(CardDetailFragment).Name, new CardDetailFragment ());
 
 			RedirectToMainIfLoggedIn ();
+		}
+			
+
+		public override void OnBackPressed ()
+		{
+			var mainFragment = FragmentManager.FindFragmentByTag ("MainFragment");
+			var loginFragment = FragmentManager.FindFragmentByTag ("LoginFragment");
+			if (mainFragment != null && mainFragment.IsVisible) {
+				
+			} else if (loginFragment != null && loginFragment.IsVisible) {
+
+			}else {
+				UnloadFragment ();
+			}
+
 		}
 
 		protected void RedirectToMainIfLoggedIn(){
@@ -39,42 +56,52 @@ namespace Busidex.Presentation.Android
 
 		}
 
-		public override void OnBackPressed ()
-		{
-			base.OnBackPressed ();
+		void setUpTabs(){
 
-			if (FragmentManager.BackStackEntryCount <= 1) {
-				LoadFragment (fragments[typeof(MainFragment).Name]);
-			} else {
-				UnloadFragment ();
-			}
+			ActionBar.Tab tab = ActionBar.NewTab();
+			//tab.SetText(Resources.GetString(Resource.String.tab1_text));
+			tab.SetIcon(Resource.Drawable.SearchIcon);
+			tab.TabSelected += (sender, args) => LoadFragment (fragments [typeof(SearchFragment).Name]);
+			ActionBar.AddTab(tab);
+
+			tab = ActionBar.NewTab();
+			//tab.SetText(Resources.GetString(Resource.String.tab2_text));
+			tab.SetIcon(Resource.Drawable.MyBusidexIcon);
+			tab.TabSelected += (sender, args) => LoadFragment (fragments [typeof(MyBusidexFragment).Name]);
+			ActionBar.AddTab(tab);
+
+			tab = ActionBar.NewTab();
+			//tab.SetText(Resources.GetString(Resource.String.tab2_text));
+			tab.SetIcon(Resource.Drawable.OrganizationsIcon);
+			tab.TabSelected += (sender, args) => LoadFragment (fragments [typeof(MyOrganizationsFragment).Name]);
+			ActionBar.AddTab(tab);
+
+			tab = ActionBar.NewTab();
+			//tab.SetText(Resources.GetString(Resource.String.tab2_text));
+			tab.SetIcon(Resource.Drawable.EventIcon);
+			tab.TabSelected += (sender, args) => LoadFragment (fragments [typeof(EventListFragment).Name]);
+			ActionBar.AddTab(tab);
 		}
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+			//ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 			SetContentView (Resource.Layout.StartUp);
+			//setUpTabs ();
 		}
 
-		Fragment currentFragment { get; set; }
-		public void LoadFragment(Fragment fragment){
 
-			using (var transaction = FragmentManager.BeginTransaction ()) {
 
-				transaction
-					.SetCustomAnimations (
-						Resource.Animator.SlideAnimation, 
-						Resource.Animator.SlideOutAnimation, 
-						Resource.Animator.SlideAnimation, 
-						Resource.Animator.SlideOutAnimation
-					)
-					.Replace (Resource.Id.fragment_holder, fragment, fragment.GetType ().Name)
-					.AddToBackStack (fragment.GetType ().Name)
-					.Commit ();
-			}
-			//fragment.OnResume ();
-
+		protected BaseFragment getFragment(string tag){
+			return (BaseFragment)FragmentManager.FindFragmentByTag (tag);		
 		}
 
+		public void UnloadFragment(){
+			FragmentManager.PopBackStack ();
+		}
+
+		/*
 		private BaseFragment getFragmentByType(string typeName){
 
 			BaseFragment fragment;
@@ -115,6 +142,10 @@ namespace Busidex.Presentation.Android
 					fragment = new MyOrganizationsFragment ();
 					break;
 				}
+			case "CardDetailFragment":{
+					fragment = new CardDetailFragment ();
+					break;
+				}
 			default:{
 					fragment = new MainFragment ();
 					break;
@@ -122,13 +153,7 @@ namespace Busidex.Presentation.Android
 			}
 			return fragment;
 		}
+*/
 
-		protected BaseFragment getFragment(string tag){
-			return (BaseFragment)FragmentManager.FindFragmentByTag (tag);		
-		}
-
-		protected void UnloadFragment(){
-			FragmentManager.PopBackStack ();
-		}
 	}
 }

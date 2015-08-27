@@ -14,6 +14,7 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Animation;
 using Android.Preferences;
+using System.Threading;
 
 namespace Busidex.Presentation.Android
 {
@@ -25,6 +26,8 @@ namespace Busidex.Presentation.Android
 		{
 			return interceptTouchEvents;
 		}
+
+		static bool animationsLoaded = false;
 
 		View profileFragment;
 		bool isLoggedIn;
@@ -138,16 +141,16 @@ namespace Busidex.Presentation.Android
 			return dp;
 		}
 			
+		public override void OnResume ()
+		{
+			base.OnResume ();
+			ThreadPool.QueueUserWorkItem (o => LoadEventList (true));
+		}
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			//base.OnCreateView (inflater, container, savedInstanceState);
 
 			var mainView = inflater.Inflate (Resource.Layout.Main, container, false);
-
-			//Remove title bar
-			//RequestWindowFeature(WindowFeatures.NoTitle);
-
-			//isLoggedIn = false;
 
 			//SetContentView (Resource.Layout.Main);
 
@@ -170,70 +173,73 @@ namespace Busidex.Presentation.Android
 
 			#region Startup Animations
 
-			const int duration = 150;
-			const float mStart = -400;
-			const float mEnd = 40;
+			if(!animationsLoaded){
+				const int duration = 150;
+				const float mStart = -400;
+				const float mEnd = 40;
 
-			imgSearchIcon.Visibility = imgBusidexIcon.Visibility = imgOrgIcon.Visibility = imgEventIcon.Visibility = ViewStates.Invisible;
-			btnSearch.Visibility = btnMyBusidex.Visibility = btnMyOrganizations.Visibility = btnEvents.Visibility = ViewStates.Invisible;
+				imgSearchIcon.Visibility = imgBusidexIcon.Visibility = imgOrgIcon.Visibility = imgEventIcon.Visibility = ViewStates.Invisible;
+				btnSearch.Visibility = btnMyBusidex.Visibility = btnMyOrganizations.Visibility = btnEvents.Visibility = ViewStates.Invisible;
 
-			ValueAnimator animator1 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
-			animator1.SetDuration(duration);
-			animator1.Update += (sender, e) => {
-				imgSearchIcon.Visibility = ViewStates.Visible;
-				float newLeft = (float)e.Animation.AnimatedValue;
-				var layoutParams = (RelativeLayout.LayoutParams)imgSearchIcon.LayoutParameters;
-				layoutParams.LeftMargin = (int)newLeft;
-				imgSearchIcon.LayoutParameters = layoutParams;
-			};
+				ValueAnimator animator1 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+				animator1.SetDuration(duration);
+				animator1.Update += (sender, e) => {
+					imgSearchIcon.Visibility = ViewStates.Visible;
+					float newLeft = (float)e.Animation.AnimatedValue;
+					var layoutParams = (RelativeLayout.LayoutParams)imgSearchIcon.LayoutParameters;
+					layoutParams.LeftMargin = (int)newLeft;
+					imgSearchIcon.LayoutParameters = layoutParams;
+				};
 
-			ValueAnimator animator2 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
-			animator2.SetDuration(duration);
-			animator2.Update += (sender, e) => {
-				float newLeft = (float)e.Animation.AnimatedValue;
-				var layoutParams = (RelativeLayout.LayoutParams)imgBusidexIcon.LayoutParameters;
-				layoutParams.LeftMargin = (int)newLeft;
-				imgBusidexIcon.LayoutParameters = layoutParams;
-			};
+				ValueAnimator animator2 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+				animator2.SetDuration(duration);
+				animator2.Update += (sender, e) => {
+					float newLeft = (float)e.Animation.AnimatedValue;
+					var layoutParams = (RelativeLayout.LayoutParams)imgBusidexIcon.LayoutParameters;
+					layoutParams.LeftMargin = (int)newLeft;
+					imgBusidexIcon.LayoutParameters = layoutParams;
+				};
 
-			ValueAnimator animator3 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
-			animator3.SetDuration(duration);
-			animator3.Update += (sender, e) => {
-				float newLeft = (float)e.Animation.AnimatedValue;
-				var layoutParams = (RelativeLayout.LayoutParams)imgOrgIcon.LayoutParameters;
-				layoutParams.LeftMargin = (int)newLeft;
-				imgOrgIcon.LayoutParameters = layoutParams;
-			};
+				ValueAnimator animator3 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+				animator3.SetDuration(duration);
+				animator3.Update += (sender, e) => {
+					float newLeft = (float)e.Animation.AnimatedValue;
+					var layoutParams = (RelativeLayout.LayoutParams)imgOrgIcon.LayoutParameters;
+					layoutParams.LeftMargin = (int)newLeft;
+					imgOrgIcon.LayoutParameters = layoutParams;
+				};
 
-			ValueAnimator animator4 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
-			animator4.SetDuration(duration);
-			animator4.Update += (sender, e) => {
-				float newLeft = (float)e.Animation.AnimatedValue;
-				var layoutParams = (RelativeLayout.LayoutParams)imgEventIcon.LayoutParameters;
-				layoutParams.LeftMargin = (int)newLeft;
-				imgEventIcon.LayoutParameters = layoutParams;
-			};
+				ValueAnimator animator4 = ValueAnimator.OfFloat(ConvertPixelsToDp(mStart), ConvertPixelsToDp(mEnd));
+				animator4.SetDuration(duration);
+				animator4.Update += (sender, e) => {
+					float newLeft = (float)e.Animation.AnimatedValue;
+					var layoutParams = (RelativeLayout.LayoutParams)imgEventIcon.LayoutParameters;
+					layoutParams.LeftMargin = (int)newLeft;
+					imgEventIcon.LayoutParameters = layoutParams;
+				};
 
-			animator1.Start();
+				animator1.Start();
 
-			animator1.AnimationEnd += (sender, e) => {
-				imgBusidexIcon.Visibility = ViewStates.Visible;
-				btnSearch.Visibility = ViewStates.Visible;
-				animator2.Start ();
-			};
-			animator2.AnimationEnd += (s, ee) => {
-				imgOrgIcon.Visibility = ViewStates.Visible;
-				btnMyBusidex.Visibility = ViewStates.Visible;
-				animator3.Start ();
-			};
-			animator3.AnimationEnd += (s, ee) => {
-				imgEventIcon.Visibility = ViewStates.Visible;
-				btnMyOrganizations.Visibility = ViewStates.Visible;
-				animator4.Start ();
-			};
-			animator4.AnimationEnd += (s, ee) => {
-				btnEvents.Visibility = ViewStates.Visible;
-			};
+				animator1.AnimationEnd += (sender, e) => {
+					imgBusidexIcon.Visibility = ViewStates.Visible;
+					btnSearch.Visibility = ViewStates.Visible;
+					animator2.Start ();
+				};
+				animator2.AnimationEnd += (s, ee) => {
+					imgOrgIcon.Visibility = ViewStates.Visible;
+					btnMyBusidex.Visibility = ViewStates.Visible;
+					animator3.Start ();
+				};
+				animator3.AnimationEnd += (s, ee) => {
+					imgEventIcon.Visibility = ViewStates.Visible;
+					btnMyOrganizations.Visibility = ViewStates.Visible;
+					animator4.Start ();
+				};
+				animator4.AnimationEnd += (s, ee) => {
+					btnEvents.Visibility = ViewStates.Visible;
+				};
+				animationsLoaded = true;
+			}
 			#endregion
 
 			btnLogout = mainView.FindViewById<ImageButton> (Resource.Id.btnLogout);
@@ -243,25 +249,23 @@ namespace Busidex.Presentation.Android
 
 			btnSearch.Click += delegate {
 				if(!interceptTouchEvents) return;
-				Redirect(new SearchFragment());
+				GoToSearch();
 			};
 
 			imgSearchIcon.Click += delegate {
 				if(!interceptTouchEvents) return;
-				Redirect(new SearchFragment());
+				GoToSearch();
 			};
 
 			btnMyBusidex.Touch += async delegate(object sender, View.TouchEventArgs e) {
 				if(!interceptTouchEvents) return;
 				if(e.Event.Action == MotionEventActions.Up){
-					//await LoadMyBusidexAsync();
 					GoToMyBusidex();
 				}
 			};
 
 			imgBusidexIcon.Click += async delegate {
 				if(!interceptTouchEvents) return;
-				//await LoadMyBusidexAsync();
 				GoToMyBusidex();
 			};
 
@@ -277,13 +281,11 @@ namespace Busidex.Presentation.Android
 
 			imgEventIcon.Click += async delegate {
 				if(!interceptTouchEvents) return;
-				//await LoadEventList();
 				GoToEventList();
 			};
 
 			btnEvents.Click += async delegate {
 				if(!interceptTouchEvents) return;
-				//await LoadEventList();
 				GoToEventList();
 			};
 
@@ -291,6 +293,9 @@ namespace Busidex.Presentation.Android
 				if(!interceptTouchEvents) return;
 				Logout();
 			};
+
+
+
 
 			return mainView;
 		}
@@ -357,6 +362,9 @@ namespace Busidex.Presentation.Android
 			return true;
 		}
 
+		void GoToSearch(){
+			Redirect(((SplashActivity)Activity).fragments[typeof(SearchFragment).Name]);
+		}
 		void GoToMyOrganizations(){
 			Redirect(((SplashActivity)Activity).fragments[typeof(MyOrganizationsFragment).Name]);
 		}

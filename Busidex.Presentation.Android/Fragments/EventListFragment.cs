@@ -31,6 +31,7 @@ namespace Busidex.Presentation.Android
 				}else{
 					ThreadPool.QueueUserWorkItem (o => LoadEventList ());
 				}
+				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
 			}
 		}
 

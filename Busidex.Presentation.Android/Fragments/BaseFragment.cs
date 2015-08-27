@@ -131,14 +131,15 @@ namespace Busidex.Presentation.Android
 
 		#region Card Actions
 
-		protected void ShowCard(Intent intent){
+		protected void ShowCard(CardDetailFragment fragment){
 
-			var userCard = GetUserCardFromIntent (intent);
+			((SplashActivity)Activity).LoadFragment (fragment);
+
+			//var userCard = GetUserCardFromIntent (intent);
 			var token = applicationResource.GetAuthCookie ();
-			ActivityController.SaveActivity ((long)EventSources.Details, userCard.CardId, token);
+			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
-
 		}
 
 		protected void SendEmail(Intent intent){

@@ -15,27 +15,22 @@ namespace Busidex.Presentation.Android
 {
 	public class MyBusidexFragment : BaseFragment
 	{
-		//List<UserCard> Cards { get; set; }
 		static UserCardAdapter MyBusidexAdapter { get; set; }
 		static SearchView txtFilter { get; set; }
 		ListView lstCards;
 		TextView lblNoCardsMessage;
-
-		public override void OnCreate (Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
-		}
 			
 		public override void OnResume ()
 		{
 			base.OnResume ();
-			if(UISubscriptionService.UserCards.Count > 0){
-				LoadUI ();
-			}else{
-				ThreadPool.QueueUserWorkItem( o => LoadMyBusidexAsync ());
+			if (IsVisible) {
+				if (UISubscriptionService.UserCards.Count > 0) {
+					LoadUI ();
+				} else {
+					ThreadPool.QueueUserWorkItem (o => LoadMyBusidexAsync ());
+				}
+				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
 			}
-
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -179,6 +174,9 @@ namespace Busidex.Presentation.Android
 		}
 
 		void LoadUI(){
+
+			var state = lstCards.OnSaveInstanceState ();
+
 			MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
 
 			MyBusidexAdapter.Redirect += ShowCard;
@@ -197,6 +195,8 @@ namespace Busidex.Presentation.Android
 			txtFilter.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 			lstCards.Adapter = MyBusidexAdapter;
+
+			lstCards.OnRestoreInstanceState (state);
 
 			txtFilter.QueryTextChange += delegate {
 				DoFilter (txtFilter.Query);

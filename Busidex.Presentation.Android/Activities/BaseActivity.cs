@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using Android.Gms.Analytics;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Busidex.Presentation.Android
 {
@@ -36,6 +37,45 @@ namespace Busidex.Presentation.Android
 			this.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 			applicationResource = new BaseApplicationResource (this);
+		}
+			
+		public void LoadFragment(Fragment fragment, int? openAnimation = Resource.Animator.SlideAnimation, int? closeAnimation = Resource.Animator.SlideOutAnimation){
+
+			if (fragment.IsVisible) {
+				return;
+			}
+
+			Thread thread = new Thread (() => {
+
+				using (var transaction = FragmentManager.BeginTransaction ()) {
+
+					string name = fragment.GetType ().Name;
+
+					if (name == "MainFragment") {
+						//					transaction
+						//					.SetCustomAnimations (
+						//						Resource.Animator.SlideAnimation, 
+						//						Resource.Animator.SlideOutAnimation
+						//					);
+					} else {
+						if (openAnimation.HasValue && closeAnimation.HasValue) {
+							transaction
+							.SetCustomAnimations (
+								openAnimation.Value, 
+								closeAnimation.Value, 
+								openAnimation.Value, 
+								closeAnimation.Value
+							);
+						}
+					}
+
+					transaction
+					.Replace (Resource.Id.fragment_holder, fragment, name)
+					.AddToBackStack (name)
+					.Commit ();
+				}
+			});
+			thread.Start ();
 		}
 
 		#region Loading
@@ -70,7 +110,21 @@ namespace Busidex.Presentation.Android
 
 		#endregion
 
-
+//		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
+//
+//			var build = new HitBuilders.EventBuilder ()
+//				.SetCategory (category)
+//				.SetLabel (label)	
+//				.SetAction (action)
+//				.SetValue (value) 
+//				.Build ();
+//			var build2 = new Dictionary<string,string>();
+//			foreach (var key in build.Keys)
+//			{
+//				build2.Add (key, build [key]);
+//			}
+//			GATracker.Send (build2);
+//		}
 		/*
 		#region Card Actions
 		protected void Redirect(Intent intent){

@@ -9,10 +9,11 @@ using Android.Content;
 using Android.Views.Animations;
 using Java.Lang;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Android
 {
-	public delegate void RedirectToCardHandler(Intent intent);
+	public delegate void RedirectToCardHandler(CardDetailFragment fragment);
 	public delegate void SendEmailHandler(Intent intent);
 	public delegate void OpenMapHandler(Intent intent);
 	public delegate void OpenBrowserHandler(Intent intent);
@@ -51,10 +52,11 @@ namespace Busidex.Presentation.Android
 		Intent AddToMyBusidexIntent{ get; set; }
 		Intent RemoveFromMyBusidexIntent{ get; set; }
 
-		void doRedirect(Intent intent){
+		async Task<bool> doRedirect(CardDetailFragment fragment){
 			if(Redirect != null){
-				Redirect (intent);
+				Redirect (fragment);
 			}
+			return true;
 		}
 
 		public override int Count
@@ -86,15 +88,15 @@ namespace Busidex.Presentation.Android
 
 
 		void OnPhoneButtonClicked(object sender, System.EventArgs e){
-			doRedirect(PhoneIntent);
+			//doRedirect(PhoneIntent);
 		}
 
 		void OnNotesButtonClicked(object sender, System.EventArgs e){
-			doRedirect(NotesIntent);
+			//doRedirect(NotesIntent);
 		}
 
 		void OnShareCardButtonClicked(object sender, System.EventArgs e){
-			doRedirect(ShareCardIntent);
+			//doRedirect(ShareCardIntent);
 		}
 
 		void OnMapButtonClicked(object sender, System.EventArgs e){
@@ -143,12 +145,11 @@ namespace Busidex.Presentation.Android
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
 
-			CardDetailIntent = new Intent(context, typeof(CardDetailActivity));
 			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(Cards[position]);
-			CardDetailIntent.PutExtra ("Card", data);
-
-			doRedirect (CardDetailIntent);
+			var fragment = ((SplashActivity)Context).fragments ["CardDetailFragment"] as CardDetailFragment;
+			fragment.UserCard = Cards [position];
+			doRedirect (fragment).ContinueWith (delegate (Task<bool> result) {
+			});
 		}
 
 		View SetButtonPanel (ref RelativeLayout layout, View view, View parent, int position){
@@ -237,19 +238,19 @@ namespace Busidex.Presentation.Android
 			const float ENABLED = 1f;
 			const float DISABLED = .2f;
 
-			btnPhone.Enabled = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0) ? true : false;
+			btnPhone.Enabled = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0);
 			btnPhone.Alpha = btnPhone.Enabled ? ENABLED : DISABLED;
 
 			btnEmail.Enabled = !string.IsNullOrEmpty (userCard.Card.Email);
 			btnEmail.Alpha = btnEmail.Enabled ? ENABLED : DISABLED;
 
-			btnNotes.Enabled = ShowNotes ? true : false;
+			btnNotes.Enabled = ShowNotes;
 			btnNotes.Alpha = btnNotes.Enabled ? ENABLED : DISABLED;
 
 			btnBrowser.Enabled = !string.IsNullOrEmpty (userCard.Card.Url);
 			btnBrowser.Alpha = btnBrowser.Enabled ? ENABLED : DISABLED;
 
-			btnMap.Enabled = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses[0].HasAddress) ? true : false;
+			btnMap.Enabled = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses [0].HasAddress);
 			btnMap.Alpha = btnMap.Enabled ? ENABLED : DISABLED;
 
 			btnAddToMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
@@ -309,6 +310,18 @@ namespace Busidex.Presentation.Android
 
 			// for these buttons, need to set the tag property to the cardID because the
 			// buttons are reused
+
+//			btnCardH.Touch += async delegate(object sender, View.TouchEventArgs e) {
+//				if(e.Event.Action == MotionEventActions.Up){
+//					await OnCardDetailButtonClicked(sender, e);
+//				}
+//			};
+//
+//			btnCardV.Touch += async delegate(object sender, View.TouchEventArgs e) {
+//				if(e.Event.Action == MotionEventActions.Up){
+//					await OnCardDetailButtonClicked(sender, e);
+//				}
+//			};
 			btnCardH.Click -= OnCardDetailButtonClicked;
 			btnCardH.Click += OnCardDetailButtonClicked;
 			btnCardH.Tag = position;

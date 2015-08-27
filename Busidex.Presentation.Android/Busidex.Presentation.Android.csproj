@@ -16,6 +16,7 @@
     <AssemblyName>Busidex.Presentation.Android</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -34,7 +36,6 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
     <AndroidSigningKeyStore>/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/busidex.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>ride9736</AndroidSigningStorePass>
@@ -173,6 +174,7 @@
     <Compile Include="Fragments\EventListFragment.cs" />
     <Compile Include="Fragments\BusidexFragmentManager.cs" />
     <Compile Include="Fragments\EventCardsFragment.cs" />
+    <Compile Include="Fragments\CardDetailFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -258,9 +260,9 @@
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\drawable\main_blur2.png" />
     <AndroidResource Include="Resources\drawable\cards_back2.png" />
-    <AndroidResource Include="Resources\layout\MainTabLayout.axml" />
     <AndroidResource Include="Resources\animator\SlideAnimation.xml" />
     <AndroidResource Include="Resources\animator\SlideOutAnimation.xml" />
+    <AndroidResource Include="Resources\layout\MainTabLayout.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
