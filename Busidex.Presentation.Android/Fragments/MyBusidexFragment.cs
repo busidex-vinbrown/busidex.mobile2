@@ -165,9 +165,9 @@ namespace Busidex.Presentation.Android
 			}
 
 			if (UISubscriptionService.UserCards != null) {
-				Activity.RunOnUiThread (() => {
-					LoadUI();
-				});
+//				var thread = new Thread (LoadUI);
+//				thread.Start ();
+				Activity.RunOnUiThread (LoadUI);
 			}
 
 			return true;

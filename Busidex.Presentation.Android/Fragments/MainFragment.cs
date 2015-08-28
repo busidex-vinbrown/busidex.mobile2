@@ -22,15 +22,14 @@ namespace Busidex.Presentation.Android
 	{
 
 
-		public bool OnTouch (View v, MotionEvent e)
+		public override bool OnTouch (View v, MotionEvent e)
 		{
-			return interceptTouchEvents;
+			_detector.OnTouchEvent (e);
+			return true;
 		}
 
 		static bool animationsLoaded = false;
 
-		View profileFragment;
-		bool isLoggedIn;
 
 		bool eventsRefreshing;
 		bool organizationsRefreshing;
@@ -50,46 +49,29 @@ namespace Busidex.Presentation.Android
 
 		TextView txtNotificationCount;
 
+
+
 		Dialog helpDialog;
 		public bool interceptTouchEvents = true;
 
-		void LoadProfileFragment(){
-			profileFragment = Activity.FindViewById<View> (Resource.Id.profileFragment);
-
-			var cookie = applicationResource.GetAuthCookie ();
-			if (cookie != null) {
-				profileFragment.Visibility = ViewStates.Gone;
-				isLoggedIn = true;
-			}else{
-				profileFragment.Visibility = ViewStates.Visible;
-			}
-		}
 		#region Touch Events
-		public bool OnDown (MotionEvent e)
+		public override bool OnDown (MotionEvent e)
 		{
 			return interceptTouchEvents;
 		}
 
-		public bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+		public override bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
 		{
 			const float SWIPE_THRESHOLD = 400;
 			// detect swipe right
 			if (e2.GetX () - e1.GetX () > SWIPE_THRESHOLD) {
-				if (!profileIsOpen) {
-					profileIsOpen = true;
-					interceptTouchEvents = false;
-					var slideIn = AnimationUtils.LoadAnimation (Activity, Resource.Animation.SlideAnimationFast);
-					profileFragment.Visibility = ViewStates.Visible;
-					profileFragment.StartAnimation (slideIn);
-				}
-			}
-
-			if (e1.GetX () - e2.GetX () > SWIPE_THRESHOLD && profileIsOpen) {
-				profileIsOpen = false;
-				interceptTouchEvents = true;
-				var slideOut = AnimationUtils.LoadAnimation(Activity, Resource.Animation.SlideOutAnimationFast);
-				profileFragment.StartAnimation (slideOut);
-				profileFragment.Visibility = ViewStates.Gone;
+				
+				var profileFragment = ((SplashActivity)Activity).fragments[typeof(ProfileFragment).Name];
+				((SplashActivity)Activity).LoadFragment (
+					profileFragment,
+					Resource.Animator.SlideAnimationFast, 
+					Resource.Animator.SlideOutAnimationFast);
+				
 			}
 
 			if (e2.GetY () - e1.GetY () > SWIPE_THRESHOLD) {
@@ -100,31 +82,27 @@ namespace Busidex.Presentation.Android
 			return true;
 		}
 
-		public void OnLongPress (MotionEvent e)
+		public override void OnLongPress (MotionEvent e)
 		{
 
 		}
 
-		public bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
-		{
-			return false;
-		}
-
-		public void OnShowPress (MotionEvent e)
-		{
-
-		}
-
-		public bool OnSingleTapUp (MotionEvent e)
+		public override bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
 		{
 			return false;
 		}
 
-//		public override bool OnTouchEvent(MotionEvent e)
-//		{
-//			_detector.OnTouchEvent (e);
-//			return false;
-//		}
+		public override void OnShowPress (MotionEvent e)
+		{
+
+		}
+
+		public override bool OnSingleTapUp (MotionEvent e)
+		{
+			return false;
+		}
+			
+
 		#endregion
 
 		ImageView btnSharedCardsNotification;
@@ -157,6 +135,7 @@ namespace Busidex.Presentation.Android
 			//_detector = new GestureDetector(this);
 
 			//LoadProfileFragment ();
+			mainView.SetOnTouchListener( this );
 
 			btnSearch = mainView.FindViewById<Button> (Resource.Id.btnSearch);
 			btnMyBusidex = mainView.FindViewById<Button> (Resource.Id.btnMyBusidex);
@@ -333,10 +312,22 @@ namespace Busidex.Presentation.Android
 		}
 
 		void Logout(){
-			applicationResource.RemoveAuthCookie ();
-			Utils.RemoveCacheFiles ();
 
-			Redirect(new StartUpFragment());
+			ShowAlert (
+				Activity.GetString (Resource.String.Global_Logout_Title),
+				GetString (Resource.String.Global_Logout_Message), 
+				GetString (Resource.String.Global_ButtonText_Logout),
+				new EventHandler<DialogClickEventArgs> ((o, e) => {
+
+					var dialog = o as AlertDialog;
+					Button btnClicked = dialog.GetButton(e.Which);
+					if (btnClicked.Text == GetString (Resource.String.Global_ButtonText_Logout)) {
+						applicationResource.RemoveAuthCookie ();
+						Utils.RemoveCacheFiles ();
+
+						Redirect (new StartUpFragment ());
+					}
+				}));
 		}
 
 		async Task<bool> Sync(){
@@ -365,9 +356,7 @@ namespace Busidex.Presentation.Android
 		void GoToSearch(){
 			Redirect(((SplashActivity)Activity).fragments[typeof(SearchFragment).Name]);
 		}
-		void GoToMyOrganizations(){
-			Redirect(((SplashActivity)Activity).fragments[typeof(MyOrganizationsFragment).Name]);
-		}
+
 
 		void GoToMyBusidex(){
 			Redirect(((SplashActivity)Activity).fragments[typeof(MyBusidexFragment).Name]);
@@ -407,107 +396,7 @@ namespace Busidex.Presentation.Android
 			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
 		}
 
-		async Task<bool> LoadMyOrganizationsAsync(bool force = false){
 
-			organizationsRefreshing = true;
-
-			var cookie = applicationResource.GetAuthCookie ();
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
-			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
-				organizationsRefreshing = false;
-				GoToMyOrganizations ();
-			} else {
-				if (cookie != null) {
-
-					Activity.RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
-
-					var controller = new OrganizationController ();
-					await controller.GetMyOrganizations (cookie).ContinueWith (async response => {
-						if (!string.IsNullOrEmpty (response.Result)) {
-
-							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
-
-							Utils.SaveResponse(response.Result, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
-							applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
-
-							foreach (Organization org in myOrganizationsResponse.Model) {
-								var fileName = org.LogoFileName + "." + org.LogoType;
-								var fImagePath = Busidex.Mobile.Resources.CARD_PATH + fileName;
-								if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fileName)) {
-									await Utils.DownloadImage (fImagePath, Busidex.Mobile.Resources.DocumentsPath, fileName).ContinueWith (t => {
-
-									});
-								} 
-								// load organization members
-								await controller.GetOrganizationMembers(cookie, org.OrganizationId).ContinueWith(async cards =>{
-
-									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Busidex.Mobile.Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
-
-									var idx = 0;
-									Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
-									foreach(var card in orgMemberResponse.Model){
-
-										var fImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.FrontFileName;
-										var bImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.BackFileName;
-										var fName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-										var bName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName) || force) {
-											await Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
-												Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
-											});
-										}
-										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
-											await Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
-
-											});
-										}
-										idx++;
-									}
-								});
-
-								await controller.GetOrganizationReferrals(cookie, org.OrganizationId).ContinueWith(async cards =>{
-
-									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Busidex.Mobile.Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
-
-									var idx = 0;
-									Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
-
-									foreach(var card in orgReferralResponse.Model){
-
-										var fImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
-										var bImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.Card.BackFileName;
-										var fName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-										var bName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName) || force) {
-											await Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
-												Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
-											});
-										}
-										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
-											await Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
-
-											});
-										}
-										idx++;
-									}
-								});
-							}
-
-							Activity.RunOnUiThread (() => {
-								HideLoadingSpinner();
-								organizationsRefreshing = false;
-								if(!force){
-									GoToMyOrganizations ();
-								}
-							});
-						}
-					});
-				}
-			}
-			return true;
-		}
 
 		async Task<bool> LoadMyBusidexAsync(bool force = false){
 

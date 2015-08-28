@@ -175,6 +175,10 @@
     <Compile Include="Fragments\BusidexFragmentManager.cs" />
     <Compile Include="Fragments\EventCardsFragment.cs" />
     <Compile Include="Fragments\CardDetailFragment.cs" />
+    <Compile Include="Fragments\PhoneFragment.cs" />
+    <Compile Include="Fragments\NotesFragment.cs" />
+    <Compile Include="Fragments\OrganizationDetailFragment.cs" />
+    <Compile Include="Fragments\OrganizationCardsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -263,6 +267,8 @@
     <AndroidResource Include="Resources\animator\SlideAnimation.xml" />
     <AndroidResource Include="Resources\animator\SlideOutAnimation.xml" />
     <AndroidResource Include="Resources\layout\MainTabLayout.axml" />
+    <AndroidResource Include="Resources\animator\SlideAnimationFast.xml" />
+    <AndroidResource Include="Resources\animator\SlideOutAnimationFast.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

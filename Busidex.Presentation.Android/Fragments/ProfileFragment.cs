@@ -7,28 +7,79 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Views.Animations;
 using System.Threading.Tasks;
+using Android.App;
 
 namespace Busidex.Presentation.Android
 {
-	public class ProfileFragment : BaseFragment
+	public class ProfileFragment : BaseFragment, GestureDetector.IOnGestureListener, View.IOnTouchListener
 	{
 
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
 		TextView lblEmailError;
 		TextView lblPasswordError;
-		bool showPassword = true;
+		//bool showPassword = true;
 
-		GestureDetector.IOnGestureListener _detector;
+
+		#region Touch Events
+		public override bool OnTouch (View v, MotionEvent e)
+		{
+			_detector.OnTouchEvent (e);
+			return true;
+		}
+
+		public override bool OnDown (MotionEvent e)
+		{
+			return true;
+		}
+
+		public override bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+		{
+			const float SWIPE_THRESHOLD = 400;
+			if (e1.GetX () - e2.GetX () > SWIPE_THRESHOLD) {
+				var mainFragment = ((SplashActivity)Activity).fragments[typeof(MainFragment).Name];
+				((SplashActivity)Activity).LoadFragment (
+					mainFragment,
+					Resource.Animator.SlideAnimationFast, 
+					Resource.Animator.SlideOutAnimationFast);
+			}
+
+			return true;
+		}
+
+		public override void OnLongPress (MotionEvent e)
+		{
+
+		}
+
+		public override bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+		{
+			return false;
+		}
+
+		public override void OnShowPress (MotionEvent e)
+		{
+
+		}
+
+		public override bool OnSingleTapUp (MotionEvent e)
+		{
+			return false;
+		}
+
+
+		#endregion
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		
-			_detector = (MainActivity)Activity;
+			// FIXME: need to do less in this methhod. view takes too long to load
 
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 			View profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
+
+			profileView.SetOnTouchListener( this );
 
 			var txtAcceptTerms = profileView.FindViewById<TextView> (Resource.Id.txtAcceptTerms);
 			var txtViewTerms = profileView.FindViewById<TextView> (Resource.Id.txtViewTerms);
@@ -60,7 +111,7 @@ namespace Busidex.Presentation.Android
 				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
 				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 
-				showPassword = false;
+				//showPassword = false;
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
 
 				btnSaveProfile.Click += async delegate {

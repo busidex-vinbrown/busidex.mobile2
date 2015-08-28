@@ -45,7 +45,7 @@ namespace Busidex.Presentation.Android
 				return;
 			}
 
-			Thread thread = new Thread (() => {
+			var thread = new Thread (() => {
 
 				using (var transaction = FragmentManager.BeginTransaction ()) {
 

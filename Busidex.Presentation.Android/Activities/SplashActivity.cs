@@ -28,6 +28,7 @@ namespace Busidex.Presentation.Android
 			fragments.Add (typeof(StartUpFragment).Name, new StartUpFragment ());
 			fragments.Add (typeof(CardDetailFragment).Name, new CardDetailFragment ());
 
+		    
 			RedirectToMainIfLoggedIn ();
 		}
 			

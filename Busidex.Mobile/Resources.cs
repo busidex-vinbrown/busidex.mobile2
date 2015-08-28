@@ -42,6 +42,7 @@ namespace Busidex.Mobile
 		public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
 		public const string GA_CATEGORY_ACTIVITY = "Activity";
 		public const string GA_MY_BUSIDEX_LABEL = "My Busidex";
+		public const string GA_MY_ORGANIZATIONS_LABEL = "My Organizations";
 		public const string GA_LABEL_LIST = "List";
 		public const string GA_LABEL_DETAILS = "Details";
 		public const string GA_LABEL_PHONE = "Called";

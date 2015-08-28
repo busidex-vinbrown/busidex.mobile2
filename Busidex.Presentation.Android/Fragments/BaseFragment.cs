@@ -11,46 +11,50 @@ using Busidex.Mobile;
 using System.Threading.Tasks;
 using Android.Views.InputMethods;
 using Android.Views;
+using System.Linq;
 
 namespace Busidex.Presentation.Android
 {
-	public class BaseFragment : Fragment, GestureDetector.IOnGestureListener, View.IOnTouchListener
+	public class BaseFragment : Fragment, GestureDetector.IOnGestureListener//, View.IOnTouchListener
 	{
+		protected GestureDetector _detector;
+
 		#region IOnTouchListener 
-		public bool OnTouch (View v, MotionEvent e)
+		public virtual bool OnTouch (View v, MotionEvent e)
 		{
+			_detector.OnTouchEvent (e);
 			return false;
 		}
 		#endregion
 
 		#region IOnGestureListener
-		public bool OnDown (MotionEvent e)
+		public virtual bool OnDown (MotionEvent e)
 		{
 			return false;
 		}
 
-		public bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+		public virtual bool OnFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
 		{
-			return false;
+			return true;
 		}
 
-		public void OnLongPress (MotionEvent e)
+		public virtual void OnLongPress (MotionEvent e)
 		{
 			//throw new NotImplementedException ();
 
 		}
 
-		public bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+		public virtual bool OnScroll (MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
 		{
 			return false;
 		}
 
-		public void OnShowPress (MotionEvent e)
+		public virtual void OnShowPress (MotionEvent e)
 		{
 			
 		}
 
-		public bool OnSingleTapUp (MotionEvent e)
+		public virtual bool OnSingleTapUp (MotionEvent e)
 		{
 			return false;
 		}
@@ -81,6 +85,7 @@ namespace Busidex.Presentation.Android
 		public override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+			_detector = new GestureDetector(this);
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (Activity).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 			applicationResource = new BaseApplicationResource (Activity);
 		}
@@ -98,6 +103,11 @@ namespace Busidex.Presentation.Android
 
 			((SplashActivity)Activity).LoadFragment (fragment);
 		}
+
+		protected void GoToMyOrganizations(){
+			Redirect(((SplashActivity)Activity).fragments[typeof(MyOrganizationsFragment).Name]);
+		}
+
 		#endregion
 
 		#region Loading
@@ -124,6 +134,105 @@ namespace Busidex.Presentation.Android
 				var fileJson = file.ReadToEnd ();
 				file.Close ();
 				await ProcessFile (fileJson);
+			}
+			return true;
+		}
+
+		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false){
+
+			var cookie = applicationResource.GetAuthCookie ();
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
+			if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME) && !force) {
+				Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_OneMoment)));
+				await LoadFromFile(fullFilePath);
+			} else {
+				if (cookie != null) {
+
+					Activity.RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
+
+					var controller = new OrganizationController ();
+					await controller.GetMyOrganizations (cookie).ContinueWith (async response => {
+						if (!string.IsNullOrEmpty (response.Result)) {
+
+							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
+
+							Utils.SaveResponse(response.Result, Busidex.Mobile.Resources.MY_ORGANIZATIONS_FILE);
+							applicationResource.SetRefreshCookie(Busidex.Mobile.Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
+
+							foreach (Organization org in myOrganizationsResponse.Model) {
+								var fileName = org.LogoFileName + "." + org.LogoType;
+								var fImagePath = Busidex.Mobile.Resources.CARD_PATH + fileName;
+								if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fileName)) {
+									await Utils.DownloadImage (fImagePath, Busidex.Mobile.Resources.DocumentsPath, fileName).ContinueWith (t => {
+
+									});
+								} 
+								// load organization members
+								await controller.GetOrganizationMembers(cookie, org.OrganizationId).ContinueWith(async cards =>{
+
+									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+									Utils.SaveResponse(cards.Result, Busidex.Mobile.Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+
+									var idx = 0;
+									Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
+									foreach(var card in orgMemberResponse.Model){
+
+										var fImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.FrontFileName;
+										var bImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.BackFileName;
+										var fName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+										var bName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName) || force) {
+											await Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
+												Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
+											});
+										}
+										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
+											await Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
+
+											});
+										}
+										idx++;
+									}
+								});
+
+								await controller.GetOrganizationReferrals(cookie, org.OrganizationId).ContinueWith(async cards =>{
+
+									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
+									Utils.SaveResponse(cards.Result, Busidex.Mobile.Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+
+									var idx = 0;
+									Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
+
+									foreach(var card in orgReferralResponse.Model){
+
+										var fImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
+										var bImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + card.Card.BackFileName;
+										var fName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+										var bName = Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + fName) || force) {
+											await Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, fName).ContinueWith (t => {
+												Activity.RunOnUiThread (() => UpdateLoadingSpinner (idx, myOrganizationsResponse.Model.Count ()));
+											});
+										}
+										if (!File.Exists (Busidex.Mobile.Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Busidex.Mobile.Resources.EMPTY_CARD_ID) {
+											await Utils.DownloadImage (bImageUrl, Busidex.Mobile.Resources.DocumentsPath, bName).ContinueWith (t => {
+
+											});
+										}
+										idx++;
+									}
+								});
+							}
+
+							Activity.RunOnUiThread (() => {
+								HideLoadingSpinner();
+								if(!force){
+									GoToMyOrganizations ();
+								}
+							});
+						}
+					});
+				}
 			}
 			return true;
 		}
@@ -330,6 +439,21 @@ namespace Busidex.Presentation.Android
 			}
 		}
 		#endregion
+
+		#region Alerts
+		protected void ShowAlert(string title, string message, string buttonText, EventHandler<DialogClickEventArgs> callback){
+			var builder = new AlertDialog.Builder(Activity);
+			builder.SetTitle(title);
+			builder.SetMessage(message);
+			builder.SetNegativeButton (GetString (Resource.String.Global_ButtonText_Cancel), new EventHandler<DialogClickEventArgs>((o,e) => {
+				return;
+			}));
+			builder.SetCancelable(true);
+			builder.SetPositiveButton(buttonText, callback);
+			builder.Show();
+		}
+		#endregion 
+
 	}
 }
 
