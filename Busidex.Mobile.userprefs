@@ -1,12 +1,15 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Android/Busidex.Presentation.Android.csproj">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Android/Adapters/UserCardAdapter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Android/Fragments/MyBusidexFragment.cs" Line="173" Column="16" />
-      <File FileName="Busidex.Presentation.Android/Activities/SplashActivity.cs" Line="120" Column="1" />
-      <File FileName="Busidex.Presentation.Android/Fragments/CardDetailFragment.cs" Line="51" Column="32" />
-      <File FileName="Busidex.Presentation.Android/Adapters/UserCardAdapter.cs" Line="130" Column="3" />
-      <File FileName="Busidex.Presentation.Android/Fragments/BaseFragment.cs" Line="142" Column="1" />
+      <File FileName="Busidex.Presentation.Droid.v2/Adapters/GenericFragmentPagerAdaptor.cs" Line="6" Column="18" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="112" Column="40" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="54" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Android/Fragments/BaseFragment.cs" Line="86" Column="4" />
+      <File FileName="Busidex.Presentation.Android/Fragments/MyBusidexFragment.cs" Line="66" Column="17" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/MainFragment.cs" Line="240" Column="27" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/MyBusidexFragment.cs" Line="27" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,14 +23,15 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="109" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/SettingsController.cs" line="23" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Fragments/CardDetailFragment.cs" line="133" column="6" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Fragments/BaseFragment.cs" line="141" column="36" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Fragments/MyBusidexFragment.cs" line="81" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/Fragments/MyBusidexFragment.cs" line="62" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" AndroidDesignerPreferredDevice="Galaxy Nexus" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" AndroidDesignerPreferredDevice="Galaxy Nexus" />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

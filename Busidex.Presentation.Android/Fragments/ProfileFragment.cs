@@ -70,6 +70,10 @@ namespace Busidex.Presentation.Android
 
 		#endregion
 
+		void LoadUI(View view){
+			
+		}
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		

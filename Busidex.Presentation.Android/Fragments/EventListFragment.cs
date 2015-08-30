@@ -26,7 +26,7 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnResume ();
 			if (IsVisible) {
-				if(UISubscriptionService.EventList.Count > 0){
+				if(subscriptionService.EventList.Count > 0){
 					LoadUI();
 				}else{
 					ThreadPool.QueueUserWorkItem (o => LoadEventList ());
@@ -83,7 +83,7 @@ namespace Busidex.Presentation.Android
 			var cookie = applicationResource.GetAuthCookie ();
 
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.EVENT_LIST_FILE);
-			if (UISubscriptionService.EventList.Count > 0) {
+			if (subscriptionService.EventList.Count > 0) {
 				Activity.RunOnUiThread (LoadUI);
 
 			}else if (File.Exists (fullFilePath) && applicationResource.CheckRefreshDate (Busidex.Mobile.Resources.EVENT_LIST_REFRESH_COOKIE_NAME)) {
@@ -119,9 +119,9 @@ namespace Busidex.Presentation.Android
 		}
 
 		private void LoadUI(){
-			if (UISubscriptionService.EventList != null) {
+			if (subscriptionService.EventList != null) {
 				
-				Tags = UISubscriptionService.EventList;
+				Tags = subscriptionService.EventList;
 
 				var lstEvents = Activity.FindViewById<ListView> (Resource.Id.lstEvents);
 
@@ -139,9 +139,9 @@ namespace Busidex.Presentation.Android
 
 		protected async override Task<bool> ProcessFile(string data){
 
-			if(UISubscriptionService.EventList.Count == 0){
+			if(subscriptionService.EventList.Count == 0){
 				var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (data);
-				UISubscriptionService.EventList = eventListResponse.Model;
+				subscriptionService.EventList = eventListResponse.Model;
 			}
 				
 			Activity.RunOnUiThread (() => {
@@ -212,10 +212,10 @@ namespace Busidex.Presentation.Android
 								}
 							}
 
-							if(UISubscriptionService.EventCards.ContainsKey(tag.Text)){
-								UISubscriptionService.EventCards[tag.Text] = cards;
+							if(subscriptionService.EventCards.ContainsKey(tag.Text)){
+								subscriptionService.EventCards[tag.Text] = cards;
 							}else{
-								UISubscriptionService.EventCards.Add(tag.Text, cards);
+								subscriptionService.EventCards.Add(tag.Text, cards);
 							}
 
 							var idx = 0;

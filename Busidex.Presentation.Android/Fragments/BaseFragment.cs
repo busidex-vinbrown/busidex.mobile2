@@ -18,6 +18,7 @@ namespace Busidex.Presentation.Android
 	public class BaseFragment : Fragment, GestureDetector.IOnGestureListener//, View.IOnTouchListener
 	{
 		protected GestureDetector _detector;
+		protected readonly UISubscriptionService subscriptionService;
 
 		#region IOnTouchListener 
 		public virtual bool OnTouch (View v, MotionEvent e)
@@ -75,6 +76,7 @@ namespace Busidex.Presentation.Android
 			if(Activity != null){
 				manager = new BusidexFragmentManager (Activity);
 			}
+			subscriptionService = new UISubscriptionService ();
 
 		}
 

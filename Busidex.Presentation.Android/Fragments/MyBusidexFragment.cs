@@ -24,7 +24,7 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnResume ();
 			if (IsVisible) {
-				if (UISubscriptionService.UserCards.Count > 0) {
+				if (subscriptionService.UserCards.Count > 0) {
 					LoadUI ();
 				} else {
 					ThreadPool.QueueUserWorkItem (o => LoadMyBusidexAsync ());
@@ -60,7 +60,7 @@ namespace Busidex.Presentation.Android
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 
 			if (File.Exists (fullFilePath) && CheckBusidexFileCache(fullFilePath) && applicationResource.CheckRefreshDate(Busidex.Mobile.Resources.BUSIDEX_REFRESH_COOKIE_NAME) && !force) {
-				if(UISubscriptionService.UserCards.Count == 0){
+				if(subscriptionService.UserCards.Count == 0){
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_LoadingCards)));
 
 					await LoadFromFile (fullFilePath);
@@ -73,7 +73,7 @@ namespace Busidex.Presentation.Android
 
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (GetString (Resource.String.Global_LoadingCards)));
 
-					UISubscriptionService.UserCards.Clear ();
+					subscriptionService.UserCards.Clear ();
 
 					Activity.RunOnUiThread (() => ShowLoadingSpinner (Resources.GetString (Resource.String.Global_OneMoment)));
 
@@ -81,6 +81,9 @@ namespace Busidex.Presentation.Android
 					await ctrl.GetMyBusidex (cookie).ContinueWith(async r => {
 
 						if (!string.IsNullOrEmpty (r.Result)) {
+
+
+
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
 							Activity.RunOnUiThread (() => {
@@ -157,14 +160,14 @@ namespace Busidex.Presentation.Android
 
 		protected override async Task<bool> ProcessFile(string data){
 
-			if (UISubscriptionService.UserCards.Count == 0) {
+			if (subscriptionService.UserCards.Count == 0) {
 				var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
 
-				UISubscriptionService.UserCards = myBusidexResponse.MyBusidex.Busidex;
+				subscriptionService.UserCards = myBusidexResponse.MyBusidex.Busidex;
 			}
 
-			if (UISubscriptionService.UserCards != null) {
+			if (subscriptionService.UserCards != null) {
 //				var thread = new Thread (LoadUI);
 //				thread.Start ();
 				Activity.RunOnUiThread (LoadUI);
@@ -177,7 +180,7 @@ namespace Busidex.Presentation.Android
 
 			var state = lstCards.OnSaveInstanceState ();
 
-			MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
+			MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, subscriptionService.UserCards);
 
 			MyBusidexAdapter.Redirect += ShowCard;
 			MyBusidexAdapter.SendEmail += SendEmail;
@@ -191,8 +194,8 @@ namespace Busidex.Presentation.Android
 
 			lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
 
-			lblNoCardsMessage.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-			txtFilter.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+			lblNoCardsMessage.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+			txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 			lstCards.Adapter = MyBusidexAdapter;
 

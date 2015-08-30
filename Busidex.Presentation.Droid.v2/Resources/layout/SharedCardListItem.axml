@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/layoutBackground"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sharedCardListItemLayout">
+        <TextView
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="34.8dp"
+            android:id="@+id/txtSharedCardName"
+            android:textColor="@color/labelFontColor"
+            android:textStyle="bold" />
+        <TextView
+            android:text="Company Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="30.1dp"
+            android:layout_below="@id/txtSharedCardName"
+            android:id="@+id/txtSharedCardCompanyName"
+            android:textColor="@color/labelFontColor" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="265dp"
+            android:layout_height="160dp"
+            android:layout_below="@id/txtSharedCardCompanyName"
+            android:id="@+id/imgSharedCardHorizontal"
+            android:background="@android:drawable/picture_frame"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="5dp" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="175dp"
+            android:layout_height="240dp"
+            android:layout_below="@id/txtSharedCardCompanyName"
+            android:id="@+id/imgSharedCardVertical"
+            android:background="@android:drawable/picture_frame"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="5dp" />
+        <Button
+            android:text="Accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtSharedCardCompanyName"
+            android:id="@+id/btnAccept"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/buttonFontColor"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginRight="5dp" />
+        <Button
+            android:text="Decline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnAccept"
+            android:id="@+id/btnDecline"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/buttonFontColor"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp" />
+        <ImageView
+            android:src="@drawable/red_minus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/btnAccept"
+            android:id="@+id/imgResults"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_marginRight="30dp" />
+    </RelativeLayout>
+</LinearLayout>

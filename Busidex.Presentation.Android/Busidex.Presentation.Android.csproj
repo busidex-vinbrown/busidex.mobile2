@@ -269,6 +269,9 @@
     <AndroidResource Include="Resources\layout\MainTabLayout.axml" />
     <AndroidResource Include="Resources\animator\SlideAnimationFast.xml" />
     <AndroidResource Include="Resources\animator\SlideOutAnimationFast.xml" />
+    <AndroidResource Include="Resources\animator\SlideUpAnimation.xml" />
+    <AndroidResource Include="Resources\animator\SlideDownAnimation.xml" />
+    <AndroidResource Include="Resources\drawable\settings.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

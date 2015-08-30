@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linearLayout1"
+    android:background="@color/listBackground">
+    <SearchView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/txtFilter"
+        android:theme="@style/SearchBar"
+        android:queryHint="Filter"
+        style="@style/SearchBar"
+        android:iconifiedByDefault="false"
+        android:searchIcon="@drawable/spotlight_icon" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblNoCardsMessage"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lstCards"
+        android:divider="@color/textInputColor"
+        android:dividerHeight="4px"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

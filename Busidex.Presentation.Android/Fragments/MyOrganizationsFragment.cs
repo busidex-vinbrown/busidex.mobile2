@@ -23,6 +23,7 @@ namespace Busidex.Presentation.Android
 		ListView lstOrganizations;
 
 
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
@@ -37,7 +38,7 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnResume ();
 			if (IsVisible) {
-				if (UISubscriptionService.OrganizationList.Count > 0) {
+				if (subscriptionService.OrganizationList.Count > 0) {
 					ThreadPool.QueueUserWorkItem (o => LoadUI());
 				} else {
 					ThreadPool.QueueUserWorkItem (o => LoadMyOrganizationsAsync ());
@@ -48,9 +49,9 @@ namespace Busidex.Presentation.Android
 
 		void LoadUI(){
 			
-			if (UISubscriptionService.OrganizationList != null && UISubscriptionService.OrganizationList.Count > 0) {
+			if (subscriptionService.OrganizationList != null && subscriptionService.OrganizationList.Count > 0) {
 
-				var adapter = new OrganizationAdapter (Activity, Resource.Id.lstOrganizations, UISubscriptionService.OrganizationList);
+				var adapter = new OrganizationAdapter (Activity, Resource.Id.lstOrganizations, subscriptionService.OrganizationList);
 
 				adapter.RedirectToOrganizationDetails += async delegate {
 					Redirect(((SplashActivity)Activity).fragments[typeof(OrganizationDetailFragment).Name]);
@@ -73,11 +74,11 @@ namespace Busidex.Presentation.Android
 
 		protected override async Task<bool> ProcessFile(string data){
 
-			if(UISubscriptionService.OrganizationList.Count == 0){
+			if(subscriptionService.OrganizationList.Count == 0){
 				var myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (data);
 				if(myOrganizationsResponse != null){
 					List<Organization> Organizations = myOrganizationsResponse.Model;
-					UISubscriptionService.OrganizationList = Organizations;
+					subscriptionService.OrganizationList = Organizations;
 				}
 			}
 				

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/listBackground"
+    android:divider="#FF666666"
+    android:showDividers="beginning"
+    android:paddingBottom="7dp">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listItemLayout">
+        <TextView
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/txtName"
+            android:textColor="@color/labelFontColor"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:text="Company Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/txtCompanyName"
+            android:gravity="center_vertical"
+            android:textColor="@color/labelFontColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtName" />
+        <ImageButton
+            android:src="@android:drawable/ic_menu_gallery"
+            android:id="@+id/imgCardHorizontal"
+            android:layout_width="265dp"
+            android:layout_height="160dp"
+            android:layout_below="@id/txtCompanyName"
+            android:background="@android:drawable/picture_frame" />
+        <ImageButton
+            android:src="@android:drawable/ic_menu_gallery"
+            android:id="@+id/imgCardVertical"
+            android:layout_width="175dp"
+            android:layout_height="240dp"
+            android:layout_below="@id/imgCardHorizontal"
+            android:background="@android:drawable/picture_frame" />
+        <ImageButton
+            android:src="@android:drawable/ic_menu_info_details"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/btnInfo"
+            android:layout_marginTop="90dp"
+            android:background="@color/listBackground"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</LinearLayout>

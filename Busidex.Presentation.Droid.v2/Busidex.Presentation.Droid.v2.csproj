@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{B9A7EE9B-6AB9-4B93-9969-E14C1620143F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Busidex.Presentation.Droid.v2</RootNamespace>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <AssemblyName>Busidex.Presentation.Droid.v2</AssemblyName>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Ads">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Ads.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Ads.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Analytics">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Analytics.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.AppIndexing">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.AppIndexing.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.AppIndexing.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.AppInvite">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.AppInvite.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.AppInvite.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.AppState">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.AppState.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.AppState.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Cast">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Cast.25.0.0.0\lib\MonoAndroid42\Xamarin.GooglePlayServices.Cast.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Drive">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Drive.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Drive.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Maps">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Location">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Location.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Location.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Fitness">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Fitness.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Fitness.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Games">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Games.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Games.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Gcm">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Gcm.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Gcm.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Identity">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Identity.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Nearby">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Nearby.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Nearby.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Panorama">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Panorama.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Panorama.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Plus">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Plus.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.SafetyNet">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.SafetyNet.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.SafetyNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Wallet">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Wallet.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Wallet.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Wearable">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Wearable.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Wearable.dll</HintPath>
+    </Reference>
+    <Reference Include="GooglePlayServicesLib">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.25.0.0.0\lib\MonoAndroid41\GooglePlayServicesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Fragments\GenericViewPagerFragment.cs" />
+    <Compile Include="Adapters\GenericFragmentPagerAdaptor.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Fragments\MainFragment.cs" />
+    <Compile Include="Activities\BaseApplicationResource.cs" />
+    <Compile Include="Adapters\UserCardAdapter.cs" />
+    <Compile Include="Fragments\CardDetailFragment.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\layout\tab.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\add.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\background_blur5.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\browser.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\cards_back2.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\checkmark.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\email.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\event.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\EventIcon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Exit.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\fb.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon_2x.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\large_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\logo3.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\main_blur2.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\MainButtonStyle.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\maps.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\MyBusidexIcon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\notes.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\OrganizationsIcon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\people.jpg" />
+    <AndroidResource Include="Resources\drawable-hdpi\phone.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\profile_background_1.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\profile2_blur.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\puzzle_background.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\red_minus.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\remove.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\SearchIcon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\share.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\splash2.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\spotlight_icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\swipe_down.gif" />
+    <AndroidResource Include="Resources\drawable-hdpi\swipe_right.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\sync.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\twitter.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\underline.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\white_underline.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\settings.png" />
+    <AndroidResource Include="Resources\values\dimen.xml" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\layout\ButtonPanel.axml" />
+    <AndroidResource Include="Resources\layout\Card.axml" />
+    <AndroidResource Include="Resources\layout\EventCards.axml" />
+    <AndroidResource Include="Resources\layout\EventList.axml" />
+    <AndroidResource Include="Resources\layout\EventListListItem.axml" />
+    <AndroidResource Include="Resources\layout\Login.axml" />
+    <AndroidResource Include="Resources\layout\TermsAndConditions.axml" />
+    <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
+    <AndroidResource Include="Resources\layout\MyBusidex.axml" />
+    <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
+    <AndroidResource Include="Resources\layout\Notes.axml" />
+    <AndroidResource Include="Resources\layout\Organization.axml" />
+    <AndroidResource Include="Resources\layout\OrganizationListItem.axml" />
+    <AndroidResource Include="Resources\layout\OrganizationMembers.axml" />
+    <AndroidResource Include="Resources\layout\Phone.axml" />
+    <AndroidResource Include="Resources\layout\PhoneNumberEntry.axml" />
+    <AndroidResource Include="Resources\layout\Profile.axml" />
+    <AndroidResource Include="Resources\layout\Search.axml" />
+    <AndroidResource Include="Resources\layout\SharedCard.axml" />
+    <AndroidResource Include="Resources\layout\SharedCardList.axml" />
+    <AndroidResource Include="Resources\layout\SharedCardListItem.axml" />
+    <AndroidResource Include="Resources\layout\Home.axml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_background_textured_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_bottom_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_stacked_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_texture_tile_busidexactionbar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ab_transparent_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\btn_cab_done_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\btn_cab_done_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\btn_cab_done_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\btn_cab_done_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\cab_background_bottom_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\cab_background_top_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\list_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\list_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\progress_bg_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\progress_horizontal_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\progress_primary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\progress_secondary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\selectable_background_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\spinner_ab_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\spinner_ab_disabled_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\spinner_ab_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\spinner_ab_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\spinner_background_ab_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_indicator_ab_busidexactionbar.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_selected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_unselected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ab_bottom_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ab_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ab_stacked_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ab_texture_tile_busidexactionbar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ab_transparent_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\btn_cab_done_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\btn_cab_done_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\btn_cab_done_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\cab_background_bottom_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\cab_background_top_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\list_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\list_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_dropdown_panel_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\progress_bg_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\progress_primary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\progress_secondary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\spinner_ab_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\spinner_ab_disabled_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\spinner_ab_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\spinner_ab_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_selected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_selected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_selected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_unselected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_unselected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_unselected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ab_bottom_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ab_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ab_stacked_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ab_texture_tile_busidexactionbar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ab_transparent_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_cab_done_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_cab_done_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\btn_cab_done_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\cab_background_bottom_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\cab_background_top_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\list_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\list_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_dropdown_panel_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\progress_bg_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\progress_primary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\progress_secondary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\spinner_ab_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\spinner_ab_disabled_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\spinner_ab_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\spinner_ab_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_selected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_unselected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ab_bottom_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ab_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ab_stacked_solid_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ab_texture_tile_busidexactionbar.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ab_transparent_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\btn_cab_done_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\btn_cab_done_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\btn_cab_done_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\cab_background_bottom_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\cab_background_top_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\list_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\list_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_dropdown_panel_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\progress_bg_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\progress_primary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\progress_secondary_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\spinner_ab_default_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\spinner_ab_disabled_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\spinner_ab_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\spinner_ab_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_selected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_focused_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_unselected_pressed_busidexactionbar.9.png" />
+    <AndroidResource Include="Resources\anim\MyBusidexIconStart.xml" />
+    <AndroidResource Include="Resources\anim\Rotate.xml" />
+    <AndroidResource Include="Resources\anim\SlideAnimation.xml" />
+    <AndroidResource Include="Resources\anim\SlideAnimationFast.xml" />
+    <AndroidResource Include="Resources\anim\SlideOutAnimation.xml" />
+    <AndroidResource Include="Resources\anim\SlideOutAnimationFast.xml" />
+  </ItemGroup>
+  <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Resources\layout\" />
+    <Folder Include="Adapters\" />
+    <Folder Include="Fragments\" />
+    <Folder Include="Activities\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Busidex.Presentation.Android\Busidex.Presentation.Android.csproj">
+      <Project>{F10C4689-8A74-42B5-9B5E-C27092B994C1}</Project>
+      <Name>Busidex.Presentation.Android</Name>
+      <IsAppExtension>True</IsAppExtension>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamarin.auth">
+      <Version>1.2.3.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+</Project>

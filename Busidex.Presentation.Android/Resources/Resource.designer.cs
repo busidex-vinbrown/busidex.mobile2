@@ -1559,10 +1559,16 @@ namespace Busidex.Presentation.Android
 			public const int SlideAnimationFast = 2131034113;
 			
 			// aapt resource value: 0x7f050002
-			public const int SlideOutAnimation = 2131034114;
+			public const int SlideDownAnimation = 2131034114;
 			
 			// aapt resource value: 0x7f050003
-			public const int SlideOutAnimationFast = 2131034115;
+			public const int SlideOutAnimation = 2131034115;
+			
+			// aapt resource value: 0x7f050004
+			public const int SlideOutAnimationFast = 2131034116;
+			
+			// aapt resource value: 0x7f050005
+			public const int SlideUpAnimation = 2131034117;
 			
 			static Animator()
 			{
@@ -3342,8 +3348,8 @@ namespace Busidex.Presentation.Android
 			// aapt resource value: 0x7f020092
 			public const int notes = 2130837650;
 			
-			// aapt resource value: 0x7f0200a8
-			public const int notification_template_icon_bg = 2130837672;
+			// aapt resource value: 0x7f0200a9
+			public const int notification_template_icon_bg = 2130837673;
 			
 			// aapt resource value: 0x7f020093
 			public const int OrganizationsIcon = 2130837651;
@@ -3379,34 +3385,37 @@ namespace Busidex.Presentation.Android
 			public const int SearchIcon = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int share = 2130837662;
+			public const int settings = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int splash = 2130837663;
+			public const int share = 2130837663;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int splash2 = 2130837664;
+			public const int splash = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int spotlight_icon = 2130837665;
+			public const int splash2 = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int swipe_down = 2130837666;
+			public const int spotlight_icon = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int swipe_right = 2130837667;
+			public const int swipe_down = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int sync = 2130837668;
+			public const int swipe_right = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int twitter = 2130837669;
+			public const int sync = 2130837669;
 			
 			// aapt resource value: 0x7f0200a6
-			public const int underline = 2130837670;
+			public const int twitter = 2130837670;
 			
 			// aapt resource value: 0x7f0200a7
-			public const int white_underline = 2130837671;
+			public const int underline = 2130837671;
+			
+			// aapt resource value: 0x7f0200a8
+			public const int white_underline = 2130837672;
 			
 			static Drawable()
 			{

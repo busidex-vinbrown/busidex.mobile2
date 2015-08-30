@@ -32,7 +32,7 @@ namespace Busidex.Presentation.Android
 			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, string.Format(Busidex.Mobile.Resources.EVENT_CARDS_FILE, EventTag.Text));
 
 
-			if(UISubscriptionService.EventCards.ContainsKey(EventTag.Text)){
+			if(subscriptionService.EventCards.ContainsKey(EventTag.Text)){
 				LoadUI ();
 			}else{
 				ThreadPool.QueueUserWorkItem( o =>  LoadFromFile(fullFilePath));
@@ -63,7 +63,7 @@ namespace Busidex.Presentation.Android
 			txtFilterEventCards = Activity.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
 
 			var lstEventCards = Activity.FindViewById<ListView> (Resource.Id.lstEventCards);
-			EventCardsAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.EventCards[EventTag.Text]);
+			EventCardsAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, subscriptionService.EventCards[EventTag.Text]);
 
 			EventCardsAdapter.Redirect += ShowCard;
 			EventCardsAdapter.SendEmail += SendEmail;
@@ -113,10 +113,10 @@ namespace Busidex.Presentation.Android
 				}
 			}
 
-			if (UISubscriptionService.EventCards.ContainsKey (EventTag.Text)) {
-				UISubscriptionService.EventCards [EventTag.Text] = Cards;
+			if (subscriptionService.EventCards.ContainsKey (EventTag.Text)) {
+				subscriptionService.EventCards [EventTag.Text] = Cards;
 			}else{
-				UISubscriptionService.EventCards.Add (EventTag.Text, Cards);	
+				subscriptionService.EventCards.Add (EventTag.Text, Cards);	
 			}
 
 			Activity.RunOnUiThread (LoadUI);

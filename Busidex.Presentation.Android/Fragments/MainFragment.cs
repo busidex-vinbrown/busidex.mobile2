@@ -64,17 +64,17 @@ namespace Busidex.Presentation.Android
 		{
 			const float SWIPE_THRESHOLD = 400;
 			// detect swipe right
-			if (e2.GetX () - e1.GetX () > SWIPE_THRESHOLD) {
+			if (e2.GetY () - e1.GetY () > SWIPE_THRESHOLD) {
 				
 				var profileFragment = ((SplashActivity)Activity).fragments[typeof(ProfileFragment).Name];
 				((SplashActivity)Activity).LoadFragment (
 					profileFragment,
-					Resource.Animator.SlideAnimationFast, 
-					Resource.Animator.SlideOutAnimationFast);
+					Resource.Animator.SlideUpAnimation, 
+					Resource.Animator.SlideDownAnimation);
 				
 			}
 
-			if (e2.GetY () - e1.GetY () > SWIPE_THRESHOLD) {
+			if (e1.GetY () - e2.GetY () > SWIPE_THRESHOLD) {
 				Sync ().ContinueWith(r => {
 
 				});

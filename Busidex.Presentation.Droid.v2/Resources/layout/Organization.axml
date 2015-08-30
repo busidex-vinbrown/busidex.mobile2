@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/layoutBackground"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/organizationLayout">
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="88.0dp"
+            android:id="@+id/ingOrgDetailLogoBanner"
+            android:scaleType="fitXY"
+            android:background="@android:drawable/picture_frame"
+            android:layout_margin="15dp" />
+        <TextView
+            android:text="Contacts:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ingOrgDetailLogoBanner"
+            android:id="@+id/lblContacts"
+            android:textColor="@color/labelFontColor"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:gravity="right" />
+        <TextView
+            android:text="Email:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblContacts"
+            android:id="@+id/lblEmail"
+            android:textColor="@color/labelFontColor"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:gravity="right" />
+        <TextView
+            android:text="Phone:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblEmail"
+            android:id="@+id/lblPhone"
+            android:textColor="@color/labelFontColor"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:gravity="right" />
+        <TextView
+            android:text="Fax:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblPhone"
+            android:id="@+id/lblFax"
+            android:textColor="@color/labelFontColor"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:gravity="right" />
+        <TextView
+            android:text="[Contacts]"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lblContacts"
+            android:id="@+id/txtContacts"
+            android:textColor="@color/labelFontColor"
+            android:layout_below="@id/ingOrgDetailLogoBanner"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="11dp" />
+        <TextView
+            android:text="[Email]"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lblEmail"
+            android:id="@+id/txtEmail"
+            android:textColor="@color/labelFontColor"
+            android:layout_below="@id/txtContacts"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="9dp" />
+        <TextView
+            android:text="[Phone]"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lblPhone"
+            android:id="@+id/txtPhone"
+            android:textColor="@color/labelFontColor"
+            android:layout_below="@id/txtEmail"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:text="[Fax]"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/lblFax"
+            android:id="@+id/txtFax"
+            android:textColor="@color/labelFontColor"
+            android:layout_below="@id/txtPhone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" />
+        <ImageButton
+            android:src="@drawable/browser"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/lblFax"
+            android:id="@+id/btnOrganizationWeb"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp" />
+        <ImageButton
+            android:src="@drawable/twitter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/txtFax"
+            android:id="@+id/btnOrganizationTwitter"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_toRightOf="@id/btnOrganizationWeb"
+            android:layout_marginLeft="60dp" />
+        <ImageButton
+            android:src="@drawable/fb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/txtFax"
+            android:id="@+id/btnOrganizationFacebook"
+            android:scaleType="fitXY"
+            android:background="@color/layoutBackground"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_toRightOf="@id/btnOrganizationTwitter" />
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/btnOrganizationWeb"
+            android:id="@+id/vwWeb"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
+</LinearLayout>

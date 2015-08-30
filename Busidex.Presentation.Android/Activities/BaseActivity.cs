@@ -1,22 +1,20 @@
 ﻿
 using Android.App;
-using Android.Content;
-using System.IO;
-using Busidex.Mobile.Models;
-using Busidex.Mobile;
-using Android.Views.InputMethods;
 using Android.OS;
-using System.Threading.Tasks;
-using System;
 using Android.Gms.Analytics;
-using System.Collections.Generic;
 using System.Threading;
+using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.Support.V4.View;
+using Android.Support.V4.App;
 
 namespace Busidex.Presentation.Android
 {
 	 
 	[Activity (Label = "BaseActivity", ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]			
-	public class BaseActivity : Activity
+	public class BaseActivity : FragmentActivity
 	{
 		protected BaseApplicationResource applicationResource;
 
@@ -29,7 +27,6 @@ namespace Busidex.Presentation.Android
 		protected static ProgressDialog progressDialog;
 		protected bool isLoggedIn;
 
-		Handler progressBarHandler = new Handler();
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -39,7 +36,7 @@ namespace Busidex.Presentation.Android
 			applicationResource = new BaseApplicationResource (this);
 		}
 			
-		public void LoadFragment(Fragment fragment, int? openAnimation = Resource.Animator.SlideAnimation, int? closeAnimation = Resource.Animator.SlideOutAnimation){
+		public void LoadFragment(global::Android.App.Fragment fragment, int? openAnimation = Resource.Animator.SlideAnimation, int? closeAnimation = Resource.Animator.SlideOutAnimation){
 
 			if (fragment.IsVisible) {
 				return;
