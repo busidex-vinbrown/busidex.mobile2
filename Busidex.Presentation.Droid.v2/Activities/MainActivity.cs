@@ -9,6 +9,9 @@ using Android.OS;
 using Android.Support.V4.View;
 using Android.Support.V4.App;
 using Busidex.Mobile;
+using System.Threading;
+using Busidex.Mobile.Models;
+using Android.Gms.Analytics;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -45,7 +48,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					var MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, subscriptionService.UserCards);
 
-//					MyBusidexAdapter.Redirect += ShowCard;
+					MyBusidexAdapter.Redirect += ShowCard;
 //					MyBusidexAdapter.SendEmail += SendEmail;
 //					MyBusidexAdapter.OpenBrowser += OpenBrowser;
 //					MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
@@ -90,7 +93,6 @@ namespace Busidex.Presentation.Droid.v2
 					return view;
 				}
 			);
-			//adapter.AddFragment (new MyBusidexFragment());
 
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView((i, v, b) =>
@@ -134,6 +136,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			base.OnCreate(bundle);
 
+			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+
 			this.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
 			// Set our view from the "main" layout resource
@@ -161,6 +165,10 @@ namespace Busidex.Presentation.Droid.v2
 			var myBusidexTab = pager.GetViewPageTab (ActionBar, "");
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
 			myBusidexTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.MyBusidexIcon);
+			myBusidexTab.TabReselected += delegate {
+				ListView lstCards = (ListView)adapter.GetItem(2).Activity.FindViewById(Resource.Id.lstCards);
+				lstCards.SetSelection(0);
+			};
 
 			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "");
 			myOrganizationsTab.SetCustomView (Resource.Layout.tab);
@@ -181,5 +189,97 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.AddTab(eventsTab);
 			ActionBar.AddTab(profileTab);
 		}
+
+		void ShowCard(CardDetailFragment fragment){
+
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation, Resource.Id.fragment_holder);
+			ActionBar.Hide ();
+			string token = string.Empty;// applicationResource.GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
+		}
+
+		public void HideCard(){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Gone;
+			ActionBar.Show ();
+		}
+
+		public void LoadFragment(Android.Support.V4.App.Fragment fragment, int? openAnimation = Resource.Animation.SlideAnimation, int? closeAnimation = Resource.Animation.SlideOutAnimation,
+			int container = Resource.Id.fragment_holder){
+
+			if (fragment.IsVisible) {
+				return;
+			}
+
+			//var thread = new Thread (() => {
+
+				using (var transaction = SupportFragmentManager.BeginTransaction ()) {
+
+					string name = fragment.GetType ().Name;
+
+
+						if (openAnimation.HasValue && closeAnimation.HasValue) {
+							transaction
+								.SetCustomAnimations (
+									openAnimation.Value, 
+									closeAnimation.Value, 
+									openAnimation.Value, 
+									closeAnimation.Value
+								);
+						}
+
+
+					transaction
+						.Replace (container, fragment, name)
+						.AddToBackStack (name)
+						.Commit ();
+				}
+			//});
+			//thread.Start ();
+		}
+
+		#region Google Analytics
+		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
+
+			var build = new HitBuilders.EventBuilder ()
+				.SetCategory (category)
+				.SetLabel (label)	
+				.SetAction (action)
+				.SetValue (value) 
+				.Build ();
+			var build2 = new Dictionary<string,string>();
+			foreach (var key in build.Keys)
+			{
+				build2.Add (key, build [key]);
+			}
+			GATracker.Send (build2);
+		}
+
+		protected static void TrackException(Exception ex){
+			try{
+				var build = new HitBuilders.ExceptionBuilder ()
+					.SetDescription (ex.Message)
+					.SetFatal (false) // This is useful for uncaught exceptions
+					.Build();
+				var build2 = new Dictionary<string,string>();
+				foreach (var key in build.Keys)
+				{
+					build2.Add (key, build [key]);
+				}
+				GATracker.Send(build2);
+			}catch{
+
+			}
+		}
+
+		static Tracker _tracker;
+		protected static Tracker GATracker { 
+			get { 
+				return _tracker; 
+			} 
+		}
+		#endregion
 	}
 }

@@ -145,11 +145,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
 
-			//var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-			//var fragment = ((SplashActivity)Context).fragments ["CardDetailFragment"] as CardDetailFragment;
-			//fragment.UserCard = Cards [position];
-			//doRedirect (fragment).ContinueWith (delegate (Task<bool> result) {
-			//});
+			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+			var fragment = new CardDetailFragment();
+			fragment.UserCard = Cards [position];
+			Redirect (fragment);
 		}
 
 		View SetButtonPanel (ref RelativeLayout layout, View view, View parent, int position){

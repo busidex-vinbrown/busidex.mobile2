@@ -328,6 +328,12 @@
     <AndroidResource Include="Resources\anim\SlideAnimationFast.xml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimation.xml" />
     <AndroidResource Include="Resources\anim\SlideOutAnimationFast.xml" />
+    <AndroidResource Include="Resources\animator\SlideAnimation.xml" />
+    <AndroidResource Include="Resources\animator\SlideAnimationFast.xml" />
+    <AndroidResource Include="Resources\animator\SlideDownAnimation.xml" />
+    <AndroidResource Include="Resources\animator\SlideOutAnimation.xml" />
+    <AndroidResource Include="Resources\animator\SlideOutAnimationFast.xml" />
+    <AndroidResource Include="Resources\animator\SlideUpAnimation.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -33,7 +33,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			base.OnCreateView (inflater, container, savedInstanceState);
+			//base.OnCreateView (inflater, container, savedInstanceState);
 			// Use this to return your custom view for this Fragment
 			var view = inflater.Inflate(Resource.Layout.Card, container, false);
 
@@ -41,6 +41,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName);
 			var frontUri = Uri.Parse (frontFileName);
+
 
 
 			if (File.Exists (frontFileName)) {
@@ -79,7 +80,7 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		void unload(){
-			//((SplashActivity)Activity).UnloadFragment ();
+			((MainActivity)Activity).HideCard();
 			Activity.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;	
 		}
 
