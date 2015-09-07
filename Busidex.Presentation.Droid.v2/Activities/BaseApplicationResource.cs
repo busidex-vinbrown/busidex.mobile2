@@ -17,13 +17,19 @@ namespace Busidex.Presentation.Droid.v2
 
 		#region Authentication
 		public string GetAuthCookie(){
-			var account = GetAuthAccount ();
-			if(account == null){
-				return null;
+			try{
+				var account = GetAuthAccount ();
+				if(account == null){
+					return null;
+				}
+				var cookies = account.Cookies.GetCookies(new Uri(Resources.COOKIE_URI));
+				var cookie = cookies [Resources.AUTHENTICATION_COOKIE_NAME];
+
+				return cookie.Value;
 			}
-			var cookies = account.Cookies.GetCookies(new Uri(Resources.COOKIE_URI));
-			var cookie = cookies [Resources.AUTHENTICATION_COOKIE_NAME];
-			return cookie.Value;
+			catch(Exception ex){
+				return string.Empty;
+			}
 		}
 
 		public Account GetAuthAccount(){

@@ -25,16 +25,8 @@ namespace Busidex.Presentation.Droid.v2
 			Back = 3
 		}
 
-		public override void OnResume ()
-		{
-			base.OnResume ();
-
-		}
-
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			//base.OnCreateView (inflater, container, savedInstanceState);
-			// Use this to return your custom view for this Fragment
 			var view = inflater.Inflate(Resource.Layout.Card, container, false);
 
 			btnCard = view.FindViewById<ImageButton> (Resource.Id.imgCardDetail);

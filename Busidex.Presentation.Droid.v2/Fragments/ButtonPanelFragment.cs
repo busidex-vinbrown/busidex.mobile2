@@ -118,8 +118,8 @@ namespace Busidex.Presentation.Droid.v2
 			btnAddToMyBusidex.Visibility = SelectedCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
 			btnRemoveFromMyBusidex.Visibility = SelectedCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
 
-//			btnPhone.Click -= OnPhoneButtonClicked;
-//			btnPhone.Click += OnPhoneButtonClicked;
+			btnPhone.Click -= OnPhoneButtonClicked;
+			btnPhone.Click += OnPhoneButtonClicked;
 //
 //			btnNotes.Click -= OnNotesButtonClicked;
 //			btnNotes.Click += OnNotesButtonClicked;
@@ -143,6 +143,12 @@ namespace Busidex.Presentation.Droid.v2
 //			btnMap.Click += OnMapButtonClicked;
 
 			return view;
+		}
+
+		void OnPhoneButtonClicked(object sender, System.EventArgs e){
+			var fragment = new PhoneFragment(SelectedCard);
+			((MainActivity)Activity).ShowPhoneDialer (fragment);
+
 		}
 	}
 }

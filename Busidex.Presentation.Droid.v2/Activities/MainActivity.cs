@@ -213,6 +213,12 @@ namespace Busidex.Presentation.Droid.v2
 			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
 			ActionBar.Hide ();
 		}
+
+		public void ShowPhoneDialer(PhoneFragment fragment){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
 		#endregion
 
 		#region Fragment Loading

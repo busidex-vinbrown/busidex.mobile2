@@ -282,31 +282,10 @@ namespace Busidex.Presentation.Droid.v2
 			btnInfo.Click += OnButtonPanelButtonClicked;
 			btnInfo.Tag = position;
 
-				//var layout = view.FindViewById<RelativeLayout> (Resource.Id.listItemLayout);
-				//var panel = SetButtonPanel (ref layout, view, parent, position);
-
-
-//				var leftAndIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
-//				btnInfo.Visibility = ViewStates.Invisible;
-//				panel.Visibility = ViewStates.Visible;
-//				panel.StartAnimation (leftAndIn);
-
 			var card = Cards [position];
 
 			// for these buttons, need to set the tag property to the cardID because the
 			// buttons are reused
-
-//			btnCardH.Touch += async delegate(object sender, View.TouchEventArgs e) {
-//				if(e.Event.Action == MotionEventActions.Up){
-//					await OnCardDetailButtonClicked(sender, e);
-//				}
-//			};
-//
-//			btnCardV.Touch += async delegate(object sender, View.TouchEventArgs e) {
-//				if(e.Event.Action == MotionEventActions.Up){
-//					await OnCardDetailButtonClicked(sender, e);
-//				}
-//			};
 			btnCardH.Click -= OnCardDetailButtonClicked;
 			btnCardH.Click += OnCardDetailButtonClicked;
 			btnCardH.Tag = position;

@@ -132,6 +132,8 @@
     <Compile Include="Adapters\UserCardAdapter.cs" />
     <Compile Include="Fragments\CardDetailFragment.cs" />
     <Compile Include="Fragments\ButtonPanelFragment.cs" />
+    <Compile Include="Fragments\PhoneFragment.cs" />
+    <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
