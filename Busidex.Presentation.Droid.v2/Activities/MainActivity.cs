@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Support.V4.View;
 using Android.Support.V4.App;
 using Busidex.Mobile;
-using System.Threading;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
 
@@ -21,6 +19,7 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		ViewPager pager;
 		UISubscriptionService subscriptionService;
+		BaseApplicationResource applicationResource;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -130,6 +129,7 @@ namespace Busidex.Presentation.Droid.v2
 			subscriptionService = new UISubscriptionService ();
 			subscriptionService.reset ("NzM=");
 
+			applicationResource = new BaseApplicationResource (this);
 		}
 
 		protected override void OnCreate(Bundle bundle)
@@ -195,9 +195,9 @@ namespace Busidex.Presentation.Droid.v2
 		void ShowCard(CardDetailFragment fragment){
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation, Resource.Id.fragment_holder);
+			LoadFragment (fragment);
 			ActionBar.Hide ();
-			string token = string.Empty;// applicationResource.GetAuthCookie ();
+			string token = applicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
@@ -218,6 +218,52 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
+		}
+
+		public void ShowNotes(NotesFragment fragment){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
+
+		public void SendEmail(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = applicationResource.GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
+
+			StartActivity(intent);
+		}
+
+		public void OpenBrowser(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = applicationResource.GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
+
+			var browserIntent = Intent.CreateChooser(intent, "Open with");
+			StartActivity (browserIntent);
+		}
+
+		public void OpenMap(Intent intent){
+
+			var userCard = GetUserCardFromIntent (intent);
+			var token = applicationResource.GetAuthCookie ();
+			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
+
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
+
+			StartActivity (intent);
+		}
+
+		static UserCard GetUserCardFromIntent(Intent intent){
+
+			var data = intent.GetStringExtra ("Card");
+			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
 		}
 		#endregion
 

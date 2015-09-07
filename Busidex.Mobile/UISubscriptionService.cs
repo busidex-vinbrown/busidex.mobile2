@@ -221,12 +221,12 @@ namespace Busidex.Mobile
 					}
 				}
 
+				UserCards.Clear();
+				UserCards.AddRange(cards);
+
 				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
 
 				Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
-
-				UserCards.Clear();
-				UserCards.AddRange(cards);
 
 			});
 			return true;

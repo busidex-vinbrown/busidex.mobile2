@@ -49,9 +49,6 @@ namespace Busidex.Presentation.Droid.v2
 			txtName.Text = SelectedCard.Card.Name;
 			txtCompanyName.Text = SelectedCard.Card.CompanyName;
 
-			//var userCard = this [position];// Cards [position];
-//			var PhoneIntent = new Intent(Activity, typeof(PhoneActivity));
-//			var NotesIntent = new Intent(Activity, typeof(NotesActivity));
 //			var ShareCardIntent = new Intent(Activity, typeof(ShareCardActivity));
 			var SendEmailIntent = new Intent(Intent.ActionSend);
 			//var AddToMyBusidexIntent = new Intent (Context, Activity.GetType ());
@@ -60,8 +57,6 @@ namespace Busidex.Presentation.Droid.v2
 			var OpenBrowserIntent = new Intent (Intent.ActionView);
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(SelectedCard);
-//			PhoneIntent.PutExtra("Card", data);
-//			NotesIntent.PutExtra("Card", data);
 //			ShareCardIntent.PutExtra("Card", data);
 //			AddToMyBusidexIntent.PutExtra ("Card", data);
 //			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
@@ -118,20 +113,26 @@ namespace Busidex.Presentation.Droid.v2
 			btnAddToMyBusidex.Visibility = SelectedCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
 			btnRemoveFromMyBusidex.Visibility = SelectedCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
 
-			btnPhone.Click -= OnPhoneButtonClicked;
-			btnPhone.Click += OnPhoneButtonClicked;
-//
-//			btnNotes.Click -= OnNotesButtonClicked;
-//			btnNotes.Click += OnNotesButtonClicked;
+			btnPhone.Click += delegate {
+				var fragment = new PhoneFragment(SelectedCard);
+				((MainActivity)Activity).ShowPhoneDialer (fragment);
+			};
+
+			btnNotes.Click += delegate {
+				var fragment = new NotesFragment(SelectedCard);
+				((MainActivity)Activity).ShowNotes (fragment);
+			};
 //
 //			btnShareCard.Click -= OnShareCardButtonClicked;
 //			btnShareCard.Click += OnShareCardButtonClicked;
 //
-//			btnEmail.Click -= OnEmailButtonClicked;
-//			btnEmail.Click += OnEmailButtonClicked;
-//
-//			btnBrowser.Click -= OnBrowserButtonClicked;
-//			btnBrowser.Click += OnBrowserButtonClicked;
+			btnEmail.Click += delegate {
+				((MainActivity)Activity).SendEmail(SendEmailIntent);
+			};
+
+			btnBrowser.Click += delegate {
+				((MainActivity)Activity).OpenBrowser(OpenBrowserIntent);
+			};
 //
 //			btnAddToMyBusidex.Click -= OnAddToMyBusidexClicked;
 //			btnAddToMyBusidex.Click += OnAddToMyBusidexClicked;
@@ -139,16 +140,11 @@ namespace Busidex.Presentation.Droid.v2
 //			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
 //			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
 //
-//			btnMap.Click -= OnMapButtonClicked;
-//			btnMap.Click += OnMapButtonClicked;
+			btnMap.Click += delegate {
+				((MainActivity)Activity).OpenMap(OpenMapIntent);
+			};
 
 			return view;
-		}
-
-		void OnPhoneButtonClicked(object sender, System.EventArgs e){
-			var fragment = new PhoneFragment(SelectedCard);
-			((MainActivity)Activity).ShowPhoneDialer (fragment);
-
 		}
 	}
 }

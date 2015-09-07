@@ -134,6 +134,7 @@
     <Compile Include="Fragments\ButtonPanelFragment.cs" />
     <Compile Include="Fragments\PhoneFragment.cs" />
     <Compile Include="Adapters\PhoneNumberEntryAdapter.cs" />
+    <Compile Include="Fragments\NotesFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
