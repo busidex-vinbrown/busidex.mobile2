@@ -1,13 +1,11 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Busidex.Presentation.Droid.v2/Adapters/GenericFragmentPagerAdaptor.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="90" Column="18" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="27" Column="59" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/MainFragment.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardDetailFragment.cs" Line="14" Column="3" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="221" Column="1" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardDetailFragment.cs" Line="45" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Adapters/UserCardAdapter.cs" Line="162" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/ButtonPanelFragment.cs" Line="28" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

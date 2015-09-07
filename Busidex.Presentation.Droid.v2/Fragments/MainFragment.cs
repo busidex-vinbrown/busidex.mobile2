@@ -116,11 +116,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			var mainView = inflater.Inflate (Resource.Layout.Home, container, false);
 
-			//SetContentView (Resource.Layout.Main);
-
 			//_detector = new GestureDetector(this);
 
-			//LoadProfileFragment ();
 			mainView.SetOnTouchListener( this );
 
 			btnSearch = mainView.FindViewById<Button> (Resource.Id.btnSearch);

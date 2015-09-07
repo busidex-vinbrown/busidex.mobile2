@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace Busidex.Presentation.Droid.v2
 {
 	public delegate void RedirectToCardHandler(CardDetailFragment fragment);
+	public delegate void ShowButtonPanelHandler(ButtonPanelFragment fragment, Uri uri, string orientation);
 	public delegate void SendEmailHandler(Intent intent);
 	public delegate void OpenMapHandler(Intent intent);
 	public delegate void OpenBrowserHandler(Intent intent);
@@ -23,6 +24,7 @@ namespace Busidex.Presentation.Droid.v2
 	public class UserCardAdapter : ArrayAdapter<UserCard>, IFilterable
 	{
 		public event RedirectToCardHandler Redirect;
+		public event ShowButtonPanelHandler ShowButtonPanel;
 		public event SendEmailHandler SendEmail;
 		public event OpenMapHandler OpenMap;
 		public event OpenBrowserHandler OpenBrowser;
@@ -151,137 +153,119 @@ namespace Busidex.Presentation.Droid.v2
 			Redirect (fragment);
 		}
 
-		View SetButtonPanel (ref RelativeLayout layout, View view, View parent, int position){
-		
-			var panel = view.FindViewById<View> (Resource.Layout.ButtonPanel);
-			if (panel == null) {
+		void OnButtonPanelButtonClicked(object sender, System.EventArgs e){
 
-				panel = layout.FindViewById<View> (Resource.Layout.ButtonPanel);
-				if (panel == null) {
-					panel = context.LayoutInflater.Inflate (Resource.Layout.ButtonPanel, null);
-					panel.Id = Resource.Layout.ButtonPanel;
+			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+			var fragment = new ButtonPanelFragment();
+			fragment.SelectedCard = Cards [position];
 
-					var layoutParams = panel.LayoutParameters;
-					if(layoutParams == null){
-						layoutParams = new ViewGroup.LayoutParams (parent.Width, view.Height);
-					}else{
-						layoutParams.Width = parent.Width;
-						layoutParams.Height = view.Height;
-					}
-					panel.LayoutParameters = layoutParams;
+			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
+			var uri = Uri.Parse (fileName);
 
-					var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
-					var btnHideInfo = panel.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
-					btnInfo.Visibility = ViewStates.Visible;
+			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
+		}
 
-					btnHideInfo.Click += (sender, e) => {
-						var leftAndOut = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideOutAnimation);
-						panel.StartAnimation (leftAndOut);
-						panel.Visibility = ViewStates.Gone;
-						btnInfo.Visibility = ViewStates.Visible;
-					};
+		//void SetButtonPanel (ref RelativeLayout layout, View view, View parent, int position){
 
-					layout.AddView (panel);
-				}
-			}
-			panel.Visibility = ViewStates.Visible;
+			//var userCard = this [position];// Cards [position];
 
-			var userCard = this [position];// Cards [position];
+
+
 			//PhoneIntent = new Intent(context, typeof(PhoneActivity));
 			//NotesIntent = new Intent(context, typeof(NotesActivity));
 			//ShareCardIntent = new Intent(context, typeof(ShareCardActivity));
-			SendEmailIntent = new Intent(Intent.ActionSend);
-			AddToMyBusidexIntent = new Intent (context, context.GetType ());
-			RemoveFromMyBusidexIntent = new Intent (context, context.GetType ());
+//			SendEmailIntent = new Intent(Intent.ActionSend);
+//			AddToMyBusidexIntent = new Intent (context, context.GetType ());
+//			RemoveFromMyBusidexIntent = new Intent (context, context.GetType ());
+//
+//			OpenBrowserIntent = new Intent (Intent.ActionView);
+//
+//			var data = Newtonsoft.Json.JsonConvert.SerializeObject(userCard);
+//			PhoneIntent.PutExtra("Card", data);
+//			NotesIntent.PutExtra("Card", data);
+//			ShareCardIntent.PutExtra("Card", data);
+//			AddToMyBusidexIntent.PutExtra ("Card", data);
+//			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
+//			SendEmailIntent.PutExtra ("Card", data);
+//
+//			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{userCard.Card.Email} );
+//			SendEmailIntent.SetType ("message/rfc822");
+//
+//			var geoString = "geo:0,0";
+//			if(userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0){
+//				var address = userCard.Card.Addresses [0];
+//				geoString = string.Format ("geo:0,0?q={0}", address);
+//			}
+//
+//			var geoUri = Uri.Parse (geoString);
+//			OpenMapIntent = new Intent (Intent.ActionView, geoUri);
+//			OpenMapIntent.PutExtra ("Card", data);
+//
+//			var url = string.Empty;
+//			if(!string.IsNullOrEmpty(userCard.Card.Url)){
+//				url = !userCard.Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + userCard.Card.Url : userCard.Card.Url;
+//			}
+//			var uri = Uri.Parse (url);
+//			OpenBrowserIntent.SetData (uri);
+//			OpenBrowserIntent.PutExtra ("Card", data);
 
-			OpenBrowserIntent = new Intent (Intent.ActionView);
+//			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
+//			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
+//			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
+//			var btnEmail = panel.FindViewById<ImageButton> (Resource.Id.btnPanelEmail);
+//			var btnMap = panel.FindViewById<ImageButton> (Resource.Id.btnPanelMap);
+//			var btnBrowser = panel.FindViewById<ImageButton> (Resource.Id.btnPanelBrowser);
+//			var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
+//			var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
 
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(userCard);
-			PhoneIntent.PutExtra("Card", data);
-			NotesIntent.PutExtra("Card", data);
-			ShareCardIntent.PutExtra("Card", data);
-			AddToMyBusidexIntent.PutExtra ("Card", data);
-			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
-			SendEmailIntent.PutExtra ("Card", data);
+//			const float ENABLED = 1f;
+//			const float DISABLED = .2f;
 
-			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{userCard.Card.Email} );
-			SendEmailIntent.SetType ("message/rfc822");
-
-			var geoString = "geo:0,0";
-			if(userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0){
-				var address = userCard.Card.Addresses [0];
-				geoString = string.Format ("geo:0,0?q={0}", address);
-			}
-
-			var geoUri = Uri.Parse (geoString);
-			OpenMapIntent = new Intent (Intent.ActionView, geoUri);
-			OpenMapIntent.PutExtra ("Card", data);
-
-			var url = string.Empty;
-			if(!string.IsNullOrEmpty(userCard.Card.Url)){
-				url = !userCard.Card.Url.StartsWith ("http", System.StringComparison.Ordinal) ? "http://" + userCard.Card.Url : userCard.Card.Url;
-			}
-			var uri = Uri.Parse (url);
-			OpenBrowserIntent.SetData (uri);
-			OpenBrowserIntent.PutExtra ("Card", data);
-
-			var btnPhone = panel.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
-			var btnNotes = panel.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
-			var btnShareCard = panel.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
-			var btnEmail = panel.FindViewById<ImageButton> (Resource.Id.btnPanelEmail);
-			var btnMap = panel.FindViewById<ImageButton> (Resource.Id.btnPanelMap);
-			var btnBrowser = panel.FindViewById<ImageButton> (Resource.Id.btnPanelBrowser);
-			var btnAddToMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelAdd);
-			var btnRemoveFromMyBusidex = panel.FindViewById<ImageButton> (Resource.Id.btnPanelRemove);
-
-			const float ENABLED = 1f;
-			const float DISABLED = .2f;
-
-			btnPhone.Enabled = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0);
-			btnPhone.Alpha = btnPhone.Enabled ? ENABLED : DISABLED;
-
-			btnEmail.Enabled = !string.IsNullOrEmpty (userCard.Card.Email);
-			btnEmail.Alpha = btnEmail.Enabled ? ENABLED : DISABLED;
-
-			btnNotes.Enabled = ShowNotes;
-			btnNotes.Alpha = btnNotes.Enabled ? ENABLED : DISABLED;
-
-			btnBrowser.Enabled = !string.IsNullOrEmpty (userCard.Card.Url);
-			btnBrowser.Alpha = btnBrowser.Enabled ? ENABLED : DISABLED;
-
-			btnMap.Enabled = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses [0].HasAddress);
-			btnMap.Alpha = btnMap.Enabled ? ENABLED : DISABLED;
-
-			btnAddToMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
-			btnRemoveFromMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
-
-			btnPhone.Click -= OnPhoneButtonClicked;
-			btnPhone.Click += OnPhoneButtonClicked;
-
-			btnNotes.Click -= OnNotesButtonClicked;
-			btnNotes.Click += OnNotesButtonClicked;
-
-			btnShareCard.Click -= OnShareCardButtonClicked;
-			btnShareCard.Click += OnShareCardButtonClicked;
-
-			btnEmail.Click -= OnEmailButtonClicked;
-			btnEmail.Click += OnEmailButtonClicked;
-
-			btnBrowser.Click -= OnBrowserButtonClicked;
-			btnBrowser.Click += OnBrowserButtonClicked;
-
-			btnAddToMyBusidex.Click -= OnAddToMyBusidexClicked;
-			btnAddToMyBusidex.Click += OnAddToMyBusidexClicked;
-
-			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
-			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
-
-			btnMap.Click -= OnMapButtonClicked;
-			btnMap.Click += OnMapButtonClicked;
+//			btnPhone.Enabled = (userCard.Card.PhoneNumbers != null && userCard.Card.PhoneNumbers.Count > 0);
+//			btnPhone.Alpha = btnPhone.Enabled ? ENABLED : DISABLED;
+//
+//			btnEmail.Enabled = !string.IsNullOrEmpty (userCard.Card.Email);
+//			btnEmail.Alpha = btnEmail.Enabled ? ENABLED : DISABLED;
+//
+//			btnNotes.Enabled = ShowNotes;
+//			btnNotes.Alpha = btnNotes.Enabled ? ENABLED : DISABLED;
+//
+//			btnBrowser.Enabled = !string.IsNullOrEmpty (userCard.Card.Url);
+//			btnBrowser.Alpha = btnBrowser.Enabled ? ENABLED : DISABLED;
+//
+//			btnMap.Enabled = (userCard.Card.Addresses != null && userCard.Card.Addresses.Count > 0 && userCard.Card.Addresses [0].HasAddress);
+//			btnMap.Alpha = btnMap.Enabled ? ENABLED : DISABLED;
+//
+//			btnAddToMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Gone : ViewStates.Visible;
+//			btnRemoveFromMyBusidex.Visibility = userCard.Card.ExistsInMyBusidex ? ViewStates.Visible : ViewStates.Gone;
+//
+//			btnPhone.Click -= OnPhoneButtonClicked;
+//			btnPhone.Click += OnPhoneButtonClicked;
+//
+//			btnNotes.Click -= OnNotesButtonClicked;
+//			btnNotes.Click += OnNotesButtonClicked;
+//
+//			btnShareCard.Click -= OnShareCardButtonClicked;
+//			btnShareCard.Click += OnShareCardButtonClicked;
+//
+//			btnEmail.Click -= OnEmailButtonClicked;
+//			btnEmail.Click += OnEmailButtonClicked;
+//
+//			btnBrowser.Click -= OnBrowserButtonClicked;
+//			btnBrowser.Click += OnBrowserButtonClicked;
+//
+//			btnAddToMyBusidex.Click -= OnAddToMyBusidexClicked;
+//			btnAddToMyBusidex.Click += OnAddToMyBusidexClicked;
+//
+//			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
+//			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
+//
+//			btnMap.Click -= OnMapButtonClicked;
+//			btnMap.Click += OnMapButtonClicked;
 
 
-			return panel;
-		}
+			//return panel;
+		//}
 
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
@@ -294,16 +278,18 @@ namespace Busidex.Presentation.Droid.v2
 			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 
-			btnInfo.Click += (sender, e) => {
-			
-				var layout = view.FindViewById<RelativeLayout> (Resource.Id.listItemLayout);
-				var panel = SetButtonPanel (ref layout, view, parent, position);
+			btnInfo.Click -= OnButtonPanelButtonClicked;
+			btnInfo.Click += OnButtonPanelButtonClicked;
+			btnInfo.Tag = position;
 
-				var leftAndIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
-				btnInfo.Visibility = ViewStates.Invisible;
-				panel.Visibility = ViewStates.Visible;
-				panel.StartAnimation (leftAndIn);
-			};
+				//var layout = view.FindViewById<RelativeLayout> (Resource.Id.listItemLayout);
+				//var panel = SetButtonPanel (ref layout, view, parent, position);
+
+
+//				var leftAndIn = AnimationUtils.LoadAnimation (context, Resource.Animation.SlideAnimation);
+//				btnInfo.Visibility = ViewStates.Invisible;
+//				panel.Visibility = ViewStates.Visible;
+//				panel.StartAnimation (leftAndIn);
 
 			var card = Cards [position];
 

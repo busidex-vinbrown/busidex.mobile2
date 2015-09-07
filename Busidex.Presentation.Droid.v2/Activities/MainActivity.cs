@@ -49,6 +49,7 @@ namespace Busidex.Presentation.Droid.v2
 					var MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, subscriptionService.UserCards);
 
 					MyBusidexAdapter.Redirect += ShowCard;
+					MyBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
 //					MyBusidexAdapter.SendEmail += SendEmail;
 //					MyBusidexAdapter.OpenBrowser += OpenBrowser;
 //					MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
@@ -190,6 +191,7 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.AddTab(profileTab);
 		}
 
+		#region Card Actions
 		void ShowCard(CardDetailFragment fragment){
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
@@ -206,39 +208,74 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Show ();
 		}
 
-		public void LoadFragment(Android.Support.V4.App.Fragment fragment, int? openAnimation = Resource.Animation.SlideAnimation, int? closeAnimation = Resource.Animation.SlideOutAnimation,
-			int container = Resource.Id.fragment_holder){
+		void ShowButtonPanel(ButtonPanelFragment panel, Android.Net.Uri uri, string orientation){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
+			ActionBar.Hide ();
+		}
+		#endregion
+
+		#region Fragment Loading
+		int ConvertPixelsToDp(float pixelValue)
+		{
+			var dp = (int) ((pixelValue) * Resources.DisplayMetrics.Density);
+			return dp;
+		}
+
+
+		public void LoadFragment(
+			Android.Support.V4.App.Fragment fragment, 
+			int? openAnimation = Resource.Animation.SlideAnimation, 
+			int? closeAnimation = Resource.Animation.SlideOutAnimation,
+			int container = Resource.Id.fragment_holder
+		){
 
 			if (fragment.IsVisible) {
 				return;
 			}
 
-			//var thread = new Thread (() => {
+			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
 
-				using (var transaction = SupportFragmentManager.BeginTransaction ()) {
-
-					string name = fragment.GetType ().Name;
+				string name = fragment.GetType ().Name;
 
 
-						if (openAnimation.HasValue && closeAnimation.HasValue) {
-							transaction
-								.SetCustomAnimations (
-									openAnimation.Value, 
-									closeAnimation.Value, 
-									openAnimation.Value, 
-									closeAnimation.Value
-								);
-						}
+					if (openAnimation.HasValue && closeAnimation.HasValue) {
+						transaction
+							.SetCustomAnimations (
+								openAnimation.Value, 
+								closeAnimation.Value, 
+								openAnimation.Value, 
+								closeAnimation.Value
+							);
+					}
 
 
-					transaction
-						.Replace (container, fragment, name)
-						.AddToBackStack (name)
-						.Commit ();
-				}
-			//});
-			//thread.Start ();
+				transaction
+					.Replace (container, fragment, name)
+					.AddToBackStack (name)
+					.Commit ();
+			}
 		}
+		public void UnloadFragment(Android.Support.V4.App.Fragment fragment, int? openAnimation = Resource.Animation.SlideAnimation, 
+			int? closeAnimation = Resource.Animation.SlideOutAnimation){
+//			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
+//				transaction
+//					.SetCustomAnimations (
+//						openAnimation.Value, 
+//						closeAnimation.Value, 
+//						openAnimation.Value, 
+//						closeAnimation.Value
+//					)
+//					.Hide (fragment).Commit();
+//			}
+			SupportFragmentManager.PopBackStack ();
+			var holder = (LinearLayout)FindViewById (Resource.Id.fragment_holder);
+			holder.Visibility = ViewStates.Gone;
+			holder.RemoveViewAt (0);
+			ActionBar.Show ();
+			//FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Gone;
+		}
+		#endregion
 
 		#region Google Analytics
 		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){

@@ -182,6 +182,7 @@ namespace Busidex.Presentation.Android
 
 			MyBusidexAdapter = new UserCardAdapter (Activity, Resource.Id.lstCards, subscriptionService.UserCards);
 
+			//MyBusidexAdapter
 			MyBusidexAdapter.Redirect += ShowCard;
 			MyBusidexAdapter.SendEmail += SendEmail;
 			MyBusidexAdapter.OpenBrowser += OpenBrowser;

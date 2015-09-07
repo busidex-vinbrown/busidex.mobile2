@@ -131,6 +131,7 @@
     <Compile Include="Activities\BaseApplicationResource.cs" />
     <Compile Include="Adapters\UserCardAdapter.cs" />
     <Compile Include="Fragments\CardDetailFragment.cs" />
+    <Compile Include="Fragments\ButtonPanelFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -334,6 +335,8 @@
     <AndroidResource Include="Resources\animator\SlideOutAnimation.xml" />
     <AndroidResource Include="Resources\animator\SlideOutAnimationFast.xml" />
     <AndroidResource Include="Resources\animator\SlideUpAnimation.xml" />
+    <AndroidResource Include="Resources\anim\SlideUpAnimation.xml" />
+    <AndroidResource Include="Resources\anim\SlideDownAnimation.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
