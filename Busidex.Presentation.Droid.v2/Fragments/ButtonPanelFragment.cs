@@ -13,23 +13,23 @@ namespace Busidex.Presentation.Droid.v2
 	public class ButtonPanelFragment : Fragment
 	{
 		public UserCard SelectedCard { get; set; }
+		View view;
 
-		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		public override void OnResume ()
 		{
-			// Use this to return your custom view for this Fragment
-			var view = inflater.Inflate(Resource.Layout.ButtonPanel, container, false);
+			base.OnResume ();
 
 			var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
 
 			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (this, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
-				
+
 
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 			var uri = Uri.Parse (fileName);
 
 			var imgH = view.FindViewById<ImageView> (Resource.Id.imgPanelCardPreviewH);
 			var imgV = view.FindViewById<ImageView> (Resource.Id.imgPanelCardPreviewV);
-			
+
 			if (SelectedCard.Card.FrontOrientation == "H") {
 				imgH.SetImageURI (uri);
 				imgH.Visibility = ViewStates.Visible;
@@ -129,7 +129,7 @@ namespace Busidex.Presentation.Droid.v2
 			};
 
 			btnAddToMyBusidex.Click += delegate {
-				
+
 				((MainActivity)Activity).AddToMyBusidex(SelectedCard);
 
 				btnAddToMyBusidex.Visibility = ViewStates.Gone;
@@ -147,6 +147,14 @@ namespace Busidex.Presentation.Droid.v2
 			btnMap.Click += delegate {
 				((MainActivity)Activity).OpenMap(OpenMapIntent);
 			};
+		}
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			// Use this to return your custom view for this Fragment
+			view = inflater.Inflate(Resource.Layout.ButtonPanel, container, false);
+
+
 
 			return view;
 		}
