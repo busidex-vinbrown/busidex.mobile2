@@ -13,11 +13,11 @@ namespace Busidex.Presentation.Droid.v2
 		AutoCompleteTextView txtNotes;
 		ImageView imgNotesSaved;
 
-		public NotesFragment ()
+		public NotesFragment () : base()
 		{
 		}
 
-		public NotesFragment(UserCard selectedCard){
+		public NotesFragment(UserCard selectedCard) : base(){
 			SelectedCard = selectedCard;
 		}
 

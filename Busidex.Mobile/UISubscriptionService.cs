@@ -3,6 +3,7 @@ using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace Busidex.Mobile
 {
@@ -230,6 +231,63 @@ namespace Busidex.Mobile
 
 			});
 			return true;
+		}
+
+		public void AddCardToMyBusidex(UserCard userCard, string userToken){
+
+			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+			if (userCard!= null) {
+				userCard.Card.ExistsInMyBusidex = true;
+				string file;
+				string myBusidexJson;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						myBusidexJson = myBusidexFile.ReadToEnd ();
+					}
+
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+					if(UserCards.FirstOrDefault(c=> c.CardId == userCard.CardId) == null){
+						UserCards.Add (userCard);
+					}
+				}
+
+				var controller = new MyBusidexController ();
+				controller.AddToMyBusidex (userCard.Card.CardId, userToken);
+
+				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
+
+				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, userToken);
+			}
+		}
+
+		public void RemoveCardFromMyBusidex(UserCard userCard, string userToken){
+
+			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+
+			if (userCard!= null) {
+
+				string file;
+				string myBusidexJson;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						myBusidexJson = myBusidexFile.ReadToEnd ();
+					}
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+
+					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
+				}
+				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
+
+				var controller = new MyBusidexController ();
+				controller.RemoveFromMyBusidex (userCard.Card.CardId, userToken);
+			}
 		}
 	}
 }

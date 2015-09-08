@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
+using System.IO;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -226,6 +227,12 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Hide ();
 		}
 
+		public void ShareCard(ShareCardFragment fragment){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
+
 		public void SendEmail(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
@@ -264,6 +271,16 @@ namespace Busidex.Presentation.Droid.v2
 
 			var data = intent.GetStringExtra ("Card");
 			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
+		}
+
+		public void AddToMyBusidex(UserCard userCard){
+			var token = applicationResource.GetAuthCookie ();
+			subscriptionService.AddCardToMyBusidex (userCard, token);
+		}
+
+		public void RemoveFromMyBusidex(UserCard userCard){
+			var token = applicationResource.GetAuthCookie ();
+			subscriptionService.RemoveCardFromMyBusidex (userCard, token);
 		}
 		#endregion
 

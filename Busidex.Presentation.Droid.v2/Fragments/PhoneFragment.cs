@@ -13,11 +13,11 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		private readonly UserCard SelectedCard;
 
-		public PhoneFragment ()
+		public PhoneFragment () : base()
 		{
 		}
 
-		public PhoneFragment(UserCard selectedCard){
+		public PhoneFragment(UserCard selectedCard) : base(){
 			SelectedCard = selectedCard;
 		}
 

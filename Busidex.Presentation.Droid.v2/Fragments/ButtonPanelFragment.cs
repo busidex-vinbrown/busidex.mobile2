@@ -1,7 +1,4 @@
 ﻿
-//using System;
-
-//using Android.App;
 using Android.Support.V4.App;
 using Android.Content;
 using Android.OS;
@@ -49,17 +46,11 @@ namespace Busidex.Presentation.Droid.v2
 			txtName.Text = SelectedCard.Card.Name;
 			txtCompanyName.Text = SelectedCard.Card.CompanyName;
 
-//			var ShareCardIntent = new Intent(Activity, typeof(ShareCardActivity));
 			var SendEmailIntent = new Intent(Intent.ActionSend);
-			//var AddToMyBusidexIntent = new Intent (Context, Activity.GetType ());
-			//var RemoveFromMyBusidexIntent = new Intent (Activity, Activity.GetType ());
 
 			var OpenBrowserIntent = new Intent (Intent.ActionView);
 
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(SelectedCard);
-//			ShareCardIntent.PutExtra("Card", data);
-//			AddToMyBusidexIntent.PutExtra ("Card", data);
-//			RemoveFromMyBusidexIntent.PutExtra ("Card", data);
 			SendEmailIntent.PutExtra ("Card", data);
 
 			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{SelectedCard.Card.Email} );
@@ -86,6 +77,7 @@ namespace Busidex.Presentation.Droid.v2
 			var btnPhone = view.FindViewById<ImageButton> (Resource.Id.btnPanelPhone);
 			var btnNotes = view.FindViewById<ImageButton> (Resource.Id.btnPanelNotes);
 
+			var btnPanelShare = view.FindViewById<ImageButton> (Resource.Id.btnPanelShare);
 			var btnEmail = view.FindViewById<ImageButton> (Resource.Id.btnPanelEmail);
 			var btnMap = view.FindViewById<ImageButton> (Resource.Id.btnPanelMap);
 			var btnBrowser = view.FindViewById<ImageButton> (Resource.Id.btnPanelBrowser);
@@ -122,24 +114,36 @@ namespace Busidex.Presentation.Droid.v2
 				var fragment = new NotesFragment(SelectedCard);
 				((MainActivity)Activity).ShowNotes (fragment);
 			};
-//
-//			btnShareCard.Click -= OnShareCardButtonClicked;
-//			btnShareCard.Click += OnShareCardButtonClicked;
-//
-			btnEmail.Click += delegate {
+
+			btnEmail.Click += delegate{
 				((MainActivity)Activity).SendEmail(SendEmailIntent);
+			};
+
+			btnPanelShare.Click += delegate {
+				var fragment = new ShareCardFragment(SelectedCard);
+				((MainActivity)Activity).ShareCard(fragment);
 			};
 
 			btnBrowser.Click += delegate {
 				((MainActivity)Activity).OpenBrowser(OpenBrowserIntent);
 			};
-//
-//			btnAddToMyBusidex.Click -= OnAddToMyBusidexClicked;
-//			btnAddToMyBusidex.Click += OnAddToMyBusidexClicked;
-//
-//			btnRemoveFromMyBusidex.Click -= OnRemoveFromMyBusidexClicked;
-//			btnRemoveFromMyBusidex.Click += OnRemoveFromMyBusidexClicked;
-//
+
+			btnAddToMyBusidex.Click += delegate {
+				
+				((MainActivity)Activity).AddToMyBusidex(SelectedCard);
+
+				btnAddToMyBusidex.Visibility = ViewStates.Gone;
+				btnRemoveFromMyBusidex.Visibility = ViewStates.Visible;
+			};
+
+			btnRemoveFromMyBusidex.Click += delegate {
+
+				((MainActivity)Activity).RemoveFromMyBusidex(SelectedCard);
+
+				btnRemoveFromMyBusidex.Visibility = ViewStates.Gone;
+				btnAddToMyBusidex.Visibility = ViewStates.Visible;
+			};
+
 			btnMap.Click += delegate {
 				((MainActivity)Activity).OpenMap(OpenMapIntent);
 			};
