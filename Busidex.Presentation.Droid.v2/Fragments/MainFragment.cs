@@ -4,19 +4,9 @@ using Android.Content;
 using Android.Widget;
 using Android.OS;
 using System.Threading.Tasks;
-using System.IO;
-using Busidex.Mobile.Models;
 using System;
-using System.Collections.Generic;
 using Busidex.Mobile;
-using System.Linq;
 using Android.Views;
-using Android.Views.Animations;
-using Android.Animation;
-using Android.Preferences;
-using System.Threading;
-using Android.Support.V4.View;
-using Android.Support.V4.App;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -226,7 +216,7 @@ namespace Busidex.Presentation.Droid.v2
 					var dialog = o as global::Android.App.AlertDialog;
 					Button btnClicked = dialog.GetButton(e.Which);
 					if (btnClicked.Text == Activity.GetString (Resource.String.Global_ButtonText_Logout)) {
-						applicationResource.RemoveAuthCookie ();
+						BaseApplicationResource.RemoveAuthCookie ();
 						Utils.RemoveCacheFiles ();
 
 
@@ -244,7 +234,7 @@ namespace Busidex.Presentation.Droid.v2
 //				btnSharedCardsNotification.Visibility = ViewStates.Visible;
 //			}
 
-			var authToken = applicationResource.GetAuthCookie ();
+			var authToken = BaseApplicationResource.GetAuthCookie ();
 			//subscriptionService.reset (authToken);
 
 			return true;

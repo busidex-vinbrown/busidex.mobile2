@@ -50,7 +50,7 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		void DialPhoneNumber(PhoneNumber number){
-			var userToken = applicationResource.GetAuthCookie ();
+			var userToken = BaseApplicationResource.GetAuthCookie ();
 			var uri = Uri.Parse ("tel:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
 			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);

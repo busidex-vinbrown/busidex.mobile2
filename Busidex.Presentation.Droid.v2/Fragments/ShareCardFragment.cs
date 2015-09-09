@@ -64,7 +64,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		void ShareCard(){
 
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 
 			HideFeedbackLabels ();
 

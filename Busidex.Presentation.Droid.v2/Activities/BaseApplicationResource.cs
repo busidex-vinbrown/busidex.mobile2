@@ -6,17 +6,16 @@ using Android.Content;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public class BaseApplicationResource
+	public static class BaseApplicationResource
 	{
-		readonly Context context;
+		public static Context context { get; set; }
 
-		public BaseApplicationResource (Context _context)
+		static BaseApplicationResource ()
 		{
-			context = _context;
 		}
 
 		#region Authentication
-		public string GetAuthCookie(){
+		public static string GetAuthCookie(){
 			try{
 				var account = GetAuthAccount ();
 				if(account == null){
@@ -32,12 +31,12 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		public Account GetAuthAccount(){
+		public static Account GetAuthAccount(){
 			
 			return AccountStore.Create (context).FindAccountsForService (Resources.AUTHENTICATION_COOKIE_NAME).FirstOrDefault();
 		}
 
-		public void SetAuthCookie(long userId, int expires = 1){
+		public static void SetAuthCookie(long userId, int expires = 1){
 
 			var cookieVal = Utils.EncodeUserId (userId);
 			var cookie = new System.Net.Cookie(Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
@@ -52,7 +51,7 @@ namespace Busidex.Presentation.Droid.v2
 			AccountStore.Create (context).Save(account, Resources.AUTHENTICATION_COOKIE_NAME);
 		}
 
-		public void SetRefreshCookie(string prop){
+		public static void SetRefreshCookie(string prop){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
@@ -70,7 +69,7 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		public bool CheckRefreshDate(string prop){
+		public static bool CheckRefreshDate(string prop){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 
@@ -85,7 +84,7 @@ namespace Busidex.Presentation.Droid.v2
 			return false;
 		}
 
-		public void RemoveAuthCookie(){
+		public static void RemoveAuthCookie(){
 			var account = GetAuthAccount ();
 			if(account != null && account.Cookies != null){
 				AccountStore.Create (context).Delete (account, Resources.AUTHENTICATION_COOKIE_NAME);

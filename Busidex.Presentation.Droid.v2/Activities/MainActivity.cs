@@ -10,7 +10,6 @@ using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
-using System.IO;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -20,7 +19,9 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		ViewPager pager;
 		UISubscriptionService subscriptionService;
-		BaseApplicationResource applicationResource;
+		string authToken = string.Empty;
+
+		bool showActionBarTitle = false;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -31,15 +32,7 @@ namespace Busidex.Presentation.Droid.v2
 //					return view;
 //				}
 //			);
-			adapter.AddFragment (new MainFragment());
-
-			// SEARCH
-			adapter.AddFragmentView((i, v, b) =>
-				{
-					var view = i.Inflate(Resource.Layout.Search, v, false);
-					return view;
-				}
-			);
+			//adapter.AddFragment (new MainFragment());
 
 			// MY BUSIDEX
 			adapter.AddFragmentView((i, v, b) =>
@@ -50,12 +43,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					MyBusidexAdapter.Redirect += ShowCard;
 					MyBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
-//					MyBusidexAdapter.SendEmail += SendEmail;
-//					MyBusidexAdapter.OpenBrowser += OpenBrowser;
-//					MyBusidexAdapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-//					MyBusidexAdapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-//					MyBusidexAdapter.OpenMap += OpenMap;
-
+					                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 					MyBusidexAdapter.ShowNotes = true;
 
 					RunOnUiThread (() => {
@@ -95,6 +83,14 @@ namespace Busidex.Presentation.Droid.v2
 				}
 			);
 
+			// SEARCH
+			adapter.AddFragmentView((i, v, b) =>
+				{
+					var view = i.Inflate(Resource.Layout.Search, v, false);
+					return view;
+				}
+			);
+
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView((i, v, b) =>
 				{
@@ -128,9 +124,17 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnStart ();
 			subscriptionService = new UISubscriptionService ();
-			subscriptionService.reset ("NzM=");
+			BaseApplicationResource.context = this;
 
-			applicationResource = new BaseApplicationResource (this);
+			authToken = BaseApplicationResource.GetAuthCookie ();
+			if(string.IsNullOrEmpty(authToken)){
+				DoLogin ();				
+			}else{
+				subscriptionService.reset (authToken); //"NzM="
+			}
+
+
+
 		}
 
 		protected override void OnCreate(Bundle bundle)
@@ -156,40 +160,69 @@ namespace Busidex.Presentation.Droid.v2
 			pager.Adapter = adapter;
 			pager.SetOnPageChangeListener(new ViewPageListenerForActionBar(ActionBar));
 
-			var homeTab = pager.GetViewPageTab (ActionBar, "");
-			homeTab.SetCustomView (Resource.Layout.tab);
-			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
+//			var homeTab = pager.GetViewPageTab (ActionBar, "");
+//			homeTab.SetCustomView (Resource.Layout.tab);
+//			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
 
-			var searchTab = pager.GetViewPageTab (ActionBar, "");
-			searchTab.SetCustomView (Resource.Layout.tab);
-			searchTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.SearchIcon);
+			var titles = new string[6];
+			titles [0] = "My Busidex";
+			titles [1] = "Search";
+			titles [2] = "Organizations";
+			titles [3] = "Events";
+			titles [4] = "Profile";
+			titles [5] = "Options";
 
-			var myBusidexTab = pager.GetViewPageTab (ActionBar, "");
+			var myBusidexTab = pager.GetViewPageTab (ActionBar, "My Busidex");
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
 			myBusidexTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.MyBusidexIcon);
 			myBusidexTab.TabReselected += delegate {
-				ListView lstCards = (ListView)adapter.GetItem(2).Activity.FindViewById(Resource.Id.lstCards);
-				lstCards.SetSelection(0);
+				ListView lstCards = (ListView)adapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
+				lstCards.ScrollTo(0, 0);
 			};
 
-			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "");
+
+			var searchTab = pager.GetViewPageTab (ActionBar, "Search");
+			searchTab.SetCustomView (Resource.Layout.tab);
+			searchTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.SearchIcon);
+
+			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "Organizations");
 			myOrganizationsTab.SetCustomView (Resource.Layout.tab);
 			myOrganizationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.OrganizationsIcon);
 
-			var eventsTab = pager.GetViewPageTab (ActionBar, "");
+			var eventsTab = pager.GetViewPageTab (ActionBar, "Events");
 			eventsTab.SetCustomView (Resource.Layout.tab);
 			eventsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.EventIcon);
 
-			var profileTab = pager.GetViewPageTab (ActionBar, "");
+			var profileTab = pager.GetViewPageTab (ActionBar, "Profile");
 			profileTab.SetCustomView (Resource.Layout.tab);
 			profileTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.settings);
 
-			ActionBar.AddTab(homeTab);
-			ActionBar.AddTab(searchTab);
+//			var optionsTab = pager.GetViewPageTab (ActionBar, "Options");
+//			optionsTab.SetCustomView (Resource.Layout.OptionsTab);
+//			optionsTab.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
+//				showActionBarTitle = !showActionBarTitle;
+//				for(var i=0; i< ActionBar.TabCount; i++){
+//					var tab = ActionBar.GetTabAt(i);
+//					var title = (TextView)tab.CustomView.FindViewById(Resource.Id.txtTabTitle);
+//					if(title != null){
+//						if(showActionBarTitle){
+//							title.Text = titles[i];
+//						}else{
+//							title.Text = "";
+//						}
+//					}
+//				}
+//			};
+
+			//ActionBar.AddTab(homeTab);
 			ActionBar.AddTab(myBusidexTab);
+			ActionBar.AddTab(searchTab);
 			ActionBar.AddTab(myOrganizationsTab);
 			ActionBar.AddTab(eventsTab);
 			ActionBar.AddTab(profileTab);
+			//ActionBar.AddTab (optionsTab);
+
+
 		}
 
 		#region Card Actions
@@ -198,7 +231,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			string token = applicationResource.GetAuthCookie ();
+			string token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
@@ -236,7 +269,7 @@ namespace Busidex.Presentation.Droid.v2
 		public void SendEmail(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
@@ -247,7 +280,7 @@ namespace Busidex.Presentation.Droid.v2
 		public void OpenBrowser(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
@@ -259,12 +292,24 @@ namespace Busidex.Presentation.Droid.v2
 		public void OpenMap(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
 
 			StartActivity (intent);
+		}
+
+		void DoLogin(){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (new LoginFragment ());
+			ActionBar.Hide ();
+		}
+
+		public void LoginComplete(){
+
+			authToken = BaseApplicationResource.GetAuthCookie ();
+			subscriptionService.reset (authToken);
 		}
 
 		static UserCard GetUserCardFromIntent(Intent intent){
@@ -274,12 +319,12 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		public void AddToMyBusidex(UserCard userCard){
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			subscriptionService.AddCardToMyBusidex (userCard, token);
 		}
 
 		public void RemoveFromMyBusidex(UserCard userCard){
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			subscriptionService.RemoveCardFromMyBusidex (userCard, token);
 		}
 		#endregion

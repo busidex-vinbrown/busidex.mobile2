@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.OS;
 using Android.Views;
-using Android.Support.V4.App;
-using Android.Support.V4.View;
 using Android.Content;
 using System.IO;
 using Busidex.Mobile;
@@ -18,20 +14,18 @@ namespace Busidex.Presentation.Droid.v2
 {
 	public class GenericViewPagerFragment : Android.Support.V4.App.Fragment
 	{
-		private Func<LayoutInflater, ViewGroup, Bundle, View> _view;
+		Func<LayoutInflater, ViewGroup, Bundle, View> _view;
 
 		protected GestureDetector _detector;
-		protected BaseApplicationResource applicationResource;
 
 		public GenericViewPagerFragment(Func<LayoutInflater, ViewGroup, Bundle, View> view)
 		{
 			_view = view;
-			applicationResource = new BaseApplicationResource (Activity);
+
 		}
 
 		public GenericViewPagerFragment()
 		{
-			applicationResource = new BaseApplicationResource (Activity);
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -59,7 +53,7 @@ namespace Busidex.Presentation.Droid.v2
 		protected void ShowCard(CardDetailFragment fragment){
 
 			//var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
@@ -68,7 +62,7 @@ namespace Busidex.Presentation.Droid.v2
 		protected void SendEmail(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
@@ -79,7 +73,7 @@ namespace Busidex.Presentation.Droid.v2
 		protected void OpenBrowser(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
@@ -91,7 +85,7 @@ namespace Busidex.Presentation.Droid.v2
 		protected void OpenMap(Intent intent){
 
 			var userCard = GetUserCardFromIntent (intent);
-			var token = applicationResource.GetAuthCookie ();
+			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
@@ -117,7 +111,7 @@ namespace Busidex.Presentation.Droid.v2
 					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
 					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
-				var token = applicationResource.GetAuthCookie ();
+				var token = BaseApplicationResource.GetAuthCookie ();
 
 				var controller = new MyBusidexController ();
 				controller.AddToMyBusidex (userCard.Card.CardId, token);
@@ -146,7 +140,7 @@ namespace Busidex.Presentation.Droid.v2
 					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
 					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
 				}
-				var token = applicationResource.GetAuthCookie ();
+				var token = BaseApplicationResource.GetAuthCookie ();
 
 				TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
 
