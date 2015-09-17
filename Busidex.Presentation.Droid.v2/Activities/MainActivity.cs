@@ -45,50 +45,46 @@ namespace Busidex.Presentation.Droid.v2
 					                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 					MyBusidexAdapter.ShowNotes = true;
 
-					RunOnUiThread (() => {
+					var lstCards = view.FindViewById<ListView> (Resource.Id.lstCards);
+					var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
+					var lblNoCardsMessage = view.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
 
-						var lstCards = view.FindViewById<ListView> (Resource.Id.lstCards);
-						var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
-						var lblNoCardsMessage = view.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
+					var state = lstCards.OnSaveInstanceState ();
 
-						var state = lstCards.OnSaveInstanceState ();
+					lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
 
-						lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
+					lblNoCardsMessage.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+					txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
-						lblNoCardsMessage.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-						txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+					lstCards.Adapter = MyBusidexAdapter;
 
-						lstCards.Adapter = MyBusidexAdapter;
-
+					if(state != null){
 						lstCards.OnRestoreInstanceState (state);
+					}
 
-						txtFilter.QueryTextChange += delegate {
-							//DoFilter (txtFilter.Query);
-						};
+					txtFilter.QueryTextChange += delegate {
+						//DoFilter (txtFilter.Query);
+					};
 
-						txtFilter.Iconified = false;
-						txtFilter.ClearFocus();
+					txtFilter.Iconified = false;
+					txtFilter.ClearFocus();
 
-						lstCards.RequestFocus (FocusSearchDirection.Down);
+					lstCards.RequestFocus (FocusSearchDirection.Down);
 
-						txtFilter.Touch += delegate {
-							txtFilter.Focusable = true;
-							txtFilter.RequestFocus ();
-						};
-
-					});
+					txtFilter.Touch += delegate {
+						txtFilter.Focusable = true;
+						txtFilter.RequestFocus ();
+					};
 
 					return view;
 				}
 			);
 
 			// SEARCH
-			adapter.AddFragmentView((i, v, b) =>
-				{
-					var view = i.Inflate(Resource.Layout.Search, v, false);
-					return view;
-				}
+			adapter.AddFragment (
+				new SearchFragment ()
 			);
+
 
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView((i, v, b) =>
@@ -107,13 +103,9 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// PROFILE
-//			adapter.AddFragmentView((i, v, b) =>
-//				{
-//					var view = i.Inflate(Resource.Layout.Profile, v, false);
-//					return view;
-//				}
-//			);
-			adapter.AddFragment (new ProfileFragment (subscriptionService.CurrentUser));
+			adapter.AddFragment (
+				new ProfileFragment (subscriptionService.CurrentUser)
+			);
 		}
 
 		public void SwitchTabs(int position){
@@ -235,7 +227,7 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		#region Card Actions
-		void ShowCard(CardDetailFragment fragment){
+		public void ShowCard(CardDetailFragment fragment){
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
@@ -251,7 +243,7 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Show ();
 		}
 
-		void ShowButtonPanel(Android.Support.V4.App.Fragment panel, Android.Net.Uri uri, string orientation){
+		public void ShowButtonPanel(Android.Support.V4.App.Fragment panel, Android.Net.Uri uri, string orientation){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 			ActionBar.Hide ();

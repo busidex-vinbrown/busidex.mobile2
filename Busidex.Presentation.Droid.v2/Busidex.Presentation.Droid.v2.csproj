@@ -138,6 +138,7 @@
     <Compile Include="Fragments\ShareCardFragment.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
+    <Compile Include="Fragments\SearchFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
