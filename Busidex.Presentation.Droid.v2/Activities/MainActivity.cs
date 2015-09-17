@@ -21,7 +21,7 @@ namespace Busidex.Presentation.Droid.v2
 		UISubscriptionService subscriptionService;
 		string authToken = string.Empty;
 
-		bool showActionBarTitle = false;
+		//bool showActionBarTitle;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -32,7 +32,6 @@ namespace Busidex.Presentation.Droid.v2
 //					return view;
 //				}
 //			);
-			//adapter.AddFragment (new MainFragment());
 
 			// MY BUSIDEX
 			adapter.AddFragmentView((i, v, b) =>
@@ -108,12 +107,13 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// PROFILE
-			adapter.AddFragmentView((i, v, b) =>
-				{
-					var view = i.Inflate(Resource.Layout.Profile, v, false);
-					return view;
-				}
-			);
+//			adapter.AddFragmentView((i, v, b) =>
+//				{
+//					var view = i.Inflate(Resource.Layout.Profile, v, false);
+//					return view;
+//				}
+//			);
+			adapter.AddFragment (new ProfileFragment (subscriptionService.CurrentUser));
 		}
 
 		public void SwitchTabs(int position){
@@ -123,7 +123,7 @@ namespace Busidex.Presentation.Droid.v2
 		protected override void OnStart ()
 		{
 			base.OnStart ();
-			subscriptionService = new UISubscriptionService ();
+
 			BaseApplicationResource.context = this;
 
 			authToken = BaseApplicationResource.GetAuthCookie ();
@@ -137,14 +137,18 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
-		protected override void OnCreate(Bundle bundle)
+
+
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 
-			base.OnCreate(bundle);
+			base.OnCreate(savedInstanceState);
 
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 
-			this.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
+			subscriptionService = new UISubscriptionService ();
+
+			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
@@ -176,7 +180,7 @@ namespace Busidex.Presentation.Droid.v2
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
 			myBusidexTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.MyBusidexIcon);
 			myBusidexTab.TabReselected += delegate {
-				ListView lstCards = (ListView)adapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
+				var lstCards = (ListView)adapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
 				lstCards.ScrollTo(0, 0);
 			};
 
@@ -225,6 +229,11 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
+		public void ShowLogin(){
+			subscriptionService.CurrentUser = null;
+			DoLogin ();
+		}
+
 		#region Card Actions
 		void ShowCard(CardDetailFragment fragment){
 
@@ -242,9 +251,9 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Show ();
 		}
 
-		void ShowButtonPanel(ButtonPanelFragment panel, Android.Net.Uri uri, string orientation){
+		void ShowButtonPanel(Android.Support.V4.App.Fragment panel, Android.Net.Uri uri, string orientation){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
+			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 			ActionBar.Hide ();
 		}
 
@@ -347,7 +356,7 @@ namespace Busidex.Presentation.Droid.v2
 			if (fragment.IsVisible) {
 				return;
 			}
-
+				
 			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
 
 				string name = fragment.GetType ().Name;
@@ -370,24 +379,30 @@ namespace Busidex.Presentation.Droid.v2
 					.Commit ();
 			}
 		}
-		public void UnloadFragment(Android.Support.V4.App.Fragment fragment, int? openAnimation = Resource.Animation.SlideAnimation, 
-			int? closeAnimation = Resource.Animation.SlideOutAnimation){
-//			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
-//				transaction
-//					.SetCustomAnimations (
-//						openAnimation.Value, 
-//						closeAnimation.Value, 
-//						openAnimation.Value, 
-//						closeAnimation.Value
-//					)
-//					.Hide (fragment).Commit();
-//			}
+
+		public override void OnBackPressed ()
+		{
+			if (subscriptionService.CurrentUser != null) {
+				base.OnBackPressed ();
+				UnloadFragment ();
+			}
+		}
+
+		public void UnloadFragment(
+			int? openAnimation = Resource.Animation.SlideAnimation, 
+			int? closeAnimation = Resource.Animation.SlideOutAnimation,
+			int container = Resource.Id.fragment_holder){
+
 			SupportFragmentManager.PopBackStack ();
-			var holder = (LinearLayout)FindViewById (Resource.Id.fragment_holder);
-			holder.Visibility = ViewStates.Gone;
-			holder.RemoveViewAt (0);
+
 			ActionBar.Show ();
-			//FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Gone;
+			var holder = (LinearLayout)FindViewById (container);
+			if (holder != null) {
+				if (holder.ChildCount > 0) {
+					holder.RemoveViewAt (0);
+				}
+				holder.Visibility = ViewStates.Gone;
+			}
 		}
 		#endregion
 

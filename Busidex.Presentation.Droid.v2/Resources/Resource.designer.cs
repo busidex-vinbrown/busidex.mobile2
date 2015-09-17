@@ -4589,14 +4589,17 @@ namespace Busidex.Presentation.Droid.v2
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f09004a
-			public const int ApplicationName = 2131296330;
+			// aapt resource value: 0x7f090049
+			public const int ApplicationName = 2131296329;
 			
 			// aapt resource value: 0x7f090060
 			public const int Global_ButtonText_Cancel = 2131296352;
 			
 			// aapt resource value: 0x7f09005f
 			public const int Global_ButtonText_Logout = 2131296351;
+			
+			// aapt resource value: 0x7f090057
+			public const int Global_ButtonText_Ok = 2131296343;
 			
 			// aapt resource value: 0x7f09005b
 			public const int Global_LoadingCards = 2131296347;
@@ -4619,29 +4622,26 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f09005a
 			public const int Global_OneMoment = 2131296346;
 			
-			// aapt resource value: 0x7f090049
-			public const int Hello = 2131296329;
-			
-			// aapt resource value: 0x7f090056
-			public const int Login_btnLogin = 2131296342;
-			
 			// aapt resource value: 0x7f090055
-			public const int Login_lblPassword = 2131296341;
+			public const int Login_btnLogin = 2131296341;
 			
 			// aapt resource value: 0x7f090054
-			public const int Login_lblUserName = 2131296340;
-			
-			// aapt resource value: 0x7f090052
-			public const int Main_btnMyBusidex = 2131296338;
+			public const int Login_lblPassword = 2131296340;
 			
 			// aapt resource value: 0x7f090053
-			public const int Main_btnMyOrganizations = 2131296339;
+			public const int Login_lblUserName = 2131296339;
 			
 			// aapt resource value: 0x7f090051
-			public const int Main_btnSearch = 2131296337;
+			public const int Main_btnMyBusidex = 2131296337;
 			
-			// aapt resource value: 0x7f090057
-			public const int MyBusidex_NoCards = 2131296343;
+			// aapt resource value: 0x7f090052
+			public const int Main_btnMyOrganizations = 2131296338;
+			
+			// aapt resource value: 0x7f090050
+			public const int Main_btnSearch = 2131296336;
+			
+			// aapt resource value: 0x7f090056
+			public const int MyBusidex_NoCards = 2131296342;
 			
 			// aapt resource value: 0x7f09006a
 			public const int Notes_Save = 2131296362;
@@ -4697,20 +4697,20 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f090061
 			public const int Share_Title = 2131296353;
 			
-			// aapt resource value: 0x7f09004e
-			public const int StartPage_btnConnect = 2131296334;
-			
-			// aapt resource value: 0x7f090050
-			public const int StartPage_btnStart = 2131296336;
-			
 			// aapt resource value: 0x7f09004d
-			public const int StartPage_lblAlreadyAUser = 2131296333;
+			public const int StartPage_btnConnect = 2131296333;
 			
 			// aapt resource value: 0x7f09004f
-			public const int StartPage_lblNewUser = 2131296335;
+			public const int StartPage_btnStart = 2131296335;
 			
 			// aapt resource value: 0x7f09004c
-			public const int StartPage_lblWelcome = 2131296332;
+			public const int StartPage_lblAlreadyAUser = 2131296332;
+			
+			// aapt resource value: 0x7f09004e
+			public const int StartPage_lblNewUser = 2131296334;
+			
+			// aapt resource value: 0x7f09004b
+			public const int StartPage_lblWelcome = 2131296331;
 			
 			// aapt resource value: 0x7f090036
 			public const int abc_action_bar_home_description = 2131296310;
@@ -4766,8 +4766,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f090006
 			public const int accept = 2131296262;
 			
-			// aapt resource value: 0x7f09004b
-			public const int app_name = 2131296331;
+			// aapt resource value: 0x7f09004a
+			public const int app_name = 2131296330;
 			
 			// aapt resource value: 0x7f09000b
 			public const int auth_google_play_services_client_facebook_display_name = 2131296267;

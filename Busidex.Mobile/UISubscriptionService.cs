@@ -27,15 +27,19 @@ namespace Busidex.Mobile
 			myBusidexController = new MyBusidexController ();
 			organizationController = new OrganizationController ();
 			searchController = new SearchController ();
+			accountController = new AccountController ();
 
 			UserCards = loadDataFromFile<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE)) ?? new List<UserCard>();
 			EventList = loadDataFromFile<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE)) ?? new List<EventTag> ();
 			OrganizationList = loadDataFromFile<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE)) ?? new List<Organization> ();
+
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 		}
 
 		readonly MyBusidexController myBusidexController;
 		readonly OrganizationController organizationController;
 		readonly SearchController searchController;
+		readonly AccountController accountController;
 
 		public List<UserCard> UserCards { get; set; }
 		public List<EventTag> EventList { get; set; }
@@ -43,6 +47,7 @@ namespace Busidex.Mobile
 		public List<Organization> OrganizationList { get; set; }
 		public Dictionary<long, List<Card>> OrganizationMembers { get; set; }
 		public Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
+		public BusidexUser CurrentUser { get; set; }
 
 		T loadDataFromFile<T>(string path){
 
@@ -55,6 +60,8 @@ namespace Busidex.Mobile
 		}
 
 		public async void reset(string token){
+
+			loadUser (token);
 
 			await loadUserCards (token).ContinueWith(r=>{
 				if(OnMyBusidexLoaded != null){
@@ -255,8 +262,7 @@ namespace Busidex.Mobile
 					}
 				}
 
-				var controller = new MyBusidexController ();
-				controller.AddToMyBusidex (userCard.Card.CardId, userToken);
+				myBusidexController.AddToMyBusidex (userCard.Card.CardId, userToken);
 
 				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
 
@@ -279,15 +285,24 @@ namespace Busidex.Mobile
 					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
 					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
-					Utils.SaveResponse (file, Busidex.Mobile.Resources.MY_BUSIDEX_FILE);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
 
 					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
 				}
 				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
 
-				var controller = new MyBusidexController ();
-				controller.RemoveFromMyBusidex (userCard.Card.CardId, userToken);
+				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, userToken);
 			}
+		}
+
+		void loadUser(string userToken){
+
+			var accountJSON = AccountController.GetAccount (userToken);
+			Utils.SaveResponse (accountJSON, Resources.BUSIDEX_USER_FILE);
+
+			CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
+
+
 		}
 	}
 }

@@ -34,6 +34,7 @@ namespace Busidex.Mobile
 		public const string EVENT_CARDS_FILE = "eventcards_{0}.json";
 		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_";
 		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_";
+		public const string BUSIDEX_USER_FILE = "busidex_user.json";
 
 		public const string COOKIE_URI = "https://localhost";
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="Hello">Hello World, Click Me!</string>
 	<string name="ApplicationName">Busidex.Presentation.Droid.v2</string>
 	<string name="app_name">Busidex</string>
 	<string name="StartPage_lblWelcome">Thanks for downloading the Busidex App! Choose one of the following to begin.</string>
@@ -15,6 +14,7 @@
 	<string name="Login_lblPassword">Password</string>
 	<string name="Login_btnLogin">Sign In</string>
 	<string name="MyBusidex_NoCards">You do not have any cards in your collection. Search for some and add them.</string>
+	<string name="Global_ButtonText_Ok">Ok</string>
 	<string name="Global_Logout_Title">Logout</string>
 	<string name="Global_Logout_Message">Are you sure you want to logout?</string>
 	<string name="Global_OneMoment">One moment</string>
