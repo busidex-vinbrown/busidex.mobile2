@@ -139,6 +139,8 @@
     <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\SearchFragment.cs" />
+    <Compile Include="Fragments\EventListFragment.cs" />
+    <Compile Include="Adapters\EventListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

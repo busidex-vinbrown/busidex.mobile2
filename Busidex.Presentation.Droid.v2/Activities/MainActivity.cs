@@ -85,7 +85,6 @@ namespace Busidex.Presentation.Droid.v2
 				new SearchFragment ()
 			);
 
-
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView((i, v, b) =>
 				{
@@ -95,11 +94,10 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// EVENTS
-			adapter.AddFragmentView((i, v, b) =>
-				{
-					var view = i.Inflate(Resource.Layout.EventList, v, false);
-					return view;
-				}
+			var eventListFragment = new EventListFragment(subscriptionService.EventList);
+			subscriptionService.OnEventListLoaded += eventListFragment.SetEventList;
+			adapter.AddFragment (
+				eventListFragment
 			);
 
 			// PROFILE

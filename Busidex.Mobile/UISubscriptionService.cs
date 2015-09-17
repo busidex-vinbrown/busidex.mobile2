@@ -9,7 +9,7 @@ namespace Busidex.Mobile
 {
 	public delegate void OnMyBusidexLoadedEventHandler();
 	public delegate void OnMyOrganizationsLoadedEventHandler();
-	public delegate void OnEventListLoadedEventHandler();
+	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 
 	public class UISubscriptionService
 	{
@@ -75,7 +75,7 @@ namespace Busidex.Mobile
 			});
 			await loadEventList (token).ContinueWith(r=>{
 				if(OnEventListLoaded != null){
-					OnEventListLoaded();
+					OnEventListLoaded(EventList);
 				}
 			});
 		}
