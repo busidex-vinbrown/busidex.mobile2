@@ -86,9 +86,23 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// MY ORGANIZATIONS
-			adapter.AddFragmentView((i, v, b) =>
+			adapter.AddFragmentView ((i, v, b) => 
 				{
-					var view = i.Inflate(Resource.Layout.MyOrganizations, v, false);
+					var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
+
+					var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, subscriptionService.OrganizationList);
+					orgAdapter.RedirectToOrganizationDetails += (Organization org) => ShowOrganizationDetail (new OrganizationPanelFragment (org));
+
+					var lstOrganizations = view.FindViewById<ListView> (Resource.Id.lstOrganizations);
+
+					lstOrganizations.Adapter = orgAdapter;
+
+					subscriptionService.OnMyOrganizationsLoaded += delegate {
+						RunOnUiThread(()=> {
+							orgAdapter.SetOrganizations(subscriptionService.OrganizationList);
+						} );
+					}; 
+
 					return view;
 				}
 			);
@@ -241,6 +255,12 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Show ();
 		}
 
+		public void ShowOrganizationDetail(Android.Support.V4.App.Fragment panel){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			ActionBar.Hide ();
+		}
+
 		public void ShowButtonPanel(Android.Support.V4.App.Fragment panel, Android.Net.Uri uri, string orientation){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
@@ -265,11 +285,10 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Hide ();
 		}
 
-		public void SendEmail(Intent intent){
+		public void SendEmail(Intent intent, long id){
 
-			var userCard = GetUserCardFromIntent (intent);
 			var token = BaseApplicationResource.GetAuthCookie ();
-			ActivityController.SaveActivity ((long)EventSources.Email, userCard.CardId, token);
+			ActivityController.SaveActivity ((long)EventSources.Email, id, token);
 
 			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
 
@@ -349,23 +368,21 @@ namespace Busidex.Presentation.Droid.v2
 				
 			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
 
+				if (openAnimation.HasValue && closeAnimation.HasValue) {
+					transaction
+						.SetCustomAnimations (
+							openAnimation.Value, 
+							closeAnimation.Value, 
+							openAnimation.Value, 
+							closeAnimation.Value
+						);
+				}
+
 				string name = fragment.GetType ().Name;
-
-
-					if (openAnimation.HasValue && closeAnimation.HasValue) {
-						transaction
-							.SetCustomAnimations (
-								openAnimation.Value, 
-								closeAnimation.Value, 
-								openAnimation.Value, 
-								closeAnimation.Value
-							);
-					}
-
 
 				transaction
 					.Replace (container, fragment, name)
-					.AddToBackStack (name)
+					//.AddToBackStack (name)
 					.Commit ();
 			}
 		}
@@ -383,16 +400,13 @@ namespace Busidex.Presentation.Droid.v2
 			int? closeAnimation = Resource.Animation.SlideOutAnimation,
 			int container = Resource.Id.fragment_holder){
 
-			SupportFragmentManager.PopBackStack ();
-
 			ActionBar.Show ();
 			var holder = (LinearLayout)FindViewById (container);
 			if (holder != null) {
-				if (holder.ChildCount > 0) {
-					holder.RemoveViewAt (0);
-				}
+				holder.RemoveAllViews ();
 				holder.Visibility = ViewStates.Gone;
 			}
+			//SupportFragmentManager.PopBackStack ();
 		}
 		#endregion
 

@@ -46,10 +46,11 @@ namespace Busidex.Presentation.Droid.v2
 			txtName.Text = SelectedCard.Card.Name;
 			txtCompanyName.Text = SelectedCard.Card.CompanyName;
 
-			var SendEmailIntent = new Intent(Intent.ActionSend);
+
 
 			var OpenBrowserIntent = new Intent (Intent.ActionView);
 
+			var SendEmailIntent = new Intent(Intent.ActionSend);
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(SelectedCard);
 			SendEmailIntent.PutExtra ("Card", data);
 
@@ -116,7 +117,7 @@ namespace Busidex.Presentation.Droid.v2
 			};
 
 			btnEmail.Click += delegate{
-				((MainActivity)Activity).SendEmail(SendEmailIntent);
+				((MainActivity)Activity).SendEmail(SendEmailIntent, SelectedCard.CardId);
 			};
 
 			btnPanelShare.Click += delegate {

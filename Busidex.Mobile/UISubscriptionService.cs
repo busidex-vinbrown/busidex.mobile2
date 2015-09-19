@@ -8,7 +8,7 @@ using System.Linq;
 namespace Busidex.Mobile
 {
 	public delegate void OnMyBusidexLoadedEventHandler();
-	public delegate void OnMyOrganizationsLoadedEventHandler();
+	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 
 	public class UISubscriptionService
@@ -70,7 +70,7 @@ namespace Busidex.Mobile
 			});	
 			await loadOrganizations (token).ContinueWith(r=>{
 				if(OnMyOrganizationsLoaded != null){
-					OnMyOrganizationsLoaded();
+					OnMyOrganizationsLoaded(OrganizationList);
 				}
 			});
 			await loadEventList (token).ContinueWith(r=>{

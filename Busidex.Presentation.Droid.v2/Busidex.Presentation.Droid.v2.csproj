@@ -141,6 +141,10 @@
     <Compile Include="Fragments\SearchFragment.cs" />
     <Compile Include="Fragments\EventListFragment.cs" />
     <Compile Include="Adapters\EventListAdapter.cs" />
+    <Compile Include="Fragments\MyOrganizationsFragment.cs" />
+    <Compile Include="Adapters\OrganizationAdapter.cs" />
+    <Compile Include="AndroidUtils.cs" />
+    <Compile Include="Fragments\OrganizationPanelFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -357,13 +361,6 @@
     <Folder Include="Fragments\" />
     <Folder Include="Activities\" />
     <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Busidex.Presentation.Android\Busidex.Presentation.Android.csproj">
-      <Project>{F10C4689-8A74-42B5-9B5E-C27092B994C1}</Project>
-      <Name>Busidex.Presentation.Android</Name>
-      <IsAppExtension>True</IsAppExtension>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamarin.auth">
