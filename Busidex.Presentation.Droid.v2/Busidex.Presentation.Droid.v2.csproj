@@ -145,6 +145,7 @@
     <Compile Include="Adapters\OrganizationAdapter.cs" />
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="Fragments\OrganizationPanelFragment.cs" />
+    <Compile Include="Fragments\OrganizationCardsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -217,7 +218,6 @@
     <AndroidResource Include="Resources\layout\Notes.axml" />
     <AndroidResource Include="Resources\layout\Organization.axml" />
     <AndroidResource Include="Resources\layout\OrganizationListItem.axml" />
-    <AndroidResource Include="Resources\layout\OrganizationMembers.axml" />
     <AndroidResource Include="Resources\layout\Phone.axml" />
     <AndroidResource Include="Resources\layout\PhoneNumberEntry.axml" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
@@ -352,6 +352,7 @@
     <AndroidResource Include="Resources\anim\SlideDownAnimation.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\options.png" />
     <AndroidResource Include="Resources\layout\OptionsTab.axml" />
+    <AndroidResource Include="Resources\layout\OrganizationCards.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -65,6 +65,11 @@ namespace Busidex.Presentation.Droid.v2
 
 		public Filter Filter { get; private set; }
 
+		public void UpdateData(List<UserCard> cards){
+			Cards = cards;
+			NotifyDataSetChanged ();
+		}
+
 		public UserCardAdapter (Activity ctx, int id, List<UserCard> cards) : base(ctx, id, cards)
 		{
 			Cards = _originalItems = cards;

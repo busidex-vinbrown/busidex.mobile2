@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
+using System.IO;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -39,6 +40,9 @@ namespace Busidex.Presentation.Droid.v2
 					var view = i.Inflate(Resource.Layout.MyBusidex, v, false);
 
 					var MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, subscriptionService.UserCards);
+
+					subscriptionService.OnMyBusidexLoaded += (List<UserCard> cards) => 
+						RunOnUiThread( ()=> MyBusidexAdapter.UpdateData (cards));
 
 					MyBusidexAdapter.Redirect += ShowCard;
 					MyBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
@@ -238,6 +242,25 @@ namespace Busidex.Presentation.Droid.v2
 			DoLogin ();
 		}
 
+		#region Organization Actions
+		public void LoadOrganizationMembers(Organization organization){
+			var orgMembers = new List<UserCard> ();
+			foreach(var card in subscriptionService.OrganizationMembers [organization.OrganizationId]){
+				var userCard = new UserCard {
+					CardId = card.CardId,
+					Card = card,
+					Notes = string.Empty
+				};
+				orgMembers.Add (userCard);
+			}
+
+			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
+			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+		}
+
+		#endregion
+
 		#region Card Actions
 		public void ShowCard(CardDetailFragment fragment){
 
@@ -390,7 +413,7 @@ namespace Busidex.Presentation.Droid.v2
 		public override void OnBackPressed ()
 		{
 			if (subscriptionService.CurrentUser != null) {
-				base.OnBackPressed ();
+				//base.OnBackPressed ();
 				UnloadFragment ();
 			}
 		}

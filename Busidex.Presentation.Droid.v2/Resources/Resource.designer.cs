@@ -3850,11 +3850,11 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a007c
 			public const int imgOrgIcon = 2131361916;
 			
-			// aapt resource value: 0x7f0a00cb
-			public const int imgOrganizationHeaderImage = 2131361995;
-			
 			// aapt resource value: 0x7f0a00c9
-			public const int imgOrganizationThumbnail = 2131361993;
+			public const int imgOrganizationHeaderImage = 2131361993;
+			
+			// aapt resource value: 0x7f0a00cd
+			public const int imgOrganizationThumbnail = 2131361997;
 			
 			// aapt resource value: 0x7f0a006a
 			public const int imgPanelCardPreviewH = 2131361898;
@@ -3979,8 +3979,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a0077
 			public const int lstEvents = 2131361911;
 			
-			// aapt resource value: 0x7f0a00cd
-			public const int lstOrganizationMembers = 2131361997;
+			// aapt resource value: 0x7f0a00cb
+			public const int lstOrganizationCards = 2131361995;
 			
 			// aapt resource value: 0x7f0a00a4
 			public const int lstOrganizations = 2131361956;
@@ -4033,11 +4033,11 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a001e
 			public const int normal = 2131361822;
 			
-			// aapt resource value: 0x7f0a00c8
-			public const int orgLayout = 2131361992;
+			// aapt resource value: 0x7f0a00cc
+			public const int orgLayout = 2131361996;
 			
-			// aapt resource value: 0x7f0a00ca
-			public const int orgMemberLayout = 2131361994;
+			// aapt resource value: 0x7f0a00c8
+			public const int orgMemberLayout = 2131361992;
 			
 			// aapt resource value: 0x7f0a00b8
 			public const int organizationLayout = 2131361976;
@@ -4267,8 +4267,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a00e5
 			public const int txtSearch = 2131362021;
 			
-			// aapt resource value: 0x7f0a00cc
-			public const int txtSearchOrgMembers = 2131361996;
+			// aapt resource value: 0x7f0a00ca
+			public const int txtSearchOrgMembers = 2131361994;
 			
 			// aapt resource value: 0x7f0a00ee
 			public const int txtShareDisplayName = 2131362030;
@@ -4501,10 +4501,10 @@ namespace Busidex.Presentation.Droid.v2
 			public const int Organization = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int OrganizationListItem = 2130903089;
+			public const int OrganizationCards = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int OrganizationMembers = 2130903090;
+			public const int OrganizationListItem = 2130903090;
 			
 			// aapt resource value: 0x7f030033
 			public const int Phone = 2130903091;

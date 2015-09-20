@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Busidex.Mobile
 {
-	public delegate void OnMyBusidexLoadedEventHandler();
+	public delegate void OnMyBusidexLoadedEventHandler(List<UserCard> cards);
 	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 
@@ -28,12 +29,22 @@ namespace Busidex.Mobile
 			organizationController = new OrganizationController ();
 			searchController = new SearchController ();
 			accountController = new AccountController ();
+			UserCards = new List<UserCard> ();
+			EventList = new List<EventTag> ();
+			OrganizationList = new List<Organization> ();
 
-			UserCards = loadDataFromFile<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE)) ?? new List<UserCard>();
-			EventList = loadDataFromFile<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE)) ?? new List<EventTag> ();
-			OrganizationList = loadDataFromFile<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE)) ?? new List<Organization> ();
-
-			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
+			ThreadPool.QueueUserWorkItem( o =>  {
+				UserCards = loadDataFromFile<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE)) ?? new List<UserCard>();
+			});
+			ThreadPool.QueueUserWorkItem (o => {
+				EventList = loadDataFromFile<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE)) ?? new List<EventTag> ();
+			});
+			ThreadPool.QueueUserWorkItem (o => {
+				OrganizationList = loadDataFromFile<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE)) ?? new List<Organization> ();
+			});
+			ThreadPool.QueueUserWorkItem (o => {
+				CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
+			});
 		}
 
 		readonly MyBusidexController myBusidexController;
@@ -65,7 +76,7 @@ namespace Busidex.Mobile
 
 			await loadUserCards (token).ContinueWith(r=>{
 				if(OnMyBusidexLoaded != null){
-					OnMyBusidexLoaded();
+					OnMyBusidexLoaded(UserCards);
 				}
 			});	
 			await loadOrganizations (token).ContinueWith(r=>{

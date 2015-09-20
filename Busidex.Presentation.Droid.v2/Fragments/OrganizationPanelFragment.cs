@@ -47,6 +47,8 @@ namespace Busidex.Presentation.Droid.v2
 			var btnOrganizationWeb = view.FindViewById<ImageButton> (Resource.Id.btnOrganizationWeb);
 			var btnOrganizationTwitter = view.FindViewById <ImageButton> (Resource.Id.btnOrganizationTwitter);
 			var btnOrganizationFacebook = view.FindViewById<ImageButton> (Resource.Id.btnOrganizationFacebook);
+			var btnOrgMembers = view.FindViewById<Button> (Resource.Id.btnOrgMembers);
+			var btnOrgReferrals = view.FindViewById<Button> (Resource.Id.btnOrgReferrals);
 
 			var vwWeb = view.FindViewById<WebView> (Resource.Id.vwWeb);
 
@@ -105,6 +107,10 @@ namespace Busidex.Presentation.Droid.v2
 			btnOrganizationFacebook.Click += delegate {
 				var intent = Intent.CreateChooser(fbIntent, "Open with");
 				StartActivity (intent);
+			};
+
+			btnOrgMembers.Click += delegate {
+				((MainActivity)Activity).LoadOrganizationMembers(SelectedOrganization);
 			};
 		}
 
