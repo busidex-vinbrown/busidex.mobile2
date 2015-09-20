@@ -51,13 +51,9 @@ namespace Busidex.Presentation.Droid.v2
 
 					var lstCards = view.FindViewById<ListView> (Resource.Id.lstCards);
 					var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
-					var lblNoCardsMessage = view.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
 
 					var state = lstCards.OnSaveInstanceState ();
 
-					lblNoCardsMessage.Text = GetString (Resource.String.MyBusidex_NoCards);
-
-					lblNoCardsMessage.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
 					txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 					lstCards.Adapter = MyBusidexAdapter;

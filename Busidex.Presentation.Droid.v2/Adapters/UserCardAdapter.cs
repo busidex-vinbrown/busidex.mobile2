@@ -164,6 +164,10 @@ namespace Busidex.Presentation.Droid.v2
 			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 
+			var lblNoCardsMessage = context.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
+			lblNoCardsMessage.Text = context.GetString (Resource.String.MyBusidex_NoCards);
+			lblNoCardsMessage.Visibility = Cards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+
 			btnInfo.Click -= OnButtonPanelButtonClicked;
 			btnInfo.Click += OnButtonPanelButtonClicked;
 			btnInfo.Tag = position;

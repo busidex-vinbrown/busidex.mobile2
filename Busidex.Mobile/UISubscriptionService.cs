@@ -28,10 +28,11 @@ namespace Busidex.Mobile
 			myBusidexController = new MyBusidexController ();
 			organizationController = new OrganizationController ();
 			searchController = new SearchController ();
-			accountController = new AccountController ();
 			UserCards = new List<UserCard> ();
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
+
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 
 			ThreadPool.QueueUserWorkItem( o =>  {
 				UserCards = loadDataFromFile<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE)) ?? new List<UserCard>();
@@ -42,15 +43,11 @@ namespace Busidex.Mobile
 			ThreadPool.QueueUserWorkItem (o => {
 				OrganizationList = loadDataFromFile<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE)) ?? new List<Organization> ();
 			});
-			ThreadPool.QueueUserWorkItem (o => {
-				CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
-			});
 		}
 
 		readonly MyBusidexController myBusidexController;
 		readonly OrganizationController organizationController;
 		readonly SearchController searchController;
-		readonly AccountController accountController;
 
 		public List<UserCard> UserCards { get; set; }
 		public List<EventTag> EventList { get; set; }
