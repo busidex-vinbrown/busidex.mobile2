@@ -259,6 +259,13 @@ namespace Busidex.Presentation.Droid.v2
 			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 		}
 
+		public void LoadOrganizationReferrals(Organization organization){
+			
+			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var fragment = new OrganizationCardsFragment (subscriptionService.OrganizationReferrals [organization.OrganizationId], logoPath);
+			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+		}
+
 		#endregion
 
 		#region Card Actions

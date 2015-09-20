@@ -112,6 +112,10 @@ namespace Busidex.Presentation.Droid.v2
 			btnOrgMembers.Click += delegate {
 				((MainActivity)Activity).LoadOrganizationMembers(SelectedOrganization);
 			};
+
+			btnOrgReferrals.Click += delegate {
+				((MainActivity)Activity).LoadOrganizationReferrals(SelectedOrganization);
+			};
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
