@@ -97,7 +97,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		public void OpenFaq(){
-			var url = new NSUrl ("https://pro.busidex.com/#/faq");
+			var url = new NSUrl ("https://www.busidex.com/#/faq");
 			UIApplication.SharedApplication.OpenUrl (url);
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);

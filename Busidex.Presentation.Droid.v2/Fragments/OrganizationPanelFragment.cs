@@ -37,7 +37,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
 
-			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
+			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
 
 			var ingOrgDetailLogoBanner = view.FindViewById<ImageView> (Resource.Id.ingOrgDetailLogoBanner);
 			var txtContacts = view.FindViewById<TextView> (Resource.Id.txtContacts);

@@ -21,7 +21,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
 
-			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
+			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation, Resource.Id.fragment_holder);
 
 
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);

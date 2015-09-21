@@ -12,6 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/shareCardLayout">
+        <ImageButton
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="visible"
+            android:id="@+id/btnClose"
+            android:background="@color/layoutBackground"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp" />
         <TextView
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"

@@ -12,6 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/phoneLayout">
+        <ImageButton
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="visible"
+            android:id="@+id/btnClose"
+            android:background="@color/layoutBackground"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitXY" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_width="265dp"

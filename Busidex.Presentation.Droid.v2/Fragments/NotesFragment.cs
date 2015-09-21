@@ -54,6 +54,13 @@ namespace Busidex.Presentation.Droid.v2
 
 			imgDisplay.SetImageURI (uri);
 
+			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
+			btnClose.Click += delegate {
+				var panel = new ButtonPanelFragment();
+				panel.SelectedCard = SelectedCard;
+				((MainActivity)Activity).UnloadFragment(panel);
+			};
+
 			return view;
 		}
 

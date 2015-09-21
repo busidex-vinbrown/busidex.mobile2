@@ -233,12 +233,44 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
+		#region Login Actions
+
 		public void ShowLogin(){
 			subscriptionService.CurrentUser = null;
 			DoLogin ();
 		}
 
+		void DoLogin(){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (new LoginFragment ());
+			ActionBar.Hide ();
+		}
+
+		public void LoginComplete(){
+
+			authToken = BaseApplicationResource.GetAuthCookie ();
+			subscriptionService.reset (authToken);
+		}
+
+		#endregion
+
+		#region Event Actions
+		public void LoadEventCards(EventTag tag){
+			var fragment = new EventCardsFragment (tag, subscriptionService.EventCards [tag.Text]);
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			ActionBar.Hide ();
+		}
+
+		#endregion
+
 		#region Organization Actions
+		public void ShowOrganizationDetail(Android.Support.V4.App.Fragment panel){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			ActionBar.Hide ();
+		}
+
 		public void LoadOrganizationMembers(Organization organization){
 			var orgMembers = new List<UserCard> ();
 			foreach(var card in subscriptionService.OrganizationMembers [organization.OrganizationId]){
@@ -279,12 +311,6 @@ namespace Busidex.Presentation.Droid.v2
 		public void HideCard(){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Gone;
 			ActionBar.Show ();
-		}
-
-		public void ShowOrganizationDetail(Android.Support.V4.App.Fragment panel){
-			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
-			ActionBar.Hide ();
 		}
 
 		public void ShowButtonPanel(Android.Support.V4.App.Fragment panel, Android.Net.Uri uri, string orientation){
@@ -344,18 +370,6 @@ namespace Busidex.Presentation.Droid.v2
 			StartActivity (intent);
 		}
 
-		void DoLogin(){
-			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (new LoginFragment ());
-			ActionBar.Hide ();
-		}
-
-		public void LoginComplete(){
-
-			authToken = BaseApplicationResource.GetAuthCookie ();
-			subscriptionService.reset (authToken);
-		}
-
 		static UserCard GetUserCardFromIntent(Intent intent){
 
 			var data = intent.GetStringExtra ("Card");
@@ -379,7 +393,6 @@ namespace Busidex.Presentation.Droid.v2
 			var dp = (int) ((pixelValue) * Resources.DisplayMetrics.Density);
 			return dp;
 		}
-
 
 		public void LoadFragment(
 			Android.Support.V4.App.Fragment fragment, 
@@ -422,16 +435,22 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		public void UnloadFragment(
+			Android.Support.V4.App.Fragment fragment = null,
 			int? openAnimation = Resource.Animation.SlideAnimation, 
 			int? closeAnimation = Resource.Animation.SlideOutAnimation,
 			int container = Resource.Id.fragment_holder){
 
-			ActionBar.Show ();
-			var holder = (LinearLayout)FindViewById (container);
-			if (holder != null) {
-				holder.RemoveAllViews ();
-				holder.Visibility = ViewStates.Gone;
+			if(fragment == null){
+				ActionBar.Show ();
+				var holder = (LinearLayout)FindViewById (container);
+				if (holder != null) {
+					holder.RemoveAllViews ();
+					holder.Visibility = ViewStates.Gone;
+				}
+			}else{
+				LoadFragment (fragment, openAnimation, closeAnimation, container);
 			}
+
 			//SupportFragmentManager.PopBackStack ();
 		}
 		#endregion

@@ -70,7 +70,8 @@ namespace Busidex.Presentation.iOS
 						newNumber.Frame = phoneFrame;
 						newNumber.TouchUpInside += delegate {
 
-							var phoneNumber = new NSUrl ("telprompt://" + number.Number);
+							string pn = number.Number.Replace("(", "").Replace(")", "").Replace("-","").Replace(" ", "");
+							var phoneNumber = new NSUrl ("telprompt://" + pn);
 
 							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
 								var av = new UIAlertView ("Phone Number Error",

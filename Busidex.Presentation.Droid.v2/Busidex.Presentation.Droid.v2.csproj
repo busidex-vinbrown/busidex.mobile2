@@ -146,6 +146,7 @@
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="Fragments\OrganizationPanelFragment.cs" />
     <Compile Include="Fragments\OrganizationCardsFragment.cs" />
+    <Compile Include="Fragments\EventCardsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -112,6 +112,30 @@ namespace Busidex.Mobile
 					var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (r.Result);
 					EventList = eventListResponse.Model;
 
+					foreach(var tag in EventList){
+						searchController.SearchBySystemTag(tag.Text, userToken).ContinueWith(t => {
+							Utils.SaveResponse(t.Result, string.Format("{0}.json", tag.Text));
+
+							var eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (t.Result);
+
+							var cards = new List<UserCard> ();
+
+							foreach (var card in eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList()) {
+								if (card != null) {
+
+									var userCard = new UserCard (card);
+
+									userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
+									userCard.Card = card;
+									userCard.CardId = card.CardId;
+
+									cards.Add (userCard);
+								}
+							}
+							EventCards.Add(tag.Text, cards);
+						});
+					}
+
 				}
 			});
 			return true;
