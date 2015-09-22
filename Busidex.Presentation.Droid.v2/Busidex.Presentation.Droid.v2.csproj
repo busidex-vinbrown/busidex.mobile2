@@ -175,9 +175,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\Exit.png" />
     <AndroidResource Include="Resources\drawable-hdpi\fb.png" />
     <AndroidResource Include="Resources\drawable-hdpi\Icon_2x.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\large_logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AndroidResource>
     <AndroidResource Include="Resources\drawable-hdpi\logo3.png" />
     <AndroidResource Include="Resources\drawable-hdpi\main_blur2.png" />
     <AndroidResource Include="Resources\drawable-hdpi\MainButtonStyle.xml" />
@@ -214,7 +211,6 @@
     <AndroidResource Include="Resources\layout\Login.axml" />
     <AndroidResource Include="Resources\layout\TermsAndConditions.axml" />
     <AndroidResource Include="Resources\layout\UserCardListItem.axml" />
-    <AndroidResource Include="Resources\layout\MyBusidex.axml" />
     <AndroidResource Include="Resources\layout\MyOrganizations.axml" />
     <AndroidResource Include="Resources\layout\Notes.axml" />
     <AndroidResource Include="Resources\layout\Organization.axml" />
@@ -354,6 +350,20 @@
     <AndroidResource Include="Resources\drawable-hdpi\options.png" />
     <AndroidResource Include="Resources\layout\OptionsTab.axml" />
     <AndroidResource Include="Resources\layout\OrganizationCards.axml" />
+    <AndroidResource Include="Resources\layout\MyBusidex.axml" />
+    <AndroidResource Include="Resources\drawable\large_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\large_logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\large_logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\large_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\large_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\large_logo.png" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -363,11 +373,15 @@
     <Folder Include="Fragments\" />
     <Folder Include="Activities\" />
     <Folder Include="Services\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamarin.auth">
       <Version>1.2.3.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\font\Lato-Black.ttf" />
   </ItemGroup>
 </Project>

@@ -77,8 +77,7 @@ namespace Busidex.Presentation.Droid.v2
 			rotateAboutCornerAnimation.RepeatCount = 10;
 			imgLogo.StartAnimation (rotateAboutCornerAnimation);
 
-			return await Busidex.Mobile.LoginController.DoLogin(userName, password);
-
+			return await Busidex.Mobile.LoginController.DoLogin (userName, password);
 		}
 	}
 }

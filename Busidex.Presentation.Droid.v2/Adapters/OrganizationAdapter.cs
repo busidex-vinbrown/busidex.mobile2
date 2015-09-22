@@ -31,7 +31,7 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		public void SetOrganizations(List<Organization> organizations){
+		public void UpdateData(List<Organization> organizations){
 			Organizations = organizations;
 			NotifyDataSetChanged ();
 		}

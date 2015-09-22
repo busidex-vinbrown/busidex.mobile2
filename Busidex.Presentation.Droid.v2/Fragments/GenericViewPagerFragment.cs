@@ -26,11 +26,13 @@ namespace Busidex.Presentation.Droid.v2
 
 		public GenericViewPagerFragment()
 		{
+			
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			base.OnCreateView(inflater, container, savedInstanceState);
+
 			return _view(inflater, container, savedInstanceState);
 		}
 
@@ -48,6 +50,7 @@ namespace Busidex.Presentation.Droid.v2
 		}
 		#endregion 
 
+		/*
 		#region Card Actions
 
 		protected void ShowCard(CardDetailFragment fragment){
@@ -149,7 +152,7 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 		#endregion
-
+		*/
 		#region Keyboard
 		static UserCard GetUserCardFromIntent(Intent intent){
 
@@ -162,7 +165,7 @@ namespace Busidex.Presentation.Droid.v2
 			imm.HideSoftInputFromWindow(token, HideSoftInputFlags.None);
 		}
 		#endregion
-
+		/*
 		#region Google Analytics
 		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
 
@@ -204,7 +207,7 @@ namespace Busidex.Presentation.Droid.v2
 			} 
 		}
 		#endregion
-
+		*/
 
 	}
 }

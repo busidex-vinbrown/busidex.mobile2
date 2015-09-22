@@ -11,6 +11,7 @@ namespace Busidex.Mobile
 	public delegate void OnMyBusidexLoadedEventHandler(List<UserCard> cards);
 	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
+	public delegate void OnEventCardsLoadedEventHandler(EventTag tag, List<UserCard> cards);
 
 	public class UISubscriptionService
 	{
@@ -18,6 +19,9 @@ namespace Busidex.Mobile
 		public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
 		public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
 		public event OnEventListLoadedEventHandler OnEventListLoaded;
+		public event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
+
+		public string AuthToken { get; set; }
 
 		public UISubscriptionService(){
 			
@@ -31,18 +35,6 @@ namespace Busidex.Mobile
 			UserCards = new List<UserCard> ();
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
-
-			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
-
-			ThreadPool.QueueUserWorkItem( o =>  {
-				UserCards = loadDataFromFile<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE)) ?? new List<UserCard>();
-			});
-			ThreadPool.QueueUserWorkItem (o => {
-				EventList = loadDataFromFile<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE)) ?? new List<EventTag> ();
-			});
-			ThreadPool.QueueUserWorkItem (o => {
-				OrganizationList = loadDataFromFile<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE)) ?? new List<Organization> ();
-			});
 		}
 
 		readonly MyBusidexController myBusidexController;
@@ -57,31 +49,63 @@ namespace Busidex.Mobile
 		public Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
 		public BusidexUser CurrentUser { get; set; }
 
-		T loadDataFromFile<T>(string path){
+		T loadData<T>(string path) where T : new(){
+			return loadDataFromFile<T>(path);
+		}
+
+		T loadDataFromFile<T>(string path) where T: new(){
 
 			try{
 				var jsonData = loadFromFile (path);
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
+				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
+				if(result == null){
+					result = new T();
+				}
+				return result;
 			}catch(Exception e){
-				return default(T);
+				return new T();
 			}
 		}
 
-		public async void reset(string token){
+		public void Init(){
 
-			loadUser (token);
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 
-			await loadUserCards (token).ContinueWith(r=>{
+			//ThreadPool.QueueUserWorkItem( o =>  {
+				UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+				if(OnMyBusidexLoaded != null){
+					OnMyBusidexLoaded(UserCards);
+				}
+			//});
+			//ThreadPool.QueueUserWorkItem (o => {
+				EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+				if(OnEventListLoaded != null){
+					OnEventListLoaded(EventList);
+				}
+			//});
+			//ThreadPool.QueueUserWorkItem (o => {
+				OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+				if(OnMyOrganizationsLoaded != null){
+					OnMyOrganizationsLoaded(OrganizationList);
+				}
+			//});
+		}
+
+		public async void reset(){
+
+			loadUser ();
+
+			await loadUserCards ().ContinueWith(r=>{
 				if(OnMyBusidexLoaded != null){
 					OnMyBusidexLoaded(UserCards);
 				}
 			});	
-			await loadOrganizations (token).ContinueWith(r=>{
+			await loadOrganizations ().ContinueWith(r=>{
 				if(OnMyOrganizationsLoaded != null){
 					OnMyOrganizationsLoaded(OrganizationList);
 				}
 			});
-			await loadEventList (token).ContinueWith(r=>{
+			await loadEventList ().ContinueWith(r=>{
 				if(OnEventListLoaded != null){
 					OnEventListLoaded(EventList);
 				}
@@ -100,54 +124,65 @@ namespace Busidex.Mobile
 			return fileJson;
 		}
 
-		async Task<bool> loadEventList(string userToken){
+		public void loadEventCards(EventTag tag){
+			searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(t => {
+				Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
+
+				var eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (t.Result);
+
+				var cards = new List<UserCard> ();
+
+				foreach (var card in eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList()) {
+					if (card != null) {
+
+						var userCard = new UserCard (card);
+
+						userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
+						userCard.Card = card;
+						userCard.CardId = card.CardId;
+
+						cards.Add (userCard);
+					}
+				}
+				EventCards.Add(tag.Text, cards);
+
+				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
+
+				Utils.SaveResponse (savedResult, string.Format(Resources.EVENT_CARDS_FILE, tag));
+
+				if(OnEventCardsLoaded != null){
+					OnEventCardsLoaded(tag, EventCards[tag.Text]);
+				}
+			});
+		}
+
+		async Task<bool> loadEventList(){
 
 			EventList.Clear ();
 
-			await searchController.GetEventTags (userToken).ContinueWith(r => {
+			await searchController.GetEventTags (AuthToken).ContinueWith(r => {
 				if (!string.IsNullOrEmpty (r.Result)) {
-
-					Utils.SaveResponse (r.Result, Resources.EVENT_LIST_FILE);
 
 					var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (r.Result);
 					EventList = eventListResponse.Model;
 
 					foreach(var tag in EventList){
-						searchController.SearchBySystemTag(tag.Text, userToken).ContinueWith(t => {
-							Utils.SaveResponse(t.Result, string.Format("{0}.json", tag.Text));
-
-							var eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (t.Result);
-
-							var cards = new List<UserCard> ();
-
-							foreach (var card in eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList()) {
-								if (card != null) {
-
-									var userCard = new UserCard (card);
-
-									userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
-									userCard.Card = card;
-									userCard.CardId = card.CardId;
-
-									cards.Add (userCard);
-								}
-							}
-							EventCards.Add(tag.Text, cards);
-						});
+						loadEventCards(tag);
 					}
 
+					var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
+
+					Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
 				}
 			});
 			return true;
 		}
 
-		async Task<bool> loadOrganizations(string userToken){
+		async Task<bool> loadOrganizations(){
 
 			OrganizationList.Clear ();
 
-			await organizationController.GetMyOrganizations (userToken).ContinueWith (r => {
-
-				Utils.SaveResponse(r.Result, Resources.MY_ORGANIZATIONS_FILE);
+			await organizationController.GetMyOrganizations (AuthToken).ContinueWith (r => {
 
 				OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (r.Result);
 
@@ -163,7 +198,7 @@ namespace Busidex.Mobile
 						});
 					} 
 					// load organization members
-					organizationController.GetOrganizationMembers(userToken, org.OrganizationId).ContinueWith(async cards =>{
+					organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
 						OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
 						Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
@@ -192,7 +227,7 @@ namespace Busidex.Mobile
 						}
 					});
 
-					organizationController.GetOrganizationReferrals(userToken, org.OrganizationId).ContinueWith(async cards =>{
+					organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
 						var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
 						Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
@@ -222,15 +257,20 @@ namespace Busidex.Mobile
 						}
 					});
 				}
+
+				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
+
+				Utils.SaveResponse(r.Result, Resources.MY_ORGANIZATIONS_FILE);
+
 			});
 			return true;
 		}
 
-		async Task<bool> loadUserCards(string userToken){
+		async Task<bool> loadUserCards(){
 
 			var cards = new List<UserCard> ();
 
-			await myBusidexController.GetMyBusidex (userToken).ContinueWith (r => {
+			await myBusidexController.GetMyBusidex (AuthToken).ContinueWith (r => {
 
 				var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);			
@@ -272,7 +312,7 @@ namespace Busidex.Mobile
 			return true;
 		}
 
-		public void AddCardToMyBusidex(UserCard userCard, string userToken){
+		public void AddCardToMyBusidex(UserCard userCard){
 
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 			if (userCard!= null) {
@@ -294,15 +334,15 @@ namespace Busidex.Mobile
 					}
 				}
 
-				myBusidexController.AddToMyBusidex (userCard.Card.CardId, userToken);
+				myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
 				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
 
-				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, userToken);
+				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
 			}
 		}
 
-		public void RemoveCardFromMyBusidex(UserCard userCard, string userToken){
+		public void RemoveCardFromMyBusidex(UserCard userCard){
 
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 
@@ -323,18 +363,16 @@ namespace Busidex.Mobile
 				}
 				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
 
-				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, userToken);
+				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
 			}
 		}
 
-		void loadUser(string userToken){
+		void loadUser(){
 
-			var accountJSON = AccountController.GetAccount (userToken);
+			var accountJSON = AccountController.GetAccount (AuthToken);
 			Utils.SaveResponse (accountJSON, Resources.BUSIDEX_USER_FILE);
 
 			CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
-
-
 		}
 	}
 }

@@ -19,30 +19,19 @@ namespace Busidex.Presentation.Droid.v2
 			Cards = cards;
 		}
 
-		public override void OnResume ()
-		{
-			base.OnResume ();
-
-			//LoadUI ();
-
-			//Activity.Title = EventTag.Text;
-		}
-
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate (Resource.Layout.EventCards, container, false);
 
 			var txtFilterEventCards = view.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
 
+			var lblEventDescription = view.FindViewById<TextView> (Resource.Id.lblEventDescription);
+			lblEventDescription.Text = EventTag.Description;
+
 			var lstEventCards = view.FindViewById<ListView> (Resource.Id.lstEventCards);
 			var adapter = new UserCardAdapter (Activity, Resource.Id.lstCards, Cards);
 
-			adapter.Redirect += ShowCard;
-			adapter.SendEmail += SendEmail;
-			adapter.OpenBrowser += OpenBrowser;
-			adapter.CardAddedToMyBusidex += AddCardToMyBusidex;
-			adapter.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-			adapter.OpenMap += OpenMap;
+			adapter.Redirect += ((MainActivity)Activity).ShowCard;
 			adapter.ShowButtonPanel += ((MainActivity)Activity).ShowButtonPanel;
 
 			adapter.ShowNotes = false;
@@ -66,9 +55,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 			btnClose.Click += delegate {
-				var panel = new EventListFragment();
 
-				((MainActivity)Activity).UnloadFragment(panel);
+				((MainActivity)Activity).UnloadFragment();
 			};
 
 			return view;
@@ -82,10 +70,6 @@ namespace Busidex.Presentation.Droid.v2
 //			}
 //		}
 
-		void LoadUI(){
-			
-
-		}
 	}
 }
 

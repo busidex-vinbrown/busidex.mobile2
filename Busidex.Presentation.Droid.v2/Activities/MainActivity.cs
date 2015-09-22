@@ -14,15 +14,12 @@ using System.IO;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	[Activity(Label = "Busidex", MainLauncher = true, Icon = "@drawable/icon",
-		ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
+	[Activity(Label = "Busidex", MainLauncher = true, ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class MainActivity : FragmentActivity
 	{
 		ViewPager pager;
 		UISubscriptionService subscriptionService;
 		string authToken = string.Empty;
-
-		//bool showActionBarTitle;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -39,28 +36,29 @@ namespace Busidex.Presentation.Droid.v2
 				{
 					var view = i.Inflate(Resource.Layout.MyBusidex, v, false);
 
-					var MyBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, subscriptionService.UserCards);
+					var myBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, subscriptionService.UserCards);
 
-					subscriptionService.OnMyBusidexLoaded += (List<UserCard> cards) => 
-						RunOnUiThread( ()=> MyBusidexAdapter.UpdateData (cards));
+					subscriptionService.OnMyBusidexLoaded += delegate {
+						RunOnUiThread(()=> {
+							myBusidexAdapter.UpdateData(subscriptionService.UserCards);
+							myBusidexAdapter.NotifyDataSetChanged();
+						} );
+					}; 
 
-					MyBusidexAdapter.Redirect += ShowCard;
-					MyBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
-					                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-					MyBusidexAdapter.ShowNotes = true;
+					myBusidexAdapter.Redirect += ShowCard;
+					myBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
+					myBusidexAdapter.ShowNotes = true;
 
 					var lstCards = view.FindViewById<ListView> (Resource.Id.lstCards);
-					var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
+					lstCards.Adapter = myBusidexAdapter;
 
 					var state = lstCards.OnSaveInstanceState ();
-
-					txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-
-					lstCards.Adapter = MyBusidexAdapter;
-
 					if(state != null){
 						lstCards.OnRestoreInstanceState (state);
 					}
+
+					var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
+					txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 					txtFilter.QueryTextChange += delegate {
 						//DoFilter (txtFilter.Query);
@@ -89,9 +87,8 @@ namespace Busidex.Presentation.Droid.v2
 			adapter.AddFragmentView ((i, v, b) => 
 				{
 					var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
-
 					var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, subscriptionService.OrganizationList);
-					orgAdapter.RedirectToOrganizationDetails += (Organization org) => ShowOrganizationDetail (new OrganizationPanelFragment (org));
+					orgAdapter.RedirectToOrganizationDetails += org => ShowOrganizationDetail (new OrganizationPanelFragment (org));
 
 					var lstOrganizations = view.FindViewById<ListView> (Resource.Id.lstOrganizations);
 
@@ -99,19 +96,35 @@ namespace Busidex.Presentation.Droid.v2
 
 					subscriptionService.OnMyOrganizationsLoaded += delegate {
 						RunOnUiThread(()=> {
-							orgAdapter.SetOrganizations(subscriptionService.OrganizationList);
+							orgAdapter.UpdateData(subscriptionService.OrganizationList);
+							orgAdapter.NotifyDataSetChanged();
 						} );
 					}; 
 
 					return view;
-				}
+				}	
 			);
 
 			// EVENTS
-			var eventListFragment = new EventListFragment(subscriptionService.EventList);
-			subscriptionService.OnEventListLoaded += eventListFragment.SetEventList;
-			adapter.AddFragment (
-				eventListFragment
+			adapter.AddFragmentView ((i, v, b) => 
+				{
+					var view = i.Inflate (Resource.Layout.EventList, v, false);
+					var eventListAdapter = new EventListAdapter (this, Resource.Id.lstCards, subscriptionService.EventList);
+					eventListAdapter.RedirectToEventCards += LoadEventCards;
+
+					var lstEvents = view.FindViewById<ListView> (Resource.Id.lstEvents);
+
+					lstEvents.Adapter = eventListAdapter;
+
+					subscriptionService.OnEventListLoaded += delegate {
+						RunOnUiThread (() => {
+							eventListAdapter.UpdateData(subscriptionService.EventList);
+							eventListAdapter.NotifyDataSetChanged();
+						});
+					};
+
+					return view;
+				}
 			);
 
 			// PROFILE
@@ -124,24 +137,25 @@ namespace Busidex.Presentation.Droid.v2
 			pager.SetCurrentItem (position, true);
 		}
 
-		protected override void OnStart ()
-		{
-			base.OnStart ();
-
+		void Init(){
 			BaseApplicationResource.context = this;
-
-			authToken = BaseApplicationResource.GetAuthCookie ();
-			if(string.IsNullOrEmpty(authToken)){
-				DoLogin ();				
-			}else{
-				subscriptionService.reset (authToken); //"NzM="
-			}
-
+			subscriptionService = subscriptionService ?? new UISubscriptionService ();
+			var token = BaseApplicationResource.GetAuthCookie ();
+			subscriptionService.AuthToken = token;
+			subscriptionService.Init ();
 
 
 		}
 
+		protected override void OnStart ()
+		{
+			base.OnStart ();
 
+			string token = BaseApplicationResource.GetAuthCookie ();
+			if(string.IsNullOrEmpty(token)){
+				DoLogin ();		
+			}
+		}
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -150,12 +164,13 @@ namespace Busidex.Presentation.Droid.v2
 
 			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 
-			subscriptionService = new UISubscriptionService ();
+			Init ();
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
+
 			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 			ActionBar.SetDisplayShowHomeEnabled(false);
 			ActionBar.SetDisplayShowTitleEnabled(false);
@@ -172,13 +187,13 @@ namespace Busidex.Presentation.Droid.v2
 //			homeTab.SetCustomView (Resource.Layout.tab);
 //			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
 
-			var titles = new string[6];
-			titles [0] = "My Busidex";
-			titles [1] = "Search";
-			titles [2] = "Organizations";
-			titles [3] = "Events";
-			titles [4] = "Profile";
-			titles [5] = "Options";
+//			var titles = new string[6];
+//			titles [0] = "My Busidex";
+//			titles [1] = "Search";
+//			titles [2] = "Organizations";
+//			titles [3] = "Events";
+//			titles [4] = "Profile";
+//			titles [5] = "Options";
 
 			var myBusidexTab = pager.GetViewPageTab (ActionBar, "My Busidex");
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
@@ -187,7 +202,6 @@ namespace Busidex.Presentation.Droid.v2
 				var lstCards = (ListView)adapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
 				lstCards.ScrollTo(0, 0);
 			};
-
 
 			var searchTab = pager.GetViewPageTab (ActionBar, "Search");
 			searchTab.SetCustomView (Resource.Layout.tab);
@@ -229,8 +243,6 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.AddTab(eventsTab);
 			ActionBar.AddTab(profileTab);
 			//ActionBar.AddTab (optionsTab);
-
-
 		}
 
 		#region Login Actions
@@ -247,21 +259,32 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		public void LoginComplete(){
-
-			authToken = BaseApplicationResource.GetAuthCookie ();
-			subscriptionService.reset (authToken);
+			subscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
+			subscriptionService.reset ();
 		}
-
 		#endregion
 
 		#region Event Actions
 		public void LoadEventCards(EventTag tag){
-			var fragment = new EventCardsFragment (tag, subscriptionService.EventCards [tag.Text]);
-			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
-			ActionBar.Hide ();
+
+			if (!subscriptionService.EventCards.ContainsKey (tag.Text)) {
+				subscriptionService.OnEventCardsLoaded -= goToEventCards;
+				subscriptionService.OnEventCardsLoaded += goToEventCards;
+
+				subscriptionService.loadEventCards (tag);
+			}else{
+				goToEventCards (tag, subscriptionService.EventCards [tag.Text]);
+			}
 		}
 
+		void goToEventCards(EventTag tag, List<UserCard> cards){
+			RunOnUiThread (() => {
+				var fragment = new EventCardsFragment (tag, cards);
+				FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+				LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+				ActionBar.Hide ();
+			});
+		}
 		#endregion
 
 		#region Organization Actions
@@ -377,13 +400,11 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		public void AddToMyBusidex(UserCard userCard){
-			var token = BaseApplicationResource.GetAuthCookie ();
-			subscriptionService.AddCardToMyBusidex (userCard, token);
+			subscriptionService.AddCardToMyBusidex (userCard);
 		}
 
 		public void RemoveFromMyBusidex(UserCard userCard){
-			var token = BaseApplicationResource.GetAuthCookie ();
-			subscriptionService.RemoveCardFromMyBusidex (userCard, token);
+			subscriptionService.RemoveCardFromMyBusidex (userCard);
 		}
 		#endregion
 
@@ -456,7 +477,7 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Google Analytics
-		protected static void TrackAnalyticsEvent(string category, string label, string action, int value){
+		public static void TrackAnalyticsEvent(string category, string label, string action, int value){
 
 			var build = new HitBuilders.EventBuilder ()
 				.SetCategory (category)
@@ -472,7 +493,7 @@ namespace Busidex.Presentation.Droid.v2
 			GATracker.Send (build2);
 		}
 
-		protected static void TrackException(Exception ex){
+		public static void TrackException(Exception ex){
 			try{
 				var build = new HitBuilders.ExceptionBuilder ()
 					.SetDescription (ex.Message)

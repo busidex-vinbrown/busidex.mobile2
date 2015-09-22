@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -13,6 +12,7 @@ namespace Busidex.Presentation.Droid.v2
 		static EventListAdapter eventListAdapter { get; set; }
 		List<EventTag> Tags;
 		EventTag SelectedEvent { get; set; }
+		ListView lstEvents;
 
 		public EventListFragment(){
 			
@@ -26,21 +26,21 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnResume ();
 			if (IsVisible) {
-				
-
 				//TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
 			}
 		}
 
 		public void SetEventList(List<EventTag> tags){
 			Tags = tags;
+			eventListAdapter.UpdateData (tags);
+			eventListAdapter.NotifyDataSetChanged ();
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate (Resource.Layout.EventList, container, false);
 
-			var lstEvents = view.FindViewById<ListView> (Resource.Id.lstEvents);
+			lstEvents = view.FindViewById<ListView> (Resource.Id.lstEvents);
 
 			eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, Tags);
 
