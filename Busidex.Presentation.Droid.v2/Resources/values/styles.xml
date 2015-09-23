@@ -5,7 +5,7 @@
 	</style>
 
     <style name="Theme.Busidexactionbar" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_busidexactionbar</item>
+        <item name="android:actionBarItemBackground">@color/buttonWhite</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Busidexactionbar</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Busidexactionbar</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Busidexactionbar</item>
@@ -17,7 +17,7 @@
     </style>
 
     <style name="ActionBar.Solid.Busidexactionbar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_solid_busidexactionbar</item>
+        <item name="android:background">@color/buttonWhite</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_busidexactionbar</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_busidexactionbar</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Busidexactionbar</item>
@@ -37,7 +37,7 @@
     </style>
 
     <style name="ActionBarTabStyle.Busidexactionbar" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_busidexactionbar</item>
+        <item name="android:background">@color/buttonWhite</item>
     </style>
 
     <style name="DropDownNav.Busidexactionbar" parent="@android:style/Widget.Holo.Light.Spinner">

@@ -12,8 +12,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:scaleType="fitXY" />
-    <TextView
+<!--    <TextView
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/txtTabTitle" />
+        android:layout_width="match_parent"
+        android:id="@+id/txtTabTitle" />-->
 </LinearLayout>

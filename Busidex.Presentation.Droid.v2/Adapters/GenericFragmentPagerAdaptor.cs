@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Support.V4.View;
 using Android.Support.V4.App;
+using Android.Widget;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class GenericFragmentPagerAdaptor : FragmentPagerAdapter
 	{
-		private readonly List<Android.Support.V4.App.Fragment> _fragmentList = new List<Android.Support.V4.App.Fragment>();
+		readonly List<Android.Support.V4.App.Fragment> _fragmentList = new List<Android.Support.V4.App.Fragment>();
 		public GenericFragmentPagerAdaptor(Android.Support.V4.App.FragmentManager fm)
 			: base(fm) {}
 
@@ -38,14 +37,45 @@ namespace Busidex.Presentation.Droid.v2
 	}
 	public class ViewPageListenerForActionBar : ViewPager.SimpleOnPageChangeListener
 	{
+		struct tabData{
+
+			public tabData(string title, int iconActive, int iconInactive){
+				Title = title;
+				IconActive = iconActive;
+				IconInactive = iconInactive;
+			}
+
+			public string Title { get; set; }
+			public int IconActive { get; set; }
+			public int IconInactive { get; set; }
+		}
+
+		readonly List<tabData> tabs;
+
 		private ActionBar _bar;
 		public ViewPageListenerForActionBar(ActionBar bar)
 		{
 			_bar = bar;
+
+			tabs = new List<tabData> ();
+
+			tabs.Add (new tabData("My Busidex", Resource.Drawable.MyBusidexIcon, Resource.Drawable.MyBusidexIconDisabled));
+			tabs.Add (new tabData("Search", Resource.Drawable.SearchIcon, Resource.Drawable.SearchIconDisabled));
+			tabs.Add (new tabData("Organizations", Resource.Drawable.OrganizationsIcon, Resource.Drawable.OrganizationsIconDisabled));
+			tabs.Add (new tabData("Events", Resource.Drawable.EventIcon, Resource.Drawable.EventIconDisabled));
+			tabs.Add (new tabData("Profile", Resource.Drawable.settings, Resource.Drawable.settingsDisabled));
 		}
 		public override void OnPageSelected(int position)
 		{
 			_bar.SetSelectedNavigationItem(position);
+
+			for(var i=0; i < _bar.TabCount; i++){
+				var tab = _bar.GetTabAt(i);
+				tab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[i].IconInactive);	
+			}
+
+			var selectedTab = _bar.GetTabAt(position);
+			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
 		}
 	}
 	public static class ViewPagerExtensions

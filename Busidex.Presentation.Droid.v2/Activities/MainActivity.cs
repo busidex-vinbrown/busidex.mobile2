@@ -21,6 +21,11 @@ namespace Busidex.Presentation.Droid.v2
 		UISubscriptionService subscriptionService;
 		string authToken = string.Empty;
 
+		public MainActivity(){
+
+
+		}
+
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
 			// HOME
@@ -135,6 +140,15 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void SwitchTabs(int position){
 			pager.SetCurrentItem (position, true);
+
+
+//			for(var i=0; i< 5; i++){
+//				var tab = pager.GetViewPageTab (ActionBar, tabs [i].Title);
+//				tab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.logo);	
+//			}
+//
+//			var selectedTab = pager.GetViewPageTab (ActionBar, tabs [position].Title);
+//			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
 		}
 
 		void Init(){
@@ -176,48 +190,41 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.SetDisplayShowTitleEnabled(false);
 
 			pager = FindViewById<ViewPager>(Resource.Id.pager);
-			var adapter = new GenericFragmentPagerAdaptor(SupportFragmentManager);
+			var tabAdapter = new GenericFragmentPagerAdaptor(SupportFragmentManager);
 
-			addTabs (adapter);
+			addTabs (tabAdapter);
 
-			pager.Adapter = adapter;
+			pager.Adapter = tabAdapter;
 			pager.SetOnPageChangeListener(new ViewPageListenerForActionBar(ActionBar));
-
 //			var homeTab = pager.GetViewPageTab (ActionBar, "");
 //			homeTab.SetCustomView (Resource.Layout.tab);
 //			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
 
-//			var titles = new string[6];
-//			titles [0] = "My Busidex";
-//			titles [1] = "Search";
-//			titles [2] = "Organizations";
-//			titles [3] = "Events";
-//			titles [4] = "Profile";
-//			titles [5] = "Options";
 
-			var myBusidexTab = pager.GetViewPageTab (ActionBar, "My Busidex");
+
+			var myBusidexTab = pager.GetViewPageTab (ActionBar, "");
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
 			myBusidexTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.MyBusidexIcon);
 			myBusidexTab.TabReselected += delegate {
-				var lstCards = (ListView)adapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
+				var lstCards = (ListView)tabAdapter.GetItem(0).Activity.FindViewById(Resource.Id.lstCards);
 				lstCards.ScrollTo(0, 0);
 			};
 
-			var searchTab = pager.GetViewPageTab (ActionBar, "Search");
+			var searchTab = pager.GetViewPageTab (ActionBar, "");
 			searchTab.SetCustomView (Resource.Layout.tab);
-			searchTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.SearchIcon);
+			searchTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.SearchIconDisabled);
 
-			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "Organizations");
+			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "");
 			myOrganizationsTab.SetCustomView (Resource.Layout.tab);
-			myOrganizationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.OrganizationsIcon);
+			myOrganizationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.OrganizationsIconDisabled);
 
-			var eventsTab = pager.GetViewPageTab (ActionBar, "Events");
+			var eventsTab = pager.GetViewPageTab (ActionBar, "");
 			eventsTab.SetCustomView (Resource.Layout.tab);
-			eventsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.EventIcon);
+			eventsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.EventIconDisabled);
 
-			var profileTab = pager.GetViewPageTab (ActionBar, "Profile");
+			var profileTab = pager.GetViewPageTab (ActionBar, "");
 			profileTab.SetCustomView (Resource.Layout.tab);
-			profileTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.settings);
+			profileTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.settingsDisabled);
 
 //			var optionsTab = pager.GetViewPageTab (ActionBar, "Options");
 //			optionsTab.SetCustomView (Resource.Layout.OptionsTab);

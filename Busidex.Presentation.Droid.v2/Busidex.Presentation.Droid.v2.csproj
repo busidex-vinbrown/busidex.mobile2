@@ -364,6 +364,11 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\logo.png" />
     <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\EventIconDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\MyBusidexIconDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\OrganizationsIconDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\SearchIconDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\settingsDisabled.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
