@@ -72,10 +72,12 @@ namespace Busidex.Presentation.Droid.v2
 			for(var i=0; i < _bar.TabCount; i++){
 				var tab = _bar.GetTabAt(i);
 				tab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[i].IconInactive);	
+				tab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = .3f;
 			}
 
 			var selectedTab = _bar.GetTabAt(position);
 			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
+			selectedTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = 1f;
 		}
 	}
 	public static class ViewPagerExtensions

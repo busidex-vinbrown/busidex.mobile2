@@ -138,19 +138,6 @@ namespace Busidex.Presentation.Droid.v2
 			);
 		}
 
-		public void SwitchTabs(int position){
-			pager.SetCurrentItem (position, true);
-
-
-//			for(var i=0; i< 5; i++){
-//				var tab = pager.GetViewPageTab (ActionBar, tabs [i].Title);
-//				tab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.logo);	
-//			}
-//
-//			var selectedTab = pager.GetViewPageTab (ActionBar, tabs [position].Title);
-//			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
-		}
-
 		void Init(){
 			BaseApplicationResource.context = this;
 			subscriptionService = subscriptionService ?? new UISubscriptionService ();
@@ -201,6 +188,7 @@ namespace Busidex.Presentation.Droid.v2
 //			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
 
 
+			const float DISABLED_ALPHA = .3f;
 
 			var myBusidexTab = pager.GetViewPageTab (ActionBar, "");
 			myBusidexTab.SetCustomView (Resource.Layout.tab);
@@ -213,18 +201,22 @@ namespace Busidex.Presentation.Droid.v2
 			var searchTab = pager.GetViewPageTab (ActionBar, "");
 			searchTab.SetCustomView (Resource.Layout.tab);
 			searchTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.SearchIconDisabled);
+			searchTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 			var myOrganizationsTab = pager.GetViewPageTab (ActionBar, "");
 			myOrganizationsTab.SetCustomView (Resource.Layout.tab);
 			myOrganizationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.OrganizationsIconDisabled);
+			myOrganizationsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 			var eventsTab = pager.GetViewPageTab (ActionBar, "");
 			eventsTab.SetCustomView (Resource.Layout.tab);
 			eventsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.EventIconDisabled);
+			eventsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 			var profileTab = pager.GetViewPageTab (ActionBar, "");
 			profileTab.SetCustomView (Resource.Layout.tab);
 			profileTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.settingsDisabled);
+			profileTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 //			var optionsTab = pager.GetViewPageTab (ActionBar, "Options");
 //			optionsTab.SetCustomView (Resource.Layout.OptionsTab);

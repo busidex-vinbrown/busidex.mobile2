@@ -128,22 +128,22 @@ namespace Busidex.Presentation.Droid.v2
 			btnSharedCardsNotification.Click -= GoToSharedCards;
 			btnSharedCardsNotification.Click += GoToSharedCards;
 
-			btnSearch.Click += (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (1);
-
-			imgSearchIcon.Click += (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (1);
-
-			btnMyBusidex.Touch += (object sender, View.TouchEventArgs e) => ((MainActivity)Activity).SwitchTabs (2);
-
-			imgBusidexIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (2);
-
-			btnMyOrganizations.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (3);
-
-			imgOrgIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (3);
-
-			imgEventIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (4);
-
-			btnEvents.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (4);
-
+//			btnSearch.Click += (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (1);
+//
+//			imgSearchIcon.Click += (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (1);
+//
+//			btnMyBusidex.Touch += (object sender, View.TouchEventArgs e) => ((MainActivity)Activity).SwitchTabs (2);
+//
+//			imgBusidexIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (2);
+//
+//			btnMyOrganizations.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (3);
+//
+//			imgOrgIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (3);
+//
+//			imgEventIcon.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (4);
+//
+//			btnEvents.Click +=  (object sender, EventArgs e) => ((MainActivity)Activity).SwitchTabs (4);
+//
 			btnLogout.Click += delegate {
 				if(!interceptTouchEvents) return;
 				Logout();
