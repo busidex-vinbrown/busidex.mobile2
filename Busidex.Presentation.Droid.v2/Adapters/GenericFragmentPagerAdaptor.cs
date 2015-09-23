@@ -78,6 +78,8 @@ namespace Busidex.Presentation.Droid.v2
 			var selectedTab = _bar.GetTabAt(position);
 			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
 			selectedTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = 1f;
+			_bar.Title = tabs [position].Title;
+
 		}
 	}
 	public static class ViewPagerExtensions

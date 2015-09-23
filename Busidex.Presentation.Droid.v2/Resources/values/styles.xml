@@ -16,8 +16,18 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Busidexactionbar</item>
     </style>
 
+	<style name="CustomThemeActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+		<item name="android:textColor">@color/buttonFontColor</item>
+        <item name="android:textSize">22sp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:gravity">center|center_horizontal</item>
+	</style>
+
     <style name="ActionBar.Solid.Busidexactionbar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@color/buttonWhite</item>
+    	<item name="android:background">@color/buttonWhite</item>
+    	<item name="android:textColor">@color/labelFontColor</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:titleTextStyle">@style/CustomThemeActionBarTitleTextStyle</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_busidexactionbar</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_busidexactionbar</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Busidexactionbar</item>
@@ -25,6 +35,7 @@
 
     <style name="ActionBar.Transparent.Busidexactionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_busidexactionbar</item>
+        <item name="android:titleTextStyle">@style/CustomThemeActionBarTitleTextStyle</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Busidexactionbar</item>
     </style>
 

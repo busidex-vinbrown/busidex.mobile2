@@ -147,6 +147,7 @@
     <Compile Include="Fragments\OrganizationPanelFragment.cs" />
     <Compile Include="Fragments\OrganizationCardsFragment.cs" />
     <Compile Include="Fragments\EventCardsFragment.cs" />
+    <Compile Include="Fragments\StartUpFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -369,6 +370,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\OrganizationsIconDisabled.png" />
     <AndroidResource Include="Resources\drawable-hdpi\SearchIconDisabled.png" />
     <AndroidResource Include="Resources\drawable-hdpi\settingsDisabled.png" />
+    <AndroidResource Include="Resources\layout\StartUp.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

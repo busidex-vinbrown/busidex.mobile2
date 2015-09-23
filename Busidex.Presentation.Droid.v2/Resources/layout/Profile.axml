@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/profileFragment"
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -25,6 +25,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
+        android:layout_below="@id/lblProfileHeader"
         android:paddingTop="5dp"
         android:paddingRight="25dp"
         android:paddingLeft="25dp"
@@ -36,6 +37,7 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/txtProfileDescription"
         android:id="@+id/profileLayout">
         <TextView
             android:text="Email"
@@ -187,4 +189,19 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp" />
     </RelativeLayout>
-</LinearLayout>
+    <RelativeLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:background="@color/buttonWhite"
+        android:layout_alignParentTop="true"
+        android:id="@+id/profileCover"
+        android:alpha=".4" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:id="@+id/progressBar1"
+        android:layout_centerInParent="true"
+        android:paddingBottom="150dp" />
+</RelativeLayout>

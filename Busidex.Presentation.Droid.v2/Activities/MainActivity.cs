@@ -133,8 +133,9 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// PROFILE
+			var profileFragment = new ProfileFragment (subscriptionService.CurrentUser);
 			adapter.AddFragment (
-				new ProfileFragment (subscriptionService.CurrentUser)
+				profileFragment
 			);
 		}
 
@@ -154,7 +155,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			string token = BaseApplicationResource.GetAuthCookie ();
 			if(string.IsNullOrEmpty(token)){
-				DoLogin ();		
+				DoStartUp ();		
 			}
 		}
 
@@ -174,7 +175,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 			ActionBar.SetDisplayShowHomeEnabled(false);
-			ActionBar.SetDisplayShowTitleEnabled(false);
+			ActionBar.SetDisplayShowTitleEnabled(true);
+
+			ActionBar.Title = "My Busidex";
 
 			pager = FindViewById<ViewPager>(Resource.Id.pager);
 			var tabAdapter = new GenericFragmentPagerAdaptor(SupportFragmentManager);
@@ -244,14 +247,36 @@ namespace Busidex.Presentation.Droid.v2
 			//ActionBar.AddTab (optionsTab);
 		}
 
+		#region Startup Actions
+		public void DoStartUp(){
+			DoingLogin = true;
+			subscriptionService.CurrentUser = null;
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (new StartUpFragment ());
+			ActionBar.Hide ();
+		}
+
+		public void ShowRegistration(){
+			DoingRegistration = true;
+			subscriptionService.CurrentUser = null;
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (new ProfileFragment ());
+			ActionBar.Hide ();
+		}
+		#endregion
+
 		#region Login Actions
+		bool DoingLogin = false;
+		bool DoingRegistration = false;
 
 		public void ShowLogin(){
+			DoingLogin = true;
 			subscriptionService.CurrentUser = null;
 			DoLogin ();
 		}
-
+ 
 		void DoLogin(){
+			DoingLogin = true;
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (new LoginFragment ());
 			ActionBar.Hide ();
@@ -260,6 +285,11 @@ namespace Busidex.Presentation.Droid.v2
 		public void LoginComplete(){
 			subscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 			subscriptionService.reset ();
+			DoingLogin = false;
+			if(DoingRegistration){
+				UnloadFragment ();
+				DoingRegistration = false;
+			}
 		}
 		#endregion
 
@@ -421,7 +451,7 @@ namespace Busidex.Presentation.Droid.v2
 			int container = Resource.Id.fragment_holder
 		){
 
-			if (fragment.IsVisible) {
+				if (fragment.IsVisible) {
 				return;
 			}
 				
@@ -451,6 +481,12 @@ namespace Busidex.Presentation.Droid.v2
 			if (subscriptionService.CurrentUser != null) {
 				//base.OnBackPressed ();
 				UnloadFragment ();
+			}else if(DoingLogin){
+				UnloadFragment (new StartUpFragment ());
+				DoingLogin = false;
+			}else if(DoingRegistration){
+				UnloadFragment (new StartUpFragment ());
+				DoingRegistration = false;
 			}
 		}
 
@@ -470,8 +506,6 @@ namespace Busidex.Presentation.Droid.v2
 			}else{
 				LoadFragment (fragment, openAnimation, closeAnimation, container);
 			}
-
-			//SupportFragmentManager.PopBackStack ();
 		}
 		#endregion
 
