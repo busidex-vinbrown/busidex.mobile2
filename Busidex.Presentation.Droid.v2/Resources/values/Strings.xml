@@ -14,6 +14,7 @@
 	<string name="Login_lblPassword">Password</string>
 	<string name="Login_btnLogin">Sign In</string>
 	<string name="MyBusidex_NoCards">You do not have any cards in your collection. Search for some and add them.</string>
+	<string name="MyOrganizations_NoOrganizations">There are no organizations for you to view.</string>
 	<string name="Global_ButtonText_Ok">Ok</string>
 	<string name="Global_Logout_Title">Logout</string>
 	<string name="Global_Logout_Message">Are you sure you want to logout?</string>

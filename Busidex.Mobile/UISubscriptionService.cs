@@ -126,6 +126,14 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
+		public void LoadOrganizations(){
+			loadOrganizations ().ContinueWith(r=>{
+				if(OnMyOrganizationsLoaded != null){
+					OnMyOrganizationsLoaded(OrganizationList);
+				}
+			});	 	
+		}
+
 		public async void reset(){
 
 			loadUser ();

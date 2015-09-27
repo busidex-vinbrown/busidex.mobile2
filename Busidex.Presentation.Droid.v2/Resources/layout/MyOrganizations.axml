@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/listBackground"
     android:minWidth="25px"
     android:minHeight="25px">
-    <ListView
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblNoOrganizationsMessage"
+        android:text="@string/MyOrganizations_NoOrganizations"
+        android:textColor="@color/labelFontColor"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingBottom="100dp" />
+    <ImageButton
+        android:layout_width="85dp"
+        android:id="@+id/imgRefreshOrganizations"
+        android:layout_height="85dp"
+        android:layout_below="@id/lblNoOrganizationsMessage"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/refresh" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:id="@+id/progressBar2"
+        android:layout_centerInParent="true" />
+    <Busidex.Presentation.Droid.v2.OverscrollListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lstOrganizations" />
-</LinearLayout>
+</RelativeLayout>

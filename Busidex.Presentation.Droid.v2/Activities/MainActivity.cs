@@ -10,8 +10,6 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
 using System.IO;
-using System.Threading.Tasks;
-using Android.Net;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -20,6 +18,7 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		ViewPager pager;
 		UISubscriptionService subscriptionService;
+		bool OnMyBusidexLoadedAssigned, OnMyOrganizationsLoadedAssigned, OnEventListLoadedAssigned, OnBusidexUserLoadedAssigned;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -68,7 +67,7 @@ namespace Busidex.Presentation.Droid.v2
 					lstCards.OverScrolled += deltaY=> {
 
 						accumulatedDeltaY += -deltaY;
-						txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);
+						//txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);  debugging
 						if(accumulatedDeltaY > 1000){
 							lstCards.Visibility = ViewStates.Gone;
 							progressBar1.Visibility = ViewStates.Visible;
@@ -76,25 +75,33 @@ namespace Busidex.Presentation.Droid.v2
 						}
 					};
 
-					subscriptionService.OnMyBusidexLoaded += delegate {
-						RunOnUiThread(()=> {
-							myBusidexAdapter.UpdateData(subscriptionService.UserCards);
-							myBusidexAdapter.NotifyDataSetChanged();
-
-							progressBar1.Visibility = ViewStates.Gone;
-							lstCards.Visibility = ViewStates.Visible;
-
-							if(subscriptionService.UserCards.Count == 0){
-								lblNoCardsMessage.Visibility = ViewStates.Visible;
-								lblNoCardsMessage.SetText(Resource.String.MyBusidex_NoCards);
-							}
-
-							txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+					lstCards.Scroll+= delegate {
+						if( lstCards.CanScrollVertically(-1)){
 							accumulatedDeltaY = 0;
-							txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);
-						} );
-					}; 
+						}
+					};
 
+					if(!OnMyBusidexLoadedAssigned){
+						OnMyBusidexLoadedAssigned = true;
+						subscriptionService.OnMyBusidexLoaded += delegate {
+							RunOnUiThread(()=> {
+								myBusidexAdapter.UpdateData(subscriptionService.UserCards);
+								myBusidexAdapter.NotifyDataSetChanged();
+
+								progressBar1.Visibility = ViewStates.Gone;
+								lstCards.Visibility = ViewStates.Visible;
+
+								if(subscriptionService.UserCards.Count == 0){
+									lblNoCardsMessage.Visibility = ViewStates.Visible;
+									lblNoCardsMessage.SetText(Resource.String.MyBusidex_NoCards);
+								}
+
+								txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+								accumulatedDeltaY = 0;
+								txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);
+							} );
+						}; 
+					}
 					var state = lstCards.OnSaveInstanceState ();
 					if(state != null){
 						lstCards.OnRestoreInstanceState (state);
@@ -114,18 +121,58 @@ namespace Busidex.Presentation.Droid.v2
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView ((i, v, b) => 
 				{
+
 					var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
 					var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, subscriptionService.OrganizationList);
 					orgAdapter.RedirectToOrganizationDetails += org => ShowOrganizationDetail (new OrganizationPanelFragment (org));
 
-					var lstOrganizations = view.FindViewById<ListView> (Resource.Id.lstOrganizations);
+					var lstOrganizations = view.FindViewById<OverscrollListView> (Resource.Id.lstOrganizations);
+					var lblNoOrganizationsMessage = view.FindViewById<TextView>(Resource.Id.lblNoOrganizationsMessage);
+					lblNoOrganizationsMessage.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+					lstOrganizations.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 
 					lstOrganizations.Adapter = orgAdapter;
 
-					subscriptionService.OnMyOrganizationsLoaded += delegate {
-						RunOnUiThread(() => orgAdapter.UpdateData (subscriptionService.OrganizationList) );
-					}; 
+					var progressBar2 = view.FindViewById<ProgressBar>(Resource.Id.progressBar2);
+					progressBar2.Visibility = ViewStates.Gone;
 
+					var imgRefreshOrganizations = view.FindViewById<ImageButton>(Resource.Id.imgRefreshOrganizations);
+					imgRefreshOrganizations.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+					imgRefreshOrganizations.Click += delegate {
+						progressBar2.Visibility = ViewStates.Visible;
+						subscriptionService.LoadOrganizations();
+					};
+
+					int accumulatedDeltaY = 0;
+					lstOrganizations.OverScrolled += deltaY=> {
+
+						accumulatedDeltaY += -deltaY;
+						if(accumulatedDeltaY > 1000){
+							lstOrganizations.Visibility = ViewStates.Gone;
+							progressBar2.Visibility = ViewStates.Visible;
+							subscriptionService.LoadOrganizations();
+						}
+					};
+
+					lstOrganizations.Scroll+= delegate {
+						if( lstOrganizations.CanScrollVertically(-1)){
+							accumulatedDeltaY = 0;
+						}
+					};
+
+					if(!OnMyOrganizationsLoadedAssigned){
+						OnMyOrganizationsLoadedAssigned = true;
+						subscriptionService.OnMyOrganizationsLoaded += delegate {
+							RunOnUiThread(() => {
+								accumulatedDeltaY = 0;
+								orgAdapter.UpdateData (subscriptionService.OrganizationList);
+								progressBar2.Visibility = ViewStates.Gone;
+								lblNoOrganizationsMessage.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+								lstOrganizations.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+							});
+						}; 
+					}
+					subscriptionService.LoadOrganizations();
 					return view;
 				}	
 			);
@@ -141,19 +188,24 @@ namespace Busidex.Presentation.Droid.v2
 
 					lstEvents.Adapter = eventListAdapter;
 
-					subscriptionService.OnEventListLoaded += delegate {
-						RunOnUiThread (() => eventListAdapter.UpdateData (subscriptionService.EventList));
-					};
-
+					if(!OnEventListLoadedAssigned){
+						OnEventListLoadedAssigned = true;
+						subscriptionService.OnEventListLoaded += delegate {
+							RunOnUiThread (() => eventListAdapter.UpdateData (subscriptionService.EventList));
+						};
+					}
 					return view;
 				}
 			);
 
 			// PROFILE
 			var profileFragment = new ProfileFragment (subscriptionService.CurrentUser);
-			subscriptionService.OnBusidexUserLoaded += delegate {
-				RunOnUiThread(() => profileFragment.UpdateUser (subscriptionService.CurrentUser));
-			}; 
+			if (!OnBusidexUserLoadedAssigned) {		
+				OnBusidexUserLoadedAssigned = true;	
+				subscriptionService.OnBusidexUserLoaded += delegate {
+					RunOnUiThread (() => profileFragment.UpdateUser (subscriptionService.CurrentUser));
+				}; 
+			}
 
 			adapter.AddFragment (
 				profileFragment

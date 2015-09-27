@@ -372,6 +372,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\SearchIconDisabled.png" />
     <AndroidResource Include="Resources\drawable-hdpi\settingsDisabled.png" />
     <AndroidResource Include="Resources\layout\StartUp.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\refresh.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
