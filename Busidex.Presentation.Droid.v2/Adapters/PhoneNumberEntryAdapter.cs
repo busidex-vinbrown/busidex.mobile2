@@ -23,6 +23,12 @@ namespace Busidex.Presentation.Droid.v2
 			PhoneNumbers = phoneNumbers;
 		}
 
+		public override int Count {
+			get {
+				return PhoneNumbers.Count;
+			}
+		}
+
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.PhoneNumberEntry, null);

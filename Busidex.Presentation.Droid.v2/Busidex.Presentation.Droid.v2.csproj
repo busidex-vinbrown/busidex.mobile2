@@ -148,6 +148,7 @@
     <Compile Include="Fragments\OrganizationCardsFragment.cs" />
     <Compile Include="Fragments\EventCardsFragment.cs" />
     <Compile Include="Fragments\StartUpFragment.cs" />
+    <Compile Include="Widgets\OverscrollListView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -381,6 +382,7 @@
     <Folder Include="Activities\" />
     <Folder Include="Services\" />
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Widgets\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamarin.auth">

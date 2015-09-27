@@ -12,6 +12,7 @@ namespace Busidex.Mobile
 	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 	public delegate void OnEventCardsLoadedEventHandler(EventTag tag, List<UserCard> cards);
+	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
 
 	public class UISubscriptionService
 	{
@@ -20,6 +21,7 @@ namespace Busidex.Mobile
 		public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
 		public event OnEventListLoadedEventHandler OnEventListLoaded;
 		public event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
+		public event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 
 		public string AuthToken { get; set; }
 
@@ -35,6 +37,8 @@ namespace Busidex.Mobile
 			UserCards = new List<UserCard> ();
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
+
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 		}
 
 		readonly MyBusidexController myBusidexController;
@@ -89,6 +93,37 @@ namespace Busidex.Mobile
 					OnMyOrganizationsLoaded(OrganizationList);
 				}
 			//});
+		}
+
+		public void Clear(){
+
+			UserCards.Clear ();
+			if(OnMyBusidexLoaded != null){
+				OnMyBusidexLoaded(UserCards);
+			}
+
+			OrganizationList.Clear ();OrganizationList.Clear ();
+			if(OnMyOrganizationsLoaded != null){
+				OnMyOrganizationsLoaded(OrganizationList);
+			}
+
+			EventList.Clear ();
+			if(OnEventListLoaded != null){
+				OnEventListLoaded(EventList);
+			}
+			CurrentUser = null;
+		}
+
+		public void LoadUser(){
+			loadUser();
+		}
+
+		public void LoadUserCards(){
+			loadUserCards ().ContinueWith(r=>{
+				if(OnMyBusidexLoaded != null){
+					OnMyBusidexLoaded(UserCards);
+				}
+			});	 	
 		}
 
 		public async void reset(){
@@ -373,6 +408,10 @@ namespace Busidex.Mobile
 			Utils.SaveResponse (accountJSON, Resources.BUSIDEX_USER_FILE);
 
 			CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
+
+			if(OnBusidexUserLoaded != null){
+				OnBusidexUserLoaded (CurrentUser);
+			}
 		}
 	}
 }

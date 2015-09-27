@@ -26,8 +26,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lblNoCardsMessage"
+        android:text="@string/MyBusidex_NoCards"
         android:textColor="@color/labelFontColor"
-        android:gravity="center_horizontal" />
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingBottom="100dp" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
@@ -35,7 +38,7 @@
         android:indeterminate="true"
         android:id="@+id/progressBar1"
         android:layout_centerInParent="true" />
-    <ListView
+    <Busidex.Presentation.Droid.v2.OverscrollListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
@@ -43,5 +46,5 @@
         android:id="@+id/lstCards"
         android:divider="@color/textInputColor"
         android:dividerHeight="4px"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="60dp" />
 </RelativeLayout>

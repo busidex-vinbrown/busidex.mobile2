@@ -4,7 +4,6 @@ using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using Android.Views.Animations;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Net;
@@ -19,27 +18,41 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgAcceptTerms;
 		TextView lblEmailError;
 		TextView lblPasswordError;
+		//TextView txtProfileEmail;
 		ImageButton btnLogout;
 		RelativeLayout profileCover;
 		ProgressBar progress1;
+		View profileView;
 
 		bool showPassword = true;
 		bool termsAccepted;
-		readonly BusidexUser currentUser;
+		public BusidexUser CurrentUser;
 
 		public ProfileFragment(){
 			
 		}
 
 		public ProfileFragment(BusidexUser user){
-			currentUser = user;
+			CurrentUser = user;
 		}
 
-		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-		
-			View profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
+		public void UpdateUser(BusidexUser bu){
+			CurrentUser = bu;
+			updateUI ();
+		}
 
+		public override void OnResume ()
+		{
+			base.OnResume ();
+			updateUI ();
+		}
+
+		void updateUI(){
+			if(profileView == null){
+				return;
+			}
+
+			profileView.RequestLayout ();
 			profileCover = profileView.FindViewById<RelativeLayout> (Resource.Id.profileCover);
 			progress1 = profileView.FindViewById<ProgressBar> (Resource.Id.progressBar1);
 
@@ -71,13 +84,16 @@ namespace Busidex.Presentation.Droid.v2
 			};
 
 			var token = BaseApplicationResource.GetAuthCookie ();
-//			var accountJSON = AccountController.GetAccount (token);
-			//var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJSON);
 
 			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
 
-			if(currentUser != null){
-				txtProfileEmail.Text = currentUser.Email;
+			if(CurrentUser != null){
+				txtProfileEmail.Text = CurrentUser.Email;
+				txtProfileEmail.RequestLayout ();
+				txtProfileEmail.Click += (object sender, System.EventArgs e) => {
+					ShowAlert("WTF?", "The current user's email is " + CurrentUser.Email, "Ok", null);
+					txtProfileEmail.Text = CurrentUser.Email;
+				};
 				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
 				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 
@@ -87,7 +103,10 @@ namespace Busidex.Presentation.Droid.v2
 				btnSaveProfile.Click += async delegate {
 					await UpdateEmail (token, txtProfileEmail.Text);
 				};
+				profileView.RequestLayout ();
 			}else{
+				txtProfileEmail.Text = string.Empty;
+
 				btnLogout.Visibility = ViewStates.Gone;
 
 				txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Visible;
@@ -132,8 +151,23 @@ namespace Busidex.Presentation.Droid.v2
 					}
 				};
 			}
+		}
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+		
+			profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
+
+			//updateUI ();
 
 			return profileView;
+		}
+
+		public override void OnDestroyView ()
+		{
+			base.OnDestroyView ();
+			//txtProfileEmail = null;
+			profileView = null;
 		}
 
 		void toggleTerms(){
@@ -195,10 +229,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					BaseApplicationResource.SetAuthCookie (userId);
 
-					Activity.RunOnUiThread(() => {
-						((MainActivity)Activity).UnloadFragment();
-						((MainActivity)Activity).LoginComplete();
-					});
+					Activity.RunOnUiThread(() => ((MainActivity)Activity).LoginComplete ());
 				});
 			} else {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
@@ -212,9 +243,6 @@ namespace Busidex.Presentation.Droid.v2
 
 				Activity.RunOnUiThread (() => {
 					if(SetEmailChangedResult (response.Result)){
-//						var slideOut = AnimationUtils.LoadAnimation (Activity, Resource.Animation.SlideOutAnimationFast);
-//						View.Visibility = ViewStates.Gone;
-//						View.StartAnimation(slideOut);
 						((MainActivity)Activity).UnloadFragment();
 					}
 				});
@@ -251,10 +279,9 @@ namespace Busidex.Presentation.Droid.v2
 					var dialog = o as global::Android.App.AlertDialog;
 					Button btnClicked = dialog.GetButton(e.Which);
 					if (btnClicked.Text == Activity.GetString (Resource.String.Global_ButtonText_Logout)) {
-						BaseApplicationResource.RemoveAuthCookie ();
-						Utils.RemoveCacheFiles ();
-
-						((MainActivity)Activity).DoStartUp();
+						CurrentUser = null;
+						//txtProfileEmail.Text = string.Empty;
+						((MainActivity)Activity).DoLogout();
 					}
 				}));
 		}

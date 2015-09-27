@@ -23,6 +23,12 @@ namespace Busidex.Presentation.Droid.v2
 			context = ctx;
 		}
 
+		public override int Count {
+			get {
+				return Tags.Count;
+			}
+		}
+
 		void OnRedirectToEventCards(object sender, EventArgs e){
 
 			int position = (int)((Button)sender).Tag;

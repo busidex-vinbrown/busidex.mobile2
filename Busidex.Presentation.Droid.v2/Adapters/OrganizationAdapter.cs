@@ -4,9 +4,6 @@ using Android.App;
 using System.Collections.Generic;
 using Android.Views;
 using Android.Graphics;
-using Android.Net;
-using Android.Content;
-using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -25,6 +22,11 @@ namespace Busidex.Presentation.Droid.v2
 			context = ctx;
 		}
 
+		public override int Count {
+			get {
+				return Organizations.Count;
+			}
+		}
 		void OnRedirectToOrganizationDetails(Organization org){
 			if(RedirectToOrganizationDetails != null){
 				RedirectToOrganizationDetails (org);
