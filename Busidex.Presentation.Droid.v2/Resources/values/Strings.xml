@@ -7,6 +7,7 @@
 	<string name="StartPage_btnConnect">Connect to Your Account</string>
 	<string name="StartPage_lblNewUser">New to Busidex?</string>
 	<string name="StartPage_btnStart">Start Using the App!</string>
+	<string name="EventList_PrivateMessage">This event is private and only those that attended the event and joined the event platform during the enrollment can view these Businesses.</string>
 	<string name="Main_btnSearch">Search for a Card</string>
 	<string name="Main_btnMyBusidex">My Busidex</string>
 	<string name="Main_btnMyOrganizations">My Organizations</string>

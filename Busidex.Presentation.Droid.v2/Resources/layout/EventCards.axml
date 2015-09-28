@@ -4,42 +4,43 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/listBackground">
-    <TextView
-        android:id="@+id/lblEventDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="[EVENT NAME]"
-        android:inputType="none"
-        android:textSize="@dimen/font_size_label_large"
-        android:textColor="@color/buttonFontColor"
-        android:background="@color/layoutBackground"
-        android:padding="5dp" />
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
-        <SearchView
-            android:minWidth="25px"
-            android:minHeight="25px"
+        <TextView
+            android:id="@+id/lblEventDescription"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/txtFilterEventCards"
-            android:theme="@style/SearchBar"
-            android:queryHint="Filter"
-            style="@style/SearchBar"
-            android:iconifiedByDefault="false"
-            android:searchIcon="@drawable/spotlight_icon"
-            android:layout_marginEnd="50dp" />
+            android:layout_height="45dp"
+            android:text="[EVENT NAME]"
+            android:inputType="none"
+            android:textSize="@dimen/font_size_label_large"
+            android:textColor="@color/buttonFontColor"
+            android:background="@color/layoutBackground"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:layout_marginRight="40dp" />
         <ImageButton
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:visibility="visible"
             android:id="@+id/btnClose"
-            android:background="@android:color/transparent"
-            android:layout_alignParentTop="true"
+            android:background="@color/buttonWhite"
             android:layout_alignParentEnd="true"
             android:scaleType="fitXY" />
     </RelativeLayout>
+    <TextView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/lblPrivateEventMessage"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/EventList_PrivateMessage"
+        android:layout_marginTop="40dp"
+        android:textSize="@dimen/font_size_label_medium"
+        android:textColor="@color/labelFontColorDark"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

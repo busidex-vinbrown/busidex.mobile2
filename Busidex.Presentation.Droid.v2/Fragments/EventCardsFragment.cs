@@ -23,12 +23,17 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var view = inflater.Inflate (Resource.Layout.EventCards, container, false);
 
-			var txtFilterEventCards = view.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
+			//var txtFilterEventCards = view.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
 
 			var lblEventDescription = view.FindViewById<TextView> (Resource.Id.lblEventDescription);
 			lblEventDescription.Text = EventTag.Description;
 
+			var lblPrivateEventMessage = view.FindViewById<TextView> (Resource.Id.lblPrivateEventMessage);
+
 			var lstEventCards = view.FindViewById<ListView> (Resource.Id.lstEventCards);
+			lblPrivateEventMessage.Visibility = Cards.Count > 0 ? ViewStates.Gone : ViewStates.Visible;
+			lstEventCards.Visibility = Cards.Count > 0 ? ViewStates.Visible : ViewStates.Gone;
+
 			var adapter = new UserCardAdapter (Activity, Resource.Id.lstCards, Cards);
 
 			adapter.Redirect += ((MainActivity)Activity).ShowCard;
@@ -38,20 +43,20 @@ namespace Busidex.Presentation.Droid.v2
 
 			lstEventCards.Adapter = adapter;
 
-			txtFilterEventCards.QueryTextChange += delegate {
-				//DoFilter (txtFilterEventCards.Query);
-			};
+//			txtFilterEventCards.QueryTextChange += delegate {
+//				//DoFilter (txtFilterEventCards.Query);
+//			};
+//
+//			txtFilterEventCards.Iconified = false;
+//			txtFilterEventCards.ClearFocus ();
 
-			txtFilterEventCards.Iconified = false;
-			txtFilterEventCards.ClearFocus ();
-
-			lstEventCards.RequestFocus (FocusSearchDirection.Down);
-			DismissKeyboard (txtFilterEventCards.WindowToken, Activity);
-
-			txtFilterEventCards.Touch += delegate {
-				txtFilterEventCards.Focusable = true;
-				txtFilterEventCards.RequestFocus ();
-			};
+//			lstEventCards.RequestFocus (FocusSearchDirection.Down);
+//			DismissKeyboard (txtFilterEventCards.WindowToken, Activity);
+//
+//			txtFilterEventCards.Touch += delegate {
+//				txtFilterEventCards.Focusable = true;
+//				txtFilterEventCards.RequestFocus ();
+//			};
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 			btnClose.Click += delegate {

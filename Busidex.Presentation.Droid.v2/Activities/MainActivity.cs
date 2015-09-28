@@ -10,6 +10,7 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Gms.Analytics;
 using System.IO;
+using System.Threading;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -36,6 +37,10 @@ namespace Busidex.Presentation.Droid.v2
 					var view = i.Inflate(Resource.Layout.MyBusidex, v, false);
 
 					var progressBar1 = view.FindViewById<ProgressBar>(Resource.Id.progressBar1);
+					if(progressBar1 == null){
+						return view; 
+					}
+
 					progressBar1.Visibility = ViewStates.Visible;
 
 					var lblNoCardsMessage = view.FindViewById<TextView>(Resource.Id.lblNoCardsMessage);
@@ -67,7 +72,6 @@ namespace Busidex.Presentation.Droid.v2
 					lstCards.OverScrolled += deltaY=> {
 
 						accumulatedDeltaY += -deltaY;
-						//txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);  debugging
 						if(accumulatedDeltaY > 1000){
 							lstCards.Visibility = ViewStates.Gone;
 							progressBar1.Visibility = ViewStates.Visible;
@@ -81,27 +85,20 @@ namespace Busidex.Presentation.Droid.v2
 						}
 					};
 
-					if(!OnMyBusidexLoadedAssigned){
-						OnMyBusidexLoadedAssigned = true;
-						subscriptionService.OnMyBusidexLoaded += delegate {
-							RunOnUiThread(()=> {
-								myBusidexAdapter.UpdateData(subscriptionService.UserCards);
-								myBusidexAdapter.NotifyDataSetChanged();
+					OnMyBusidexLoadedEventHandler callback = list => RunOnUiThread (() => {
+						myBusidexAdapter.UpdateData (list);
+						progressBar1.Visibility = ViewStates.Gone;
+						lstCards.Visibility = ViewStates.Visible;
+						if (list.Count == 0) {
+							lblNoCardsMessage.Visibility = ViewStates.Visible;
+							lblNoCardsMessage.SetText (Resource.String.MyBusidex_NoCards);
+						}
+						txtFilter.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						accumulatedDeltaY = 0;
+					});
+					subscriptionService.OnMyBusidexLoaded -= callback;
+					subscriptionService.OnMyBusidexLoaded += callback;
 
-								progressBar1.Visibility = ViewStates.Gone;
-								lstCards.Visibility = ViewStates.Visible;
-
-								if(subscriptionService.UserCards.Count == 0){
-									lblNoCardsMessage.Visibility = ViewStates.Visible;
-									lblNoCardsMessage.SetText(Resource.String.MyBusidex_NoCards);
-								}
-
-								txtFilter.Visibility = subscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-								accumulatedDeltaY = 0;
-								txtFilter.SetQuery(accumulatedDeltaY.ToString(), false);
-							} );
-						}; 
-					}
 					var state = lstCards.OnSaveInstanceState ();
 					if(state != null){
 						lstCards.OnRestoreInstanceState (state);
@@ -160,19 +157,21 @@ namespace Busidex.Presentation.Droid.v2
 						}
 					};
 
-					//if(!OnMyOrganizationsLoadedAssigned){
-						OnMyOrganizationsLoadedAssigned = true;
-						subscriptionService.OnMyOrganizationsLoaded += delegate {
-							RunOnUiThread(() => {
-								accumulatedDeltaY = 0;
-								orgAdapter.UpdateData (subscriptionService.OrganizationList);
-								progressBar2.Visibility = ViewStates.Gone;
-								lblNoOrganizationsMessage.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-								lstOrganizations.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-							});
-						}; 
-					//}
-					subscriptionService.LoadOrganizations();
+					OnMyOrganizationsLoadedEventHandler callback = list => RunOnUiThread (() => {
+						accumulatedDeltaY = 0;
+						orgAdapter.UpdateData (list);
+						progressBar2.Visibility = ViewStates.Gone;
+						lblNoOrganizationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+						lstOrganizations.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+					});
+
+					subscriptionService.OnMyOrganizationsLoaded -= callback;
+					subscriptionService.OnMyOrganizationsLoaded += callback;
+
+					ThreadPool.QueueUserWorkItem( (tok)=>{
+						subscriptionService.LoadOrganizations();
+					});
+
 					return view;
 				}	
 			);
@@ -188,12 +187,11 @@ namespace Busidex.Presentation.Droid.v2
 
 					lstEvents.Adapter = eventListAdapter;
 
-					//if(!OnEventListLoadedAssigned){
-						OnEventListLoadedAssigned = true;
-						subscriptionService.OnEventListLoaded += delegate {
-							RunOnUiThread (() => eventListAdapter.UpdateData (subscriptionService.EventList));
-						};
-					//}
+					OnEventListLoadedEventHandler callback = list => RunOnUiThread (() => eventListAdapter.UpdateData (list));
+
+					subscriptionService.OnEventListLoaded -= callback;
+					subscriptionService.OnEventListLoaded += callback;
+
 					return view;
 				}
 			);
@@ -216,11 +214,15 @@ namespace Busidex.Presentation.Droid.v2
 					var sharedCardAdapter = new SharedCardListAdapter(this, Resource.Id.lstSharedCards, subscriptionService.Notifications);
 					lstSharedCards.Adapter = sharedCardAdapter;
 
-					subscriptionService.OnNotificationsLoaded += delegate {
-						RunOnUiThread (() => sharedCardAdapter.UpdateData(subscriptionService.Notifications));
-					}; 
+					OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => sharedCardAdapter.UpdateData (list));
 
-					subscriptionService.LoadNotifications();
+					subscriptionService.OnNotificationsLoaded -= callback;
+					subscriptionService.OnNotificationsLoaded += callback;
+
+					ThreadPool.QueueUserWorkItem( (tok)=>{
+						subscriptionService.LoadNotifications();
+					});
+
 
 					return view;
 				}
@@ -228,12 +230,12 @@ namespace Busidex.Presentation.Droid.v2
 
 			// PROFILE
 			var profileFragment = new ProfileFragment (subscriptionService.CurrentUser);
-			if (!OnBusidexUserLoadedAssigned) {		
-				OnBusidexUserLoadedAssigned = true;	
-				subscriptionService.OnBusidexUserLoaded += delegate {
-					RunOnUiThread (() => profileFragment.UpdateUser (subscriptionService.CurrentUser));
-				}; 
-			}
+
+			OnBusidexUserLoadedEventHandler profileCallback = user => RunOnUiThread (() => profileFragment.UpdateUser (user));
+
+			subscriptionService.OnBusidexUserLoaded -= profileCallback;
+			subscriptionService.OnBusidexUserLoaded += profileCallback;
+
 
 			adapter.AddFragment (
 				profileFragment
@@ -250,6 +252,8 @@ namespace Busidex.Presentation.Droid.v2
 		protected override void OnResume ()
 		{
 			base.OnResume ();
+
+			subscriptionService.Sync ();
 
 			var tab = ActionBar.GetTabAt (0);
 			ActionBar.SelectTab (tab);
@@ -421,7 +425,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			subscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 
-			subscriptionService.reset ();
+			subscriptionService.Sync ();
 			DoingLogin = false;
 			if(DoingRegistration){
 				

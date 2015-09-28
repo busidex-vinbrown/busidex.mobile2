@@ -3640,8 +3640,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a0100
 			public const int btnAccept = 2131362048;
 			
-			// aapt resource value: 0x7f0a0077
-			public const int btnClose = 2131361911;
+			// aapt resource value: 0x7f0a0076
+			public const int btnClose = 2131361910;
 			
 			// aapt resource value: 0x7f0a0106
 			public const int btnConnect = 2131362054;
@@ -3991,6 +3991,9 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0a00da
 			public const int lblPhoneNumberType = 2131362010;
 			
+			// aapt resource value: 0x7f0a0077
+			public const int lblPrivateEventMessage = 2131361911;
+			
 			// aapt resource value: 0x7f0a00e0
 			public const int lblProfileEmail = 2131362016;
 			
@@ -4308,9 +4311,6 @@ namespace Busidex.Presentation.Droid.v2
 			
 			// aapt resource value: 0x7f0a00a3
 			public const int txtFilter = 2131361955;
-			
-			// aapt resource value: 0x7f0a0076
-			public const int txtFilterEventCards = 2131361910;
 			
 			// aapt resource value: 0x7f0a008c
 			public const int txtLoginFailed = 2131361932;
@@ -4655,113 +4655,116 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f080049
 			public const int ApplicationName = 2131230793;
 			
-			// aapt resource value: 0x7f080061
-			public const int Global_ButtonText_Cancel = 2131230817;
-			
-			// aapt resource value: 0x7f080060
-			public const int Global_ButtonText_Logout = 2131230816;
-			
-			// aapt resource value: 0x7f080058
-			public const int Global_ButtonText_Ok = 2131230808;
-			
-			// aapt resource value: 0x7f08005c
-			public const int Global_LoadingCards = 2131230812;
-			
-			// aapt resource value: 0x7f08005e
-			public const int Global_LoadingCardsProgress = 2131230814;
-			
-			// aapt resource value: 0x7f08005d
-			public const int Global_LoadingEvent = 2131230813;
-			
-			// aapt resource value: 0x7f08005f
-			public const int Global_LoggingYouIn = 2131230815;
-			
-			// aapt resource value: 0x7f08005a
-			public const int Global_Logout_Message = 2131230810;
-			
-			// aapt resource value: 0x7f080059
-			public const int Global_Logout_Title = 2131230809;
-			
-			// aapt resource value: 0x7f08005b
-			public const int Global_OneMoment = 2131230811;
-			
-			// aapt resource value: 0x7f080055
-			public const int Login_btnLogin = 2131230805;
-			
-			// aapt resource value: 0x7f080054
-			public const int Login_lblPassword = 2131230804;
-			
-			// aapt resource value: 0x7f080053
-			public const int Login_lblUserName = 2131230803;
-			
-			// aapt resource value: 0x7f080051
-			public const int Main_btnMyBusidex = 2131230801;
-			
-			// aapt resource value: 0x7f080052
-			public const int Main_btnMyOrganizations = 2131230802;
-			
 			// aapt resource value: 0x7f080050
-			public const int Main_btnSearch = 2131230800;
-			
-			// aapt resource value: 0x7f080056
-			public const int MyBusidex_NoCards = 2131230806;
-			
-			// aapt resource value: 0x7f080057
-			public const int MyOrganizations_NoOrganizations = 2131230807;
-			
-			// aapt resource value: 0x7f08006b
-			public const int Notes_Save = 2131230827;
-			
-			// aapt resource value: 0x7f08006c
-			public const int Organization_NoOrganizations = 2131230828;
-			
-			// aapt resource value: 0x7f080072
-			public const int Profile_DescriptionNewAccount = 2131230834;
-			
-			// aapt resource value: 0x7f080073
-			public const int Profile_DescriptionUpdateAccount = 2131230835;
-			
-			// aapt resource value: 0x7f080070
-			public const int Profile_ErrorAccountExists = 2131230832;
-			
-			// aapt resource value: 0x7f080071
-			public const int Profile_ErrorAccountGeneral = 2131230833;
-			
-			// aapt resource value: 0x7f08006e
-			public const int Profile_ErrorEmailGeneral = 2131230830;
-			
-			// aapt resource value: 0x7f08006d
-			public const int Profile_ErrorEmailInUse = 2131230829;
-			
-			// aapt resource value: 0x7f08006f
-			public const int Profile_ErrorUnableToCreateAccount = 2131230831;
-			
-			// aapt resource value: 0x7f080068
-			public const int Share_ConfirmAccept = 2131230824;
-			
-			// aapt resource value: 0x7f080069
-			public const int Share_ConfirmDecline = 2131230825;
-			
-			// aapt resource value: 0x7f080066
-			public const int Share_ConfirmShareTitleAccept = 2131230822;
-			
-			// aapt resource value: 0x7f080067
-			public const int Share_ConfirmShareTitleDecline = 2131230823;
-			
-			// aapt resource value: 0x7f080063
-			public const int Share_Description = 2131230819;
-			
-			// aapt resource value: 0x7f080065
-			public const int Share_Error = 2131230821;
-			
-			// aapt resource value: 0x7f08006a
-			public const int Share_ErrorCardNotAdded = 2131230826;
-			
-			// aapt resource value: 0x7f080064
-			public const int Share_ShareCard = 2131230820;
+			public const int EventList_PrivateMessage = 2131230800;
 			
 			// aapt resource value: 0x7f080062
-			public const int Share_Title = 2131230818;
+			public const int Global_ButtonText_Cancel = 2131230818;
+			
+			// aapt resource value: 0x7f080061
+			public const int Global_ButtonText_Logout = 2131230817;
+			
+			// aapt resource value: 0x7f080059
+			public const int Global_ButtonText_Ok = 2131230809;
+			
+			// aapt resource value: 0x7f08005d
+			public const int Global_LoadingCards = 2131230813;
+			
+			// aapt resource value: 0x7f08005f
+			public const int Global_LoadingCardsProgress = 2131230815;
+			
+			// aapt resource value: 0x7f08005e
+			public const int Global_LoadingEvent = 2131230814;
+			
+			// aapt resource value: 0x7f080060
+			public const int Global_LoggingYouIn = 2131230816;
+			
+			// aapt resource value: 0x7f08005b
+			public const int Global_Logout_Message = 2131230811;
+			
+			// aapt resource value: 0x7f08005a
+			public const int Global_Logout_Title = 2131230810;
+			
+			// aapt resource value: 0x7f08005c
+			public const int Global_OneMoment = 2131230812;
+			
+			// aapt resource value: 0x7f080056
+			public const int Login_btnLogin = 2131230806;
+			
+			// aapt resource value: 0x7f080055
+			public const int Login_lblPassword = 2131230805;
+			
+			// aapt resource value: 0x7f080054
+			public const int Login_lblUserName = 2131230804;
+			
+			// aapt resource value: 0x7f080052
+			public const int Main_btnMyBusidex = 2131230802;
+			
+			// aapt resource value: 0x7f080053
+			public const int Main_btnMyOrganizations = 2131230803;
+			
+			// aapt resource value: 0x7f080051
+			public const int Main_btnSearch = 2131230801;
+			
+			// aapt resource value: 0x7f080057
+			public const int MyBusidex_NoCards = 2131230807;
+			
+			// aapt resource value: 0x7f080058
+			public const int MyOrganizations_NoOrganizations = 2131230808;
+			
+			// aapt resource value: 0x7f08006c
+			public const int Notes_Save = 2131230828;
+			
+			// aapt resource value: 0x7f08006d
+			public const int Organization_NoOrganizations = 2131230829;
+			
+			// aapt resource value: 0x7f080073
+			public const int Profile_DescriptionNewAccount = 2131230835;
+			
+			// aapt resource value: 0x7f080074
+			public const int Profile_DescriptionUpdateAccount = 2131230836;
+			
+			// aapt resource value: 0x7f080071
+			public const int Profile_ErrorAccountExists = 2131230833;
+			
+			// aapt resource value: 0x7f080072
+			public const int Profile_ErrorAccountGeneral = 2131230834;
+			
+			// aapt resource value: 0x7f08006f
+			public const int Profile_ErrorEmailGeneral = 2131230831;
+			
+			// aapt resource value: 0x7f08006e
+			public const int Profile_ErrorEmailInUse = 2131230830;
+			
+			// aapt resource value: 0x7f080070
+			public const int Profile_ErrorUnableToCreateAccount = 2131230832;
+			
+			// aapt resource value: 0x7f080069
+			public const int Share_ConfirmAccept = 2131230825;
+			
+			// aapt resource value: 0x7f08006a
+			public const int Share_ConfirmDecline = 2131230826;
+			
+			// aapt resource value: 0x7f080067
+			public const int Share_ConfirmShareTitleAccept = 2131230823;
+			
+			// aapt resource value: 0x7f080068
+			public const int Share_ConfirmShareTitleDecline = 2131230824;
+			
+			// aapt resource value: 0x7f080064
+			public const int Share_Description = 2131230820;
+			
+			// aapt resource value: 0x7f080066
+			public const int Share_Error = 2131230822;
+			
+			// aapt resource value: 0x7f08006b
+			public const int Share_ErrorCardNotAdded = 2131230827;
+			
+			// aapt resource value: 0x7f080065
+			public const int Share_ShareCard = 2131230821;
+			
+			// aapt resource value: 0x7f080063
+			public const int Share_Title = 2131230819;
 			
 			// aapt resource value: 0x7f08004d
 			public const int StartPage_btnConnect = 2131230797;

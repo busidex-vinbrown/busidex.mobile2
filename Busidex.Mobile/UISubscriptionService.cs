@@ -75,13 +75,18 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public void Init(){
+		public async void Init(){
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if(OnMyBusidexLoaded != null){
 				OnMyBusidexLoaded(UserCards);
+			}
+
+			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
+			if(OnNotificationsLoaded != null){
+				OnNotificationsLoaded(Notifications);
 			}
 
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
@@ -94,10 +99,7 @@ namespace Busidex.Mobile
 				OnMyOrganizationsLoaded(OrganizationList);
 			}
 
-			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
-			if(OnNotificationsLoaded != null){
-				OnNotificationsLoaded(Notifications);
-			}
+
 		}
 
 		public void Clear(){
@@ -139,7 +141,10 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public void LoadNotifications(){
+		public async void LoadNotifications(){
+
+			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
+
 			loadNotifications ().ContinueWith(r=>{
 				if(OnNotificationsLoaded != null){
 					OnNotificationsLoaded(Notifications);
@@ -147,7 +152,7 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public async void reset(){
+		public async void Sync(){
 
 			loadUser ();
 
@@ -203,6 +208,17 @@ namespace Busidex.Mobile
 						userCard.CardId = card.CardId;
 
 						cards.Add (userCard);
+
+						var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
+						var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
+						var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+						var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+						if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+							Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+						}
+						if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+							Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+						}
 					}
 				}
 				EventCards.Add(tag.Text, cards);

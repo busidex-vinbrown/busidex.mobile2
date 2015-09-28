@@ -7,6 +7,7 @@ using Android.Net;
 using System.IO;
 using Android.Content;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -192,16 +193,45 @@ namespace Busidex.Presentation.Droid.v2
 				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
 
+				ProgressBar progress1 = view.FindViewById<ProgressBar> (Resource.Id.progressBar1);
+				progress1.Visibility = !File.Exists (fileName) ? ViewStates.Visible : ViewStates.Gone;
+
 				if (card.Card.FrontOrientation == "H") {
 					btnCardH.SetImageURI (uri);
 					btnCardH.SetScaleType (ImageView.ScaleType.FitXy);
 					btnCardH.Visibility = ViewStates.Visible;
 					btnCardV.Visibility = ViewStates.Gone;
-				}else{
+				} else {
 					btnCardV.SetImageURI (uri);
 					btnCardV.SetScaleType (ImageView.ScaleType.FitXy);
 					btnCardV.Visibility = ViewStates.Visible;
 					btnCardH.Visibility = ViewStates.Gone;
+				}
+
+				// If the image file doesn't exist yet, queue up a thread to wait for it
+				if (!File.Exists (fileName)) {
+					ThreadPool.QueueUserWorkItem (
+						(token) => {
+							while (!File.Exists (fileName)) {
+								Thread.Sleep (3000);
+							}
+
+							context.RunOnUiThread (() => {
+								progress1.Visibility = File.Exists (fileName) ? ViewStates.Gone : ViewStates.Visible;
+								if (card.Card.FrontOrientation == "H") {
+									btnCardH.SetImageURI (uri);
+									btnCardH.SetScaleType (ImageView.ScaleType.FitXy);
+									btnCardH.Visibility = ViewStates.Visible;
+									btnCardV.Visibility = ViewStates.Gone;
+								} else {
+									btnCardV.SetImageURI (uri);
+									btnCardV.SetScaleType (ImageView.ScaleType.FitXy);
+									btnCardV.Visibility = ViewStates.Visible;
+									btnCardH.Visibility = ViewStates.Gone;
+								}
+							});
+						}
+					);
 				}
 			}
 
