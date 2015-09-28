@@ -63,6 +63,7 @@ namespace Busidex.Presentation.Droid.v2
 			tabs.Add (new tabData("Search", Resource.Drawable.SearchIcon, Resource.Drawable.SearchIconDisabled));
 			tabs.Add (new tabData("Organizations", Resource.Drawable.OrganizationsIcon, Resource.Drawable.OrganizationsIconDisabled));
 			tabs.Add (new tabData("Events", Resource.Drawable.EventIcon, Resource.Drawable.EventIconDisabled));
+			tabs.Add (new tabData("Shared Cards", Resource.Drawable.notification, Resource.Drawable.NotificationDisabled));
 			tabs.Add (new tabData("Profile", Resource.Drawable.settings, Resource.Drawable.settingsDisabled));
 		}
 		public override void OnPageSelected(int position)

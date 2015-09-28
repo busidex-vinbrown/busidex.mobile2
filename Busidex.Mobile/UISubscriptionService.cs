@@ -13,6 +13,7 @@ namespace Busidex.Mobile
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 	public delegate void OnEventCardsLoadedEventHandler(EventTag tag, List<UserCard> cards);
 	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
+	public delegate void OnNotificationsLoadedEventHandler(List<SharedCard> notifications);
 
 	public class UISubscriptionService
 	{
@@ -22,6 +23,7 @@ namespace Busidex.Mobile
 		public event OnEventListLoadedEventHandler OnEventListLoaded;
 		public event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
 		public event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
+		public event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
 
 		public string AuthToken { get; set; }
 
@@ -37,6 +39,7 @@ namespace Busidex.Mobile
 			UserCards = new List<UserCard> ();
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
+			Notifications = new List<SharedCard> ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 		}
@@ -52,6 +55,7 @@ namespace Busidex.Mobile
 		public Dictionary<long, List<Card>> OrganizationMembers { get; set; }
 		public Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
 		public BusidexUser CurrentUser { get; set; }
+		public List<SharedCard> Notifications { get; set; }
 
 		T loadData<T>(string path) where T : new(){
 			return loadDataFromFile<T>(path);
@@ -75,24 +79,25 @@ namespace Busidex.Mobile
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
 
-			//ThreadPool.QueueUserWorkItem( o =>  {
-				UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
-				if(OnMyBusidexLoaded != null){
-					OnMyBusidexLoaded(UserCards);
-				}
-			//});
-			//ThreadPool.QueueUserWorkItem (o => {
-				EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
-				if(OnEventListLoaded != null){
-					OnEventListLoaded(EventList);
-				}
-			//});
-			//ThreadPool.QueueUserWorkItem (o => {
-				OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
-				if(OnMyOrganizationsLoaded != null){
-					OnMyOrganizationsLoaded(OrganizationList);
-				}
-			//});
+			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+			if(OnMyBusidexLoaded != null){
+				OnMyBusidexLoaded(UserCards);
+			}
+
+			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+			if(OnEventListLoaded != null){
+				OnEventListLoaded(EventList);
+			}
+
+			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+			if(OnMyOrganizationsLoaded != null){
+				OnMyOrganizationsLoaded(OrganizationList);
+			}
+
+			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
+			if(OnNotificationsLoaded != null){
+				OnNotificationsLoaded(Notifications);
+			}
 		}
 
 		public void Clear(){
@@ -134,6 +139,14 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
+		public void LoadNotifications(){
+			loadNotifications ().ContinueWith(r=>{
+				if(OnNotificationsLoaded != null){
+					OnNotificationsLoaded(Notifications);
+				}
+			});	 	
+		}
+
 		public async void reset(){
 
 			loadUser ();
@@ -151,6 +164,11 @@ namespace Busidex.Mobile
 			await loadEventList ().ContinueWith(r=>{
 				if(OnEventListLoaded != null){
 					OnEventListLoaded(EventList);
+				}
+			});
+			await loadNotifications ().ContinueWith(r=>{
+				if(OnNotificationsLoaded != null){
+					OnNotificationsLoaded(Notifications);
 				}
 			});
 		}
@@ -236,9 +254,7 @@ namespace Busidex.Mobile
 					var fileName = org.LogoFileName + "." + org.LogoType;
 					var fImagePath = Resources.CARD_PATH + fileName;
 					if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
-						Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName).ContinueWith (t => {
-
-						});
+						Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
 					} 
 					// load organization members
 					organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
@@ -257,14 +273,10 @@ namespace Busidex.Mobile
 							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
 							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
 							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
-									
-								});
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
 							}
 							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName).ContinueWith (t => {
-
-								});
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
 							}
 							idx++;
 						}
@@ -287,14 +299,10 @@ namespace Busidex.Mobile
 							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
 							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
 							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
-									
-								});
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
 							}
 							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName).ContinueWith (t => {
-
-								});
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
 							}
 							idx++;
 						}
@@ -303,7 +311,7 @@ namespace Busidex.Mobile
 
 				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
 
-				Utils.SaveResponse(r.Result, Resources.MY_ORGANIZATIONS_FILE);
+				Utils.SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
 
 			});
 			return true;
@@ -338,8 +346,7 @@ namespace Busidex.Mobile
 						}
 
 						if ((!File.Exists (Resources.DocumentsPath + "/" + bName)) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-							Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName).ContinueWith (t => {
-							});
+							Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
 						}
 					}
 				}
@@ -352,6 +359,30 @@ namespace Busidex.Mobile
 				Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
 
 			});
+			return true;
+		}
+
+		async Task<bool> loadNotifications(){
+			var ctrl = new SharedCardController ();
+			var sharedCardsResponse = ctrl.GetSharedCards (AuthToken);
+			if(sharedCardsResponse.Contains(":404")){
+				return false;
+			}
+
+			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
+
+			Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
+
+			foreach (SharedCard card in sharedCards.SharedCards) {
+				var fileName = card.Card.FrontFileName;
+				var fImagePath = Resources.CARD_PATH + fileName;
+				if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
+					Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+				}
+			}
+
+			Notifications = sharedCards.SharedCards;
+
 			return true;
 		}
 
@@ -408,6 +439,67 @@ namespace Busidex.Mobile
 
 				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
 			}
+		}
+
+		public void SaveSharedCard(SharedCard sharedCard){
+
+			// Accept/Decline the card
+			var ctrl = new SharedCardController ();
+			var cardId = new long? (sharedCard.Card.CardId);
+
+			ctrl.UpdateSharedCards (
+				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
+				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
+				AuthToken);
+
+			// if the card was accepted, update local copy of MyBusidex
+			if(sharedCard.Accepted.GetValueOrDefault()){
+
+				var card = GetCardFromSharedCard (AuthToken, sharedCard.CardId);
+
+				if (card != null) {
+					var userCard = new UserCard {
+						Card = card,
+						CardId = card.CardId
+					};
+					if (UserCards.All (uc => uc.CardId != card.CardId)) {
+						UserCards.Add (userCard);
+						if(OnMyBusidexLoaded != null){
+							OnMyBusidexLoaded (UserCards);
+						}
+					}
+				}
+			}
+
+			// update local copy of Shared Cards
+			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+			if(File.Exists(fullFilePath)){
+				string sharedCardsJson;
+				using (var sharedCardsFile = File.OpenText (fullFilePath)) {
+					sharedCardsJson = sharedCardsFile.ReadToEnd ();
+					sharedCardsFile.Close ();
+				}
+				var sharedCardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsJson);
+				sharedCardResponse.SharedCards.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
+
+				sharedCardsJson = Newtonsoft.Json.JsonConvert.SerializeObject (sharedCardResponse);
+
+				Utils.SaveResponse (sharedCardsJson, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+			}
+		}
+
+		static Card GetCardFromSharedCard(string token, long cardId){
+
+			try{
+				var cardData = CardController.GetCardById(token, cardId);
+				if(!string.IsNullOrEmpty(cardData)){
+					var response = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse>(cardData);
+					return new Card(response.Model);
+				}
+			}catch(Exception ex){
+				return null;
+			}
+			return null;
 		}
 
 		void loadUser(){

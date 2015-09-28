@@ -7,7 +7,7 @@ using System.IO;
 using Android.Net;
 using System.Linq;
 
-namespace Busidex.Presentation.Android
+namespace Busidex.Presentation.Droid.v2
 {
 	public delegate void SharingCardHandler(SharedCard card);
 

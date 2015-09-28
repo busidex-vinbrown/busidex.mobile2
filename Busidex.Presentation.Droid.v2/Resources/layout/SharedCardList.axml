@@ -5,11 +5,13 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:background="@color/layoutBackground">
+    android:background="@color/listBackground">
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="@color/textInputColor"
+        android:dividerHeight="4px"
         android:id="@+id/lstSharedCards" />
 </LinearLayout>

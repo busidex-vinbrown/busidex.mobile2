@@ -160,7 +160,7 @@ namespace Busidex.Presentation.Droid.v2
 						}
 					};
 
-					if(!OnMyOrganizationsLoadedAssigned){
+					//if(!OnMyOrganizationsLoadedAssigned){
 						OnMyOrganizationsLoadedAssigned = true;
 						subscriptionService.OnMyOrganizationsLoaded += delegate {
 							RunOnUiThread(() => {
@@ -171,7 +171,7 @@ namespace Busidex.Presentation.Droid.v2
 								lstOrganizations.Visibility = subscriptionService.OrganizationList.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 							});
 						}; 
-					}
+					//}
 					subscriptionService.LoadOrganizations();
 					return view;
 				}	
@@ -188,12 +188,40 @@ namespace Busidex.Presentation.Droid.v2
 
 					lstEvents.Adapter = eventListAdapter;
 
-					if(!OnEventListLoadedAssigned){
+					//if(!OnEventListLoadedAssigned){
 						OnEventListLoadedAssigned = true;
 						subscriptionService.OnEventListLoaded += delegate {
 							RunOnUiThread (() => eventListAdapter.UpdateData (subscriptionService.EventList));
 						};
-					}
+					//}
+					return view;
+				}
+			);
+
+			// NOTIFICATIONS
+//			var sharedCardListFragment = new SharedCardListFragment (subscriptionService.Notifications);
+//			OnBusidexUserLoadedAssigned = true;	
+//			subscriptionService.OnBusidexUserLoaded += delegate {
+//				RunOnUiThread (() => sharedCardListFragment.UpdateData (subscriptionService.Notifications));
+//			}; 
+//
+//			adapter.AddFragment (
+//				sharedCardListFragment
+//			);
+			adapter.AddFragmentView ((i, v, b) => 
+				{
+					var view = i.Inflate (Resource.Layout.SharedCardList, v, false);
+					var lstSharedCards = view.FindViewById<ListView>(Resource.Id.lstSharedCards);
+
+					var sharedCardAdapter = new SharedCardListAdapter(this, Resource.Id.lstSharedCards, subscriptionService.Notifications);
+					lstSharedCards.Adapter = sharedCardAdapter;
+
+					subscriptionService.OnNotificationsLoaded += delegate {
+						RunOnUiThread (() => sharedCardAdapter.UpdateData(subscriptionService.Notifications));
+					}; 
+
+					subscriptionService.LoadNotifications();
+
 					return view;
 				}
 			);
@@ -280,7 +308,7 @@ namespace Busidex.Presentation.Droid.v2
 
 				var activity = tabAdapter.GetItem(0).Activity;
 				if(activity != null){				
-					var lstCards = (ListView)activity.FindViewById(Resource.Id.lstCards);
+					var lstCards = (OverscrollListView)activity.FindViewById(Resource.Id.lstCards);
 					lstCards.ScrollTo(0, 0);
 				}
 			};
@@ -299,6 +327,12 @@ namespace Busidex.Presentation.Droid.v2
 			eventsTab.SetCustomView (Resource.Layout.tab);
 			eventsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.EventIconDisabled);
 			eventsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
+
+			var notificationsTab = pager.GetViewPageTab (ActionBar, "");
+			notificationsTab.SetCustomView (Resource.Layout.notification);
+			notificationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.NotificationDisabled);
+			notificationsTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount).Text = subscriptionService.Notifications.Count.ToString();
+			notificationsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 			var profileTab = pager.GetViewPageTab (ActionBar, "");
 			profileTab.SetCustomView (Resource.Layout.tab);
@@ -327,6 +361,7 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.AddTab(searchTab);
 			ActionBar.AddTab(myOrganizationsTab);
 			ActionBar.AddTab(eventsTab);
+			ActionBar.AddTab (notificationsTab);
 			ActionBar.AddTab(profileTab);
 			//ActionBar.AddTab (optionsTab);
 

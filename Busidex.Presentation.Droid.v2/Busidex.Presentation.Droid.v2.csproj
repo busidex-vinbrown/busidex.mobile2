@@ -149,6 +149,8 @@
     <Compile Include="Fragments\EventCardsFragment.cs" />
     <Compile Include="Fragments\StartUpFragment.cs" />
     <Compile Include="Widgets\OverscrollListView.cs" />
+    <Compile Include="Adapters\SharedCardListAdapter.cs" />
+    <Compile Include="Fragments\SharedCardListFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -373,6 +375,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\settingsDisabled.png" />
     <AndroidResource Include="Resources\layout\StartUp.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\refresh.png" />
+    <AndroidResource Include="Resources\layout\notification.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\notification.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\NotificationDisabled.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
