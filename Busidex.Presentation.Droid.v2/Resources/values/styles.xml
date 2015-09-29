@@ -1,4 +1,9 @@
 ﻿<resources>
+<style name="Theme.Splash" parent="android:Theme">
+    <item name="android:windowBackground">@color/layoutBackground</item>
+    <item name="android:windowNoTitle">true</item>
+  </style>
+
 	<style name="SearchBar" parent="android:Theme">
 		<item name="android:textColor">@color/labelFontColorDark</item>
 		<item name="android:background">@color/layoutBackground</item>

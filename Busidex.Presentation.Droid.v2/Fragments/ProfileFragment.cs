@@ -90,10 +90,10 @@ namespace Busidex.Presentation.Droid.v2
 			if(CurrentUser != null){
 				txtProfileEmail.Text = CurrentUser.Email;
 				txtProfileEmail.RequestLayout ();
-				txtProfileEmail.Click += (object sender, System.EventArgs e) => {
-					ShowAlert("WTF?", "The current user's email is " + CurrentUser.Email, "Ok", null);
-					txtProfileEmail.Text = CurrentUser.Email;
-				};
+//				txtProfileEmail.Click += (object sender, System.EventArgs e) => {
+//					ShowAlert("WTF?", "The current user's email is " + CurrentUser.Email, "Ok", null);
+//					txtProfileEmail.Text = CurrentUser.Email;
+//				};
 				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
 				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 

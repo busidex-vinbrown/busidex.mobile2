@@ -151,6 +151,10 @@
     <Compile Include="Widgets\OverscrollListView.cs" />
     <Compile Include="Adapters\SharedCardListAdapter.cs" />
     <Compile Include="Fragments\SharedCardListFragment.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
+    <Compile Include="Adapters\UserCardFilter.cs" />
+    <Compile Include="ObjectExtensions.cs" />
+    <Compile Include="JavaHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -378,6 +382,10 @@
     <AndroidResource Include="Resources\layout\notification.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\notification.png" />
     <AndroidResource Include="Resources\drawable-hdpi\NotificationDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\busidex_logo_hor.png" />
+    <AndroidResource Include="Resources\layout\Splash.axml" />
+    <AndroidResource Include="Resources\anim\Spin.xml" />
+    <AndroidResource Include="Resources\anim\Zoom.xml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

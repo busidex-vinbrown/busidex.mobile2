@@ -9,9 +9,11 @@ using Android.Widget;
 
 namespace Busidex.Presentation.Droid.v2
 {
+
 	public class GenericFragmentPagerAdaptor : FragmentPagerAdapter
 	{
 		readonly List<Android.Support.V4.App.Fragment> _fragmentList = new List<Android.Support.V4.App.Fragment>();
+
 		public GenericFragmentPagerAdaptor(Android.Support.V4.App.FragmentManager fm)
 			: base(fm) {}
 
@@ -63,7 +65,7 @@ namespace Busidex.Presentation.Droid.v2
 			tabs.Add (new tabData("Search", Resource.Drawable.SearchIcon, Resource.Drawable.SearchIconDisabled));
 			tabs.Add (new tabData("Organizations", Resource.Drawable.OrganizationsIcon, Resource.Drawable.OrganizationsIconDisabled));
 			tabs.Add (new tabData("Events", Resource.Drawable.EventIcon, Resource.Drawable.EventIconDisabled));
-			tabs.Add (new tabData("Shared Cards", Resource.Drawable.notification, Resource.Drawable.NotificationDisabled));
+			tabs.Add (new tabData("Referrals Received", Resource.Drawable.notification, Resource.Drawable.NotificationDisabled));
 			tabs.Add (new tabData("Profile", Resource.Drawable.settings, Resource.Drawable.settingsDisabled));
 		}
 		public override void OnPageSelected(int position)
@@ -94,6 +96,16 @@ namespace Busidex.Presentation.Droid.v2
 				viewPager.SetCurrentItem(actionBar.SelectedNavigationIndex, false);
 			};
 			return tab;
+		}
+
+		public static void UpdateNotificationCount(ActionBar actionBar, int count){
+
+			if(count > 0){
+				var selectedTab = actionBar.GetTabAt(4);
+				var txtNotificationCount = selectedTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount);
+				txtNotificationCount.Visibility = ViewStates.Visible;
+				txtNotificationCount.Text = count.ToString ();
+			}
 		}
 	}
 

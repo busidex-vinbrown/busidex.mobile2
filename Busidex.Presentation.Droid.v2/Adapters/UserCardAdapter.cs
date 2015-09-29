@@ -36,8 +36,8 @@ namespace Busidex.Presentation.Droid.v2
 		protected const int CARD_WIDTH_VERTICAL = 110;
 		protected const int CARD_WIDTH_HORIZONTAL = 180;
 
-		List<UserCard> Cards { get; set; }
-		List<UserCard> _originalItems { get; set; }
+		public List<UserCard> Cards { get; set; }
+		public List<UserCard> _originalItems { get; set; }
 		List<int> PanelReferences {get;set;}
 
 		readonly Activity context;
@@ -76,7 +76,7 @@ namespace Busidex.Presentation.Droid.v2
 			Cards = _originalItems = cards;
 			context = ctx;
 			PanelReferences = new List<int> ();
-			//Filter = new UserCardFilter (this);
+			Filter = new UserCardFilter (this);
 		}
 
 		public UserCard this[int position]{ 

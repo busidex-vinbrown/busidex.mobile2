@@ -15,20 +15,20 @@ namespace Busidex.Mobile
 	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
 	public delegate void OnNotificationsLoadedEventHandler(List<SharedCard> notifications);
 
-	public class UISubscriptionService
+	public static class UISubscriptionService
 	{
 
-		public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
-		public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
-		public event OnEventListLoadedEventHandler OnEventListLoaded;
-		public event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
-		public event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
-		public event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
+		public static event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
+		public static event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
+		public static event OnEventListLoadedEventHandler OnEventListLoaded;
+		public static event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
+		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
+		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
 
-		public string AuthToken { get; set; }
+		public static string AuthToken { get; set; }
 
-		public UISubscriptionService(){
-			
+		static UISubscriptionService(){
+
 			EventCards = EventCards ?? new Dictionary<string, List<UserCard>> ();
 			OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>> ();
 			OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
@@ -41,27 +41,27 @@ namespace Busidex.Mobile
 			OrganizationList = new List<Organization> ();
 			Notifications = new List<SharedCard> ();
 
-			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 		}
 
-		readonly MyBusidexController myBusidexController;
-		readonly OrganizationController organizationController;
-		readonly SearchController searchController;
+		static readonly MyBusidexController myBusidexController;
+		static readonly OrganizationController organizationController;
+		static readonly SearchController searchController;
 
-		public List<UserCard> UserCards { get; set; }
-		public List<EventTag> EventList { get; set; }
-		public Dictionary<string, List<UserCard>> EventCards { get; set; }
-		public List<Organization> OrganizationList { get; set; }
-		public Dictionary<long, List<Card>> OrganizationMembers { get; set; }
-		public Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
-		public BusidexUser CurrentUser { get; set; }
-		public List<SharedCard> Notifications { get; set; }
+		public static List<UserCard> UserCards { get; set; }
+		public static List<EventTag> EventList { get; set; }
+		public static Dictionary<string, List<UserCard>> EventCards { get; set; }
+		public static List<Organization> OrganizationList { get; set; }
+		public static Dictionary<long, List<Card>> OrganizationMembers { get; set; }
+		public static Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
+		public static BusidexUser CurrentUser { get; set; }
+		public static List<SharedCard> Notifications { get; set; }
 
-		T loadData<T>(string path) where T : new(){
+		static T loadData<T>(string path) where T : new(){
 			return loadDataFromFile<T>(path);
 		}
 
-		T loadDataFromFile<T>(string path) where T: new(){
+		static T loadDataFromFile<T>(string path) where T: new(){
 
 			try{
 				var jsonData = loadFromFile (path);
@@ -75,9 +75,10 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public async void Init(){
+		public static async void Init(){
 
-			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? new BusidexUser ();
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
+			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if(OnMyBusidexLoaded != null){
@@ -102,7 +103,7 @@ namespace Busidex.Mobile
 
 		}
 
-		public void Clear(){
+		public static void Clear(){
 
 			UserCards.Clear ();
 			if(OnMyBusidexLoaded != null){
@@ -121,11 +122,11 @@ namespace Busidex.Mobile
 			CurrentUser = null;
 		}
 
-		public void LoadUser(){
+		public static void LoadUser(){
 			loadUser();
 		}
 
-		public void LoadUserCards(){
+		public static void LoadUserCards(){
 			loadUserCards ().ContinueWith(r=>{
 				if(OnMyBusidexLoaded != null){
 					OnMyBusidexLoaded(UserCards);
@@ -133,7 +134,7 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public void LoadOrganizations(){
+		public static void LoadOrganizations(){
 			loadOrganizations ().ContinueWith(r=>{
 				if(OnMyOrganizationsLoaded != null){
 					OnMyOrganizationsLoaded(OrganizationList);
@@ -141,18 +142,18 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public async void LoadNotifications(){
+		public static async void LoadNotifications(){
 
 			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
 
-			loadNotifications ().ContinueWith(r=>{
+			await loadNotifications ().ContinueWith(r=>{
 				if(OnNotificationsLoaded != null){
 					OnNotificationsLoaded(Notifications);
 				}
 			});	 	
 		}
 
-		public async void Sync(){
+		public static async void Sync(){
 
 			loadUser ();
 
@@ -178,7 +179,7 @@ namespace Busidex.Mobile
 			});
 		}
 
-		string loadFromFile(string fullFilePath){
+		static string loadFromFile(string fullFilePath){
 
 			string fileJson = string.Empty;
 			if(File.Exists(fullFilePath)){
@@ -190,7 +191,7 @@ namespace Busidex.Mobile
 			return fileJson;
 		}
 
-		public void loadEventCards(EventTag tag){
+		public static void loadEventCards(EventTag tag){
 			searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(t => {
 				Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
 
@@ -233,7 +234,7 @@ namespace Busidex.Mobile
 			});
 		}
 
-		async Task<bool> loadEventList(){
+		static async Task<bool> loadEventList(){
 
 			EventList.Clear ();
 
@@ -255,7 +256,7 @@ namespace Busidex.Mobile
 			return true;
 		}
 
-		async Task<bool> loadOrganizations(){
+		static async Task<bool> loadOrganizations(){
 
 			OrganizationList.Clear ();
 
@@ -333,7 +334,7 @@ namespace Busidex.Mobile
 			return true;
 		}
 
-		async Task<bool> loadUserCards(){
+		static async Task<bool> loadUserCards(){
 
 			var cards = new List<UserCard> ();
 
@@ -378,7 +379,7 @@ namespace Busidex.Mobile
 			return true;
 		}
 
-		async Task<bool> loadNotifications(){
+		static async Task<bool> loadNotifications(){
 			var ctrl = new SharedCardController ();
 			var sharedCardsResponse = ctrl.GetSharedCards (AuthToken);
 			if(sharedCardsResponse.Contains(":404")){
@@ -402,7 +403,7 @@ namespace Busidex.Mobile
 			return true;
 		}
 
-		public void AddCardToMyBusidex(UserCard userCard){
+		static public void AddCardToMyBusidex(UserCard userCard){
 
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 			if (userCard!= null) {
@@ -432,7 +433,7 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public void RemoveCardFromMyBusidex(UserCard userCard){
+		public static void RemoveCardFromMyBusidex(UserCard userCard){
 
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 
@@ -457,7 +458,7 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public void SaveSharedCard(SharedCard sharedCard){
+		public static void SaveSharedCard(SharedCard sharedCard){
 
 			// Accept/Decline the card
 			var ctrl = new SharedCardController ();
@@ -518,7 +519,7 @@ namespace Busidex.Mobile
 			return null;
 		}
 
-		void loadUser(){
+		static BusidexUser loadUser(){
 
 			var accountJSON = AccountController.GetAccount (AuthToken);
 			Utils.SaveResponse (accountJSON, Resources.BUSIDEX_USER_FILE);
@@ -528,6 +529,8 @@ namespace Busidex.Mobile
 			if(OnBusidexUserLoaded != null){
 				OnBusidexUserLoaded (CurrentUser);
 			}
+
+			return CurrentUser;
 		}
 	}
 }
