@@ -1,12 +1,31 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Activities/SplashActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile/UISubscriptionService.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="257" Column="32" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="209" Column="7" />
-      <File FileName="Busidex.Presentation.Droid.v2/Resources/anim/ZoomSpin.xml" Line="18" Column="32" />
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/SplashActivity.cs" Line="5" Column="22" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="62" Column="44" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/NotesFragment.cs" Line="87" Column="7" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="231" Column="3" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Busidex.Mobile" expanded="True">
+            <Node name="Busidex.Mobile" expanded="True">
+              <Node name="UISubscriptionService.cs" selected="True" />
+            </Node>
+            <Node name="Busidex.Presentation.Droid.v2" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="Activities" expanded="True" />
+              <Node name="Adapters" expanded="True" />
+              <Node name="Fragments" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="layout" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -23,10 +42,10 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" AndroidDesignerPreferredDevice="Galaxy Nexus" />
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Android MonoForAntroid.PreferredDevice="Galaxy Nexus" AndroidDeviceId-Debug="5b136be7" AndroidDesignerPreferredDevice="Galaxy Nexus" />
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

@@ -16,6 +16,6 @@
         android:layout_marginTop="200dp"
         android:background="@color/buttonWhite"
         android:scaleType="fitXY"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="6dp" />
 </LinearLayout>

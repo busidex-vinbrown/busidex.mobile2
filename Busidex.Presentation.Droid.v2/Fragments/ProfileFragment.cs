@@ -239,13 +239,17 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		async Task<bool> UpdateEmail(string token, string email){
-			 await SettingsController.ChangeEmail (email, token).ContinueWith(response => {
+
+			//needs to happen here because we have to update the UI with any error messages
+			await SettingsController.ChangeEmail (email, token).ContinueWith(response => {
 
 				Activity.RunOnUiThread (() => {
 					if(SetEmailChangedResult (response.Result)){
-						((MainActivity)Activity).UnloadFragment();
+						((MainActivity)Activity).UpdateEmail(email);
 					}
 				});
+
+
 			});
 			return true;
 		}
@@ -280,7 +284,6 @@ namespace Busidex.Presentation.Droid.v2
 					Button btnClicked = dialog.GetButton(e.Which);
 					if (btnClicked.Text == Activity.GetString (Resource.String.Global_ButtonText_Logout)) {
 						CurrentUser = null;
-						//txtProfileEmail.Text = string.Empty;
 						((MainActivity)Activity).DoLogout();
 					}
 				}));

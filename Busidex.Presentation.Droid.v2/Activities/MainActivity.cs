@@ -467,7 +467,12 @@ namespace Busidex.Presentation.Droid.v2
 				
 				DoingRegistration = false;
 			}
-		}			
+		}		
+
+		public void UpdateEmail(string email){
+			UISubscriptionService.ChangeEmail (email);
+		}
+
 		#endregion
 
 		#region Event Actions
@@ -526,6 +531,10 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Card Actions
+		public void SaveNotes(long userCardId, string notes){
+			UISubscriptionService.SaveNotes (userCardId, notes);
+		}
+
 		public void ShowCard(CardDetailFragment fragment){
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;

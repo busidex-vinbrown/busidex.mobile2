@@ -234,6 +234,37 @@ namespace Busidex.Mobile
 			}
 		}
 
+		public static void SaveNotes(long userCardId, string notes){
+
+			var controller = new NotesController ();
+			controller.SaveNotes (userCardId, notes, AuthToken).ContinueWith (response => {
+				var result = response.Result;
+				if(!string.IsNullOrEmpty(result)){
+
+					SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
+					if(obj.Success){
+
+						var card = UserCards.SingleOrDefault(uc => uc.UserCardId == userCardId );
+						if(card != null){
+							UserCards.ForEach( (uc) => {
+								if(uc.UserCardId == userCardId){
+									uc.Notes = notes;	}
+								}
+							);
+						}
+					}
+				}
+			});
+		}
+
+		public static void ChangeEmail(string email){
+			CurrentUser.Email = email;
+			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject(CurrentUser), Resources.BUSIDEX_USER_FILE);
+			if(OnBusidexUserLoaded != null){
+				OnBusidexUserLoaded (CurrentUser);
+			}
+		}
+
 		public static void SaveSharedCard(SharedCard sharedCard){
 
 			// Accept/Decline the card
