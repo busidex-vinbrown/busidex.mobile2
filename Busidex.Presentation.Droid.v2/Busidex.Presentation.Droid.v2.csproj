@@ -386,6 +386,8 @@
     <AndroidResource Include="Resources\layout\Splash.axml" />
     <AndroidResource Include="Resources\anim\Spin.xml" />
     <AndroidResource Include="Resources\anim\Zoom.xml" />
+    <AndroidResource Include="Resources\drawable\border.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\NotificationSimple.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

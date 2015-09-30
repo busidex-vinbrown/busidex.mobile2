@@ -18,7 +18,6 @@ namespace Busidex.Presentation.Droid.v2
 	public class MainActivity : FragmentActivity
 	{
 		ViewPager pager;
-		//UIUISubscriptionService UISubscriptionService;
 
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
@@ -168,9 +167,7 @@ namespace Busidex.Presentation.Droid.v2
 					UISubscriptionService.OnMyOrganizationsLoaded -= callback;
 					UISubscriptionService.OnMyOrganizationsLoaded += callback;
 
-					ThreadPool.QueueUserWorkItem( (tok)=>{
-						UISubscriptionService.LoadOrganizations();
-					});
+					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadOrganizations ());
 
 					return view;
 				}	
@@ -197,32 +194,36 @@ namespace Busidex.Presentation.Droid.v2
 			);
 
 			// NOTIFICATIONS
-//			var sharedCardListFragment = new SharedCardListFragment (UISubscriptionService.Notifications);
-//			OnBusidexUserLoadedAssigned = true;	
-//			UISubscriptionService.OnBusidexUserLoaded += delegate {
-//				RunOnUiThread (() => sharedCardListFragment.UpdateData (UISubscriptionService.Notifications));
-//			}; 
-//
-//			adapter.AddFragment (
-//				sharedCardListFragment
-//			);
 			adapter.AddFragmentView ((i, v, b) => 
 				{
 					var view = i.Inflate (Resource.Layout.SharedCardList, v, false);
 					var lstSharedCards = view.FindViewById<ListView>(Resource.Id.lstSharedCards);
 
+					var imgNoNotifications = view.FindViewById<ImageView>(Resource.Id.imgNoNotifications);
+					var lblNoNotificationsMessage = view.FindViewById<TextView>(Resource.Id.lblNoNotificationsMessage);
+
+					imgNoNotifications.Visibility = UISubscriptionService.Notifications.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+					lblNoNotificationsMessage.Visibility = UISubscriptionService.Notifications.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+
 					var sharedCardAdapter = new SharedCardListAdapter(this, Resource.Id.lstSharedCards, UISubscriptionService.Notifications);
 					lstSharedCards.Adapter = sharedCardAdapter;
+
+					sharedCardAdapter.SharingCard -= SaveSharedCard;
+					sharedCardAdapter.SharingCard += SaveSharedCard;
 
 					OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => {
 						ViewPagerExtensions.UpdateNotificationCount(ActionBar, list.Count);
 						sharedCardAdapter.UpdateData (list);
+
+						imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+						lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+
 					});
 
 					UISubscriptionService.OnNotificationsLoaded -= callback;
 					UISubscriptionService.OnNotificationsLoaded += callback;
 
-					ThreadPool.QueueUserWorkItem((tok) => UISubscriptionService.LoadNotifications ());
+					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadNotifications ());
 
 					return view;
 				}
@@ -269,7 +270,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
-		static void DoFilter(UserCardAdapter adapter, string filter){
+		static void DoFilter(IFilterable adapter, string filter){
+			if (adapter == null) {
+				return;
+			}
 			if(string.IsNullOrEmpty(filter)){
 				adapter.Filter.InvokeFilter ("");
 			}else{
@@ -282,7 +286,11 @@ namespace Busidex.Presentation.Droid.v2
 
 			base.OnCreate(savedInstanceState);
 
-			_tracker = _tracker ?? GoogleAnalytics.GetInstance (this).NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+			var gai = GoogleAnalytics.GetInstance (this);
+			_tracker = _tracker ?? gai.NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+
+			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+			gai.SetLocalDispatchPeriod(5);
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
@@ -343,9 +351,10 @@ namespace Busidex.Presentation.Droid.v2
 			notificationsTab.SetCustomView (Resource.Layout.notification);
 			notificationsTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.NotificationDisabled);
 			var txtNotificationCount = notificationsTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount);
-			//txtNotificationCount.Text = UISubscriptionService.Notifications.Count.ToString();
-			//txtNotificationCount.Visibility = UISubscriptionService.Notifications.Count > 0 ? ViewStates.Visible : ViewStates.Gone;
+			txtNotificationCount.Text = UISubscriptionService.Notifications.Count.ToString();
+			txtNotificationCount.Visibility = UISubscriptionService.Notifications.Count > 0 ? ViewStates.Visible : ViewStates.Gone;
 			notificationsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
+
 
 			var profileTab = pager.GetViewPageTab (ActionBar, "");
 			profileTab.SetCustomView (Resource.Layout.tab);
@@ -381,6 +390,13 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
+		#region Card Sharing
+		public void SaveSharedCard(SharedCard card){
+			UISubscriptionService.SaveSharedCard (card);
+			ViewPagerExtensions.UpdateNotificationCount(ActionBar, UISubscriptionService.Notifications.Count);
+		}
+		#endregion
+
 		#region Startup Actions
 		public void DoStartUp(){
 			DoingLogin = true;
@@ -400,8 +416,8 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Login / Logout Actions
-		bool DoingLogin = false;
-		bool DoingRegistration = false;
+		bool DoingLogin;
+		bool DoingRegistration;
 
 		public void ShowLogin(){
 			DoingLogin = true;
@@ -525,18 +541,23 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_PHONE, 0);
+
 		}
 
 		public void ShowNotes(NotesFragment fragment){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_NOTES, 0);
+
 		}
 
 		public void ShareCard(ShareCardFragment fragment){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
 		public void SendEmail(Intent intent, long id){
@@ -580,10 +601,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void AddToMyBusidex(UserCard userCard){
 			UISubscriptionService.AddCardToMyBusidex (userCard);
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_ADD, 0);
 		}
 
 		public void RemoveFromMyBusidex(UserCard userCard){
 			UISubscriptionService.RemoveCardFromMyBusidex (userCard);
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
 		}
 		#endregion
 

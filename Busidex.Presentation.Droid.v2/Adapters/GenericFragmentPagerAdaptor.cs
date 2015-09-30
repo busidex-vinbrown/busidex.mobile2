@@ -100,11 +100,14 @@ namespace Busidex.Presentation.Droid.v2
 
 		public static void UpdateNotificationCount(ActionBar actionBar, int count){
 
+			const int NOTIFICATION_TAB = 4;
+			var selectedTab = actionBar.GetTabAt(NOTIFICATION_TAB);
+			var txtNotificationCount = selectedTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount);
 			if(count > 0){
-				var selectedTab = actionBar.GetTabAt(4);
-				var txtNotificationCount = selectedTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount);
 				txtNotificationCount.Visibility = ViewStates.Visible;
 				txtNotificationCount.Text = count.ToString ();
+			}else{
+				txtNotificationCount.Visibility = ViewStates.Gone;
 			}
 		}
 	}

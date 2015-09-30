@@ -26,7 +26,8 @@
 	<string name="Global_LoggingYouIn">Signing you in</string>
 	<string name="Global_ButtonText_Logout">Logout</string>
 	<string name="Global_ButtonText_Cancel">Cancel</string>
-	<string name="Share_Title">Share This Card</string>
+	<string name="Notifications_NoReferrals">There are no referrals for you right now.</string>
+	<string name="Share_Title">Send a Referral</string>
 	<string name="Share_Description">Enter the email address of the person with whom you want to share this card.</string>
 	<string name="Share_ShareCard">Share</string>
 	<string name="Share_Error">There was a problem sharing your card</string>

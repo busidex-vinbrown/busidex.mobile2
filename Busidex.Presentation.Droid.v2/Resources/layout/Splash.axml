@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/layoutBackground"
+    android:background="@drawable/border"
     android:minWidth="25px"
     android:minHeight="25px"
     tools:context=".SplashActivity">
@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:src="@drawable/busidex_logo_hor"
         android:id="@+id/imgSplashLogo"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="200dp"
         android:background="@color/buttonWhite"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="5dp" />
 </LinearLayout>

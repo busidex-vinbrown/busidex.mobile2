@@ -8,41 +8,25 @@ using System.Threading;
 
 namespace Busidex.Mobile
 {
+	#region Delegates
 	public delegate void OnMyBusidexLoadedEventHandler(List<UserCard> cards);
 	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
 	public delegate void OnEventCardsLoadedEventHandler(EventTag tag, List<UserCard> cards);
 	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
 	public delegate void OnNotificationsLoadedEventHandler(List<SharedCard> notifications);
+	#endregion
 
 	public static class UISubscriptionService
 	{
-
+		#region Events
 		public static event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
 		public static event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
 		public static event OnEventListLoadedEventHandler OnEventListLoaded;
 		public static event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
-
-		public static string AuthToken { get; set; }
-
-		static UISubscriptionService(){
-
-			EventCards = EventCards ?? new Dictionary<string, List<UserCard>> ();
-			OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>> ();
-			OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
-
-			myBusidexController = new MyBusidexController ();
-			organizationController = new OrganizationController ();
-			searchController = new SearchController ();
-			UserCards = new List<UserCard> ();
-			EventList = new List<EventTag> ();
-			OrganizationList = new List<Organization> ();
-			Notifications = new List<SharedCard> ();
-
-			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
-		}
+		#endregion
 
 		static readonly MyBusidexController myBusidexController;
 		static readonly OrganizationController organizationController;
@@ -57,6 +41,26 @@ namespace Busidex.Mobile
 		public static BusidexUser CurrentUser { get; set; }
 		public static List<SharedCard> Notifications { get; set; }
 
+		public static string AuthToken { get; set; }
+
+		static UISubscriptionService(){
+
+			EventCards = EventCards ?? new Dictionary<string, List<UserCard>> ();
+			OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>> ();
+			OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
+			UserCards = new List<UserCard> ();
+			EventList = new List<EventTag> ();
+			OrganizationList = new List<Organization> ();
+			Notifications = new List<SharedCard> ();
+
+			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
+
+			myBusidexController = new MyBusidexController ();
+			organizationController = new OrganizationController ();
+			searchController = new SearchController ();
+		}
+
+		#region Initialization / Startup
 		static T loadData<T>(string path) where T : new(){
 			return loadDataFromFile<T>(path);
 		}
@@ -99,10 +103,10 @@ namespace Busidex.Mobile
 			if(OnMyOrganizationsLoaded != null){
 				OnMyOrganizationsLoaded(OrganizationList);
 			}
-
-
 		}
+		#endregion
 
+		#region Public Methods
 		public static void Clear(){
 
 			UserCards.Clear ();
@@ -120,6 +124,32 @@ namespace Busidex.Mobile
 				OnEventListLoaded(EventList);
 			}
 			CurrentUser = null;
+		}
+
+		public static async void Sync(){
+
+			loadUser ();
+
+			await loadUserCards ().ContinueWith(r=>{
+				if(OnMyBusidexLoaded != null){
+					OnMyBusidexLoaded(UserCards);
+				}
+			});	
+			await loadOrganizations ().ContinueWith(r=>{
+				if(OnMyOrganizationsLoaded != null){
+					OnMyOrganizationsLoaded(OrganizationList);
+				}
+			});
+			await loadEventList ().ContinueWith(r=>{
+				if(OnEventListLoaded != null){
+					OnEventListLoaded(EventList);
+				}
+			});
+			await loadNotifications ().ContinueWith(r=>{
+				if(OnNotificationsLoaded != null){
+					OnNotificationsLoaded(Notifications);
+				}
+			});
 		}
 
 		public static void LoadUser(){
@@ -153,44 +183,98 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public static async void Sync(){
+		public static void AddCardToMyBusidex(UserCard userCard){
 
-			loadUser ();
+			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+			if (userCard!= null) {
+				userCard.Card.ExistsInMyBusidex = true;
+				string file;
+				string myBusidexJson;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						myBusidexJson = myBusidexFile.ReadToEnd ();
+					}
 
-			await loadUserCards ().ContinueWith(r=>{
-				if(OnMyBusidexLoaded != null){
-					OnMyBusidexLoaded(UserCards);
+					var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
+					myBusidex.Add (userCard);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+					if(UserCards.FirstOrDefault(c=> c.CardId == userCard.CardId) == null){
+						UserCards.Add (userCard);
+					}
 				}
-			});	
-			await loadOrganizations ().ContinueWith(r=>{
-				if(OnMyOrganizationsLoaded != null){
-					OnMyOrganizationsLoaded(OrganizationList);
-				}
-			});
-			await loadEventList ().ContinueWith(r=>{
-				if(OnEventListLoaded != null){
-					OnEventListLoaded(EventList);
-				}
-			});
-			await loadNotifications ().ContinueWith(r=>{
-				if(OnNotificationsLoaded != null){
-					OnNotificationsLoaded(Notifications);
-				}
-			});
+
+				myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
+
+				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
+
+				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
+			}
 		}
 
-		static string loadFromFile(string fullFilePath){
+		public static void RemoveCardFromMyBusidex(UserCard userCard){
 
-			string fileJson = string.Empty;
-			if(File.Exists(fullFilePath)){
-				using (var file = File.OpenText (fullFilePath)) {
-					fileJson = file.ReadToEnd ();
-					file.Close ();
+			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+
+			if (userCard!= null) {
+
+				string file;
+				string myBusidexJson;
+				if (File.Exists (fullFilePath)) {
+					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+						myBusidexJson = myBusidexFile.ReadToEnd ();
+					}
+					var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
+					myBusidex.RemoveAll (uc => uc.CardId == userCard.CardId);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
+				}
+				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
+
+				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
+			}
+		}
+
+		public static void SaveSharedCard(SharedCard sharedCard){
+
+			// Accept/Decline the card
+			var ctrl = new SharedCardController ();
+			var cardId = new long? (sharedCard.Card.CardId);
+
+			ctrl.UpdateSharedCards (
+				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
+				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
+				AuthToken);
+
+			// if the card was accepted, update local copy of MyBusidex
+			if(sharedCard.Accepted.GetValueOrDefault()){
+
+				var card = GetCardFromSharedCard (AuthToken, sharedCard.CardId);
+
+				if (card != null) {
+					var userCard = new UserCard {
+						Card = card,
+						CardId = card.CardId
+					};
+					if (UserCards.All (uc => uc.CardId != card.CardId)) {
+						UserCards.Add (userCard);
+						if(OnMyBusidexLoaded != null){
+							OnMyBusidexLoaded (UserCards);
+						}
+					}
 				}
 			}
-			return fileJson;
-		}
 
+			// update local copy of Shared Cards
+			Notifications.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
+			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject(Notifications), Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+		}
+		#endregion
+
+		#region Load From API
 		public static void loadEventCards(EventTag tag){
 			searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(t => {
 				Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
@@ -388,8 +472,6 @@ namespace Busidex.Mobile
 
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
-			Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
-
 			foreach (SharedCard card in sharedCards.SharedCards) {
 				var fileName = card.Card.FrontFileName;
 				var fImagePath = Resources.CARD_PATH + fileName;
@@ -400,109 +482,23 @@ namespace Busidex.Mobile
 
 			Notifications = sharedCards.SharedCards;
 
+			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (Notifications), Resources.SHARED_CARDS_FILE);
+
 			return true;
 		}
+		#endregion
 
-		static public void AddCardToMyBusidex(UserCard userCard){
+		#region Private Methods
+		static string loadFromFile(string fullFilePath){
 
-			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
-			if (userCard!= null) {
-				userCard.Card.ExistsInMyBusidex = true;
-				string file;
-				string myBusidexJson;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						myBusidexJson = myBusidexFile.ReadToEnd ();
-					}
-
-					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
-
-					if(UserCards.FirstOrDefault(c=> c.CardId == userCard.CardId) == null){
-						UserCards.Add (userCard);
-					}
-				}
-
-				myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
-
-				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
-
-				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
-			}
-		}
-
-		public static void RemoveCardFromMyBusidex(UserCard userCard){
-
-			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
-
-			if (userCard!= null) {
-
-				string file;
-				string myBusidexJson;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						myBusidexJson = myBusidexFile.ReadToEnd ();
-					}
-					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
-					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
-
-					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
-				}
-				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
-
-				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
-			}
-		}
-
-		public static void SaveSharedCard(SharedCard sharedCard){
-
-			// Accept/Decline the card
-			var ctrl = new SharedCardController ();
-			var cardId = new long? (sharedCard.Card.CardId);
-
-			ctrl.UpdateSharedCards (
-				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
-				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
-				AuthToken);
-
-			// if the card was accepted, update local copy of MyBusidex
-			if(sharedCard.Accepted.GetValueOrDefault()){
-
-				var card = GetCardFromSharedCard (AuthToken, sharedCard.CardId);
-
-				if (card != null) {
-					var userCard = new UserCard {
-						Card = card,
-						CardId = card.CardId
-					};
-					if (UserCards.All (uc => uc.CardId != card.CardId)) {
-						UserCards.Add (userCard);
-						if(OnMyBusidexLoaded != null){
-							OnMyBusidexLoaded (UserCards);
-						}
-					}
-				}
-			}
-
-			// update local copy of Shared Cards
-			var fullFilePath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+			string fileJson = string.Empty;
 			if(File.Exists(fullFilePath)){
-				string sharedCardsJson;
-				using (var sharedCardsFile = File.OpenText (fullFilePath)) {
-					sharedCardsJson = sharedCardsFile.ReadToEnd ();
-					sharedCardsFile.Close ();
+				using (var file = File.OpenText (fullFilePath)) {
+					fileJson = file.ReadToEnd ();
+					file.Close ();
 				}
-				var sharedCardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsJson);
-				sharedCardResponse.SharedCards.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
-
-				sharedCardsJson = Newtonsoft.Json.JsonConvert.SerializeObject (sharedCardResponse);
-
-				Utils.SaveResponse (sharedCardsJson, Busidex.Mobile.Resources.SHARED_CARDS_FILE);
 			}
+			return fileJson;
 		}
 
 		static Card GetCardFromSharedCard(string token, long cardId){
@@ -532,6 +528,6 @@ namespace Busidex.Mobile
 
 			return CurrentUser;
 		}
+		#endregion
 	}
 }
-

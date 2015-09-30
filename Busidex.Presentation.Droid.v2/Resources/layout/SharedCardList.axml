@@ -5,7 +5,26 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:background="@color/listBackground">
+    android:background="@color/listBackgroundLight">
+    <ImageView
+        android:id="@+id/imgNoNotifications"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:gravity="center"
+        android:layout_marginTop="110dp"
+        android:src="@drawable/NotificationSimple"
+        android:layout_gravity="center" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblNoNotificationsMessage"
+        android:text="@string/Notifications_NoReferrals"
+        android:textColor="@color/labelFontColor"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingBottom="100dp" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
