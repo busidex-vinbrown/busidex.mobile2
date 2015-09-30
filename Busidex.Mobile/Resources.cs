@@ -58,6 +58,15 @@ namespace Busidex.Mobile
 		public const string GA_LABEL_EVENT_LIST = "Event List";
 		public const string GA_LABEL_EVENT = "Event";
 		public const string GA_LABEL_EVENT_NAME = "Event: {0}";
+		public const string GA_LABEL_APP_START = "Application Started";
+		public const string GA_LABEL_MY_BUSIDEX_REFRESHED = "My Busidex Refreshed";
+
+		public const string GA_SCREEN_MY_BUSIDEX = "My Busidex";
+		public const string GA_SCREEN_SEARCH = "Search";
+		public const string GA_SCREEN_ORGANIZATIONS = "Organizations";
+		public const string GA_SCREEN_EVENTS = "Events";
+		public const string GA_SCREEN_REFERRALS = "Referrals";
+		public const string GA_SCREEN_PROFILE = "Profile";
 
 		public enum HttpActions{ GET, POST, PUT, DELETE };
 

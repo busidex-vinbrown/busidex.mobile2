@@ -74,6 +74,8 @@ namespace Busidex.Presentation.Droid.v2
 							lstCards.Visibility = ViewStates.Gone;
 							progressBar1.Visibility = ViewStates.Visible;
 							UISubscriptionService.LoadUserCards();
+							TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MY_BUSIDEX_REFRESHED, 0);
+
 						}
 					};
 
@@ -105,6 +107,8 @@ namespace Busidex.Presentation.Droid.v2
 					lstCards.RequestFocus (FocusSearchDirection.Down);
 
 					UISubscriptionService.LoadUserCards();
+
+					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
 					return view;
 				}
 			);
@@ -169,6 +173,8 @@ namespace Busidex.Presentation.Droid.v2
 
 					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadOrganizations ());
 
+					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
+
 					return view;
 				}	
 			);
@@ -189,11 +195,13 @@ namespace Busidex.Presentation.Droid.v2
 					UISubscriptionService.OnEventListLoaded -= callback;
 					UISubscriptionService.OnEventListLoaded += callback;
 
+					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
+
 					return view;
 				}
 			);
 
-			// NOTIFICATIONS
+			// REFERRALS
 			adapter.AddFragmentView ((i, v, b) => 
 				{
 					var view = i.Inflate (Resource.Layout.SharedCardList, v, false);
@@ -224,6 +232,8 @@ namespace Busidex.Presentation.Droid.v2
 					UISubscriptionService.OnNotificationsLoaded += callback;
 
 					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadNotifications ());
+
+					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_REFERRALS);
 
 					return view;
 				}
@@ -256,6 +266,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var tab = ActionBar.GetTabAt (0);
 			ActionBar.SelectTab (tab);
+			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
 		}
 
 		protected override void OnStart ()
@@ -697,6 +708,12 @@ namespace Busidex.Presentation.Droid.v2
 				build2.Add (key, build [key]);
 			}
 			GATracker.Send (build2);
+		}
+
+		public static void TrackScreenView(string screen){
+
+			_tracker.SetScreenName (screen);
+			_tracker.Send (new HitBuilders.ScreenViewBuilder ().Build ());
 		}
 
 		public static void TrackException(System.Exception ex){

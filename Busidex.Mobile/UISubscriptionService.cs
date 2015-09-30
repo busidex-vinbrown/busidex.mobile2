@@ -207,8 +207,6 @@ namespace Busidex.Mobile
 
 				myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
-				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_ADD, 0);
-
 				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
 			}
 		}
@@ -232,8 +230,6 @@ namespace Busidex.Mobile
 
 					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
 				}
-				//TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_REMOVED, 0);
-
 				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
 			}
 		}

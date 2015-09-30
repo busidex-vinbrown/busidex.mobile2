@@ -16,7 +16,8 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		SearchView SearchBar;
 		ListView lstSearchResults;
-	
+		ProgressBar progressBar1;
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
@@ -31,6 +32,14 @@ namespace Busidex.Presentation.Droid.v2
 				DoSearch();
 			};
 
+			progressBar1 = view.FindViewById<ProgressBar> (Resource.Id.progressBar1);
+			progressBar1.Visibility = ViewStates.Gone;
+
+			SearchBar.QueryTextChange += (object sender, SearchView.QueryTextChangeEventArgs e) => {
+				if(SearchBar.Query.Length == 0){
+					LoadSearchResults(new List<UserCard>());
+				}
+			};
 
 			SearchBar.SetQueryHint ("Search for a card");
 
@@ -38,6 +47,7 @@ namespace Busidex.Presentation.Droid.v2
 				SearchBar.Focusable = true;
 				SearchBar.RequestFocus();
 			};
+
 
 			SearchBar.ClearFocus ();
 			return view;
@@ -60,9 +70,10 @@ namespace Busidex.Presentation.Droid.v2
 
 			lstSearchResults.Adapter = adapter;
 
-			//HideLoadingSpinner ();
 			lstSearchResults.RequestFocus ();
 			SearchBar.ClearFocus();
+
+			progressBar1.Visibility = ViewStates.Gone;
 
 			DismissKeyboard (SearchBar.WindowToken, Activity);
 		}
@@ -70,7 +81,7 @@ namespace Busidex.Presentation.Droid.v2
 		void DoSearch(){
 
 			string token = BaseApplicationResource.GetAuthCookie ();
-			//ShowLoadingSpinner ();
+			progressBar1.Visibility = ViewStates.Visible;
 
 			var ctrl = new SearchController ();
 			ctrl.DoSearch (SearchBar.Query, token).ContinueWith(response => {
