@@ -32,6 +32,9 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
@@ -62,6 +65,8 @@
 		<string>Lato-Black.ttf</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0</string>
+	<string>1</string>
+	<key>UIRequiresFullScreen</key>
+	<string>YES</string>
 </dict>
 </plist>

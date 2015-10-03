@@ -156,20 +156,22 @@ namespace Busidex.Presentation.iOS
 		protected override void ProcessCards(string data){
 			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
-			Application.MyBusidex = new List<UserCard> ();
-			myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
-			Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
+			if (myBusidexResponse.Success) {
+				Application.MyBusidex = new List<UserCard> ();
+				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
+				Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
-			InvokeOnMainThread (() => {
-				if (TableView.Source == null) {
-					var src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
-					src.NoCardsMessage = NO_CARDS;
-					TableView.Source = src;
-				}
-				TableView.AllowsSelection = true;
+				InvokeOnMainThread (() => {
+					if (TableView.Source == null) {
+						var src = ConfigureTableSourceEventHandlers (Application.MyBusidex);
+						src.NoCardsMessage = NO_CARDS;
+						TableView.Source = src;
+					}
+					TableView.AllowsSelection = true;
 
-				TableView.ReloadData();
-			});
+					TableView.ReloadData ();
+				});
+			}
 		}
 			
 		async Task<bool> LoadMyBusidexAsync(){

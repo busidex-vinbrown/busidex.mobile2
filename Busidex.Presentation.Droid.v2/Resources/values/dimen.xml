@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+	<dimen name="font_size_label_xxlarge">34sp</dimen>
+	<dimen name="font_size_label_xlarge">28sp</dimen>
     <dimen name="font_size_label_large">21sp</dimen>
     <dimen name="font_size_label_medium">18sp</dimen>
     <dimen name="indeterminate_progress_size">32sp</dimen>

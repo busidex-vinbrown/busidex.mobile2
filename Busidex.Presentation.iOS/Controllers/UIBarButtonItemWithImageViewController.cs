@@ -435,6 +435,11 @@ namespace Busidex.Presentation.iOS
 						if (!string.IsNullOrEmpty (r.Result)) {
 							MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 
+							if(!myBusidexResponse.Success){
+								InvokeOnMainThread (overlay.Hide);
+								return;
+							}
+
 							Utils.SaveResponse(r.Result, Resources.MY_BUSIDEX_FILE);
 							SetRefreshCookie(Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 

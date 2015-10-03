@@ -104,6 +104,8 @@ namespace Busidex.Mobile
 				}else{
 					if (e.Message.Contains ("NameResolutionFailure")) {
 						response = ERROR_MESSAGE;
+					}else if(e.Message.Contains("ConnectFailure")){
+						response = ERROR_MESSAGE;
 					} else {
 						throw new Exception (e.Message);
 					}

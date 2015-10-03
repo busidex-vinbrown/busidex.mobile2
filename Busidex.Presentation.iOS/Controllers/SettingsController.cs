@@ -16,7 +16,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		bool termsAccepted;
-		const float TERMS_NOT_ACCEPTED_DISPLAY = .2f;
+		const float TERMS_NOT_ACCEPTED_DISPLAY = .0f;
 		const float TERMS_ACCEPTED_DISPLAY = 1f;
 		bool loggedIn;
 

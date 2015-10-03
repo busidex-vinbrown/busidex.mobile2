@@ -16,11 +16,13 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgCheckShared;
 		readonly UserCard SelectedCard;
 
-		public ShareCardFragment() : base(){
+		public ShareCardFragment()
+		{
 			
 		}
 
-		public ShareCardFragment(UserCard selectedCard) : base(){
+		public ShareCardFragment(UserCard selectedCard)
+		{
 			SelectedCard = selectedCard;
 		}
 
@@ -98,7 +100,7 @@ namespace Busidex.Presentation.Droid.v2
 				imgCheckShared.Visibility = ViewStates.Visible;
 			}
 
-			MainActivity.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
 		void HideFeedbackLabels(){

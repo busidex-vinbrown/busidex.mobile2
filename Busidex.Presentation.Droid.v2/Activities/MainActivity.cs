@@ -8,7 +8,6 @@ using Android.Support.V4.View;
 using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using Android.Gms.Analytics;
 using System.IO;
 using System.Threading;
 
@@ -42,7 +41,7 @@ namespace Busidex.Presentation.Droid.v2
 					progressBar1.Visibility = ViewStates.Visible;
 
 					var lblNoCardsMessage = view.FindViewById<TextView>(Resource.Id.lblNoCardsMessage);
-					lblNoCardsMessage.Visibility = ViewStates.Gone;// UISubscriptionService.UserCards.Count > 0 ? ViewStates.Gone : ViewStates.Visible;
+					lblNoCardsMessage.Visibility = ViewStates.Gone;
 
 					var myBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, UISubscriptionService.UserCards);
 
@@ -74,7 +73,7 @@ namespace Busidex.Presentation.Droid.v2
 							lstCards.Visibility = ViewStates.Gone;
 							progressBar1.Visibility = ViewStates.Visible;
 							UISubscriptionService.LoadUserCards();
-							TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MY_BUSIDEX_REFRESHED, 0);
+						 	BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MY_BUSIDEX_REFRESHED, 0);
 
 						}
 					};
@@ -108,7 +107,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					UISubscriptionService.LoadUserCards();
 
-					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
+					BaseApplicationResource.TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
 					return view;
 				}
 			);
@@ -125,6 +124,7 @@ namespace Busidex.Presentation.Droid.v2
 					var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
 					var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, UISubscriptionService.OrganizationList);
 					orgAdapter.RedirectToOrganizationDetails += org => ShowOrganizationDetail (new OrganizationPanelFragment (org));
+					orgAdapter.RedirectToOrganizationMembers += LoadOrganizationMembers;
 
 					var lstOrganizations = view.FindViewById<OverscrollListView> (Resource.Id.lstOrganizations);
 					var lblNoOrganizationsMessage = view.FindViewById<TextView>(Resource.Id.lblNoOrganizationsMessage);
@@ -173,7 +173,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadOrganizations ());
 
-					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
+					BaseApplicationResource.TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
 
 					return view;
 				}	
@@ -195,7 +195,7 @@ namespace Busidex.Presentation.Droid.v2
 					UISubscriptionService.OnEventListLoaded -= callback;
 					UISubscriptionService.OnEventListLoaded += callback;
 
-					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
+					BaseApplicationResource.TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
 
 					return view;
 				}
@@ -233,7 +233,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadNotifications ());
 
-					TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_REFERRALS);
+					BaseApplicationResource.TrackScreenView(Busidex.Mobile.Resources.GA_SCREEN_REFERRALS);
 
 					return view;
 				}
@@ -247,14 +247,13 @@ namespace Busidex.Presentation.Droid.v2
 			UISubscriptionService.OnBusidexUserLoaded -= profileCallback;
 			UISubscriptionService.OnBusidexUserLoaded += profileCallback;
 
-
 			adapter.AddFragment (
 				profileFragment
 			);
 		}
 
 		void Init(){
-			BaseApplicationResource.context = this;
+			BaseApplicationResource.Init (this);
 			var token = BaseApplicationResource.GetAuthCookie ();
 
 			UISubscriptionService.AuthToken = token;
@@ -266,7 +265,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var tab = ActionBar.GetTabAt (0);
 			ActionBar.SelectTab (tab);
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
 		}
 
 		protected override void OnStart ()
@@ -291,17 +290,11 @@ namespace Busidex.Presentation.Droid.v2
 				adapter.Filter.InvokeFilter(filter);
 			}
 		}
-
+			
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 
 			base.OnCreate(savedInstanceState);
-
-			var gai = GoogleAnalytics.GetInstance (this);
-			_tracker = _tracker ?? gai.NewTracker (Busidex.Mobile.Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
-
-			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-			gai.SetLocalDispatchPeriod(5);
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
@@ -518,7 +511,10 @@ namespace Busidex.Presentation.Droid.v2
 
 			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
+
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			ActionBar.Hide ();
 		}
 
 		public void LoadOrganizationReferrals(Organization organization){
@@ -543,7 +539,7 @@ namespace Busidex.Presentation.Droid.v2
 			string token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
 
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
 		}
 
 		public void HideCard(){
@@ -561,7 +557,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_PHONE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_PHONE, 0);
 
 		}
 
@@ -569,7 +565,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_NOTES, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_NOTES, 0);
 
 		}
 
@@ -577,7 +573,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
 		public void SendEmail(Intent intent, long id){
@@ -585,7 +581,7 @@ namespace Busidex.Presentation.Droid.v2
 			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Email, id, token);
 
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
 
 			StartActivity(intent);
 		}
@@ -596,7 +592,7 @@ namespace Busidex.Presentation.Droid.v2
 			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
 
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
 
 			var browserIntent = Intent.CreateChooser(intent, "Open with");
 			StartActivity (browserIntent);
@@ -608,7 +604,7 @@ namespace Busidex.Presentation.Droid.v2
 			var token = BaseApplicationResource.GetAuthCookie ();
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, token);
 
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
 
 			StartActivity (intent);
 		}
@@ -621,12 +617,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void AddToMyBusidex(UserCard userCard){
 			UISubscriptionService.AddCardToMyBusidex (userCard);
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_ADD, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_ADD, 0);
 		}
 
 		public void RemoveFromMyBusidex(UserCard userCard){
 			UISubscriptionService.RemoveCardFromMyBusidex (userCard);
-			TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
 		}
 		#endregion
 
@@ -699,54 +695,6 @@ namespace Busidex.Presentation.Droid.v2
 			}else{
 				LoadFragment (fragment, openAnimation, closeAnimation, container);
 			}
-		}
-		#endregion
-
-		#region Google Analytics
-		public static void TrackAnalyticsEvent(string category, string label, string action, int value){
-
-			var build = new HitBuilders.EventBuilder ()
-				.SetCategory (category)
-				.SetLabel (label)	
-				.SetAction (action)
-				.SetValue (value) 
-				.Build ();
-			var build2 = new Dictionary<string,string>();
-			foreach (var key in build.Keys)
-			{
-				build2.Add (key, build [key]);
-			}
-			GATracker.Send (build2);
-		}
-
-		public static void TrackScreenView(string screen){
-
-			_tracker.SetScreenName (screen);
-			_tracker.Send (new HitBuilders.ScreenViewBuilder ().Build ());
-		}
-
-		public static void TrackException(System.Exception ex){
-			try{
-				var build = new HitBuilders.ExceptionBuilder ()
-					.SetDescription (ex.Message)
-					.SetFatal (false) // This is useful for uncaught exceptions
-					.Build();
-				var build2 = new Dictionary<string,string>();
-				foreach (var key in build.Keys)
-				{
-					build2.Add (key, build [key]);
-				}
-				GATracker.Send(build2);
-			}catch{
-
-			}
-		}
-
-		static Tracker _tracker;
-		protected static Tracker GATracker { 
-			get { 
-				return _tracker; 
-			} 
 		}
 		#endregion
 

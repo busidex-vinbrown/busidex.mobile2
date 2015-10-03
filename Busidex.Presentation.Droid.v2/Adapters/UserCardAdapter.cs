@@ -19,7 +19,7 @@ namespace Busidex.Presentation.Droid.v2
 	public delegate void CardAddedToMyBusidexHandler(Intent intent);
 	public delegate void CardRemovedFromMyBusidexHandler(Intent intent);
 
-	public class UserCardAdapter : ArrayAdapter<UserCard>, IFilterable
+	public class UserCardAdapter : ArrayAdapter<UserCard>//, IFilterable
 	{
 		public event RedirectToCardHandler Redirect;
 		public event ShowButtonPanelHandler ShowButtonPanel;
@@ -64,7 +64,7 @@ namespace Busidex.Presentation.Droid.v2
 			get { return Cards.Count; }
 		}
 
-		public Filter Filter { get; private set; }
+		public Filter CardFilter { get; private set; }
 
 		public void UpdateData(List<UserCard> cards){
 			Cards = cards;
@@ -76,7 +76,7 @@ namespace Busidex.Presentation.Droid.v2
 			Cards = _originalItems = cards;
 			context = ctx;
 			PanelReferences = new List<int> ();
-			Filter = new UserCardFilter (this);
+			CardFilter = new UserCardFilter (this);
 		}
 
 		public UserCard this[int position]{ 
@@ -84,10 +84,7 @@ namespace Busidex.Presentation.Droid.v2
 				if(Count == 0){
 					return null;
 				}
-				if(position > Count){
-					return Cards [Count - 1];
-				}
-				return Cards [position]; 
+				return position > Count ? Cards [Count - 1] : Cards [position];
 			}
 		}
 
@@ -165,10 +162,6 @@ namespace Busidex.Presentation.Droid.v2
 			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 
-//			var lblNoCardsMessage = context.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
-//			lblNoCardsMessage.Text = context.GetString (Resource.String.MyBusidex_NoCards);
-//			lblNoCardsMessage.Visibility = Cards.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-
 			btnInfo.Click -= OnButtonPanelButtonClicked;
 			btnInfo.Click += OnButtonPanelButtonClicked;
 			btnInfo.Tag = position;
@@ -211,7 +204,7 @@ namespace Busidex.Presentation.Droid.v2
 				// If the image file doesn't exist yet, queue up a thread to wait for it
 				if (!File.Exists (fileName)) {
 					ThreadPool.QueueUserWorkItem (
-						(token) => {
+						token => {
 							while (!File.Exists (fileName)) {
 								Thread.Sleep (3000);
 							}

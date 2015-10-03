@@ -123,22 +123,6 @@
             android:alpha=".8"
             android:paddingTop="3dp"
             android:paddingBottom="3dp" />
-        <TextView
-            android:text="I accept the"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtAcceptTerms"
-            android:layout_below="@id/txtProfilePassword"
-            android:layout_marginTop="28dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:inputType="none"
-            android:textColor="@color/labelFontColorDark"
-            android:alpha=".7"
-            android:background="#ffffff"
-            android:paddingLeft="30dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp" />
         <ImageView
             android:src="@drawable/checkmark"
             android:layout_width="25dp"
@@ -148,22 +132,40 @@
             android:scaleType="fitXY"
             android:layout_marginTop="28dp"
             android:layout_marginLeft="20dp"
-            android:alpha=".4" />
-        <Button
-            android:text="Save"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_below="@id/imgAcceptTerms"
-            android:id="@+id/btnSaveProfile"
-            android:background="@android:drawable/editbox_background"
-            android:textColor="@color/buttonFontColor"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp" />
+            android:alpha="0.0" />
+        <RelativeLayout
+            android:layout_height="30dp"
+            android:layout_width="120dp"
+            android:background="@drawable/button"
+            android:layout_below="@id/txtProfilePassword"
+            android:id="@+id/lotAcceptTerms"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="28dp"
+            android:layout_toRightOf="@id/imgAcceptTerms">
+            <Button
+                android="I accept the"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtAcceptTerms"
+                android:src="@drawable/button"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="none"
+                android:textColor="@color/buttonWhite"
+                android:alpha=".7"
+                android:background="@android:color/transparent"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="I accept the"
+                android:gravity="left"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp" />
+        </RelativeLayout>
         <TextView
             android:text="Terms and Conditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtAcceptTerms"
+            android:layout_toRightOf="@id/lotAcceptTerms"
             android:id="@+id/txtViewTerms"
             android:layout_below="@id/txtProfilePassword"
             android:layout_marginTop="28dp"
@@ -171,13 +173,23 @@
             android:inputType="none"
             android:textColor="@color/labelFontColorDark"
             android:background="@color/buttonWhite"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="5dp"
             android:alpha=".6"
             android:paddingLeft="2dp"
-            android:textStyle="bold"
+            android:textStyle="italic"
             android:paddingRight="5dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp" />
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/lotAcceptTerms"
+            android:id="@+id/btnSaveProfile"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/buttonFontColor"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp" />
         <ImageButton
             android:src="@drawable/Exit"
             android:layout_width="45dp"

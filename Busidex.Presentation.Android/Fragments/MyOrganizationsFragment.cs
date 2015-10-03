@@ -38,7 +38,7 @@ namespace Busidex.Presentation.Android
 		{
 			base.OnResume ();
 			if (IsVisible) {
-				if (subscriptionService.OrganizationList.Count > 0) {
+				if (UISubscriptionService.OrganizationList.Count > 0) {
 					ThreadPool.QueueUserWorkItem (o => LoadUI());
 				} else {
 					ThreadPool.QueueUserWorkItem (o => LoadMyOrganizationsAsync ());
@@ -49,7 +49,7 @@ namespace Busidex.Presentation.Android
 
 		void LoadUI(){
 			
-			if (subscriptionService.OrganizationList != null && subscriptionService.OrganizationList.Count > 0) {
+			if (UISubscriptionService.OrganizationList != null && UISubscriptionService.OrganizationList.Count > 0) {
 
 				var adapter = new OrganizationAdapter (Activity, Resource.Id.lstOrganizations, subscriptionService.OrganizationList);
 

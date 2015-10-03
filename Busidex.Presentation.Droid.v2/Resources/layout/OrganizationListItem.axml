@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="25px"
     android:minHeight="25px"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/orgLayout"
     android:background="@color/listBackground">
     <ImageButton
@@ -15,4 +15,15 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="15dp" />
-</RelativeLayout>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/txtOrganizationName"
+        android:inputType="none"
+        android:paddingTop="10dp"
+        android:text="[organization name]"
+        android:paddingBottom="10dp"
+        android:textSize="@dimen/font_size_label_xlarge"
+        android:gravity="center_horizontal"
+        android:textColor="@color/buttonFontColor" />
+</FrameLayout>

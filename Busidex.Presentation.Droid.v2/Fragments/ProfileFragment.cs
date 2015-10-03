@@ -18,7 +18,6 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgAcceptTerms;
 		TextView lblEmailError;
 		TextView lblPasswordError;
-		//TextView txtProfileEmail;
 		ImageButton btnLogout;
 		RelativeLayout profileCover;
 		ProgressBar progress1;
@@ -60,14 +59,17 @@ namespace Busidex.Presentation.Droid.v2
 
 			var txtAcceptTerms = profileView.FindViewById<TextView> (Resource.Id.txtAcceptTerms);
 			var txtViewTerms = profileView.FindViewById<TextView> (Resource.Id.txtViewTerms);
+			var lotAcceptTerms = profileView.FindViewById<RelativeLayout> (Resource.Id.lotAcceptTerms);
+
 			imgAcceptTerms = profileView.FindViewById<ImageView> (Resource.Id.imgAcceptTerms);
 
-			txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Gone;
+			lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Gone;
 
 			var txtProfileEmail = profileView.FindViewById<TextView> (Resource.Id.txtProfileEmail);
 			var txtProfilePassword = profileView.FindViewById<TextView> (Resource.Id.txtProfilePassword);
 			var txtProfileDescription = profileView.FindViewById<TextView> (Resource.Id.txtProfileDescription);
 			var lblProfilePassword = profileView.FindViewById<TextView> (Resource.Id.lblProfilePassword);
+
 			imgProfileEmailSaved = profileView.FindViewById<ImageView> (Resource.Id.imgProfileEmailSaved);
 			imgProfilePasswordSaved = profileView.FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
 			lblEmailError = profileView.FindViewById<TextView> (Resource.Id.lblEmailError);
@@ -90,10 +92,6 @@ namespace Busidex.Presentation.Droid.v2
 			if(CurrentUser != null){
 				txtProfileEmail.Text = CurrentUser.Email;
 				txtProfileEmail.RequestLayout ();
-//				txtProfileEmail.Click += (object sender, System.EventArgs e) => {
-//					ShowAlert("WTF?", "The current user's email is " + CurrentUser.Email, "Ok", null);
-//					txtProfileEmail.Text = CurrentUser.Email;
-//				};
 				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
 				lblEmailError.Visibility = lblProfilePassword.Visibility = ViewStates.Gone;
 
@@ -109,7 +107,7 @@ namespace Busidex.Presentation.Droid.v2
 
 				btnLogout.Visibility = ViewStates.Gone;
 
-				txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Visible;
+				lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Visible;
 
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 
@@ -158,21 +156,18 @@ namespace Busidex.Presentation.Droid.v2
 		
 			profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
 
-			//updateUI ();
-
 			return profileView;
 		}
 
 		public override void OnDestroyView ()
 		{
 			base.OnDestroyView ();
-			//txtProfileEmail = null;
 			profileView = null;
 		}
 
 		void toggleTerms(){
 			termsAccepted = !termsAccepted;
-			imgAcceptTerms.Alpha = termsAccepted ? 1 : .4f;
+			imgAcceptTerms.Alpha = termsAccepted ? 1 : 0.0f;
 		}
 
 		bool SetEmailChangedResult(string result)

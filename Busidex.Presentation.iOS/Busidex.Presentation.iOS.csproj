@@ -97,6 +97,7 @@
     </IpaPackageName>
     <MtouchI18n>
     </MtouchI18n>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -358,6 +359,7 @@
     <BundleResource Include="Resources\EventIconBack.png" />
     <BundleResource Include="Resources\FAQ.png" />
     <BundleResource Include="Resources\Notification.png" />
+    <BundleResource Include="Resources\button.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

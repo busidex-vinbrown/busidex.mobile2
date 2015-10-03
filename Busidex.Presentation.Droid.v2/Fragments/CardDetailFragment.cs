@@ -58,13 +58,13 @@ namespace Busidex.Presentation.Droid.v2
 		public override void OnViewCreated (View view, Bundle savedInstanceState)
 		{
 			base.OnViewCreated (view, savedInstanceState);
-			ToggleImage();
+			ToggleImage().Wait();
 		}
 
 		public override void OnDestroy ()
 		{
 			if (btnCard != null) {
-				BitmapDrawable bd = (BitmapDrawable)btnCard.Drawable;
+				var bd = (BitmapDrawable)btnCard.Drawable;
 				bd.Bitmap.Recycle ();
 				btnCard.SetImageURI (null);
 			}
@@ -96,7 +96,7 @@ namespace Busidex.Presentation.Droid.v2
 
 						var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName;
 
-						Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+						await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							Activity.RunOnUiThread (() => OnImageDownloadCompleted (frontUri));
 						});
 					}
@@ -119,7 +119,7 @@ namespace Busidex.Presentation.Droid.v2
 
 							var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName;
 
-							Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
+							await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								Activity.RunOnUiThread (() => OnImageDownloadCompleted (backUri));
 							});
 						}
@@ -139,7 +139,6 @@ namespace Busidex.Presentation.Droid.v2
 		protected void OnImageDownloadCompleted (Uri uri){
 			
 			btnCard.SetImageURI (uri);
-			//HideLoadingSpinner();
 		}
 	}
 }

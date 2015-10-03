@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-
 using Android.Support.V4.App;
 using Android.OS;
 using Android.Views;
@@ -13,6 +12,7 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		readonly List<UserCard> OrganizationCards;
 		readonly string logoPath;
+		const int IMAGE_HEIGHT = 82;
 
 		public OrganizationCardsFragment(){
 			
@@ -37,12 +37,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			var state = lstOrganizationCards.OnSaveInstanceState ();
 
-
 			if(state != null){
 				lstOrganizationCards.OnRestoreInstanceState (state);
 			}
-
-			const int IMAGE_HEIGHT = 82;
 
 			var img = view.FindViewById<ImageView> (Resource.Id.imgOrganizationHeaderImage);
 			var bm = AndroidUtils.DecodeSampledBitmapFromFile (logoPath, Resources.DisplayMetrics.WidthPixels, IMAGE_HEIGHT);
@@ -52,4 +49,3 @@ namespace Busidex.Presentation.Droid.v2
 		}
 	}
 }
-

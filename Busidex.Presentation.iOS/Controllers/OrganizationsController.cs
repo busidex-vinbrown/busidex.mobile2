@@ -52,6 +52,7 @@ namespace Busidex.Presentation.iOS
 						NavigationController.PushViewController (orgMembersController, true);
 					}
 				}catch(Exception ex){
+					
 					new UIAlertView("Busidex", ex.Message, null, "OK", null).Show();
 				}
 			};

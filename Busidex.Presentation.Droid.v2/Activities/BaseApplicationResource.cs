@@ -3,15 +3,30 @@ using Busidex.Mobile;
 using Xamarin.Auth;
 using System.Linq;
 using Android.Content;
+using Android.Gms.Analytics;
+using System.Collections.Generic;
+using Android.App;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public static class BaseApplicationResource
+	public class BaseApplicationResource
 	{
-		public static Context context { get; set; }
+		static Context context { get; set; }
 
 		static BaseApplicationResource ()
 		{
+			
+		}
+
+		public static void Init(Activity ctx){
+			context = ctx;
+			var gai = GoogleAnalytics.GetInstance (context);
+			_tracker = _tracker ?? gai.NewTracker (Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
+
+			const int DISPATCH_PERIOD = 5;
+
+			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+			gai.SetLocalDispatchPeriod(DISPATCH_PERIOD);
 		}
 
 		#region Authentication
@@ -27,6 +42,7 @@ namespace Busidex.Presentation.Droid.v2
 				return cookie.Value;
 			}
 			catch(Exception ex){
+				TrackException (ex);
 				return string.Empty;
 			}
 		}
@@ -91,6 +107,54 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
+		#endregion
+
+		#region Google Analytics
+		public static void TrackAnalyticsEvent(string category, string label, string action, int value){
+
+			var build = new HitBuilders.EventBuilder ()
+				.SetCategory (category)
+				.SetLabel (label)	
+				.SetAction (action)
+				.SetValue (value) 
+				.Build ();
+			var build2 = new Dictionary<string,string>();
+			foreach (var key in build.Keys)
+			{
+				build2.Add (key, build [key]);
+			}
+			GATracker.Send (build2);
+		}
+
+		public static void TrackScreenView(string screen){
+
+			_tracker.SetScreenName (screen);
+			_tracker.Send (new HitBuilders.ScreenViewBuilder ().Build ());
+		}
+
+		public static void TrackException(Exception ex){
+			try{
+				var build = new HitBuilders.ExceptionBuilder ()
+					.SetDescription (ex.Message)
+					.SetFatal (false) // This is useful for uncaught exceptions
+					.Build();
+				var build2 = new Dictionary<string,string>();
+				foreach (var key in build.Keys)
+				{
+					build2.Add (key, build [key]);
+				}
+				GATracker.Send(build2);
+			}catch{
+				// in other words, OnError resume next
+			}
+		}
+
+		static Tracker _tracker;
+		static Tracker GATracker { 
+			get { 
+				return _tracker; 
+			} 
+		}
 		#endregion
 	}
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace Busidex.Mobile
 {
@@ -70,9 +69,6 @@ namespace Busidex.Mobile
 			try{
 				var jsonData = loadFromFile (path);
 				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
-				if(result == null){
-					result = new T();
-				}
 				return result;
 			}catch(Exception e){
 				return new T();
@@ -85,21 +81,41 @@ namespace Busidex.Mobile
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+			if(UserCards == null){
+				UserCards = new List<UserCard> ();
+				loadUserCards ();
+			}
+
 			if(OnMyBusidexLoaded != null){
 				OnMyBusidexLoaded(UserCards);
 			}
 
 			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
+			if(Notifications == null){
+				Notifications = new List<SharedCard> ();
+				loadNotifications ();
+			}
+
 			if(OnNotificationsLoaded != null){
 				OnNotificationsLoaded(Notifications);
 			}
 
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+			if(EventList == null){
+				EventList = new List<EventTag> ();
+				loadEventList ();
+			}
+
 			if(OnEventListLoaded != null){
 				OnEventListLoaded(EventList);
 			}
 
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+			if(OrganizationList == null){
+				OrganizationList = new List<Organization> ();
+				loadOrganizations ();
+			}
+
 			if(OnMyOrganizationsLoaded != null){
 				OnMyOrganizationsLoaded(OrganizationList);
 			}
@@ -246,10 +262,11 @@ namespace Busidex.Mobile
 
 						var card = UserCards.SingleOrDefault(uc => uc.UserCardId == userCardId );
 						if(card != null){
-							UserCards.ForEach( (uc) => {
-								if(uc.UserCardId == userCardId){
-									uc.Notes = notes;	}
+							UserCards.ForEach(uc => {
+								if (uc.UserCardId == userCardId) {
+									uc.Notes = notes;
 								}
+							}
 							);
 						}
 					}
@@ -297,7 +314,7 @@ namespace Busidex.Mobile
 
 			// update local copy of Shared Cards
 			Notifications.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
-			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject(Notifications), Busidex.Mobile.Resources.SHARED_CARDS_FILE);
+			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject(Notifications), Resources.SHARED_CARDS_FILE);
 		}
 		#endregion
 

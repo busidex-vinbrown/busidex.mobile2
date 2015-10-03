@@ -8,6 +8,7 @@ using Android.Graphics;
 namespace Busidex.Presentation.Droid.v2
 {
 	public delegate void RedirectToOrganizationDetailsHandler(Organization organization);
+	public delegate void RedirectToOrganizationMembersHandler(Organization organization);
 
 	public class OrganizationAdapter : ArrayAdapter<Organization>
 	{
@@ -15,6 +16,7 @@ namespace Busidex.Presentation.Droid.v2
 		readonly Activity context;
 
 		public event RedirectToOrganizationDetailsHandler RedirectToOrganizationDetails;
+		public event RedirectToOrganizationMembersHandler RedirectToOrganizationMembers;
 
 		public OrganizationAdapter (Activity ctx, int id, List<Organization> organizations) : base(ctx, id, organizations)
 		{
@@ -27,6 +29,13 @@ namespace Busidex.Presentation.Droid.v2
 				return Organizations.Count;
 			}
 		}
+
+		void OnRedirectToOrganizationMembers(Organization org){
+			if(RedirectToOrganizationMembers != null){
+				RedirectToOrganizationMembers (org);
+			}
+		}
+
 		void OnRedirectToOrganizationDetails(Organization org){
 			if(RedirectToOrganizationDetails != null){
 				RedirectToOrganizationDetails (org);
@@ -45,18 +54,31 @@ namespace Busidex.Presentation.Droid.v2
 
 			var fileName = System.IO.Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 
-			var img = view.FindViewById<ImageButton> (Resource.Id.imgOrganizationThumbnail);
+			var imgOrganizationThumbnail = view.FindViewById<ImageButton> (Resource.Id.imgOrganizationThumbnail);
+			var txtOrganizationName = view.FindViewById<TextView> (Resource.Id.txtOrganizationName);
 
-			const int LOGO_WIDTH = 286;
-			const int LOGO_HEIGHT = 181;
-			var bm = AndroidUtils.DecodeSampledBitmapFromFile (fileName, LOGO_WIDTH, LOGO_HEIGHT);
+			if (organization.IsMember) {
+				
+				txtOrganizationName.Visibility = ViewStates.Gone;
+				imgOrganizationThumbnail.Visibility = ViewStates.Visible;
 
-			img.SetImageBitmap (bm);
+				const int LOGO_WIDTH = 286;
+				const int LOGO_HEIGHT = 181;
+				var bm = AndroidUtils.DecodeSampledBitmapFromFile (fileName, LOGO_WIDTH, LOGO_HEIGHT);
 
-			img.Click += delegate {
-				OnRedirectToOrganizationDetails(organization);
-			};
+				imgOrganizationThumbnail.SetImageBitmap (bm);
 
+				imgOrganizationThumbnail.Click += delegate {
+					OnRedirectToOrganizationDetails (organization);
+				};
+			}else{
+				txtOrganizationName.Visibility = ViewStates.Visible;
+				imgOrganizationThumbnail.Visibility = ViewStates.Gone;
+				txtOrganizationName.Text = organization.Name;
+				txtOrganizationName.Click += delegate {
+					OnRedirectToOrganizationMembers(organization);
+				};
+			}
 			return view;
 		}
 	}
