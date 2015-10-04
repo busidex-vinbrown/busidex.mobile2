@@ -1,5 +1,6 @@
 ﻿using System;
 using Busidex.Mobile.Models;
+using System.Collections.Generic;
 
 namespace Busidex.Mobile
 {
@@ -11,36 +12,38 @@ namespace Busidex.Mobile
 		/// <returns>The card.</returns>
 		/// <param name="card">Card.</param>
 		/// <param name="email">Email.</param>
+		/// <param name = "phoneNumber">Phone Number</param>
 		/// <param name="userToken">User token.</param>
-		public string ShareCard(Card card, string email, string userToken){
+		public string ShareCard(Card card, string email, string phoneNumber, string userToken){
 			const string URL = Resources.BASE_API_URL + "SharedCard/Post";
-//			var model = new List<SharedCard> () {
-//				new SharedCard {
-//					SharedCardId = 0,
-//					CardId = card.CardId,
-//					SendFrom = 0,
-//					SendFromEmail = string.Empty,
-//					Email = email,
-//					ShareWith = 0,
-//					SharedDate = DateTime.Now,
-//					Accepted = false,
-//					Declined = false,
-//					Recommendation = string.Empty
-//				}
-//			};
-//			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-			var data =  string.Format(
-				"'SharedCardId': 0," +
-				"'CardId': {0}," +
-				"'SendFrom': 0," +
-				"'SendFromEmail':''," +
-				"'Email': '{1}', " +
-				"'ShareWith': 0, " +
-				"'SharedDate': '{2}'," +
-				"'Accepted': 'false',	" +
-				"'Declined' :'false', " +
-				"'Recommendation': ''", 
-				card.CardId, email, DateTime.Now);
+			var model = new List<SharedCard> () {
+				new SharedCard {
+					SharedCardId = 0,
+					CardId = card.CardId,
+					SendFrom = 0,
+					SendFromEmail = string.Empty,
+					Email = email,
+					PhoneNumber = phoneNumber,
+					ShareWith = 0,
+					SharedDate = DateTime.Now,
+					Accepted = false,
+					Declined = false,
+					Recommendation = string.Empty
+				}
+			};
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+//			var data =  string.Format(
+//				"'SharedCardId': 0," +
+//				"'CardId': {0}," +
+//				"'SendFrom': 0," +
+//				"'SendFromEmail':''," +
+//				"'Email': '{1}', " +
+//				"'ShareWith': 0, " +
+//				"'SharedDate': '{2}'," +
+//				"'Accepted': 'false',	" +
+//				"'Declined' :'false', " +
+//				"'Recommendation': ''", 
+//				card.CardId, email, DateTime.Now);
 
 			data = "[{" + data + "}]";
 			return MakeRequest (URL, "POST", userToken, data);

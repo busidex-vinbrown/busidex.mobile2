@@ -96,7 +96,7 @@ namespace Busidex.Presentation.Droid.v2
 
 						var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.FrontFileName;
 
-						await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
+						Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.FrontFileName).ContinueWith (t => {
 							Activity.RunOnUiThread (() => OnImageDownloadCompleted (frontUri));
 						});
 					}
@@ -119,7 +119,7 @@ namespace Busidex.Presentation.Droid.v2
 
 							var imagePath = Busidex.Mobile.Resources.CARD_PATH + UserCard.Card.BackFileName;
 
-							await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
+							Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, UserCard.Card.BackFileName).ContinueWith (t => {
 								Activity.RunOnUiThread (() => OnImageDownloadCompleted (backUri));
 							});
 						}

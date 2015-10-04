@@ -13,6 +13,7 @@ namespace Busidex.Presentation.Droid.v2
 		TextView lblShareError;
 		TextView txtShareDisplayName;
 		TextView txtShareEmail;
+		TextView txtSharePhoneNumber;
 		ImageView imgCheckShared;
 		readonly UserCard SelectedCard;
 
@@ -48,6 +49,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			txtShareDisplayName = view.FindViewById<TextView> (Resource.Id.txtShareDisplayName);
 			txtShareEmail = view.FindViewById<TextView> (Resource.Id.txtShareEmail);
+			txtSharePhoneNumber = view.FindViewById<TextView> (Resource.Id.txtSharePhoneNumber);
 
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 			var uri = Uri.Parse (fileName);
@@ -78,20 +80,26 @@ namespace Busidex.Presentation.Droid.v2
 			HideFeedbackLabels ();
 
 			var email = txtShareEmail.Text;
+			var phoneNumber = txtSharePhoneNumber.Text;
 			var displayName = txtShareDisplayName.Text;
 
-			if(string.IsNullOrEmpty(email)){
-				//ShowAlert("Missing Information", "Please enter an email address");
+			if(string.IsNullOrEmpty(email) && string.IsNullOrEmpty(phoneNumber)){
+				
 				return;
 			}
 
 			if(string.IsNullOrEmpty(displayName)){
-				//ShowAlert("Missing Information", "Please enter a display name");
+				
 				return;
 			}
 
+			// normalize the phone number if there is one
+			if(!string.IsNullOrEmpty(phoneNumber)){
+				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace(" ", "");
+			}
+
 			var ctrl = new SharedCardController();
-			var response = ctrl.ShareCard (SelectedCard.Card, email, token);
+			var response = ctrl.ShareCard (SelectedCard.Card, email, phoneNumber, token);
 
 			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
 				imgCheckShared.Visibility = ViewStates.Visible;
