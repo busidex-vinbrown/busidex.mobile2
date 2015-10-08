@@ -10,6 +10,7 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -280,14 +281,14 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
-		static void DoFilter(IFilterable adapter, string filter){
+		static void DoFilter(UserCardAdapter adapter, string filter){
 			if (adapter == null) {
 				return;
 			}
 			if(string.IsNullOrEmpty(filter)){
-				adapter.Filter.InvokeFilter ("");
+				adapter.CardFilter.InvokeFilter ("");
 			}else{
-				adapter.Filter.InvokeFilter(filter);
+				adapter.CardFilter.InvokeFilter(filter);
 			}
 		}
 			
@@ -332,7 +333,7 @@ namespace Busidex.Presentation.Droid.v2
 				var activity = tabAdapter.GetItem(0).Activity;
 				if(activity != null){				
 					var lstCards = (OverscrollListView)activity.FindViewById(Resource.Id.lstCards);
-					lstCards.ScrollTo(0, 0);
+					lstCards.SmoothScrollToPosition(0);
 				}
 			};
 
@@ -469,6 +470,11 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Event Actions
+		public async Task<bool> ReloadEventCards(EventTag tag){
+			await UISubscriptionService.loadEventCards (tag);
+			return true;
+		}
+
 		public void LoadEventCards(EventTag tag){
 
 			if (!UISubscriptionService.EventCards.ContainsKey (tag.Text)) {
@@ -500,15 +506,17 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void LoadOrganizationMembers(Organization organization){
 			var orgMembers = new List<UserCard> ();
-			foreach(var card in UISubscriptionService.OrganizationMembers [organization.OrganizationId]){
-				var userCard = new UserCard {
-					CardId = card.CardId,
-					Card = card,
-					Notes = string.Empty
-				};
-				orgMembers.Add (userCard);
-			}
 
+			if (UISubscriptionService.OrganizationMembers.ContainsKey (organization.OrganizationId)) {
+				foreach (var card in UISubscriptionService.OrganizationMembers [organization.OrganizationId]) {
+					var userCard = new UserCard {
+						CardId = card.CardId,
+						Card = card,
+						Notes = string.Empty
+					};
+					orgMembers.Add (userCard);
+				}
+			}
 			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
 

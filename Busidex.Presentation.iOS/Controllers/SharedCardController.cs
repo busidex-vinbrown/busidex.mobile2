@@ -95,7 +95,8 @@ namespace Busidex.Presentation.iOS
 			lblError.Hidden = true;
 
 			var controller = new Busidex.Mobile.SharedCardController ();
-			var response = controller.ShareCard (UserCard.Card, txtEmail.Text, cookie.Value);
+			string phoneNumber = string.Empty;
+			var response = controller.ShareCard (UserCard.Card, txtEmail.Text, phoneNumber, cookie.Value);
 
 			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
 				imgCardShared.Hidden = false;

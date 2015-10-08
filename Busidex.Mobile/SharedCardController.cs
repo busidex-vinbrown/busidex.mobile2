@@ -45,7 +45,7 @@ namespace Busidex.Mobile
 //				"'Recommendation': ''", 
 //				card.CardId, email, DateTime.Now);
 
-			data = "[{" + data + "}]";
+			//data = "[{" + data + "}]";
 			return MakeRequest (URL, "POST", userToken, data);
 		}
 

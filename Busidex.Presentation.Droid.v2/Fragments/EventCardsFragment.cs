@@ -28,9 +28,16 @@ namespace Busidex.Presentation.Droid.v2
 			var lblEventDescription = view.FindViewById<TextView> (Resource.Id.lblEventDescription);
 			lblEventDescription.Text = EventTag.Description;
 
+			var progressBar1 = view.FindViewById<ProgressBar>(Resource.Id.progressBar1);
+			if(progressBar1 == null){
+				return view; 
+			}
+
+			progressBar1.Visibility = ViewStates.Gone;
+
 			var lblPrivateEventMessage = view.FindViewById<TextView> (Resource.Id.lblPrivateEventMessage);
 
-			var lstEventCards = view.FindViewById<ListView> (Resource.Id.lstEventCards);
+			var lstEventCards = view.FindViewById<OverscrollListView> (Resource.Id.lstEventCards);
 			lblPrivateEventMessage.Visibility = Cards.Count > 0 ? ViewStates.Gone : ViewStates.Visible;
 			lstEventCards.Visibility = Cards.Count > 0 ? ViewStates.Visible : ViewStates.Gone;
 
@@ -43,20 +50,28 @@ namespace Busidex.Presentation.Droid.v2
 
 			lstEventCards.Adapter = adapter;
 
-//			txtFilterEventCards.QueryTextChange += delegate {
-//				//DoFilter (txtFilterEventCards.Query);
-//			};
-//
-//			txtFilterEventCards.Iconified = false;
-//			txtFilterEventCards.ClearFocus ();
+			int accumulatedDeltaY = 0;
+			lstEventCards.OverScrolled += deltaY=> {
 
-//			lstEventCards.RequestFocus (FocusSearchDirection.Down);
-//			DismissKeyboard (txtFilterEventCards.WindowToken, Activity);
-//
-//			txtFilterEventCards.Touch += delegate {
-//				txtFilterEventCards.Focusable = true;
-//				txtFilterEventCards.RequestFocus ();
-//			};
+				accumulatedDeltaY += -deltaY;
+				if(accumulatedDeltaY > 1000){
+					lstEventCards.Visibility = ViewStates.Gone;
+					progressBar1.Visibility = ViewStates.Visible;
+					((MainActivity)Activity).ReloadEventCards(EventTag).ContinueWith((r) => {
+						((MainActivity)Activity).RunOnUiThread(() =>{
+							progressBar1.Visibility = ViewStates.Gone;
+							lstEventCards.Visibility = ViewStates.Visible;
+						});
+					});
+					BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MY_BUSIDEX_REFRESHED, 0);
+				}
+			};
+
+			lstEventCards.Scroll+= delegate {
+				if( lstEventCards.CanScrollVertically(-1)){
+					accumulatedDeltaY = 0;
+				}
+			};
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 			btnClose.Click += delegate {
@@ -66,15 +81,6 @@ namespace Busidex.Presentation.Droid.v2
 
 			return view;
 		}
-
-//		static void DoFilter(string filter){
-//			if(string.IsNullOrEmpty(filter)){
-//				EventCardsAdapter.Filter.InvokeFilter ("");
-//			}else{
-//				EventCardsAdapter.Filter.InvokeFilter(filter);
-//			}
-//		}
-
 	}
 }
 

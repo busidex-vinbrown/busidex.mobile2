@@ -319,7 +319,7 @@ namespace Busidex.Mobile
 		#endregion
 
 		#region Load From API
-		public static void loadEventCards(EventTag tag){
+		public static async Task<bool> loadEventCards(EventTag tag){
 			searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(t => {
 				Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
 
@@ -360,6 +360,7 @@ namespace Busidex.Mobile
 					OnEventCardsLoaded(tag, EventCards[tag.Text]);
 				}
 			});
+			return true;
 		}
 
 		static async Task<bool> loadEventList(){
@@ -408,8 +409,12 @@ namespace Busidex.Mobile
 						Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
 
 						var idx = 0;
-						OrganizationMembers = new Dictionary<long, List<Card>>();
-						OrganizationMembers.Add(org.OrganizationId, orgMemberResponse.Model);
+						OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
+						if(!OrganizationMembers.ContainsKey(org.OrganizationId)){
+							OrganizationMembers.Add(org.OrganizationId, orgMemberResponse.Model);
+						}else{
+							OrganizationMembers[org.OrganizationId] = orgMemberResponse.Model;
+						}
 
 						foreach(var card in orgMemberResponse.Model){
 
@@ -421,7 +426,7 @@ namespace Busidex.Mobile
 								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
 							}
 							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+								Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
 							}
 							idx++;
 						}
@@ -434,8 +439,12 @@ namespace Busidex.Mobile
 
 						var idx = 0;
 
-						OrganizationReferrals = new Dictionary<long, List<UserCard>>();
-						OrganizationReferrals.Add(org.OrganizationId, orgReferralResponse.Model);
+						OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
+						if(!OrganizationReferrals.ContainsKey(org.OrganizationId)){
+							OrganizationReferrals.Add(org.OrganizationId, orgReferralResponse.Model);
+						}else{
+							OrganizationReferrals[org.OrganizationId] = orgReferralResponse.Model;
+						}
 
 						foreach(var card in orgReferralResponse.Model){
 
@@ -447,7 +456,7 @@ namespace Busidex.Mobile
 								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
 							}
 							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+								Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
 							}
 							idx++;
 						}
