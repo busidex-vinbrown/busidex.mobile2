@@ -13,10 +13,10 @@ namespace Busidex.Mobile
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, string data = null){
 			var request = (HttpWebRequest)WebRequest.Create(url);
 			string response = string.Empty;
-
+			ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
 			request.Method = method;
 
-			request.Headers.Add ("X-Authorization-Token", token);
+			request.Headers.Add ("x-authorization-token", token);
 
 			if (method == "POST" || method == "PUT") {
 				var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
@@ -70,13 +70,14 @@ namespace Busidex.Mobile
 //				return ERROR_MESSAGE;
 //			}
 				
+			ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
 			if(data != null){
 				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
 				writer.Write (data);
 				request.ContentType = "application/json";
 				writer.Close ();
 			}
-			request.Headers.Add ("X-Authorization-Token", token);
+			request.Headers.Add ("x-authorization-token", token);
 
 //			if (method == "POST") {
 //				StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);

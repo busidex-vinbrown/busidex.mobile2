@@ -21,7 +21,7 @@ namespace Busidex.Mobile
 		public const string PREFERENCE_FIRST_USE_POPUP_SEEN = "StarupPopupSeen";
 
 		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
-		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
+		public const string BASE_API_URL = "http://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_PATH =  "https://busidexcdn.blob.core.windows.net/mobile-images/";//"https://az381524.vo.msecnd.net/cards/";
