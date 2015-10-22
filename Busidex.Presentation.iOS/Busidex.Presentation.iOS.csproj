@@ -359,6 +359,7 @@
     <BundleResource Include="Resources\FAQ.png" />
     <BundleResource Include="Resources\Notification.png" />
     <BundleResource Include="Resources\button.png" />
+    <BundleResource Include="Resources\textmessage.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

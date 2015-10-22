@@ -8,11 +8,12 @@ namespace Busidex.Presentation.Droid.v2
 {
 
 	public delegate void DialPhoneNumberHandler(PhoneNumber number);
-
+	public delegate void SendTextMessageHandler(PhoneNumber number);
 
 	public class PhoneNumberEntryAdapter : ArrayAdapter<PhoneNumber>
 	{
 		public event DialPhoneNumberHandler PhoneNumberDialed;
+		public event SendTextMessageHandler TextMessageSent;
 
 		List<PhoneNumber> PhoneNumbers { get; set; }
 		readonly Activity context;
@@ -35,10 +36,12 @@ namespace Busidex.Presentation.Droid.v2
 			var number = PhoneNumbers [position];
 
 			var lblPhoneNumberType = view.FindViewById<TextView> (Resource.Id.lblPhoneNumberType);
-			var btnPhoneNumber = view.FindViewById<Button> (Resource.Id.btnPhoneNumber);
+			var lblPhoneNumber = view.FindViewById<TextView> (Resource.Id.lblPhoneNumber);
+			var btnPhoneNumber = view.FindViewById<ImageButton> (Resource.Id.btnPhoneNumber);
+			var btnTextMessage = view.FindViewById<ImageButton> (Resource.Id.btnTextMessage);
 
-			lblPhoneNumberType.Text = System.Enum.GetName (typeof(PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId);
-			btnPhoneNumber.Text = number.Number;
+			lblPhoneNumberType.Text = System.Enum.GetName (typeof(PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId) + ":";
+			lblPhoneNumber.Text = number.Number;
 
 			btnPhoneNumber.Click += delegate {
 				if(PhoneNumberDialed != null){
@@ -46,6 +49,11 @@ namespace Busidex.Presentation.Droid.v2
 				}								
 			};
 
+			btnTextMessage.Click += delegate {
+				if(TextMessageSent != null){
+					TextMessageSent(number);
+				}								
+			};
 			return view;
 		}
 	}

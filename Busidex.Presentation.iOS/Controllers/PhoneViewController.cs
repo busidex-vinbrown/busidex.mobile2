@@ -34,61 +34,97 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			const float labelX = 25f;
+			const float labelX = 10f;
 			const float labelY = 280f;
-			const float labelHeight = 30f;
-			const float labelWidth = 100f;
+			const float labelHeight = 40f;
+			const float labelWidth = 80f;
+			const float phoneFrameWidth = 110f;
+			const float imageWidth = 40f;
+			const float imageHeight = 40f;
+			const float phoneFrameX = labelX + labelWidth + 10;
+			const float phoneImageX = phoneFrameX + phoneFrameWidth + 10;
+			const float textImageX = phoneImageX + imageWidth + 10;
 
 			var labelFrame = new RectangleF (labelX, labelY, labelWidth, labelHeight);
-			var phoneFrame = new RectangleF (labelX + labelWidth + 10, labelY, labelWidth * 2, labelHeight);
+			var phoneFrame = new RectangleF (phoneFrameX, labelY, phoneFrameWidth, labelHeight);
+			var phoneImageFrame = new RectangleF (phoneImageX, labelY, imageWidth, imageHeight);
+			var textImageFrame = new RectangleF (textImageX, labelY, imageWidth, imageHeight);
 
 			if (UserCard != null && UserCard.Card != null && UserCard.Card.PhoneNumbers != null) {
 
 				foreach (PhoneNumber number in UserCard.Card.PhoneNumbers.Where(p=> !string.IsNullOrWhiteSpace(p.Number))) {
 
 					var newLabel = new UILabel (labelFrame);
-					var newNumber = UIButton.FromType (UIButtonType.System); //new UITextView (phoneFrame);
+					var newNumber = new UILabel (phoneFrame);
+					var newPhoneImage = UIButton.FromType (UIButtonType.Custom);
+					var newTextImage = UIButton.FromType (UIButtonType.Custom);
+
 					if (number.PhoneNumberType != null) {
 						newLabel.Text = Enum.GetName (typeof(PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId);
 
-						newLabel.Font = UIFont.FromName ("Helvetica", 20f);
+						newLabel.Font = UIFont.FromName ("Helvetica", 18f);
 						newLabel.UserInteractionEnabled = true;
 						newLabel.TextColor = UIColor.FromRGB(66,69,76);
+						newLabel.TextAlignment = UITextAlignment.Right;
 
 						var textAttributed = new NSMutableAttributedString (
 							number.Number, 
 							new UIStringAttributes  {
 								ForegroundColor = UIColor.Blue, 
-								Font = UIFont.FromName ("Helvetica", 22f),
+								Font = UIFont.FromName ("Helvetica", 16f),
 								UnderlineStyle = NSUnderlineStyle.Single 
 							}
 						);
-						newNumber.SetAttributedTitle(textAttributed, UIControlState.Normal);
-						newNumber.UserInteractionEnabled = true;
-						newNumber.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
-						newNumber.UserInteractionEnabled = true;
-						newNumber.Frame = phoneFrame;
-						newNumber.TouchUpInside += delegate {
+						newNumber.Text = number.Number;
+						newNumber.Font = UIFont.FromName ("Helvetica", 16f);
+						newNumber.TextColor = UIColor.Blue;
+						newNumber.TextAlignment = UITextAlignment.Left;
+
+						newPhoneImage.Frame = phoneImageFrame;
+						newPhoneImage.SetImage (UIImage.FromFile ("phone.png"), UIControlState.Normal);
+						newPhoneImage.TouchUpInside += delegate {
 
 							string pn = number.Number.Replace("(", "").Replace(")", "").Replace("-","").Replace(" ", "");
 							var phoneNumber = new NSUrl ("telprompt://" + pn);
 
 							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
 								var av = new UIAlertView ("Phone Number Error",
-									"The number: " + number.Number + " is not valid. You may need to dial this number manually.",
+									"We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
 									null,
 									"OK",
 									null);
 								av.Show ();
 							}else{
-							//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+								//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
 								ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
 							}
 						};
-						labelFrame.Y = phoneFrame.Y += 35;
+
+						newTextImage.Frame = textImageFrame;
+						newTextImage.SetImage (UIImage.FromFile ("textmessage.png"), UIControlState.Normal);
+						newTextImage.TouchUpInside += delegate {
+
+							string pn = number.Number.Replace("(", "").Replace(")", "").Replace("-","").Replace(" ", "");
+							var phoneNumber = new NSUrl ("sms:" + pn);
+
+							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
+								var av = new UIAlertView ("Phone Number Error",
+									"We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
+									null,
+									"OK",
+									null);
+								av.Show ();
+							}else{
+								ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+							}
+						};
+
+						labelFrame.Y = phoneFrame.Y = phoneImageFrame.Y = textImageFrame.Y += 55;
 
 						View.Add (newLabel);
 						View.Add (newNumber);
+						View.Add (newPhoneImage);
+						View.Add (newTextImage);
 					}
 				}
 			}

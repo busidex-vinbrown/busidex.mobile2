@@ -892,6 +892,7 @@
         <image name="FAQ.png" width="105" height="105"/>
         <image name="Notification.png" width="105" height="105"/>
         <image name="button.png" width="284" height="98"/>
+        <image name="textmessage.png" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -11,25 +11,47 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/phoneNumberEntryLayout">
+        android:id="@+id/phoneNumberEntryLayout"
+        android:padding="10dp">
         <TextView
-            android:text="Number Type"
-            android:layout_width="wrap_content"
+            android:text="Business 2"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/lblPhoneNumberType"
             android:textColor="@color/labelFontColor"
-            android:textSize="22dp"
-            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
             android:inputType="none"
-            android:layout_margin="10dp" />
-        <Button
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="0dp"
+            android:gravity="right" />
+        <TextView
             android:text="999.999.9999"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/lblPhoneNumberType"
-            android:id="@+id/btnPhoneNumber"
-            android:textColor="@color/buttonFontColor"
-            android:background="@color/layoutBackground"
-            android:textSize="22dp" />
+            android:id="@+id/lblPhoneNumber"
+            android:textColor="@color/labelFontColor"
+            android:textSize="18sp"
+            android:inputType="none"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/buttonWhite"
+            android:src="@drawable/phone"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/lblPhoneNumber"
+            android:id="@+id/btnPhoneNumber" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/buttonWhite"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitXY"
+            android:layout_toRightOf="@id/btnPhoneNumber"
+            android:src="@drawable/textmessage"
+            android:id="@+id/btnTextMessage" />
     </RelativeLayout>
 </LinearLayout>

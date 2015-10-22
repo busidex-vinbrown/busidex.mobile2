@@ -350,7 +350,21 @@ namespace Busidex.Presentation.iOS
 
 			FeatureButtons.Add (PhoneButton);
 		}
-			
+
+		protected void AddTextMessageButton(ref List<UIButton> FeatureButtons, int idx){
+
+			var TextMessageButton = UIButton.FromType (UIButtonType.System);
+
+			TextMessageButton.SetBackgroundImage (UIImage.FromBundle ("textmessage.png"), UIControlState.Normal);
+			TextMessageButton.Tag = (int)Resources.UIElements.TextMessageButton;
+
+			TextMessageButton.TouchUpInside += delegate {
+				ShowPhoneNumbers(idx);
+			};
+
+			FeatureButtons.Add (TextMessageButton);
+		}
+
 		protected void AddShareCardButton(ref List<UIButton> FeatureButtons, int idx){
 
 			var shareCardButton = UIButton.FromType (UIButtonType.System);

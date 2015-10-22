@@ -397,6 +397,7 @@
     <AndroidResource Include="Resources\drawable\border.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\NotificationSimple.png" />
     <AndroidResource Include="Resources\drawable\button.png" />
+    <AndroidResource Include="Resources\drawable\textmessage.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

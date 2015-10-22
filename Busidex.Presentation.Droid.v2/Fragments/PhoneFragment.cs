@@ -6,6 +6,7 @@ using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
+using Android.Telephony;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -30,6 +31,7 @@ namespace Busidex.Presentation.Droid.v2
 				var lstPhoneNumbers = view.FindViewById<ListView> (Resource.Id.lstPhoneNumbers);
 				var adapter = new PhoneNumberEntryAdapter (Activity, Resource.Id.lstPhoneNumbers, SelectedCard.Card.PhoneNumbers);
 				adapter.PhoneNumberDialed += DialPhoneNumber;
+				adapter.TextMessageSent += SendTextMessage;
 
 				lstPhoneNumbers.Adapter = adapter;
 
@@ -59,6 +61,14 @@ namespace Busidex.Presentation.Droid.v2
 		void DialPhoneNumber(PhoneNumber number){
 			var userToken = BaseApplicationResource.GetAuthCookie ();
 			var uri = Uri.Parse ("tel:" + number.Number);
+			var intent = new Intent (Intent.ActionView, uri); 
+			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
+			StartActivity (intent); 
+		}
+
+		void SendTextMessage(PhoneNumber number){
+			var userToken = BaseApplicationResource.GetAuthCookie ();
+			var uri = Uri.Parse ("smsto:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
 			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
 			StartActivity (intent); 

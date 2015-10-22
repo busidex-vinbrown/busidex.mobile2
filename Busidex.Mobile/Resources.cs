@@ -81,16 +81,17 @@ namespace Busidex.Mobile
 			EmailButton = 6,
 			WebsiteButton = 7,
 			PhoneNumberButton = 8,
-			OrganizationImage = 9,
-			TwitterButton = 10,
-			FacebookButton = 11,
-			ButtonPanel = 12,
-			ShareCardButton = 13,
-			AddToMyBusidexButton = 14,
-			RemoveFromMyBusidexButton = 15,
-			AcceptCard = 16,
-			DeclineCard = 17,
-			PersonalMessageLabel = 18
+			TextMessageButton = 9,
+			OrganizationImage = 10,
+			TwitterButton = 11,
+			FacebookButton = 12,
+			ButtonPanel = 13,
+			ShareCardButton = 14,
+			AddToMyBusidexButton = 15,
+			RemoveFromMyBusidexButton = 16,
+			AcceptCard = 17,
+			DeclineCard = 18,
+			PersonalMessageLabel = 19
 		}
 	}
 }
