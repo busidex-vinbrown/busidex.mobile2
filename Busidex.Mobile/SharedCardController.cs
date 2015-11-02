@@ -1,6 +1,7 @@
 ﻿using System;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Busidex.Mobile
 {
@@ -54,10 +55,10 @@ namespace Busidex.Mobile
 		/// </summary>
 		/// <returns>The shared cards.</returns>
 		/// <param name="userToken">User token.</param>
-		public string GetSharedCards(string userToken){
+		public string GetSharedCards(string userToken, HttpMessageHandler handler = null){
 
 			const string URL = Resources.BASE_API_URL + "SharedCard/Get";
-			return MakeRequest (URL, "GET", userToken);
+			return MakeRequest (URL, "GET", userToken, null, handler);
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Mobile
 {
@@ -32,17 +33,32 @@ namespace Busidex.Mobile
 			"'CardType': 1" + 
 			"}";
 
-			return await MakeRequestAsync (url, "POST", userToken, data);
+			var model = new SearchResultModel {
+				UserId = 0,
+				Criteria = criteria,
+				SearchText = criteria,
+				SearchLocation = 0,
+				SearchAddress = null,
+				CardType = CardType.Professional,
+				TagCloud = null,
+				Display = 0,
+				Distance = 25,
+				HasResults = true,
+				IsLoggedIn = true
+			};
+			data = Newtonsoft.Json.JsonConvert.SerializeObject (model);
+
+			return await MakeRequestAsync (url, "POST", userToken, model, new ModernHttpClient.NativeMessageHandler());
 		}
 
 		public async Task<string> SearchBySystemTag(string tag, string userToken){
 			string url = Resources.BASE_API_URL + "search/SystemTagSearch?systag=" + tag + "&ownedOnly=true";
-			return await MakeRequestAsync (url, "POST", userToken);
+			return await MakeRequestAsync (url, "POST", userToken, null,  new ModernHttpClient.NativeMessageHandler());
 		}
 
 		public async Task<string> GetEventTags(string userToken){
 			const string url = Resources.BASE_API_URL + "search/GetEventTags";
-			return await MakeRequestAsync (url, "GET", userToken);
+			return await MakeRequestAsync (url, "GET", userToken, null,  new ModernHttpClient.NativeMessageHandler());
 		}
 	}
 }

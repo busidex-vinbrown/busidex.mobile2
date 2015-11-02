@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Busidex.Mobile
 {
@@ -10,40 +11,86 @@ namespace Busidex.Mobile
 		const string ERROR_MESSAGE = "Error";
 
 
-		protected static async Task<string> MakeRequestAsync(string url, string method, string token, string data = null){
-			var request = (HttpWebRequest)WebRequest.Create(url);
+		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
+			//var request = (HttpWebRequest)WebRequest.Create(url);
+			var request = new HttpRequestMessage (new HttpMethod (method), url);
+			var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
+
 			string response = string.Empty;
 			ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
-			request.Method = method;
+			request.Method = new HttpMethod (method);
 
 			request.Headers.Add ("x-authorization-token", token);
 
-			if (method == "POST" || method == "PUT") {
-				var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
-				if (data != null) {
-					requestWriter.Write (data);
-				} else {
-					requestWriter.Write ("{}");
-				}
-				request.ContentType = "application/json";
-				requestWriter.Close();
-			}
+			//if (method == "POST" || method == "PUT") {
+//				var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+//				if (data != null) {
+//					requestWriter.Write (data);
+//				} else {
+//					requestWriter.Write ("{}");
+//				}
+//				request.ContentType = "application/json";
+//				requestWriter.Close();
+				//request.Content = new JsonContent(data);
+
+				//request.Headers.Add("content-type", "application/json");
+
+
+			//}
 
 
 			try {
-				await request.GetResponseAsync().ContinueWith(r => {
-					using (var webStream = r.Result.GetResponseStream()) {
-						var responseReader = new StreamReader (webStream);
-						response = responseReader.ReadToEnd();
+//				await request.GetResponseAsync().ContinueWith(r => {
+//					using (var webStream = r.Result.GetResponseStream()) {
+//						var responseReader = new StreamReader (webStream);
+//						response = responseReader.ReadToEnd();
+//
+//						responseReader.Close();
+//
+//						return response;
+//					}
+//				});
+				if(method == "POST"){
 
-						responseReader.Close();
+					HttpContent content = new JsonContent(data);
+					content.Headers.Add("x-authorization-token", token);
+					await httpClient.PostAsync (url, content).ContinueWith(async r => {
+						var _response = await r;
 
-						return response;
-					}
-				});
+						response = await _response.Content.ReadAsStringAsync();
+
+					});	
+				}else if(method == "PUT"){
+
+					HttpContent content = new JsonContent(data);
+					content.Headers.Add("x-authorization-token", token);
+					await httpClient.PutAsync (url, content).ContinueWith(async r => {
+						var _response = await r;
+
+						response = await _response.Content.ReadAsStringAsync();
+
+					});	
+				}else if(method == "DELETE"){
+
+					httpClient.DefaultRequestHeaders.Add("x-authorization-token", token);
+					await httpClient.DeleteAsync (url).ContinueWith(async r => {
+						var _response = await r;
+
+						response = await _response.Content.ReadAsStringAsync();
+
+					});
+				}
+				else{
+					await httpClient.SendAsync (request).ContinueWith(async r => {
+						var _response = await r;
+
+						response = await _response.Content.ReadAsStringAsync();
+
+					});
+				}
 			} 
 
-			catch(System.AggregateException e){
+			catch(AggregateException e){
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
 					UserId = -1,
@@ -62,19 +109,27 @@ namespace Busidex.Mobile
 			return response;
 		}
 
-		protected static string MakeRequest(string url, string method, string token, string data = null){
-			var request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = method;
+		protected static string MakeRequest(string url, string method, string token, string data = null, HttpMessageHandler handler = null){
+
+		
+			url = url.Replace ("https", "http");
+			//var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
+
+			 
+			var request = (HttpWebRequest)WebRequest.Create (url);//new HttpRequestMessage (new HttpMethod (method), url);
+
+			//request.Method = method;
 
 //			if(!NetworkInterface.GetIsNetworkAvailable()){
 //				return ERROR_MESSAGE;
 //			}
 				
-			ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
 			if(data != null){
 				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
 				writer.Write (data);
 				request.ContentType = "application/json";
+				//request.Headers.Add ("ContentType", "application/json");
+				//request.Content = new JsonContent(data);
 				writer.Close ();
 			}
 			request.Headers.Add ("x-authorization-token", token);
@@ -86,8 +141,20 @@ namespace Busidex.Mobile
 //				requestWriter.Close();
 //			}
 
+
+
 			string response = string.Empty;
+			string results = string.Empty;
 			try {
+//				await httpClient.SendAsync (request).ContinueWith(async r => {
+//					response = await r;
+//
+//					await response.Content.ReadAsStringAsync().ContinueWith(rr => {
+//						return rr.Result;
+//					});
+//
+//				});
+
 				var webResponse = request.GetResponse();
 
 				using (var webStream = webResponse.GetResponseStream()) {
@@ -101,23 +168,26 @@ namespace Busidex.Mobile
 			} 
 			catch(WebException e){
 				if(e.Status == WebExceptionStatus.ProtocolError){
-					response = e.Message;
+					results = e.Message;
 				}else{
 					if (e.Message.Contains ("NameResolutionFailure")) {
-						response = ERROR_MESSAGE;
+						results = ERROR_MESSAGE;
 					}else if(e.Message.Contains("ConnectFailure")){
-						response = ERROR_MESSAGE;
+						results = ERROR_MESSAGE;
 					} else {
 						throw new Exception (e.Message);
 					}
 				}
+				return results;
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				LoggingController.LogError (e, token);
-				response = ERROR_MESSAGE;
+				results = ERROR_MESSAGE;
+				return results;
 			}
-			return response;
+
+			return results;
 		}
 	}
 }

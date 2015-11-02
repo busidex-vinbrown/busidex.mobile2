@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Android.Views.Animations;
 using Busidex.Mobile.Models;
 using Android.Views.InputMethods;
+using Android.App;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -39,6 +40,7 @@ namespace Busidex.Presentation.Droid.v2
 						var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 						var userId = loginResponse != null ? loginResponse.UserId : 0;
 						BaseApplicationResource.SetAuthCookie (userId);
+
 
 						Activity.RunOnUiThread (() => {
 							imgLogo.ClearAnimation ();

@@ -7,7 +7,6 @@ using Busidex.Mobile.Models;
 using System.IO;
 using GoogleAnalytics.iOS;
 using CoreAnimation;
-using System.Drawing;
 using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
@@ -79,8 +78,14 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			if(string.IsNullOrEmpty(txtEmail.Text) || txtEmail.Text.IndexOf("@") < 0){
-				ShowAlert ("Missing Information", "Please enter an email address", "Ok");
+			string phoneNumber = txtPhoneNumber.Text;
+			if(!string.IsNullOrEmpty(phoneNumber)){
+				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace(" ", "");
+			}
+			string email = txtEmail.Text;
+
+			if(string.IsNullOrEmpty(phoneNumber) && (string.IsNullOrEmpty(email) || email.IndexOf("@") < 0)){
+				ShowAlert ("Missing Information", "Please enter an email address or phone number", "Ok");
 				txtEmail.BecomeFirstResponder ();
 				return;
 			}
@@ -95,8 +100,8 @@ namespace Busidex.Presentation.iOS
 			lblError.Hidden = true;
 
 			var controller = new Busidex.Mobile.SharedCardController ();
-			string phoneNumber = string.Empty;
-			var response = controller.ShareCard (UserCard.Card, txtEmail.Text, phoneNumber, cookie.Value);
+
+			var response = controller.ShareCard (UserCard.Card, email, phoneNumber, cookie.Value);
 
 			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
 				imgCardShared.Hidden = false;

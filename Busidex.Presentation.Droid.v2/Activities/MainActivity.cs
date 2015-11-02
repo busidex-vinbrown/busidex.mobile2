@@ -264,15 +264,36 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnResume ();
 
+			if(!getDeviceTypeSetting()){
+
+				string token = BaseApplicationResource.GetAuthCookie();
+				var deviceType = Busidex.Mobile.DeviceType.Android;
+
+				AccountController.UpdateDeviceType(token, deviceType).ContinueWith(r =>{
+					saveDeviceTypeSet ();
+				});
+			}
+
 			var tab = ActionBar.GetTabAt (0);
 			ActionBar.SelectTab (tab);
 			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
 		}
 
+		void saveDeviceTypeSet(){
+			var prefs = Application.Context.GetSharedPreferences(Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			var prefEditor = prefs.Edit();
+			prefEditor.PutBoolean(Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
+			prefEditor.Commit();	
+		}
+
+		public bool getDeviceTypeSetting(){
+			var prefs = Android.App.Application.Context.GetSharedPreferences(Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			return prefs.GetBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, false);	
+		}
+
 		protected override void OnStart ()
 		{
 			base.OnStart ();
-
 
 			string token = BaseApplicationResource.GetAuthCookie ();
 			if(string.IsNullOrEmpty(token)){

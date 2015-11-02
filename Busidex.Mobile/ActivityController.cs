@@ -16,7 +16,7 @@ namespace Busidex.Mobile
 
 			const string URL = Resources.BASE_API_URL + "Activity";
 
-			MakeRequestAsync (URL, "POST", userToken, data).ContinueWith(r => {
+			MakeRequestAsync (URL, "POST", userToken, data,  new ModernHttpClient.NativeMessageHandler()).ContinueWith(r => {
 
 			});
 		}

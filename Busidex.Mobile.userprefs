@@ -1,9 +1,11 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/LoginFragment.cs">
     <Files>
-      <File FileName="Busidex.Presentation.Droid.v2/Adapters/GenericFragmentPagerAdaptor.cs" Line="13" Column="48" />
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="6" Column="18" />
+      <File FileName="Busidex.Mobile/BaseController.cs" Line="88" Column="4" />
+      <File FileName="Busidex.Mobile/AccountController.cs" Line="37" Column="7" />
+      <File FileName="Busidex.Mobile/Resources.cs" Line="12" Column="75" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/LoginFragment.cs" Line="65" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -8,11 +8,19 @@ namespace Busidex.Mobile
 		const string LOGIN_URL = "Account/Login";
 
 
-		public static Task<string> DoLogin(string username, string password){
+		public async Task<string> DoLogin(string username, string password){
 		
-			string data = "{'UserName':'" + username + "','Password':'" + password + "','Token':'','RememberMe':'true'}";
+			//string data = "{'UserName':'" + username + "','Password':'" + password + "','Token':'','RememberMe':'true'}";
+
+			var model = new LoginParams {
+				UserName = username,
+				Password = password, 
+				Token = string.Empty,
+				RememberMe = true,
+				EventTag = string.Empty
+			};
 			string url = string.Format ("{0}{1}", Resources.BASE_API_URL, LOGIN_URL);
-			return MakeRequestAsync (url, "POST", string.Empty, data);
+			return await MakeRequestAsync (url, "POST", string.Empty, model,  new ModernHttpClient.NativeMessageHandler());
 		}
 	}
 }

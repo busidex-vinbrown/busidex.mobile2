@@ -4,8 +4,6 @@ using UIKit;
 using System.Linq;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
-using CoreGraphics;
-using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -33,7 +31,7 @@ namespace Busidex.Presentation.iOS
 
 			long userId;
 			if (cookie != null) {
-				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
+				userId = Utils.DecodeUserId (cookie.Value);
 				if (userId <= 0) {
 					UpdateSettings ();
 				} else {

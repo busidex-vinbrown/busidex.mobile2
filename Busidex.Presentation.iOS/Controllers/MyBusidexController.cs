@@ -10,6 +10,7 @@ using MessageUI;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
 using System.Threading.Tasks;
+using ModernHttpClient;
 
 namespace Busidex.Presentation.iOS
 {

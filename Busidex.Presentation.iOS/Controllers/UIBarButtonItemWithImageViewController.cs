@@ -7,6 +7,7 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.Linq;
 using System.Collections.Generic;
+using ModernHttpClient;
 
 namespace Busidex.Presentation.iOS
 {
@@ -101,7 +102,10 @@ namespace Busidex.Presentation.iOS
 			await LoadMyBusidexAsync (true);
 			await LoadMyOrganizationsAsync (true);
 			await LoadEventList (true);
-			GetNotifications ();
+			InvokeOnMainThread (() => {
+				GetNotifications ();
+			});
+
 			//ConfigureToolbarItems ();
 
 			return true;
@@ -111,7 +115,8 @@ namespace Busidex.Presentation.iOS
 
 			var ctrl = new Busidex.Mobile.SharedCardController ();
 			var cookie = GetAuthCookie ();
-			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value);
+
+			var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value, new NativeMessageHandler());
 			if(sharedCardsResponse.Equals("Error")){
 				return 0;
 			}

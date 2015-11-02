@@ -5,12 +5,14 @@ namespace Busidex.Mobile
 {
 	public static class Resources
 	{
+		public const string APPLICATION_NAME = "Busidex";
 		public const string AUTHENTICATION_COOKIE_NAME = "UserId";
 		public const string BUSIDEX_REFRESH_COOKIE_NAME = "BusidexRefresh";
 		public const string ORGANIZATION_REFRESH_COOKIE_NAME = "OrganizationRefresh";
 		public const string EVENT_LIST_REFRESH_COOKIE_NAME = "EventListRefresh";
 		public const string EVENT_CARDS_REFRESH_COOKIE_NAME = "EventCards{0}";
 
+		public const string USER_SETTING_DEVICE_TYPE_SET = "DeviceTypeSet";
 		public const string USER_SETTING_DISPLAYNAME = "DisplayName";
 		public const string USER_SETTING_USERNAME = "UserName";
 		public const string USER_SETTING_PASSWORD = "Password";
@@ -21,7 +23,7 @@ namespace Busidex.Mobile
 		public const string PREFERENCE_FIRST_USE_POPUP_SEEN = "StarupPopupSeen";
 
 		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
-		public const string BASE_API_URL = "http://www.busidexapi.com/api/";
+		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_PATH =  "https://busidexcdn.blob.core.windows.net/mobile-images/";//"https://az381524.vo.msecnd.net/cards/";

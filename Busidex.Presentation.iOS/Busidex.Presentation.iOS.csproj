@@ -125,6 +125,9 @@
     <Reference Include="Badge.Plugin.Abstractions">
       <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\Xamarin.iOS10\Badge.Plugin.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

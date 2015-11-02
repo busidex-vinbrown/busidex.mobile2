@@ -85,9 +85,9 @@ namespace Busidex.Presentation.iOS
 				loggingIn = true;
 
 				spinImage();
-
-				await Busidex.Mobile.LoginController.DoLogin (username, password).ContinueWith(response => {
-					string result = response.Result;
+				var loginController = new Busidex.Mobile.LoginController();
+				await loginController.DoLogin (username, password).ContinueWith(async response => {
+					string result = await response;
 					if (!string.IsNullOrEmpty (result) && !result.Contains ("404")) {
 						var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
 

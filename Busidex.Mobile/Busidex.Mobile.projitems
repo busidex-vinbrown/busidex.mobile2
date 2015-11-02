@@ -64,6 +64,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ActivityDTO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AutoResponseForm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UISubscriptionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DeviceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchResultModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

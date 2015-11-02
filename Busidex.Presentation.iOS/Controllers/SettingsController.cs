@@ -91,7 +91,8 @@ namespace Busidex.Presentation.iOS
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
 
-				Busidex.Mobile.LoginController.DoLogin(email, password).ContinueWith(response => {
+				var loginContrller = new Busidex.Mobile.LoginController ();
+				loginContrller.DoLogin(email, password).ContinueWith(response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;

@@ -13,7 +13,7 @@ namespace Busidex.Mobile
 
 			string url = Resources.BASE_API_URL + CHANGE_USERNAME_URL + "?userId=0&name=" + name;
 			string data = "{}";
-			return MakeRequestAsync (url, "PUT", userToken, data);
+			return MakeRequestAsync (url, "PUT", userToken, data, new ModernHttpClient.NativeMessageHandler());
 		}
 
 		public static Task<string> ChangePassword(string oldPassword, string newPassword, string userToken){
@@ -29,7 +29,7 @@ namespace Busidex.Mobile
 
 			string url = Resources.BASE_API_URL + CHANGE_EMAIL_URL + "?email=" + email;
 			string data = "{}";
-			return MakeRequestAsync (url, "PUT", userToken, data);
+			return MakeRequestAsync (url, "PUT", userToken, data, new ModernHttpClient.NativeMessageHandler());
 		}
 	}
 }

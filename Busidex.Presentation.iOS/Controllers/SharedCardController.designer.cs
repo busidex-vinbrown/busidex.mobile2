@@ -38,6 +38,10 @@ namespace Busidex.Presentation.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtEmail { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtPhoneNumber { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (imgCard != null) {
@@ -63,6 +67,10 @@ namespace Busidex.Presentation.iOS
 			if (txtEmail != null) {
 				txtEmail.Dispose ();
 				txtEmail = null;
+			}
+			if (txtPhoneNumber != null) {
+				txtPhoneNumber.Dispose ();
+				txtPhoneNumber = null;
 			}
 		}
 	}
