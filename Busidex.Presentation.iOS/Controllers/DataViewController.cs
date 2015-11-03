@@ -28,6 +28,21 @@ namespace Busidex.Presentation.iOS
 			Hide = 2
 		}
 
+		private bool getDeviceTypeSetting(){
+
+			using (var user = NSUserDefaults.StandardUserDefaults) {
+				return user.BoolForKey (Resources.USER_SETTING_DEVICE_TYPE_SET);
+			}
+
+		}
+
+		void saveDeviceTypeSet(){
+			using (var user = NSUserDefaults.StandardUserDefaults) {
+				user.SetBool(true, Resources.USER_SETTING_DEVICE_TYPE_SET);
+				user.Synchronize ();
+			}
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -40,6 +55,21 @@ namespace Busidex.Presentation.iOS
 			 */
 
 			ConfigureToolbarItems ();
+
+
+
+			if(!getDeviceTypeSetting()){
+
+				var token = GetAuthCookie();
+
+				var deviceName = UIDevice.CurrentDevice.Name;
+
+				var deviceType = deviceName.ToUpper().Contains("IPHONE") ? DeviceType.iPhone : DeviceType.iPad;
+
+				AccountController.UpdateDeviceType(token.Value, deviceType).ContinueWith(r =>{
+					saveDeviceTypeSet ();
+				});
+			}
 
 			UIFont font = UIFont.FromName ("Lato-Black", 22f);
 		
@@ -187,6 +217,7 @@ namespace Busidex.Presentation.iOS
 			user.SetString (string.Empty, Resources.USER_SETTING_USERNAME);
 			user.SetString (string.Empty, Resources.USER_SETTING_PASSWORD);
 			user.SetString (string.Empty, Resources.USER_SETTING_EMAIL);
+			user.SetBool (false, Resources.USER_SETTING_DEVICE_TYPE_SET);
 			user.Synchronize ();
 		}
 

@@ -12,7 +12,6 @@ namespace Busidex.Mobile
 
 
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
-			//var request = (HttpWebRequest)WebRequest.Create(url);
 			var request = new HttpRequestMessage (new HttpMethod (method), url);
 			var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
 
@@ -22,34 +21,8 @@ namespace Busidex.Mobile
 
 			request.Headers.Add ("x-authorization-token", token);
 
-			//if (method == "POST" || method == "PUT") {
-//				var requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
-//				if (data != null) {
-//					requestWriter.Write (data);
-//				} else {
-//					requestWriter.Write ("{}");
-//				}
-//				request.ContentType = "application/json";
-//				requestWriter.Close();
-				//request.Content = new JsonContent(data);
-
-				//request.Headers.Add("content-type", "application/json");
-
-
-			//}
-
-
 			try {
-//				await request.GetResponseAsync().ContinueWith(r => {
-//					using (var webStream = r.Result.GetResponseStream()) {
-//						var responseReader = new StreamReader (webStream);
-//						response = responseReader.ReadToEnd();
-//
-//						responseReader.Close();
-//
-//						return response;
-//					}
-//				});
+
 				if(method == "POST"){
 
 					HttpContent content = new JsonContent(data);

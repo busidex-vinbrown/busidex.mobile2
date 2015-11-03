@@ -30,11 +30,11 @@ namespace Busidex.Mobile
 
 		public static Task<string> CheckAccount(string token, string email, string password){
 
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject (new AutoResponseForm{
+			var data = new AutoResponseForm{
 				uidId = token,
 				email = email,
 				pswd = password
-			});
+			};
 
 			return MakeRequestAsync (CHECK_ACCOUNT_URL, Resources.HttpActions.POST.ToString(), token, data,  new ModernHttpClient.NativeMessageHandler());
 		}
