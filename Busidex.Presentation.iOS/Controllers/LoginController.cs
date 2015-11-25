@@ -10,7 +10,7 @@ namespace Busidex.Presentation.iOS
 {
 	partial class LoginController : BaseController
 	{
-		LoadingOverlay loadingOverlay;
+		//LoadingOverlay loadingOverlay;
 
 		public LoginController (IntPtr handle) : base (handle)
 		{
@@ -62,13 +62,13 @@ namespace Busidex.Presentation.iOS
 			UIView.AnimateNotify (.5, 0, UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () =>
 				{
 					imgLogo.Transform = CGAffineTransform.MakeScale(0.01f, 1.1f);
-				}, (finished) => {
-					if(loggingIn){
-						spinImage();
-					}else{
-						imgLogo.Transform = CGAffineTransform.MakeScale(1.0f, 1.0f);
-					}
-				});
+				}, finished => {
+				if (loggingIn) {
+					spinImage ();
+				} else {
+					imgLogo.Transform = CGAffineTransform.MakeScale (1.0f, 1.0f);
+				}
+			});
 		}
 
 		async Task<bool> DoLogin(){

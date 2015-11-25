@@ -67,17 +67,17 @@ namespace Busidex.Presentation.iOS
 						newLabel.TextColor = UIColor.FromRGB(66,69,76);
 						newLabel.TextAlignment = UITextAlignment.Right;
 
-						var textAttributed = new NSMutableAttributedString (
-							number.Number, 
-							new UIStringAttributes  {
-								ForegroundColor = UIColor.Blue, 
-								Font = UIFont.FromName ("Helvetica", 16f),
-								UnderlineStyle = NSUnderlineStyle.Single 
-							}
-						);
+//						var textAttributed = new NSMutableAttributedString (
+//							number.Number, 
+//							new UIStringAttributes  {
+//								ForegroundColor = UIColor.Blue, 
+//								Font = UIFont.FromName ("Helvetica", 16f),
+//								UnderlineStyle = NSUnderlineStyle.Single 
+//							}
+//						);
 						newNumber.Text = number.Number;
 						newNumber.Font = UIFont.FromName ("Helvetica", 16f);
-						newNumber.TextColor = UIColor.Blue;
+						newNumber.TextColor = UIColor.Black;
 						newNumber.TextAlignment = UITextAlignment.Left;
 
 						newPhoneImage.Frame = phoneImageFrame;

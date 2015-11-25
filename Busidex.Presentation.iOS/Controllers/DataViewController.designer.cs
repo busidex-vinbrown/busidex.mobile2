@@ -92,6 +92,10 @@ namespace Busidex.Presentation.iOS
 				btnQuestions.Dispose ();
 				btnQuestions = null;
 			}
+			if (dataLabel != null) {
+				dataLabel.Dispose ();
+				dataLabel = null;
+			}
 			if (lblEvents != null) {
 				lblEvents.Dispose ();
 				lblEvents = null;
