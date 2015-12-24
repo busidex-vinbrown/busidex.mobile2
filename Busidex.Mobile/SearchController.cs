@@ -8,45 +8,46 @@ namespace Busidex.Mobile
 		public async Task<string> DoSearch(string criteria, string userToken){
 
 			const string url = Resources.BASE_API_URL + "search/Search";
-			string data = 
-			@"{" + 
-				"'Success': true," + 
-				"'SearchModel': {" + 
-				"'UserId': 0," + 
-			"'Criteria': '" + criteria + "'," + 
-			"'SearchText': '" + criteria + "'," + 
-			"'SearchAddress': null," + 
-			"'SearchLocation': 0," + 
-			"'Results': []," + 
-			"'IsLoggedIn': true," + 
-			"'HasResults': true," + 
-			"'Display': 0," + 
-			"'Distance': 25," + 
-			"'TagCloud': { }," + 
-			"'CardType': 0" + 
-			"}," + 
-			"'TagSearch': false," + 
-			"'SearchText': '" + criteria + "'," + 
-			"'NoResults': false," + 
-			"'SearchResultsMessage': ''," + 
-			"'UserId': 0," + 
-			"'CardType': 1" + 
-			"}";
+//			string data = 
+//			@"{" + 
+//				"'Success': true," + 
+//				"'SearchModel': {" + 
+//				"'UserId': 0," + 
+//			"'Criteria': '" + criteria + "'," + 
+//			"'SearchText': '" + criteria + "'," + 
+//			"'SearchAddress': null," + 
+//			"'SearchLocation': 0," + 
+//			"'Results': []," + 
+//			"'IsLoggedIn': true," + 
+//			"'HasResults': true," + 
+//			"'Display': 0," + 
+//			"'Distance': 25," + 
+//			"'TagCloud': { }," + 
+//			"'CardType': 0" + 
+//			"}," + 
+//			"'TagSearch': false," + 
+//			"'SearchText': '" + criteria + "'," + 
+//			"'NoResults': false," + 
+//			"'SearchResultsMessage': ''," + 
+//			"'UserId': 0," + 
+//			"'CardType': 1" + 
+//			"}";
 
 			var model = new SearchResultModel {
-				UserId = 0,
-				Criteria = criteria,
-				SearchText = criteria,
-				SearchLocation = 0,
-				SearchAddress = null,
 				CardType = CardType.Professional,
-				TagCloud = null,
+				Criteria = criteria,
 				Display = 0,
-				Distance = 25,
+				Distance = 0,
 				HasResults = true,
-				IsLoggedIn = true
+				IsLoggedIn = true,
+				Results = new System.Collections.Generic.List<CardDetailModel>(),
+				SearchAddress = null,
+				SearchLocation = 0,
+				SearchText = criteria,
+				TagCloud = null,
+				UserId = null
 			};
-			data = Newtonsoft.Json.JsonConvert.SerializeObject (model);
+			//data = Newtonsoft.Json.JsonConvert.SerializeObject (model);
 
 			return await MakeRequestAsync (url, "POST", userToken, model, new ModernHttpClient.NativeMessageHandler());
 		}

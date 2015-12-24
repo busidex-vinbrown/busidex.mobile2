@@ -65,7 +65,9 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			if (btnCard != null) {
 				var bd = (BitmapDrawable)btnCard.Drawable;
-				bd.Bitmap.Recycle ();
+				if(bd != null){
+					bd.Bitmap.Recycle ();
+				}
 				btnCard.SetImageURI (null);
 			}
 			base.OnDestroy ();
@@ -105,7 +107,9 @@ namespace Busidex.Presentation.Droid.v2
 				}
 			case CardViewState.Front:{
 
-					if (UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID)) {
+					if (UserCard.Card.BackFileId == null ||
+						UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID) ||
+						UserCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.NULL_CARD_ID)) {
 						unload ();
 					} else {
 

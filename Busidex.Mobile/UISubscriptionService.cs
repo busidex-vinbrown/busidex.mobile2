@@ -350,8 +350,9 @@ namespace Busidex.Mobile
 						}
 					}
 				}
-				EventCards.Add(tag.Text, cards);
-
+				if(!EventCards.ContainsKey(tag.Text)){
+					EventCards.Add(tag.Text, cards);
+				}
 				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
 				Utils.SaveResponse (savedResult, string.Format(Resources.EVENT_CARDS_FILE, tag));
@@ -393,80 +394,81 @@ namespace Busidex.Mobile
 
 				OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (r.Result);
 
-				foreach (Organization org in myOrganizationsResponse.Model) {
+				if(myOrganizationsResponse != null && myOrganizationsResponse.Model != null){
+					
+					foreach (Organization org in myOrganizationsResponse.Model) {
 
-					OrganizationList.Add(org);
+						OrganizationList.Add(org);
 
-					var fileName = org.LogoFileName + "." + org.LogoType;
-					var fImagePath = Resources.CARD_PATH + fileName;
-					if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
-						Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
-					} 
-					// load organization members
-					organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
+						var fileName = org.LogoFileName + "." + org.LogoType;
+						var fImagePath = Resources.CARD_PATH + fileName;
+						if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
+							Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+						} 
+						// load organization members
+						organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
-						OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-						Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+							OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+							Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
 
-						var idx = 0;
-						OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
-						if(!OrganizationMembers.ContainsKey(org.OrganizationId)){
-							OrganizationMembers.Add(org.OrganizationId, orgMemberResponse.Model);
-						}else{
-							OrganizationMembers[org.OrganizationId] = orgMemberResponse.Model;
-						}
-
-						foreach(var card in orgMemberResponse.Model){
-
-							var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
-							var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
-							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+							var idx = 0;
+							OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
+							if(!OrganizationMembers.ContainsKey(org.OrganizationId)){
+								OrganizationMembers.Add(org.OrganizationId, orgMemberResponse.Model);
+							}else{
+								OrganizationMembers[org.OrganizationId] = orgMemberResponse.Model;
 							}
-							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+
+							foreach(var card in orgMemberResponse.Model){
+
+								var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
+								var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
+								var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+								var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+								if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+									await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+								}
+								if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+									Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+								}
+								idx++;
 							}
-							idx++;
-						}
-					});
+						});
 
-					organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
+						organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
-						var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-						Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+							var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
+							Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
 
-						var idx = 0;
+							var idx = 0;
 
-						OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
-						if(!OrganizationReferrals.ContainsKey(org.OrganizationId)){
-							OrganizationReferrals.Add(org.OrganizationId, orgReferralResponse.Model);
-						}else{
-							OrganizationReferrals[org.OrganizationId] = orgReferralResponse.Model;
-						}
-
-						foreach(var card in orgReferralResponse.Model){
-
-							var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
-							var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
-							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+							OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
+							if(!OrganizationReferrals.ContainsKey(org.OrganizationId)){
+								OrganizationReferrals.Add(org.OrganizationId, orgReferralResponse.Model);
+							}else{
+								OrganizationReferrals[org.OrganizationId] = orgReferralResponse.Model;
 							}
-							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-								Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+
+							foreach(var card in orgReferralResponse.Model){
+
+								var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
+								var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
+								var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+								var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+								if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+									await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+								}
+								if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+									Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+								}
+								idx++;
 							}
-							idx++;
-						}
-					});
+						});
+					}
 				}
-
 				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
 
 				Utils.SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
-
 			});
 			return true;
 		}
@@ -525,19 +527,23 @@ namespace Busidex.Mobile
 
 			var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
 
-			foreach (SharedCard card in sharedCards.SharedCards) {
-				var fileName = card.Card.FrontFileName;
-				var fImagePath = Resources.CARD_PATH + fileName;
-				if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
-					Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+			if (sharedCards.Success) {
+				foreach (SharedCard card in sharedCards.SharedCards) {
+					var fileName = card.Card.FrontFileName;
+					var fImagePath = Resources.CARD_PATH + fileName;
+					if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
+						Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+					}
 				}
+
+				Notifications = sharedCards.SharedCards;
+
+				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (Notifications), Resources.SHARED_CARDS_FILE);
+				return true;
 			}
 
-			Notifications = sharedCards.SharedCards;
-
-			Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (Notifications), Resources.SHARED_CARDS_FILE);
-
-			return true;
+			Notifications = new List<SharedCard> ();
+			return false;
 		}
 		#endregion
 

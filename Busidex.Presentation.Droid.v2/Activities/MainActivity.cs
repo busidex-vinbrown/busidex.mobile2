@@ -295,6 +295,8 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnStart ();
 
+
+
 			string token = BaseApplicationResource.GetAuthCookie ();
 			if(string.IsNullOrEmpty(token)){
 				DoStartUp ();		
@@ -317,6 +319,8 @@ namespace Busidex.Presentation.Droid.v2
 		{
 
 			base.OnCreate(savedInstanceState);
+
+			Xamarin.Insights.Initialize(GetString(Resource.String.InsightsApiKey), ApplicationContext);
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 

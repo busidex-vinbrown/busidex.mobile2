@@ -1,6 +1,4 @@
-﻿using System;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Busidex.Mobile.Models;
 
 namespace Busidex.Mobile

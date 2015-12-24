@@ -217,7 +217,8 @@ namespace Busidex.Presentation.Droid.v2
 					imgProfilePasswordSaved.Visibility = ViewStates.Visible;
 					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
-				LoginController.DoLogin(email, password).ContinueWith(response => {
+				var loginController = new LoginController ();
+				loginController.DoLogin(email, password).ContinueWith(response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;

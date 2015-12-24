@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using System.Globalization;
 
 namespace Busidex.Mobile
 {
@@ -46,7 +47,7 @@ namespace Busidex.Mobile
 
 		public static string EncodeUserId(long userId){
 
-			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString(CultureInfo.InvariantCulture));
 			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 			return returnValue;
 		}

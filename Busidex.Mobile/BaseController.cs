@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Xamarin;
 
 namespace Busidex.Mobile
 {
@@ -12,6 +13,7 @@ namespace Busidex.Mobile
 
 
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
+			
 			var request = new HttpRequestMessage (new HttpMethod (method), url);
 			var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
 
@@ -69,6 +71,7 @@ namespace Busidex.Mobile
 					UserId = -1,
 					ReasonPhrase = e.InnerException.Message
 				});
+				Insights.Report(e);
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
@@ -78,6 +81,7 @@ namespace Busidex.Mobile
 					UserId = -1,
 					ReasonPhrase = e.Message
 				});
+				Insights.Report(e);
 			}
 			return response;
 		}
@@ -91,7 +95,7 @@ namespace Busidex.Mobile
 			 
 			var request = (HttpWebRequest)WebRequest.Create (url);//new HttpRequestMessage (new HttpMethod (method), url);
 
-			//request.Method = method;
+			request.Method = method;
 
 //			if(!NetworkInterface.GetIsNetworkAvailable()){
 //				return ERROR_MESSAGE;
@@ -151,16 +155,18 @@ namespace Busidex.Mobile
 						throw new Exception (e.Message);
 					}
 				}
+				Insights.Report(e);
 				return results;
 			}
 			catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
-				LoggingController.LogError (e, token);
+				//LoggingController.LogError (e, token);
 				results = ERROR_MESSAGE;
+				Insights.Report(e);
 				return results;
 			}
 
-			return results;
+			//return results;
 		}
 	}
 }
