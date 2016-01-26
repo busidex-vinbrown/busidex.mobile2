@@ -1,9 +1,11 @@
 ﻿
 using Foundation;
 using UIKit;
-using WindowsAzure.Messaging;
+//using WindowsAzure.Messaging;
 using System;
 using GoogleAnalytics.iOS;
+using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -20,7 +22,8 @@ namespace Busidex.Presentation.iOS
 
 		UIWindow window;
 		UIBarButtonItemWithImageViewController viewController;
-		UINavigationController nav;
+		//UINavigationController nav;
+		BaseNavigationController nav;
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
@@ -60,7 +63,10 @@ namespace Busidex.Presentation.iOS
 			// ...
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 			viewController = new UIBarButtonItemWithImageViewController ();
-			nav = new UINavigationController (viewController);
+			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			nav = storyBoard.InstantiateInitialViewController() as BaseNavigationController;// UINavigationController (viewController);
+			nav.id = 123;
+
 			window.RootViewController = nav;
 			window.MakeKeyAndVisible ();
 			return true;
@@ -123,6 +129,63 @@ namespace Busidex.Presentation.iOS
 		// This method is called when the application is about to terminate. Save data, if needed.
 		public override void WillTerminate (UIApplication application)
 		{
+		}
+
+
+		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+		{
+			var rurl = new Rivets.AppLinkUrl (url.ToString ());
+
+			var cardId = string.Empty;
+			var sentFrom = string.Empty;
+			var displayName = string.Empty;
+
+			if (rurl.InputQueryParameters.ContainsKey ("cardId")) {
+				cardId = rurl.InputQueryParameters ["cardId"];
+			}
+			if (rurl.InputQueryParameters.ContainsKey ("_f")) {
+				sentFrom = System.Web.HttpUtility.UrlDecode(rurl.InputQueryParameters ["_f"]);
+			}
+			if (rurl.InputQueryParameters.ContainsKey ("_d")) {
+				displayName = System.Web.HttpUtility.UrlDecode(rurl.InputQueryParameters ["_d"]);
+			}
+
+			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+
+			if (rurl.InputUrl.Host.Equals ("quickshare") && !string.IsNullOrEmpty (cardId)) {
+				
+				var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+				var sharedCardController = new Busidex.Mobile.SharedCardController ();
+
+				string token = busidexController.GetAuthCookie ().Value;
+				var result = CardController.GetCardById (token, long.Parse (cardId));
+				if (!string.IsNullOrEmpty (result)) {
+					var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
+					var card = new Card (cardResponse.Model);
+					var user = NSUserDefaults.StandardUserDefaults;
+					var email = user.StringForKey(Resources.USER_SETTING_EMAIL);
+
+					var userCard = new UserCard {
+						Card = card,
+						CardId = long.Parse(cardId),
+						ExistsInMyBusidex = true,
+						OwnerId = cardResponse.Model.OwnerId,
+						UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
+						Notes = string.Empty
+					};
+					busidexController.AddCardToMyBusidexCache (userCard);
+					var myBusidexController = new Busidex.Mobile.MyBusidexController ();
+					myBusidexController.AddToMyBusidex (long.Parse (cardId), token);
+
+					sharedCardController.AcceptQuickShare (card, email, long.Parse (sentFrom), token);
+				}
+
+				Application.MainController.PushViewController (busidexController, true);
+
+				return true;
+			}
+			nav.PopToRootViewController (true);
+			return true;
 		}
 	}
 }

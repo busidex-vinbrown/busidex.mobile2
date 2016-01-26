@@ -10,7 +10,6 @@ using MessageUI;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
 using System.Threading.Tasks;
-using ModernHttpClient;
 
 namespace Busidex.Presentation.iOS
 {
@@ -97,6 +96,10 @@ namespace Busidex.Presentation.iOS
 			};
 
 			return src;
+		}
+
+		public void ScrollToCard(long cardId){
+				
 		}
 
 		void ConfigureSearchBar(){
@@ -198,6 +201,12 @@ namespace Busidex.Presentation.iOS
 			} else {
 				await LoadMyBusidexAsync ();
 			}
+		}
+
+		public void GoToTop(){
+			if(TableView != null){
+				TableView.SetContentOffset (new CGPoint (0, -75), true);
+			}	
 		}
 
 		public override void ViewDidAppear (bool animated)

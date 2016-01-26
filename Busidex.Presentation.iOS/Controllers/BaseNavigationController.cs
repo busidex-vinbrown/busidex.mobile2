@@ -14,8 +14,13 @@ namespace Busidex.Presentation.iOS
 			Forward = 1,
 			Backward = 2
 		}
+		public int id { get; set; }
 
 		public NavigationDirection Direction{ get; set; }
+
+		public BaseNavigationController  (UIViewController controller) : base (controller)
+		{
+		}
 
 		public BaseNavigationController  (IntPtr handle) : base (handle)
 		{
@@ -54,9 +59,9 @@ namespace Busidex.Presentation.iOS
 			
 		public override void PushViewController (UIViewController viewController, bool animated)
 		{
-			
-			transition.Subtype = Direction == NavigationDirection.Backward ? CAAnimation.TransitionFromLeft : CAAnimation.TransitionFromRight;
-
+			if(transition != null){
+				transition.Subtype = Direction == NavigationDirection.Backward ? CAAnimation.TransitionFromLeft : CAAnimation.TransitionFromRight;
+			}
 			this.View.Layer.AddAnimation (transition, "slide");
 
 			base.PushViewController (viewController, true);
@@ -68,6 +73,10 @@ namespace Busidex.Presentation.iOS
 		bool ShouldAllowLandscape ()
 		{
 			return false;
+		}
+
+		public void OpenQuickShare(QuickShareController controller){
+			PushViewController(controller, true);
 		}
 	}
 }

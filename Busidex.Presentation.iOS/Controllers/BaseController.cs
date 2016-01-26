@@ -101,7 +101,7 @@ namespace Busidex.Presentation.iOS
 			return cookie;
 		}
 
-		protected NSHttpCookie GetAuthCookie(){
+		public NSHttpCookie GetAuthCookie(){
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
@@ -187,7 +187,7 @@ namespace Busidex.Presentation.iOS
 			return 1;
 		}
 
-		protected void AddCardToMyBusidexCache(UserCard userCard){
+		public void AddCardToMyBusidexCache(UserCard userCard){
 			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 
 			string file;
@@ -195,8 +195,10 @@ namespace Busidex.Presentation.iOS
 				using (var myBusidexFile = File.OpenText (fullFilePath)) {
 					var myBusidexJson = myBusidexFile.ReadToEnd ();
 					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
+						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+					}
+					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
 				}
 
 				File.WriteAllText (fullFilePath, file);

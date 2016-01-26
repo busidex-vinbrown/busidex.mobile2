@@ -69,6 +69,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SearchResultModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoginParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplateCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmailTemplateController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplateResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

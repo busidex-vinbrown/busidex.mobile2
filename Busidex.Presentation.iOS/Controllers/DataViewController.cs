@@ -56,7 +56,7 @@ namespace Busidex.Presentation.iOS
 
 			ConfigureToolbarItems ();
 
-
+			Application.MainController = NavigationController;
 
 			if(!getDeviceTypeSetting()){
 

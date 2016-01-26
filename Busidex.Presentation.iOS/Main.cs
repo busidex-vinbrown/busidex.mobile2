@@ -10,6 +10,7 @@ namespace Busidex.Presentation.iOS
 	public class Application
 	{
 		public static List<UserCard> MyBusidex { get; set; }
+		public static UINavigationController MainController { get; set; }
 
 		// This is the main entry point of the application.
 		static void Main (string[] args)

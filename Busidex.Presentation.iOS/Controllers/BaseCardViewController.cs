@@ -78,13 +78,14 @@ namespace Busidex.Presentation.iOS
 			case CardViewState.Front:{
 					NavigationController.SetNavigationBarHidden (true, false);
 					var backFileName = Path.Combine (documentsPath, selectedCard.Card.BackFileId + "." + selectedCard.Card.BackType);
-					if (selectedCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID)) {
+					if (selectedCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID) ||
+						selectedCard.Card.BackFileId.ToString().Equals (Resources.NULL_CARD_ID)) {
 						HideCardDetail ();
 						break;
 					}  
 
 					if (File.Exists (backFileName)) {
-						if(selectedCard.Card.FrontOrientation == "H"){
+						if(selectedCard.Card.BackOrientation == "H"){
 							cardImageLandscape.Image = new UIImage(UIImage.FromFile (backFileName).CGImage, 1, UIImageOrientation.Right);
 						}else{
 							cardImagePortrait.Image = UIImage.FromFile (backFileName);
@@ -106,8 +107,8 @@ namespace Busidex.Presentation.iOS
 
 					ViewState = CardViewState.Back;
 					TableView.Hidden = true;
-					cardImageLandscape.Hidden = selectedCard.Card.FrontOrientation == "V";
-					cardImagePortrait.Hidden = selectedCard.Card.FrontOrientation == "H";
+					cardImageLandscape.Hidden = selectedCard.Card.BackOrientation == "V";
+					cardImagePortrait.Hidden = selectedCard.Card.BackOrientation == "H";
 
 					break;
 				}

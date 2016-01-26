@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="536" package="com.busidex" android:versionName="1.3.9">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="537" package="com.busidex" android:versionName="1.3.10">
 	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21" />
 	<application android:label="Busidex" android:theme="@style/Theme.Busidexactionbar" android:icon="@drawable/logo">
 		<activity android:name=".SplashActivity">

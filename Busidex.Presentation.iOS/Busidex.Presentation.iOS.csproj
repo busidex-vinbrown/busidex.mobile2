@@ -117,9 +117,6 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Badge.Plugin">
       <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\Xamarin.iOS10\Badge.Plugin.dll</HintPath>
     </Reference>
@@ -134,6 +131,19 @@
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.11.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rivets">
+      <HintPath>..\Components\rivets-1.0.5.1\lib\ios-unified\Rivets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="Lotz.Xam.Messaging.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Messaging.3.0.0\lib\Xamarin.iOS10\Lotz.Xam.Messaging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Lotz.Xam.Messaging">
+      <HintPath>..\packages\Xam.Plugins.Messaging.3.0.0\lib\Xamarin.iOS10\Lotz.Xam.Messaging.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +266,10 @@
     <Compile Include="Controllers\ButtonPanelController.designer.cs">
       <DependentUpon>ButtonPanelController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\QuickShareController.cs" />
+    <Compile Include="Controllers\QuickShareController.designer.cs">
+      <DependentUpon>QuickShareController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -280,6 +294,7 @@
     <InterfaceDefinition Include="Controllers\BaseNavigationController.xib" />
     <InterfaceDefinition Include="Controllers\BaseCardViewController.xib" />
     <InterfaceDefinition Include="Controllers\UIBarButtonItemWithImageViewController.xib" />
+    <InterfaceDefinition Include="Controllers\QuickShareController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -383,6 +398,14 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="googleanalytics">
       <Version>3.0.10.2</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="rivets">
+      <Version>1.0.5.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="Xam.Plugins.Messaging">
+      <Version>3.0.0.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

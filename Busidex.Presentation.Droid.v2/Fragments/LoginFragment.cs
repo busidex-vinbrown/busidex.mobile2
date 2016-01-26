@@ -38,21 +38,21 @@ namespace Busidex.Presentation.Droid.v2
 				await DoLogin().ContinueWith(response => {
 					if (!string.IsNullOrEmpty (response.Result) && !response.Result.Contains ("404")) {
 						var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
-						var userId = loginResponse != null ? loginResponse.UserId : 0;
-						BaseApplicationResource.SetAuthCookie (userId);
+						if(loginResponse.UserId > 0){
+							var userId = loginResponse != null ? loginResponse.UserId : 0;
+							BaseApplicationResource.SetAuthCookie (userId);
 
-
-						Activity.RunOnUiThread (() => {
-							imgLogo.ClearAnimation ();
-							((MainActivity)Activity).UnloadFragment ();
-							((MainActivity)Activity).LoginComplete ();
-						});
+							Activity.RunOnUiThread (() => {
+								imgLogo.ClearAnimation ();
+								((MainActivity)Activity).UnloadFragment ();
+								((MainActivity)Activity).LoginComplete ();
+							});
+						}else{
+							LoginFailed();
+						}
 
 					} else {
-						Activity.RunOnUiThread (() => {
-							txtLoginFailed.Visibility = ViewStates.Visible;
-							imgLogo.ClearAnimation ();
-						});
+						LoginFailed();
 					}
 				});
 			};
@@ -60,6 +60,13 @@ namespace Busidex.Presentation.Droid.v2
 			txtUserName.TextChanged += (sender, e) => HideErrorMessage();
 			txtPassword.TextChanged += (sender, e) => HideErrorMessage();
 			return view;
+		}
+
+		void LoginFailed(){
+			Activity.RunOnUiThread (() => {
+				txtLoginFailed.Visibility = ViewStates.Visible;
+				imgLogo.ClearAnimation ();
+			});
 		}
 
 		void HideErrorMessage(){

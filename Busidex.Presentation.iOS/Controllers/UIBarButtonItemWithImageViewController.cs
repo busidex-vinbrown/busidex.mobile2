@@ -148,7 +148,7 @@ namespace Busidex.Presentation.iOS
 			return sharedCards != null ? sharedCards.SharedCards.Count : 0;
 		}
 
-		protected void GoToMyBusidex (BaseNavigationController.NavigationDirection direction)
+		public void GoToMyBusidex (BaseNavigationController.NavigationDirection direction)
 		{
 			if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is MyBusidexController){
 				return;
@@ -240,7 +240,11 @@ namespace Busidex.Presentation.iOS
 			myBusidexButtonView.SetBackgroundImage(UIImage.FromFile (this is MyBusidexController ? "MyBusidexIcon.png" : "MyBusidexIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			myBusidexButtonView.Frame = frame;
 			myBusidexButtonView.TouchUpInside += async delegate {
-				await LoadMyBusidexAsync();
+				if(this is MyBusidexController){
+					((MyBusidexController)this).GoToTop();
+				}else{
+					await LoadMyBusidexAsync();
+				}
 			}; 
 
 			// SEARCH

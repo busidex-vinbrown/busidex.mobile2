@@ -29,24 +29,11 @@ namespace Busidex.Mobile
 					SharedDate = DateTime.Now,
 					Accepted = false,
 					Declined = false,
-					Recommendation = string.Empty
+					Recommendation = string.Empty,
+					UseQuickShare = false
 				}
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-//			var data =  string.Format(
-//				"'SharedCardId': 0," +
-//				"'CardId': {0}," +
-//				"'SendFrom': 0," +
-//				"'SendFromEmail':''," +
-//				"'Email': '{1}', " +
-//				"'ShareWith': 0, " +
-//				"'SharedDate': '{2}'," +
-//				"'Accepted': 'false',	" +
-//				"'Declined' :'false', " +
-//				"'Recommendation': ''", 
-//				card.CardId, email, DateTime.Now);
-
-			//data = "[{" + data + "}]";
 			return MakeRequest (URL, "POST", userToken, data);
 		}
 
@@ -81,20 +68,30 @@ namespace Busidex.Mobile
 				UserId = 0,
 				PersonalMessage = string.Empty
 			};
-//			var data =  string.Format(
-//				"'UserId': 0," +
-//				"'AcceptedCardIdList': [{0}]," +
-//				"'DeclinedCardIdList': [{1}]," +
-//				"'CardIdList': []," +
-//				"'SharedWith': '', " +
-//				"'Accepted': 'false', " +
-//				"'Declined': 'false', " +
-//				"'PersonalMessage': ''", 
-//				acceptedCardId.HasValue ? acceptedCardId.Value.ToString() : null, 
-//				declinedCardId.HasValue ? declinedCardId.Value.ToString() : null);
-//			data = "{" + data + "}";
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 			return MakeRequest (URL, "PUT", userToken, data);
+		}
+
+		public string AcceptQuickShare(Card card, string email, long sendFrom, string userToken){
+			const string URL = Resources.BASE_API_URL + "QuickShare/Post";
+
+			var model = new SharedCard {
+				SharedCardId = 0,
+				CardId = card.CardId,
+				SendFrom = sendFrom,
+				SendFromEmail = string.Empty,
+				Email = email,
+				PhoneNumber = string.Empty,
+				ShareWith = Utils.DecodeUserId (userToken),
+				SharedDate = DateTime.Now,
+				Accepted = true,
+				Declined = false,
+				Recommendation = string.Empty,
+				UseQuickShare = true
+			};
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+
+			return MakeRequest (URL, "POST", userToken, data);
 		}
 	}
 }

@@ -42,6 +42,8 @@ namespace Busidex.Mobile
 		public const string COOKIE_URI = "https://localhost";
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years
 
+		public const string SHARE_CONTENT_TEXT = "{0} has shared a ";
+
 		public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
 		public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
 		public const string GA_CATEGORY_ACTIVITY = "Activity";
@@ -70,6 +72,11 @@ namespace Busidex.Mobile
 		public const string GA_SCREEN_EVENTS = "Events";
 		public const string GA_SCREEN_REFERRALS = "Referrals";
 		public const string GA_SCREEN_PROFILE = "Profile";
+
+		public const string TWILLIO_SID_PROD = "AC74907b35cd4dc40f595dc4f8809d10ba";
+		public const string TWILLIO_AUTH_TOKEN_PROD = "401066fdfc0fe0fbc7a1ead2eadc55c5";
+		public const string TWILLIO_SID_TEST = "AC1e82c094d6bad0431b578a44816b7d84";
+		public const string TWILLIO_AUTH_TOKEN_TEST = "a9a8e56e4e009a55aae754c7aafcf995";
 
 		public enum HttpActions{ GET, POST, PUT, DELETE };
 

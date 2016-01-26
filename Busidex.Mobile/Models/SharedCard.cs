@@ -15,7 +15,7 @@ namespace Busidex.Mobile.Models
 		public bool? Accepted { get; set; }
 		public bool? Declined { get; set; }
 		public string Recommendation { get; set; }
-
+		public bool UseQuickShare { get; set; }
 		public Card Card { get; set; }
 	}
 }

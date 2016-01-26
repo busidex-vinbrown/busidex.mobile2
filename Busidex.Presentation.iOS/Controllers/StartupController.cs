@@ -56,6 +56,8 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden(true, true);
 			}
 
+			Application.MainController = NavigationController;
+
 			NavigationController.SetToolbarHidden (true, true);
 
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Startup");

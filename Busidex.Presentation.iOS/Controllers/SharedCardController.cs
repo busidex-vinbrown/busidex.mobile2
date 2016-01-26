@@ -8,6 +8,7 @@ using System.IO;
 using GoogleAnalytics.iOS;
 using CoreAnimation;
 using CoreGraphics;
+using Plugin.Messaging;
 
 namespace Busidex.Presentation.iOS
 {
@@ -101,13 +102,35 @@ namespace Busidex.Presentation.iOS
 
 			var controller = new Busidex.Mobile.SharedCardController ();
 
-			var response = controller.ShareCard (UserCard.Card, email, phoneNumber, cookie.Value);
-
-			if( !string.IsNullOrEmpty(response) && response.Contains("true")){
-				imgCardShared.Hidden = false;
+			string response;
+			if(string.IsNullOrEmpty(phoneNumber)){
+				// send the shared card the 'traditional' way
+				response = controller.ShareCard (UserCard.Card, email, phoneNumber, cookie.Value);
+				if( !string.IsNullOrEmpty(response) && response.Contains("true")){
+					imgCardShared.Hidden = false;
+				}else{
+					lblError.Hidden = false;
+					imgCardShared.Hidden = true;
+				}
 			}else{
-				lblError.Hidden = false;
-				imgCardShared.Hidden = true;
+				// send text message with quick share link
+				var smsTask = MessagingPlugin.SmsMessenger;
+				if (smsTask.CanSendSms) {
+					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, cookie.Value).ContinueWith (r => {
+
+						var user = NSUserDefaults.StandardUserDefaults;
+						var displayName = user.StringForKey(Resources.USER_SETTING_DISPLAYNAME);
+
+						var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
+						if(template != null){
+							string message = string.Format(template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine + 
+								string.Format(template.Template.Body, UserCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, Environment.NewLine);
+						
+							InvokeOnMainThread (() => smsTask.SendSms ("+" + phoneNumber, message));
+						}
+					});
+				}
+				imgCardShared.Hidden = false;
 			}
 		}
 

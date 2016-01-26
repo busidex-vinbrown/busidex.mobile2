@@ -88,8 +88,8 @@ namespace Busidex.Presentation.iOS
 				var loginController = new Busidex.Mobile.LoginController();
 				await loginController.DoLogin (username, password).ContinueWith(async response => {
 					string result = await response;
-					if (!string.IsNullOrEmpty (result) && !result.Contains ("404")) {
-						var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
+					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
+					if (loginResponse.UserId > 0) {
 
 						UserId = loginResponse != null ? loginResponse.UserId : 0;
 

@@ -115,7 +115,7 @@ namespace Busidex.Presentation.iOS
 
 				sharedCardsFile.Close ();
 
-				Busidex.Mobile.Utils.SaveResponse (sharedCardsJson, Resources.SHARED_CARDS_FILE);
+				Utils.SaveResponse (sharedCardsJson, Resources.SHARED_CARDS_FILE);
 			}
 		}
 
