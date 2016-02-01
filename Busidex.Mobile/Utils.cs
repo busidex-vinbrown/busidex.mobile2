@@ -62,6 +62,37 @@ namespace Busidex.Mobile
 			}
 		}
 
+		public static void RemoveQuickShareLink(){
+			var quickShareFile = Path.Combine (Resources.DocumentsPath, Resources.QUICKSHARE_LINK);
+			if (File.Exists (quickShareFile)) {
+				File.Delete (quickShareFile);
+			}
+		}
+
+		public static QuickShareLink GetQuickShareLink(){
+
+			try
+			{
+				string fullFileName = Path.Combine (Resources.DocumentsPath, Resources.QUICKSHARE_LINK);
+				if(!File.Exists(fullFileName)){
+					return null;
+				}
+
+				var file = File.OpenText (fullFileName);
+				var fileJson = file.ReadToEnd ();
+				file.Close ();
+				return Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
+			}
+			catch (IOException ioEx)
+			{
+				//the file is unavailable because it is:
+				//still being written to
+				//or being processed by another thread
+				//or does not exist (has already been processed)
+				return null;
+			}
+		}
+
 		static bool IsFileInUse(FileInfo file){
 			FileStream stream = null;
 
@@ -109,6 +140,8 @@ namespace Busidex.Mobile
 			if (File.Exists (organizationMembersLocalFile)) {
 				File.Delete (organizationMembersLocalFile);
 			}
+
+			RemoveQuickShareLink ();
 		}
 	}
 }

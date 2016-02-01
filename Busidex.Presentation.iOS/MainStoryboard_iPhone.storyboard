@@ -836,6 +836,37 @@
             </objects>
             <point key="canvasLocation" x="844" y="1254"/>
         </scene>
+        <scene sceneID="4338">
+            <objects>
+                <viewController id="4339" sceneMemberID="viewController" storyboardIdentifier="QuickShareController" customClass="QuickShareController">
+                    <view key="view" contentMode="scaleToFill" id="4340">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="4343">
+                                <rect key="frame" x="11" y="66" width="300" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This referral was shared with you from {0} and has been added to your collection." lineBreakMode="wordWrap" minimumFontSize="10" id="4363" numberOfLines="4" textAlignment="center" baselineAdjustment="none">
+                                <rect key="frame" x="20" y="274" width="280" height="123"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="imgSharedCard" destination="4343" id="name-outlet-4343"/>
+                        <outlet property="lblMessage" destination="4363" id="name-outlet-4363"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4341" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="99" y="2502"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Busidex Logo Concepts.png" width="261" height="248"/>

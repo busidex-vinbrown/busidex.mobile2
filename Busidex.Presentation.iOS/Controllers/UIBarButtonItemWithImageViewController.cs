@@ -185,12 +185,15 @@ namespace Busidex.Presentation.iOS
 
 		protected void GoToEvents(BaseNavigationController.NavigationDirection direction){
 
-			if(NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers[NavigationController.ViewControllers.Length-1]  is EventListController){
+			if (NavigationController == null || NavigationController.ViewControllers == null) {
 				return;
-			}
-			((BaseNavigationController)NavigationController).Direction = direction;
+			} else if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
+				return;
+			} else {
+				((BaseNavigationController)NavigationController).Direction = direction;
 
-			NavigationController.PushViewController (eventListController, true);
+				NavigationController.PushViewController (eventListController, true);
+			}
 		}
 
 		protected void GoHome(){

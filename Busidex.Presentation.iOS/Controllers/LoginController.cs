@@ -107,7 +107,13 @@ namespace Busidex.Presentation.iOS
 
 							loggingIn = false;
 
-							InvokeOnMainThread (GoToHome);
+							var quickShareLink = Busidex.Mobile.Utils.GetQuickShareLink();
+							if(quickShareLink != null){
+								
+								InvokeOnMainThread (GoToQuickShare);
+							}else{
+								InvokeOnMainThread (GoToHome);
+							}
 
 							return true;
 						}

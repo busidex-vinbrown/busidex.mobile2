@@ -85,7 +85,7 @@ namespace Busidex.Presentation.iOS
 			}
 			string email = txtEmail.Text;
 
-			if(string.IsNullOrEmpty(phoneNumber) && (string.IsNullOrEmpty(email) || email.IndexOf("@") < 0)){
+			if(string.IsNullOrEmpty(phoneNumber) && (string.IsNullOrEmpty(email) || email.IndexOf ("@", StringComparison.Ordinal) < 0)){
 				ShowAlert ("Missing Information", "Please enter an email address or phone number", "Ok");
 				txtEmail.BecomeFirstResponder ();
 				return;
@@ -134,7 +134,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
+		static CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
 			var layer = new CALayer ();
 			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
 			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
@@ -159,7 +159,7 @@ namespace Busidex.Presentation.iOS
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
 
-				var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 100f, 25f);
+				var imgFrame = new CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 100f, 25f);
 				var shareImage = UIButton.FromType (UIButtonType.System);
 				shareImage.Frame = imgFrame;
 				shareImage.Font = UIFont.FromName ("Helvetica", 17f);

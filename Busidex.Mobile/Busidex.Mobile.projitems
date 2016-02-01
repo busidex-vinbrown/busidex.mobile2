@@ -73,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EmailTemplateController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplateResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\QuickShareList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

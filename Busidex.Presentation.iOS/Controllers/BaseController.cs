@@ -156,6 +156,20 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected void GoToQuickShare ()
+		{
+			NavigationController.SetNavigationBarHidden (true, true);
+
+			var controller = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
+
+			if (controller != null) {
+				var quickShareLink = Utils.GetQuickShareLink();
+				controller.SetCardSharingInfo (quickShareLink);
+				controller.SaveFromUrl ();
+				NavigationController.PushViewController (controller, true);
+			}
+		}
+
 		protected void ShareCard(UserCard seletcedCard){
 
 			try{

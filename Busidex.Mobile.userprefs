@@ -1,29 +1,20 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/LoginFragment.cs">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.iPhonetto" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/AppDelegate.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="149" Column="55" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="140" Column="4" />
-      <File FileName="Busidex.Mobile/Resources.cs" Line="73" Column="57" />
+      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="3" Column="13" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Mobile/Resources.cs" Line="1" Column="1" />
       <File FileName="Busidex.Presentation.iOS/Info.plist" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="71" Column="22" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="118" Column="30" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="74" Column="27" />
       <File FileName="Busidex.Presentation.iOS/Controllers/PhoneViewController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Mobile/EmailTemplateController.cs" Line="15" Column="4" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/LoginFragment.cs" Line="33" Column="4" />
+      <File FileName="Busidex.Mobile/EmailTemplateController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/LoginFragment.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.designer.cs" Line="23" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Busidex.Mobile" expanded="True">
-            <Node name="Busidex.Presentation.Droid.v2" expanded="True" selected="True">
-              <Node name="ComponentReferenceFolder" expanded="True" />
-              <Node name="Activities" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
