@@ -30,6 +30,7 @@ namespace Busidex.Presentation.Droid.v2
 				if (_adapter.Cards != null && _adapter.Cards.Any ()) {
 					// Compare constraint to all names lowercased. 
 					// It they are contained they are added to results.
+					try{
 					results.AddRange (
 						_adapter.Cards.Where (
 							card => 
@@ -39,6 +40,9 @@ namespace Busidex.Presentation.Droid.v2
 							(!string.IsNullOrEmpty (card.Card.Url) && card.Card.Url.ToLower ().Contains (constraint.ToString ()))
 						) 
 					);
+					}catch(Exception ex){
+						// ignore
+					}
 				}
 			}
 

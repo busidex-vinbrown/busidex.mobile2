@@ -80,6 +80,9 @@ namespace Busidex.Mobile
 		public const string TWILLIO_SID_TEST = "AC1e82c094d6bad0431b578a44816b7d84";
 		public const string TWILLIO_AUTH_TOKEN_TEST = "a9a8e56e4e009a55aae754c7aafcf995";
 
+		public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
+		public const string BITLY_LOGIN = "busidexapp";
+
 		public enum HttpActions{ GET, POST, PUT, DELETE };
 
 		public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

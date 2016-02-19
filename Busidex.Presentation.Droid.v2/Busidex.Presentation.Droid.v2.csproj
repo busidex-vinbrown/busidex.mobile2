@@ -87,12 +87,19 @@
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.11.3\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Rivets">
       <HintPath>..\Components\rivets-1.0.5.1\lib\android\Rivets.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Lotz.Xam.Messaging.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Messaging.3.0.0\lib\MonoAndroid10\Lotz.Xam.Messaging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Lotz.Xam.Messaging">
+      <HintPath>..\packages\Xam.Plugins.Messaging.3.0.0\lib\MonoAndroid10\Lotz.Xam.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -128,6 +135,7 @@
     <Compile Include="Adapters\UserCardFilter.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="JavaHolder.cs" />
+    <Compile Include="Fragments\QuickShareFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -363,6 +371,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\NotificationSimple.png" />
     <AndroidResource Include="Resources\drawable\button.png" />
     <AndroidResource Include="Resources\drawable\textmessage.png" />
+    <AndroidResource Include="Resources\layout\QuickShare.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
@@ -383,6 +392,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="rivets">
       <Version>1.0.5.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="Xam.Plugins.Messaging">
+      <Version>3.0.0.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

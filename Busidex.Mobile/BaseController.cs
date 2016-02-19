@@ -11,7 +11,6 @@ namespace Busidex.Mobile
 	{
 		const string ERROR_MESSAGE = "Error";
 
-
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
 			
 			var request = new HttpRequestMessage (new HttpMethod (method), url);
@@ -167,6 +166,33 @@ namespace Busidex.Mobile
 			}
 
 			//return results;
+		}
+
+		protected static async Task<string> MakeExternalReequest(string url, string method, object data = null){
+			var request = new HttpRequestMessage (new HttpMethod (method), url);
+			var httpClient = new HttpClient();
+
+			string response = string.Empty;
+
+			request.Method = new HttpMethod (method);
+
+			try {
+
+				await httpClient.SendAsync (request).ContinueWith(async r => {
+					var _response = await r;
+
+					response = await _response.Content.ReadAsStringAsync();
+				});
+			} 
+			catch (Exception e) {
+				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
+					Success = false,
+					UserId = -1,
+					ReasonPhrase = e.Message
+				});
+				Insights.Report(e);
+			}
+			return response;
 		}
 	}
 }

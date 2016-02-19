@@ -74,7 +74,7 @@
 			<key>CFBundleURLTypes</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string>com.busidex.share</string>
+			<string>quickshare.busidex.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>busidex</string>

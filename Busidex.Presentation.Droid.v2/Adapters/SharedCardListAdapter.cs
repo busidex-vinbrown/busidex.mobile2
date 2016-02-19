@@ -6,6 +6,7 @@ using Android.Views;
 using System.IO;
 using Android.Net;
 using System.Linq;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -48,13 +49,15 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		void AcceptCard(int position){
-			var card = Cards [position];
+			if(position < Cards.Count){
+				var card = Cards [position];
 
-			card.Accepted = true;
-			card.Declined = false;
+				card.Accepted = true;
+				card.Declined = false;
 
-			SaveSharedCard (card);
-			UpdateSharingUI (position, true);
+				SaveSharedCard (card);
+				UpdateSharingUI (position, true);
+			}
 		}
 
 		protected void ConfirmDeclineCard(object sender, System.EventArgs e){
@@ -75,13 +78,15 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		void DeclineCard(int position){
-			var card = Cards [position];
+			if (position < Cards.Count) {
+				var card = Cards [position];
 
-			card.Accepted = false;
-			card.Declined = true;
+				card.Accepted = false;
+				card.Declined = true;
 
-			SaveSharedCard (card);
-			UpdateSharingUI (position, false);
+				SaveSharedCard (card);
+				UpdateSharingUI (position, false);
+			}
 		}
 
 		void UpdateSharingUI(int position, bool accepted){
@@ -108,7 +113,7 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.SharedCardListItem, null);
 
-			var card = Cards [position];
+			var card = position < Cards.Count ? Cards [position] : null;
 
 			var txtSharedCardName = view.FindViewById<TextView> (Resource.Id.txtSharedCardName);
 			var txtSharedCardCompanyName = view.FindViewById<TextView> (Resource.Id.txtSharedCardCompanyName);
@@ -120,37 +125,41 @@ namespace Busidex.Presentation.Droid.v2
 
 			imgResults.Visibility = ViewStates.Gone;
 
-			txtSharedCardName.Text = card.Card.Name;
-			txtSharedCardCompanyName.Text = card.Card.CompanyName;
-			txtSharedCardCompanyName.Visibility = string.IsNullOrEmpty (card.Card.CompanyName) ? ViewStates.Gone : ViewStates.Visible;
+			if (card != null) {
+				txtSharedCardName.Text = card.Card.Name;
+				txtSharedCardCompanyName.Text = card.Card.CompanyName;
+				txtSharedCardCompanyName.Visibility = string.IsNullOrEmpty (card.Card.CompanyName) ? ViewStates.Gone : ViewStates.Visible;
 
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, card.Card.FrontFileName);
-			var uri = Uri.Parse (fileName);
+				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, card.Card.FrontFileName);
+				var uri = Uri.Parse (fileName);
 
-			if (card.Card.FrontOrientation == "H") {
-				imgSharedCardHorizontal.SetImageURI (uri);
-				imgSharedCardHorizontal.SetScaleType (ImageView.ScaleType.FitXy);
-				imgSharedCardHorizontal.Visibility = ViewStates.Visible;
-				imgSharedCardVertical.Visibility = ViewStates.Gone;
+				if (card.Card.FrontOrientation == "H") {
+					imgSharedCardHorizontal.SetImageURI (uri);
+					imgSharedCardHorizontal.SetScaleType (ImageView.ScaleType.FitXy);
+					imgSharedCardHorizontal.Visibility = ViewStates.Visible;
+					imgSharedCardVertical.Visibility = ViewStates.Gone;
+				} else {
+					imgSharedCardVertical.SetImageURI (uri);
+					imgSharedCardVertical.SetScaleType (ImageView.ScaleType.FitXy);
+					imgSharedCardVertical.Visibility = ViewStates.Visible;
+					imgSharedCardHorizontal.Visibility = ViewStates.Gone;
+				}
+
+				btnAccept.Click -= ConfirmAcceptCard;
+				btnAccept.Click += ConfirmAcceptCard;
+
+				btnDecline.Click -= ConfirmDeclineCard;
+				btnDecline.Click += ConfirmDeclineCard;
+
+				btnAccept.Tag = btnDecline.Tag = view.Tag = position;
+
+				if (ViewCache.SingleOrDefault (v => System.Convert.ToInt32 (v.Tag) == position) == null) {
+					ViewCache.Add (view);
+				}
 			}else{
-				imgSharedCardVertical.SetImageURI (uri);
-				imgSharedCardVertical.SetScaleType (ImageView.ScaleType.FitXy);
-				imgSharedCardVertical.Visibility = ViewStates.Visible;
-				imgSharedCardHorizontal.Visibility = ViewStates.Gone;
+				btnAccept.Visibility = btnDecline.Visibility = imgSharedCardHorizontal.Visibility = imgSharedCardVertical.Visibility =
+					txtSharedCardName.Visibility = txtSharedCardCompanyName.Visibility = ViewStates.Gone;
 			}
-
-			btnAccept.Click -= ConfirmAcceptCard;
-			btnAccept.Click += ConfirmAcceptCard;
-
-			btnDecline.Click -= ConfirmDeclineCard;
-			btnDecline.Click += ConfirmDeclineCard;
-
-			btnAccept.Tag = btnDecline.Tag = view.Tag = position;
-
-			if(ViewCache.SingleOrDefault(v=> System.Convert.ToInt32(v.Tag) == position) == null){
-				ViewCache.Add (view);
-			}
-
 			return view;
 		}
 	}

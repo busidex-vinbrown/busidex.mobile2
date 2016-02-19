@@ -126,7 +126,7 @@ namespace Busidex.Presentation.iOS
 							string message = string.Format(template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine + 
 								string.Format(template.Template.Body, UserCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, Environment.NewLine);
 						
-							InvokeOnMainThread (() => smsTask.SendSms ("+" + phoneNumber, message));
+							InvokeOnMainThread (() => smsTask.SendSms (phoneNumber, message));
 						}
 					});
 				}

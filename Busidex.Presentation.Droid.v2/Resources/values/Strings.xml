@@ -46,4 +46,6 @@
 	<string name="Profile_DescriptionNewAccount">Choose an email address and password here so you can access your cards on the web or another mobile device.</string>
 	<string name="Profile_DescriptionUpdateAccount">Update your email address here so you can access your cards on the web or another mobile device.</string>
 	<string name="InsightsApiKey">064b046194c04b614f285ac8b2c9677468d93e71</string>
+	<string name="QuickShareMessage">This referral was shared with you from {0} and has been added to your collection.{1}{2}</string>
+	<string name="quickshare">Busidex</string>
 </resources>

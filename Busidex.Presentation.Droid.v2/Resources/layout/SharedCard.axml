@@ -41,7 +41,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/lblShareTo"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="35dp"
             android:textColor="@color/labelFontColor"
             android:inputType="none"
             android:layout_marginTop="15dp"
@@ -79,7 +79,7 @@
             android:id="@+id/lblOR"
             android:textColor="@color/buttonFontColor" />
         <EditText
-            android:inputType="textEmailAddress"
+            android:inputType="phone"
             android:layout_width="215.5dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtSharePhoneNumber"
@@ -89,14 +89,15 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/lblShareTo"
             android:layout_below="@id/lblOR"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
         <TextView
             android:text="From:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/lblShareFrom"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="35dp"
             android:textColor="@color/labelFontColor"
             android:inputType="none"
             android:layout_marginTop="10dp"
@@ -114,15 +115,28 @@
             android:layout_toRightOf="@id/lblShareFrom"
             android:layout_below="@id/txtSharePhoneNumber"
             android:layout_centerHorizontal="true" />
+        <EditText
+            android:inputType="textMultiLine"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtShareMessage"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/textInputColor"
+            android:hint="Personal Message"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/txtShareDisplayName"
+            android:layout_centerHorizontal="true"
+            android:lines="3"
+            android:textAlignment="textStart" />
         <Button
             android:text="@string/Share_ShareCard"
-            android:layout_width="215.5dp"
+            android:layout_width="230dp"
             android:layout_height="40dp"
             android:id="@+id/btnShareCard"
             android:textColor="@color/buttonFontColor"
             android:background="@android:drawable/btn_default"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/txtShareDisplayName"
+            android:layout_below="@id/txtShareMessage"
             android:layout_centerHorizontal="true" />
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout1"
+        android:background="@drawable/border"
+        android:padding="5dp">
+        <ImageButton
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="visible"
+            android:id="@+id/btnClose"
+            android:background="@color/layoutBackground"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="265dp"
+            android:layout_height="160dp"
+            android:id="@+id/imgQuickShareCardHorizontal"
+            android:scaleType="fitXY"
+            android:background="@android:drawable/picture_frame"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="175dp"
+            android:layout_height="240dp"
+            android:id="@+id/imgQuickShareCardVertical"
+            android:background="@android:drawable/picture_frame"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtQuickShareMessage"
+            android:textColor="@color/labelFontColorDark"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="250dp"
+            android:layout_marginRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="25dp"
+            android:paddingLeft="25dp"
+            android:background="@color/buttonWhite"
+            android:paddingBottom="5dp"
+            android:gravity="center_horizontal" />
+    </RelativeLayout>
+</LinearLayout>

@@ -11,10 +11,16 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Rivets;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	[Activity(Label = "Busidex", ConfigurationChanges =  global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
+	[IntentFilter(new [] {Android.Content.Intent.ActionView }, 
+		DataScheme="http", 
+		DataPathPrefix="/default",
+		DataHost="share.busidex.com", 
+		Categories=new [] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable })]
 	public class MainActivity : FragmentActivity
 	{
 		ViewPager pager;
@@ -274,9 +280,27 @@ namespace Busidex.Presentation.Droid.v2
 				});
 			}
 
-			var tab = ActionBar.GetTabAt (0);
-			ActionBar.SelectTab (tab);
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+			// Check if the app was launched from a QuickShare URL
+			if (Intent != null && Intent.Data != null && !string.IsNullOrEmpty (Intent.Data.ToString ())) {
+
+				string displayName = string.Empty;
+				string personalMessage = string.Empty;
+
+				var appLinkUrl = new AppLinkUrl (Intent.Data.ToString (), "{}");
+				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_d")) {
+					displayName = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_d"]);
+				}
+				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_m")) {
+					personalMessage = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_m"]);
+				}
+				var userCard = LoadQuickShareCardData (appLinkUrl);
+				var fragment = new QuickShareFragment(userCard, displayName, personalMessage);
+				ShowQuickShare (fragment);
+			} else {
+				var tab = ActionBar.GetTabAt (0);
+				ActionBar.SelectTab (tab);
+				BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+			}
 		}
 
 		void saveDeviceTypeSet(){
@@ -295,13 +319,10 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnStart ();
 
-
-
 			string token = BaseApplicationResource.GetAuthCookie ();
 			if(string.IsNullOrEmpty(token)){
 				DoStartUp ();		
 			}
-
 		}
 
 		static void DoFilter(UserCardAdapter adapter, string filter){
@@ -602,6 +623,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
+		public void ShowQuickShare(QuickShareFragment fragment){
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
+
 		public void ShareCard(ShareCardFragment fragment){
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
@@ -744,5 +771,70 @@ namespace Busidex.Presentation.Droid.v2
 			builder.Show();
 		}
 		#endregion 
+
+		#region QuickShare
+		UserCard LoadQuickShareCardData(AppLinkUrl appLinkUrl){
+
+
+			UserCard userCard = null;
+
+			var cardId = "0";
+			var sentFrom = "0";
+
+			if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_f")) {
+				sentFrom = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_f"]);
+			}
+
+			if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("cardId")) {
+				cardId = appLinkUrl.InputQueryParameters ["cardId"];
+			}
+
+			var cookie = BaseApplicationResource.GetAuthCookie ();
+
+			string token = cookie;
+			var result = CardController.GetCardById (token, long.Parse(cardId));
+			if (!string.IsNullOrEmpty (result)) {
+
+				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
+				var card = new Card (cardResponse.Model);
+
+				userCard = new UserCard {
+					Card = card,
+					CardId = long.Parse(cardId),
+					ExistsInMyBusidex = true,
+					OwnerId = cardResponse.Model.OwnerId,
+					UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
+					Notes = string.Empty
+				};
+
+				SaveFromUrl (userCard, long.Parse(sentFrom));
+			}
+			return userCard;
+		}
+
+		void SaveFromUrl(UserCard uc, long sentFrom){
+
+			var sharedCardController = new SharedCardController ();
+			var cookie = BaseApplicationResource.GetAuthCookie ();
+
+			string token = cookie;
+			var result = CardController.GetCardById (token, uc.CardId);
+			if (!string.IsNullOrEmpty (result)) {
+
+				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
+				var card = new Card (cardResponse.Model);
+
+				UISubscriptionService.AddCardToMyBusidex (uc);
+
+				var myBusidexController = new MyBusidexController ();
+				myBusidexController.AddToMyBusidex (uc.CardId, token);
+
+				sharedCardController.AcceptQuickShare (card, UISubscriptionService.CurrentUser.Email, sentFrom, token);
+				Utils.RemoveQuickShareLink ();
+
+			}
+   
+		#endregion
+		}
 	}
 }
