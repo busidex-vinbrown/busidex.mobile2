@@ -15,6 +15,7 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgVCard;
 		readonly string DisplayName;
 		readonly string PersonalMessage;
+		ProgressBar progress3;
 
 		public QuickShareFragment () : base()
 		{
@@ -37,6 +38,9 @@ namespace Busidex.Presentation.Droid.v2
 			txtQuickShareMessage.Text = string.Format (GetString (Resource.String.QuickShareMessage), 
 				DisplayName, System.Environment.NewLine + System.Environment.NewLine, PersonalMessage);
 
+			progress3 = view.FindViewById<ProgressBar> (Resource.Id.progressBar3);
+			progress3.Visibility = ViewStates.Gone;
+
 			SetImage ();
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
@@ -48,15 +52,27 @@ namespace Busidex.Presentation.Droid.v2
 
 		void SetImage(){
 
+			var fImageUrl = Busidex.Mobile.Resources.THUMBNAIL_PATH + SelectedCard.Card.FrontFileName;
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
-			var uri = Uri.Parse (fileName);
-
 			var isHorizontal = SelectedCard.Card.FrontOrientation == "H";
 			var imgDisplay = isHorizontal ? imgHCard : imgVCard;
 			imgHCard.Visibility = !isHorizontal ? ViewStates.Gone : ViewStates.Visible;
 			imgVCard.Visibility = isHorizontal ? ViewStates.Gone : ViewStates.Visible;
 
-			imgDisplay.SetImageURI (uri);
+			if (!File.Exists (fileName)) {
+				progress3.Visibility = ViewStates.Visible;
+				Busidex.Mobile.Utils.DownloadImage (fImageUrl, Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName).ContinueWith (
+					r => {
+						Activity.RunOnUiThread( () => {
+							var uri = Uri.Parse (fileName);
+							imgDisplay.SetImageURI (uri);
+							progress3.Visibility = ViewStates.Gone;
+						});
+					});
+			} else {
+				var uri = Uri.Parse (fileName);
+				imgDisplay.SetImageURI (uri);
+			}
 		}
 	}
 }

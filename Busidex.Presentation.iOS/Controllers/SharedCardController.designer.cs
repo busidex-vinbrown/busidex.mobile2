@@ -40,6 +40,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		PlaceholderEnabledUITextView.PlaceholderEnabledUITextView txtPersonalMessage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtPhoneNumber { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -67,6 +71,10 @@ namespace Busidex.Presentation.iOS
 			if (txtEmail != null) {
 				txtEmail.Dispose ();
 				txtEmail = null;
+			}
+			if (txtPersonalMessage != null) {
+				txtPersonalMessage.Dispose ();
+				txtPersonalMessage = null;
 			}
 			if (txtPhoneNumber != null) {
 				txtPhoneNumber.Dispose ();

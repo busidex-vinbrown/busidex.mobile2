@@ -22,6 +22,10 @@ namespace Busidex.Presentation.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblMessage { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblPersonalMessage { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (imgSharedCard != null) {
@@ -31,6 +35,10 @@ namespace Busidex.Presentation.iOS
 			if (lblMessage != null) {
 				lblMessage.Dispose ();
 				lblMessage = null;
+			}
+			if (lblPersonalMessage != null) {
+				lblPersonalMessage.Dispose ();
+				lblPersonalMessage = null;
 			}
 		}
 	}

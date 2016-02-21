@@ -139,12 +139,16 @@ namespace Busidex.Presentation.iOS
 
 				var sentFrom = string.Empty;
 				string displayName = string.Empty;
+				string personalMessage = string.Empty;
 
 				if (rurl.InputQueryParameters.ContainsKey ("_f")) {
 					sentFrom = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_f"]);
 				}
 				if (rurl.InputQueryParameters.ContainsKey ("_d")) {
 					displayName = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_d"]);
+				}
+				if (rurl.InputQueryParameters.ContainsKey ("_m")) {
+					personalMessage = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_m"]);
 				}
 
 				if (rurl.InputQueryParameters.ContainsKey ("cardId")) {
@@ -156,7 +160,8 @@ namespace Busidex.Presentation.iOS
 					var quickShareLink = new QuickShareLink {
 						CardId = long.Parse (cardId),
 						DisplayName = displayName,
-						From = long.Parse(sentFrom)
+						From = long.Parse(sentFrom),
+						PersonalMessage = personalMessage
 					};
 
 					var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);

@@ -60,6 +60,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 
 			lblMessage.Text = string.Format (lblMessage.Text, Link.DisplayName);
+			lblPersonalMessage.Text = Link.PersonalMessage;
 		}
 
 		public void SaveFromUrl(){

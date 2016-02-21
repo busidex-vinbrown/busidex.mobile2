@@ -9,6 +9,7 @@ using GoogleAnalytics.iOS;
 using CoreAnimation;
 using CoreGraphics;
 using Plugin.Messaging;
+using System.Net;
 
 namespace Busidex.Presentation.iOS
 {
@@ -84,6 +85,7 @@ namespace Busidex.Presentation.iOS
 				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace(" ", "");
 			}
 			string email = txtEmail.Text;
+			var personalMessage = txtPersonalMessage.Text;
 
 			if(string.IsNullOrEmpty(phoneNumber) && (string.IsNullOrEmpty(email) || email.IndexOf ("@", StringComparison.Ordinal) < 0)){
 				ShowAlert ("Missing Information", "Please enter an email address or phone number", "Ok");
@@ -124,9 +126,25 @@ namespace Busidex.Presentation.iOS
 						var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
 						if(template != null){
 							string message = string.Format(template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine + 
-								string.Format(template.Template.Body, UserCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, Environment.NewLine);
+								string.Format(template.Template.Body, UserCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, personalMessage,
+									Environment.NewLine);
 						
-							InvokeOnMainThread (() => smsTask.SendSms (phoneNumber, message));
+							int startIdx = message.IndexOf('[');
+							int endIdx = message.IndexOf(']');
+							string originalUrl = message.Substring(startIdx + 1, endIdx - startIdx - 2);
+							string url = WebUtility.UrlEncode(originalUrl);
+
+							UrlShortenerController.ShortenUrl(url).ContinueWith(resp => {
+
+								var bitlyResponse = resp.Result;
+								if(bitlyResponse != null){
+									message = message.Replace(originalUrl, bitlyResponse).Replace("[", "").Replace("]", "");
+
+									InvokeOnMainThread (() => smsTask.SendSms (phoneNumber, message));
+								}
+							});
+
+
 						}
 					});
 				}

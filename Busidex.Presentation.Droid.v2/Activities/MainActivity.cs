@@ -826,8 +826,8 @@ namespace Busidex.Presentation.Droid.v2
 
 				UISubscriptionService.AddCardToMyBusidex (uc);
 
-				var myBusidexController = new MyBusidexController ();
-				myBusidexController.AddToMyBusidex (uc.CardId, token);
+				//var myBusidexController = new MyBusidexController ();
+				//myBusidexController.AddToMyBusidex (uc.CardId, token);
 
 				sharedCardController.AcceptQuickShare (card, UISubscriptionService.CurrentUser.Email, sentFrom, token);
 				Utils.RemoveQuickShareLink ();
