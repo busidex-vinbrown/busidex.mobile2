@@ -58,6 +58,8 @@ namespace Busidex.Presentation.iOS
 
 			Application.MainController = NavigationController;
 
+
+
 			if(!getDeviceTypeSetting()){
 
 				var token = GetAuthCookie();
@@ -200,6 +202,15 @@ namespace Busidex.Presentation.iOS
 
 
 			NavigationController.SetToolbarHidden (false, true);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
+			if(UISubscriptionService.AppQuickShareLink != null){
+				GoToQuickShare ();
+				UISubscriptionService.AppQuickShareLink = null;
+			}
 		}
 
 		void GoToSharedCards(){

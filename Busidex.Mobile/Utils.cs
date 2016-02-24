@@ -78,10 +78,11 @@ namespace Busidex.Mobile
 					return null;
 				}
 
-				var file = File.OpenText (fullFileName);
-				var fileJson = file.ReadToEnd ();
-				file.Close ();
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
+				using (var file = File.OpenText (fullFileName)){
+					var fileJson = file.ReadToEnd ();
+					file.Close ();
+					return Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
+				}
 			}
 			catch (IOException ioEx)
 			{

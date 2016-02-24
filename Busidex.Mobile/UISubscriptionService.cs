@@ -39,6 +39,7 @@ namespace Busidex.Mobile
 		public static Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
 		public static BusidexUser CurrentUser { get; set; }
 		public static List<SharedCard> Notifications { get; set; }
+		public static QuickShareLink AppQuickShareLink { get; set; }
 
 		public static string AuthToken { get; set; }
 
@@ -123,6 +124,7 @@ namespace Busidex.Mobile
 		#endregion
 
 		#region Public Methods
+
 		public static void Clear(){
 
 			UserCards.Clear ();

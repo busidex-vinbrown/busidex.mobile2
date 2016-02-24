@@ -59,13 +59,14 @@ namespace Busidex.Presentation.iOS
 			// Your other code here
 			// ...
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
-			//viewController = new UIBarButtonItemWithImageViewController ();
+			var viewController = new UIBarButtonItemWithImageViewController ();
 			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			nav = storyBoard.InstantiateInitialViewController() as BaseNavigationController;// UINavigationController (viewController);
+			nav =  storyBoard.InstantiateInitialViewController() as BaseNavigationController;// UINavigationController (viewController);
 			nav.id = 123;
 
 			window.RootViewController = nav;
 			window.MakeKeyAndVisible ();
+
 			return true;
 		}
 			
@@ -176,13 +177,18 @@ namespace Busidex.Presentation.iOS
 						Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
 
 					} else {
+						
 
-						var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
-						quickShareController.SetCardSharingInfo (quickShareLink);
-						quickShareController.SaveFromUrl ();
+						if (Application.MainController == null) {
+							InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
+						} else {
+							var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
+							quickShareController.SetCardSharingInfo (quickShareLink);
+							quickShareController.SaveFromUrl ();
+							InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
+							return true;
+						}
 
-						InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
-						return true;
 					}
 				}
 			}

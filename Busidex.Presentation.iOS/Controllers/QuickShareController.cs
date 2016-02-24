@@ -26,6 +26,7 @@ namespace Busidex.Presentation.iOS
 
 		public void SetCardSharingInfo(QuickShareLink link){
 			Link = link;
+			//UISubscriptionService.AppQuickShareLink = null;
 		}
 
 		public void LoadCard(){
@@ -52,8 +53,6 @@ namespace Busidex.Presentation.iOS
 				const float cardTop = 66f;
 				var cardWidth = card.FrontOrientation == "H" ? 300f : 180f;
 				var cardHeight = card.FrontOrientation == "H" ? 180f : 300f;
-				const float bottomMargin = 25f;
-
 
 				const float messageLeft = 20f;
 				var messageTop = cardTop + cardHeight;

@@ -22,9 +22,11 @@ namespace Busidex.Presentation.iOS
 		public static SearchController searchController;
 		public static OrganizationsController organizationsController;
 		public static DataViewController dataViewController;
+		public static QuickShareController quickShareController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
+			
 		}
 
 		public BaseController ()
@@ -49,6 +51,7 @@ namespace Busidex.Presentation.iOS
 			searchController = board.InstantiateViewController ("SearchController") as SearchController;
 			organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
 			dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
+			quickShareController = board.InstantiateViewController ("QuickShareController") as QuickShareController;
 		}
 
 		protected static void SetRefreshCookie(string name){
@@ -158,16 +161,27 @@ namespace Busidex.Presentation.iOS
 
 		protected void GoToQuickShare ()
 		{
-			NavigationController.SetNavigationBarHidden (true, true);
-
-			var controller = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
-
-			if (controller != null) {
-				var quickShareLink = Utils.GetQuickShareLink();
-				controller.SetCardSharingInfo (quickShareLink);
-				controller.SaveFromUrl ();
-				NavigationController.PushViewController (controller, true);
-			}
+			//NavigationController.SetNavigationBarHidden (false, true);
+//
+//			var controller = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
+//
+//			if (controller != null) {
+//				var quickShareLink = Utils.GetQuickShareLink();
+//				controller.SetCardSharingInfo (quickShareLink);
+//				controller.SaveFromUrl ();
+//				NavigationController.PushViewController (controller, true);
+//			}
+			//var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			//var quickShareController = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
+			quickShareController = quickShareController ?? Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
+			quickShareController.SetCardSharingInfo (new QuickShareLink{
+				CardId = UISubscriptionService.AppQuickShareLink.CardId,
+				PersonalMessage = UISubscriptionService.AppQuickShareLink.PersonalMessage,
+				From = UISubscriptionService.AppQuickShareLink.From,
+				DisplayName = UISubscriptionService.AppQuickShareLink.DisplayName
+			});
+			quickShareController.SaveFromUrl ();
+			NavigationController.PushViewController (quickShareController, true);
 		}
 
 		protected void ShareCard(UserCard seletcedCard){
