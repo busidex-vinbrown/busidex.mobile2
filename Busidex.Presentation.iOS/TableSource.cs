@@ -59,14 +59,18 @@ namespace Busidex.Presentation.iOS
 			
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			if(NoCards){
+			if (NoCards || Cards == null || indexPath.Row >= Cards.Count) {
 				return BASE_CELL_HEIGHT;
-			}else{
-				UserCard card = Cards [indexPath.Row];
-				return card.Card.FrontOrientation == "H"
+			} 
+
+			UserCard card = Cards [indexPath.Row];
+			if (card == null) {
+				return BASE_CELL_HEIGHT;
+			} 
+
+			return card.Card.FrontOrientation == "H"
 					? BASE_CELL_HEIGHT
 						: BASE_CELL_HEIGHT + 50f;
-			}
 		}
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
