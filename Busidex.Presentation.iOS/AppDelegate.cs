@@ -55,11 +55,7 @@ namespace Busidex.Presentation.iOS
 			// Initialize tracker.
 			Tracker = GAI.SharedInstance.GetTracker (Resources.GOOGLE_ANALYTICS_KEY_IOS);
 
-			// ...
-			// Your other code here
-			// ...
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
-			var viewController = new UIBarButtonItemWithImageViewController ();
 			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			nav =  storyBoard.InstantiateInitialViewController() as BaseNavigationController;// UINavigationController (viewController);
 			nav.id = 123;

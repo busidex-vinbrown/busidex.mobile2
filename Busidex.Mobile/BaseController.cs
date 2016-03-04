@@ -13,16 +13,16 @@ namespace Busidex.Mobile
 
 		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
 			
-			var request = new HttpRequestMessage (new HttpMethod (method), url);
-			var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
-
 			string response = string.Empty;
-			ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
-			request.Method = new HttpMethod (method);
-
-			request.Headers.Add ("x-authorization-token", token);
 
 			try {
+				var request = new HttpRequestMessage (new HttpMethod (method), url);
+				var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
+
+				ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
+				request.Method = new HttpMethod (method);
+
+				request.Headers.Add ("x-authorization-token", token);
 
 				if(method == "POST"){
 

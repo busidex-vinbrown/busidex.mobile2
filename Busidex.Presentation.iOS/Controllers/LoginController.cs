@@ -88,7 +88,25 @@ namespace Busidex.Presentation.iOS
 				var loginController = new Busidex.Mobile.LoginController();
 				await loginController.DoLogin (username, password).ContinueWith(async response => {
 					string result = await response;
+					if (string.IsNullOrEmpty(result)){
+						InvokeOnMainThread(()=> {
+							loggingIn = false;
+							lblLoginResult.Text = "Login Failed";
+							lblLoginResult.TextColor = UIColor.Red;
+						});
+						return false;
+					}
+
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
+					if (loginResponse == null){
+						InvokeOnMainThread(()=> {
+							loggingIn = false;
+							lblLoginResult.Text = "Login Failed";
+							lblLoginResult.TextColor = UIColor.Red;
+						});
+						return false;
+					}
+
 					if (loginResponse.UserId > 0) {
 
 						UserId = loginResponse != null ? loginResponse.UserId : 0;
@@ -127,9 +145,12 @@ namespace Busidex.Presentation.iOS
 				});
 
 
-			} catch (Exception ignore) {
-				await ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
-				loggingIn = false;
+			} catch (Exception ex) {
+				InvokeOnMainThread (() => {
+					ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
+					loggingIn = false;	
+				});
+
 			} 
 			return true;
 		}
