@@ -31,9 +31,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			base.OnCreateView(inflater, container, savedInstanceState);
-
-			return _view(inflater, container, savedInstanceState);
+			if (_view == null) {
+				return base.OnCreateView (inflater, container, savedInstanceState);
+			} else {
+				base.OnCreateView (inflater, container, savedInstanceState);
+				return _view (inflater, container, savedInstanceState);
+			}
 		}
 
 		#region Alerts

@@ -1,39 +1,24 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.iPhonetto" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/StartupController.cs">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="30" Column="39" />
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="179" Column="14" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="41" Column="12" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="124" Column="34" />
+      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="4" Column="32" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="209" Column="34" />
       <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="176" Column="20" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardViewController.cs" Line="40" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/BaseTableSource.cs" Line="111" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="73" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="76" Column="86" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="159" Column="22" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="17" Column="30" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="162" Column="32" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardViewController.cs" Line="8" Column="20" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="1" Column="1" />
+      <File FileName="Busidex.Presentation.Droid.v2/Adapters/SharedCardListAdapter.cs" Line="54" Column="5" />
+      <File FileName="Busidex.Mobile/SharedCardController.cs" Line="29" Column="32" />
+      <File FileName="Busidex.Mobile/BaseController.cs" Line="28" Column="6" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/LoginController.cs" Line="146" Column="5" />
+      <File FileName="Busidex.Mobile/LoginController.cs" Line="6" Column="46" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="300" Column="24" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" Line="17" Column="25" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Busidex.Mobile" expanded="True">
-            <Node name="Busidex.Mobile" expanded="True" />
-            <Node name="Busidex.Presentation.Droid.v2" expanded="True">
-              <Node name="Activities" expanded="True" />
-              <Node name="Adapters" expanded="True" />
-              <Node name="Fragments" expanded="True" />
-              <Node name="Resources" expanded="True">
-                <Node name="layout" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="Busidex.Presentation.iOS" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="StartupController.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -45,8 +30,7 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="109" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/SettingsController.cs" line="23" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" line="183" column="13" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/StartupController.cs" line="33" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" line="186" column="13" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

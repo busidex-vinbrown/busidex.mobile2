@@ -273,7 +273,7 @@ namespace Busidex.Presentation.Droid.v2
 			if(!getDeviceTypeSetting()){
 
 				string token = BaseApplicationResource.GetAuthCookie();
-				var deviceType = Busidex.Mobile.DeviceType.Android;
+				var deviceType = DeviceType.Android;
 
 				AccountController.UpdateDeviceType(token, deviceType).ContinueWith(r =>{
 					saveDeviceTypeSet ();
