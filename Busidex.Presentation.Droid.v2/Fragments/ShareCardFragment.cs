@@ -10,6 +10,9 @@ using System.Net;
 using Android.Telephony;
 using System.Collections.Generic;
 using Android.Content;
+using Android.Provider;
+using Xamarin.Contacts;
+using System.Linq;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -62,18 +65,23 @@ namespace Busidex.Presentation.Droid.v2
 			txtShareMessage = view.FindViewById<TextView> (Resource.Id.txtShareMessage);
 
 			txtShareDisplayName.Text = currentDisplayName = UISubscriptionService.CurrentUser.UserAccount.DisplayName;
-
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
-			var uri = Uri.Parse (fileName);
-
 			var imgShareHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgShareVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
-			var isHorizontal = SelectedCard.Card.FrontOrientation == "H";
-			var imgDisplay = isHorizontal ? imgShareHorizontal : imgShareVertical;
-			imgShareHorizontal.Visibility = !isHorizontal ? ViewStates.Gone : ViewStates.Visible;
-			imgShareVertical.Visibility = isHorizontal ? ViewStates.Gone : ViewStates.Visible;
 
-			imgDisplay.SetImageURI (uri);
+			if (SelectedCard != null) {
+				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
+				var uri = Uri.Parse (fileName);
+
+				var isHorizontal = SelectedCard.Card.FrontOrientation == "H";
+				var imgDisplay = isHorizontal ? imgShareHorizontal : imgShareVertical;
+				imgShareHorizontal.Visibility = !isHorizontal ? ViewStates.Gone : ViewStates.Visible;
+				imgShareVertical.Visibility = isHorizontal ? ViewStates.Gone : ViewStates.Visible;
+
+				imgDisplay.SetImageURI (uri);
+			}
+			else{
+				imgShareHorizontal.Visibility = imgShareVertical.Visibility = ViewStates.Gone;
+			}
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 			btnClose.Click += delegate {
@@ -81,6 +89,22 @@ namespace Busidex.Presentation.Droid.v2
 				panel.SelectedCard = SelectedCard;
 				((MainActivity)Activity).UnloadFragment(panel);
 			};
+
+//			var contentUri = ContactsContract.CommonDataKinds.Phone.ContentUri;
+//			string[] projection = { ContactsContract.Contacts.InterfaceConsts.Id,
+//				ContactsContract.Contacts.InterfaceConsts.DisplayName,
+//				ContactsContract.CommonDataKinds.Phone.Number
+//			};
+//			var book = new AddressBook (this);
+//			if (!book.RequestPermission()) {
+//				ShowAlert ("Contacts", "Unable to read contact list", "Continue", null);
+//			}else{
+//				foreach (Contact contact in book.OrderBy (c => c.LastName)) {
+//
+//				}	
+//			}
+
+
 
 			return view;
 		}

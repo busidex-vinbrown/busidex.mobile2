@@ -6,6 +6,7 @@ using UIKit;
 using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
 using System.Threading.Tasks;
+using Contacts;
 
 namespace Busidex.Presentation.iOS
 {
@@ -306,5 +307,36 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (termsController, true);
 			}
 		}
+
+
+		// https://developer.xamarin.com/guides/ios/platform_features/introduction_to_ios9/contacts/
+//		void updateContacts(){
+//
+//			if(Application.MyBusidex != null){
+//
+//				var predicate = CNContact.GetPredicateForContacts("");
+//				var fetchKeys = new NSString[] {
+//					CNContactKey.ThumbnailImageData, 
+//					CNContactKey.ImageData, 
+//					CNContactKey.EmailAddresses, 
+//					CNContactKey.PhoneNumbers, 
+//					CNContactKey.GivenName
+//				};
+//
+//				var store = new CNContactStore();
+//				NSError error;
+//				var contacts = store.GetUnifiedContacts(predicate, fetchKeys, out error);
+//
+//				foreach(var card in Application.MyBusidex){
+//
+//					var thisContact = contacts.FirstOrDefault (c => c.EmailAddresses.Equals (card.Card.Email) || 
+//						c.PhoneNumbers.Intersect (card.Card.PhoneNumbers.Select (p => p.Number)).Count > 0);
+//
+//					if(thisContact != null){
+//						var mutable = thisContact.MutableCopy() as CNMutableContact;
+//					}
+//				}
+//			}
+//		}
 	}
 }

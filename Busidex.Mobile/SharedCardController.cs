@@ -44,8 +44,13 @@ namespace Busidex.Mobile
 		/// <param name="userToken">User token.</param>
 		public string GetSharedCards(string userToken, HttpMessageHandler handler = null){
 
-			const string URL = Resources.BASE_API_URL + "SharedCard/Get";
-			return MakeRequest (URL, "GET", userToken, null, handler);
+			try{
+				const string URL = Resources.BASE_API_URL + "SharedCard/Get";
+				return MakeRequest (URL, "GET", userToken, null, handler);
+			}
+			catch(Exception ex){
+				return string.Empty;
+			}
 		}
 
 		/// <summary>
@@ -72,7 +77,7 @@ namespace Busidex.Mobile
 			return MakeRequest (URL, "PUT", userToken, data);
 		}
 
-		public string AcceptQuickShare(Card card, string email, long sendFrom, string userToken){
+		public string AcceptQuickShare(Card card, string email, long sendFrom, string userToken, string message){
 			const string URL = Resources.BASE_API_URL + "QuickShare/Post";
 
 			var model = new SharedCard {
@@ -82,11 +87,11 @@ namespace Busidex.Mobile
 				SendFromEmail = string.Empty,
 				Email = email,
 				PhoneNumber = string.Empty,
-				ShareWith = Utils.DecodeUserId (userToken),
+				ShareWith = Utils.DecodeUserId (userToken), // share with the current user
 				SharedDate = DateTime.Now,
 				Accepted = true,
 				Declined = false,
-				Recommendation = string.Empty,
+				Recommendation = message,
 				UseQuickShare = true
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);

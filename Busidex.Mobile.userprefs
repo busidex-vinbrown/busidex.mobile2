@@ -1,25 +1,6 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs">
-    <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="124" Column="34" />
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="4" Column="32" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/StartupController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="209" Column="34" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="176" Column="20" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="17" Column="30" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="162" Column="32" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardViewController.cs" Line="8" Column="20" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Droid.v2/Adapters/SharedCardListAdapter.cs" Line="54" Column="5" />
-      <File FileName="Busidex.Mobile/SharedCardController.cs" Line="29" Column="32" />
-      <File FileName="Busidex.Mobile/BaseController.cs" Line="28" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/LoginController.cs" Line="146" Column="5" />
-      <File FileName="Busidex.Mobile/LoginController.cs" Line="6" Column="46" />
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="300" Column="24" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" Line="17" Column="25" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation/OrganizationsController.cs" line="70" column="1" />
@@ -36,9 +17,12 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Busidex.Mobile/BaseController.cs" line="14" offsetX="1209" offsetY="195" expression="token" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
+  <DisabledProjects>
+    <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

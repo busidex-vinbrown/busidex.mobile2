@@ -285,6 +285,8 @@ namespace Busidex.Presentation.Droid.v2
 
 				string displayName = string.Empty;
 				string personalMessage = string.Empty;
+				string cardId = string.Empty;
+				string sentFrom = string.Empty;
 
 				var appLinkUrl = new AppLinkUrl (Intent.Data.ToString (), "{}");
 				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_d")) {
@@ -293,17 +295,45 @@ namespace Busidex.Presentation.Droid.v2
 				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_m")) {
 					personalMessage = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_m"]);
 				}
-				var userCard = LoadQuickShareCardData (appLinkUrl);
-				var fragment = new QuickShareFragment(userCard, displayName, personalMessage);
-				ShowQuickShare (fragment);
+				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("cardId")) {
+					cardId = appLinkUrl.InputQueryParameters ["cardId"];
+				}
+				if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_f")) {
+					sentFrom = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_f"]);
+				}
+				var quickShareLink = new QuickShareLink {
+					CardId = long.Parse (cardId),
+					DisplayName = displayName,
+					From = long.Parse(sentFrom),
+					PersonalMessage = personalMessage
+				};
+
+				// If the user isn't logged in, save the quickShare link to file and continue with startup.
+				var cookie = BaseApplicationResource.GetAuthCookie ();
+				if(cookie == null){
+					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
+					Utils.SaveResponse (json, Busidex.Mobile.Resources.QUICKSHARE_LINK);
+					setStartTab ();
+					Intent.SetData (null);
+				}else{
+					var userCard = LoadQuickShareCardData (quickShareLink);
+					var fragment = new QuickShareFragment(userCard, displayName, personalMessage);
+					ShowQuickShare (fragment);	
+					Intent.SetData (null);
+				}
+
 			} else {
-				var tab = ActionBar.GetTabAt (0);
-				ActionBar.SelectTab (tab);
-				BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+				setStartTab ();
 			}
 		}
 
-		void saveDeviceTypeSet(){
+		void setStartTab(){
+			var tab = ActionBar.GetTabAt (0);
+			ActionBar.SelectTab (tab);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+		}
+
+		static void saveDeviceTypeSet(){
 			var prefs = Application.Context.GetSharedPreferences(Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
 			var prefEditor = prefs.Edit();
 			prefEditor.PutBoolean(Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
@@ -504,8 +534,14 @@ namespace Busidex.Presentation.Droid.v2
 			UISubscriptionService.Sync ();
 			DoingLogin = false;
 			if(DoingRegistration){
-				
 				DoingRegistration = false;
+			}
+
+			var quickShareLink = Utils.GetQuickShareLink();
+			if(quickShareLink != null){
+				var userCard = LoadQuickShareCardData (quickShareLink);
+				var fragment = new QuickShareFragment(userCard, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
+				ShowQuickShare (fragment);	
 			}
 		}		
 
@@ -773,26 +809,14 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion 
 
 		#region QuickShare
-		UserCard LoadQuickShareCardData(AppLinkUrl appLinkUrl){
-
+		static UserCard LoadQuickShareCardData(QuickShareLink quickShareLink){
 
 			UserCard userCard = null;
-
-			var cardId = "0";
-			var sentFrom = "0";
-
-			if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("_f")) {
-				sentFrom = System.Web.HttpUtility.UrlDecode (appLinkUrl.InputQueryParameters ["_f"]);
-			}
-
-			if (appLinkUrl != null && appLinkUrl.InputQueryParameters.ContainsKey ("cardId")) {
-				cardId = appLinkUrl.InputQueryParameters ["cardId"];
-			}
 
 			var cookie = BaseApplicationResource.GetAuthCookie ();
 
 			string token = cookie;
-			var result = CardController.GetCardById (token, long.Parse(cardId));
+			var result = CardController.GetCardById (token, quickShareLink.CardId);
 			if (!string.IsNullOrEmpty (result)) {
 
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
@@ -800,19 +824,19 @@ namespace Busidex.Presentation.Droid.v2
 
 				userCard = new UserCard {
 					Card = card,
-					CardId = long.Parse(cardId),
+					CardId = quickShareLink.CardId,
 					ExistsInMyBusidex = true,
 					OwnerId = cardResponse.Model.OwnerId,
 					UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
 					Notes = string.Empty
 				};
 
-				SaveFromUrl (userCard, long.Parse(sentFrom));
+				SaveFromUrl (userCard, quickShareLink);
 			}
 			return userCard;
 		}
 
-		void SaveFromUrl(UserCard uc, long sentFrom){
+		static void SaveFromUrl(UserCard uc, QuickShareLink link){
 
 			var sharedCardController = new SharedCardController ();
 			var cookie = BaseApplicationResource.GetAuthCookie ();
@@ -829,7 +853,7 @@ namespace Busidex.Presentation.Droid.v2
 				//var myBusidexController = new MyBusidexController ();
 				//myBusidexController.AddToMyBusidex (uc.CardId, token);
 
-				sharedCardController.AcceptQuickShare (card, UISubscriptionService.CurrentUser.Email, sentFrom, token);
+				sharedCardController.AcceptQuickShare (card, UISubscriptionService.CurrentUser.Email, link.From, token, link.PersonalMessage);
 				Utils.RemoveQuickShareLink ();
 
 			}

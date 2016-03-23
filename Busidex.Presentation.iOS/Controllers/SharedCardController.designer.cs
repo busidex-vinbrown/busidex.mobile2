@@ -16,6 +16,10 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnContacts { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView imgCard { get; set; }
 
 		[Outlet]
@@ -48,6 +52,10 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnContacts != null) {
+				btnContacts.Dispose ();
+				btnContacts = null;
+			}
 			if (imgCard != null) {
 				imgCard.Dispose ();
 				imgCard = null;

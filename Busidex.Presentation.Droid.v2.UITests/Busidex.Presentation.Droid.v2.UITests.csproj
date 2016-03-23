@@ -41,14 +41,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Busidex.Presentation.Droid.v2\Busidex.Presentation.Droid.v2.csproj">
       <Project>{B9A7EE9B-6AB9-4B93-9969-E14C1620143F}</Project>
       <Name>Busidex.Presentation.Droid.v2</Name>
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -73,10 +73,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)EmailTemplateController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EmailTemplateResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\QuickShareList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UrlShortenerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BitlyResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BitlyData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\QuickShareLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

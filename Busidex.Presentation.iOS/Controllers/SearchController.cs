@@ -157,8 +157,15 @@ namespace Busidex.Presentation.iOS
 			var ctrl = new Busidex.Mobile.SearchController ();
 			await ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
 
-				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
 				var cards = new List<UserCard> ();
+
+				if(response == null || response.Result == null){
+					InvokeOnMainThread (() => LoadSearchResults (cards));
+					return;
+				}
+
+				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
+
 				float total = Search.SearchModel.Results.Count;
 				float processed = 0;
 

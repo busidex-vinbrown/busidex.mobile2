@@ -15,32 +15,32 @@
         android:background="@drawable/border"
         android:padding="5dp">
         <ImageButton
+            android:id="@+id/btnClose"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:visibility="visible"
-            android:id="@+id/btnClose"
             android:background="@color/layoutBackground"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:scaleType="fitXY"
             android:layout_marginTop="10dp" />
         <TextView
+            android:id="@+id/lblShareTitle"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lblShareTitle"
             android:text="@string/Share_Title"
             android:textColor="@color/primaryLabelColor"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="40dp"
             android:inputType="none" />
         <TextView
+            android:id="@+id/lblShareTo"
             android:text="To:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:id="@+id/lblShareTo"
             android:layout_marginLeft="35dp"
             android:textColor="@color/labelFontColor"
             android:inputType="none"
@@ -48,49 +48,59 @@
             android:gravity="right"
             android:layout_below="@id/lblShareTitle" />
         <EditText
-            android:inputType="textEmailAddress"
-            android:layout_width="215.5dp"
+            android:id="@+id/txtSharePhoneNumber"
+            android:inputType="phone"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:id="@+id/txtShareEmail"
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/textInputColor"
-            android:hint="Email Address"
-            android:layout_marginTop="10dp"
+            android:hint="Phone Number"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/lblShareTo"
             android:layout_below="@id/lblShareTitle"
-            android:layout_centerHorizontal="true" />
-        <ImageView
-            android:src="@drawable/checkmark"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:id="@+id/imgCheckShared"
-            android:layout_marginTop="90dp"
-            android:layout_marginLeft="10dp"
-            android:scaleType="fitXY"
-            android:layout_toRightOf="@id/txtShareEmail" />
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
         <TextView
+            android:id="@+id/lblShareOR"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:text="- OR -"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:layout_below="@id/txtShareEmail"
-            android:id="@+id/lblOR"
+            android:layout_below="@id/txtSharePhoneNumber"
             android:textColor="@color/buttonFontColor" />
         <EditText
-            android:inputType="phone"
-            android:layout_width="215.5dp"
+            android:id="@+id/txtShareEmail"
+            android:inputType="textEmailAddress"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSharePhoneNumber"
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/textInputColor"
-            android:hint="Phone Number"
-            android:layout_marginTop="5dp"
+            android:hint="Email Address"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/lblShareTo"
-            android:layout_below="@id/lblOR"
             android:layout_centerHorizontal="true"
-            android:textAlignment="center" />
+            android:layout_below="@id/lblShareOR" />
+        <ImageView
+            android:id="@+id/imgCheckShared"
+            android:src="@drawable/checkmark"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="90dp"
+            android:scaleType="fitXY"
+            android:layout_toRightOf="@id/txtShareEmail" />
+        <ImageButton xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@id/txtSharePhoneNumber"
+            android:id="@+id/btnContacts"
+            android:scaleType="fitXY"
+            android:layout_below="@id/lblShareOR"
+            android:src="@drawable/contacts"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button"
+            tools:visibility="gone" />
         <TextView
             android:text="From:"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -102,10 +112,10 @@
             android:inputType="none"
             android:layout_marginTop="10dp"
             android:gravity="right"
-            android:layout_below="@id/txtSharePhoneNumber" />
+            android:layout_below="@id/txtShareEmail" />
         <EditText
             android:inputType="textEmailAddress"
-            android:layout_width="215.5dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtShareDisplayName"
             android:background="@android:drawable/editbox_background"
@@ -113,7 +123,7 @@
             android:hint="Display Name"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/lblShareFrom"
-            android:layout_below="@id/txtSharePhoneNumber"
+            android:layout_below="@id/txtShareEmail"
             android:layout_centerHorizontal="true" />
         <EditText
             android:inputType="textMultiLine"

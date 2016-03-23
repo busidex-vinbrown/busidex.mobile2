@@ -10,6 +10,9 @@ using CoreAnimation;
 using CoreGraphics;
 using Plugin.Messaging;
 using System.Net;
+using AddressBookUI;
+using ContactsUI;
+using Contacts;
 
 namespace Busidex.Presentation.iOS
 {
@@ -189,8 +192,52 @@ namespace Busidex.Presentation.iOS
 
 				NavigationItem.SetRightBarButtonItem(
 					shareButton, true);
-			}
 
+				#region Old Code
+				var _contactController = new ABPeoplePickerNavigationController ();
+				_contactController.Cancelled += delegate {
+					this.DismissViewController (true, null); };
+
+				_contactController.SelectPerson2 +=
+					delegate(object sender, ABPeoplePickerSelectPerson2EventArgs e) {
+
+					var phoneNumbers = e.Person.GetPhones();
+					if(phoneNumbers != null && phoneNumbers.Count > 0){
+						txtPhoneNumber.Text = phoneNumbers[0].Value;
+					}
+					this.DismissModalViewController (true);
+				};
+				#endregion
+
+				// Create a new picker
+				try{
+					var picker = new CNContactPickerViewController();
+
+					// Select property to pick
+					picker.DisplayedPropertyKeys = new NSString[] {CNContactKey.PhoneNumbers};
+					picker.PredicateForEnablingContact = NSPredicate.FromFormat("phoneNumbers.@count > 0");
+					picker.PredicateForSelectionOfContact = NSPredicate.FromFormat("phoneNumbers.@count == 0"); // always allow the user to see the contact details
+
+
+					// Respond to selection
+					picker.Delegate = new ContactPickerDelegate(txtPhoneNumber);
+
+					// Display picker
+					btnContacts.TouchUpInside += delegate {
+						//this.PresentModalViewController (_contactController, true); 
+						try{
+							PresentModalViewController(picker,true);
+						}catch(Exception ex){
+							Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Warning);
+							ShowAlert("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
+						}
+					};
+
+				}catch(Exception ex){
+					Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Warning);
+					ShowAlert("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
+				}
+			}
 		}
 
 		public override void ViewDidLoad ()

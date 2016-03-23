@@ -523,7 +523,7 @@ namespace Busidex.Mobile
 		static async Task<bool> loadNotifications(){
 			var ctrl = new SharedCardController ();
 			var sharedCardsResponse = ctrl.GetSharedCards (AuthToken);
-			if(sharedCardsResponse.Contains(":404")){
+			if(sharedCardsResponse.Contains(":404") || string.IsNullOrEmpty(sharedCardsResponse)){
 				return false;
 			}
 

@@ -130,7 +130,7 @@ namespace Busidex.Presentation.iOS
 				if (card != null) {
 					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
 				}
-				string name = Resources.GA_LABEL_EMAIL;
+				const string name = Resources.GA_LABEL_EMAIL;
 
 				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_EMAIL, name, 0);
 			}
@@ -140,7 +140,7 @@ namespace Busidex.Presentation.iOS
 
 			if (ViewWebsite != null){
 				ViewWebsite (url.Replace ("http://", "").Replace ("https://", ""));
-				var card = Cards.SingleOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
+				var card = Cards.FirstOrDefault (c => c.Card.Url != null && c.Card.Url.Equals (url));
 				if (card != null) {
 
 					string name = Resources.GA_LABEL_URL;

@@ -26,7 +26,6 @@ namespace Busidex.Presentation.iOS
 
 		public void SetCardSharingInfo(QuickShareLink link){
 			Link = link;
-			//UISubscriptionService.AppQuickShareLink = null;
 		}
 
 		public void LoadCard(){
@@ -79,7 +78,6 @@ namespace Busidex.Presentation.iOS
 					});
 				}
 			}
-
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -89,11 +87,10 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 
 			lblMessage.Text = string.Format (lblMessage.Text, Link.DisplayName);
-			lblPersonalMessage.Text = Link.PersonalMessage;
+			lblPersonalMessage.Text = Link.PersonalMessage.Trim ();//+ "\"";
 		}
 
 		public void SaveFromUrl(){
-
 
 			var sharedCardController = new Busidex.Mobile.SharedCardController ();
 			var cookie = GetAuthCookie ();
@@ -121,16 +118,10 @@ namespace Busidex.Presentation.iOS
 				var myBusidexController = new Busidex.Mobile.MyBusidexController ();
 				myBusidexController.AddToMyBusidex (Link.CardId, token);
 
-				sharedCardController.AcceptQuickShare (card, email, Link.From, token);
+				sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);
 				Utils.RemoveQuickShareLink ();
 			}
 
-		}
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
 		}
 	}
 }

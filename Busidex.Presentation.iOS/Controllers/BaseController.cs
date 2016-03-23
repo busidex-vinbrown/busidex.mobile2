@@ -161,18 +161,6 @@ namespace Busidex.Presentation.iOS
 
 		protected void GoToQuickShare ()
 		{
-			//NavigationController.SetNavigationBarHidden (false, true);
-//
-//			var controller = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
-//
-//			if (controller != null) {
-//				var quickShareLink = Utils.GetQuickShareLink();
-//				controller.SetCardSharingInfo (quickShareLink);
-//				controller.SaveFromUrl ();
-//				NavigationController.PushViewController (controller, true);
-//			}
-			//var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			//var quickShareController = Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
 			quickShareController = quickShareController ?? Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
 			quickShareController.SetCardSharingInfo (new QuickShareLink{
 				CardId = UISubscriptionService.AppQuickShareLink.CardId,
