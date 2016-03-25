@@ -6,42 +6,55 @@
     p1:layout_height="match_parent"
     p1:id="@+id/homeLayout"
     p1:background="@drawable/main_blur2">
-    <ImageView
-        p1:layout_width="75dp"
-        p1:layout_height="75dp"
-        p1:id="@+id/imgSearchIcon"
-        p1:layout_marginTop="55dp"
-        p1:layout_marginLeft="40dp"
-        p1:scaleType="fitXY"
-        p1:adjustViewBounds="false"
-        p1:src="@drawable/searchicon"
-        p1:elevation="0dp" />
+<!--MY BUSIDEX-->
     <ImageView
         p1:src="@drawable/mybusidexicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:layout_below="@id/imgSearchIcon"
         p1:id="@+id/imgBusidexIcon"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp"
+        p1:layout_marginTop="45dp"
         p1:elevation="0dp" />
+    <Button
+        p1:text="My Busidex"
+        p1:layout_width="wrap_content"
+        p1:layout_height="75dp"
+        p1:id="@+id/btnMyBusidex"
+        p1:layout_toRightOf="@id/imgBusidexIcon"
+        p1:textColor="@color/buttonWhite"
+        p1:background="@drawable/mainbuttonstyle"
+        p1:layout_marginTop="40dp"
+        p1:textSize="26dp"
+        p1:gravity="center_vertical"
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp"
+        p1:textStyle="bold"
+        p1:shadowColor="#000000"
+        p1:shadowDx="1"
+        p1:shadowDy="1"
+        p1:shadowRadius="1" />
+<!--SEARCH-->
     <ImageView
-        p1:src="@drawable/organizationsicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:layout_below="@id/imgBusidexIcon"
-        p1:id="@+id/imgOrgIcon"
+        p1:id="@+id/imgSearchIcon"
+        p1:layout_marginTop="20dp"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp" />
+        p1:scaleType="fitXY"
+        p1:adjustViewBounds="false"
+        p1:src="@drawable/searchicon"
+        p1:layout_below="@id/imgBusidexIcon"
+        p1:elevation="0dp" />
     <Button
         p1:text="Search "
         p1:layout_width="wrap_content"
         p1:layout_height="75dp"
         p1:layout_toRightOf="@id/imgSearchIcon"
+        p1:layout_below="@id/btnMyBusidex"
         p1:id="@+id/btnSearch"
         p1:textColor="@color/buttonWhite"
         p1:background="@drawable/mainbuttonstyle"
-        p1:layout_marginTop="50dp"
+        p1:layout_marginTop="20dp"
         p1:textSize="26dp"
         p1:gravity="center_vertical"
         p1:autoText="false"
@@ -52,34 +65,24 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
-    <Button
-        p1:text="My Busidex"
-        p1:layout_width="wrap_content"
+<!--ORGANIZATIONS-->
+    <ImageView
+        p1:src="@drawable/organizationsicon"
+        p1:layout_width="75dp"
         p1:layout_height="75dp"
-        p1:layout_below="@id/btnSearch"
-        p1:id="@+id/btnMyBusidex"
-        p1:layout_toRightOf="@id/imgBusidexIcon"
-        p1:textColor="@color/buttonWhite"
-        p1:background="@drawable/mainbuttonstyle"
-        p1:layout_marginTop="30dp"
-        p1:textSize="26dp"
-        p1:gravity="center_vertical"
-        p1:layout_marginLeft="20dp"
-        p1:elevation="0dp"
-        p1:textStyle="bold"
-        p1:shadowColor="#000000"
-        p1:shadowDx="1"
-        p1:shadowDy="1"
-        p1:shadowRadius="1" />
+        p1:layout_below="@id/imgSearchIcon"
+        p1:id="@+id/imgOrgIcon"
+        p1:layout_marginLeft="40dp"
+        p1:layout_marginTop="20dp" />
     <Button
         p1:text="Organizations"
         p1:layout_width="wrap_content"
-        p1:layout_height="85dp"
+        p1:layout_height="75dp"
         p1:layout_toRightOf="@id/imgOrgIcon"
         p1:id="@+id/btnMyOrganizations"
-        p1:layout_below="@id/btnMyBusidex"
+        p1:layout_below="@id/btnSearch"
         p1:textColor="@color/buttonWhite"
-        p1:layout_marginTop="30dp"
+        p1:layout_marginTop="20dp"
         p1:textSize="25dp"
         p1:gravity="center_vertical"
         p1:layout_marginLeft="20dp"
@@ -90,16 +93,7 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
-    <ImageButton
-        p1:src="@drawable/Exit"
-        p1:layout_width="45dp"
-        p1:layout_height="45dp"
-        p1:id="@+id/btnLogout"
-        p1:scaleType="fitXY"
-        p1:background="@android:color/transparent"
-        p1:layout_alignParentBottom="true"
-        p1:layout_alignParentLeft="true"
-        p1:layout_marginLeft="5dp" />
+<!--EVENTS-->
     <ImageView
         p1:src="@drawable/eventicon"
         p1:layout_width="75dp"
@@ -107,7 +101,7 @@
         p1:layout_below="@id/imgOrgIcon"
         p1:id="@+id/imgEventIcon"
         p1:layout_marginLeft="40dp"
-        p1:layout_marginTop="30dp"
+        p1:layout_marginTop="20dp"
         p1:elevation="0dp" />
     <Button
         p1:text="Events"
@@ -116,7 +110,7 @@
         p1:layout_toRightOf="@id/imgEventIcon"
         p1:id="@+id/btnEvents"
         p1:layout_below="@id/btnMyOrganizations"
-        p1:layout_marginTop="30dp"
+        p1:layout_marginTop="20dp"
         p1:textColor="@color/buttonWhite"
         p1:background="@drawable/mainbuttonstyle"
         p1:textSize="26dp"
@@ -128,6 +122,61 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
+<!--FAQ-->
+    <ImageView
+        p1:src="@drawable/faq"
+        p1:layout_width="75dp"
+        p1:layout_height="75dp"
+        p1:layout_below="@id/imgEventIcon"
+        p1:id="@+id/imgFAQIcon"
+        p1:layout_marginLeft="40dp"
+        p1:layout_marginTop="20dp"
+        p1:elevation="0dp" />
+    <Button
+        p1:text="Questions"
+        p1:layout_width="wrap_content"
+        p1:layout_height="75dp"
+        p1:layout_toRightOf="@id/imgFAQIcon"
+        p1:id="@+id/btnQuestions"
+        p1:layout_below="@id/btnEvents"
+        p1:layout_marginTop="20dp"
+        p1:textColor="@color/buttonWhite"
+        p1:background="@drawable/mainbuttonstyle"
+        p1:textSize="26dp"
+        p1:gravity="center_vertical"
+        p1:layout_marginLeft="20dp"
+        p1:elevation="0dp"
+        p1:textStyle="bold"
+        p1:shadowColor="#000000"
+        p1:shadowDx="1"
+        p1:shadowDy="1"
+        p1:shadowRadius="1" />
+<!--SETTINGS-->
+<!--<ImageButton
+        p1:src="@drawable/settings"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:id="@+id/btnSettingsHome"
+        p1:scaleType="fitXY"
+        p1:background="@android:color/transparent"
+        p1:layout_alignParentBottom="true"
+        p1:layout_marginLeft="5dp"
+        p1:layout_alignParentRight="true"
+        p1:layout_marginRight="10dp"
+        p1:layout_marginBottom="5dp"
+        p1:alpha=".7" />-->
+<!--EXIT-->
+<!--<ImageButton
+        p1:src="@drawable/Exit"
+        p1:layout_width="45dp"
+        p1:layout_height="45dp"
+        p1:id="@+id/btnLogout"
+        p1:scaleType="fitXY"
+        p1:background="@android:color/transparent"
+        p1:layout_alignParentBottom="true"
+        p1:layout_alignParentLeft="true"
+        p1:layout_marginLeft="5dp" />-->
+<!--NOTIFICATIONS-->
     <ImageView
         p1:src="@drawable/mybusidexicon"
         p1:layout_width="50dp"
@@ -153,12 +202,4 @@
         p1:layout_marginBottom="28dp"
         p1:textStyle="bold"
         p1:textSize="12pt" />
-<!--    <fragment xmlns:tools="http://schemas.android.com/tools"
-        class="Busidex.Presentation.Android.ProfileFragment"
-        p1:id="@+id/profileFragment"
-        p1:layout_width="fill_parent"
-        p1:layout_height="fill_parent"
-        p1:visibility="gone"
-        tools:visibility="gone"
-        p1:elevation="999dp" />-->
 </RelativeLayout>

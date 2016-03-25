@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Rivets;
+using Android.Net;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -25,15 +26,100 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		ViewPager pager;
 
+		void openFaq(){
+			var OpenBrowserIntent = new Intent (Intent.ActionView);
+			var uri = Uri.Parse ("https://www.busidex.com/#/faq");
+			OpenBrowserIntent.SetData (uri);
+
+			OpenBrowser(OpenBrowserIntent);
+		}
+
 		void addTabs(GenericFragmentPagerAdaptor adapter){
 
 			// HOME
-//			adapter.AddFragmentView((i, v, b) =>
-//				{
-//					var view = i.Inflate(Resource.Layout.Home, v, false);
-//					return view;
-//				}
-//			);
+			adapter.AddFragmentView((i, v, b) =>
+				{
+					var view = i.Inflate(Resource.Layout.Home, v, false);
+
+					//MY BUSIDEX
+					var btnMyBusidex = view.FindViewById<Button>(Resource.Id.btnMyBusidex);
+					btnMyBusidex.Click += delegate {
+						pager.SetCurrentItem(1, true);
+					};
+					var imgMyBusidex = view.FindViewById<ImageView>(Resource.Id.imgBusidexIcon);
+					imgMyBusidex.Click += delegate {
+						pager.SetCurrentItem(1, true);
+					};
+
+					// SEARCH
+					var btnSearch = view.FindViewById<Button>(Resource.Id.btnSearch);
+					btnSearch.Click += delegate {
+						pager.SetCurrentItem(2, true);
+					};
+					var imgSearch = view.FindViewById<ImageView>(Resource.Id.imgSearchIcon);
+					imgSearch.Click += delegate {
+						pager.SetCurrentItem(2, true);
+					};
+
+					// MY ORGANIZATIONS
+					var btnMyOrganizations = view.FindViewById<Button>(Resource.Id.btnMyOrganizations);
+					btnMyOrganizations.Click += delegate {
+						pager.SetCurrentItem(3, true);
+					};
+					var imgOrganizations = view.FindViewById<ImageView>(Resource.Id.imgOrgIcon);
+					imgOrganizations.Click += delegate {
+						pager.SetCurrentItem(3, true);
+					};
+
+					// EVENTS
+					var btnEvents = view.FindViewById<Button>(Resource.Id.btnEvents);
+					btnEvents.Click += delegate {
+						pager.SetCurrentItem(4, true);
+					};
+					var imgEvents = view.FindViewById<ImageView>(Resource.Id.imgEventIcon);
+					imgEvents.Click += delegate {
+						pager.SetCurrentItem(4, true);
+					};
+
+					// FAQ
+					var btnFaq = view.FindViewById<Button>(Resource.Id.btnQuestions);
+					btnFaq.Click += delegate {
+						openFaq();
+					};
+					var imgFaq = view.FindViewById<ImageView>(Resource.Id.imgFAQIcon);
+					imgFaq.Click += delegate {
+						openFaq();
+					};
+
+					var btnSharedCardsNotification = view.FindViewById<ImageView>(Resource.Id.btnSharedCardsNotification);
+					btnSharedCardsNotification.Click += delegate {
+						pager.SetCurrentItem(5, true);
+					};
+
+					OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => {
+						ViewPagerExtensions.UpdateNotificationCount(ActionBar, list.Count);
+						 
+						var txtNotificationCount = view.FindViewById<TextView>(Resource.Id.txtNotificationCount);
+
+						btnSharedCardsNotification.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						txtNotificationCount.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						txtNotificationCount.Text = list.Count.ToString();
+
+					});
+
+					UISubscriptionService.OnNotificationsLoaded -= callback;
+					UISubscriptionService.OnNotificationsLoaded += callback;
+
+					ThreadPool.QueueUserWorkItem(tok => UISubscriptionService.LoadNotifications ());
+
+					//var btnLogout = view.FindViewById<Button>(Resource.Id.btnLogout);
+					//btnLogout.Click += delegate {
+					//	
+					//};
+
+					return view;
+				}
+			);
 
 			// MY BUSIDEX
 			adapter.AddFragmentView((i, v, b) =>
@@ -127,7 +213,6 @@ namespace Busidex.Presentation.Droid.v2
 			// MY ORGANIZATIONS
 			adapter.AddFragmentView ((i, v, b) => 
 				{
-
 					var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
 					var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, UISubscriptionService.OrganizationList);
 					orgAdapter.RedirectToOrganizationDetails += org => ShowOrganizationDetail (new OrganizationPanelFragment (org));
@@ -211,6 +296,7 @@ namespace Busidex.Presentation.Droid.v2
 			// REFERRALS
 			adapter.AddFragmentView ((i, v, b) => 
 				{
+					
 					var view = i.Inflate (Resource.Layout.SharedCardList, v, false);
 					var lstSharedCards = view.FindViewById<ListView>(Resource.Id.lstSharedCards);
 
@@ -686,8 +772,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			var userCard = GetUserCardFromIntent (intent);
 			var token = BaseApplicationResource.GetAuthCookie ();
-			ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
-
+			if (userCard != null) {
+				ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, token);
+			}
 			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
 
 			var browserIntent = Intent.CreateChooser(intent, "Open with");

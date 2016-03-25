@@ -84,7 +84,7 @@ namespace Busidex.Mobile
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if(UserCards == null){
 				UserCards = new List<UserCard> ();
-				loadUserCards ();
+				await loadUserCards ();
 			}
 
 			if(OnMyBusidexLoaded != null){
@@ -94,8 +94,8 @@ namespace Busidex.Mobile
 			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
 			if(Notifications == null){
 				Notifications = new List<SharedCard> ();
-				loadNotifications ();
 			}
+			await loadNotifications ();
 
 			if(OnNotificationsLoaded != null){
 				OnNotificationsLoaded(Notifications);
@@ -104,7 +104,7 @@ namespace Busidex.Mobile
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
 			if(EventList == null){
 				EventList = new List<EventTag> ();
-				loadEventList ();
+				await loadEventList ();
 			}
 
 			if(OnEventListLoaded != null){
@@ -114,7 +114,7 @@ namespace Busidex.Mobile
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
 			if(OrganizationList == null){
 				OrganizationList = new List<Organization> ();
-				loadOrganizations ();
+				await loadOrganizations ();
 			}
 
 			if(OnMyOrganizationsLoaded != null){

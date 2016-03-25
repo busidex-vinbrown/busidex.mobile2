@@ -370,6 +370,8 @@
     <AndroidResource Include="Resources\layout\QuickShare.axml" />
     <AndroidResource Include="Resources\layout\SharedCard.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\contacts.jpg" />
+    <AndroidResource Include="Resources\drawable-hdpi\faq.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

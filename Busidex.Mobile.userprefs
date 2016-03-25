@@ -1,6 +1,11 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.5b136be7" />
-  <MonoDevelop.Ide.Workbench />
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs">
+    <Files>
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="146" Column="13" />
+      <File FileName="Busidex.Presentation.Droid.v2/Adapters/GenericFragmentPagerAdaptor.cs" Line="61" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation/OrganizationsController.cs" line="70" column="1" />
@@ -12,6 +17,8 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/SettingsController.cs" line="23" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" line="186" column="13" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="231" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="237" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

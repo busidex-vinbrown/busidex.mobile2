@@ -61,6 +61,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			tabs = new List<tabData> ();
 
+			tabs.Add (new tabData("Home", Resource.Drawable.home, Resource.Drawable.home));
 			tabs.Add (new tabData("My Busidex", Resource.Drawable.MyBusidexIcon, Resource.Drawable.MyBusidexIconDisabled));
 			tabs.Add (new tabData("Search", Resource.Drawable.SearchIcon, Resource.Drawable.SearchIconDisabled));
 			tabs.Add (new tabData("Organizations", Resource.Drawable.OrganizationsIcon, Resource.Drawable.OrganizationsIconDisabled));
@@ -74,13 +75,14 @@ namespace Busidex.Presentation.Droid.v2
 
 			for(var i=0; i < _bar.TabCount; i++){
 				var tab = _bar.GetTabAt(i);
-				tab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[i].IconInactive);	
+				tab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).SetImageResource (tabs [i].IconInactive);	
 				tab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = .3f;
 			}
 
 			var selectedTab = _bar.GetTabAt(position);
-			selectedTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(tabs[position].IconActive);	
+			selectedTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).SetImageResource (tabs [position].IconActive);	
 			selectedTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = 1f;
+
 			_bar.Title = tabs [position].Title;
 
 		}
@@ -94,7 +96,13 @@ namespace Busidex.Presentation.Droid.v2
 			tab.TabSelected += (o, e) =>
 			{
 				viewPager.SetCurrentItem(actionBar.SelectedNavigationIndex, false);
+				if(actionBar.SelectedNavigationIndex == 0){
+					actionBar.Hide();
+				}else{
+					actionBar.Show();
+				}
 			};
+
 			return tab;
 		}
 
