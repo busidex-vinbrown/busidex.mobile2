@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="Xam.Plugins.Messaging" is-shell="true">
+  <name>Messaging Plugin</name>
+  <publisher>Carel Lotz</publisher>
+  <publisher-url>http://www.twitter.com/cjlotz</publisher-url>
+  <src-url>https://github.com/cjlotz/Xamarin.Plugins</src-url>
+  <version>3.0.0.0</version>
+  <summary>Xamarin and Windows plugin to make a phone call, send a sms or send an e-mail using the default messaging applications on the different mobile platforms.</summary>
+  <packages>
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="winphone-8.1" />
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="ios-unified" />
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="android" />
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="winphone-8.0" />
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="ios" />
+    <package id="Xam.Plugins.Messaging" version="3.0.0.0" framework="mobile" />
+  </packages>
+  <samples>
+    <sample id="Lotz.Xam.Messaging.Android.Sample">
+      <name>Android Messaging Sample</name>
+      <summary>Android Messaging Sample</summary>
+    </sample>
+    <sample id="Lotz.Xam.Messaging.iOSUnified.Sample">
+      <name>iOS Messaging Sample</name>
+      <summary>iOS Messaging Sample</summary>
+    </sample>
+    <sample id="Lotz.Xam.Messaging.WinPhone.Sample">
+      <name>Windows Phone (Silverlight) Messaging Sample</name>
+      <summary>Windows Phone (Silverlight) Messaging Sample</summary>
+    </sample>
+    <sample id="Lotz.Xam.Messaging.WinPhoneRT.Sample">
+      <name>Windows Phone Messaging Sample</name>
+      <summary>Windows Phone Messaging Sample</summary>
+    </sample>
+  </samples>
+</component>
