@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Collections.Concurrent;
+using Nito.AsyncEx;
+using System.Threading;
 
 namespace Busidex.Mobile
 {
@@ -42,6 +45,8 @@ namespace Busidex.Mobile
 		public static QuickShareLink AppQuickShareLink { get; set; }
 
 		public static string AuthToken { get; set; }
+
+		private static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim>();
 
 		static UISubscriptionService(){
 
@@ -477,46 +482,58 @@ namespace Busidex.Mobile
 
 		static async Task<bool> loadUserCards(){
 
-			var cards = new List<UserCard> ();
+			if(string.IsNullOrEmpty(AuthToken)){
+				return false;
+			}
 
-			await myBusidexController.GetMyBusidex (AuthToken).ContinueWith (r => {
+			var semaphore = locks.GetOrAdd(AuthToken, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
 
-				var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
-				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);			
+			try{
+				
+				var cards = new List<UserCard> ();
 
-				int idx = 0;
-				foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
-					if (item.Card != null) {
+				await myBusidexController.GetMyBusidex (AuthToken).ContinueWith (async r => {
 
-						var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
-						var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
-						var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
-						var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
+					var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
+					myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);			
 
-						cards.Add (item);
+					int idx = 0;
+					foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
+						if (item.Card != null) {
 
-						if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-							Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
+							var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
+							var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
+							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
+							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
+
+							cards.Add (item);
+
+							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
+									idx++;
+								});
+							} else{
 								idx++;
-							});
-						} else{
-							idx++;
-						}
+							}
 
-						if ((!File.Exists (Resources.DocumentsPath + "/" + bName)) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-							Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+							if ((!File.Exists (Resources.DocumentsPath + "/" + bName)) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+							}
 						}
 					}
-				}
 
-				UserCards.Clear();
-				UserCards.AddRange(cards);
+					UserCards.Clear();
+					UserCards.AddRange(cards);
 
-				var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
+					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
 
-				Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
-
-			});
+					Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
+				});
+			}
+			finally{
+				semaphore.Release ();
+			}
 			return true;
 		}
 

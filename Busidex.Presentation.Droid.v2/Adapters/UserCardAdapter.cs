@@ -134,13 +134,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
 
-			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-			var fragment = new CardDetailFragment();
-			fragment.UserCard = Cards [position];
-			Redirect (fragment);
-		}
-
-		void OnButtonPanelButtonClicked(object sender, System.EventArgs e){
+//			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+//			var fragment = new CardDetailFragment();
+//			fragment.UserCard = Cards [position];
+//			Redirect (fragment);
 
 			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
 			var fragment = new ButtonPanelFragment();
@@ -152,6 +149,18 @@ namespace Busidex.Presentation.Droid.v2
 			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
 		}
 
+//		void OnButtonPanelButtonClicked(object sender, System.EventArgs e){
+//
+//			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
+//			var fragment = new ButtonPanelFragment();
+//			fragment.SelectedCard = Cards [position];
+//
+//			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
+//			var uri = Uri.Parse (fileName);
+//
+//			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
+//		}
+
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.UserCardListItem, null);
@@ -160,11 +169,13 @@ namespace Busidex.Presentation.Droid.v2
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
 			var btnCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
 			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
-			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 
-			btnInfo.Click -= OnButtonPanelButtonClicked;
-			btnInfo.Click += OnButtonPanelButtonClicked;
-			btnInfo.Tag = position;
+			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
+			btnInfo.Visibility = ViewStates.Gone;
+
+			//btnInfo.Click -= OnButtonPanelButtonClicked;
+			//btnInfo.Click += OnButtonPanelButtonClicked;
+			//btnInfo.Tag = position;
 
 			var card = Cards [position];
 

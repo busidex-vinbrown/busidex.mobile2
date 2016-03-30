@@ -37,7 +37,7 @@
         android:layout_below="@id/txtName"
         android:layout_marginEnd="40dp"
         android:inputType="none" />
-    <ImageView
+    <ImageButton
         android:id="@+id/imgPanelCardPreviewH"
         android:layout_width="270dp"
         android:layout_height="160dp"
@@ -45,14 +45,16 @@
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
         android:src="@drawable/icon_2x"
+        android:background="@android:drawable/picture_frame"
         android:layout_below="@id/txtCompanyName" />
-    <ImageView
+    <ImageButton
         android:id="@+id/imgPanelCardPreviewV"
         android:layout_width="160dp"
         android:layout_height="270dp"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
         android:src="@drawable/large_logo"
+        android:background="@android:drawable/picture_frame"
         android:layout_below="@id/txtCompanyName" />
     <ImageButton
         android:src="@drawable/maps"

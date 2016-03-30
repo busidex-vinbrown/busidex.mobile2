@@ -19,34 +19,46 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnResume ();
 
-			var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
-
-			btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
-
 			try{
+				if(SelectedCard == null){
+					if (Activity != null) {
+						((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+					}
+					return;
+				}
+
+				var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
+
+				btnHideInfo.Click += (sender, e) => ((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+
 				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
 
-				var imgH = view.FindViewById<ImageView> (Resource.Id.imgPanelCardPreviewH);
-				var imgV = view.FindViewById<ImageView> (Resource.Id.imgPanelCardPreviewV);
+				var imgH = view.FindViewById<ImageButton> (Resource.Id.imgPanelCardPreviewH);
+				var imgV = view.FindViewById<ImageButton> (Resource.Id.imgPanelCardPreviewV);
+				ImageButton currentImageControl;
 
 				if (SelectedCard.Card.FrontOrientation == "H") {
-					imgH.SetImageURI (uri);
+					currentImageControl = imgH;
 					imgH.Visibility = ViewStates.Visible;
 					imgV.Visibility = ViewStates.Gone;
 				}else{
-					imgV.SetImageURI (uri);
+					currentImageControl = imgV;
 					imgV.Visibility = ViewStates.Visible;
 					imgH.Visibility = ViewStates.Gone;
 				}
+				currentImageControl.SetImageURI (uri);
+				currentImageControl.Click += delegate {
+					var fragment = new CardDetailFragment();
+					fragment.SelectedCard = SelectedCard;
+					((MainActivity)Activity).ShowCard (fragment);
+				};
 
 				var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 				var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
 
 				txtName.Text = SelectedCard.Card.Name;
 				txtCompanyName.Text = SelectedCard.Card.CompanyName;
-
-
 
 				var OpenBrowserIntent = new Intent (Intent.ActionView);
 
@@ -151,7 +163,9 @@ namespace Busidex.Presentation.Droid.v2
 			}
 			catch(System.Exception ex){
 				Xamarin.Insights.Report (ex);
-				((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+				if (Activity != null) {
+					((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+				}
 			}
 		}
 

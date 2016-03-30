@@ -44,7 +44,6 @@ namespace Busidex.Presentation.Droid.v2
 
 							Activity.RunOnUiThread (() => {
 								imgLogo.ClearAnimation ();
-								((MainActivity)Activity).UnloadFragment ();
 								((MainActivity)Activity).LoginComplete ();
 							});
 						}else{

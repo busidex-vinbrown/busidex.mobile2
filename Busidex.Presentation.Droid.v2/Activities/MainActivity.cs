@@ -480,9 +480,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			ActionBar.Title = "My Busidex";
 
-//			var homeTab = pager.GetViewPageTab (ActionBar, "");
-//			homeTab.SetCustomView (Resource.Layout.tab);
-//			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
+			var homeTab = pager.GetViewPageTab (ActionBar, "");
+			homeTab.SetCustomView (Resource.Layout.tab);
+			homeTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.Icon);
 
 
 			const float DISABLED_ALPHA = .3f;
@@ -545,7 +545,7 @@ namespace Busidex.Presentation.Droid.v2
 //				}
 //			};
 
-			//ActionBar.AddTab(homeTab);
+			ActionBar.AddTab(homeTab);
 			ActionBar.AddTab(myBusidexTab);
 			ActionBar.AddTab(searchTab);
 			ActionBar.AddTab(myOrganizationsTab);
@@ -613,7 +613,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void LoginComplete(){
 
-			UnloadFragment ();
+			UnloadFragment (showActionBar: false);
 
 			UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 
@@ -713,7 +713,7 @@ namespace Busidex.Presentation.Droid.v2
 			LoadFragment (fragment);
 			ActionBar.Hide ();
 			string token = BaseApplicationResource.GetAuthCookie ();
-			ActivityController.SaveActivity ((long)EventSources.Details, fragment.UserCard.CardId, token);
+			ActivityController.SaveActivity ((long)EventSources.Details, fragment.SelectedCard.CardId, token);
 
 			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
 		}
@@ -866,10 +866,13 @@ namespace Busidex.Presentation.Droid.v2
 			Android.Support.V4.App.Fragment fragment = null,
 			int? openAnimation = Resource.Animation.SlideAnimation, 
 			int? closeAnimation = Resource.Animation.SlideOutAnimation,
-			int container = Resource.Id.fragment_holder){
+			int container = Resource.Id.fragment_holder,
+			bool showActionBar = true){
 
 			if(fragment == null){
-				ActionBar.Show ();
+				if(showActionBar){
+					ActionBar.Show ();
+				}
 				var holder = (LinearLayout)FindViewById (container);
 				if (holder != null) {
 					holder.RemoveAllViews ();
