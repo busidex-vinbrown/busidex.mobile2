@@ -18,13 +18,26 @@ namespace Busidex.Presentation.Droid.v2
 		public override void OnResume ()
 		{
 			base.OnResume ();
+			if(SelectedCard == null){
+				if (Activity != null) {
+					((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+				}
+				return;
+			}
+		}
+
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			// Use this to return your custom view for this Fragment
+			view = inflater.Inflate(Resource.Layout.ButtonPanel, container, false);
 
 			try{
 				if(SelectedCard == null){
 					if (Activity != null) {
 						((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 					}
-					return;
+					return view;
 				}
 
 				var btnHideInfo = view.FindViewById<ImageButton> (Resource.Id.btnHideInfo);
@@ -167,14 +180,6 @@ namespace Busidex.Presentation.Droid.v2
 					((MainActivity)Activity).UnloadFragment (null, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 				}
 			}
-		}
-
-		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			// Use this to return your custom view for this Fragment
-			view = inflater.Inflate(Resource.Layout.ButtonPanel, container, false);
-
-
 
 			return view;
 		}

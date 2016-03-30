@@ -408,9 +408,9 @@ namespace Busidex.Presentation.Droid.v2
 					Intent.SetData (null);
 				}
 
-			} else {
-				setStartTab ();
-			}
+			} //else {
+			//	setStartTab ();
+			//}
 		}
 
 		void setStartTab(){
@@ -848,6 +848,15 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
+		public override bool OnKeyDown (Keycode keyCode, KeyEvent e)
+		{
+//			if(keyCode == Keycode.Back){
+//				return false;
+//			}else{
+				return base.OnKeyDown (keyCode, e);
+//			}
+		}
+
 		public override void OnBackPressed ()
 		{
 			if (UISubscriptionService.CurrentUser != null) {
@@ -859,6 +868,10 @@ namespace Busidex.Presentation.Droid.v2
 			}else if(DoingRegistration){
 				UnloadFragment (new StartUpFragment ());
 				DoingRegistration = false;
+			}else if(pager.CurrentItem == 1){
+				
+			}else{
+				base.OnBackPressed ();
 			}
 		}
 
@@ -870,7 +883,7 @@ namespace Busidex.Presentation.Droid.v2
 			bool showActionBar = true){
 
 			if(fragment == null){
-				if(showActionBar){
+				if(showActionBar && pager.CurrentItem != 0){
 					ActionBar.Show ();
 				}
 				var holder = (LinearLayout)FindViewById (container);
