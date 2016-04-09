@@ -207,9 +207,14 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			if(UISubscriptionService.AppQuickShareLink != null){
-				GoToQuickShare ();
-				UISubscriptionService.AppQuickShareLink = null;
+			try{
+				if(UISubscriptionService.AppQuickShareLink != null){
+					GoToQuickShare ();
+					UISubscriptionService.AppQuickShareLink = null;
+				}
+			}
+			catch(Exception ex){
+				Xamarin.Insights.Report (ex);
 			}
 		}
 

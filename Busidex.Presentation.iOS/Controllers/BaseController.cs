@@ -161,15 +161,17 @@ namespace Busidex.Presentation.iOS
 
 		protected void GoToQuickShare ()
 		{
-			quickShareController = quickShareController ?? Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
-			quickShareController.SetCardSharingInfo (new QuickShareLink{
-				CardId = UISubscriptionService.AppQuickShareLink.CardId,
-				PersonalMessage = UISubscriptionService.AppQuickShareLink.PersonalMessage,
-				From = UISubscriptionService.AppQuickShareLink.From,
-				DisplayName = UISubscriptionService.AppQuickShareLink.DisplayName
-			});
-			quickShareController.SaveFromUrl ();
-			NavigationController.PushViewController (quickShareController, true);
+			if (UISubscriptionService.AppQuickShareLink != null) {
+				quickShareController = quickShareController ?? Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
+				quickShareController.SetCardSharingInfo (new QuickShareLink {
+					CardId = UISubscriptionService.AppQuickShareLink.CardId,
+					PersonalMessage = UISubscriptionService.AppQuickShareLink.PersonalMessage,
+					From = UISubscriptionService.AppQuickShareLink.From,
+					DisplayName = UISubscriptionService.AppQuickShareLink.DisplayName
+				});
+				quickShareController.SaveFromUrl ();
+				NavigationController.PushViewController (quickShareController, true);
+			}
 		}
 
 		protected void ShareCard(UserCard seletcedCard){

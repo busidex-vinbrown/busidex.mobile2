@@ -208,52 +208,62 @@ namespace Busidex.Mobile
 
 		public static void AddCardToMyBusidex(UserCard userCard){
 
-			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
-			if (userCard!= null) {
-				userCard.Card.ExistsInMyBusidex = true;
-				string file;
-				string myBusidexJson;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						myBusidexJson = myBusidexFile.ReadToEnd ();
+			try{
+				var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+				if (userCard!= null) {
+					userCard.Card.ExistsInMyBusidex = true;
+					string file;
+					string myBusidexJson;
+					if (File.Exists (fullFilePath)) {
+						using (var myBusidexFile = File.OpenText (fullFilePath)) {
+							myBusidexJson = myBusidexFile.ReadToEnd ();
+						}
+
+						var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
+						myBusidex.Add (userCard);
+						file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+						Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+						if(UserCards.FirstOrDefault(c=> c.CardId == userCard.CardId) == null){
+							UserCards.Add (userCard);
+						}
 					}
 
-					var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
-					myBusidex.Add (userCard);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
-					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+					myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
-					if(UserCards.FirstOrDefault(c=> c.CardId == userCard.CardId) == null){
-						UserCards.Add (userCard);
-					}
+					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
 				}
-
-				myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
-
-				ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
+			}
+			catch(Exception ex){
+				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
 		}
 
 		public static void RemoveCardFromMyBusidex(UserCard userCard){
 
-			var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+			try{
+				var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 
-			if (userCard!= null) {
+				if (userCard!= null) {
 
-				string file;
-				string myBusidexJson;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						myBusidexJson = myBusidexFile.ReadToEnd ();
+					string file;
+					string myBusidexJson;
+					if (File.Exists (fullFilePath)) {
+						using (var myBusidexFile = File.OpenText (fullFilePath)) {
+							myBusidexJson = myBusidexFile.ReadToEnd ();
+						}
+						var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
+						myBusidex.RemoveAll (uc => uc.CardId == userCard.CardId);
+						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
+						Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+						UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
 					}
-					var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
-					myBusidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
-					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
-
-					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
+					myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
 				}
-				myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
+			}
+			catch(Exception ex){
+				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
 		}
 
