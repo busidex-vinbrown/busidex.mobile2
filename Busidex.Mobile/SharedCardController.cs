@@ -49,6 +49,7 @@ namespace Busidex.Mobile
 				return MakeRequest (URL, "GET", userToken, null, handler);
 			}
 			catch(Exception ex){
+				Xamarin.Insights.Report (ex);
 				return string.Empty;
 			}
 		}

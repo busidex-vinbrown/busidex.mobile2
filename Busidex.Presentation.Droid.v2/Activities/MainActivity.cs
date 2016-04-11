@@ -131,7 +131,9 @@ namespace Busidex.Presentation.Droid.v2
 						return view; 
 					}
 
-					progressBar1.Visibility = ViewStates.Visible;
+					var myBusidexProgressStatus = view.FindViewById<TextView>(Resource.Id.myBusidexProgressStatus);
+					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
+
 
 					var lblNoCardsMessage = view.FindViewById<TextView>(Resource.Id.lblNoCardsMessage);
 					lblNoCardsMessage.Visibility = ViewStates.Gone;
@@ -179,7 +181,7 @@ namespace Busidex.Presentation.Droid.v2
 
 					OnMyBusidexLoadedEventHandler callback = list => RunOnUiThread (() => {
 						myBusidexAdapter.UpdateData (list);
-						progressBar1.Visibility = ViewStates.Gone;
+						progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Gone;
 						lstCards.Visibility = ViewStates.Visible;
 						if (list.Count == 0) {
 							lblNoCardsMessage.Visibility = ViewStates.Visible;
@@ -188,8 +190,20 @@ namespace Busidex.Presentation.Droid.v2
 						txtFilter.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 						accumulatedDeltaY = 0;
 					});
+
+					OnMyBusidexUpdatedEventHandler update = status => RunOnUiThread (() => {
+						progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
+						progressBar1.Max = status.Total;
+						progressBar1.Progress = status.Count;
+						myBusidexProgressStatus.Text = string.Format("Loading {0} of {1}", status.Count, status.Total);	
+						lblNoCardsMessage.Visibility = ViewStates.Gone;
+					});
+
 					UISubscriptionService.OnMyBusidexLoaded -= callback;
 					UISubscriptionService.OnMyBusidexLoaded += callback;
+
+					UISubscriptionService.OnMyBusidexUpdated -= update;
+					UISubscriptionService.OnMyBusidexUpdated += update;
 
 					var state = lstCards.OnSaveInstanceState ();
 					if(state != null){
@@ -197,6 +211,7 @@ namespace Busidex.Presentation.Droid.v2
 					}
 
 					lstCards.RequestFocus (FocusSearchDirection.Down);
+
 
 					UISubscriptionService.LoadUserCards();
 

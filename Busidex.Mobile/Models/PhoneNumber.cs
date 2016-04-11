@@ -8,6 +8,11 @@ namespace Busidex.Mobile.Models
 		{
 		}
 
+		public PhoneNumber (string number)
+		{
+			this.Number = number;
+		}
+
 		public int PhoneNumberId{ get; set; }
 		public PhoneNumberType PhoneNumberType{ get; set;}
 		public int PhoneNumberTypeId{ get; set; }

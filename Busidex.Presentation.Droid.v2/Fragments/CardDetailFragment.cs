@@ -109,7 +109,7 @@ namespace Busidex.Presentation.Droid.v2
 				}
 			case CardViewState.Front:{
 
-					if (SelectedCard.Card.BackFileId == null ||
+					if (SelectedCard.Card.BackFileId == System.Guid.Empty ||
 						SelectedCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID) ||
 						SelectedCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.NULL_CARD_ID)) {
 						unload ();

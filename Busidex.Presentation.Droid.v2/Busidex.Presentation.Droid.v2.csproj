@@ -145,6 +145,10 @@
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="JavaHolder.cs" />
     <Compile Include="Fragments\QuickShareFragment.cs" />
+    <Compile Include="Fragments\ContactsFragment.cs" />
+    <Compile Include="Adapters\ContactsAdapter.cs" />
+    <Compile Include="Adapters\ContactPhoneNumberEntryAdapter.cs" />
+    <Compile Include="Fragments\ContactProfileFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -384,6 +388,11 @@
     <AndroidResource Include="Resources\drawable-hdpi\contacts.jpg" />
     <AndroidResource Include="Resources\drawable-hdpi\faq.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home.png" />
+    <AndroidResource Include="Resources\layout\Contacts.axml" />
+    <AndroidResource Include="Resources\layout\ListGroup.axml" />
+    <AndroidResource Include="Resources\layout\ContactListItem.axml" />
+    <AndroidResource Include="Resources\layout\ContactPhoneNumberEntry.axml" />
+    <AndroidResource Include="Resources\layout\ContactProfile.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

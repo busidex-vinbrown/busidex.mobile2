@@ -13,6 +13,7 @@ using Android.Content;
 using Android.Provider;
 using Xamarin.Contacts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -44,6 +45,14 @@ namespace Busidex.Presentation.Droid.v2
 			// Use this to return your custom view for this Fragment
 			var view = inflater.Inflate(Resource.Layout.SharedCard, container, false);
 
+			var book = new AddressBook (Activity);
+			var contactList = new List<Contact> ();
+		    
+			var t = Task.Factory.StartNew (() => {
+				contactList.AddRange (book.ToList ().Where (c => c.Phones.Any () && !string.IsNullOrEmpty (c.DisplayName)).ToList ());	
+			});
+
+			
 			var imgCardHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgCardVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
 
@@ -95,16 +104,36 @@ namespace Busidex.Presentation.Droid.v2
 //				ContactsContract.Contacts.InterfaceConsts.DisplayName,
 //				ContactsContract.CommonDataKinds.Phone.Number
 //			};
-//			var book = new AddressBook (this);
-//			if (!book.RequestPermission()) {
-//				ShowAlert ("Contacts", "Unable to read contact list", "Continue", null);
-//			}else{
-//				foreach (Contact contact in book.OrderBy (c => c.LastName)) {
-//
-//				}	
-//			}
 
+			// TODO: pass this list to an adapter, show popup fragment
+			//var contactsAdapter = new ContactsAdapter(Activity)
+			var btnContacts = view.FindViewById(Resource.Id.btnContacts);
+			btnContacts.Click += delegate {
+				
+				//book.RequestPermission().ContinueWith (t => {
+//					if (!t.Result) {
+//						ShowAlert ("Contacts", "Permission denied on reading contact list", "Continue", null);
+//						return;
+//					}
+					//var contactList = new List<Contact>();
+				//contactList.AddRange(book.ToList);
+//				foreach (Contact contact in book.ToList().OrderBy (c => c.LastName)) {
+//						//Console.WriteLine ("{0} {1}", contact.FirstName, contact.LastName);
+//						contactList.Add(contact);
+//					}
+				t.ContinueWith( (result) => {
 
+					Activity.RunOnUiThread(() => {
+						var contactsAdapter = new ContactsAdapter(Activity, contactList);
+						((MainActivity)Activity).LoadFragment(new ContactsFragment(contactsAdapter));
+							
+					});
+						
+				});
+
+				//});//, TaskScheduler.FromCurrentSynchronizationContext());
+					
+			};
 
 			return view;
 		}

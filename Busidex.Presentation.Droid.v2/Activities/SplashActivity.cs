@@ -14,11 +14,14 @@ namespace Busidex.Presentation.Droid.v2
 			Xamarin.Insights.Initialize (XamarinInsights.ApiKey, this);
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Splash);
+
+			UISubscriptionService.Init ();
+
 			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);
 			var splashAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.Spin);
 			var fadeOutAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.abc_fade_out);
 			splashAnimation.AnimationEnd += delegate {
-				UISubscriptionService.Init ();
+				
 				imgSplashLogo.StartAnimation (fadeOutAnimation);
 			};
 			fadeOutAnimation.AnimationEnd += delegate {

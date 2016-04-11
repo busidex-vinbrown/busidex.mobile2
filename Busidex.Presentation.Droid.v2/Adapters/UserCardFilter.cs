@@ -41,7 +41,7 @@ namespace Busidex.Presentation.Droid.v2
 						) 
 					);
 					}catch(Exception ex){
-						// ignore
+						Xamarin.Insights.Report (ex);
 					}
 				}
 			}

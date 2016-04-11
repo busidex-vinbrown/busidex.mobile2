@@ -59,6 +59,7 @@ namespace Busidex.Mobile
 					File.WriteAllText (fullFilePath, response);
 				}
 			}catch(Exception ex){
+				Xamarin.Insights.Report (ex);
 			}
 		}
 
