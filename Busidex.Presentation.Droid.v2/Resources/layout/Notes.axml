@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:scaleType="fitXY" />
-        <MultiAutoCompleteTextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="150.9dp"
             android:id="@+id/txtNotes"
@@ -34,9 +34,13 @@
             android:textColor="@color/textInputColor"
             android:background="@android:drawable/editbox_background"
             android:linksClickable="true"
-            android:inputType="textAutoCorrect"
+            android:inputType="textMultiLine"
             android:layout_centerHorizontal="true"
-            android:gravity="top" />
+            android:gravity="top"
+            android:autoLink="all"
+            android:textSize="@dimen/font_size_label_medium"
+            android:hint="Type your notes here"
+            android:editable="true" />
         <Button
             android:text="@string/Notes_Save"
             android:layout_width="110dp"

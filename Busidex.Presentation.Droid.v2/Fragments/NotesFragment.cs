@@ -4,13 +4,14 @@ using Android.Widget;
 using Android.Views;
 using Android.OS;
 using Android.Net;
+using Android.Text.Method;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class NotesFragment : GenericViewPagerFragment
 	{
 		readonly UserCard SelectedCard;
-		AutoCompleteTextView txtNotes;
+		EditText txtNotes;
 		ImageView imgNotesSaved;
 
 		public NotesFragment () : base()
@@ -28,10 +29,10 @@ namespace Busidex.Presentation.Droid.v2
 			imgNotesSaved = view.FindViewById<ImageView> (Resource.Id.imgNotesSaved);
 
 			var btnSaveNotes = view.FindViewById<Button> (Resource.Id.btnSaveNotes);
-			txtNotes = view.FindViewById<AutoCompleteTextView> (Resource.Id.txtNotes);
+			txtNotes = view.FindViewById<EditText> (Resource.Id.txtNotes);
 
 			txtNotes.Text = SelectedCard.Notes;
-
+			txtNotes.MovementMethod = LinkMovementMethod.Instance; // for making links clickable
 			imgNotesSaved.Visibility = ViewStates.Invisible;
 
 			txtNotes.AfterTextChanged += delegate {
