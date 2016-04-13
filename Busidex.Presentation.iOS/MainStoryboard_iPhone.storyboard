@@ -698,7 +698,7 @@
                                 <rect key="frame" x="246" y="105" width="33" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <state key="normal" backgroundImage="contacts.jpg">
+                                <state key="normal" backgroundImage="contacts2.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
@@ -982,6 +982,7 @@
         <image name="button.png" width="284" height="98"/>
         <image name="textmessage.png" width="256" height="256"/>
         <image name="contacts.jpg" width="175" height="175"/>
+        <image name="contacts2.png" width="250" height="250"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

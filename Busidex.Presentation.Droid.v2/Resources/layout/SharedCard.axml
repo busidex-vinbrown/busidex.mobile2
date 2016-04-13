@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/shareCardLayout"
-        android:background="@drawable/border"
         android:padding="5dp">
         <ImageButton
             android:id="@+id/btnClose"
@@ -67,9 +66,9 @@
             android:layout_below="@id/lblShareTitle"
             android:id="@+id/btnContacts"
             android:scaleType="fitXY"
-            android:src="@drawable/contacts"
+            android:src="@drawable/contacts2"
             android:layout_marginTop="5dp"
-            android:background="@drawable/button"
+            android:background="@android:color/transparent"
             tools:visibility="visible" />
         <TextView
             android:id="@+id/lblShareOR"

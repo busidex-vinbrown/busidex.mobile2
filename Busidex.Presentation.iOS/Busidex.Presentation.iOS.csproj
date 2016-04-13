@@ -406,6 +406,7 @@
     <BundleResource Include="Resources\button.png" />
     <BundleResource Include="Resources\textmessage.png" />
     <BundleResource Include="Resources\contacts.jpg" />
+    <BundleResource Include="Resources\contacts2.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
