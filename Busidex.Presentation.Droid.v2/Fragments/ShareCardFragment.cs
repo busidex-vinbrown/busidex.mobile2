@@ -7,13 +7,6 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Plugin.Messaging;
 using System.Net;
-using Android.Telephony;
-using System.Collections.Generic;
-using Android.Content;
-using Android.Provider;
-using Xamarin.Contacts;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -27,6 +20,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		ImageView imgCheckShared;
 		readonly UserCard SelectedCard;
+		readonly Xamarin.Contacts.Phone SelectedPhone;
 
 		string currentDisplayName = string.Empty;
 
@@ -35,23 +29,16 @@ namespace Busidex.Presentation.Droid.v2
 			
 		}
 
-		public ShareCardFragment(UserCard selectedCard)
+		public ShareCardFragment(UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null)
 		{
 			SelectedCard = selectedCard;
+			SelectedPhone = selectedPhone;
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
 			var view = inflater.Inflate(Resource.Layout.SharedCard, container, false);
-
-			var book = new AddressBook (Activity);
-			var contactList = new List<Contact> ();
-		    
-			var t = Task.Factory.StartNew (() => {
-				contactList.AddRange (book.ToList ().Where (c => c.Phones.Any () && !string.IsNullOrEmpty (c.DisplayName)).ToList ());	
-			});
-
 			
 			var imgCardHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgCardVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
@@ -77,6 +64,10 @@ namespace Busidex.Presentation.Droid.v2
 			var imgShareHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgShareVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
 
+			if(SelectedPhone != null){
+				txtSharePhoneNumber.Text = SelectedPhone.Number;
+			}
+
 			if (SelectedCard != null) {
 				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
@@ -99,42 +90,12 @@ namespace Busidex.Presentation.Droid.v2
 				((MainActivity)Activity).UnloadFragment(panel);
 			};
 
-//			var contentUri = ContactsContract.CommonDataKinds.Phone.ContentUri;
-//			string[] projection = { ContactsContract.Contacts.InterfaceConsts.Id,
-//				ContactsContract.Contacts.InterfaceConsts.DisplayName,
-//				ContactsContract.CommonDataKinds.Phone.Number
-//			};
-
-			// TODO: pass this list to an adapter, show popup fragment
-			//var contactsAdapter = new ContactsAdapter(Activity)
 			var btnContacts = view.FindViewById(Resource.Id.btnContacts);
 			btnContacts.Click += delegate {
-				
-				//book.RequestPermission().ContinueWith (t => {
-//					if (!t.Result) {
-//						ShowAlert ("Contacts", "Permission denied on reading contact list", "Continue", null);
-//						return;
-//					}
-					//var contactList = new List<Contact>();
-				//contactList.AddRange(book.ToList);
-//				foreach (Contact contact in book.ToList().OrderBy (c => c.LastName)) {
-//						//Console.WriteLine ("{0} {1}", contact.FirstName, contact.LastName);
-//						contactList.Add(contact);
-//					}
-				t.ContinueWith( (result) => {
-
-					Activity.RunOnUiThread(() => {
-						var contactsAdapter = new ContactsAdapter(Activity, contactList);
-						((MainActivity)Activity).LoadFragment(new ContactsFragment(contactsAdapter));
-							
-					});
-						
-				});
-
-				//});//, TaskScheduler.FromCurrentSynchronizationContext());
-					
+				var contactsAdapter = new ContactsAdapter(Activity, MainActivity.Contacts, SelectedCard);
+				((MainActivity)Activity).LoadFragment(new ContactsFragment(contactsAdapter, SelectedCard));
 			};
-
+	
 			return view;
 		}
 
@@ -192,11 +153,11 @@ namespace Busidex.Presentation.Droid.v2
 //						sendIntent.PutExtra("address", phoneNumber);
 //						sendIntent.PutExtra("sms_body", message);
 //
-////						File file1 = new File("mFileName");
-////						if(file1.Exists())
-////						{
-////							//File Exist
-////						}
+//						File file1 = new File("mFileName");
+//						if(file1.Exists())
+//						{
+//							//File Exist
+//						}
 //						//Uri uri = Uri.FromFile(file1);
 //						//sendIntent.PutExtra(Intent.ExtraStream, uri);
 //						sendIntent.SetType("image/*");

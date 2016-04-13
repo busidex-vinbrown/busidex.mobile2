@@ -13,23 +13,23 @@ namespace Busidex.Presentation.Droid.v2
 		
 		readonly Activity Context;
 		readonly List<Contact> ContactList;
+		readonly UserCard SelectedCard;
 		List<Contact>[] ContactGroups;
 
-		public ContactsAdapter(Activity newContext, List<Contact> contactList)
+		public ContactsAdapter(Activity newContext, List<Contact> contactList, UserCard card)
 		{
 			Context = newContext;
 			ContactList = contactList;
 			ContactGroups = new List<Contact>[26];
+			SelectedCard = card;
 
 			for(var i=0; i < 26; i++){
 				var letter = ((char)(65 + i)).ToString ();
 				var newGroup = new List<Contact> ();
 				newGroup.AddRange (filterList (letter));
-				ContactGroups[i] =newGroup;
+				ContactGroups[i] = newGroup;
 			}
 		}
-
-		//protected List<Contact> DataList { get; set; }
 
 		List<Contact> filterList(string letter){
 			return ContactList.FindAll ((Contact obj) => {
@@ -41,7 +41,7 @@ namespace Busidex.Presentation.Droid.v2
 				}
 
 				return false;
-			});
+			}).OrderBy(p => p.LastName).ToList();
 		}
 
 		public override View GetGroupView (int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
@@ -67,14 +67,13 @@ namespace Busidex.Presentation.Droid.v2
 			row.FindViewById<TextView> (Resource.Id.txtContactDisplayName).Text = string.IsNullOrEmpty(name) ? email.Address : name;
 			var thumbnail = row.FindViewById<ImageView> (Resource.Id.imgContact);
 			if(thisGroup[childPosition].GetThumbnail() == null){
-				thumbnail.Visibility = ViewStates.Gone;
+				thumbnail.SetImageResource (Resource.Drawable.defaultprofile);
 			}else{
 				thumbnail.SetImageBitmap (thisGroup [childPosition].GetThumbnail ());
-				thumbnail.Visibility = ViewStates.Visible;
 			}
 
 			row.Click += delegate {
-				((MainActivity)Context).LoadFragment(new ContactProfileFragment(thisGroup [childPosition]));
+				((MainActivity)Context).LoadFragment(new ContactProfileFragment(thisGroup [childPosition], SelectedCard));
 			};
 
 			return row;

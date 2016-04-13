@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/layoutBackground"
     android:minWidth="25px"
     android:minHeight="5px">
+    <ImageButton
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:visibility="visible"
+        android:id="@+id/btnContactListHideInfo"
+        android:background="@color/layoutBackground"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/txtContactListHeader"
+        android:text="Contacts"
+        android:textSize="@dimen/font_size_label_xlarge"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/labelFontColor"
+        android:textStyle="normal" />
     <ExpandableListView
         android:minWidth="25px"
         android:minHeight="5px"
+        android:layout_below="@id/txtContactListHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/lstContacts" />
-</LinearLayout>
+</RelativeLayout>

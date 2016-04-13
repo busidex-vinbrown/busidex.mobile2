@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Rivets;
 using Android.Net;
+using System.Linq;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -25,6 +26,8 @@ namespace Busidex.Presentation.Droid.v2
 	public class MainActivity : FragmentActivity
 	{
 		ViewPager pager;
+
+		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
 		void openFaq(){
 			var OpenBrowserIntent = new Intent (Intent.ActionView);
@@ -365,6 +368,20 @@ namespace Busidex.Presentation.Droid.v2
 			var token = BaseApplicationResource.GetAuthCookie ();
 
 			UISubscriptionService.AuthToken = token;
+
+
+			Contacts = Contacts ?? new List<Xamarin.Contacts.Contact> ();
+			if (Contacts.Count == 0) {
+				var book = new Xamarin.Contacts.AddressBook (this);
+				var contactList = Contacts ?? new List<Xamarin.Contacts.Contact> ();
+
+				if (contactList.Count == 0) {
+					Task.Factory.StartNew (() =>  {
+						contactList.AddRange (book.ToList ().Where (c => c.Phones.Any () && !string.IsNullOrEmpty (c.DisplayName)).OrderBy (p => p.DisplayName).ToList ());
+						Contacts = contactList;
+					});
+				}
+			}
 		}
 
 		protected override void OnResume ()
@@ -507,7 +524,7 @@ namespace Busidex.Presentation.Droid.v2
 			myBusidexTab.CustomView.FindViewById<ImageView>(Resource.Id.imgTabIcon).SetImageResource(Resource.Drawable.MyBusidexIcon);
 			myBusidexTab.TabReselected += delegate {
 
-				var activity = tabAdapter.GetItem(0).Activity;
+				var activity = tabAdapter.GetItem(1).Activity;
 				if(activity != null){				
 					var lstCards = (OverscrollListView)activity.FindViewById(Resource.Id.lstCards);
 					lstCards.SmoothScrollToPosition(0);
@@ -874,18 +891,22 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override void OnBackPressed ()
 		{
-			if (UISubscriptionService.CurrentUser != null) {
-				//base.OnBackPressed ();
+			if(SupportFragmentManager.Fragments.SingleOrDefault(f => f is ContactsFragment) != null){
+
+			}else if(SupportFragmentManager.Fragments.SingleOrDefault(f => f is ContactProfileFragment) != null){
+
+			}
+			else if (UISubscriptionService.CurrentUser != null) {
 				UnloadFragment ();
-			}else if(DoingLogin){
+			} else if (DoingLogin) {
 				UnloadFragment (new StartUpFragment ());
 				DoingLogin = false;
-			}else if(DoingRegistration){
+			} else if (DoingRegistration) {
 				UnloadFragment (new StartUpFragment ());
 				DoingRegistration = false;
-			}else if(pager.CurrentItem == 1){
-				
-			}else{
+			} else if (pager.CurrentItem == 1) {
+			
+			} else{
 				base.OnBackPressed ();
 			}
 		}
