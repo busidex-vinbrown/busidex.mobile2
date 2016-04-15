@@ -135,12 +135,13 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			var userToken = GetAuthCookie();;
+			//var userToken = GetAuthCookie();
 			try{
 				LoadCard ();
 			}catch(Exception ex){
-				LoggingController.LogError (ex, userToken != null ? userToken.Value : string.Empty);
+				Xamarin.Insights.Report (ex);
 			}
+
 			var keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
 			{
 				BarStyle = UIBarStyle.Black,

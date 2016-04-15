@@ -279,7 +279,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			base.TableView = tblMembers;
+			//base.TableView = tblMembers;
 
 			tblMembers.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 

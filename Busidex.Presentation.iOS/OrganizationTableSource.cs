@@ -115,7 +115,7 @@ namespace Busidex.Presentation.iOS
 
 
 			if (org.IsMember) {
-				AddSwipeView (ref cell, org);
+				//AddSwipeView (ref cell, org);
 			}else{
 				AddLabelView (ref cell, org);
 			}
@@ -160,47 +160,47 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		void AddSwipeView(ref UITableViewCell cell, Organization org){
-
-			const float LEFT_MARGIN = 20f;
-			const float TOP_MARGIN = 15f;
-			const float BUTTON_WIDTH = 120f;
-			const float BUTTON_HEIGHT = 45f;
-
-			var panel = GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT / 1.5f);
-
-			var buttonFrame = new CoreGraphics.CGRect (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
-
-			var detailsButton = getPanelButton ("Details", buttonFrame);
-			detailsButton.TouchUpInside += delegate {
-				ViewOrganization (org.OrganizationId);
-			};
-				
-			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
-
-			var membersButton = getPanelButton ("Members", buttonFrame);
-			membersButton.TouchUpInside += delegate {
-				ViewOrganizationMembers (org);
-			};
-
-			buttonFrame.X = 10f;
-			buttonFrame.Y += BUTTON_HEIGHT + TOP_MARGIN;
-
-			var referralsButton = getPanelButton ("Referrals", buttonFrame);
-			referralsButton.TouchUpInside += delegate {
-				ViewOrganizationReferrals (org);
-			};
-
-			panel.AddSubview (detailsButton);
-			panel.AddSubview (membersButton);
-			panel.AddSubview (referralsButton);
-
-			panel.BackgroundColor = UIColor.White;
-
-			panel.Tag = (int)Resources.UIElements.ButtonPanel;
-
-			cell.ContentView.AddSubview (panel);
-		}
+//		void AddSwipeView(ref UITableViewCell cell, Organization org){
+//
+//			const float LEFT_MARGIN = 20f;
+//			const float TOP_MARGIN = 15f;
+//			const float BUTTON_WIDTH = 120f;
+//			const float BUTTON_HEIGHT = 45f;
+//
+//			//var panel = GetPanel ((float)UIScreen.MainScreen.Bounds.Width, BASE_CELL_HEIGHT / 1.5f);
+//
+//			var buttonFrame = new CoreGraphics.CGRect (10f, 10f, BUTTON_WIDTH, BUTTON_HEIGHT);
+//
+//			var detailsButton = getPanelButton ("Details", buttonFrame);
+//			detailsButton.TouchUpInside += delegate {
+//				ViewOrganization (org.OrganizationId);
+//			};
+//				
+//			buttonFrame.X += BUTTON_WIDTH + LEFT_MARGIN;
+//
+//			var membersButton = getPanelButton ("Members", buttonFrame);
+//			membersButton.TouchUpInside += delegate {
+//				ViewOrganizationMembers (org);
+//			};
+//
+//			buttonFrame.X = 10f;
+//			buttonFrame.Y += BUTTON_HEIGHT + TOP_MARGIN;
+//
+//			var referralsButton = getPanelButton ("Referrals", buttonFrame);
+//			referralsButton.TouchUpInside += delegate {
+//				ViewOrganizationReferrals (org);
+//			};
+//
+//			panel.AddSubview (detailsButton);
+//			panel.AddSubview (membersButton);
+//			panel.AddSubview (referralsButton);
+//
+//			panel.BackgroundColor = UIColor.White;
+//
+//			panel.Tag = (int)Resources.UIElements.ButtonPanel;
+//
+//			cell.ContentView.AddSubview (panel);
+//		}
 	}
 }
 

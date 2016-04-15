@@ -151,7 +151,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			TableView = tblEventCards;
+			//TableView = tblEventCards;
 
 			ConfigureSearchBar ();
 

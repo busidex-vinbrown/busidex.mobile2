@@ -12,7 +12,9 @@ namespace Busidex.Presentation.iOS
 
 		public enum NavigationDirection{
 			Forward = 1,
-			Backward = 2
+			Backward = 2,
+			Up = 3,
+			Down = 4
 		}
 		public int id { get; set; }
 
@@ -60,7 +62,30 @@ namespace Busidex.Presentation.iOS
 		public override void PushViewController (UIViewController viewController, bool animated)
 		{
 			if(transition != null){
-				transition.Subtype = Direction == NavigationDirection.Backward ? CAAnimation.TransitionFromLeft : CAAnimation.TransitionFromRight;
+				switch(Direction){
+				case NavigationDirection.Backward: {
+						transition.Subtype = CAAnimation.TransitionFromLeft;
+						break;
+					}
+				case NavigationDirection.Forward: {
+						transition.Subtype = CAAnimation.TransitionFromRight;
+						break;
+					}
+				case NavigationDirection.Up: {
+						transition.Subtype = CAAnimation.TransitionReveal;
+						Direction = NavigationDirection.Down;
+						break;
+					}
+				case NavigationDirection.Down: {
+						transition.Subtype = CAAnimation.TransitionFromBottom;
+						Direction = NavigationDirection.Backward;
+						break;
+					}
+				default: {
+						transition.Subtype = CAAnimation.TransitionFromLeft;
+						break;
+					}
+				}
 			}
 			this.View.Layer.AddAnimation (transition, "slide");
 

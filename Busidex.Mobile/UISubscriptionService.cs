@@ -355,6 +355,10 @@ namespace Busidex.Mobile
 		#region Load From API
 		public static async Task<bool> loadEventCards(EventTag tag){
 
+			var fileName = string.Format(Resources.EVENT_CARDS_FILE, tag);
+			var semaphore = locks.GetOrAdd(fileName, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
+
 			try{
 				searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(async t => {
 					Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
@@ -391,7 +395,8 @@ namespace Busidex.Mobile
 					}
 					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
-					Utils.SaveResponse (savedResult, string.Format(Resources.EVENT_CARDS_FILE, tag));
+
+					Utils.SaveResponse (savedResult, fileName);
 
 					if(OnEventCardsLoaded != null){
 						OnEventCardsLoaded(tag, EventCards[tag.Text]);
@@ -400,6 +405,9 @@ namespace Busidex.Mobile
 			}
 			catch(Exception ex){
 				Xamarin.Insights.Report (ex);
+			}
+			finally{
+				semaphore.Release ();
 			}
 			return true;
 		}

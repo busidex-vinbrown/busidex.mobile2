@@ -15,11 +15,11 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		protected UITableView TableView;
+		//protected UITableView TableView;
 
 		protected UIImageView cardImagePortrait;
 		protected UIImageView cardImageLandscape;
-		protected UserCard selectedCard;
+		public UserCard SelectedCard;
 
 		protected string FrontFileName{ get; set; }
 		protected string BackFileName{ get; set; }
@@ -44,9 +44,9 @@ namespace Busidex.Presentation.iOS
 			case CardViewState.Loading:{
 					NavigationController.SetNavigationBarHidden (true, false);
 
-					var frontFileName = Path.Combine (documentsPath, selectedCard.Card.FrontFileId + "." + selectedCard.Card.FrontType);
+					var frontFileName = Path.Combine (documentsPath, SelectedCard.Card.FrontFileId + "." + SelectedCard.Card.FrontType);
 					if (File.Exists (frontFileName)) {
-						if(selectedCard.Card.FrontOrientation == "H"){
+						if(SelectedCard.Card.FrontOrientation == "H"){
 							cardImageLandscape.Image = new UIImage(UIImage.FromFile (frontFileName).CGImage, 1, UIImageOrientation.Right);
 						}else{
 							cardImagePortrait.Image = UIImage.FromFile (frontFileName);
@@ -56,9 +56,9 @@ namespace Busidex.Presentation.iOS
 
 						ShowOverlay ();
 
-						Utils.DownloadImage (Resources.CARD_PATH + selectedCard.Card.FrontFileName, documentsPath, selectedCard.Card.FrontFileName).ContinueWith (t => {
+						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
-								if(selectedCard.Card.FrontOrientation == "H"){
+								if(SelectedCard.Card.FrontOrientation == "H"){
 									cardImageLandscape.Image = new UIImage(UIImage.FromFile (frontFileName).CGImage, 1, UIImageOrientation.Right);
 								}else{
 									cardImagePortrait.Image = UIImage.FromFile (frontFileName);
@@ -69,32 +69,32 @@ namespace Busidex.Presentation.iOS
 					}
 					ViewState = CardViewState.Front;
 
-					TableView.Hidden = true;
-					cardImageLandscape.Hidden = selectedCard.Card.FrontOrientation == "V";
-					cardImagePortrait.Hidden = selectedCard.Card.FrontOrientation == "H";
+					//TableView.Hidden = true;
+					cardImageLandscape.Hidden = SelectedCard.Card.FrontOrientation == "V";
+					cardImagePortrait.Hidden = SelectedCard.Card.FrontOrientation == "H";
 
 					break;
 				}
 			case CardViewState.Front:{
 					NavigationController.SetNavigationBarHidden (true, false);
-					var backFileName = Path.Combine (documentsPath, selectedCard.Card.BackFileId + "." + selectedCard.Card.BackType);
-					if (selectedCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID) ||
-						selectedCard.Card.BackFileId.ToString().Equals (Resources.NULL_CARD_ID)) {
+					var backFileName = Path.Combine (documentsPath, SelectedCard.Card.BackFileId + "." + SelectedCard.Card.BackType);
+					if (SelectedCard.Card.BackFileId.ToString().Equals (Resources.EMPTY_CARD_ID) ||
+						SelectedCard.Card.BackFileId.ToString().Equals (Resources.NULL_CARD_ID)) {
 						HideCardDetail ();
 						break;
 					}  
 
 					if (File.Exists (backFileName)) {
-						if(selectedCard.Card.BackOrientation == "H"){
+						if(SelectedCard.Card.BackOrientation == "H"){
 							cardImageLandscape.Image = new UIImage(UIImage.FromFile (backFileName).CGImage, 1, UIImageOrientation.Right);
 						}else{
 							cardImagePortrait.Image = UIImage.FromFile (backFileName);
 						}
 					} else {
 						ShowOverlay ();
-						Utils.DownloadImage (Resources.CARD_PATH + selectedCard.Card.BackFileName, documentsPath, selectedCard.Card.BackFileName).ContinueWith (t => {
+						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.BackFileName, documentsPath, SelectedCard.Card.BackFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
-								if(selectedCard.Card.BackOrientation == "H"){
+								if(SelectedCard.Card.BackOrientation == "H"){
 									cardImageLandscape.Image = new UIImage(UIImage.FromFile (backFileName).CGImage, 1, UIImageOrientation.Right);
 								}else{
 									cardImagePortrait.Image = UIImage.FromFile (backFileName);
@@ -106,9 +106,9 @@ namespace Busidex.Presentation.iOS
 
 
 					ViewState = CardViewState.Back;
-					TableView.Hidden = true;
-					cardImageLandscape.Hidden = selectedCard.Card.BackOrientation == "V";
-					cardImagePortrait.Hidden = selectedCard.Card.BackOrientation == "H";
+					//TableView.Hidden = true;
+					cardImageLandscape.Hidden = SelectedCard.Card.BackOrientation == "V";
+					cardImagePortrait.Hidden = SelectedCard.Card.BackOrientation == "H";
 
 					break;
 				}
@@ -121,18 +121,28 @@ namespace Busidex.Presentation.iOS
 
 		protected void HideCardDetail(){
 			NavigationController.SetNavigationBarHidden (false, false);
-			TableView.Hidden = false;
-			cardImageLandscape.Hidden = cardImagePortrait.Hidden = true; 
-			cardImageLandscape.Image = cardImagePortrait.Image = null;
+			//TableView.Hidden = false;
+			//cardImageLandscape.Hidden = cardImagePortrait.Hidden = true; 
+			//cardImageLandscape.Image = cardImagePortrait.Image = null;
+			NavigationController.PopViewController (true);
 		}
 
 		protected void GoToCard(){
 			ViewState = CardViewState.Loading;
-			selectedCard = ((BaseTableSource)TableView.Source).SelectedCard;
+			//SelectedCard = ((BaseTableSource)TableView.Source).SelectedCard;
 
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_DETAILS, selectedCard.Card.Name, 0);
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_DETAILS, SelectedCard.Card.Name, 0);
 
 			ToggleImage ();
+		}
+
+		protected void ShowCardActions(UserCard card){
+			
+			buttonPanelController.SelectedCard = card;
+
+			if (buttonPanelController != null) {
+				NavigationController.PushViewController (buttonPanelController, true);
+			}
 		}
 
 		public override void ViewDidLoad ()

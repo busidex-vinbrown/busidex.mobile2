@@ -4,13 +4,221 @@ using System;
 
 using Foundation;
 using UIKit;
+using Busidex.Mobile.Models;
+using System.IO;
+using Busidex.Mobile;
+using MessageUI;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class ButtonPanelController : UICollectionViewController
+	public partial class ButtonPanelController : BaseController
 	{
+		public UserCard SelectedCard{ get; set; }
+		string FrontFileName{ get; set; }
+		string BackFileName{ get; set; }
+		string userToken;
+
 		public ButtonPanelController (IntPtr handle) : base (handle)
 		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+			var cookie = GetAuthCookie ();
+			userToken = cookie.Value;
+
+			try {
+				LoadCard ();
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
+			}
+
+
+			btnAdd.TouchUpInside += delegate {
+				AddToMyBusidex();
+			};
+
+			btnRemove.TouchUpInside += delegate {
+				RemoveCardFromMyBusidex(SelectedCard);
+			};
+
+			btnBrowser.TouchUpInside += delegate {
+				OpenBrowser();
+			};
+
+			btnEmail.TouchUpInside += delegate {
+				SendEmail();
+			};
+
+			btnNotes.TouchUpInside += delegate {
+				EditNotes();
+			};
+
+			btnPhone.TouchUpInside += delegate {
+				ShowPhoneNumbers();
+			};
+
+			btnMaps.TouchUpInside += delegate {
+				ShowMaps();
+			};
+
+			btnShare.TouchUpInside += delegate {
+				ShareCard(SelectedCard);	
+			};
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (false, true);
+			}
+		}
+
+		void LoadCard(){
+
+			if (SelectedCard != null && SelectedCard.Card != null) {
+				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
+				if (File.Exists (FrontFileName)) {
+					btnCard.SetBackgroundImage(UIImage.FromFile (FrontFileName), UIControlState.Normal);
+				}
+				btnCard.TouchUpInside += delegate {
+					//GoToCard();
+					var cardDetailController = Storyboard.InstantiateViewController ("CardDetailController") as CardDetailController;
+					cardDetailController.SelectedCard = SelectedCard;
+
+					if (cardDetailController != null) {
+						NavigationController.PushViewController (cardDetailController, true);
+					}
+				};
+			}
+		}
+
+		void ToggleAddRemoveButtons(bool cardInMyBusidex){
+			btnRemove.Hidden = cardInMyBusidex;
+			btnAdd.Hidden = !cardInMyBusidex;
+		}
+
+		void AddToMyBusidex(){
+
+			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
+				if (cookie != null) {
+					var ctrl = new Busidex.Mobile.MyBusidexController ();
+					ctrl.AddToMyBusidex (SelectedCard.Card.CardId, cookie.Value);
+
+					ToggleAddRemoveButtons (false);
+
+					AddCardToMyBusidexCache (SelectedCard);
+					ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, userToken);
+
+					string name = Resources.GA_LABEL_ADD;
+					if(SelectedCard != null && SelectedCard.Card != null){
+						name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+					}
+
+					AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+				}
+			}
+		}
+
+		void OpenBrowser(){
+
+			UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + SelectedCard.Card.Url.Replace ("http://", "")));
+
+			string name = Resources.GA_LABEL_URL;
+			if(SelectedCard != null && SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_URL, name, 0);
+
+			ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, userToken);
+		}
+
+		void SendEmail(){
+			var _mailController = new MFMailComposeViewController ();
+			_mailController.SetToRecipients (new []{SelectedCard.Card.Email});
+
+			_mailController.Finished += ( s, args) => InvokeOnMainThread (
+				() => args.Controller.DismissViewController (true, null)
+			);
+			PresentViewController (_mailController, true, null);
+
+			const string name = Resources.GA_LABEL_EMAIL;
+
+			ActivityController.SaveActivity ((long)EventSources.Email, SelectedCard.CardId, userToken);
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_EMAIL, name, 0);
+		}
+
+		void EditNotes(){
+
+			var notesController = Storyboard.InstantiateViewController ("NotesController") as NotesController;
+			notesController.UserCard = SelectedCard;
+
+			if (notesController != null) {
+				NavigationController.PushViewController (notesController, true);
+			}
+
+			string name = Resources.GA_LABEL_NOTES;
+			if(notesController.UserCard != null && notesController.UserCard.Card != null){
+				name = string.IsNullOrEmpty(notesController.UserCard.Card.Name) ? notesController.UserCard.Card.CompanyName : notesController.UserCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
+		}
+
+		void ShowPhoneNumbers(){
+			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
+			phoneViewController.UserCard = SelectedCard;
+
+			if (phoneViewController != null) {
+				NavigationController.PushViewController (phoneViewController, true);
+			}
+
+			string name = Resources.GA_LABEL_PHONE;
+			if(phoneViewController.UserCard != null && phoneViewController.UserCard.Card != null){
+				name = string.IsNullOrEmpty(phoneViewController.UserCard.Card.Name) ? phoneViewController.UserCard.Card.CompanyName : phoneViewController.UserCard.Card.Name;
+			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);
+		}
+
+		void ShowMaps(){
+
+			if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
+				string address = buildAddress ();
+				var url = new NSUrl ("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
+				UIApplication.SharedApplication.OpenUrl (url);
+				ActivityController.SaveActivity ((long)EventSources.Map, SelectedCard.Card.CardId, userToken);
+
+				string name = Resources.GA_LABEL_MAP;
+				if (SelectedCard != null && SelectedCard.Card != null) {
+					name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+				}
+
+				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_MAP, name, 0);
+			}
+		}
+
+		string buildAddress(){
+
+			var address = string.Empty;
+			var card = SelectedCard.Card;
+
+			address += string.IsNullOrEmpty(SelectedCard.Card.Addresses [0].Address1) ? string.Empty : card.Addresses [0].Address1;
+			address += " ";
+			address += string.IsNullOrEmpty(card.Addresses [0].Address2) ? string.Empty : card.Addresses [0].Address2;
+			address += " ";
+			address += string.IsNullOrEmpty(card.Addresses [0].City) ? string.Empty : card.Addresses [0].City;
+			address += " ";
+			address += card.Addresses [0].State == null ? string.Empty : card.Addresses [0].State.Code;
+			address += " ";
+			address += string.IsNullOrEmpty(card.Addresses [0].ZipCode) ? string.Empty : card.Addresses [0].ZipCode;
+
+			return address;
 		}
 	}
 }

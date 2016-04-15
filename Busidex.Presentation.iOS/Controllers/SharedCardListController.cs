@@ -22,7 +22,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			base.TableView = vwSharedCards;
+			//base.TableView = vwSharedCards;
 
 			vwSharedCards.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 

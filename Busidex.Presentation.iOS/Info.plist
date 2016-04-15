@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.18</string>
+	<string>1.2.19</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -67,7 +67,7 @@
 	<key>UIRequiresFullScreen</key>
 	<string>YES</string>
 	<key>CFBundleVersion</key>
-	<string>539</string>
+	<string>540</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

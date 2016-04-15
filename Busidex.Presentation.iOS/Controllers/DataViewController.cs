@@ -182,7 +182,7 @@ namespace Busidex.Presentation.iOS
 							NavigationController.PushViewController (settingsController, true);
 						}
 					}catch(Exception ex){
-
+						Xamarin.Insights.Report(ex);
 					}
 				})
 			}, true);

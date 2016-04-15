@@ -529,8 +529,8 @@ namespace Busidex.Presentation.iOS
 						}	
 					});
 
-				} catch (Exception ignore) {
-
+				} catch (Exception ex) {
+					Xamarin.Insights.Report(ex);
 				}
 			}
 			return true;

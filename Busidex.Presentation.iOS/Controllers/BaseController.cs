@@ -23,6 +23,7 @@ namespace Busidex.Presentation.iOS
 		public static OrganizationsController organizationsController;
 		public static DataViewController dataViewController;
 		public static QuickShareController quickShareController;
+		public static ButtonPanelController buttonPanelController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -52,18 +53,18 @@ namespace Busidex.Presentation.iOS
 			organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
 			dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
 			quickShareController = board.InstantiateViewController ("QuickShareController") as QuickShareController;
+			buttonPanelController = board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
 		}
 
 		protected static void SetRefreshCookie(string name){
 
 			try{
-
 				var user = NSUserDefaults.StandardUserDefaults;
 				DateTime nextRefresh = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays(1);
 				user.SetString(nextRefresh.ToString(), name);
 
-			}catch(Exception ignore){
-				
+			}catch(Exception ex){
+				Xamarin.Insights.Report (ex);
 			}
 		}
 
@@ -194,7 +195,7 @@ namespace Busidex.Presentation.iOS
 				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
 
 			}catch(Exception ex){
-				new UIAlertView("Row Selected", ex.Message, null, "OK", null).Show();
+				Xamarin.Insights.Report (ex);
 			}
 		}
 

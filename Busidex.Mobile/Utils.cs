@@ -40,7 +40,7 @@ namespace Busidex.Mobile
 				}
 			}
 			catch(Exception ex){
-				//return jpgFilename; 
+				Xamarin.Insights.Report(ex);
 			}
 			return jpgFilename;
 		}

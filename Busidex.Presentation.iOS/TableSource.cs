@@ -70,7 +70,7 @@ namespace Busidex.Presentation.iOS
 
 			return card.Card.FrontOrientation == "H"
 					? BASE_CELL_HEIGHT
-						: BASE_CELL_HEIGHT + 50f;
+						: CARD_HEIGHT_VERTICAL + 65f;
 		}
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -96,6 +96,7 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
+		/*
 		protected void EditNotes(int idx){
 			SelectedCard = Cards [idx];
 			if (EditingNotes != null){
@@ -168,20 +169,6 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
 		}
 
-		static void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
-			var panel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.ButtonPanel);
-			if(panel != null){
-				var removeFromMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton);
-				var addToMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.AddToMyBusidexButton);
-				if(removeFromMyBusidexButton != null){
-					removeFromMyBusidexButton.Hidden = cardInMyBusidex;
-				}
-				if(addToMyBusidexButton != null){
-					addToMyBusidexButton.Hidden = !cardInMyBusidex;
-				}
-			}
-		}
-
 		protected void AddToMyBusidex(UserCard userCard, UITableViewCell cell){
 
 			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
@@ -233,6 +220,21 @@ namespace Busidex.Presentation.iOS
 					});
 				}
 			});
+		}
+
+
+		static void toggleAddRemoveButtons(bool cardInMyBusidex, UITableViewCell cell){
+			var panel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.ButtonPanel);
+			if(panel != null){
+				var removeFromMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.RemoveFromMyBusidexButton);
+				var addToMyBusidexButton = panel.Subviews.SingleOrDefault (v => v.Tag == (int)Resources.UIElements.AddToMyBusidexButton);
+				if(removeFromMyBusidexButton != null){
+					removeFromMyBusidexButton.Hidden = cardInMyBusidex;
+				}
+				if(addToMyBusidexButton != null){
+					addToMyBusidexButton.Hidden = !cardInMyBusidex;
+				}
+			}
 		}
 
 		protected void AddMapButton(UserCard card, ref List<UIButton> FeatureButtons){
@@ -382,14 +384,15 @@ namespace Busidex.Presentation.iOS
 
 			FeatureButtons.Add (shareCardButton);
 		}
+		*/
 
 		public void AddControls(UITableViewCell cell, UserCard card, int idx){
 
-			cell.Accessory = UITableViewCellAccessory.DetailButton;
+			//cell.Accessory = UITableViewCellAccessory.DetailButton;
 
 			if (card != null && card.Card != null) {
 
-				var FeatureButtonList = new List<UIButton> ();
+				//var FeatureButtonList = new List<UIButton> ();
 
 				var frame = new RectangleF (LEFT_MARGIN + 5f, 10f, (float)UIScreen.MainScreen.Bounds.Width, LABEL_HEIGHT);
 
@@ -401,19 +404,19 @@ namespace Busidex.Presentation.iOS
 				AddNameLabel (card, cell, ref frame);
 				AddCompanyLabel (card, cell, ref frame);
 
-				AddMapButton (card, ref FeatureButtonList);
-				if (ShowNotes) {
-					AddNotesButton (ref FeatureButtonList, idx);
-				}
-				AddEmailButton (card, ref FeatureButtonList);
-				AddWebSiteButton (card, ref FeatureButtonList);
-				AddPhoneButton (ref FeatureButtonList, idx);
-				AddShareCardButton (ref FeatureButtonList, idx);
-
-				AddAddToMyBusidexButton (card, cell, ref FeatureButtonList);
-				AddRemoveFromMyBusidexButton (card, cell, ref FeatureButtonList);
-
-				AddFeatureButtons (cell, FeatureButtonList);
+//				AddMapButton (card, ref FeatureButtonList);
+//				if (ShowNotes) {
+//					AddNotesButton (ref FeatureButtonList, idx);
+//				}
+//				AddEmailButton (card, ref FeatureButtonList);
+//				AddWebSiteButton (card, ref FeatureButtonList);
+//				AddPhoneButton (ref FeatureButtonList, idx);
+//				AddShareCardButton (ref FeatureButtonList, idx);
+//
+//				AddAddToMyBusidexButton (card, cell, ref FeatureButtonList);
+//				AddRemoveFromMyBusidexButton (card, cell, ref FeatureButtonList);
+//
+//				AddFeatureButtons (cell, FeatureButtonList);
 			}
 		}
 			

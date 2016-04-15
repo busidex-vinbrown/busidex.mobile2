@@ -6,7 +6,6 @@ using Busidex.Mobile.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using MessageUI;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ namespace Busidex.Presentation.iOS
 		public static NSString BusidexCellId = new NSString ("cellId");
 		List<UserCard> FilterResults;
 		const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
-		MFMailComposeViewController _mailController;
+		//MFMailComposeViewController _mailController;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -63,38 +62,36 @@ namespace Busidex.Presentation.iOS
 			var src = new TableSource (data);
 			src.ShowNotes = true;
 			src.ShowNoCardMessage = true;
-			src.CardSelected += delegate {
-				GoToCard();
-			};
+			src.CardSelected += ShowCardActions;
 
-			src.EditingNotes += delegate {
-				EditNotes();
-			};	
+//			src.EditingNotes += delegate {
+//				EditNotes();
+//			};	
 
-			src.SendingEmail += delegate(string email) {
+//			src.SendingEmail += delegate(string email) {
+//
+//				_mailController = new MFMailComposeViewController ();
+//				_mailController.SetToRecipients (new []{email});
+//
+//				_mailController.Finished += ( s, args) => InvokeOnMainThread (
+//					() => args.Controller.DismissViewController (true, null)
+//				);
+//				PresentViewController (_mailController, true, null);
+//			};
+//
+//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
 
-				_mailController = new MFMailComposeViewController ();
-				_mailController.SetToRecipients (new []{email});
+//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
+//
+//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 
-				_mailController.Finished += ( s, args) => InvokeOnMainThread (
-					() => args.Controller.DismissViewController (true, null)
-				);
-				PresentViewController (_mailController, true, null);
-			};
+//			src.CallingPhoneNumber += delegate {
+//				ShowPhoneNumbers();
+//			};
 
-			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-
-			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-
-			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-
-			src.CallingPhoneNumber += delegate {
-				ShowPhoneNumbers();
-			};
-
-			src.SharingCard += delegate {
-				ShareCard (((TableSource)TableView.Source).SelectedCard);
-			};
+//			src.SharingCard += delegate {
+//				ShareCard (((TableSource)TableView.Source).SelectedCard);
+//			};
 
 			return src;
 		}
@@ -125,38 +122,7 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void EditNotes(){
 
-			var notesController = Storyboard.InstantiateViewController ("NotesController") as NotesController;
-			notesController.UserCard = ((TableSource)TableView.Source).SelectedCard;
-
-			if (notesController != null) {
-				NavigationController.PushViewController (notesController, true);
-			}
-
-			string name = Resources.GA_LABEL_NOTES;
-			if(notesController.UserCard != null && notesController.UserCard.Card != null){
-				name = string.IsNullOrEmpty(notesController.UserCard.Card.Name) ? notesController.UserCard.Card.CompanyName : notesController.UserCard.Card.Name;
-			}
-
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
-		}
-
-		void ShowPhoneNumbers(){
-			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-			phoneViewController.UserCard = ((TableSource)TableView.Source).SelectedCard;
-
-			if (phoneViewController != null) {
-				NavigationController.PushViewController (phoneViewController, true);
-			}
-
-			string name = Resources.GA_LABEL_PHONE;
-			if(phoneViewController.UserCard != null && phoneViewController.UserCard.Card != null){
-				name = string.IsNullOrEmpty(phoneViewController.UserCard.Card.Name) ? phoneViewController.UserCard.Card.CompanyName : phoneViewController.UserCard.Card.Name;
-			}
-
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);
-		}
 
 		protected override void ProcessCards(string data){
 			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
@@ -225,7 +191,7 @@ namespace Busidex.Presentation.iOS
 
 			ConfigureSearchBar ();
 
-			base.TableView = TableView;
+			//base.TableView = TableView;
 
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyBusidex ();

@@ -146,6 +146,7 @@ namespace Busidex.Presentation.iOS
 
 
 			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
 				InvokeOnMainThread (() => {
 					ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
 					loggingIn = false;	

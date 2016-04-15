@@ -37,7 +37,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			TableView = vwSearchResults;
+			//TableView = vwSearchResults;
 
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
