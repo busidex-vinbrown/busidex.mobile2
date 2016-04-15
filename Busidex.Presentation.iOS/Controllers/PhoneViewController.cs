@@ -12,7 +12,7 @@ namespace Busidex.Presentation.iOS
 {
 	partial class PhoneViewController : BaseController
 	{
-		public UserCard UserCard{ get; set; }
+		public UserCard SelectedCard{ get; set; }
 		string userToken;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
@@ -25,12 +25,26 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
-			if (UserCard != null && UserCard.Card != null) {
-				var FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + UserCard.Card.FrontFileName);
+			if (SelectedCard != null && SelectedCard.Card != null) {
+
+				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
+				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
+
+				var FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
-
 					imgCard.Image = UIImage.FromFile (FrontFileName);
-
+				}else{
+					ShowOverlay ();
+					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+						InvokeOnMainThread (() => {
+							if(SelectedCard.Card.BackOrientation == "H"){
+								imgCard.Image = new UIImage(UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right);
+							}else{
+								imgCard.Image = UIImage.FromFile (FrontFileName);
+							}
+							Overlay.Hide();
+						});
+					});
 				}
 			}
 
@@ -50,9 +64,9 @@ namespace Busidex.Presentation.iOS
 			var phoneImageFrame = new RectangleF (phoneImageX, labelY, imageWidth, imageHeight);
 			var textImageFrame = new RectangleF (textImageX, labelY, imageWidth, imageHeight);
 
-			if (UserCard != null && UserCard.Card != null && UserCard.Card.PhoneNumbers != null) {
+			if (SelectedCard != null && SelectedCard.Card != null && SelectedCard.Card.PhoneNumbers != null) {
 
-				foreach (PhoneNumber number in UserCard.Card.PhoneNumbers.Where(p=> !string.IsNullOrWhiteSpace(p.Number))) {
+				foreach (PhoneNumber number in SelectedCard.Card.PhoneNumbers.Where(p=> !string.IsNullOrWhiteSpace(p.Number))) {
 
 					var newLabel = new UILabel (labelFrame);
 					var newNumber = new UILabel (phoneFrame);
@@ -96,7 +110,7 @@ namespace Busidex.Presentation.iOS
 								av.Show ();
 							}else{
 								//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-								ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
 							}
 						};
 
@@ -115,7 +129,7 @@ namespace Busidex.Presentation.iOS
 									null);
 								av.Show ();
 							}else{
-								ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
 							}
 						};
 

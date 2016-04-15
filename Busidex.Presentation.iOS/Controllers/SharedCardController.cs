@@ -6,11 +6,9 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
 using GoogleAnalytics.iOS;
-using CoreAnimation;
 using CoreGraphics;
 using Plugin.Messaging;
 using System.Net;
-using AddressBookUI;
 using ContactsUI;
 using Contacts;
 
@@ -18,7 +16,7 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class SharedCardController : BaseController
 	{
-		public UserCard UserCard{ get; set; }
+		public UserCard SelectedCard{ get; set; }
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
 
@@ -32,32 +30,44 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
-			if (UserCard != null && UserCard.Card != null) {
+			if (SelectedCard != null && SelectedCard.Card != null) {
 
 				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-				UserCard userCard = null;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						var myBusidexJson = myBusidexFile.ReadToEnd ();
-						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-							if(uc.Card.CardId == UserCard.Card.CardId){
-								userCard = uc;
-								break;
+//				UserCard userCard = null;
+//				if (File.Exists (fullFilePath)) {
+//					using (var myBusidexFile = File.OpenText (fullFilePath)) {
+//						var myBusidexJson = myBusidexFile.ReadToEnd ();
+//						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+//						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
+//							if(uc.Card.CardId == UserCard.Card.CardId){
+//								userCard = uc;
+//								break;
+//							}
+//						}
+//					}
+//				}
+
+				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
+				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 340f, dimensions.Width, dimensions.Height);
+
+				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
+				if (File.Exists (FrontFileName)) {
+					imgCard.Image = UIImage.FromFile (FrontFileName);
+					imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
+				}else{
+					ShowOverlay ();
+					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+						InvokeOnMainThread (() => {
+							if(SelectedCard.Card.BackOrientation == "H"){
+								imgCard.Image = new UIImage(UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right);
+							}else{
+								imgCard.Image = UIImage.FromFile (FrontFileName);
 							}
-						}
-					}
+							Overlay.Hide();
+						});
+					});
 				}
 
-				if (userCard != null) {
-					FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + userCard.Card.FrontFileName);
-					if (File.Exists (FrontFileName)) {
-						imgCard.Image = UIImage.FromFile (FrontFileName);
-						imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
-						//imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.LightGray.CGColor, 1f, 1.5f));
-						//imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.LightGray.CGColor, 2f));
-					}
-				}
 			}
 			imgCardShared.Hidden = true;
 		}
@@ -110,7 +120,7 @@ namespace Busidex.Presentation.iOS
 			string response;
 			if(string.IsNullOrEmpty(phoneNumber)){
 				// send the shared card the 'traditional' way
-				response = controller.ShareCard (UserCard.Card, email, phoneNumber, cookie.Value);
+				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, cookie.Value);
 				if( !string.IsNullOrEmpty(response) && response.Contains("true")){
 					imgCardShared.Hidden = false;
 				}else{
@@ -129,7 +139,7 @@ namespace Busidex.Presentation.iOS
 						var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
 						if(template != null){
 							string message = string.Format(template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine + 
-								string.Format(template.Template.Body, UserCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, personalMessage,
+								string.Format(template.Template.Body, SelectedCard.Card.CardId, Utils.DecodeUserId(cookie.Value), displayName, personalMessage,
 									Environment.NewLine);
 						
 							int startIdx = message.IndexOf('[');
@@ -155,16 +165,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		static CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
-			var layer = new CALayer ();
-			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
-			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
-			layer.ContentsGravity = CALayer.GravityResize;
-			layer.BorderWidth = borderWidth;
-			layer.BorderColor = color;
 
-			return layer;
-		}
 
 		public override void ViewDidAppear (bool animated)
 		{
@@ -194,19 +195,19 @@ namespace Busidex.Presentation.iOS
 					shareButton, true);
 
 				#region Old Code
-				var _contactController = new ABPeoplePickerNavigationController ();
-				_contactController.Cancelled += delegate {
-					this.DismissViewController (true, null); };
-
-				_contactController.SelectPerson2 +=
-					delegate(object sender, ABPeoplePickerSelectPerson2EventArgs e) {
-
-					var phoneNumbers = e.Person.GetPhones();
-					if(phoneNumbers != null && phoneNumbers.Count > 0){
-						txtPhoneNumber.Text = phoneNumbers[0].Value;
-					}
-					this.DismissModalViewController (true);
-				};
+//				var _contactController = new ABPeoplePickerNavigationController ();
+//				_contactController.Cancelled += delegate {
+//					this.DismissViewController (true, null); };
+//
+//				_contactController.SelectPerson2 +=
+//					delegate(object sender, ABPeoplePickerSelectPerson2EventArgs e) {
+//
+//					var phoneNumbers = e.Person.GetPhones();
+//					if(phoneNumbers != null && phoneNumbers.Count > 0){
+//						txtPhoneNumber.Text = phoneNumbers[0].Value;
+//					}
+//					this.DismissModalViewController (true);
+//				};
 				#endregion
 
 				// Create a new picker
@@ -214,7 +215,7 @@ namespace Busidex.Presentation.iOS
 					var picker = new CNContactPickerViewController();
 
 					// Select property to pick
-					picker.DisplayedPropertyKeys = new NSString[] {CNContactKey.PhoneNumbers};
+					picker.DisplayedPropertyKeys = new [] {CNContactKey.PhoneNumbers};
 					picker.PredicateForEnablingContact = NSPredicate.FromFormat("phoneNumbers.@count > 0");
 					picker.PredicateForSelectionOfContact = NSPredicate.FromFormat("phoneNumbers.@count == 0"); // always allow the user to see the contact details
 
@@ -224,17 +225,16 @@ namespace Busidex.Presentation.iOS
 
 					// Display picker
 					btnContacts.TouchUpInside += delegate {
-						//this.PresentModalViewController (_contactController, true); 
 						try{
 							PresentModalViewController(picker,true);
 						}catch(Exception ex){
-							Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Warning);
+							Xamarin.Insights.Report (ex);
 							ShowAlert("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
 						}
 					};
 
 				}catch(Exception ex){
-					Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Warning);
+					Xamarin.Insights.Report(ex);
 					ShowAlert("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
 				}
 			}

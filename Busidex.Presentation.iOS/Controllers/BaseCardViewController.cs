@@ -32,11 +32,7 @@ namespace Busidex.Presentation.iOS
 
 		protected CardViewState ViewState {get;set;}
 
-		protected void ShowOverlay(){
-			Overlay = new CardLoadingOverlay (View.Bounds);
-			Overlay.MessageText = "Loading Your Card";
-			View.AddSubview (Overlay);
-		}
+
 
 		protected void ToggleImage(){
 

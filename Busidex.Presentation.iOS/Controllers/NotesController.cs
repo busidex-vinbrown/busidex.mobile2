@@ -11,7 +11,7 @@ namespace Busidex.Presentation.iOS
 {
 	partial class NotesController : BaseController
 	{
-		public UserCard UserCard{ get; set; }
+		public UserCard SelectedCard{ get; set; }
 		string FrontFileName{ get; set; }
 		string BackFileName{ get; set; }
 
@@ -32,7 +32,10 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
 
-			if (UserCard != null && UserCard.Card != null) {
+			if (SelectedCard != null && SelectedCard.Card != null) {
+
+				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
+				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
 
 				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
 				UserCard userCard = null;
@@ -41,7 +44,7 @@ namespace Busidex.Presentation.iOS
 						var myBusidexJson = myBusidexFile.ReadToEnd ();
 						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-							if(uc.Card.CardId == UserCard.Card.CardId){
+							if(uc.Card.CardId == SelectedCard.Card.CardId){
 								userCard = uc;
 								break;
 							}
@@ -75,7 +78,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 			var controller = new Busidex.Mobile.NotesController ();
-			controller.SaveNotes (UserCard.UserCardId, txtNotes.Text.Trim (), token).ContinueWith (response => {
+			controller.SaveNotes (SelectedCard.UserCardId, txtNotes.Text.Trim (), token).ContinueWith (response => {
 				var result = response.Result;
 				if(!string.IsNullOrEmpty(result)){
 
@@ -105,7 +108,7 @@ namespace Busidex.Presentation.iOS
 					var myBusidexJson = myBusidexFile.ReadToEnd ();
 					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 					foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-						if(uc.UserCardId == UserCard.UserCardId){
+						if(uc.UserCardId == SelectedCard.UserCardId){
 							uc.Notes = txtNotes.Text.Trim ();
 							break;
 						}
@@ -204,11 +207,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void KeyBoardUpNotification(NSNotification notification)
-		//private void KeyBoardUpNotification()
 		{
-			// get the keyboard size
-			//RectangleF r = UIKeyboard.BoundsFromNotification (notification);
-
 			// Find what opened the keyboard
 			foreach (UIView view in View.Subviews) {
 				if (view.IsFirstResponder) {

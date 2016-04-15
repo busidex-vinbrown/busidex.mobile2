@@ -11,7 +11,6 @@ namespace Busidex.Presentation.iOS
 	using System.Linq;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-	using MessageUI;
 	using GoogleAnalytics.iOS;
 
 	public partial class SearchController : BaseCardViewController
@@ -79,7 +78,7 @@ namespace Busidex.Presentation.iOS
 
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-			phoneViewController.UserCard = ((TableSource)vwSearchResults.Source).SelectedCard;
+			phoneViewController.SelectedCard = ((TableSource)vwSearchResults.Source).SelectedCard;
 
 			if (phoneViewController != null) {
 				NavigationController.PushViewController (phoneViewController, true);
@@ -91,30 +90,28 @@ namespace Busidex.Presentation.iOS
 			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No cards match your search";
-			src.CardSelected += delegate {
-				GoToCard();
-			};
+			src.CardSelected += ShowCardActions;
 
-			src.SendingEmail += delegate(string email) {
-				var _mailController = new MFMailComposeViewController ();
-				_mailController.SetToRecipients (new []{email});
-				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-				PresentViewController (_mailController, true, null);
-			};
-
-			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-
-			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-
-			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-
-			src.CallingPhoneNumber += delegate {
-				ShowPhoneNumbers();
-			};
-
-			src.SharingCard += delegate {
-				ShareCard (((TableSource)vwSearchResults.Source).SelectedCard);
-			};
+//			src.SendingEmail += delegate(string email) {
+//				var _mailController = new MFMailComposeViewController ();
+//				_mailController.SetToRecipients (new []{email});
+//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
+//				PresentViewController (_mailController, true, null);
+//			};
+//
+//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
+//
+//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
+//
+//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+//
+//			src.CallingPhoneNumber += delegate {
+//				ShowPhoneNumbers();
+//			};
+//
+//			src.SharingCard += delegate {
+//				ShareCard (((TableSource)vwSearchResults.Source).SelectedCard);
+//			};
 
 			return src;
 		}

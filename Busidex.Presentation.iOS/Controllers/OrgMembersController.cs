@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
-using MessageUI;
 using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
@@ -102,58 +101,57 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void ShowPhoneNumbers(){
-
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			var phoneViewController = board.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-			phoneViewController.UserCard = ((TableSource)tblMembers.Source).SelectedCard;
-
-			if (phoneViewController != null) {
-				NavigationController.PushViewController (phoneViewController, true);
-			}
-		}
-
-		void EditNotes(){
-
-			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-
-			var notesController = board.InstantiateViewController ("NotesController") as NotesController;
-			notesController.UserCard = ((TableSource)tblMembers.Source).SelectedCard;
-
-			if (notesController != null) {
-				NavigationController.PushViewController (notesController, true);
-			}
-		}
+//		void ShowPhoneNumbers(){
+//
+//			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+//			var phoneViewController = board.InstantiateViewController ("PhoneViewController") as PhoneViewController;
+//			phoneViewController.SelectedCard = ((TableSource)tblMembers.Source).SelectedCard;
+//
+//			if (phoneViewController != null) {
+//				NavigationController.PushViewController (phoneViewController, true);
+//			}
+//		}
+//
+//		void EditNotes(){
+//
+//			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+//
+//			var notesController = board.InstantiateViewController ("NotesController") as NotesController;
+//			notesController.UserCard = ((TableSource)tblMembers.Source).SelectedCard;
+//
+//			if (notesController != null) {
+//				NavigationController.PushViewController (notesController, true);
+//			}
+//		}
 
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new OrgMemberTableSource (data);
 			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No members have been loaded for this organization";
-			src.CardSelected += delegate {
-				GoToCard();
-			};
-			src.EditingNotes += delegate {
-				EditNotes();
-			};	
-			src.SendingEmail += delegate(string email) {
-				var _mailController = new MFMailComposeViewController ();
-				_mailController.SetToRecipients (new []{email});
-				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-				PresentViewController (_mailController, true, null);
-			};
+			src.CardSelected += ShowCardActions;
 
-			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-
-			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-
-			src.CallingPhoneNumber += delegate {
-				ShowPhoneNumbers();
-			};
-
-			src.SharingCard += delegate {
-				ShareCard (((TableSource)tblMembers.Source).SelectedCard);
-			};
+//			src.EditingNotes += delegate {
+//				EditNotes();
+//			};	
+//			src.SendingEmail += delegate(string email) {
+//				var _mailController = new MFMailComposeViewController ();
+//				_mailController.SetToRecipients (new []{email});
+//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
+//				PresentViewController (_mailController, true, null);
+//			};
+//
+//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
+//
+//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
+//
+//			src.CallingPhoneNumber += delegate {
+//				ShowPhoneNumbers();
+//			};
+//
+//			src.SharingCard += delegate {
+//				ShareCard (((TableSource)tblMembers.Source).SelectedCard);
+//			};
 
 			return src;
 		}

@@ -7,6 +7,8 @@ using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using System.Threading.Tasks;
 using GoogleAnalytics.iOS;
+using CoreAnimation;
+using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
@@ -32,6 +34,23 @@ namespace Busidex.Presentation.iOS
 
 		public BaseController ()
 		{
+		}
+
+		protected void ShowOverlay(){
+			Overlay = new CardLoadingOverlay (View.Bounds);
+			Overlay.MessageText = "Loading Your Card";
+			View.AddSubview (Overlay);
+		}
+
+		protected CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
+			var layer = new CALayer ();
+			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
+			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
+			layer.ContentsGravity = CALayer.GravityResize;
+			layer.BorderWidth = borderWidth;
+			layer.BorderColor = color;
+
+			return layer;
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -181,15 +200,15 @@ namespace Busidex.Presentation.iOS
 				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 
 				var sharedCardController = board.InstantiateViewController ("SharedCardController") as SharedCardController;
-				sharedCardController.UserCard = seletcedCard;
+				sharedCardController.SelectedCard = seletcedCard;
 
 				if (sharedCardController != null) {
 					NavigationController.PushViewController (sharedCardController, true);
 				}
 
 				string name = Resources.GA_LABEL_SHARE;
-				if(sharedCardController.UserCard != null && sharedCardController.UserCard.Card != null){
-					name = string.IsNullOrEmpty(sharedCardController.UserCard.Card.Name) ? sharedCardController.UserCard.Card.CompanyName : sharedCardController.UserCard.Card.Name;
+				if(sharedCardController.SelectedCard != null && sharedCardController.SelectedCard.Card != null){
+					name = string.IsNullOrEmpty(sharedCardController.SelectedCard.Card.Name) ? sharedCardController.SelectedCard.Card.CompanyName : sharedCardController.SelectedCard.Card.Name;
 				}
 
 				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
@@ -286,6 +305,44 @@ namespace Busidex.Presentation.iOS
 			alert.Clicked += (s, e) => tcs.TrySetResult ((int)e.ButtonIndex);
 			alert.Show ();
 			return tcs.Task;
+		}
+
+		protected BusinessCardDimensions GetCardDimensions(string orientation){
+
+			/*
+				Business cards have an aspect ratio of 1.75 (Canada and US).
+			*/
+			const float ASPECT_RATIO = 1.75f;
+			const float hBase = 165f;
+			const float vBase = 115f;
+
+			float height;
+			float width;
+			float leftMargin;
+
+			if(orientation == "H"){
+				height = hBase;
+				width = hBase * ASPECT_RATIO;
+			}else{
+				height = vBase * ASPECT_RATIO;
+				width = vBase;
+			}
+			leftMargin = ((float)UIScreen.MainScreen.Bounds.Width - width) / 2f;
+
+			return new BusinessCardDimensions (height, width, leftMargin);
+		}
+
+		protected struct BusinessCardDimensions{
+
+			public BusinessCardDimensions(float h, float w, float m){
+				Height = h;
+				Width = w;
+				MarginLeft = m;
+			}
+
+			public float Height;
+			public float Width;
+			public float MarginLeft;
 		}
 	}
 }

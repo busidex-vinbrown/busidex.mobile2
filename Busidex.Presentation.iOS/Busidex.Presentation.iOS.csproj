@@ -313,12 +313,12 @@
     <InterfaceDefinition Include="Controllers\EventListController.xib" />
     <InterfaceDefinition Include="Controllers\EventCardsController.xib" />
     <InterfaceDefinition Include="Controllers\TermsController.xib" />
-    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\BaseNavigationController.xib" />
     <InterfaceDefinition Include="Controllers\BaseCardViewController.xib" />
     <InterfaceDefinition Include="Controllers\UIBarButtonItemWithImageViewController.xib" />
     <InterfaceDefinition Include="Controllers\QuickShareController.xib" />
     <InterfaceDefinition Include="Controllers\CardDetailController.xib" />
+    <InterfaceDefinition Include="Controllers\MainStoryboard_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

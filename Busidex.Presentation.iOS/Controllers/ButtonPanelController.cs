@@ -35,34 +35,57 @@ namespace Busidex.Presentation.iOS
 				Xamarin.Insights.Report (ex);
 			}
 
+			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
 
 			btnAdd.TouchUpInside += delegate {
 				AddToMyBusidex();
 			};
 
+			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
+
 			btnRemove.TouchUpInside += delegate {
 				RemoveCardFromMyBusidex(SelectedCard);
 			};
 
-			btnBrowser.TouchUpInside += delegate {
-				OpenBrowser();
-			};
+			if (!string.IsNullOrEmpty (SelectedCard.Card.Url)) {
+				btnBrowser.TouchUpInside += delegate {
+					OpenBrowser ();
+				};
+			}else{
+				btnBrowser.Enabled = false;	
+			}
 
-			btnEmail.TouchUpInside += delegate {
-				SendEmail();
-			};
+			if (!string.IsNullOrEmpty (SelectedCard.Card.Email)) {
+				btnEmail.TouchUpInside += delegate {
+					SendEmail ();
+				};
+			}else{
+				btnEmail.Enabled = false;	
+			}
 
-			btnNotes.TouchUpInside += delegate {
-				EditNotes();
-			};
+			if (SelectedCard.ExistsInMyBusidex) {
+				btnNotes.TouchUpInside += delegate {
+					EditNotes ();
+				};
+			}else{
+				btnNotes.Enabled = false;
+			}
 
-			btnPhone.TouchUpInside += delegate {
-				ShowPhoneNumbers();
-			};
+			if (SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ()) {
+				btnPhone.TouchUpInside += delegate {
+					ShowPhoneNumbers ();
+				};
+			}else{
+				btnPhone.Enabled = false;	
+			}
 
-			btnMaps.TouchUpInside += delegate {
-				ShowMaps();
-			};
+			if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
+				btnMaps.TouchUpInside += delegate {
+					ShowMaps ();
+				};
+			}else{
+				btnMaps.Enabled = false;
+			}
 
 			btnShare.TouchUpInside += delegate {
 				ShareCard(SelectedCard);	
@@ -80,9 +103,14 @@ namespace Busidex.Presentation.iOS
 		void LoadCard(){
 
 			if (SelectedCard != null && SelectedCard.Card != null) {
+
+				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
+				btnCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
+
 				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
 					btnCard.SetBackgroundImage(UIImage.FromFile (FrontFileName), UIControlState.Normal);
+					btnCard.Layer.AddSublayer (GetBorder (btnCard.Frame, UIColor.Gray.CGColor));
 				}
 				btnCard.TouchUpInside += delegate {
 					//GoToCard();
@@ -156,15 +184,15 @@ namespace Busidex.Presentation.iOS
 		void EditNotes(){
 
 			var notesController = Storyboard.InstantiateViewController ("NotesController") as NotesController;
-			notesController.UserCard = SelectedCard;
+			notesController.SelectedCard = SelectedCard;
 
 			if (notesController != null) {
 				NavigationController.PushViewController (notesController, true);
 			}
 
 			string name = Resources.GA_LABEL_NOTES;
-			if(notesController.UserCard != null && notesController.UserCard.Card != null){
-				name = string.IsNullOrEmpty(notesController.UserCard.Card.Name) ? notesController.UserCard.Card.CompanyName : notesController.UserCard.Card.Name;
+			if(notesController.SelectedCard != null && notesController.SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(notesController.SelectedCard.Card.Name) ? notesController.SelectedCard.Card.CompanyName : notesController.SelectedCard.Card.Name;
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
@@ -172,15 +200,15 @@ namespace Busidex.Presentation.iOS
 
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-			phoneViewController.UserCard = SelectedCard;
+			phoneViewController.SelectedCard = SelectedCard;
 
 			if (phoneViewController != null) {
 				NavigationController.PushViewController (phoneViewController, true);
 			}
 
 			string name = Resources.GA_LABEL_PHONE;
-			if(phoneViewController.UserCard != null && phoneViewController.UserCard.Card != null){
-				name = string.IsNullOrEmpty(phoneViewController.UserCard.Card.Name) ? phoneViewController.UserCard.Card.CompanyName : phoneViewController.UserCard.Card.Name;
+			if(phoneViewController.SelectedCard != null && phoneViewController.SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(phoneViewController.SelectedCard.Card.Name) ? phoneViewController.SelectedCard.Card.CompanyName : phoneViewController.SelectedCard.Card.Name;
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);

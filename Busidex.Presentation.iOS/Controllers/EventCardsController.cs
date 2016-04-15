@@ -80,44 +80,42 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void ShowPhoneNumbers(){
-			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-			phoneViewController.UserCard = ((TableSource)tblEventCards.Source).SelectedCard;
-
-			if (phoneViewController != null) {
-				NavigationController.PushViewController (phoneViewController, true);
-			}
-		}
+//		void ShowPhoneNumbers(){
+//			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
+//			phoneViewController.SelectedCard = ((TableSource)tblEventCards.Source).SelectedCard;
+//
+//			if (phoneViewController != null) {
+//				NavigationController.PushViewController (phoneViewController, true);
+//			}
+//		}
 
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new TableSource (data);
-			src.ShowNotes = false;
+//			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No cards match your search";
-			src.CardSelected += delegate {
-				GoToCard();
-			};
+			src.CardSelected += ShowCardActions;
 
-			src.SendingEmail += delegate(string email) {
-				var _mailController = new MFMailComposeViewController ();
-				_mailController.SetToRecipients (new []{email});
-				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-				PresentViewController (_mailController, true, null);
-			};
+//			src.SendingEmail += delegate(string email) {
+//				var _mailController = new MFMailComposeViewController ();
+//				_mailController.SetToRecipients (new []{email});
+//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
+//				PresentViewController (_mailController, true, null);
+//			};
 
-			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
+//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
 
-			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
+//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
 
-			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
+//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
 
-			src.CallingPhoneNumber += delegate {
-				ShowPhoneNumbers();
-			};
+//			src.CallingPhoneNumber += delegate {
+//				ShowPhoneNumbers();
+//			};
 
-			src.SharingCard += delegate {
-				ShareCard (((TableSource)tblEventCards.Source).SelectedCard);
-			};
+//			src.SharingCard += delegate {
+//				ShareCard (((TableSource)tblEventCards.Source).SelectedCard);
+//			};
 
 			return src;
 		}

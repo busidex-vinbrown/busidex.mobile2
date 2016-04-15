@@ -9,23 +9,23 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	public delegate void EditNotesHandler();
-	public delegate void CardAddedToMyBusidexHandler(UserCard card);
-	public delegate void CardRemovedFromMyBusidexHandler(UserCard card);
-	public delegate void CallingPhoneNumberHandler();
-	public delegate void SendingEmailHandler(string email);
-	public delegate void ViewWebsiteHandler(string url);
-	public delegate void SharingCardHandler();
+//	public delegate void EditNotesHandler();
+//	public delegate void CardAddedToMyBusidexHandler(UserCard card);
+//	public delegate void CardRemovedFromMyBusidexHandler(UserCard card);
+//	public delegate void CallingPhoneNumberHandler();
+//	public delegate void SendingEmailHandler(string email);
+//	public delegate void ViewWebsiteHandler(string url);
+//	public delegate void SharingCardHandler();
 
 	public class TableSource : BaseTableSource {
 
-		public event EditNotesHandler EditingNotes;
-		public event CallingPhoneNumberHandler CallingPhoneNumber;
-		public event SendingEmailHandler SendingEmail;
-		public event ViewWebsiteHandler ViewWebsite;
-		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
-		public event CardRemovedFromMyBusidexHandler CardRemovedFromMyBusidex;
-		public event SharingCardHandler SharingCard;
+		//public event EditNotesHandler EditingNotes;
+		//public event CallingPhoneNumberHandler CallingPhoneNumber;
+		//public event SendingEmailHandler SendingEmail;
+		//public event ViewWebsiteHandler ViewWebsite;
+		//public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
+		//public event CardRemovedFromMyBusidexHandler CardRemovedFromMyBusidex;
+		//public event SharingCardHandler SharingCard;
 
 		public bool NoCards;
 
