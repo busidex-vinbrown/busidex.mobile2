@@ -55,7 +55,13 @@ namespace Busidex.Mobile
 		public static void SaveResponse(string response, string fileName){
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
 			try{
-				if(!IsFileInUse(new FileInfo(fullFilePath))){
+				bool fileInUse;
+
+				if(File.Exists(fullFilePath)){
+					if(!IsFileInUse(new FileInfo(fullFilePath))){
+						File.WriteAllText (fullFilePath, response);
+					}
+				}else{
 					File.WriteAllText (fullFilePath, response);
 				}
 			}catch(Exception ex){

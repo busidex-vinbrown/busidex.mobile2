@@ -1,6 +1,5 @@
 ﻿
 using System;
-
 using UIKit;
 using Busidex.Mobile.Models;
 using System.IO;
@@ -14,8 +13,6 @@ namespace Busidex.Presentation.iOS
 		public BaseCardViewController (IntPtr handle) : base (handle)
 		{
 		}
-
-		//protected UITableView TableView;
 
 		protected UIImageView cardImagePortrait;
 		protected UIImageView cardImageLandscape;
@@ -31,8 +28,6 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected CardViewState ViewState {get;set;}
-
-
 
 		protected void ToggleImage(){
 
@@ -65,7 +60,6 @@ namespace Busidex.Presentation.iOS
 					}
 					ViewState = CardViewState.Front;
 
-					//TableView.Hidden = true;
 					cardImageLandscape.Hidden = SelectedCard.Card.FrontOrientation == "V";
 					cardImagePortrait.Hidden = SelectedCard.Card.FrontOrientation == "H";
 
@@ -100,9 +94,7 @@ namespace Busidex.Presentation.iOS
 						});
 					}
 
-
 					ViewState = CardViewState.Back;
-					//TableView.Hidden = true;
 					cardImageLandscape.Hidden = SelectedCard.Card.BackOrientation == "V";
 					cardImagePortrait.Hidden = SelectedCard.Card.BackOrientation == "H";
 
@@ -117,15 +109,11 @@ namespace Busidex.Presentation.iOS
 
 		protected void HideCardDetail(){
 			NavigationController.SetNavigationBarHidden (false, false);
-			//TableView.Hidden = false;
-			//cardImageLandscape.Hidden = cardImagePortrait.Hidden = true; 
-			//cardImageLandscape.Image = cardImagePortrait.Image = null;
 			NavigationController.PopViewController (true);
 		}
 
 		protected void GoToCard(){
 			ViewState = CardViewState.Loading;
-			//SelectedCard = ((BaseTableSource)TableView.Source).SelectedCard;
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_DETAILS, SelectedCard.Card.Name, 0);
 

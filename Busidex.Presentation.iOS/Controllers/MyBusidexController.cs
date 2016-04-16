@@ -17,7 +17,7 @@ namespace Busidex.Presentation.iOS
 		public static NSString BusidexCellId = new NSString ("cellId");
 		List<UserCard> FilterResults;
 		const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
-		//MFMailComposeViewController _mailController;
+
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -64,35 +64,6 @@ namespace Busidex.Presentation.iOS
 			src.ShowNoCardMessage = true;
 			src.CardSelected += ShowCardActions;
 
-//			src.EditingNotes += delegate {
-//				EditNotes();
-//			};	
-
-//			src.SendingEmail += delegate(string email) {
-//
-//				_mailController = new MFMailComposeViewController ();
-//				_mailController.SetToRecipients (new []{email});
-//
-//				_mailController.Finished += ( s, args) => InvokeOnMainThread (
-//					() => args.Controller.DismissViewController (true, null)
-//				);
-//				PresentViewController (_mailController, true, null);
-//			};
-//
-//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-
-//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-//
-//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-
-//			src.CallingPhoneNumber += delegate {
-//				ShowPhoneNumbers();
-//			};
-
-//			src.SharingCard += delegate {
-//				ShareCard (((TableSource)TableView.Source).SelectedCard);
-//			};
-
 			return src;
 		}
 
@@ -122,8 +93,6 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-
-
 		protected override void ProcessCards(string data){
 			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
@@ -133,14 +102,7 @@ namespace Busidex.Presentation.iOS
 				Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
 				InvokeOnMainThread (() => {
-					if (TableView.Source == null) {
-						var src = ConfigureTableSourceEventHandlers (Application.MyBusidex);
-						src.NoCardsMessage = NO_CARDS;
-						TableView.Source = src;
-					}
-					TableView.AllowsSelection = true;
-
-					TableView.ReloadData ();
+					ResetFilter();
 				});
 			}
 		}
@@ -181,6 +143,11 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
 
 			base.ViewDidAppear (animated);
+
+			if(Application.MyBusidexInvalidated){
+				Application.MyBusidexInvalidated = false;
+				LoadMyBusidex ();
+			}
 		}
 
 		public override void ViewDidLoad ()
@@ -190,8 +157,6 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_LIST, 0);
 
 			ConfigureSearchBar ();
-
-			//base.TableView = TableView;
 
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			LoadMyBusidex ();

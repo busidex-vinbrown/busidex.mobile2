@@ -235,11 +235,24 @@ namespace Busidex.Presentation.iOS
 					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
 						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+
+						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+							.ThenBy (c => c.Card != null ? c.Card.Name : "")
+							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+							.ToList ();
+						
 					}
 					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
 				}
+				Utils.SaveResponse (file, fullFilePath);
 
-				File.WriteAllText (fullFilePath, file);
+				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
+					Application.MyBusidex.Add (userCard);
+					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+						.ThenBy (c => c.Card != null ? c.Card.Name : "")
+						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+						.ToList ();
+				}
 			}
 
 			string name = Resources.GA_LABEL_ADD;
@@ -248,22 +261,6 @@ namespace Busidex.Presentation.iOS
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
-		}
-
-		protected void RemoveCardFromMyBusidex(UserCard userCard){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-
-			string file;
-			if (File.Exists (fullFilePath)) {
-				using (var myBusidexFile = File.OpenText (fullFilePath)) {
-					var myBusidexJson = myBusidexFile.ReadToEnd ();
-					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-				}
-
-				File.WriteAllText (fullFilePath, file);
-			}
 		}
 
 		protected bool isProgressFinished(float processed, float total){

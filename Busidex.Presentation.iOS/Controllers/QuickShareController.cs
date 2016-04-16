@@ -101,6 +101,7 @@ namespace Busidex.Presentation.iOS
 				var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 				var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
 
+
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
 				var card = new Card (cardResponse.Model);
 				var user = NSUserDefaults.StandardUserDefaults;
@@ -115,6 +116,8 @@ namespace Busidex.Presentation.iOS
 					Notes = string.Empty
 				};
 				busidexController.AddCardToMyBusidexCache (userCard);
+				Application.MyBusidexInvalidated = true;
+
 				var myBusidexController = new Busidex.Mobile.MyBusidexController ();
 				myBusidexController.AddToMyBusidex (Link.CardId, token);
 
