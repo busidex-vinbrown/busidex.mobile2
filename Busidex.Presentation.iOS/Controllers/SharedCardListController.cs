@@ -82,21 +82,22 @@ namespace Busidex.Presentation.iOS
 
 			var cookie = GetAuthCookie ();
 			// Accept/Decline the card
-			var ctrl = new Busidex.Mobile.SharedCardController ();
-			var cardId = new long? (sharedCard.Card.CardId);
-
-			ctrl.UpdateSharedCards (
-				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
-				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
-				cookie.Value);
-
+//			var ctrl = new Busidex.Mobile.SharedCardController ();
+//			var cardId = new long? (sharedCard.Card.CardId);
+//
+//			ctrl.UpdateSharedCards (
+//				sharedCard.Accepted.GetValueOrDefault() ?  cardId: null, 
+//				sharedCard.Declined.GetValueOrDefault() ? cardId : null, 
+//				cookie.Value);
+			UISubscriptionService.SaveSharedCard(sharedCard);
 			// if the card was accepted, update local copy of MyBusidex
 			if(sharedCard.Accepted.GetValueOrDefault()){
-				var newCard = new UserCard {
-					Card = sharedCard.Card,
-					CardId = sharedCard.Card.CardId
-				};
-				AddCardToMyBusidexCache (newCard);
+//				var newCard = new UserCard {
+//					Card = sharedCard.Card,
+//					CardId = sharedCard.Card.CardId
+//				};
+				//AddCardToMyBusidexCache (newCard);
+
 
 				// track the event
 				ActivityController.SaveActivity ((long)EventSources.Add, sharedCard.Card.CardId, cookie.Value);

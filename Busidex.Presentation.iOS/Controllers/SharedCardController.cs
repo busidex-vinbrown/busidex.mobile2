@@ -32,21 +32,6 @@ namespace Busidex.Presentation.iOS
 
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
-				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-//				UserCard userCard = null;
-//				if (File.Exists (fullFilePath)) {
-//					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-//						var myBusidexJson = myBusidexFile.ReadToEnd ();
-//						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-//						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-//							if(uc.Card.CardId == UserCard.Card.CardId){
-//								userCard = uc;
-//								break;
-//							}
-//						}
-//					}
-//				}
-
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
 				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 340f, dimensions.Width, dimensions.Height);
 

@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using Foundation;
 using UIKit;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using System.IO;
-using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	public delegate void ItemSelected();
+	public delegate void ItemSelectedHandler(EventTag tag);
 
 	public class EventListTableSource : UITableViewSource
 	{
+
+		public event ItemSelectedHandler OnItemSelected;
 
 		const float BASE_CELL_HEIGHT = 50f;
 		const float TOP_MARGIN = 10f;
 		List<UITableViewCell> cellCache;
 		List<EventTag> EventList;
-		public EventTag SelectedEvent;
 
 		public EventListTableSource (List<EventTag> items)
 		{
@@ -32,12 +30,9 @@ namespace Busidex.Presentation.iOS
 			cellCache = new List<UITableViewCell> ();
 		}
 
-		public event ItemSelected OnItemSelected;
-
 		protected void SelectItem(EventTag tag){
-			SelectedEvent = tag;
 			if (OnItemSelected != null) {
-				OnItemSelected ();
+				OnItemSelected (tag);
 			}
 		}
 

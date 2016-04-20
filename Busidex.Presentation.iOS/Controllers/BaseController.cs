@@ -121,6 +121,9 @@ namespace Busidex.Presentation.iOS
 			var cookie = new NSHttpCookie(nCookie);
 
 			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+
+			UISubscriptionService.AuthToken = cookie.Value;
+
 			return cookie;
 		}
 
@@ -218,50 +221,50 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected virtual async Task<int> DoSearch(){
+//		protected virtual async Task<int> DoSearch(){
+//
+//			Overlay.Hide ();
+//
+//			return 1;
+//		}
 
-			Overlay.Hide ();
+//		public void AddCardToMyBusidexCache(UserCard userCard){
+//			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+//
+//			string file;
+//			if (File.Exists (fullFilePath)) {
+//				using (var myBusidexFile = File.OpenText (fullFilePath)) {
+//					var myBusidexJson = myBusidexFile.ReadToEnd ();
+//					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+//					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
+//						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+//
+//						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+//							.ThenBy (c => c.Card != null ? c.Card.Name : "")
+//							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+//							.ToList ();
+//						
+//					}
+//					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+//				}
+//				Utils.SaveResponse (file, fullFilePath);
+//
+//				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
+//					Application.MyBusidex.Add (userCard);
+//					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+//						.ThenBy (c => c.Card != null ? c.Card.Name : "")
+//						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+//						.ToList ();
+//				}
+//			}
 
-			return 1;
-		}
-
-		public void AddCardToMyBusidexCache(UserCard userCard){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-
-			string file;
-			if (File.Exists (fullFilePath)) {
-				using (var myBusidexFile = File.OpenText (fullFilePath)) {
-					var myBusidexJson = myBusidexFile.ReadToEnd ();
-					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
-						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-
-						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-							.ThenBy (c => c.Card != null ? c.Card.Name : "")
-							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-							.ToList ();
-						
-					}
-					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
-				}
-				Utils.SaveResponse (file, fullFilePath);
-
-				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
-					Application.MyBusidex.Add (userCard);
-					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-						.ThenBy (c => c.Card != null ? c.Card.Name : "")
-						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-						.ToList ();
-				}
-			}
-
-			string name = Resources.GA_LABEL_ADD;
-			if(userCard != null && userCard.Card != null){
-				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
-			}
-
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
-		}
+//			string name = Resources.GA_LABEL_ADD;
+//			if(userCard != null && userCard.Card != null){
+//				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
+//			}
+//
+//			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+//		}
 
 		protected bool isProgressFinished(float processed, float total){
 			return processed.Equals (total);

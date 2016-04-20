@@ -89,7 +89,7 @@ namespace Busidex.Mobile
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
-			if(UserCards == null){
+			if(UserCards == null || UserCards.Count == 0){
 				UserCards = new List<UserCard> ();
 				await loadUserCards ();
 			}
@@ -99,7 +99,7 @@ namespace Busidex.Mobile
 			}
 
 			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
-			if(Notifications == null){
+			if(Notifications == null || Notifications.Count == 0){
 				Notifications = new List<SharedCard> ();
 			}
 			await loadNotifications ();
@@ -109,7 +109,7 @@ namespace Busidex.Mobile
 			}
 
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
-			if(EventList == null){
+			if(EventList == null || EventList.Count == 0){
 				EventList = new List<EventTag> ();
 				await loadEventList ();
 			}
@@ -119,9 +119,18 @@ namespace Busidex.Mobile
 			}
 
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
-			if(OrganizationList == null){
+			if(OrganizationList == null || OrganizationList.Count == 0){
 				OrganizationList = new List<Organization> ();
 				await loadOrganizations ();
+			}
+
+			foreach(var organization in OrganizationList){
+				if (!OrganizationMembers.ContainsKey(organization.OrganizationId) || OrganizationMembers [organization.OrganizationId].Count == 0) {
+					OrganizationMembers [organization.OrganizationId] = loadData<List<Card>> (Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_MEMBERS_FILE, organization.OrganizationId)));	
+				}
+				if (!OrganizationReferrals.ContainsKey(organization.OrganizationId) || OrganizationReferrals [organization.OrganizationId].Count == 0) {
+					OrganizationReferrals [organization.OrganizationId] = loadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organization.OrganizationId)));	
+				}
 			}
 
 			if(OnMyOrganizationsLoaded != null){
@@ -183,9 +192,9 @@ namespace Busidex.Mobile
 
 		public static void LoadUserCards(){
 			loadUserCards ().ContinueWith(r=>{
-				if(OnMyBusidexLoaded != null){
-					OnMyBusidexLoaded(UserCards);
-				}
+//				if(OnMyBusidexLoaded != null){
+//					OnMyBusidexLoaded(UserCards);
+//				}
 			});	 	
 		}
 
@@ -195,6 +204,22 @@ namespace Busidex.Mobile
 					OnMyOrganizationsLoaded(OrganizationList);
 				}
 			});	 	
+		}
+
+		public static void LoadEventList(){
+			loadEventList ().ContinueWith (r => {
+				if (OnEventListLoaded != null) {
+					OnEventListLoaded (EventList);
+				}
+			});
+		}
+
+		public static void LoadEventCards(EventTag tag){
+			loadEventCards (tag).ContinueWith (r => {
+//				if(OnEventCardsLoaded != null){
+//					OnEventCardsLoaded(tag, EventCards[tag.Text]);
+//				}	
+			});
 		}
 
 		public static async void LoadNotifications(){
@@ -360,7 +385,7 @@ namespace Busidex.Mobile
 			await semaphore.WaitAsync();
 
 			try{
-				searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(async t => {
+				await searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(async t => {
 					Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
 
 					var eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (t.Result);
@@ -414,34 +439,44 @@ namespace Busidex.Mobile
 
 		static async Task<bool> loadEventList(){
 
+			var semaphore = locks.GetOrAdd(Resources.EVENT_LIST_FILE, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
+
 			try{
 				EventList.Clear ();
 
 				await searchController.GetEventTags (AuthToken).ContinueWith(async r => {
-					if (!string.IsNullOrEmpty (r.Result)) {
 
-						if(r.Result != null){
-							var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (r.Result);
-							EventList = eventListResponse.Model;
-
-							foreach(var tag in EventList){
-								await loadEventCards(tag);
-							}
-
-							var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
-
-							Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
-						}
+					if(r.Result == null || string.IsNullOrEmpty(r.Result)){
+						var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE);
+						EventList.AddRange(Utils.GetCachedResult<List<EventTag>>(fullFileName));
+					}else{
+						var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (r.Result);
+						EventList.AddRange(eventListResponse.Model);
 					}
+
+					foreach(var tag in EventList){
+						await loadEventCards(tag);
+					}
+
+					var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
+
+					Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
 				});
 			}
 			catch(Exception ex){
 				Xamarin.Insights.Report (ex);
 			}
+			finally{
+				semaphore.Release ();
+			}
 			return true;
 		}
 
 		static async Task<bool> loadOrganizations(){
+
+			var semaphore = locks.GetOrAdd(Resources.MY_ORGANIZATIONS_FILE, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
 
 			try{
 				OrganizationList.Clear ();
@@ -453,7 +488,9 @@ namespace Busidex.Mobile
 						if(myOrganizationsResponse != null && myOrganizationsResponse.Model != null){
 							foreach (Organization org in myOrganizationsResponse.Model) {
 
-								OrganizationList.Add(org);
+								if(OrganizationList.All(o => o.OrganizationId != org.OrganizationId)){
+									OrganizationList.Add(org);
+								}
 
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
@@ -461,10 +498,11 @@ namespace Busidex.Mobile
 									await Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
 								} 
 								// load organization members
-								organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
+								await organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
-									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
+									var orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+
+									Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(orgMemberResponse.Model), string.Format(Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId));
 
 									var idx = 0;
 									OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
@@ -490,10 +528,10 @@ namespace Busidex.Mobile
 									}
 								});
 
-								organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
+								await organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
 
 									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
+									Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(orgReferralResponse.Model), string.Format(Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId));
 
 									var idx = 0;
 
@@ -530,6 +568,9 @@ namespace Busidex.Mobile
 			catch(Exception ex){
 				Xamarin.Insights.Report (ex);
 			}
+			finally{
+				semaphore.Release ();
+			}
 			return true;
 		}
 
@@ -542,59 +583,60 @@ namespace Busidex.Mobile
 			var semaphore = locks.GetOrAdd(AuthToken, new SemaphoreSlim(1, 1));
 			await semaphore.WaitAsync();
 
-			try{
-				
-				var cards = new List<UserCard> ();
+			var cards = new List<UserCard> ();
+			var status = new ProgressStatus();
 
+			try{
 				await myBusidexController.GetMyBusidex (AuthToken).ContinueWith (async r => {
 
-					if(r.Result != null){
+					if(r.Result == null || string.IsNullOrEmpty(r.Result)){
+						var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+						cards.AddRange(Utils.GetCachedResult<List<UserCard>>(fullFileName));
+					}else{
 						var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
-						myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);			
+						cards.AddRange(myBusidexResponse.MyBusidex.Busidex);
+						cards.ForEach (c => c.ExistsInMyBusidex = true);	
+					}
 
-						//int idx = 0; 
-						var status = new ProgressStatus();
-						status.Total = myBusidexResponse.MyBusidex.Busidex.Count;
+					status.Total = cards.Count;
 
-						foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
-							if (item.Card != null) {
+					foreach (var item in cards) {
+						if (item.Card != null) {
 
-								var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
-								var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
-								var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
-								var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
+							var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
+							var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
+							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
+							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
 
-								cards.Add (item);
-
-								if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-									await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
-										status.Count++;
-									});
-								} else{
+							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (t => {
 									status.Count++;
-								}
+								});
+							} else{
+								status.Count++;
+							}
 
-								if ((!File.Exists (Resources.DocumentsPath + "/" + bName)) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-									await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
-								}
-								if(OnMyBusidexUpdated != null){
-									OnMyBusidexUpdated(status);
-								}
+							if ((!File.Exists (Resources.DocumentsPath + "/" + bName)) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+							}
+							if(OnMyBusidexUpdated != null){
+								OnMyBusidexUpdated(status);
 							}
 						}
-
-						UserCards.Clear();
-						UserCards.AddRange(cards);
-
-						var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
-
-						Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
-
-						// Fire event handler
-						if(OnMyBusidexLoaded != null){
-							OnMyBusidexLoaded(UserCards);
-						}
 					}
+
+					UserCards.Clear();
+					UserCards.AddRange(cards);
+
+					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
+
+					Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
+
+					// Fire event handler
+					if(OnMyBusidexLoaded != null){
+						OnMyBusidexLoaded(UserCards);
+					}
+
 				});
 			}
 			finally{

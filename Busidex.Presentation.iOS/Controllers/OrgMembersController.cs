@@ -1,7 +1,6 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using System.Threading.Tasks;
 using Busidex.Mobile;
 using System.Collections.Generic;
 using Busidex.Mobile.Models;
@@ -11,7 +10,7 @@ using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrgMembersController : BaseCardViewController
+	public partial class OrgMembersController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		public long OrganizationId{ get; set; }
@@ -101,29 +100,6 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-//		void ShowPhoneNumbers(){
-//
-//			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-//			var phoneViewController = board.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-//			phoneViewController.SelectedCard = ((TableSource)tblMembers.Source).SelectedCard;
-//
-//			if (phoneViewController != null) {
-//				NavigationController.PushViewController (phoneViewController, true);
-//			}
-//		}
-//
-//		void EditNotes(){
-//
-//			UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-//
-//			var notesController = board.InstantiateViewController ("NotesController") as NotesController;
-//			notesController.UserCard = ((TableSource)tblMembers.Source).SelectedCard;
-//
-//			if (notesController != null) {
-//				NavigationController.PushViewController (notesController, true);
-//			}
-//		}
-
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new OrgMemberTableSource (data);
 			src.ShowNotes = false;
@@ -131,128 +107,30 @@ namespace Busidex.Presentation.iOS
 			src.NoCardsMessage = "No members have been loaded for this organization";
 			src.CardSelected += ShowCardActions;
 
-//			src.EditingNotes += delegate {
-//				EditNotes();
-//			};	
-//			src.SendingEmail += delegate(string email) {
-//				var _mailController = new MFMailComposeViewController ();
-//				_mailController.SetToRecipients (new []{email});
-//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-//				PresentViewController (_mailController, true, null);
-//			};
-//
-//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-//
-//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-//
-//			src.CallingPhoneNumber += delegate {
-//				ShowPhoneNumbers();
-//			};
-//
-//			src.SharingCard += delegate {
-//				ShareCard (((TableSource)tblMembers.Source).SelectedCard);
-//			};
-
 			return src;
 		}
 
-		void LoadMembers(List<UserCard> cards){
-			var src = ConfigureTableSourceEventHandlers(cards); 
+		void loadCards(){
+
 			Cards = new List<UserCard> ();
-			Cards.AddRange (cards);
 
-			tblMembers.Source = src;
-			tblMembers.ReloadData ();
-			tblMembers.AllowsSelection = true;
-			tblMembers.SetNeedsDisplay ();
-		}
-
-		async Task<int> ProcessMembers(string response){
-			OrgMemberResponse Members = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (response);
-			var cards = new List<UserCard> ();
-			float total = Members.Model.Count;
-			float processed = 0;
-
-			if (!Members.Model.Any ()) {
-				LoadMembers (cards);
-			} else {
-				foreach (var item in Members.Model) {
-					if (item != null) {
-
-						string frontFileId = item.FrontFileId.ToString ();
-						string frontType = item.FrontType;
-
-						var imagePath = Resources.THUMBNAIL_PATH + frontFileId + "." + frontType;
-						var fName = frontFileId + "." + frontType;
-
+			if (tblMembers.Source == null) {
+				
+				if(	OrganizationMemberMode == MemberMode.Members ){
+					foreach(var card in UISubscriptionService.OrganizationMembers[OrganizationId] ){
 						var userCard = new UserCard ();
+						userCard.ExistsInMyBusidex = UISubscriptionService.UserCards.Exists(c => c.CardId == userCard.CardId);
+						userCard.Card = card;
+						userCard.CardId = card.CardId;
 
-						userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
-						userCard.Card = item;
-						userCard.CardId = item.CardId;
-
-						cards.Add (userCard);
-
-						if (!File.Exists (Path.Combine (documentsPath, frontFileId + "." + frontType))) {
-							await Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-								if (isProgressFinished(++processed, total)) {
-									InvokeOnMainThread (() => LoadMembers (cards));
-								} 
-							});
-						} else {
-							if (isProgressFinished(++processed, total)) {
-								LoadMembers (cards);
-							}
-						}
+						Cards.Add (userCard);
 					}
+				}else{
+					Cards.AddRange (UISubscriptionService.OrganizationReferrals[OrganizationId]);
 				}
+
+				ResetFilter ();
 			}
-			return 1;
-		}
-
-		List<UserCard> getCardsFromModel(string data){
-
-			if(OrganizationMemberMode == MemberMode.Members){
-				var response = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (data);
-				var cards = new List<UserCard> ();
-
-				foreach(var card in response.Model){
-					var userCard = new UserCard ();
-					userCard.ExistsInMyBusidex = card.ExistsInMyBusidex;
-					userCard.Card = card;
-					userCard.CardId = card.CardId;
-
-					cards.Add (userCard);
-				}
-				return cards;
-			}else{
-				var response = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (data);
-				return response.Model;
-			}
-		}
-
-		protected override void ProcessCards(string data){
-
-			Cards = getCardsFromModel (data);
-
-			InvokeOnMainThread (() => {
-				if (tblMembers.Source == null) {
-					var src = ConfigureTableSourceEventHandlers(Cards);
-					src.NoCardsMessage = NO_CARDS;
-					tblMembers.Source = src;
-				}
-				tblMembers.AllowsSelection = true;
-				tblMembers.ReloadData();
-			});
-
-		}
-
-		void GetMembers(){
-
-			LoadCardsFromFile (OrganizationMemberMode == MemberMode.Members
-				? Resources.ORGANIZATION_MEMBERS_FILE + OrganizationId
-				: Resources.ORGANIZATION_REFERRALS_FILE + OrganizationId
-			);
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -277,14 +155,9 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			//base.TableView = tblMembers;
-
 			tblMembers.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 
-			LoadCardsFromFile (OrganizationMemberMode == MemberMode.Members
-				? documentsPath + "/"+ Resources.ORGANIZATION_MEMBERS_FILE + OrganizationId
-				: documentsPath + "/" + Resources.ORGANIZATION_REFERRALS_FILE + OrganizationId
-			);
+			loadCards ();
 
 			ConfigureSearchBar ();
 

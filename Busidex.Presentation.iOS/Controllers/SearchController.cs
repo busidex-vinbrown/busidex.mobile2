@@ -142,7 +142,7 @@ namespace Busidex.Presentation.iOS
 			View.SetNeedsDisplay ();
 		}
 
-		protected override async Task<int> DoSearch(){
+		protected async Task<int> DoSearch(){
 
 			var cookie = GetAuthCookie ();
 			string token = string.Empty;
@@ -200,7 +200,8 @@ namespace Busidex.Presentation.iOS
 
 			});
 
-			base.DoSearch ();
+			//await base.DoSearch ();
+			Overlay.Hide();
 
 			return 1;
 		}

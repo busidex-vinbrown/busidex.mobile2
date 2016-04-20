@@ -1,15 +1,10 @@
-﻿
-using System;
-using Foundation;
+﻿using System;
 using UIKit;
-using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using MessageUI;
 using GoogleAnalytics.iOS;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -80,62 +75,34 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-//		void ShowPhoneNumbers(){
-//			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
-//			phoneViewController.SelectedCard = ((TableSource)tblEventCards.Source).SelectedCard;
-//
-//			if (phoneViewController != null) {
-//				NavigationController.PushViewController (phoneViewController, true);
-//			}
-//		}
-
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new TableSource (data);
-//			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No cards match your search";
 			src.CardSelected += ShowCardActions;
 
-//			src.SendingEmail += delegate(string email) {
-//				var _mailController = new MFMailComposeViewController ();
-//				_mailController.SetToRecipients (new []{email});
-//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-//				PresentViewController (_mailController, true, null);
-//			};
-
-//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-
-//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-
-//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-
-//			src.CallingPhoneNumber += delegate {
-//				ShowPhoneNumbers();
-//			};
-
-//			src.SharingCard += delegate {
-//				ShareCard (((TableSource)tblEventCards.Source).SelectedCard);
-//			};
-
 			return src;
 		}
 
-		protected override void ProcessCards(string data){
-
-			var cardList = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (data).SearchModel.Results;
-			Cards = new List<UserCard> ();
-			Cards.AddRange(cardList.Where(c=>c.OwnerId.HasValue).Select (c => new UserCard (c)));
-
-			var src = ConfigureTableSourceEventHandlers(Cards);
-			src.NoCardsMessage = NO_CARDS;
-
-			InvokeOnMainThread (() => {
-				tblEventCards.Source = src;
-				tblEventCards.AllowsSelection = true;
-				tblEventCards.ReloadData();
-			});
-
-		}
+//		protected override void ProcessCards(string data){
+//
+//			var cardList = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (data).SearchModel.Results;
+//			Cards = new List<UserCard> ();
+//			Cards.AddRange(cardList.Where(c=>c.OwnerId.HasValue).Select (c => new UserCard (c)));
+//
+//			foreach(var uc in Cards){
+//				uc.ExistsInMyBusidex = UISubscriptionService.UserCards.Exists(c => c.CardId == uc.CardId);
+//			}
+//
+//			var src = ConfigureTableSourceEventHandlers(Cards);
+//			src.NoCardsMessage = NO_CARDS;
+//
+//			InvokeOnMainThread (() => {
+//				tblEventCards.Source = src;
+//				tblEventCards.AllowsSelection = true;
+//				tblEventCards.ReloadData();
+//			});
+//		}
 
 		public override void ViewDidAppear (bool animated)
 		{
@@ -145,22 +112,35 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		void refreshTable(EventTag tag, List<UserCard> cards){
+
+			InvokeOnMainThread (() => {
+				Cards = new List<UserCard> ();
+				Cards.AddRange (cards);
+				ResetFilter ();
+				UISubscriptionService.OnEventCardsLoaded -= refreshTable;
+			});
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			//TableView = tblEventCards;
-
 			ConfigureSearchBar ();
-
-			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
 
 			lblEventName.Text = SelectedTag.Description;
 
-			var fullFilePath = Path.Combine (documentsPath, string.Format(Resources.EVENT_CARDS_FILE, SelectedTag.Text));
-			if (File.Exists (fullFilePath)) {
-				LoadCardsFromFile (fullFilePath);
+			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
+
+			if (UISubscriptionService.EventCards.ContainsKey(SelectedTag.Text) && UISubscriptionService.EventCards [SelectedTag.Text].Count > 0) {
+				refreshTable (SelectedTag, UISubscriptionService.EventCards [SelectedTag.Text]);
+			} else {
+				UISubscriptionService.OnEventCardsLoaded -= refreshTable;
+				UISubscriptionService.OnEventCardsLoaded += refreshTable;
+
+				UISubscriptionService.LoadEventCards (SelectedTag);
 			}
+
 		}
 	}
 }

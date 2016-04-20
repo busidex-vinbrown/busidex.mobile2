@@ -32,6 +32,10 @@ namespace Busidex.Presentation.iOS
 			long userId;
 			if (cookie != null) {
 				userId = Utils.DecodeUserId (cookie.Value);
+
+				UISubscriptionService.AuthToken = cookie.Value;
+
+
 				if (userId <= 0) {
 					UpdateSettings ();
 				} else {

@@ -136,7 +136,7 @@ namespace Busidex.Presentation.iOS
 
 					ToggleAddRemoveButtons (false);
 
-					AddCardToMyBusidexCache (SelectedCard);
+					//AddCardToMyBusidexCache (SelectedCard);
 
 					ResetMyBusidexView ();
 
@@ -175,7 +175,7 @@ namespace Busidex.Presentation.iOS
 							}
 							Utils.SaveResponse (file, fullFilePath);
 
-							Application.MyBusidex.RemoveAll (c => c.CardId == userCard.CardId);
+							//Application.MyBusidex.RemoveAll (c => c.CardId == userCard.CardId);
 
 							ResetMyBusidexView();
 						}

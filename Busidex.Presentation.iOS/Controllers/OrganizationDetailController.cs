@@ -4,6 +4,8 @@ using UIKit;
 using Busidex.Mobile.Models;
 using System.IO;
 using GoogleAnalytics.iOS;
+using Busidex.Mobile;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
@@ -31,61 +33,48 @@ namespace Busidex.Presentation.iOS
 
 		void LoadOrganiaztion(){
 
-			var cookie = GetAuthCookie ();
-			var controller = new Busidex.Mobile.OrganizationController ();
-			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-			overlay.MessageText = "Loading Your Organization";
-
-			View.AddSubview (overlay);
-
-			controller.GetOrganizationById(cookie.Value, OrganizationId).ContinueWith(orgResult => {
-
-				if (!string.IsNullOrEmpty (orgResult.Result)) {
-
-					var orgResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationDetailResponse> (orgResult.Result);
-					var org = orgResponse.Model;
-					if (org != null) {
-						var fileName = Path.Combine (documentsPath, org.LogoFileName);
-
-						InvokeOnMainThread(() => {
-						
-							var imageFile = fileName + "." + org.LogoType;
-							if (File.Exists (imageFile)) {
-								var data = NSData.FromFile (imageFile);
-								if (data != null) {
-									imgOrgImage.Image = new UIImage (data);
-								}
-							}
-
-							lblContacts.Text = org.Contacts;
-
-							txtEmail.Editable = txtPhone.Editable = txtFax.Editable = false;
-							txtEmail.UserInteractionEnabled = txtPhone.UserInteractionEnabled = txtFax.UserInteractionEnabled = true;
-							txtEmail.DataDetectorTypes = UIDataDetectorType.Address;
-							txtPhone.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
-							txtFax.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
-
-							txtEmail.Text = org.Email;
-							txtPhone.Text = org.Phone1;
-							txtFax.Text = org.Phone2;
-							string contentDirectoryPath = Path.Combine (NSBundle.MainBundle.BundlePath, "Resources/");
-
-							wvMessage.LoadHtmlString (string.Format ("<html><body>{0}</body></html>", org.HomePage), new NSUrl(contentDirectoryPath, true));
-
-							btnBrowser.TouchUpInside += delegate {
-								UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Url.Replace("http://", "")));
-							};
-							btnTwitter.TouchUpInside += delegate {
-								UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Twitter.Replace("http://", "")));
-							};
-							btnFacebook.TouchUpInside += delegate {
-								UIApplication.SharedApplication.OpenUrl (new NSUrl ("https://" + org.Facebook.Replace("https://", "").Replace("http://", "")));
-							};
-							overlay.Hide();
-						});
+			var org = UISubscriptionService.OrganizationList.SingleOrDefault (o => o.OrganizationId == OrganizationId);
+			if (org != null) {
+				var fileName = Path.Combine (documentsPath, org.LogoFileName);
+				var imageFile = fileName + "." + org.LogoType;
+				if (File.Exists (imageFile)) {
+					var data = NSData.FromFile (imageFile);
+					if (data != null) {
+						btnOrgImage.SetImage(new UIImage (data), UIControlState.Normal);
 					}
 				}
-			});
+
+				lblContacts.Text = org.Contacts;
+
+				txtEmail.Editable = txtPhone.Editable = txtFax.Editable = false;
+				txtEmail.UserInteractionEnabled = txtPhone.UserInteractionEnabled = txtFax.UserInteractionEnabled = true;
+				txtEmail.DataDetectorTypes = UIDataDetectorType.Address;
+				txtPhone.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
+				txtFax.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
+
+				txtEmail.Text = org.Email;
+				txtPhone.Text = org.Phone1;
+				txtFax.Text = org.Phone2;
+				string contentDirectoryPath = Path.Combine (NSBundle.MainBundle.BundlePath, "Resources/");
+
+				wvMessage.LoadHtmlString (string.Format ("<html><body>{0}</body></html>", org.HomePage), new NSUrl(contentDirectoryPath, true));
+
+				btnMembers.TouchUpInside += delegate {
+					GoToOrganizationCards(org, OrgMembersController.MemberMode.Members);
+				};
+				btnReferrals.TouchUpInside += delegate {
+					GoToOrganizationCards(org, OrgMembersController.MemberMode.Referrals);
+				};
+				btnBrowser.TouchUpInside += delegate {
+					UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Url.Replace("http://", "")));
+				};
+				btnTwitter.TouchUpInside += delegate {
+					UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Twitter.Replace("http://", "")));
+				};
+				btnFacebook.TouchUpInside += delegate {
+					UIApplication.SharedApplication.OpenUrl (new NSUrl ("https://" + org.Facebook.Replace("https://", "").Replace("http://", "")));
+				};
+			}
 		}
 	}
 }

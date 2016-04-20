@@ -9,6 +9,8 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class DataViewController : UIBarButtonItemWithImageViewController
 	{
+		public string DataObject { get;	set; }
+
 		public DataViewController ()
 		{
 
@@ -18,25 +20,14 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		public string DataObject {
-			get;
-			set;
-		}
-
-		enum LoginVisibleSetting{
-			Show = 1,
-			Hide = 2
-		}
-
-		private bool getDeviceTypeSetting(){
+		static bool getDeviceTypeSetting(){
 
 			using (var user = NSUserDefaults.StandardUserDefaults) {
 				return user.BoolForKey (Resources.USER_SETTING_DEVICE_TYPE_SET);
 			}
-
 		}
 
-		void saveDeviceTypeSet(){
+		static void saveDeviceTypeSet(){
 			using (var user = NSUserDefaults.StandardUserDefaults) {
 				user.SetBool(true, Resources.USER_SETTING_DEVICE_TYPE_SET);
 				user.Synchronize ();
@@ -46,19 +37,14 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			/*
-			 * Check the authentication cookie.
-			 * If it is null, use the device id to AutoRegister. This will
-			 * use the device ID as the username and password and create the
-			 * user account if one does not already exist. Then it will return 
-			 * the userId. Set the authentication cookie and continue.
-			 */
+
+			Task.Run (() => {
+				UISubscriptionService.Init ();
+			});
 
 			ConfigureToolbarItems ();
 
 			Application.MainController = NavigationController;
-
-
 
 			if(!getDeviceTypeSetting()){
 
@@ -81,38 +67,16 @@ namespace Busidex.Presentation.iOS
 				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
 			};
 
-			btnGoToMyBusidex.TouchUpInside += async delegate {
-				
-				var task = LoadMyBusidexAsync ();
-				if (await Task.WhenAny (task, Task.Delay (10000)) == task) {
-					await task;
-					if(!task.Result){
-						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-						await LoadMyBusidexAsync(forceLoadFromFile: true);
-					}
-				} else {
-					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-					await LoadMyBusidexAsync(forceLoadFromFile: true);
-				}
+			btnGoToMyBusidex.TouchUpInside += delegate {
+				GoToMyBusidex(BaseNavigationController.NavigationDirection.Forward);
 			};
 
-			btnMyOrganizations.TouchUpInside += async delegate {
-
-				var task = LoadMyOrganizationsAsync ();
-				if (await Task.WhenAny (task, Task.Delay (10000)) == task) {
-					await task;
-					if(!task.Result){
-						await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-						await LoadMyOrganizationsAsync(forceLoadFromFile: true);
-					}
-				} else {
-					await ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-					await LoadMyOrganizationsAsync(forceLoadFromFile: true);
-				}
+			btnMyOrganizations.TouchUpInside += delegate {
+				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Forward);
 			};
 
 			btnEvents.TouchUpInside += delegate {
-				LoadEventList();
+				GoToEvents(BaseNavigationController.NavigationDirection.Forward);
 			};
 
 			btnQuestions.TouchUpInside += delegate {
@@ -198,8 +162,6 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController == null) {
 				return;
 			}
-
-
 
 			NavigationController.SetToolbarHidden (false, true);
 		}

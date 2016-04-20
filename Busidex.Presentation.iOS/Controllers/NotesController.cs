@@ -114,7 +114,7 @@ namespace Busidex.Presentation.iOS
 						}
 					}
 					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-					Application.MyBusidex = myBusidexResponse.MyBusidex.Busidex;
+					//Application.MyBusidex = myBusidexResponse.MyBusidex.Busidex;
 
 				}
 

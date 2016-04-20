@@ -12,28 +12,28 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71" fixedFrame="YES">
-                                <rect key="frame" x="58" y="320" width="40" height="40"/>
-                                <state key="normal" title="" backgroundImage="browser.png">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71">
+                                <rect key="frame" x="255" y="242" width="40" height="40"/>
+                                <state key="normal" title="" image="browser.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="72" fixedFrame="YES">
-                                <rect key="frame" x="135" y="317" width="50" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="72">
+                                <rect key="frame" x="250" y="290" width="50" height="50"/>
                                 <state key="normal" title="" backgroundImage="twitter.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73" fixedFrame="YES">
-                                <rect key="frame" x="218" y="320" width="40" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="73">
+                                <rect key="frame" x="255" y="348" width="40" height="40"/>
                                 <state key="normal" title="" backgroundImage="fb.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contacts:" lineBreakMode="tailTruncation" minimumFontSize="10" id="74" fixedFrame="YES" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contacts:" lineBreakMode="tailTruncation" minimumFontSize="10" id="74" textAlignment="right">
                                 <rect key="frame" x="20" y="191" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -41,7 +41,7 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email:" lineBreakMode="tailTruncation" minimumFontSize="10" id="75" fixedFrame="YES" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Email:" lineBreakMode="tailTruncation" minimumFontSize="10" id="75" textAlignment="right">
                                 <rect key="frame" x="20" y="220" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -49,7 +49,7 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Phone:" lineBreakMode="tailTruncation" minimumFontSize="10" id="76" fixedFrame="YES" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Phone:" lineBreakMode="tailTruncation" minimumFontSize="10" id="76" textAlignment="right">
                                 <rect key="frame" x="20" y="249" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -57,7 +57,7 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fax:" lineBreakMode="tailTruncation" minimumFontSize="10" id="77" fixedFrame="YES" textAlignment="right">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fax:" lineBreakMode="tailTruncation" minimumFontSize="10" id="77" textAlignment="right">
                                 <rect key="frame" x="20" y="278" width="78" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -65,57 +65,78 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <webView contentMode="scaleToFill" id="78" fixedFrame="YES">
-                                <rect key="frame" x="12" y="383" width="302" height="165"/>
+                            <webView contentMode="scaleToFill" id="78">
+                                <rect key="frame" x="12" y="399" width="302" height="149"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" address="YES" link="YES"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </webView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Contacts]" lineBreakMode="tailTruncation" minimumFontSize="10" id="91" fixedFrame="YES">
-                                <rect key="frame" x="106" y="191" width="194" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Contacts]" lineBreakMode="tailTruncation" minimumFontSize="10" id="91">
+                                <rect key="frame" x="110" y="191" width="194" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="99" fixedFrame="YES">
-                                <rect key="frame" x="20" y="79" width="280" height="91"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="131" fixedFrame="YES" text="[Email]">
-                                <rect key="frame" x="106" y="213" width="194" height="29"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="131" text="[Email]">
+                                <rect key="frame" x="105" y="213" width="134" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="134" fixedFrame="YES" text="[Phone]">
-                                <rect key="frame" x="106" y="241" width="194" height="29"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="134" text="[Phone]">
+                                <rect key="frame" x="105" y="241" width="127" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="135" fixedFrame="YES" text="[Fax]">
-                                <rect key="frame" x="106" y="270" width="194" height="29"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="135" text="[Fax]">
+                                <rect key="frame" x="105" y="270" width="126" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1542">
+                                <rect key="frame" x="43" y="313" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Members">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1543">
+                                <rect key="frame" x="43" y="358" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Referrals">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1548">
+                                <rect key="frame" x="20" y="80" width="275" height="91"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="wvMessage" destination="78" id="name-outlet-78"/>
                         <outlet property="lblContacts" destination="91" id="name-outlet-91"/>
-                        <outlet property="imgOrgImage" destination="99" id="name-outlet-99"/>
                         <outlet property="txtPhone" destination="134" id="name-outlet-134"/>
                         <outlet property="txtEmail" destination="131" id="name-outlet-131"/>
                         <outlet property="txtFax" destination="135" id="name-outlet-135"/>
                         <outlet property="btnBrowser" destination="71" id="name-outlet-71"/>
                         <outlet property="btnTwitter" destination="72" id="name-outlet-72"/>
                         <outlet property="btnFacebook" destination="73" id="name-outlet-73"/>
+                        <outlet property="btnMembers" destination="1542" id="name-outlet-1542"/>
+                        <outlet property="btnReferrals" destination="1543" id="name-outlet-1543"/>
+                        <outlet property="btnOrgImage" destination="1548" id="name-outlet-1548"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -130,19 +151,19 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" customColorSpace="calibratedWhite" cocoaTouchSystemColor="lightTextColor"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537" fixedFrame="YES">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1537">
                                 <rect key="frame" x="5" y="40" width="310" height="525"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                             </tableView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" id="319" placeholder="Filter" showsCancelButton="YES">
+                            <searchBar contentMode="redraw" id="319" placeholder="Filter" showsCancelButton="YES">
                                 <rect key="frame" x="0.0" y="42" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </searchBar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="328" key="tableHeaderView" fixedFrame="YES">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="328" key="tableHeaderView">
                                 <rect key="frame" x="3" y="87" width="314" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES" flexibleMinY="YES"/>
                             </imageView>
@@ -165,7 +186,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <resources>
-        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="Default-568h.png" width="320" height="568"/>
         <image name="defaultUserImage.png" width="512" height="512"/>
         <image name="spotlight-icon.png" width="100" height="100"/>
         <image name="signin.png" width="256" height="256"/>
@@ -212,9 +233,9 @@
         <image name="remove.png" width="128" height="128"/>
         <image name="share.png" width="128" height="128"/>
         <image name="sync.png" width="42" height="43"/>
-        <image name="icons/Default-568h.png" width="640" height="1136"/>
+        <image name="icons/Default-568h.png" width="320" height="568"/>
         <image name="Icon.png" width="57" height="57"/>
-        <image name="Icon-60.png" width="120" height="120"/>
+        <image name="Icon-60.png" width="60" height="60"/>
         <image name="Icon-72.png" width="72" height="72"/>
         <image name="Icon-Small.png" width="29" height="29"/>
         <image name="Icon-Small-50.png" width="50" height="50"/>
@@ -224,5 +245,28 @@
         <image name="delete.jpeg" width="204" height="204"/>
         <image name="event.jpg" width="200" height="200"/>
         <image name="event.png" width="173" height="120"/>
+        <image name="logo3.png" width="77" height="72"/>
+        <image name="spotlight-icon2.png" width="130" height="130"/>
+        <image name="EventIcon.png" width="105" height="105"/>
+        <image name="MyBusidexIcon.png" width="105" height="105"/>
+        <image name="OrganizationsIcon.png" width="105" height="105"/>
+        <image name="SearchIcon.png" width="105" height="105"/>
+        <image name="background_blur5.png" width="280" height="450"/>
+        <image name="cards_back2.png" width="324" height="486"/>
+        <image name="main_blur2.png" width="599" height="899"/>
+        <image name="profile2_blur.png" width="584" height="876"/>
+        <image name="Lato-Black.ttf" width="0" height="0"/>
+        <image name="roundback.png" width="381" height="235"/>
+        <image name="EventIcon_disabled.png" width="105" height="105"/>
+        <image name="MyBusidexIcon_disabled.png" width="105" height="105"/>
+        <image name="OrganizationsIcon_disabled.png" width="105" height="105"/>
+        <image name="SearchIcon_disabled.png" width="105" height="105"/>
+        <image name="EventIconBack.png" width="105" height="105"/>
+        <image name="FAQ.png" width="105" height="105"/>
+        <image name="Notification.png" width="105" height="105"/>
+        <image name="button.png" width="284" height="98"/>
+        <image name="textmessage.png" width="256" height="256"/>
+        <image name="contacts.jpg" width="175" height="175"/>
+        <image name="contacts2.png" width="250" height="250"/>
     </resources>
 </document>

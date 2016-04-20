@@ -55,8 +55,6 @@ namespace Busidex.Mobile
 		public static void SaveResponse(string response, string fileName){
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
 			try{
-				bool fileInUse;
-
 				if(File.Exists(fullFilePath)){
 					if(!IsFileInUse(new FileInfo(fullFilePath))){
 						File.WriteAllText (fullFilePath, response);
@@ -91,7 +89,7 @@ namespace Busidex.Mobile
 					return Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
 				}
 			}
-			catch (IOException ioEx)
+			catch (IOException)
 			{
 				//the file is unavailable because it is:
 				//still being written to
@@ -99,6 +97,29 @@ namespace Busidex.Mobile
 				//or does not exist (has already been processed)
 				return null;
 			}
+		}
+
+		public static T GetCachedResult<T>(string fileName) where T : new() {
+			try
+			{
+				if(!File.Exists(fileName)){
+					return new T();
+				}
+
+				using (var file = File.OpenText (fileName)){
+					var fileJson = file.ReadToEnd ();
+					file.Close ();
+					return Newtonsoft.Json.JsonConvert.DeserializeObject<T> (fileJson);
+				}
+			}
+			catch (IOException)
+			{
+				//the file is unavailable because it is:
+				//still being written to
+				//or being processed by another thread
+				//or does not exist (has already been processed)
+				return new T();
+			}		
 		}
 
 		static bool IsFileInUse(FileInfo file){
@@ -112,7 +133,7 @@ namespace Busidex.Mobile
 
 				stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
 			}
-			catch (IOException ioEx)
+			catch (IOException)
 			{
 				//the file is unavailable because it is:
 				//still being written to

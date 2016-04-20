@@ -35,8 +35,8 @@ namespace Busidex.Mobile
 		public const string EVENT_LIST_FILE = "eventlist.json";
 		public const string SHARED_CARDS_FILE = "sharedcards.json";
 		public const string EVENT_CARDS_FILE = "eventcards_{0}.json";
-		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_";
-		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_";
+		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_{0}.json";
+		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_{0}.json";
 		public const string BUSIDEX_USER_FILE = "busidex_user.json";
 
 		public const string QUICKSHARE_LINK = "quickShare_Link.json";

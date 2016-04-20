@@ -23,8 +23,6 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var view = inflater.Inflate (Resource.Layout.EventCards, container, false);
 
-			//var txtFilterEventCards = view.FindViewById<SearchView> (Resource.Id.txtFilterEventCards);
-
 			var lblEventDescription = view.FindViewById<TextView> (Resource.Id.lblEventDescription);
 			lblEventDescription.Text = EventTag.Description;
 

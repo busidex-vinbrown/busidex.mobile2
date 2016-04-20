@@ -9,7 +9,7 @@ namespace Busidex.Presentation.iOS
 {
 	public class Application
 	{
-		public static List<UserCard> MyBusidex { get; set; }
+		//public static List<UserCard> MyBusidex { get; set; }
 		public static UINavigationController MainController { get; set; }
 		public static bool MyBusidexInvalidated { get; set; } // Seems a little hacky, but oh well
 

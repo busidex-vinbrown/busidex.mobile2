@@ -24,11 +24,19 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnTwitter { get; set; }
+		UIButton btnMembers { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgOrgImage { get; set; }
+		UIButton btnOrgImage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnReferrals { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnTwitter { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -60,13 +68,21 @@ namespace Busidex.Presentation.iOS
 				btnFacebook.Dispose ();
 				btnFacebook = null;
 			}
+			if (btnMembers != null) {
+				btnMembers.Dispose ();
+				btnMembers = null;
+			}
+			if (btnOrgImage != null) {
+				btnOrgImage.Dispose ();
+				btnOrgImage = null;
+			}
+			if (btnReferrals != null) {
+				btnReferrals.Dispose ();
+				btnReferrals = null;
+			}
 			if (btnTwitter != null) {
 				btnTwitter.Dispose ();
 				btnTwitter = null;
-			}
-			if (imgOrgImage != null) {
-				imgOrgImage.Dispose ();
-				imgOrgImage = null;
 			}
 			if (lblContacts != null) {
 				lblContacts.Dispose ();

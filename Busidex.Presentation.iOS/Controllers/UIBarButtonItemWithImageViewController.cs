@@ -1,12 +1,10 @@
 ﻿
 using System;
 using UIKit;
-using System.Threading.Tasks;
 using System.IO;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.Linq;
-using System.Collections.Generic;
 using ModernHttpClient;
 
 namespace Busidex.Presentation.iOS
@@ -34,12 +32,12 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected async void OnSwipeRight(){
+		protected void OnSwipeRight(){
 			if(this is EventListController){
-				await LoadMyOrganizationsAsync(false, BaseNavigationController.NavigationDirection.Backward);
+				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Backward);
 			}
 			if(this is OrganizationsController){
-				await LoadMyBusidexAsync(false, BaseNavigationController.NavigationDirection.Backward);
+				GoToMyBusidex(BaseNavigationController.NavigationDirection.Backward);
 			}
 			if(this is MyBusidexController){
 				GoToSearch (BaseNavigationController.NavigationDirection.Backward);
@@ -49,23 +47,23 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected async void OnSwipeLeft(){
+		protected void OnSwipeLeft(){
 			if(this is DataViewController){
 				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
 			}
 			if(this is SearchController){
-				await LoadMyBusidexAsync();
+				GoToMyBusidex(BaseNavigationController.NavigationDirection.Backward);
 			}
 			if(this is MyBusidexController){
-				await LoadMyOrganizationsAsync();
+				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Forward);
 			}
 			if(this is OrganizationsController){
-				await LoadEventList ();
+				GoToEvents (BaseNavigationController.NavigationDirection.Forward);
 			}
 		}
 
-		protected async void OnSwipeDown(){
-			await Sync();
+		protected void OnSwipeDown(){
+			Sync();
 		}
 
 		public override void ViewDidLoad ()
@@ -98,15 +96,15 @@ namespace Busidex.Presentation.iOS
 			NavigationItem.SetHidesBackButton (true, true);
 		}
 
-		protected async Task<bool> Sync(){
-			await LoadMyBusidexAsync (true);
-			await LoadMyOrganizationsAsync (true);
-			await LoadEventList (true);
-			InvokeOnMainThread (() => GetNotifications ());
+		protected void Sync(){
+
+			UISubscriptionService.LoadUserCards ();
+			//await LoadMyBusidexAsync (true);
+			//await LoadMyOrganizationsAsync (true);
+			//await LoadEventList (true);
+			//InvokeOnMainThread (() => GetNotifications ());
 
 			//ConfigureToolbarItems ();
-
-			return true;
 		}
 
 		public int GetNotifications(){
@@ -135,7 +133,6 @@ namespace Busidex.Presentation.iOS
 					var fImagePath = Resources.CARD_PATH + fileName;
 					if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
 						Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
-
 						});
 					}
 				}
@@ -198,6 +195,24 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected void GoToOrganizationCards(Organization org, OrgMembersController.MemberMode mode){
+			try{
+				UIStoryboard board = UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
+
+				var orgMembersController = board.InstantiateViewController ("OrgMembersController") as OrgMembersController;
+
+				if (orgMembersController != null) {
+					orgMembersController.OrganizationId = org.OrganizationId;
+					orgMembersController.OrganizationMemberMode = mode;
+					orgMembersController.OrganizationName = org.Name;
+					orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
+					NavigationController.PushViewController (orgMembersController, true);
+				}
+			}catch(Exception ex){
+				Xamarin.Insights.Report(ex);
+			}
+		}
+
 		protected void GoHome(){
 			
 			((BaseNavigationController)NavigationController).Direction = BaseNavigationController.NavigationDirection.Backward;
@@ -220,8 +235,8 @@ namespace Busidex.Presentation.iOS
 				eventsButtonView.SetBackgroundImage(UIImage.FromFile ("EventIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			}
 			eventsButtonView.Frame = frame;
-			eventsButtonView.TouchUpInside += async delegate {
-				await LoadEventList();
+			eventsButtonView.TouchUpInside += delegate {
+				GoToEvents(BaseNavigationController.NavigationDirection.Forward);
 			};
 
 			// ORGANIZATIONS
@@ -235,8 +250,8 @@ namespace Busidex.Presentation.iOS
 				myOrganizationsButtonView.SetBackgroundImage(UIImage.FromFile ("OrganizationsIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			}
 			myOrganizationsButtonView.Frame = frame;
-			myOrganizationsButtonView.TouchUpInside += async delegate {
-				await LoadMyOrganizationsAsync();
+			myOrganizationsButtonView.TouchUpInside += delegate {
+				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Forward);
 			}; 
 
 			frame.X *= 2;
@@ -244,12 +259,12 @@ namespace Busidex.Presentation.iOS
 			myBusidexButtonView = new UIButton();
 			myBusidexButtonView.SetBackgroundImage(UIImage.FromFile (this is MyBusidexController ? "MyBusidexIcon.png" : "MyBusidexIcon_disabled.png").Scale (new CoreGraphics.CGSize (imageSize, imageSize)), UIControlState.Normal);
 			myBusidexButtonView.Frame = frame;
-			myBusidexButtonView.TouchUpInside += async delegate {
+			myBusidexButtonView.TouchUpInside += delegate {
 				var controller = this as MyBusidexController;
 				if(controller != null){
 					controller.GoToTop();
 				}else{
-					await LoadMyBusidexAsync();
+					GoToMyBusidex(BaseNavigationController.NavigationDirection.Forward);
 				}
 			}; 
 
@@ -265,7 +280,7 @@ namespace Busidex.Presentation.iOS
 			var myBusidexButton = new UIBarButtonItem (
 				myBusidexButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => LoadMyBusidexAsync()
+				(s, e) => GoToMyBusidex(BaseNavigationController.NavigationDirection.Forward)
 			);
 			myBusidexButton.CustomView = myBusidexButtonView;
 
@@ -279,7 +294,7 @@ namespace Busidex.Presentation.iOS
 			var myOrganizationsButton = new UIBarButtonItem (
 				myOrganizationsButtonView.ImageView.Image,
 				UIBarButtonItemStyle.Plain,
-				(s, e) => LoadMyOrganizationsAsync()
+				(s, e) => GoToMyOrganizations(BaseNavigationController.NavigationDirection.Forward)
 			);
 			myOrganizationsButton.CustomView = myOrganizationsButtonView;
 
@@ -296,7 +311,6 @@ namespace Busidex.Presentation.iOS
 			buttonItems [2] = myBusidexButton;
 			buttonItems [3] = searchButton;
 
-
 			NavigationItem.RightBarButtonItems = buttonItems;
 
 			NavigationItem.LeftBarButtonItem = new UIBarButtonItem ();
@@ -311,229 +325,6 @@ namespace Busidex.Presentation.iOS
 
 			NavigationItem.LeftBarButtonItem.CustomView = homeButton;
 			NavigationItem.LeftBarButtonItem.CustomView.Hidden = false;
-
-		}
-
-		protected async Task<bool> LoadMyOrganizationsAsync(bool force = false, 
-			BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward, 
-			bool forceLoadFromFile = false){
-
-			var cookie = GetAuthCookie ();
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_ORGANIZATIONS_FILE);
-			if (File.Exists (fullFilePath) && (CheckRefreshCookie (Resources.ORGANIZATION_REFRESH_COOKIE_NAME) || forceLoadFromFile) && !force) {
-				GoToMyOrganizations (direction);
-			} else {
-				if (cookie != null) {
-
-					var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-					overlay.MessageText = "Loading Your Organizations";
-
-					View.AddSubview (overlay);
-
-					var controller = new OrganizationController ();
-					await controller.GetMyOrganizations (cookie.Value).ContinueWith (async response => {
-						if (!string.IsNullOrEmpty (response.Result)) {
-
-							OrganizationResponse myOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
-
-							Utils.SaveResponse(response.Result, Resources.MY_ORGANIZATIONS_FILE);
-							SetRefreshCookie(Resources.ORGANIZATION_REFRESH_COOKIE_NAME);
-
-							foreach (Organization org in myOrganizationsResponse.Model.OrderByDescending(o=>o.IsMember)) {
-								var fileName = org.LogoFileName + "." + org.LogoType;
-								var fImagePath = Resources.CARD_PATH + fileName;
-								if (!File.Exists (documentsPath + "/" + fileName)) {
-									await Utils.DownloadImage (fImagePath, documentsPath, fileName).ContinueWith (t => {
-
-									});
-								} 
-								// load organization members
-								await controller.GetOrganizationMembers(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
-
-									OrgMemberResponse orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_MEMBERS_FILE + org.OrganizationId);
-
-									var idx = 0;
-									InvokeOnMainThread (() =>{
-										overlay.TotalItems = myOrganizationsResponse.Model.Count();
-										overlay.UpdateProgress (idx);
-									});
-									foreach(var card in orgMemberResponse.Model){
-
-										var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
-										var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
-										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-										if (!File.Exists (documentsPath + "/" + fName) || force) {
-											await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
-												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
-											});
-										}
-										if (!File.Exists (documentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
-
-											});
-										}
-										idx++;
-									}
-								});
-
-								await controller.GetOrganizationReferrals(cookie.Value, org.OrganizationId).ContinueWith(async cards =>{
-
-									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									Utils.SaveResponse(cards.Result, Resources.ORGANIZATION_REFERRALS_FILE + org.OrganizationId);
-
-									var idx = 0;
-									InvokeOnMainThread (() =>{
-										overlay.TotalItems = myOrganizationsResponse.Model.Count();
-										overlay.UpdateProgress (idx);
-									});
-									foreach(var card in orgReferralResponse.Model){
-
-										var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
-										var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
-										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-										if (!File.Exists (documentsPath + "/" + fName) || force) {
-											await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
-												InvokeOnMainThread ( () => overlay.UpdateProgress (idx));
-											});
-										}
-										if (!File.Exists (documentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
-
-											});
-										}
-										idx++;
-									}
-								});
-							}
-
-							InvokeOnMainThread (() => {
-								overlay.Hide();
-								if(!force){
-									GoToMyOrganizations (direction);
-								}
-							});
-						}else{
-							InvokeOnMainThread (() => {
-								ShowAlert ("No Internet Connection", "There was a problem connecting to the internet. Please check your connection.", "Ok");
-								overlay.Hide();
-							});
-						}
-					});
-				}
-			}
-			return true;
-		}
-
-		protected async Task<bool> LoadMyBusidexAsync(bool force = false, 
-			BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward,
-			bool forceLoadFromFile = false)
-		{
-
-			var cookie = GetAuthCookie ();
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			if (File.Exists (fullFilePath) && (CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME) || forceLoadFromFile) && !force) {
-				GoToMyBusidex (direction);
-				return true;
-			}
-
-			if (cookie != null) {
-
-				var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-				overlay.MessageText = "Loading Your Cards";
-
-				View.AddSubview (overlay);
-
-				var ctrl = new Busidex.Mobile.MyBusidexController ();
-				await ctrl.GetMyBusidex (cookie.Value).ContinueWith (async r => {
-
-					if (!string.IsNullOrEmpty (r.Result)) {
-						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
-
-						if (!myBusidexResponse.Success) {
-							InvokeOnMainThread (overlay.Hide);
-							return;
-						}
-
-						Utils.SaveResponse (r.Result, Resources.MY_BUSIDEX_FILE);
-						SetRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
-
-						var cards = new List<UserCard> ();
-						var idx = 0;
-						InvokeOnMainThread (() => {
-							overlay.TotalItems = myBusidexResponse.MyBusidex.Busidex.Count ();
-							overlay.UpdateProgress (idx);
-						});
-
-						foreach (var item in myBusidexResponse.MyBusidex.Busidex) {
-							if (item.Card != null) {
-
-								var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
-								var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
-								var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
-								var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
-
-								cards.Add (item);
-
-								if (!File.Exists (documentsPath + "/" + fName) || force) {
-									await Utils.DownloadImage (fImageUrl, documentsPath, fName).ContinueWith (t => {
-										InvokeOnMainThread (() => overlay.UpdateProgress (idx));
-									});
-								} else {
-									InvokeOnMainThread (() => overlay.UpdateProgress (idx));
-								}
-
-								if ((!File.Exists (documentsPath + "/" + bName) || force) && item.Card.BackFileId.ToString () != Resources.EMPTY_CARD_ID) {
-									await Utils.DownloadImage (bImageUrl, documentsPath, bName).ContinueWith (t => {
-									});
-								}
-								idx++;
-							}
-						}
-
-						InvokeOnMainThread (() => {
-							overlay.Hide ();
-							if (!force) {
-								GoToMyBusidex (direction);
-							}
-						});
-					} else {
-						InvokeOnMainThread (overlay.Hide);
-					}
-				});
-			}
-			return true;
-		}
-
-		protected async Task<bool> LoadEventList(bool force = false, BaseNavigationController.NavigationDirection direction = BaseNavigationController.NavigationDirection.Forward){
-			var cookie = GetAuthCookie ();
-
-			var fullFilePath = Path.Combine (documentsPath, Resources.EVENT_LIST_FILE);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie (Resources.EVENT_LIST_REFRESH_COOKIE_NAME) && !force) {
-				GoToEvents (direction);
-			} else {
-				try {
-					var controller = new Busidex.Mobile.SearchController ();
-					await controller.GetEventTags (cookie.Value).ContinueWith(eventListResponse => {
-						if (!string.IsNullOrEmpty (eventListResponse.Result)) {
-
-							Utils.SaveResponse (eventListResponse.Result, Resources.EVENT_LIST_FILE);
-
-							SetRefreshCookie(Resources.EVENT_LIST_REFRESH_COOKIE_NAME);
-
-							if(!force){
-								InvokeOnMainThread (() => GoToEvents (direction));
-							}
-						}	
-					});
-
-				} catch (Exception ex) {
-					Xamarin.Insights.Report(ex);
-				}
-			}
-			return true;
 		}
 	}
 }

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
-using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -27,9 +26,9 @@ namespace Busidex.Presentation.iOS
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
 
-			if (Application.MyBusidex != null) {
+			if (UISubscriptionService.UserCards != null) {
 				FilterResults.AddRange (
-					Application.MyBusidex.Where (c => 
+					UISubscriptionService.UserCards.Where (c => 
 					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant ().Contains (loweredFilter)) ||
 					(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant ().Contains (loweredFilter)) ||
 					(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant ().Contains (loweredFilter)) ||
@@ -48,14 +47,16 @@ namespace Busidex.Presentation.iOS
 
 		void ResetFilter(){
 
-			SearchBar.Text = string.Empty;
-			TableSource src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
-			src.NoCardsMessage = NO_CARDS;
-			src.IsFiltering = false;
-			TableView.Source = src;
-			TableView.ReloadData ();
-			TableView.AllowsSelection = true;
-			TableView.SetNeedsDisplay ();
+			if (SearchBar != null) {
+				SearchBar.Text = string.Empty;
+				TableSource src = ConfigureTableSourceEventHandlers (UISubscriptionService.UserCards);
+				src.NoCardsMessage = NO_CARDS;
+				src.IsFiltering = false;
+				TableView.Source = src;
+				TableView.ReloadData ();
+				TableView.AllowsSelection = true;
+				TableView.SetNeedsDisplay ();
+			}
 		}
 
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
@@ -93,42 +94,35 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		protected override void ProcessCards(string data){
-			MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
+		public void LoadMyBusidex(){
 
-			if (myBusidexResponse.Success) {
-				Application.MyBusidex = new List<UserCard> ();
-				myBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
-				Application.MyBusidex.AddRange (myBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
-
-				InvokeOnMainThread (() => {
-					ResetFilter();
-				});
-			}
-		}
-			
-		async Task<bool> LoadMyBusidexAsync(){
 			var cookie = GetAuthCookie ();
+			if((UISubscriptionService.UserCards.Count > 0 && CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME))){
+				ResetFilter();
+				return;
+			}
 
 			if (cookie != null) {
 
-				var ctrl = new Busidex.Mobile.MyBusidexController ();
-				await ctrl.GetMyBusidex (cookie.Value).ContinueWith(response => {
-					if(!string.IsNullOrEmpty(response.Result)){
-						ProcessCards (response.Result);
-						Utils.SaveResponse (response.Result, Resources.MY_BUSIDEX_FILE);
-					}
-				});
-			}
-			return true;
-		}
+				var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+				overlay.MessageText = "Loading Your Cards";
 
-		public async void LoadMyBusidex(){
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			if (File.Exists (fullFilePath)) {
-				LoadCardsFromFile (fullFilePath);
-			} else {
-				await LoadMyBusidexAsync ();
+				View.AddSubview (overlay);
+
+				OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				});
+
+				OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					overlay.Hide();
+					ResetFilter();
+				});
+
+				UISubscriptionService.OnMyBusidexUpdated += update;
+				UISubscriptionService.OnMyBusidexLoaded += callback;
+
+				UISubscriptionService.LoadUserCards ();
 			}
 		}
 
@@ -156,10 +150,11 @@ namespace Busidex.Presentation.iOS
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_LIST, 0);
 
-			ConfigureSearchBar ();
-
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
+
 			LoadMyBusidex ();
+
+			ConfigureSearchBar ();
 
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;

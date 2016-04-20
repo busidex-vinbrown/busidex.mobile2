@@ -5,6 +5,7 @@ using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
 using System.Threading.Tasks;
 using CoreGraphics;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -115,6 +116,8 @@ namespace Busidex.Presentation.iOS
 
 							SetAuthCookie (UserId);
 
+							UISubscriptionService.Sync ();
+
 							var user = NSUserDefaults.StandardUserDefaults;
 
 							user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
@@ -130,7 +133,7 @@ namespace Busidex.Presentation.iOS
 								
 								InvokeOnMainThread (GoToQuickShare);
 							}else{
-								InvokeOnMainThread (GoToHome);
+								InvokeOnMainThread (GoToMain);
 							}
 
 							return true;
@@ -143,28 +146,15 @@ namespace Busidex.Presentation.iOS
 					});
 					return true;
 				});
-
-
+					
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 				InvokeOnMainThread (() => {
 					ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
 					loggingIn = false;	
 				});
-
 			} 
 			return true;
-		}
-
-		void GoToHome ()
-		{
-
-			var dataViewController = Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
-
-			if (dataViewController != null) {
-				NavigationController.PushViewController (dataViewController, true);
-
-			}
 		}
 	}
 }
