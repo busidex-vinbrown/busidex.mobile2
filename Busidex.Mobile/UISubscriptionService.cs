@@ -49,6 +49,10 @@ namespace Busidex.Mobile
 
 		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim>();
 
+		public static bool OrganizationsLoaded { get; private set; }
+		public static bool EventListLoaded { get; private set; }
+		public static bool MyBusidexLoaded { get; private set; }
+
 		static UISubscriptionService(){
 
 			EventCards = EventCards ?? new Dictionary<string, List<UserCard>> ();
@@ -85,13 +89,21 @@ namespace Busidex.Mobile
 
 		public static async void Init(){
 
+			OrganizationsLoaded = false;
+			MyBusidexLoaded = false;
+			EventListLoaded = false;
+
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if(UserCards == null || UserCards.Count == 0){
 				UserCards = new List<UserCard> ();
-				await loadUserCards ();
+				await loadUserCards ().ContinueWith( (r)=> {
+					MyBusidexLoaded = true;
+				});
+			} else{
+				MyBusidexLoaded = true;
 			}
 
 			if(OnMyBusidexLoaded != null){
@@ -111,7 +123,11 @@ namespace Busidex.Mobile
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
 			if(EventList == null || EventList.Count == 0){
 				EventList = new List<EventTag> ();
-				await loadEventList ();
+				await loadEventList ().ContinueWith( (r)=> {
+					EventListLoaded = true;
+				});
+			}else{
+				EventListLoaded = true;
 			}
 
 			if(OnEventListLoaded != null){
@@ -121,7 +137,11 @@ namespace Busidex.Mobile
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
 			if(OrganizationList == null || OrganizationList.Count == 0){
 				OrganizationList = new List<Organization> ();
-				await loadOrganizations ();
+				await loadOrganizations ().ContinueWith( (r) => {
+					OrganizationsLoaded = true;
+				});
+			}else{
+				OrganizationsLoaded = true;
 			}
 
 			foreach(var organization in OrganizationList){
@@ -143,24 +163,35 @@ namespace Busidex.Mobile
 
 		public static void Clear(){
 
+			OrganizationsLoaded = false;
+			MyBusidexLoaded = false;
+			EventListLoaded = false;
+
 			UserCards.Clear ();
 			if(OnMyBusidexLoaded != null){
+				MyBusidexLoaded = true;
 				OnMyBusidexLoaded(UserCards);
 			}
 
-			OrganizationList.Clear ();OrganizationList.Clear ();
+			OrganizationList.Clear ();
 			if(OnMyOrganizationsLoaded != null){
+				OrganizationsLoaded = true;
 				OnMyOrganizationsLoaded(OrganizationList);
 			}
 
 			EventList.Clear ();
 			if(OnEventListLoaded != null){
+				EventListLoaded = true;
 				OnEventListLoaded(EventList);
 			}
 			CurrentUser = null;
 		}
 
 		public static async void Sync(){
+
+			OrganizationsLoaded = false;
+			MyBusidexLoaded = false;
+			EventListLoaded = false;
 
 			loadUser ();
 
@@ -170,14 +201,14 @@ namespace Busidex.Mobile
 //				}
 			});	
 			await loadOrganizations ().ContinueWith(r=>{
-				if(OnMyOrganizationsLoaded != null){
-					OnMyOrganizationsLoaded(OrganizationList);
-				}
+//				if(OnMyOrganizationsLoaded != null){
+//					OnMyOrganizationsLoaded(OrganizationList);
+//				}
 			});
 			await loadEventList ().ContinueWith(r=>{
-				if(OnEventListLoaded != null){
-					OnEventListLoaded(EventList);
-				}
+//				if(OnEventListLoaded != null){
+//					OnEventListLoaded(EventList);
+//				}
 			});
 			await loadNotifications ().ContinueWith(r=>{
 				if(OnNotificationsLoaded != null){
@@ -462,6 +493,12 @@ namespace Busidex.Mobile
 					var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
 					Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
+
+					EventListLoaded = true;
+
+					if(OnEventListLoaded != null){
+						OnEventListLoaded(EventList);
+					}
 				});
 			}
 			catch(Exception ex){
@@ -495,7 +532,11 @@ namespace Busidex.Mobile
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
 								if (!File.Exists (Resources.DocumentsPath + "/" + fileName)) {
-									await Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+									try{
+										await Utils.DownloadImage (fImagePath, Resources.DocumentsPath, fileName);
+									}catch(Exception){
+										
+									}
 								} 
 								// load organization members
 								await organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
@@ -519,10 +560,18 @@ namespace Busidex.Mobile
 										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
 										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
 										if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-											await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+											try{
+												await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
+											}catch(Exception){
+
+											}
 										}
 										if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+											try{
+												await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+											}catch(Exception){
+
+											}
 										}
 										idx++;
 									}
@@ -562,10 +611,16 @@ namespace Busidex.Mobile
 						var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
 
 						Utils.SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
+
+						OrganizationsLoaded = true;
+						if(OnMyOrganizationsLoaded != null){
+							OnMyOrganizationsLoaded(OrganizationList);
+						}
 					}
 				});
 			}
 			catch(Exception ex){
+				OrganizationsLoaded = true;
 				Xamarin.Insights.Report (ex);
 			}
 			finally{

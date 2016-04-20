@@ -116,19 +116,19 @@ namespace Busidex.Presentation.iOS
 
 							SetAuthCookie (UserId);
 
-							UISubscriptionService.Sync ();
+							//UISubscriptionService.Sync ();
 
 							var user = NSUserDefaults.StandardUserDefaults;
 
-							user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-							user.SetString (password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
-							user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_EMAIL);
-							user.SetBool (true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
+							user.SetString (username, Resources.USER_SETTING_USERNAME);
+							user.SetString (password, Resources.USER_SETTING_PASSWORD);
+							user.SetString (username, Resources.USER_SETTING_EMAIL);
+							user.SetBool (true, Resources.USER_SETTING_AUTOSYNC);
 							user.Synchronize ();
 
 							loggingIn = false;
 
-							var quickShareLink = Busidex.Mobile.Utils.GetQuickShareLink();
+							var quickShareLink = Utils.GetQuickShareLink();
 							if(quickShareLink != null){
 								
 								InvokeOnMainThread (GoToQuickShare);

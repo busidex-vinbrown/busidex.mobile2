@@ -15,6 +15,7 @@ namespace Busidex.Presentation.iOS
 		public OrganizationsController (IntPtr handle) : base (handle)
 		{
 		}
+		MyBusidexLoadingOverlay overlay;
 
 		OrganizationTableSource ConfigureTableSourceEventHandlers(List<Organization> data){
 
@@ -48,12 +49,37 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		void bindView(List<Organization> organizations){
+
+			InvokeOnMainThread (() => {
+				vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
+				vwOrganizations.Source = ConfigureTableSourceEventHandlers(UISubscriptionService.OrganizationList);
+				vwOrganizations.ReloadData ();
+				vwOrganizations.AllowsSelection = true;
+				vwOrganizations.SetNeedsDisplay ();
+
+				if(overlay != null){
+					overlay.Hide ();
+				}	
+			});
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
-			vwOrganizations.Source = ConfigureTableSourceEventHandlers(UISubscriptionService.OrganizationList);
+			if(!UISubscriptionService.OrganizationsLoaded){
+
+				overlay = new MyBusidexLoadingOverlay (View.Bounds);
+				overlay.MessageText = "Loading Your Organizations";
+				View.AddSubview (overlay);
+
+				UISubscriptionService.OnMyOrganizationsLoaded -= bindView;
+				UISubscriptionService.OnMyOrganizationsLoaded += bindView;
+			}else{
+				bindView (UISubscriptionService.OrganizationList);
+			}
+
 		} 
 	}
 }
