@@ -107,22 +107,30 @@ namespace Busidex.Presentation.iOS
 				var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 				overlay.MessageText = "Loading Your Cards";
 
-				View.AddSubview (overlay);
+				if (!UISubscriptionService.MyBusidexLoaded) {
 
-				OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-					overlay.TotalItems = status.Total;
-					overlay.UpdateProgress (status.Count);
-				});
+					View.AddSubview (overlay);
 
-				OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
-					overlay.Hide();
-					ResetFilter();
-				});
+					OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+						overlay.TotalItems = status.Total;
+						overlay.UpdateProgress (status.Count);
+					});
 
-				UISubscriptionService.OnMyBusidexUpdated += update;
-				UISubscriptionService.OnMyBusidexLoaded += callback;
+					OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+						overlay.Hide ();
+						ResetFilter ();
+					});
 
-				UISubscriptionService.LoadUserCards ();
+					UISubscriptionService.OnMyBusidexUpdated += update;
+					UISubscriptionService.OnMyBusidexLoaded += callback;
+
+					UISubscriptionService.LoadUserCards ();
+				}else{
+					InvokeOnMainThread (() => {
+						overlay.Hide ();
+						ResetFilter ();	
+					});
+				}
 			}
 		}
 

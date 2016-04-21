@@ -104,12 +104,44 @@ namespace Busidex.Presentation.iOS
 //			});
 //		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			ConfigureSearchBar ();
+
+			lblEventName.Text = SelectedTag.Description;
+
+			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
+
+			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+			overlay.MessageText = "Loading Event Cards";
+
+			if (UISubscriptionService.EventCardsLoaded.ContainsKey(SelectedTag.Text) && UISubscriptionService.EventCardsLoaded[SelectedTag.Text]) {
+				refreshTable (SelectedTag, UISubscriptionService.EventCards [SelectedTag.Text]);
+				overlay.Hide ();
+			} else {
+
+				View.AddSubview (overlay);
+
+				OnEventCardsLoadedEventHandler callback = (tag, list) => InvokeOnMainThread (() => {
+					overlay.Hide ();
+					refreshTable (tag, list);
+				});
+
+				UISubscriptionService.OnEventCardsLoaded += callback;
+
+				UISubscriptionService.LoadEventCards (SelectedTag);
+			}
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			if (SelectedTag != null) {
 				GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Event - " + SelectedTag.Description);
 			}
 			base.ViewDidAppear (animated);
+
 		}
 
 		void refreshTable(EventTag tag, List<UserCard> cards){
@@ -126,20 +158,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			ConfigureSearchBar ();
 
-			lblEventName.Text = SelectedTag.Description;
-
-			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
-
-			if (UISubscriptionService.EventCards.ContainsKey(SelectedTag.Text) && UISubscriptionService.EventCards [SelectedTag.Text].Count > 0) {
-				refreshTable (SelectedTag, UISubscriptionService.EventCards [SelectedTag.Text]);
-			} else {
-				UISubscriptionService.OnEventCardsLoaded -= refreshTable;
-				UISubscriptionService.OnEventCardsLoaded += refreshTable;
-
-				UISubscriptionService.LoadEventCards (SelectedTag);
-			}
 
 		}
 	}

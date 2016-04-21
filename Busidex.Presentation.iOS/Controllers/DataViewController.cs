@@ -119,7 +119,7 @@ namespace Busidex.Presentation.iOS
 
 			// Notifications
 			var notificationFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 3f, 45f, 45f);
-			var notificationCount = GetNotifications();
+			var notificationCount = UISubscriptionService.Notifications.Count;
 			var notificationButton = new NotificationButton (notificationCount);
 			notificationButton.TouchUpInside += ((s, e) => GoToSharedCards());
 			notificationButton.Frame = notificationFrame;

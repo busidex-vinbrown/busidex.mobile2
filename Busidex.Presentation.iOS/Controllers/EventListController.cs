@@ -5,6 +5,7 @@ using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
@@ -29,27 +30,44 @@ namespace Busidex.Presentation.iOS
 		
 			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
-			if (UISubscriptionService.EventList.Count == 0) {
-				OnEventListLoadedEventHandler callback = list => InvokeOnMainThread (LoadEventList);
+			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+			overlay.MessageText = "Loading Your Events";
+
+			View.AddSubview (overlay);
+
+			if (!UISubscriptionService.EventListLoaded) {
+				OnEventListLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					overlay.Hide();
+					LoadEventList();
+				});
 
 				UISubscriptionService.OnEventListLoaded += callback;
 
 				UISubscriptionService.LoadEventList ();
 			}else{
-				LoadEventList ();
+				InvokeOnMainThread (() => {
+					overlay.Hide();
+					LoadEventList();
+				});
 			}
 		}
 			
 		void LoadEventList(){
 			vwEventList.Source = ConfigureTableSourceEventHandlers (UISubscriptionService.EventList);
 			vwEventList.ReloadData ();
+			vwEventList.AllowsSelection = true;
+			vwEventList.SetNeedsDisplay ();
 		}
 			
 		void GoToEvent(EventTag item){
-			var eventCardsController = Storyboard.InstantiateViewController ("EventCardsController") as EventCardsController;
+			
 			if (eventCardsController != null) {
 				eventCardsController.SelectedTag = item;
-				NavigationController.PushViewController (eventCardsController, true);
+				if(NavigationController.ViewControllers.Any(c => c as EventCardsController != null)){
+					NavigationController.PopToViewController (eventCardsController, true);
+				}else{
+					NavigationController.PushViewController (eventCardsController, true);
+				}
 			}
 		}
 

@@ -40,7 +40,7 @@ namespace Busidex.Presentation.iOS
 				if (File.Exists (imageFile)) {
 					var data = NSData.FromFile (imageFile);
 					if (data != null) {
-						btnOrgImage.SetImage(new UIImage (data), UIControlState.Normal);
+						imgOrgImage.Image = new UIImage (data);
 					}
 				}
 

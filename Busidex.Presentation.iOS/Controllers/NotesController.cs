@@ -37,27 +37,12 @@ namespace Busidex.Presentation.iOS
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
 				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
 
-				var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-				UserCard userCard = null;
-				if (File.Exists (fullFilePath)) {
-					using (var myBusidexFile = File.OpenText (fullFilePath)) {
-						var myBusidexJson = myBusidexFile.ReadToEnd ();
-						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-							if(uc.Card.CardId == SelectedCard.Card.CardId){
-								userCard = uc;
-								break;
-							}
-						}
-					}
-				}
-
-				if (userCard != null) {
-					FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + userCard.Card.FrontFileName);
+				if (SelectedCard != null) {
+					FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 					if (File.Exists (FrontFileName)) {
 						imgCard.Image = UIImage.FromFile (FrontFileName);
 					}
-					txtNotes.Text = userCard.Notes;
+					txtNotes.Text = SelectedCard.Notes;
 				}
 			}
 			imgSaved.Hidden = true;
@@ -99,33 +84,7 @@ namespace Busidex.Presentation.iOS
 
 		void UpdateLocalCardNotes(){
 
-			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-			// we only need to update the file if they've gotten their busidex. If they haven't, the new card will
-			// come along with all the others
-			var file = string.Empty;
-			if (File.Exists (fullFilePath)) {
-				using (var myBusidexFile = File.OpenText (fullFilePath)) {
-					var myBusidexJson = myBusidexFile.ReadToEnd ();
-					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-					foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-						if(uc.UserCardId == SelectedCard.UserCardId){
-							uc.Notes = txtNotes.Text.Trim ();
-							break;
-						}
-					}
-					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-					//Application.MyBusidex = myBusidexResponse.MyBusidex.Busidex;
-
-				}
-
-				File.WriteAllText (fullFilePath, file);
-			}
-
-		}
-
-		public override void AwakeFromNib ()
-		{
-
+			UISubscriptionService.SaveNotes(SelectedCard.UserCardId, txtNotes.Text.Trim());
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -138,7 +97,6 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			//var userToken = GetAuthCookie();
 			try{
 				LoadCard ();
 			}catch(Exception ex){
@@ -178,7 +136,6 @@ namespace Busidex.Presentation.iOS
 			txtNotes.Changed += delegate {
 				imgSaved.Hidden = true;
 			};
-
 		}
 
 		void KeyBoardDownNotification(NSNotification notification)
@@ -228,7 +185,6 @@ namespace Busidex.Presentation.iOS
 			} else {
 				moveViewUp = false;
 			}
-
 		}
 	}
 }

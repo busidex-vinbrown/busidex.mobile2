@@ -116,13 +116,10 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1548">
-                                <rect key="frame" x="20" y="80" width="275" height="91"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="1553">
+                                <rect key="frame" x="20" y="80" width="275" height="90"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                         </subviews>
                     </view>
                     <connections>
@@ -136,7 +133,7 @@
                         <outlet property="btnFacebook" destination="73" id="name-outlet-73"/>
                         <outlet property="btnMembers" destination="1542" id="name-outlet-1542"/>
                         <outlet property="btnReferrals" destination="1543" id="name-outlet-1543"/>
-                        <outlet property="btnOrgImage" destination="1548" id="name-outlet-1548"/>
+                        <outlet property="imgOrgImage" destination="1553" id="name-outlet-1553"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>

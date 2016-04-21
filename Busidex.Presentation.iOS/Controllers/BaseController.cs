@@ -19,10 +19,13 @@ namespace Busidex.Presentation.iOS
 		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		public static UIStoryboard board;
+		public static UIStoryboard orgBoard;
 		public static EventListController eventListController;
+		public static EventCardsController eventCardsController;
 		public static MyBusidexController myBusidexController;
 		public static SearchController searchController;
 		public static OrganizationsController organizationsController;
+		public static OrgMembersController orgMembersController;
 		public static DataViewController dataViewController;
 		public static QuickShareController quickShareController;
 		public static ButtonPanelController buttonPanelController;
@@ -34,6 +37,22 @@ namespace Busidex.Presentation.iOS
 
 		public BaseController ()
 		{
+
+		}
+
+		static void init(){
+			board = board ?? UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			orgBoard = orgBoard ?? UIStoryboard.FromName("OrganizationStoryBoard_iPhone", null);
+
+			eventListController = eventListController ?? board.InstantiateViewController ("EventListController") as EventListController;
+			eventCardsController = eventCardsController ?? board.InstantiateViewController ("EventCardsController") as EventCardsController;
+			myBusidexController = myBusidexController ?? board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+			searchController = searchController ?? board.InstantiateViewController ("SearchController") as SearchController;
+			organizationsController = organizationsController ?? board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
+			orgMembersController = orgMembersController ?? orgBoard.InstantiateViewController ("OrgMembersController") as OrgMembersController;
+			dataViewController = dataViewController ?? board.InstantiateViewController ("DataViewController") as DataViewController;
+			quickShareController = quickShareController ?? board.InstantiateViewController ("QuickShareController") as QuickShareController;
+			buttonPanelController = buttonPanelController ?? board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
 		}
 
 		protected void ShowOverlay(){
@@ -64,15 +83,8 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateScreenView ().Build ());
 
 			base.ViewDidAppear (animated);
+			init ();
 
-			board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			eventListController = board.InstantiateViewController ("EventListController") as EventListController;
-			myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-			searchController = board.InstantiateViewController ("SearchController") as SearchController;
-			organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
-			dataViewController = board.InstantiateViewController ("DataViewController") as DataViewController;
-			quickShareController = board.InstantiateViewController ("QuickShareController") as QuickShareController;
-			buttonPanelController = board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
 		}
 
 		protected static void SetRefreshCookie(string name){
