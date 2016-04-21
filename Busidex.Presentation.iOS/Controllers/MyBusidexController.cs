@@ -5,7 +5,6 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
 
@@ -66,10 +65,6 @@ namespace Busidex.Presentation.iOS
 			src.CardSelected += ShowCardActions;
 
 			return src;
-		}
-
-		public void ScrollToCard(long cardId){
-				
 		}
 
 		void ConfigureSearchBar(){
@@ -145,11 +140,6 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
 
 			base.ViewDidAppear (animated);
-
-			if(Application.MyBusidexInvalidated){
-				Application.MyBusidexInvalidated = false;
-				LoadMyBusidex ();
-			}
 		}
 
 		public override void ViewDidLoad ()

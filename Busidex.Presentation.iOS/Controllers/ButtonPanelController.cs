@@ -129,29 +129,20 @@ namespace Busidex.Presentation.iOS
 
 		void AddToMyBusidex(){
 
-			using (NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME)) {
-				if (cookie != null) {
-					var ctrl = new Busidex.Mobile.MyBusidexController ();
-					ctrl.AddToMyBusidex (SelectedCard.Card.CardId, cookie.Value);
+			UISubscriptionService.AddCardToMyBusidex (SelectedCard);
 
-					ToggleAddRemoveButtons (false);
+			ToggleAddRemoveButtons (false);
 
-					//AddCardToMyBusidexCache (SelectedCard);
-
-					ResetMyBusidexView ();
-
-					#region Event Tracking
-					string name = Resources.GA_LABEL_ADD;
-					if(SelectedCard != null && SelectedCard.Card != null){
-						name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
-					}
-
-					AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
-
-					ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, userToken);
-					#endregion
-				}
+			#region Event Tracking
+			string name = Resources.GA_LABEL_ADD;
+			if(SelectedCard != null && SelectedCard.Card != null){
+				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
 			}
+
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+
+			ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, userToken);
+			#endregion
 		}
 
 		void RemoveCardFromMyBusidex(UserCard userCard){
@@ -160,43 +151,21 @@ namespace Busidex.Presentation.iOS
 
 				if (button.Result == 0) {
 
-					var ctrl = new Busidex.Mobile.MyBusidexController ();
-					ctrl.RemoveFromMyBusidex (SelectedCard.Card.CardId, userToken).ContinueWith(r => {
+					UISubscriptionService.RemoveCardFromMyBusidex(userCard);
 
-						var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+					#region Event Tracking
+					string name = Resources.GA_LABEL_REMOVED;
+					if (SelectedCard != null && SelectedCard.Card != null) {
+						name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+					}
 
-						string file;
-						if (File.Exists (fullFilePath)) {
-							using (var myBusidexFile = File.OpenText (fullFilePath)) {
-								var myBusidexJson = myBusidexFile.ReadToEnd ();
-								MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-								myBusidexResponse.MyBusidex.Busidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-								file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
-							}
-							Utils.SaveResponse (file, fullFilePath);
+					AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_REMOVED, name, 0);
+					#endregion
 
-							//Application.MyBusidex.RemoveAll (c => c.CardId == userCard.CardId);
+					InvokeOnMainThread (() => ToggleAddRemoveButtons (true));
 
-							ResetMyBusidexView();
-						}
-
-						#region Event Tracking
-						string name = Resources.GA_LABEL_REMOVED;
-						if (SelectedCard != null && SelectedCard.Card != null) {
-							name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
-						}
-
-						AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_REMOVED, name, 0);
-						#endregion
-
-						InvokeOnMainThread (() => ToggleAddRemoveButtons (true));
-					});
 				}
 			});
-		}
-
-		static void ResetMyBusidexView(){
-			Application.MyBusidexInvalidated = true; // triggers a reload in ViewDidAppear()
 		}
 
 		void OpenBrowser(){

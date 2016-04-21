@@ -98,9 +98,6 @@ namespace Busidex.Presentation.iOS
 			string token = cookie.Value;
 			var result = CardController.GetCardById (token, Link.CardId);
 			if (!string.IsNullOrEmpty (result)) {
-				//var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-				//var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-
 
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
 				var card = new Card (cardResponse.Model);
@@ -115,11 +112,6 @@ namespace Busidex.Presentation.iOS
 					UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
 					Notes = string.Empty
 				};
-				//busidexController.AddCardToMyBusidexCache (userCard);
-//				Application.MyBusidexInvalidated = true;
-//
-//				var myBusidexController = new Busidex.Mobile.MyBusidexController ();
-//				myBusidexController.AddToMyBusidex (Link.CardId, token);
 				UISubscriptionService.AddCardToMyBusidex(userCard);
 
 				sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);

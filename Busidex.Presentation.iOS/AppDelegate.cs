@@ -173,8 +173,6 @@ namespace Busidex.Presentation.iOS
 						Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
 
 					} else {
-						
-
 						if (Application.MainController == null) {
 							InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
 						} else {
@@ -184,7 +182,6 @@ namespace Busidex.Presentation.iOS
 							InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
 							return true;
 						}
-
 					}
 				}
 			}
