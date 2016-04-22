@@ -92,16 +92,17 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Notes");
 
 			base.ViewDidAppear (animated);
-		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
 			try{
 				LoadCard ();
 			}catch(Exception ex){
 				Xamarin.Insights.Report (ex);
 			}
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
 
 			var keyboardDoneButtonToolbar = new UIToolbar(RectangleF.Empty)
 			{

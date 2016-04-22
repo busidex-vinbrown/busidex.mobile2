@@ -84,35 +84,11 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
-//		protected override void ProcessCards(string data){
-//
-//			var cardList = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (data).SearchModel.Results;
-//			Cards = new List<UserCard> ();
-//			Cards.AddRange(cardList.Where(c=>c.OwnerId.HasValue).Select (c => new UserCard (c)));
-//
-//			foreach(var uc in Cards){
-//				uc.ExistsInMyBusidex = UISubscriptionService.UserCards.Exists(c => c.CardId == uc.CardId);
-//			}
-//
-//			var src = ConfigureTableSourceEventHandlers(Cards);
-//			src.NoCardsMessage = NO_CARDS;
-//
-//			InvokeOnMainThread (() => {
-//				tblEventCards.Source = src;
-//				tblEventCards.AllowsSelection = true;
-//				tblEventCards.ReloadData();
-//			});
-//		}
-
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 
-			ConfigureSearchBar ();
-
 			lblEventName.Text = SelectedTag.Description;
-
-			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
 
 			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 			overlay.MessageText = "Loading Event Cards";
@@ -158,8 +134,8 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-
-
+			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
+			ConfigureSearchBar ();
 		}
 	}
 }

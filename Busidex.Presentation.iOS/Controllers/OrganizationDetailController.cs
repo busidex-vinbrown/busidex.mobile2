@@ -22,13 +22,14 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Organization Detail - " + OrganizationId);
 
 			base.ViewDidAppear (animated);
+
+			LoadOrganiaztion ();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			LoadOrganiaztion ();
 		}
 
 		void LoadOrganiaztion(){

@@ -15,8 +15,6 @@ namespace Busidex.Presentation.iOS
 	{
 		public UserCard SelectedCard{ get; set; }
 		string FrontFileName{ get; set; }
-		string BackFileName{ get; set; }
-		string userToken;
 
 		public ButtonPanelController (IntPtr handle) : base (handle)
 		{
@@ -25,69 +23,47 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			var cookie = GetAuthCookie ();
-			userToken = cookie.Value;
-
-			try {
-				LoadCard ();
-			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
-			}
-
-			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
 
 			btnAdd.TouchUpInside += delegate {
 				AddToMyBusidex();
 			};
 
-			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
-
 			btnRemove.TouchUpInside += delegate {
 				RemoveCardFromMyBusidex(SelectedCard);
 			};
 
-			if (!string.IsNullOrEmpty (SelectedCard.Card.Url)) {
-				btnBrowser.TouchUpInside += delegate {
-					OpenBrowser ();
-				};
-			}else{
-				btnBrowser.Enabled = false;	
-			}
-
-			if (!string.IsNullOrEmpty (SelectedCard.Card.Email)) {
-				btnEmail.TouchUpInside += delegate {
-					SendEmail ();
-				};
-			}else{
-				btnEmail.Enabled = false;	
-			}
-
-			if (SelectedCard.ExistsInMyBusidex) {
-				btnNotes.TouchUpInside += delegate {
-					EditNotes ();
-				};
-			}else{
-				btnNotes.Enabled = false;
-			}
-
-			if (SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ()) {
-				btnPhone.TouchUpInside += delegate {
-					ShowPhoneNumbers ();
-				};
-			}else{
-				btnPhone.Enabled = false;	
-			}
-
-			if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
-				btnMaps.TouchUpInside += delegate {
-					ShowMaps ();
-				};
-			}else{
-				btnMaps.Enabled = false;
-			}
-
 			btnShare.TouchUpInside += delegate {
 				ShareCard(SelectedCard);	
+			};
+
+			btnEmail.TouchUpInside += delegate {
+				if(!string.IsNullOrEmpty (SelectedCard.Card.Email)){
+					SendEmail ();
+				}
+			};
+
+			btnBrowser.TouchUpInside += delegate {
+				if(!string.IsNullOrEmpty (SelectedCard.Card.Url)){
+					OpenBrowser ();
+				}
+			};
+
+			btnNotes.TouchUpInside += delegate {
+				if(SelectedCard.ExistsInMyBusidex){
+					EditNotes ();
+				}
+			};
+
+			btnPhone.TouchUpInside += delegate {
+				if(SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ()){
+					ShowPhoneNumbers ();
+				}
+			};
+
+			btnMaps.TouchUpInside += delegate {
+				if(SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()){
+					ShowMaps ();
+				}
 			};
 		}
 
@@ -97,6 +73,20 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
+
+			try {
+				LoadCard ();
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
+			}
+
+			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
+			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
+			btnEmail.Enabled = SelectedCard.ExistsInMyBusidex;	
+			btnBrowser.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Email);
+			btnNotes.Enabled = SelectedCard.ExistsInMyBusidex;
+			btnPhone.Enabled = SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ();	
+			btnMaps.Enabled = SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ();
 		}
 
 		void LoadCard(){
@@ -111,14 +101,18 @@ namespace Busidex.Presentation.iOS
 					btnCard.SetBackgroundImage(UIImage.FromFile (FrontFileName), UIControlState.Normal);
 					btnCard.Layer.AddSublayer (GetBorder (btnCard.Frame, UIColor.Gray.CGColor));
 				}
-				btnCard.TouchUpInside += delegate {
-					var cardDetailController = Storyboard.InstantiateViewController ("CardDetailController") as CardDetailController;
-					cardDetailController.SelectedCard = SelectedCard;
 
-					if (cardDetailController != null) {
-						NavigationController.PushViewController (cardDetailController, true);
-					}
-				};
+				btnCard.TouchUpInside -= goToCard;
+				btnCard.TouchUpInside += goToCard;
+			}
+		}
+
+		void goToCard(object sender, EventArgs e){
+			var cardDetailController = Storyboard.InstantiateViewController ("CardDetailController") as CardDetailController;
+			cardDetailController.SelectedCard = SelectedCard;
+
+			if (cardDetailController != null) {
+				NavigationController.PushViewController (cardDetailController, true);
 			}
 		}
 
@@ -141,7 +135,7 @@ namespace Busidex.Presentation.iOS
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
 
-			ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 			#endregion
 		}
 
@@ -179,7 +173,7 @@ namespace Busidex.Presentation.iOS
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_URL, name, 0);
 
-			ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, UISubscriptionService.AuthToken);
 		}
 
 		void SendEmail(){
@@ -193,7 +187,7 @@ namespace Busidex.Presentation.iOS
 
 			const string name = Resources.GA_LABEL_EMAIL;
 
-			ActivityController.SaveActivity ((long)EventSources.Email, SelectedCard.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Email, SelectedCard.CardId, UISubscriptionService.AuthToken);
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_EMAIL, name, 0);
 		}
@@ -237,7 +231,7 @@ namespace Busidex.Presentation.iOS
 				string address = buildAddress ();
 				var url = new NSUrl ("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
 				UIApplication.SharedApplication.OpenUrl (url);
-				ActivityController.SaveActivity ((long)EventSources.Map, SelectedCard.Card.CardId, userToken);
+				ActivityController.SaveActivity ((long)EventSources.Map, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 
 				string name = Resources.GA_LABEL_MAP;
 				if (SelectedCard != null && SelectedCard.Card != null) {

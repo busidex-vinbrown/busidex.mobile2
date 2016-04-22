@@ -26,6 +26,9 @@ namespace Busidex.Mobile
 
 		public static async Task<string> DownloadImage(string imagePath, string documentsPath, string fileName)
 		{
+			if(imagePath.Contains("00000000-0000-0000-0000-000000000000")){
+				return string.Empty;
+			}
 			string jpgFilename = Path.Combine (documentsPath, fileName);
 
 			try{
@@ -40,7 +43,7 @@ namespace Busidex.Mobile
 				}
 			}
 			catch(Exception ex){
-				Xamarin.Insights.Report(ex);
+				Xamarin.Insights.Report(new Exception("File " + imagePath + " was not found!", ex));
 			}
 			return jpgFilename;
 		}

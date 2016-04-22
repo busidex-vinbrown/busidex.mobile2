@@ -105,6 +105,8 @@ namespace Busidex.Presentation.iOS
 			// Sync button
 			var syncImage = new UIButton (imgFrame);
 			syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
+
+			syncImage.TouchUpInside -= ((s, e) => Sync());
 			syncImage.TouchUpInside += ((s, e) => Sync());
 			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			syncButton.CustomView = syncImage;

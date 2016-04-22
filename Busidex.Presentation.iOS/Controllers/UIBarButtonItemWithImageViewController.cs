@@ -52,7 +52,7 @@ namespace Busidex.Presentation.iOS
 				GoToSearch(BaseNavigationController.NavigationDirection.Forward);
 			}
 			if(this is SearchController){
-				GoToMyBusidex(BaseNavigationController.NavigationDirection.Backward);
+				GoToMyBusidex(BaseNavigationController.NavigationDirection.Forward);
 			}
 			if(this is MyBusidexController){
 				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Forward);
@@ -85,9 +85,6 @@ namespace Busidex.Presentation.iOS
 			if (this is DataViewController) {
 				View.AddGestureRecognizer (swiperDown);
 			}
-//			SwiperLeft.PerformSelector (new ObjCRuntime.Selector ("SwipeLeftSelector:"));
-//			SwiperDown.PerformSelector (new ObjCRuntime.Selector ("SwipeDownSelector:"));
-//			SwiperRight.PerformSelector (new ObjCRuntime.Selector ("SwipeRightSelector:"));
 
 			SetUpNavBarButtons();
 				if (NavigationController != null) {
@@ -98,7 +95,56 @@ namespace Busidex.Presentation.iOS
 
 		protected void Sync(){
 
-			UISubscriptionService.LoadUserCards ();
+			UISubscriptionService.Sync();
+
+			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+			const int TOTAL_TASKS = 4;
+			var completedTasks = 0;
+			const string MESSAGE = "Synchronizing your account items...";
+			overlay.MessageText = string.Format(MESSAGE, 0);
+
+			View.AddSubview (overlay);
+			overlay.TotalItems = TOTAL_TASKS;
+
+			OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+				
+
+			});
+
+			OnMyBusidexLoadedEventHandler callback1 = list => InvokeOnMainThread (() => {
+				overlay.UpdateProgress (completedTasks++);
+				if(completedTasks == TOTAL_TASKS){
+					overlay.Hide ();
+				}
+			});
+
+			OnEventListLoadedEventHandler callback2 = list => InvokeOnMainThread (() => {
+				overlay.UpdateProgress (completedTasks++);
+				if(completedTasks == TOTAL_TASKS){
+					overlay.Hide ();
+				}
+			});
+
+			OnMyOrganizationsLoadedEventHandler callback3 = list => InvokeOnMainThread (() => {
+				overlay.UpdateProgress (completedTasks++);
+				if(completedTasks == TOTAL_TASKS){
+					overlay.Hide ();
+				}
+			});
+
+			OnNotificationsLoadedEventHandler callback4 = list => InvokeOnMainThread (() => {
+				overlay.UpdateProgress (completedTasks++);
+				if (completedTasks == TOTAL_TASKS) {
+					overlay.Hide ();
+				}
+			});
+
+			UISubscriptionService.OnMyBusidexUpdated += update;
+			UISubscriptionService.OnMyBusidexLoaded += callback1;
+			UISubscriptionService.OnEventListLoaded += callback2;
+			UISubscriptionService.OnMyOrganizationsLoaded += callback3;
+			UISubscriptionService.OnNotificationsLoaded += callback4;
+
 			//await LoadMyBusidexAsync (true);
 			//await LoadMyOrganizationsAsync (true);
 			//await LoadEventList (true);

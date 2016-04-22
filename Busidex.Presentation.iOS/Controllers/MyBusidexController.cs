@@ -140,6 +140,8 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
 
 			base.ViewDidAppear (animated);
+
+			LoadMyBusidex ();
 		}
 
 		public override void ViewDidLoad ()
@@ -149,8 +151,6 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_MY_BUSIDEX_LABEL, Resources.GA_LABEL_LIST, 0);
 
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
-
-			LoadMyBusidex ();
 
 			ConfigureSearchBar ();
 

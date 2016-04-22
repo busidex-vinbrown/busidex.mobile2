@@ -22,20 +22,14 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "EventList");
 
 			base.ViewDidAppear (animated);
-		}
-
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-		
-			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
 			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 			overlay.MessageText = "Loading Your Events";
 
-			View.AddSubview (overlay);
-
 			if (!UISubscriptionService.EventListLoaded) {
+
+				View.AddSubview (overlay);
+
 				OnEventListLoadedEventHandler callback = list => InvokeOnMainThread (() => {
 					overlay.Hide();
 					LoadEventList();
@@ -50,6 +44,13 @@ namespace Busidex.Presentation.iOS
 					LoadEventList();
 				});
 			}
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+		
+			vwEventList.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 		}
 			
 		void LoadEventList(){

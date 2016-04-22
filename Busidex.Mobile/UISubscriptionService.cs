@@ -203,26 +203,10 @@ namespace Busidex.Mobile
 
 			loadUser ();
 
-			await loadUserCards ().ContinueWith(r=>{
-//				if(OnMyBusidexLoaded != null){
-//					OnMyBusidexLoaded(UserCards);
-//				}
-			});	
-			await loadOrganizations ().ContinueWith(r=>{
-//				if(OnMyOrganizationsLoaded != null){
-//					OnMyOrganizationsLoaded(OrganizationList);
-//				}
-			});
-			await loadEventList ().ContinueWith(r=>{
-//				if(OnEventListLoaded != null){
-//					OnEventListLoaded(EventList);
-//				}
-			});
-			await loadNotifications ().ContinueWith(r=>{
-				if(OnNotificationsLoaded != null){
-					OnNotificationsLoaded(Notifications);
-				}
-			});
+			await loadUserCards ();	
+			await loadOrganizations ();
+			await loadEventList ();
+			await loadNotifications ();
 		}
 
 		public static void LoadUser(){
@@ -477,9 +461,10 @@ namespace Busidex.Mobile
 
 					Utils.SaveResponse (savedResult, fileName);
 
+					EventCardsLoading [tag.Text] = false;
+					EventCardsLoaded [tag.Text] = true;
+
 					if(OnEventCardsLoaded != null){
-						EventCardsLoading [tag.Text] = false;
-						EventCardsLoaded [tag.Text] = true;
 						OnEventCardsLoaded(tag, EventCards[tag.Text]);
 					}
 				});
@@ -570,10 +555,6 @@ namespace Busidex.Mobile
 
 							// Get Organization members and referals
 							foreach (Organization org in myOrganizationsResponse.Model) {
-
-//								if(OrganizationList.All(o => o.OrganizationId != org.OrganizationId)){
-//									OrganizationList.Add(org);
-//								}
 
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
@@ -799,10 +780,15 @@ namespace Busidex.Mobile
 					Notifications = sharedCards.SharedCards;
 
 					Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (Notifications), Resources.SHARED_CARDS_FILE);
-					return true;
+
+				}else{
+					Notifications = new List<SharedCard> ();
 				}
 
-				Notifications = new List<SharedCard> ();
+				if(OnNotificationsLoaded != null){
+					OnNotificationsLoaded(Notifications);
+				}
+
 			}
 			catch(Exception ex){
 				Xamarin.Insights.Report (ex);
