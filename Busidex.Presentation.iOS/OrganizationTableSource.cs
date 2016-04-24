@@ -78,15 +78,19 @@ namespace Busidex.Presentation.iOS
 		
 			var fileName = Path.Combine (documentsPath, org.LogoFileName);
 
+			var btnOrgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIButton;
+			if (btnOrgImage != null) {
+				btnOrgImage.RemoveFromSuperview ();
+			}
+			var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UIButton;
+			if (NameLabel != null) {
+				NameLabel.RemoveFromSuperview ();
+			}
 			if (org.IsMember) {
 				if (!string.IsNullOrEmpty (org.LogoFileName)) {
 					var frame = new CoreGraphics.CGRect (10f, 10f, UIScreen.MainScreen.Bounds.Width - 80f, 80f);
 					var imageFile = fileName + "." + org.LogoType;
 
-					var btnOrgImage = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.OrganizationImage) as UIButton;
-					if (btnOrgImage != null) {
-						btnOrgImage.RemoveFromSuperview ();
-					}
 					btnOrgImage = new UIButton (frame);
 					btnOrgImage.SetImage(UIImage.FromFile (imageFile), UIControlState.Normal);
 					btnOrgImage.Tag = (int)Resources.UIElements.OrganizationImage;

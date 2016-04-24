@@ -59,6 +59,39 @@ namespace Busidex.Presentation.iOS
 
 		}
 			
+		public override UIViewController PopViewController (bool animated)
+		{
+			if(transition != null){
+				switch(Direction){
+				case NavigationDirection.Backward: {
+						transition.Subtype = CAAnimation.TransitionFromLeft;
+						break;
+					}
+				case NavigationDirection.Forward: {
+						transition.Subtype = CAAnimation.TransitionFromRight;
+						break;
+					}
+				case NavigationDirection.Up: {
+						transition.Subtype = CAAnimation.TransitionReveal;
+						Direction = NavigationDirection.Down;
+						break;
+					}
+				case NavigationDirection.Down: {
+						transition.Subtype = CAAnimation.TransitionFromBottom;
+						Direction = NavigationDirection.Backward;
+						break;
+					}
+				default: {
+						transition.Subtype = CAAnimation.TransitionFromLeft;
+						break;
+					}
+				}
+			}
+			this.View.Layer.AddAnimation (transition, "slide");
+
+			return base.PopViewController (animated);
+		}
+
 		public override void PushViewController (UIViewController viewController, bool animated)
 		{
 			if(transition != null){

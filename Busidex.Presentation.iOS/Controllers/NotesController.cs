@@ -92,6 +92,11 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Notes");
 
 			base.ViewDidAppear (animated);
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
 
 			try{
 				LoadCard ();

@@ -80,6 +80,9 @@ namespace Busidex.Presentation.iOS
 				Xamarin.Insights.Report (ex);
 			}
 
+			// Update from the subscription service if this has been updated
+			SelectedCard.ExistsInMyBusidex = UISubscriptionService.ExistsInMyBusidex(SelectedCard);
+
 			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
 			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
 			btnEmail.Enabled = SelectedCard.ExistsInMyBusidex;	
@@ -229,8 +232,15 @@ namespace Busidex.Presentation.iOS
 
 			if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
 				string address = buildAddress ();
-				var url = new NSUrl ("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
-				UIApplication.SharedApplication.OpenUrl (url);
+				var url = new NSUrl ("http://www.maps.apple.com/?daddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
+
+				if (UIApplication.SharedApplication.CanOpenUrl (url)){
+					UIApplication.SharedApplication.OpenUrl (url);	
+				}else{
+					new UIAlertView ("Error", "Maps is not supported on this device", null, "Ok").Show ();
+				}
+					
+
 				ActivityController.SaveActivity ((long)EventSources.Map, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 
 				string name = Resources.GA_LABEL_MAP;

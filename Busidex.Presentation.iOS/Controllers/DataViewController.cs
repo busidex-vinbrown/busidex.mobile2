@@ -208,6 +208,7 @@ namespace Busidex.Presentation.iOS
 				if(button.Result == 0){
 					InvokeOnMainThread( () => {
 						ClearSettings ();
+						UISubscriptionService.Clear();
 						RemoveAuthCookie ();
 						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
 

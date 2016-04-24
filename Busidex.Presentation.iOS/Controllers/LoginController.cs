@@ -48,7 +48,7 @@ namespace Busidex.Presentation.iOS
 			var cookie = GetAuthCookie ();
 			long userId;
 			if (cookie != null) {
-				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
+				userId = Utils.DecodeUserId (cookie.Value);
 				if (userId > 0) {
 					UserId = userId;
 				} 

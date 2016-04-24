@@ -29,6 +29,8 @@ namespace Busidex.Presentation.iOS
 		public static DataViewController dataViewController;
 		public static QuickShareController quickShareController;
 		public static ButtonPanelController buttonPanelController;
+		public static SharedCardController sharedCardController;
+		public static OrganizationDetailController orgDetailController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -50,9 +52,11 @@ namespace Busidex.Presentation.iOS
 			searchController = searchController ?? board.InstantiateViewController ("SearchController") as SearchController;
 			organizationsController = organizationsController ?? board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
 			orgMembersController = orgMembersController ?? orgBoard.InstantiateViewController ("OrgMembersController") as OrgMembersController;
+			orgDetailController = orgDetailController ?? orgBoard.InstantiateViewController ("OrganizationDetailController") as OrganizationDetailController;
 			dataViewController = dataViewController ?? board.InstantiateViewController ("DataViewController") as DataViewController;
 			quickShareController = quickShareController ?? board.InstantiateViewController ("QuickShareController") as QuickShareController;
 			buttonPanelController = buttonPanelController ?? board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
+			sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
 		}
 
 		protected void ShowOverlay(){
@@ -100,7 +104,6 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected static bool CheckRefreshCookie(string name){
-
 			var user = NSUserDefaults.StandardUserDefaults;
 			String val = user.StringForKey (name);
 			if(string.IsNullOrEmpty(val)){
@@ -189,7 +192,9 @@ namespace Busidex.Presentation.iOS
 
 			dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
-			if (dataViewController != null) {
+			if(NavigationController.ViewControllers.Any(c => c as DataViewController != null)){
+				NavigationController.PopToViewController (dataViewController, true);
+			}else{
 				NavigationController.PushViewController (dataViewController, true);
 			}
 		}
@@ -205,7 +210,12 @@ namespace Busidex.Presentation.iOS
 					DisplayName = UISubscriptionService.AppQuickShareLink.DisplayName
 				});
 				quickShareController.SaveFromUrl ();
-				NavigationController.PushViewController (quickShareController, true);
+
+				if(NavigationController.ViewControllers.Any(c => c as QuickShareController != null)){
+					NavigationController.PopToViewController (quickShareController, true);
+				}else{
+					NavigationController.PushViewController (quickShareController, true);
+				}
 			}
 		}
 
@@ -214,10 +224,12 @@ namespace Busidex.Presentation.iOS
 			try{
 				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 
-				var sharedCardController = board.InstantiateViewController ("SharedCardController") as SharedCardController;
+				sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
 				sharedCardController.SelectedCard = seletcedCard;
 
-				if (sharedCardController != null) {
+				if(NavigationController.ViewControllers.Any(c => c as SharedCardController != null)){
+					NavigationController.PopToViewController (sharedCardController, true);
+				}else{
 					NavigationController.PushViewController (sharedCardController, true);
 				}
 

@@ -162,6 +162,22 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
+			lblError.Hidden = true;
+			imgCardShared.Hidden = true;
+
+			var user = NSUserDefaults.StandardUserDefaults;
+			var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+			if(string.IsNullOrEmpty(displayName)){
+				var token = GetAuthCookie ().Value;
+				var accountResponse = AccountController.GetAccount (token);
+				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
+				displayName = account.UserAccount.DisplayName;
+			}
+			txtDisplayName.Text = displayName;
+
+			LoadCard ();
+
 			if (NavigationController != null) {
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
@@ -178,22 +194,6 @@ namespace Busidex.Presentation.iOS
 
 				NavigationItem.SetRightBarButtonItem(
 					shareButton, true);
-
-				#region Old Code
-//				var _contactController = new ABPeoplePickerNavigationController ();
-//				_contactController.Cancelled += delegate {
-//					this.DismissViewController (true, null); };
-//
-//				_contactController.SelectPerson2 +=
-//					delegate(object sender, ABPeoplePickerSelectPerson2EventArgs e) {
-//
-//					var phoneNumbers = e.Person.GetPhones();
-//					if(phoneNumbers != null && phoneNumbers.Count > 0){
-//						txtPhoneNumber.Text = phoneNumbers[0].Value;
-//					}
-//					this.DismissModalViewController (true);
-//				};
-				#endregion
 
 				// Create a new picker
 				try{
@@ -229,20 +229,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			lblError.Hidden = true;
-			imgCardShared.Hidden = true;
 
-			var user = NSUserDefaults.StandardUserDefaults;
-			var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
-			if(string.IsNullOrEmpty(displayName)){
-				var token = GetAuthCookie ().Value;
-				var accountResponse = AccountController.GetAccount (token);
-				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
-				displayName = account.UserAccount.DisplayName;
-			}
-			txtDisplayName.Text = displayName;
-
-			LoadCard ();
 
 		}
 	}

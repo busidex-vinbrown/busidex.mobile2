@@ -15,7 +15,7 @@ namespace Busidex.Presentation.iOS
 		public static NSString BusidexCellId = new NSString ("cellId");
 		List<UserCard> FilterResults;
 		const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
-
+		bool loadingData;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -91,41 +91,44 @@ namespace Busidex.Presentation.iOS
 
 		public void LoadMyBusidex(){
 
-			var cookie = GetAuthCookie ();
-			if((UISubscriptionService.UserCards.Count > 0 && CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME))){
+			if((UISubscriptionService.MyBusidexLoaded && CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME))){
 				ResetFilter();
 				return;
 			}
 
-			if (cookie != null) {
+			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
+			overlay.MessageText = "Loading Your Cards";
 
-				var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-				overlay.MessageText = "Loading Your Cards";
+			if (!UISubscriptionService.MyBusidexLoaded) {
 
-				if (!UISubscriptionService.MyBusidexLoaded) {
-
-					View.AddSubview (overlay);
-
-					OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-						overlay.TotalItems = status.Total;
-						overlay.UpdateProgress (status.Count);
-					});
-
-					OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
-						overlay.Hide ();
-						ResetFilter ();
-					});
-
-					UISubscriptionService.OnMyBusidexUpdated += update;
-					UISubscriptionService.OnMyBusidexLoaded += callback;
-
-					UISubscriptionService.LoadUserCards ();
-				}else{
-					InvokeOnMainThread (() => {
-						overlay.Hide ();
-						ResetFilter ();	
-					});
+				if(loadingData){
+					return;
 				}
+
+				loadingData = true;
+
+				View.AddSubview (overlay);
+
+				OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				});
+
+				OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					overlay.Hide ();
+					ResetFilter ();
+				});
+
+				UISubscriptionService.OnMyBusidexUpdated += update;
+				UISubscriptionService.OnMyBusidexLoaded += callback;
+
+				UISubscriptionService.LoadUserCards ();
+			}else{
+				InvokeOnMainThread (() => {
+					loadingData = false;
+					overlay.Hide ();
+					ResetFilter ();	
+				});
 			}
 		}
 
@@ -135,13 +138,18 @@ namespace Busidex.Presentation.iOS
 			}	
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			LoadMyBusidex ();
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
 
 			base.ViewDidAppear (animated);
-
-			LoadMyBusidex ();
 		}
 
 		public override void ViewDidLoad ()

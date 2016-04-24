@@ -36,10 +36,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			//TableView = vwSearchResults;
-
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
-
 			vwSearchResults.Hidden = true;
 
 			SearchButtonHandlerAssigned = true;
@@ -92,27 +89,6 @@ namespace Busidex.Presentation.iOS
 			src.NoCardsMessage = "No cards match your search";
 			src.CardSelected += ShowCardActions;
 
-//			src.SendingEmail += delegate(string email) {
-//				var _mailController = new MFMailComposeViewController ();
-//				_mailController.SetToRecipients (new []{email});
-//				_mailController.Finished += ( s, args) => args.Controller.DismissViewController (true, null);
-//				PresentViewController (_mailController, true, null);
-//			};
-//
-//			src.ViewWebsite += url => UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace ("http://", "")));
-//
-//			src.CardAddedToMyBusidex += AddCardToMyBusidexCache;
-//
-//			src.CardRemovedFromMyBusidex += RemoveCardFromMyBusidex;
-//
-//			src.CallingPhoneNumber += delegate {
-//				ShowPhoneNumbers();
-//			};
-//
-//			src.SharingCard += delegate {
-//				ShareCard (((TableSource)vwSearchResults.Source).SelectedCard);
-//			};
-
 			return src;
 		}
 
@@ -163,12 +139,13 @@ namespace Busidex.Presentation.iOS
 
 				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response.Result);
 
-				float total = Search.SearchModel.Results.Count;
-				float processed = 0;
-
-				if (!Search.SearchModel.Results.Any ()) {
+				if (Search.SearchModel == null || Search.SearchModel.Results == null || !Search.SearchModel.Results.Any ()) {
 					InvokeOnMainThread (() => LoadSearchResults (new List<UserCard> ()));
 				} else {
+
+					float total = Search.SearchModel.Results.Count;
+					float processed = 0;
+
 					foreach (var item in Search.SearchModel.Results) {
 						if (item != null) {
 
@@ -197,10 +174,8 @@ namespace Busidex.Presentation.iOS
 						}
 					}
 				}
-
 			});
 
-			//await base.DoSearch ();
 			Overlay.Hide();
 
 			return 1;

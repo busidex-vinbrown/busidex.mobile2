@@ -12,29 +12,41 @@ namespace Busidex.Presentation.iOS
 	public partial class EventListController : UIBarButtonItemWithImageViewController
 	{
 		public static NSString cellID = new NSString ("cellId");
+		bool loadingData;
 
 		public EventListController (IntPtr handle) : base (handle){
 
 		}
 
-		public override void ViewDidAppear (bool animated)
+		public override void ViewWillAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "EventList");
-
-			base.ViewDidAppear (animated);
+			base.ViewWillAppear (animated);
 
 			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 			overlay.MessageText = "Loading Your Events";
 
 			if (!UISubscriptionService.EventListLoaded) {
 
+				if(loadingData){
+					return;
+				}
+
+				loadingData = true;
+
 				View.AddSubview (overlay);
 
 				OnEventListLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					loadingData = false;
 					overlay.Hide();
 					LoadEventList();
 				});
 
+				OnEventListUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				});
+
+				UISubscriptionService.OnEventListUpdated += update;
 				UISubscriptionService.OnEventListLoaded += callback;
 
 				UISubscriptionService.LoadEventList ();
@@ -44,6 +56,13 @@ namespace Busidex.Presentation.iOS
 					LoadEventList();
 				});
 			}
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "EventList");
+
+			base.ViewDidAppear (animated);
 		}
 
 		public override void ViewDidLoad ()

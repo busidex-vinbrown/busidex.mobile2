@@ -9,12 +9,21 @@ using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class OrganizationDetailController : UIBarButtonItemWithImageViewController
+	public partial class OrganizationDetailController : UIBarButtonItemWithImageViewController
 	{
 		public long OrganizationId{ get; set;}
 
+		Organization SelectedOrganization;
+
 		public OrganizationDetailController (IntPtr handle) : base (handle)
 		{
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			LoadOrganiaztion ();
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -23,21 +32,36 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewDidAppear (animated);
 
-			LoadOrganiaztion ();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			btnMembers.TouchUpInside += delegate {
+				GoToOrganizationCards(SelectedOrganization, OrgMembersController.MemberMode.Members);
+			};	
+
+			btnReferrals.TouchUpInside += delegate {
+				GoToOrganizationCards(SelectedOrganization, OrgMembersController.MemberMode.Referrals);
+			};
+			btnBrowser.TouchUpInside += delegate {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + SelectedOrganization.Url.Replace("http://", "")));
+			};
+			btnTwitter.TouchUpInside += delegate {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + SelectedOrganization.Twitter.Replace("http://", "")));
+			};
+			btnFacebook.TouchUpInside += delegate {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("https://" + SelectedOrganization.Facebook.Replace("https://", "").Replace("http://", "")));
+			};
 		}
 
 		void LoadOrganiaztion(){
 
-			var org = UISubscriptionService.OrganizationList.SingleOrDefault (o => o.OrganizationId == OrganizationId);
-			if (org != null) {
-				var fileName = Path.Combine (documentsPath, org.LogoFileName);
-				var imageFile = fileName + "." + org.LogoType;
+			SelectedOrganization = UISubscriptionService.OrganizationList.SingleOrDefault (o => o.OrganizationId == OrganizationId);
+			if (SelectedOrganization != null) {
+				var fileName = Path.Combine (documentsPath, SelectedOrganization.LogoFileName);
+				var imageFile = fileName + "." + SelectedOrganization.LogoType;
 				if (File.Exists (imageFile)) {
 					var data = NSData.FromFile (imageFile);
 					if (data != null) {
@@ -45,7 +69,7 @@ namespace Busidex.Presentation.iOS
 					}
 				}
 
-				lblContacts.Text = org.Contacts;
+				lblContacts.Text = SelectedOrganization.Contacts;
 
 				txtEmail.Editable = txtPhone.Editable = txtFax.Editable = false;
 				txtEmail.UserInteractionEnabled = txtPhone.UserInteractionEnabled = txtFax.UserInteractionEnabled = true;
@@ -53,28 +77,14 @@ namespace Busidex.Presentation.iOS
 				txtPhone.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
 				txtFax.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
 
-				txtEmail.Text = org.Email;
-				txtPhone.Text = org.Phone1;
-				txtFax.Text = org.Phone2;
+				txtEmail.Text = SelectedOrganization.Email;
+				txtPhone.Text = SelectedOrganization.Phone1;
+				txtFax.Text = SelectedOrganization.Phone2;
 				string contentDirectoryPath = Path.Combine (NSBundle.MainBundle.BundlePath, "Resources/");
 
-				wvMessage.LoadHtmlString (string.Format ("<html><body>{0}</body></html>", org.HomePage), new NSUrl(contentDirectoryPath, true));
+				wvMessage.LoadHtmlString (string.Format ("<html><body>{0}</body></html>", SelectedOrganization.HomePage), new NSUrl(contentDirectoryPath, true));
 
-				btnMembers.TouchUpInside += delegate {
-					GoToOrganizationCards(org, OrgMembersController.MemberMode.Members);
-				};
-				btnReferrals.TouchUpInside += delegate {
-					GoToOrganizationCards(org, OrgMembersController.MemberMode.Referrals);
-				};
-				btnBrowser.TouchUpInside += delegate {
-					UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Url.Replace("http://", "")));
-				};
-				btnTwitter.TouchUpInside += delegate {
-					UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + org.Twitter.Replace("http://", "")));
-				};
-				btnFacebook.TouchUpInside += delegate {
-					UIApplication.SharedApplication.OpenUrl (new NSUrl ("https://" + org.Facebook.Replace("https://", "").Replace("http://", "")));
-				};
+
 			}
 		}
 	}

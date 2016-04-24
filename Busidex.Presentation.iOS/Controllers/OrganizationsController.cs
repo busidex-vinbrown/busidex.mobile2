@@ -5,12 +5,14 @@ using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
 	public partial class OrganizationsController : UIBarButtonItemWithImageViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
+		bool loadingData;
 
 		public OrganizationsController (IntPtr handle) : base (handle)
 		{
@@ -24,14 +26,15 @@ namespace Busidex.Presentation.iOS
 			src.ViewOrganization += delegate(long orgId) {
 
 				try{
-					UIStoryboard board = UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
+					
+					orgDetailController.OrganizationId = orgId;
 
-					var orgDetailController = board.InstantiateViewController ("OrganizationDetailController") as OrganizationDetailController;
-
-					if (orgDetailController != null) {
-						orgDetailController.OrganizationId = orgId;
+					if(NavigationController.ViewControllers.Any(c => c as OrganizationDetailController != null)){
+						NavigationController.PopToViewController (orgDetailController, true);
+					}else{
 						NavigationController.PushViewController (orgDetailController, true);
 					}
+
 				}catch(Exception ex){
 					Xamarin.Insights.Report(ex);
 				}
@@ -42,44 +45,64 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			if(!UISubscriptionService.OrganizationsLoaded){
+
+				if(loadingData){
+					return;
+				}
+
+				loadingData = true;
+
+				View.AddSubview (overlay);
+
+				OnMyOrganizationsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				});
+
+				OnMyOrganizationsLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					loadingData = false;
+					overlay.Hide ();
+					bindView(list);
+				});
+
+				UISubscriptionService.OnMyOrganizationsUpdated += update;
+				UISubscriptionService.OnMyOrganizationsLoaded += callback;
+
+				UISubscriptionService.LoadOrganizations ();
+			}else{
+				bindView (UISubscriptionService.OrganizationList);
+			}
+		}
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Organizations");
 
 			base.ViewDidAppear (animated);
+
 		}
 
 		void bindView(List<Organization> organizations){
 
-			InvokeOnMainThread (() => {
-				vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
-				vwOrganizations.Source = ConfigureTableSourceEventHandlers(UISubscriptionService.OrganizationList);
-				vwOrganizations.ReloadData ();
-				vwOrganizations.AllowsSelection = true;
-				vwOrganizations.SetNeedsDisplay ();
-
-				if(overlay != null){
-					overlay.Hide ();
-				}	
-			});
+			vwOrganizations.Source = ConfigureTableSourceEventHandlers(organizations);
+			vwOrganizations.ReloadData ();
+			vwOrganizations.AllowsSelection = true;
+			vwOrganizations.SetNeedsDisplay ();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			if(!UISubscriptionService.OrganizationsLoaded){
+			overlay = new MyBusidexLoadingOverlay (View.Bounds);
+			overlay.MessageText = "Loading Your Organizations";
 
-				overlay = new MyBusidexLoadingOverlay (View.Bounds);
-				overlay.MessageText = "Loading Your Organizations";
-				View.AddSubview (overlay);
-
-				UISubscriptionService.OnMyOrganizationsLoaded -= bindView;
-				UISubscriptionService.OnMyOrganizationsLoaded += bindView;
-			}else{
-				bindView (UISubscriptionService.OrganizationList);
-			}
-
+			vwOrganizations.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 		} 
 	}
 }

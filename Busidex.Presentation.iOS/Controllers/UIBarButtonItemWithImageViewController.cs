@@ -33,17 +33,17 @@ namespace Busidex.Presentation.iOS
 		}
 
 		protected void OnSwipeRight(){
-			if(this is EventListController){
-				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Backward);
-			}
-			if(this is OrganizationsController){
-				GoToMyBusidex(BaseNavigationController.NavigationDirection.Backward);
+			if(this is SearchController){
+				GoHome();
 			}
 			if(this is MyBusidexController){
 				GoToSearch (BaseNavigationController.NavigationDirection.Backward);
 			}
-			if(this is SearchController){
-				GoHome();
+			if(this is OrganizationsController){
+				GoToMyBusidex(BaseNavigationController.NavigationDirection.Backward);
+			}
+			if(this is EventListController){
+				GoToMyOrganizations(BaseNavigationController.NavigationDirection.Backward);
 			}
 		}
 

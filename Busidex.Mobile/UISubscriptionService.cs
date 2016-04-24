@@ -13,8 +13,15 @@ namespace Busidex.Mobile
 	public delegate void OnMyBusidexLoadedEventHandler(List<UserCard> cards);
 	public delegate void OnMyBusidexUpdatedEventHandler(ProgressStatus status);
 	public delegate void OnMyOrganizationsLoadedEventHandler(List<Organization> organizations);
+	public delegate void OnMyOrganizationsUpdatedEventHandler(ProgressStatus status);
+	public delegate void OnMyOrganizationMembersUpdatedEventHandler(ProgressStatus status);
+	public delegate void OnMyOrganizationMembersLoadedEventHandler(List<Card> cards);
+	public delegate void OnMyOrganizationReferralsUpdatedEventHandler(ProgressStatus status);
+	public delegate void OnMyOrganizationReferralsLoadedEventHandler(List<UserCard> cards);
 	public delegate void OnEventListLoadedEventHandler(List<EventTag> tags);
+	public delegate void OnEventListUpdatedEventHandler(ProgressStatus status);
 	public delegate void OnEventCardsLoadedEventHandler(EventTag tag, List<UserCard> cards);
+	public delegate void OnEventCardsUpdatedEventHandler(ProgressStatus status);
 	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
 	public delegate void OnNotificationsLoadedEventHandler(List<SharedCard> notifications);
 	#endregion
@@ -25,7 +32,13 @@ namespace Busidex.Mobile
 		public static event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
 		public static event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
 		public static event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
+		public static event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
+		public static event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
+		public static event OnMyOrganizationMembersLoadedEventHandler OnMyOrganizationMembersLoaded;
+		public static event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
+		public static event OnMyOrganizationReferralsLoadedEventHandler OnMyOrganizationReferralsLoaded;
 		public static event OnEventListLoadedEventHandler OnEventListLoaded;
+		public static event OnEventListUpdatedEventHandler OnEventListUpdated;
 		public static event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
@@ -50,6 +63,8 @@ namespace Busidex.Mobile
 		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim>();
 
 		public static bool OrganizationsLoaded { get; private set; }
+		public static Dictionary<long, bool> OrganizationMembersLoaded { get; private set; }
+		public static Dictionary<long, bool> OrganizationReferralsLoaded { get; private set; }
 		public static bool EventListLoaded { get; private set; }
 		public static Dictionary<string, bool> EventCardsLoaded { get; private set; }
 		public static bool MyBusidexLoaded { get; private set; }
@@ -57,6 +72,8 @@ namespace Busidex.Mobile
 		static bool MyBusidexLoading;
 		static bool EventListLoading;
 		static Dictionary<string, bool> EventCardsLoading = new Dictionary<string, bool>();
+		static Dictionary<long, bool> OrganizationMembersLoading = new Dictionary<long, bool>();
+		static Dictionary<long, bool> OrganizationReferralsLoading = new Dictionary<long, bool>();
 		static bool OrganizationsLoading;
 
 		static UISubscriptionService(){
@@ -70,6 +87,8 @@ namespace Busidex.Mobile
 			Notifications = new List<SharedCard> ();
 
 			EventCardsLoaded = new Dictionary<string, bool> ();
+			OrganizationMembersLoaded = new Dictionary<long, bool> ();
+			OrganizationReferralsLoaded = new Dictionary<long, bool> ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 
@@ -105,17 +124,16 @@ namespace Busidex.Mobile
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
-			if(UserCards == null || UserCards.Count == 0){
+			if(UserCards == null || 0.Equals (UserCards.Count)){
 				UserCards = new List<UserCard> ();
-				await loadUserCards ().ContinueWith( (r)=> {
+				await loadUserCards ().ContinueWith( r => {
 					
 				});
 			} else{
 				MyBusidexLoaded = true;
-			}
-
-			if(MyBusidexLoaded && OnMyBusidexLoaded != null){
-				OnMyBusidexLoaded(UserCards);
+				if(MyBusidexLoaded && OnMyBusidexLoaded != null){
+					OnMyBusidexLoaded(UserCards);
+				}
 			}
 
 			Notifications = loadData<List<SharedCard>>(Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
@@ -131,38 +149,27 @@ namespace Busidex.Mobile
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
 			if(EventList == null || EventList.Count == 0){
 				EventList = new List<EventTag> ();
-				await loadEventList ().ContinueWith( (r)=> {
+				await loadEventList ().ContinueWith( r => {
 					EventListLoaded = true;
 				});
 			}else{
 				EventListLoaded = true;
-			}
-
-			if(EventListLoaded && OnEventListLoaded != null){
-				OnEventListLoaded(EventList);
+				if(EventListLoaded && OnEventListLoaded != null){
+					OnEventListLoaded(EventList);
+				}
 			}
 
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
 			if(OrganizationList == null || OrganizationList.Count == 0){
 				OrganizationList = new List<Organization> ();
-				await loadOrganizations ().ContinueWith( (r) => {
+				await loadOrganizations ().ContinueWith( r => {
 					OrganizationsLoaded = true;
 				});
 			}else{
 				OrganizationsLoaded = true;
-			}
-
-			foreach(var organization in OrganizationList){
-				if (!OrganizationMembers.ContainsKey(organization.OrganizationId) || OrganizationMembers [organization.OrganizationId].Count == 0) {
-					OrganizationMembers [organization.OrganizationId] = loadData<List<Card>> (Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_MEMBERS_FILE, organization.OrganizationId)));	
+				if(OrganizationsLoaded && OnMyOrganizationsLoaded != null){
+					OnMyOrganizationsLoaded(OrganizationList);
 				}
-				if (!OrganizationReferrals.ContainsKey(organization.OrganizationId) || OrganizationReferrals [organization.OrganizationId].Count == 0) {
-					OrganizationReferrals [organization.OrganizationId] = loadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organization.OrganizationId)));	
-				}
-			}
-
-			if(OrganizationsLoaded && OnMyOrganizationsLoaded != null){
-				OnMyOrganizationsLoaded(OrganizationList);
 			}
 		}
 		#endregion
@@ -176,23 +183,11 @@ namespace Busidex.Mobile
 			EventListLoaded = false;
 
 			UserCards.Clear ();
-			if(OnMyBusidexLoaded != null){
-				MyBusidexLoaded = true;
-				OnMyBusidexLoaded(UserCards);
-			}
-
 			OrganizationList.Clear ();
-			if(OnMyOrganizationsLoaded != null){
-				OrganizationsLoaded = true;
-				OnMyOrganizationsLoaded(OrganizationList);
-			}
-
 			EventList.Clear ();
-			if(OnEventListLoaded != null){
-				EventListLoaded = true;
-				OnEventListLoaded(EventList);
-			}
 			CurrentUser = null;
+
+			AuthToken = string.Empty;
 		}
 
 		public static async void Sync(){
@@ -219,9 +214,7 @@ namespace Busidex.Mobile
 
 		public static void LoadOrganizations(){
 			loadOrganizations ().ContinueWith(r=>{
-				if(OnMyOrganizationsLoaded != null){
-					OnMyOrganizationsLoaded(OrganizationList);
-				}
+				
 			});	 	
 		}
 
@@ -273,6 +266,8 @@ namespace Busidex.Mobile
 
 					myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
+					UserCards = sortUserCards();
+
 					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
 				}
 			}
@@ -307,6 +302,10 @@ namespace Busidex.Mobile
 			catch(Exception ex){
 				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
+		}
+
+		public static bool ExistsInMyBusidex(UserCard card){
+			return UserCards.Any (uc => uc.CardId == card.CardId);
 		}
 
 		public static void SaveNotes(long userCardId, string notes){
@@ -375,6 +374,7 @@ namespace Busidex.Mobile
 						};
 						if (UserCards.All (uc => uc.CardId != card.CardId)) {
 							UserCards.Add (userCard);
+							UserCards = sortUserCards();
 							if(OnMyBusidexLoaded != null){
 								OnMyBusidexLoaded (UserCards);
 							}
@@ -491,10 +491,10 @@ namespace Busidex.Mobile
 			await semaphore.WaitAsync();
 
 			try{
-				EventList.Clear ();
-
+				
 				await searchController.GetEventTags (AuthToken).ContinueWith(async r => {
 
+					EventList.Clear ();
 					if(r.Result == null || string.IsNullOrEmpty(r.Result)){
 						var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE);
 						EventList.AddRange(Utils.GetCachedResult<List<EventTag>>(fullFileName));
@@ -539,7 +539,6 @@ namespace Busidex.Mobile
 			await semaphore.WaitAsync();
 
 			try{
-				OrganizationList.Clear ();
 
 				await organizationController.GetMyOrganizations (AuthToken).ContinueWith (async r => {
 					if(r.Result != null){
@@ -548,13 +547,22 @@ namespace Busidex.Mobile
 						if(myOrganizationsResponse != null && myOrganizationsResponse.Model != null){
 
 							// Buid the Organization List
+							OrganizationList.Clear ();
 							OrganizationList.AddRange(myOrganizationsResponse.Model);
 
 							var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
 							Utils.SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
 
+							var status = new ProgressStatus();
+							status.Total = myOrganizationsResponse.Model.Count;
+
 							// Get Organization members and referals
 							foreach (Organization org in myOrganizationsResponse.Model) {
+
+								status.Count++;
+								if(OnMyOrganizationsUpdated != null){
+									OnMyOrganizationsUpdated(status);
+								}
 
 								var fileName = org.LogoFileName + "." + org.LogoType;
 								var fImagePath = Resources.CARD_PATH + fileName;
@@ -565,89 +573,15 @@ namespace Busidex.Mobile
 										
 									}
 								} 
-								// load organization members
-								await organizationController.GetOrganizationMembers(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
-
-									var orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
-
-									Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(orgMemberResponse.Model), string.Format(Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId));
-
-									var idx = 0;
-									OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
-									if(!OrganizationMembers.ContainsKey(org.OrganizationId)){
-										OrganizationMembers.Add(org.OrganizationId, orgMemberResponse.Model);
-									}else{
-										OrganizationMembers[org.OrganizationId] = orgMemberResponse.Model;
-									}
-
-									foreach(var card in orgMemberResponse.Model){
-
-										var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
-										var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
-										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-										if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-											try{
-												await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
-											}catch(Exception){
-
-											}
-										}
-										if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											try{
-												await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
-											}catch(Exception){
-
-											}
-										}
-										idx++;
-									}
-								});
-
-								await organizationController.GetOrganizationReferrals(AuthToken, org.OrganizationId).ContinueWith(async cards =>{
-
-									var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-									Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(orgReferralResponse.Model), string.Format(Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId));
-
-									var idx = 0;
-
-									OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
-									if(!OrganizationReferrals.ContainsKey(org.OrganizationId)){
-										OrganizationReferrals.Add(org.OrganizationId, orgReferralResponse.Model);
-									}else{
-										OrganizationReferrals[org.OrganizationId] = orgReferralResponse.Model;
-									}
-
-									foreach(var card in orgReferralResponse.Model){
-
-										var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
-										var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
-										var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-										var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-										if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-											try{
-												await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
-											}catch(Exception){
-												
-											}
-										}
-										if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
-											try{
-												await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
-											}catch(Exception){
-												
-											}
-										}
-										idx++;
-									}
-								});
+								// load organization members and referrals
+								await LoadOrganizationMembers(org.OrganizationId);
+								await LoadOrganizationReferrals(org.OrganizationId);
 							}
 						}
 
-
 						OrganizationsLoaded = true;
+						OrganizationsLoading = false;
 						if(OnMyOrganizationsLoaded != null){
-							OrganizationsLoading = false;
 							OnMyOrganizationsLoaded(OrganizationList);
 						}
 					}
@@ -655,11 +589,187 @@ namespace Busidex.Mobile
 			}
 			catch(Exception ex){
 				OrganizationsLoaded = true;
+				OrganizationsLoading = false;
 				Xamarin.Insights.Report (ex);
 			}
 			finally{
 				semaphore.Release ();
 			}
+			return true;
+		}
+
+		public static async Task<bool> LoadOrganizationReferrals(long organizationId){
+		
+			if(OrganizationReferralsLoading.ContainsKey(organizationId) && OrganizationReferralsLoading[organizationId]){
+				return false;
+			}
+
+			if(!OrganizationReferralsLoading.ContainsKey(organizationId)){
+				OrganizationReferralsLoading.Add (organizationId, true);
+			}else{
+				OrganizationReferralsLoading[organizationId] = true;
+			}
+			if(!OrganizationReferralsLoading.ContainsKey(organizationId)){
+				OrganizationReferralsLoading.Add (organizationId, false);
+			}else{
+				OrganizationReferralsLoading [organizationId] = false;
+			}
+
+			var fileName = string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organizationId);
+			var semaphore = locks.GetOrAdd(fileName, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
+
+			try{
+				await organizationController.GetOrganizationReferrals(AuthToken, organizationId).ContinueWith(async cards =>{
+
+					var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
+					Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(orgReferralResponse.Model), string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organizationId));
+
+					OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
+					if(!OrganizationReferrals.ContainsKey(organizationId)){
+						OrganizationReferrals.Add(organizationId, orgReferralResponse.Model);
+					}else{
+						OrganizationReferrals[organizationId] = orgReferralResponse.Model;
+					}
+
+					var status = new ProgressStatus();
+					status.Total = OrganizationReferrals[organizationId].Count;
+
+					foreach(var card in orgReferralResponse.Model){
+
+						var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
+						var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
+						var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+						var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+						if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+							try{
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith( r => {
+									status.Count++;
+								});
+							}catch(Exception){
+
+							}
+						}else{
+							status.Count++;
+						}
+
+						if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID) {
+							try{
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+							}catch(Exception){
+
+							}
+						}
+						if(OnMyOrganizationReferralsUpdated != null){
+							OnMyOrganizationReferralsUpdated(status);
+						}
+					}
+
+					OrganizationReferralsLoading[organizationId] = false;
+					OrganizationReferralsLoaded[organizationId] = true;
+
+					if(OnMyOrganizationReferralsLoaded != null){
+						OnMyOrganizationReferralsLoaded(OrganizationReferrals[organizationId] );
+					}
+				});
+			}catch(Exception ex){
+				OrganizationReferralsLoading[organizationId] = false;
+				OrganizationReferralsLoaded[organizationId] = true;
+
+				Xamarin.Insights.Report (new Exception("Error Loading Organization Referrals", ex));
+			}
+			finally{
+				semaphore.Release ();	
+			}
+			return true;
+		}
+
+		public static async Task<bool> LoadOrganizationMembers(long organizationId){
+
+			if(OrganizationMembersLoading.ContainsKey(organizationId) && OrganizationMembersLoading[organizationId]){
+				return false;
+			}
+
+			if(!OrganizationMembersLoading.ContainsKey(organizationId)){
+				OrganizationMembersLoading.Add (organizationId, true);
+			}else{
+				OrganizationMembersLoading[organizationId] = true;
+			}
+			if(!OrganizationMembersLoaded.ContainsKey(organizationId)){
+				OrganizationMembersLoaded.Add (organizationId, false);
+			}else{
+				OrganizationMembersLoaded [organizationId] = false;
+			}
+
+			var fileName = string.Format(Resources.ORGANIZATION_MEMBERS_FILE, organizationId);
+			var semaphore = locks.GetOrAdd(fileName, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
+
+			try {
+				await organizationController.GetOrganizationMembers (AuthToken, organizationId).ContinueWith (async cards => {
+
+					var orgMemberResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgMemberResponse> (cards.Result);
+
+					Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (orgMemberResponse.Model), string.Format (Resources.ORGANIZATION_MEMBERS_FILE, organizationId));
+
+					OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>> ();
+					if (!OrganizationMembers.ContainsKey (organizationId)) {
+						OrganizationMembers.Add (organizationId, orgMemberResponse.Model);
+					} else {
+						OrganizationMembers [organizationId] = orgMemberResponse.Model;
+					}
+
+					var status = new ProgressStatus();
+					status.Total = OrganizationMembers[organizationId].Count;
+
+					foreach (var card in orgMemberResponse.Model) {
+
+						var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
+						var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
+						var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+						var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+						if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+							try {
+								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith(r => {
+									status.Count++;
+								});
+							} catch (Exception) {
+
+							}
+						}else{
+							status.Count++;
+						}
+
+						if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.BackFileId.ToString ().ToLowerInvariant () != Resources.EMPTY_CARD_ID) {
+							try {
+								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+							} catch (Exception) {
+
+							}
+						}
+
+						if(OnMyOrganizationMembersUpdated != null){
+							OnMyOrganizationMembersUpdated(status);
+						}
+					}
+
+					OrganizationMembersLoading[organizationId] = false;
+					OrganizationMembersLoaded[organizationId] = true;
+
+					if(OnMyOrganizationMembersLoaded != null){
+						OnMyOrganizationMembersLoaded(OrganizationMembers [organizationId]);
+					}
+				});
+			} catch (Exception ex) {
+				OrganizationMembersLoading[organizationId] = false;
+				OrganizationMembersLoaded[organizationId] = true;
+
+				Xamarin.Insights.Report (new Exception("Error Loading Organization Members", ex));
+			}
+			finally{
+				semaphore.Release ();
+			}
+
 			return true;
 		}
 
@@ -670,11 +780,8 @@ namespace Busidex.Mobile
 			}
 
 			MyBusidexLoading = true;
-			if(string.IsNullOrEmpty(AuthToken)){
-				return false;
-			}
 
-			var semaphore = locks.GetOrAdd(AuthToken, new SemaphoreSlim(1, 1));
+			var semaphore = locks.GetOrAdd(Resources.MY_BUSIDEX_FILE, new SemaphoreSlim(1, 1));
 			await semaphore.WaitAsync();
 
 
@@ -747,6 +854,10 @@ namespace Busidex.Mobile
 					}
 
 				});
+			}catch(Exception ex){
+				MyBusidexLoading = false;
+				MyBusidexLoaded = true;
+				Xamarin.Insights.Report (new Exception("Error Loading My Busidex", ex));
 			}
 			finally{
 				semaphore.Release ();
@@ -791,13 +902,19 @@ namespace Busidex.Mobile
 
 			}
 			catch(Exception ex){
-				Xamarin.Insights.Report (ex);
+				Xamarin.Insights.Report (new Exception("Error Loading Notifications", ex));
 			}
 			return true;
 		}
 		#endregion
 
 		#region Private Methods
+		static List<UserCard> sortUserCards(){
+			return UserCards.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+				.ThenBy (c => c.Card != null ? c.Card.Name : "")
+				.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+				.ToList ();
+		}
 		static string loadFromFile(string fullFilePath){
 
 			string fileJson = string.Empty;

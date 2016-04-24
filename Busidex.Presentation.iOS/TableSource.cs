@@ -59,8 +59,7 @@ namespace Busidex.Presentation.iOS
 			
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			var card = TableItems [indexPath.Row];
-
+			
 			var cell = tableView.DequeueReusableCell (MyBusidexController.BusidexCellId, indexPath);
 			cell.SelectionStyle = UITableViewCellSelectionStyle.Default;
 
@@ -69,17 +68,21 @@ namespace Busidex.Presentation.iOS
 				cellCache.Add (cell);
 			} 
 
-			if (NoCards) {
-				LoadNoCardMessage (cell);
-			} else {
-				AddControls (cell, card, indexPath.Row);
+			if (indexPath.Row <= TableItems.Count) {
+				var card = TableItems [indexPath.Row];
+
+				if (NoCards) {
+					LoadNoCardMessage (cell);
+				} else {
+					AddControls (cell, card, indexPath.Row);
+				}
+			
+				cell.SetNeedsLayout ();
+				cell.SetNeedsDisplay ();
 			}
-			cell.SetNeedsLayout ();
-			cell.SetNeedsDisplay ();
 
 			return cell;
 		}
-
 
 		public void AddControls(UITableViewCell cell, UserCard card, int idx){
 
