@@ -27,14 +27,6 @@ namespace Busidex.Presentation.iOS
 
 			if (!UISubscriptionService.EventListLoaded) {
 
-				if(loadingData){
-					return;
-				}
-
-				loadingData = true;
-
-				View.AddSubview (overlay);
-
 				OnEventListLoadedEventHandler callback = list => InvokeOnMainThread (() => {
 					loadingData = false;
 					overlay.Hide();
@@ -48,6 +40,14 @@ namespace Busidex.Presentation.iOS
 
 				UISubscriptionService.OnEventListUpdated += update;
 				UISubscriptionService.OnEventListLoaded += callback;
+
+				if(loadingData){
+					return;
+				}
+
+				loadingData = true;
+
+				View.AddSubview (overlay);
 
 				UISubscriptionService.LoadEventList ();
 			}else{

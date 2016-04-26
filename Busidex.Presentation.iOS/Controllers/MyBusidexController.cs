@@ -115,6 +115,7 @@ namespace Busidex.Presentation.iOS
 				});
 
 				OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+					loadingData = false;
 					overlay.Hide ();
 					ResetFilter ();
 				});

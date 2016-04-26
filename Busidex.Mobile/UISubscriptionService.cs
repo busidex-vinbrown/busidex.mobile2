@@ -40,6 +40,7 @@ namespace Busidex.Mobile
 		public static event OnEventListLoadedEventHandler OnEventListLoaded;
 		public static event OnEventListUpdatedEventHandler OnEventListUpdated;
 		public static event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
+		public static event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
 		#endregion
@@ -124,13 +125,12 @@ namespace Busidex.Mobile
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
-			if(UserCards == null || 0.Equals (UserCards.Count)){
+			if(UserCards == null || UserCards.Count == 0){
 				UserCards = new List<UserCard> ();
-				await loadUserCards ().ContinueWith( r => {
-					
-				});
+				await loadUserCards ();
 			} else{
 				MyBusidexLoaded = true;
+				MyBusidexLoading = false;
 				if(MyBusidexLoaded && OnMyBusidexLoaded != null){
 					OnMyBusidexLoaded(UserCards);
 				}
@@ -140,36 +140,54 @@ namespace Busidex.Mobile
 			if(Notifications == null || Notifications.Count == 0){
 				Notifications = new List<SharedCard> ();
 			}
-			await loadNotifications ();
-
-			if(OnNotificationsLoaded != null){
-				OnNotificationsLoaded(Notifications);
-			}
+			await loadNotifications ().ContinueWith( r => {
+				if(OnNotificationsLoaded != null){
+					OnNotificationsLoaded(Notifications);
+				}	
+			});
 
 			EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
 			if(EventList == null || EventList.Count == 0){
 				EventList = new List<EventTag> ();
-				await loadEventList ().ContinueWith( r => {
-					EventListLoaded = true;
-				});
+				await loadEventList ();
 			}else{
 				EventListLoaded = true;
-				if(EventListLoaded && OnEventListLoaded != null){
+				EventListLoading = false;
+				if(OnEventListLoaded != null){
 					OnEventListLoaded(EventList);
+				}
+
+				foreach(var ev in EventList){
+					if(!EventCards.ContainsKey(ev.Text)){
+						EventCards.Add (ev.Text, new List<UserCard> ());
+					}
+					EventCards[ev.Text] = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, string.Format(Resources.EVENT_CARDS_FILE, ev.EventTagId)));
 				}
 			}
 
 			OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
 			if(OrganizationList == null || OrganizationList.Count == 0){
 				OrganizationList = new List<Organization> ();
-				await loadOrganizations ().ContinueWith( r => {
-					OrganizationsLoaded = true;
-				});
+				await loadOrganizations ();
 			}else{
 				OrganizationsLoaded = true;
+				OrganizationsLoading = false;
+
 				if(OrganizationsLoaded && OnMyOrganizationsLoaded != null){
 					OnMyOrganizationsLoaded(OrganizationList);
 				}
+
+				foreach(var org in OrganizationList ){
+					if(!OrganizationMembers.ContainsKey(org.OrganizationId)){
+						OrganizationMembers.Add (org.OrganizationId, new List<Card> ());
+					}
+					if(!OrganizationReferrals.ContainsKey(org.OrganizationId)){
+						OrganizationReferrals.Add (org.OrganizationId, new List<UserCard> ());
+					}
+					OrganizationMembers[org.OrganizationId] = loadData<List<Card>>(Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
+					OrganizationReferrals[org.OrganizationId] = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, string.Format(Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
+				}
+
 			}
 		}
 		#endregion
@@ -212,22 +230,16 @@ namespace Busidex.Mobile
 			await loadUserCards (); 	
 		}
 
-		public static void LoadOrganizations(){
-			loadOrganizations ().ContinueWith(r=>{
-				
-			});	 	
+		public async static void LoadOrganizations(){
+			await loadOrganizations ();
 		}
 
-		public static void LoadEventList(){
-			loadEventList ().ContinueWith (r => {
-				
-			});
+		public async static void LoadEventList(){
+			await loadEventList ();
 		}
 
-		public static void LoadEventCards(EventTag tag){
-			loadEventCards (tag).ContinueWith (r => {
-
-			});
+		public async static void LoadEventCards(EventTag tag){
+			await loadEventCards (tag);
 		}
 
 		public static async void LoadNotifications(){
@@ -410,17 +422,23 @@ namespace Busidex.Mobile
 				EventCardsLoaded [tag.Text] = false;
 			}
 
-			var fileName = string.Format(Resources.EVENT_CARDS_FILE, tag);
+			var fileName = string.Format(Resources.EVENT_CARDS_FILE, tag.EventTagId);
 			var semaphore = locks.GetOrAdd(fileName, new SemaphoreSlim(1, 1));
 			await semaphore.WaitAsync();
 
 			try{
 				await searchController.SearchBySystemTag(tag.Text, AuthToken).ContinueWith(async t => {
-					Utils.SaveResponse(t.Result, string.Format("{0}.json", tag));
 
 					var eventSearchResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventSearchResponse> (t.Result);
 
 					var cards = new List<UserCard> ();
+
+					var status = new ProgressStatus();
+					status.Total = eventSearchResponse.SearchModel.Results.Count;
+
+					if(!EventCards.ContainsKey(tag.Text)){
+						EventCards.Add(tag.Text, new List<UserCard>());
+					}
 
 					foreach (var card in eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList()) {
 						if (card != null) {
@@ -439,6 +457,7 @@ namespace Busidex.Mobile
 							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
 							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
 								try{
+									status.Count++;
 									await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName);
 								}catch(Exception){
 
@@ -451,13 +470,15 @@ namespace Busidex.Mobile
 
 								}
 							}
+							if(OnEventCardsUpdated != null){
+								OnEventCardsUpdated(status);
+							}
 						}
 					}
-					if(!EventCards.ContainsKey(tag.Text)){
-						EventCards.Add(tag.Text, cards);
-					}
-					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
+					EventCards[tag.Text] = cards;
+
+					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventCards[tag.Text]);
 
 					Utils.SaveResponse (savedResult, fileName);
 
@@ -471,7 +492,9 @@ namespace Busidex.Mobile
 			}
 			catch(Exception ex){
 				EventCardsLoading [tag.Text] = false;
-				Xamarin.Insights.Report (ex);
+				EventCardsLoaded [tag.Text] = true;
+
+				Xamarin.Insights.Report (new Exception("Error loading event cards", ex));
 			}
 			finally{
 				semaphore.Release ();
@@ -507,19 +530,34 @@ namespace Busidex.Mobile
 
 					Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
 
+					EventListLoading = false;
+					EventListLoaded = true;
+
 					if(OnEventListLoaded != null){
-						EventListLoading = false;
-						EventListLoaded = true;
 						OnEventListLoaded(EventList);
 					}
 
-					foreach(var tag in EventList){
-						await loadEventCards(tag);
-					}
+//					foreach(var tag in EventList){
+//						await loadEventCards(tag);
+//					}
 				});
 			}
 			catch(Exception ex){
-				Xamarin.Insights.Report (ex);
+
+				EventListLoading = false;
+				EventListLoaded = true;
+				OnEventListLoaded(EventList);
+				Xamarin.Insights.Report (new Exception("Error loading event list", ex));
+
+				try{
+					if(EventList.Count == 0){
+						EventList = loadData<List<EventTag>>(Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+					}
+				}catch(Exception innerEx){
+					Xamarin.Insights.Report (new Exception("Error loading event list from file", innerEx));
+				}
+
+				return false;
 			}
 			finally{
 				semaphore.Release ();
@@ -590,7 +628,15 @@ namespace Busidex.Mobile
 			catch(Exception ex){
 				OrganizationsLoaded = true;
 				OrganizationsLoading = false;
-				Xamarin.Insights.Report (ex);
+				Xamarin.Insights.Report (new Exception("Error loading organization list", ex));
+
+				if(OrganizationList.Count == 0){
+					try{
+						OrganizationList = loadData<List<Organization>>(Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+					}catch(Exception innerEx){
+						Xamarin.Insights.Report (new Exception("Error loading organization list from file", innerEx));
+					}
+				}
 			}
 			finally{
 				semaphore.Release ();
@@ -858,6 +904,12 @@ namespace Busidex.Mobile
 				MyBusidexLoading = false;
 				MyBusidexLoaded = true;
 				Xamarin.Insights.Report (new Exception("Error Loading My Busidex", ex));
+
+				try{
+					UserCards = loadData<List<UserCard>>(Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+				}catch(Exception innerEx){
+					Xamarin.Insights.Report (new Exception("Error Loading My Busidex From File", innerEx));
+				}
 			}
 			finally{
 				semaphore.Release ();

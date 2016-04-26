@@ -14,6 +14,7 @@ namespace Busidex.Presentation.iOS
 		List<UserCard> Cards;
 		public EventTag SelectedTag { get; set; }
 		const string NO_CARDS = "There are no cards in this event yet";
+		MyBusidexLoadingOverlay overlay;
 
 		public EventCardsController (IntPtr handle) : base (handle)
 		{
@@ -90,22 +91,17 @@ namespace Busidex.Presentation.iOS
 
 			lblEventName.Text = SelectedTag.Description;
 
-			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-			overlay.MessageText = "Loading Event Cards";
+
 
 			if (UISubscriptionService.EventCardsLoaded.ContainsKey(SelectedTag.Text) && UISubscriptionService.EventCardsLoaded[SelectedTag.Text]) {
 				refreshTable (SelectedTag, UISubscriptionService.EventCards [SelectedTag.Text]);
 				overlay.Hide ();
 			} else {
-
+				
+				overlay = new MyBusidexLoadingOverlay (View.Bounds);
+				overlay.MessageText = "Loading Event Cards";
+				overlay.Hidden = false;
 				View.AddSubview (overlay);
-
-				OnEventCardsLoadedEventHandler callback = (tag, list) => InvokeOnMainThread (() => {
-					overlay.Hide ();
-					refreshTable (tag, list);
-				});
-
-				UISubscriptionService.OnEventCardsLoaded += callback;
 
 				UISubscriptionService.LoadEventCards (SelectedTag);
 			}
@@ -133,6 +129,22 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			OnEventCardsLoadedEventHandler callback = (tag, list) => InvokeOnMainThread (() => {
+				overlay.Hide ();
+				refreshTable (tag, list);
+			});
+
+			OnEventCardsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+				overlay.TotalItems = status.Total;
+				overlay.UpdateProgress (status.Count);
+			});
+
+			UISubscriptionService.OnEventCardsLoaded -= callback;
+			UISubscriptionService.OnEventCardsUpdated -= update;
+
+			UISubscriptionService.OnEventCardsLoaded += callback;
+			UISubscriptionService.OnEventCardsUpdated += update;
 
 			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);
 			ConfigureSearchBar ();

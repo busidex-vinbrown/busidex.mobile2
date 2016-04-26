@@ -10,7 +10,7 @@ namespace Busidex.Presentation.iOS
 	using System.IO;
 	using System.Linq;
 	using System.Collections.Generic;
-	using System.Threading.Tasks;
+	//using System.Threading.Tasks;
 	using GoogleAnalytics.iOS;
 
 	public partial class SearchController : BaseCardViewController
@@ -50,17 +50,15 @@ namespace Busidex.Presentation.iOS
 				vwSearchResults.Hidden = true;
 			};
 
-			txtSearch.SearchButtonClicked += async delegate {
+			txtSearch.SearchButtonClicked += delegate {
 				StartSearch ();
 				txtSearch.ResignFirstResponder ();
-
-				await DoSearch ().ContinueWith (r => {
-
-					InvokeOnMainThread (()=>{
-						vwSearchResults.Hidden = false;
-					});
-
-				});
+					
+				try{
+					DoSearch ();
+				}catch(AggregateException ex){
+					Xamarin.Insights.Report(ex);
+				}
 
 			};
 			txtSearch.CancelButtonClicked += delegate {
@@ -70,8 +68,6 @@ namespace Busidex.Presentation.iOS
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;
 			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
-
-
 
 		void ShowPhoneNumbers(){
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
@@ -95,7 +91,7 @@ namespace Busidex.Presentation.iOS
 		void LoadSearchResults(List<UserCard> cards){
 
 			var src = ConfigureTableSourceEventHandlers(cards); 
-
+			vwSearchResults.Hidden = false;
 			vwSearchResults.Source = src;
 			vwSearchResults.ReloadData ();
 			vwSearchResults.AllowsSelection = true;
@@ -118,21 +114,14 @@ namespace Busidex.Presentation.iOS
 			View.SetNeedsDisplay ();
 		}
 
-		protected async Task<int> DoSearch(){
-
-			var cookie = GetAuthCookie ();
-			string token = string.Empty;
-
-			if (cookie != null) {
-				token = cookie.Value;
-			}
+		protected void DoSearch(){
 
 			var ctrl = new Busidex.Mobile.SearchController ();
-			await ctrl.DoSearch (txtSearch.Text, token).ContinueWith(response => {
+			ctrl.DoSearch (txtSearch.Text, UISubscriptionService.AuthToken).ContinueWith(response => {
 
 				var cards = new List<UserCard> ();
 
-				if(response == null || response.Result == null){
+				if(response == null || response.Result == null || string.IsNullOrEmpty(response.Result)){
 					InvokeOnMainThread (() => LoadSearchResults (cards));
 					return;
 				}
@@ -175,10 +164,6 @@ namespace Busidex.Presentation.iOS
 					}
 				}
 			});
-
-			Overlay.Hide();
-
-			return 1;
 		}
 	}
 }

@@ -3,11 +3,15 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Globalization;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Busidex.Mobile
 {
 	public static class Utils
 	{
+		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim>();
+
 		public static long DecodeUserId(string id){
 
 			long userId = 0;
@@ -29,6 +33,10 @@ namespace Busidex.Mobile
 			if(imagePath.Contains("00000000-0000-0000-0000-000000000000")){
 				return string.Empty;
 			}
+
+			var semaphore = locks.GetOrAdd(imagePath, new SemaphoreSlim(1, 1));
+			await semaphore.WaitAsync();
+
 			string jpgFilename = Path.Combine (documentsPath, fileName);
 
 			try{
@@ -43,8 +51,12 @@ namespace Busidex.Mobile
 				}
 			}
 			catch(Exception ex){
-				Xamarin.Insights.Report(new Exception("File " + imagePath + " was not found!", ex));
+				Xamarin.Insights.Report(new Exception("Error loading " + imagePath, ex));
 			}
+			finally{
+				semaphore.Release ();
+			}
+
 			return jpgFilename;
 		}
 

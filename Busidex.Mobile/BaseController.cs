@@ -29,37 +29,37 @@ namespace Busidex.Mobile
 					HttpContent content = new JsonContent(data);
 					content.Headers.Add("x-authorization-token", token);
 					await httpClient.PostAsync (url, content).ContinueWith(async r => {
-						var _response = await r;
-
-						response = await _response.Content.ReadAsStringAsync();
-
+						if(!r.IsFaulted){
+							var _response = await r;
+							response = await _response.Content.ReadAsStringAsync();
+						}
 					});	
 				}else if(method == "PUT"){
 
 					HttpContent content = new JsonContent(data);
 					content.Headers.Add("x-authorization-token", token);
 					await httpClient.PutAsync (url, content).ContinueWith(async r => {
-						var _response = await r;
-
-						response = await _response.Content.ReadAsStringAsync();
-
+						if(!r.IsFaulted){
+							var _response = await r;
+							response = await _response.Content.ReadAsStringAsync();
+						}
 					});	
 				}else if(method == "DELETE"){
 
 					httpClient.DefaultRequestHeaders.Add("x-authorization-token", token);
 					await httpClient.DeleteAsync (url).ContinueWith(async r => {
-						var _response = await r;
-
-						response = await _response.Content.ReadAsStringAsync();
-
+						if(!r.IsFaulted){
+							var _response = await r;
+							response = await _response.Content.ReadAsStringAsync();
+						}
 					});
 				}
 				else{
 					await httpClient.SendAsync (request).ContinueWith(async r => {
-						var _response = await r;
-
-						response = await _response.Content.ReadAsStringAsync();
-
+						if(!r.IsFaulted){
+							var _response = await r;
+							response = await _response.Content.ReadAsStringAsync();
+						}
 					});
 				}
 			} 
@@ -73,7 +73,6 @@ namespace Busidex.Mobile
 				Insights.Report(e);
 			}
 			catch (Exception e) {
-				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				LoggingController.LogError (e, token);
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
