@@ -91,7 +91,9 @@ namespace Busidex.Presentation.iOS
 
 		public void LoadMyBusidex(){
 
-			if((UISubscriptionService.MyBusidexLoaded && CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME))){
+			bool refreshCookieOk = CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
+
+			if((UISubscriptionService.MyBusidexLoaded && refreshCookieOk)){
 				ResetFilter();
 				return;
 			}
@@ -99,7 +101,7 @@ namespace Busidex.Presentation.iOS
 			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 			overlay.MessageText = "Loading Your Cards";
 
-			if (!UISubscriptionService.MyBusidexLoaded) {
+			if (!UISubscriptionService.MyBusidexLoaded || !refreshCookieOk) {
 
 				if(loadingData){
 					return;

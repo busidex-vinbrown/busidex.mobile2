@@ -21,23 +21,6 @@ namespace Busidex.Presentation.iOS
 		const float TERMS_ACCEPTED_DISPLAY = 1f;
 		bool loggedIn;
 
-//		private void SetUserNameChangedResult(string username, string result, ref NSUserDefaults user){
-//			if (result.IndexOf ("400") >= 0) {
-//				//imgUserNameSaved.Hidden = true;
-//				//lblUserNameError.Hidden = false;
-//				//lblUserNameError.Text = "UserName is already in use";
-//			} else if (result.ToLowerInvariant().IndexOf ("username updated") >= 0) {
-//				user.SetString (username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
-//				user.Synchronize ();
-//				imgUserNameSaved.Hidden = false;
-//				lblUserNameError.Hidden = true;
-//			} else {
-//				imgUserNameSaved.Hidden = true;
-//				lblUserNameError.Hidden = false;
-//				lblUserNameError.Text = "There was a problem saving your UserName";
-//			}
-//		}
-
 		void SetPasswordChangedResult(string password, string result, ref NSUserDefaults user){
 
 			if (result.ToLowerInvariant ().IndexOf ("password changed", StringComparison.Ordinal) >= 0) {
@@ -102,7 +85,6 @@ namespace Busidex.Presentation.iOS
 
 					InvokeOnMainThread (GoToMain);
 				});
-
 
 			} else {
 				imgEmailSaved.Hidden = true;
@@ -169,11 +151,13 @@ namespace Busidex.Presentation.iOS
 
 			lblInstructions.Frame = new CoreGraphics.CGRect (
 				padding.Bounds.X + 10, 
-				padding.Bounds.Y + 10, 
+				padding.Bounds.Y + 30, 
 				padding.Bounds.Width - 20, 
 				padding.Bounds.Height - 10);
 			
 			padding.AddSubview (lblInstructions);
+
+			txtEmail.BecomeFirstResponder ();
 
 		}
 

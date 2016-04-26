@@ -131,7 +131,7 @@ namespace Busidex.Mobile
 			} else{
 				MyBusidexLoaded = true;
 				MyBusidexLoading = false;
-				if(MyBusidexLoaded && OnMyBusidexLoaded != null){
+				if(OnMyBusidexLoaded != null){
 					OnMyBusidexLoaded(UserCards);
 				}
 			}
