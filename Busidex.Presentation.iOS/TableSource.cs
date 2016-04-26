@@ -52,7 +52,7 @@ namespace Busidex.Presentation.iOS
 				return BASE_CELL_HEIGHT;
 			} 
 
-			return card.Card.FrontOrientation == "H"
+			return (card.Card == null || card.Card.FrontOrientation == "H")
 					? BASE_CELL_HEIGHT
 						: CARD_HEIGHT_VERTICAL + 65f;
 		}

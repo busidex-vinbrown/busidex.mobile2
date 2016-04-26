@@ -6,7 +6,6 @@ using UIKit;
 using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
 using System.Threading.Tasks;
-using Contacts;
 
 namespace Busidex.Presentation.iOS
 {
@@ -20,6 +19,7 @@ namespace Busidex.Presentation.iOS
 		const float TERMS_NOT_ACCEPTED_DISPLAY = .0f;
 		const float TERMS_ACCEPTED_DISPLAY = 1f;
 		bool loggedIn;
+		LoadingOverlay overlay;
 
 		void SetPasswordChangedResult(string password, string result, ref NSUserDefaults user){
 
@@ -129,7 +129,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLayoutSubviews ();
 
-			UITextView lblInstructions = new UITextView ();
+			var lblInstructions = new UITextView ();
 			lblInstructions.BackgroundColor = UIColor.Clear;
 			lblInstructions.UserInteractionEnabled = false;
 			lblInstructions.TextColor = UIColor.DarkGray;
@@ -203,8 +203,24 @@ namespace Busidex.Presentation.iOS
 						await ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
 					} else {
 						token = Guid.NewGuid ().ToString ();
+
+						overlay = new LoadingOverlay (View.Bounds);
+						overlay.MessageText = "Saving your information";
+						View.AddSubview (overlay);
+
 						await AccountController.CheckAccount (token, newEmail, newPassword).ContinueWith(response => {
-							InvokeOnMainThread(() => SetCheckAccountResult (newEmail, newPassword, response.Result, ref user));
+
+							if(!response.IsFaulted && !string.IsNullOrEmpty(response.Result)){
+								InvokeOnMainThread(() => {
+									overlay.Hide();
+									SetCheckAccountResult (newEmail, newPassword, response.Result, ref user);
+								});
+							}else{
+								InvokeOnMainThread(() => {
+									ShowAlert ("Saving your information", "There was a problem saving your information. There may be an issue with your internet connection. Please try again later.", "Ok");
+									overlay.Hide();
+								});
+							}
 						});
 
 					}

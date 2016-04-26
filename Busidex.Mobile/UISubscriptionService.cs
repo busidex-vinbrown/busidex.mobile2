@@ -72,30 +72,49 @@ namespace Busidex.Mobile
 
 		static bool MyBusidexLoading;
 		static bool EventListLoading;
-		static Dictionary<string, bool> EventCardsLoading = new Dictionary<string, bool>();
-		static Dictionary<long, bool> OrganizationMembersLoading = new Dictionary<long, bool>();
-		static Dictionary<long, bool> OrganizationReferralsLoading = new Dictionary<long, bool>();
+		static Dictionary<string, bool> EventCardsLoading;
 		static bool OrganizationsLoading;
+		static Dictionary<long, bool> OrganizationMembersLoading;
+		static Dictionary<long, bool> OrganizationReferralsLoading;
+
 
 		static UISubscriptionService(){
 
-			EventCards = EventCards ?? new Dictionary<string, List<UserCard>> ();
-			OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>> ();
-			OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
-			UserCards = new List<UserCard> ();
-			EventList = new List<EventTag> ();
-			OrganizationList = new List<Organization> ();
-			Notifications = new List<SharedCard> ();
-
-			EventCardsLoaded = new Dictionary<string, bool> ();
-			OrganizationMembersLoaded = new Dictionary<long, bool> ();
-			OrganizationReferralsLoaded = new Dictionary<long, bool> ();
+			InitDataStructures ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 
 			myBusidexController = new MyBusidexController ();
 			organizationController = new OrganizationController ();
 			searchController = new SearchController ();
+		}
+
+		static void ResetFlags(){
+			OrganizationsLoaded = false;
+			MyBusidexLoaded = false;
+			EventListLoaded = false;
+
+			MyBusidexLoading = false;
+			OrganizationsLoading = false;
+			EventListLoading = false;
+
+			EventCardsLoaded = new Dictionary<string, bool> ();
+			OrganizationMembersLoaded = new Dictionary<long, bool> ();
+			OrganizationReferralsLoaded = new Dictionary<long, bool> ();
+
+			EventCardsLoading = new Dictionary<string, bool>();
+			OrganizationMembersLoading = new Dictionary<long, bool>();
+			OrganizationReferralsLoading = new Dictionary<long, bool>();
+		}
+
+		static void InitDataStructures(){
+			EventCards = new Dictionary<string, List<UserCard>> ();
+			OrganizationMembers = new Dictionary<long, List<Card>> ();
+			OrganizationReferrals = new Dictionary<long, List<UserCard>> ();
+			UserCards = new List<UserCard> ();
+			EventList = new List<EventTag> ();
+			OrganizationList = new List<Organization> ();
+			Notifications = new List<SharedCard> ();
 		}
 
 		#region Initialization / Startup
@@ -196,13 +215,10 @@ namespace Busidex.Mobile
 
 		public static void Clear(){
 
-			OrganizationsLoaded = false;
-			MyBusidexLoaded = false;
-			EventListLoaded = false;
+			ResetFlags ();
 
-			UserCards.Clear ();
-			OrganizationList.Clear ();
-			EventList.Clear ();
+			InitDataStructures ();
+
 			CurrentUser = null;
 
 			AuthToken = string.Empty;
@@ -893,9 +909,9 @@ namespace Busidex.Mobile
 					Utils.SaveResponse (savedResult, Resources.MY_BUSIDEX_FILE);
 
 					// Fire event handler
+					MyBusidexLoading = false;
+					MyBusidexLoaded = true;
 					if(OnMyBusidexLoaded != null){
-						MyBusidexLoading = false;
-						MyBusidexLoaded = true;
 						OnMyBusidexLoaded(UserCards);
 					}
 
