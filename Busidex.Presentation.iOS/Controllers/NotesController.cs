@@ -6,6 +6,7 @@ using System.Drawing;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using GoogleAnalytics.iOS;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
@@ -34,6 +35,12 @@ namespace Busidex.Presentation.iOS
 
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
+				if(SelectedCard.UserCardId == 0){
+					var mbCard = UISubscriptionService.UserCards.SingleOrDefault (uc => uc.CardId == SelectedCard.CardId);
+					if(mbCard != null){
+						SelectedCard.UserCardId = mbCard.UserCardId;
+					}
+				}
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
 				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
 
@@ -54,37 +61,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void SaveNotes(){
-
-			var cookie = GetAuthCookie ();
-			string token = string.Empty;
-
-			if (cookie != null) {
-				token = cookie.Value;
-			}
-
-			var controller = new Busidex.Mobile.NotesController ();
-			controller.SaveNotes (SelectedCard.UserCardId, txtNotes.Text.Trim (), token).ContinueWith (response => {
-				var result = response.Result;
-				if(!string.IsNullOrEmpty(result)){
-
-					InvokeOnMainThread(() =>{
-						SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
-						if(obj.Success){
-
-							UpdateLocalCardNotes ();
-
-							// need to sync the notes with the local user card
-							imgSaved.Hidden = false;
-						}
-					});
-				}
-			});
-
-		}
-
-		void UpdateLocalCardNotes(){
-
-			UISubscriptionService.SaveNotes(SelectedCard.UserCardId, txtNotes.Text.Trim());
+			UISubscriptionService.SaveNotes (SelectedCard.UserCardId, txtNotes.Text.Trim ());
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -142,6 +119,12 @@ namespace Busidex.Presentation.iOS
 			txtNotes.Changed += delegate {
 				imgSaved.Hidden = true;
 			};
+
+			OnNotesUpdatedEventHandler callback = () => InvokeOnMainThread (() => {				
+				imgSaved.Hidden = false;
+			});
+
+			UISubscriptionService.OnNotesUpdated += callback;
 		}
 
 		void KeyBoardDownNotification(NSNotification notification)

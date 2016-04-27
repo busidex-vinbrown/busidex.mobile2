@@ -65,6 +65,7 @@ namespace Busidex.Presentation.iOS
 					ShowMaps ();
 				}
 			};
+
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -85,8 +86,8 @@ namespace Busidex.Presentation.iOS
 
 			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
 			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
-			btnEmail.Enabled = SelectedCard.ExistsInMyBusidex;	
-			btnBrowser.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Email);
+			btnEmail.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Email);	
+			btnBrowser.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Url);
 			btnNotes.Enabled = SelectedCard.ExistsInMyBusidex;
 			btnPhone.Enabled = SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ();	
 			btnMaps.Enabled = SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ();

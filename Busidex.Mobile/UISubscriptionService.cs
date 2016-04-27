@@ -24,6 +24,7 @@ namespace Busidex.Mobile
 	public delegate void OnEventCardsUpdatedEventHandler(ProgressStatus status);
 	public delegate void OnBusidexUserLoadedEventHandler(BusidexUser user);
 	public delegate void OnNotificationsLoadedEventHandler(List<SharedCard> notifications);
+	public delegate void OnNotesUpdatedEventHandler();
 	#endregion
 
 	public static class UISubscriptionService
@@ -43,6 +44,7 @@ namespace Busidex.Mobile
 		public static event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
+		public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 		#endregion
 
 		static readonly MyBusidexController myBusidexController;
@@ -81,6 +83,8 @@ namespace Busidex.Mobile
 		static UISubscriptionService(){
 
 			InitDataStructures ();
+
+			ResetFlags ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 
@@ -136,9 +140,9 @@ namespace Busidex.Mobile
 
 		public static async void Init(){
 
-			OrganizationsLoaded = false;
-			MyBusidexLoaded = false;
-			EventListLoaded = false;
+			InitDataStructures ();
+
+			ResetFlags ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser();
 			CurrentUser = CurrentUser ?? new BusidexUser ();
@@ -336,11 +340,11 @@ namespace Busidex.Mobile
 			return UserCards.Any (uc => uc.CardId == card.CardId);
 		}
 
-		public static void SaveNotes(long userCardId, string notes){
+		public async static void SaveNotes(long userCardId, string notes){
 
 			try{
 				var controller = new NotesController ();
-				controller.SaveNotes (userCardId, notes, AuthToken).ContinueWith (response => {
+				await controller.SaveNotes (userCardId, notes, AuthToken).ContinueWith (response => {
 					var result = response.Result;
 					if(!string.IsNullOrEmpty(result)){
 
@@ -357,6 +361,9 @@ namespace Busidex.Mobile
 								Utils.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(UserCards), Resources.MY_BUSIDEX_FILE);
 							}
 						}
+					}
+					if(OnNotesUpdated != null){
+						OnNotesUpdated();
 					}
 				});
 			}

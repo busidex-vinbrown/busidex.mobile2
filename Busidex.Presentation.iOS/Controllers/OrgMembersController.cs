@@ -104,7 +104,6 @@ namespace Busidex.Presentation.iOS
 
 		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new OrgMemberTableSource (data);
-			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No members have been loaded for this organization";
 			src.CardSelected += ShowCardActions;
@@ -126,8 +125,10 @@ namespace Busidex.Presentation.iOS
 					});
 
 					OnMyOrganizationMembersUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-						overlay.TotalItems = status.Total;
-						overlay.UpdateProgress (status.Count);
+						if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+							overlay.TotalItems = status.Total;
+							overlay.UpdateProgress (status.Count);
+						}
 					});
 
 					OnMyOrganizationMembersLoadedEventHandler callback = list => InvokeOnMainThread (populateMembers);
@@ -153,8 +154,10 @@ namespace Busidex.Presentation.iOS
 					});
 
 					OnMyOrganizationReferralsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-						overlay.TotalItems = status.Total;
-						overlay.UpdateProgress (status.Count);
+						if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+							overlay.TotalItems = status.Total;
+							overlay.UpdateProgress (status.Count);
+						}
 					});
 
 					OnMyOrganizationReferralsLoadedEventHandler callback = list => InvokeOnMainThread (populateReferrals);
@@ -176,9 +179,15 @@ namespace Busidex.Presentation.iOS
 			if (UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId)) {
 				foreach (var card in UISubscriptionService.OrganizationMembers[OrganizationId]) {
 					var userCard = new UserCard ();
-					userCard.ExistsInMyBusidex = UISubscriptionService.UserCards.Exists (c => c.CardId == userCard.CardId);
+
+					var mbCard = UISubscriptionService.UserCards.SingleOrDefault (c => c.CardId == card.CardId);
+
+					userCard.ExistsInMyBusidex = mbCard != null;
 					userCard.Card = card;
 					userCard.CardId = card.CardId;
+					if (userCard.ExistsInMyBusidex) {
+						userCard.Notes = mbCard.Notes;
+					}
 
 					Cards.Add (userCard);
 				}
@@ -192,6 +201,13 @@ namespace Busidex.Presentation.iOS
 		void populateReferrals(){
 			if (UISubscriptionService.OrganizationReferrals.ContainsKey (OrganizationId)) {
 				Cards.AddRange (UISubscriptionService.OrganizationReferrals [OrganizationId]);
+
+				Cards.ForEach (card => {
+					var mbCard = UISubscriptionService.UserCards.SingleOrDefault (c => c.CardId == card.CardId);
+					if(mbCard != null){
+						card.Notes = mbCard.Notes;	
+					}
+				});
 			}
 			if(overlay != null){
 				overlay.Hide ();

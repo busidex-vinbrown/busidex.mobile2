@@ -16,6 +16,7 @@ namespace Busidex.Presentation.iOS
 		List<UserCard> FilterResults;
 		const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
 		bool loadingData;
+		MyBusidexLoadingOverlay overlay;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -98,9 +99,6 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
-			overlay.MessageText = "Loading Your Cards";
-
 			if (!UISubscriptionService.MyBusidexLoaded || !refreshCookieOk) {
 
 				if(loadingData){
@@ -109,21 +107,10 @@ namespace Busidex.Presentation.iOS
 
 				loadingData = true;
 
+				overlay = new MyBusidexLoadingOverlay (View.Bounds);
+				overlay.MessageText = "Loading Your Cards";
+
 				View.AddSubview (overlay);
-
-				OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-					overlay.TotalItems = status.Total;
-					overlay.UpdateProgress (status.Count);
-				});
-
-				OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
-					loadingData = false;
-					overlay.Hide ();
-					ResetFilter ();
-				});
-
-				UISubscriptionService.OnMyBusidexUpdated += update;
-				UISubscriptionService.OnMyBusidexLoaded += callback;
 
 				UISubscriptionService.LoadUserCards ();
 			}else{
@@ -164,6 +151,22 @@ namespace Busidex.Presentation.iOS
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 
 			ConfigureSearchBar ();
+
+			OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
+				if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				}
+			});
+
+			OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
+				loadingData = false;
+				overlay.Hide ();
+				ResetFilter ();
+			});
+
+			UISubscriptionService.OnMyBusidexUpdated += update;
+			UISubscriptionService.OnMyBusidexLoaded += callback;
 
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;

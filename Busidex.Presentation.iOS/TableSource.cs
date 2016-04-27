@@ -99,21 +99,5 @@ namespace Busidex.Presentation.iOS
 				AddCompanyLabel (card, cell, ref frame);
 			}
 		}
-			
-		protected string buildAddress(Card card){
-
-			var address = string.Empty;
-			address += string.IsNullOrEmpty(card.Addresses [0].Address1) ? string.Empty : card.Addresses [0].Address1;
-			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].Address2) ? string.Empty : card.Addresses [0].Address2;
-			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].City) ? string.Empty : card.Addresses [0].City;
-			address += " ";
-			address += card.Addresses [0].State == null ? string.Empty : card.Addresses [0].State.Code;
-			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].ZipCode) ? string.Empty : card.Addresses [0].ZipCode;
-
-			return address;
-		}
 	}
 }

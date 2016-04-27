@@ -85,16 +85,26 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
+		void resetList(){
+			Cards = new List<UserCard> ();
+			Cards.AddRange (UISubscriptionService.EventCards[SelectedTag.Text]);
+			Cards.ForEach (card => {
+				var mbCard = UISubscriptionService.UserCards.SingleOrDefault (c => c.CardId == card.CardId);
+				if (mbCard != null) {
+					card.Notes = mbCard.Notes;	
+				}
+			});
+		}
+
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 
 			lblEventName.Text = SelectedTag.Description;
 
-
-
 			if (UISubscriptionService.EventCardsLoaded.ContainsKey(SelectedTag.Text) && UISubscriptionService.EventCardsLoaded[SelectedTag.Text]) {
-				refreshTable (SelectedTag, UISubscriptionService.EventCards [SelectedTag.Text]);
+				resetList ();
+				ResetFilter ();
 				overlay.Hide ();
 			} else {
 				
@@ -114,36 +124,35 @@ namespace Busidex.Presentation.iOS
 			}
 			base.ViewDidAppear (animated);
 
-		}
+			OnEventCardsLoadedEventHandler callback = (tag, list) => {
 
-		void refreshTable(EventTag tag, List<UserCard> cards){
+				resetList();
 
-			InvokeOnMainThread (() => {
-				Cards = new List<UserCard> ();
-				Cards.AddRange (cards);
-				ResetFilter ();
-				UISubscriptionService.OnEventCardsLoaded -= refreshTable;
-			});
+				InvokeOnMainThread (() => {
+					overlay.Hide ();
+					ResetFilter ();
+				});
+			};
+
+			UISubscriptionService.OnEventCardsLoaded -= callback;
+			UISubscriptionService.OnEventCardsLoaded += callback;
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			OnEventCardsLoadedEventHandler callback = (tag, list) => InvokeOnMainThread (() => {
-				overlay.Hide ();
-				refreshTable (tag, list);
-			});
 
+				
 			OnEventCardsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-				overlay.TotalItems = status.Total;
-				overlay.UpdateProgress (status.Count);
+				if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+					overlay.TotalItems = status.Total;
+					overlay.UpdateProgress (status.Count);
+				}
 			});
 
-			UISubscriptionService.OnEventCardsLoaded -= callback;
-			UISubscriptionService.OnEventCardsUpdated -= update;
 
-			UISubscriptionService.OnEventCardsLoaded += callback;
+			UISubscriptionService.OnEventCardsUpdated -= update;
 			UISubscriptionService.OnEventCardsUpdated += update;
 
 			tblEventCards.RegisterClassForCellReuse (typeof(UITableViewCell), MyBusidexController.BusidexCellId);

@@ -34,8 +34,10 @@ namespace Busidex.Presentation.iOS
 				});
 
 				OnEventListUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-					overlay.TotalItems = status.Total;
-					overlay.UpdateProgress (status.Count);
+					if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+						overlay.TotalItems = status.Total;
+						overlay.UpdateProgress (status.Count);
+					}
 				});
 
 				UISubscriptionService.OnEventListUpdated += update;

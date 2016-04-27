@@ -33,7 +33,7 @@ namespace Busidex.Presentation.iOS
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
-				imgCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 340f, dimensions.Width, dimensions.Height);
+				imgCard.Frame = new CGRect (dimensions.MarginLeft, 340f, dimensions.Width, dimensions.Height);
 
 				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
@@ -43,11 +43,9 @@ namespace Busidex.Presentation.iOS
 					ShowOverlay ();
 					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
-							if(SelectedCard.Card.BackOrientation == "H"){
-								imgCard.Image = new UIImage(UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right);
-							}else{
-								imgCard.Image = UIImage.FromFile (FrontFileName);
-							}
+							imgCard.Image = SelectedCard.Card.BackOrientation == "H" 
+								? new UIImage (UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right) 
+								: UIImage.FromFile (FrontFileName);
 							Overlay.Hide();
 						});
 					});
@@ -229,7 +227,25 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
+			UITextFieldCondition returnCallback = textField => {
+				textField.ResignFirstResponder ();
+				return true;
+			};
+			UITextViewCondition tvReturnCallback = textField => {
+				if (textField == null)
+					throw new ArgumentNullException ("textField");
+				textField.ResignFirstResponder ();
+				return true;
+			};
+			EventHandler editingCallback = (textField, e) => ((UITextField)textField).ResignFirstResponder ();
+			txtEmail.ShouldReturn += returnCallback;
+			txtDisplayName.ShouldReturn += returnCallback;
+			txtPhoneNumber.ShouldReturn += returnCallback;
 
+			txtPhoneNumber.EditingDidEnd += editingCallback;
+			txtPersonalMessage.ShouldEndEditing += tvReturnCallback;
+			txtEmail.EditingDidEnd += editingCallback;
+			txtDisplayName.EditingDidEnd += editingCallback;
 
 		}
 	}
