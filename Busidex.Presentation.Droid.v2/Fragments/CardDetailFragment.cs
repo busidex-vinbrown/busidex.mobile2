@@ -100,7 +100,7 @@ namespace Busidex.Presentation.Droid.v2
 
 						var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName;
 
-						Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+						await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 							Activity.RunOnUiThread (() => OnImageDownloadCompleted (frontUri));
 						});
 					}
@@ -125,7 +125,7 @@ namespace Busidex.Presentation.Droid.v2
 
 							var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.BackFileName;
 
-							Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName).ContinueWith (t => {
+							await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName).ContinueWith (t => {
 								Activity.RunOnUiThread (() => OnImageDownloadCompleted (backUri));
 							});
 						}

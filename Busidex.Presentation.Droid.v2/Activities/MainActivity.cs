@@ -675,13 +675,29 @@ namespace Busidex.Presentation.Droid.v2
 			return true;
 		}
 
-		public void LoadEventCards(EventTag tag){
+		public async void LoadEventCards(EventTag tag){
+			 
+			if (!UISubscriptionService.EventCards.ContainsKey (tag.Text) || UISubscriptionService.EventCards [tag.Text] == null) {
 
-			if (!UISubscriptionService.EventCards.ContainsKey (tag.Text)) {
+				var progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+				
+				var myBusidexProgressStatus = FindViewById<TextView>(Resource.Id.eventProgressStatus);
+				progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
+
+				OnEventCardsUpdatedEventHandler update = status => RunOnUiThread (() => {
+					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
+					progressBar1.Max = status.Total;
+					progressBar1.Progress = status.Count;
+					myBusidexProgressStatus.Text = string.Format("Loading {0} of {1}", status.Count, status.Total);	
+				});
+
+				UISubscriptionService.OnEventCardsUpdated -= update;
+				UISubscriptionService.OnEventCardsUpdated += update;
+
 				UISubscriptionService.OnEventCardsLoaded -= goToEventCards;
 				UISubscriptionService.OnEventCardsLoaded += goToEventCards;
 
-				UISubscriptionService.loadEventCards (tag);
+				await UISubscriptionService.loadEventCards (tag);
 			}else{
 				goToEventCards (tag, UISubscriptionService.EventCards [tag.Text]);
 			}

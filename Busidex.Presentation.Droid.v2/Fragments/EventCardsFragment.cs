@@ -9,8 +9,6 @@ namespace Busidex.Presentation.Droid.v2
 	public class EventCardsFragment : GenericViewPagerFragment
 	{
 		readonly List<UserCard> Cards;
-		//static UserCardAdapter EventCardsAdapter { get; set; }
-		//static SearchView txtFilterEventCards { get; set; }
 		readonly EventTag EventTag;
 
 		public EventCardsFragment (EventTag tag, List<UserCard> cards)

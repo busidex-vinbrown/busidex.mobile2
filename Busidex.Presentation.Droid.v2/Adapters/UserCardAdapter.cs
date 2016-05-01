@@ -6,7 +6,6 @@ using Android.App;
 using Android.Net;
 using System.IO;
 using Android.Content;
-using System.Threading.Tasks;
 using System.Threading;
 
 namespace Busidex.Presentation.Droid.v2
@@ -51,13 +50,6 @@ namespace Busidex.Presentation.Droid.v2
 		Intent OpenBrowserIntent{ get; set; }
 		Intent AddToMyBusidexIntent{ get; set; }
 		Intent RemoveFromMyBusidexIntent{ get; set; }
-
-		async Task<bool> doRedirect(CardDetailFragment fragment){
-			if(Redirect != null){
-				Redirect (fragment);
-			}
-			return true;
-		}
 
 		public override int Count
 		{
@@ -134,11 +126,6 @@ namespace Busidex.Presentation.Droid.v2
 
 		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
 
-//			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-//			var fragment = new CardDetailFragment();
-//			fragment.UserCard = Cards [position];
-//			Redirect (fragment);
-
 			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
 			var fragment = new ButtonPanelFragment();
 			fragment.SelectedCard = Cards [position];
@@ -148,18 +135,6 @@ namespace Busidex.Presentation.Droid.v2
 
 			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
 		}
-
-//		void OnButtonPanelButtonClicked(object sender, System.EventArgs e){
-//
-//			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-//			var fragment = new ButtonPanelFragment();
-//			fragment.SelectedCard = Cards [position];
-//
-//			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
-//			var uri = Uri.Parse (fileName);
-//
-//			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
-//		}
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
@@ -172,10 +147,6 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 			btnInfo.Visibility = ViewStates.Gone;
-
-			//btnInfo.Click -= OnButtonPanelButtonClicked;
-			//btnInfo.Click += OnButtonPanelButtonClicked;
-			//btnInfo.Tag = position;
 
 			var card = Cards [position];
 

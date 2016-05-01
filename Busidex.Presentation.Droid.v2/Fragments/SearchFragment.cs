@@ -53,13 +53,7 @@ namespace Busidex.Presentation.Droid.v2
 			return view;
 		}
 
-		async void ClearFocus(){
-
-			lstSearchResults.RequestFocus ();
-			DismissKeyboard (SearchBar.WindowToken, Activity);
-		}
-
-		async void LoadSearchResults(List<UserCard> cards){
+		void LoadSearchResults(List<UserCard> cards){
 
 			var adapter = new UserCardAdapter (Activity, Resource.Id.lstCards, cards);
 
