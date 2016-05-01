@@ -14,6 +14,7 @@ namespace Busidex.Presentation.iOS
 	public partial class ButtonPanelController : BaseController
 	{
 		public UserCard SelectedCard{ get; set; }
+
 		string FrontFileName{ get; set; }
 
 		public ButtonPanelController (IntPtr handle) : base (handle)
@@ -25,43 +26,43 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			btnAdd.TouchUpInside += delegate {
-				AddToMyBusidex();
+				AddToMyBusidex ();
 			};
 
 			btnRemove.TouchUpInside += delegate {
-				RemoveCardFromMyBusidex(SelectedCard);
+				RemoveCardFromMyBusidex (SelectedCard);
 			};
 
 			btnShare.TouchUpInside += delegate {
-				ShareCard(SelectedCard);	
+				ShareCard (SelectedCard);	
 			};
 
 			btnEmail.TouchUpInside += delegate {
-				if(!string.IsNullOrEmpty (SelectedCard.Card.Email)){
+				if (!string.IsNullOrEmpty (SelectedCard.Card.Email)) {
 					SendEmail ();
 				}
 			};
 
 			btnBrowser.TouchUpInside += delegate {
-				if(!string.IsNullOrEmpty (SelectedCard.Card.Url)){
+				if (!string.IsNullOrEmpty (SelectedCard.Card.Url)) {
 					OpenBrowser ();
 				}
 			};
 
 			btnNotes.TouchUpInside += delegate {
-				if(SelectedCard.ExistsInMyBusidex){
+				if (SelectedCard.ExistsInMyBusidex) {
 					EditNotes ();
 				}
 			};
 
 			btnPhone.TouchUpInside += delegate {
-				if(SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ()){
+				if (SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any ()) {
 					ShowPhoneNumbers ();
 				}
 			};
 
 			btnMaps.TouchUpInside += delegate {
-				if(SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()){
+				if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
 					ShowMaps ();
 				}
 			};
@@ -82,7 +83,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 			// Update from the subscription service if this has been updated
-			SelectedCard.ExistsInMyBusidex = UISubscriptionService.ExistsInMyBusidex(SelectedCard);
+			SelectedCard.ExistsInMyBusidex = UISubscriptionService.ExistsInMyBusidex (SelectedCard);
 
 			btnAdd.Hidden =	SelectedCard.ExistsInMyBusidex;
 			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
@@ -93,7 +94,8 @@ namespace Busidex.Presentation.iOS
 			btnMaps.Enabled = SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ();
 		}
 
-		void LoadCard(){
+		void LoadCard ()
+		{
 
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
@@ -102,7 +104,7 @@ namespace Busidex.Presentation.iOS
 
 				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
-					btnCard.SetBackgroundImage(UIImage.FromFile (FrontFileName), UIControlState.Normal);
+					btnCard.SetBackgroundImage (UIImage.FromFile (FrontFileName), UIControlState.Normal);
 					btnCard.Layer.AddSublayer (GetBorder (btnCard.Frame, UIColor.Gray.CGColor));
 				}
 
@@ -111,7 +113,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void goToCard(object sender, EventArgs e){
+		void goToCard (object sender, EventArgs e)
+		{
 			var cardDetailController = Storyboard.InstantiateViewController ("CardDetailController") as CardDetailController;
 			cardDetailController.SelectedCard = SelectedCard;
 
@@ -120,12 +123,14 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void ToggleAddRemoveButtons(bool cardInMyBusidex){
+		void ToggleAddRemoveButtons (bool cardInMyBusidex)
+		{
 			btnRemove.Hidden = cardInMyBusidex;
 			btnAdd.Hidden = !cardInMyBusidex;
 		}
 
-		void AddToMyBusidex(){
+		void AddToMyBusidex ()
+		{
 
 			UISubscriptionService.AddCardToMyBusidex (SelectedCard);
 
@@ -133,8 +138,8 @@ namespace Busidex.Presentation.iOS
 
 			#region Event Tracking
 			string name = Resources.GA_LABEL_ADD;
-			if(SelectedCard != null && SelectedCard.Card != null){
-				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			if (SelectedCard != null && SelectedCard.Card != null) {
+				name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
@@ -143,13 +148,14 @@ namespace Busidex.Presentation.iOS
 			#endregion
 		}
 
-		void RemoveCardFromMyBusidex(UserCard userCard){
+		void RemoveCardFromMyBusidex (UserCard userCard)
+		{
 
 			BaseController.ShowAlert ("Remove Card", "Remove this card from your Busidex?", "Ok", "Cancel").ContinueWith (button => {
 
 				if (button.Result == 0) {
 
-					UISubscriptionService.RemoveCardFromMyBusidex(userCard);
+					UISubscriptionService.RemoveCardFromMyBusidex (userCard);
 
 					#region Event Tracking
 					string name = Resources.GA_LABEL_REMOVED;
@@ -166,23 +172,35 @@ namespace Busidex.Presentation.iOS
 			});
 		}
 
-		void OpenBrowser(){
+		void OpenBrowser ()
+		{
 
-			UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + SelectedCard.Card.Url.Replace ("http://", "")));
-
-			string name = Resources.GA_LABEL_URL;
-			if(SelectedCard != null && SelectedCard.Card != null){
-				name = string.IsNullOrEmpty(SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+			if (string.IsNullOrEmpty (SelectedCard.Card.Url)) {
+				return;
 			}
 
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_URL, name, 0);
+			var url = SelectedCard.Card.Url.Replace ("http://", "");
+			try {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url));
 
-			ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, UISubscriptionService.AuthToken);
+				string name = Resources.GA_LABEL_URL;
+				if (SelectedCard != null && SelectedCard.Card != null) {
+					name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+				}
+				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_URL, name, 0);
+
+				ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, UISubscriptionService.AuthToken);
+
+			} catch (Exception ex) {
+				BaseController.ShowAlert ("Could not open this website", string.Format ("There appears to be a problem with the website address: {0}.", SelectedCard.Card.Url), "Ok");
+				Xamarin.Insights.Report (ex);
+			}
 		}
 
-		void SendEmail(){
+		void SendEmail ()
+		{
 			var _mailController = new MFMailComposeViewController ();
-			_mailController.SetToRecipients (new []{SelectedCard.Card.Email});
+			_mailController.SetToRecipients (new []{ SelectedCard.Card.Email });
 
 			_mailController.Finished += ( s, args) => InvokeOnMainThread (
 				() => args.Controller.DismissViewController (true, null)
@@ -196,7 +214,8 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_EMAIL, name, 0);
 		}
 
-		void EditNotes(){
+		void EditNotes ()
+		{
 
 			var notesController = Storyboard.InstantiateViewController ("NotesController") as NotesController;
 			notesController.SelectedCard = SelectedCard;
@@ -206,14 +225,15 @@ namespace Busidex.Presentation.iOS
 			}
 
 			string name = Resources.GA_LABEL_NOTES;
-			if(notesController.SelectedCard != null && notesController.SelectedCard.Card != null){
-				name = string.IsNullOrEmpty(notesController.SelectedCard.Card.Name) ? notesController.SelectedCard.Card.CompanyName : notesController.SelectedCard.Card.Name;
+			if (notesController.SelectedCard != null && notesController.SelectedCard.Card != null) {
+				name = string.IsNullOrEmpty (notesController.SelectedCard.Card.Name) ? notesController.SelectedCard.Card.CompanyName : notesController.SelectedCard.Card.Name;
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_NOTES, name, 0);
 		}
 
-		void ShowPhoneNumbers(){
+		void ShowPhoneNumbers ()
+		{
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
 			phoneViewController.SelectedCard = SelectedCard;
 
@@ -222,22 +242,23 @@ namespace Busidex.Presentation.iOS
 			}
 
 			string name = Resources.GA_LABEL_PHONE;
-			if(phoneViewController.SelectedCard != null && phoneViewController.SelectedCard.Card != null){
-				name = string.IsNullOrEmpty(phoneViewController.SelectedCard.Card.Name) ? phoneViewController.SelectedCard.Card.CompanyName : phoneViewController.SelectedCard.Card.Name;
+			if (phoneViewController.SelectedCard != null && phoneViewController.SelectedCard.Card != null) {
+				name = string.IsNullOrEmpty (phoneViewController.SelectedCard.Card.Name) ? phoneViewController.SelectedCard.Card.CompanyName : phoneViewController.SelectedCard.Card.Name;
 			}
 
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_PHONE, name, 0);
 		}
 
-		void ShowMaps(){
+		void ShowMaps ()
+		{
 
 			if (SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ()) {
 				string address = buildAddress ();
 				var url = new NSUrl ("http://www.maps.apple.com/?daddr=" + System.Net.WebUtility.UrlEncode (address.Trim ()));
 
-				if (UIApplication.SharedApplication.CanOpenUrl (url)){
+				if (UIApplication.SharedApplication.CanOpenUrl (url)) {
 					UIApplication.SharedApplication.OpenUrl (url);	
-				}else{
+				} else {
 					new UIAlertView ("Error", "Maps is not supported on this device", null, "Ok").Show ();
 				}
 					
@@ -253,20 +274,21 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		string buildAddress(){
+		string buildAddress ()
+		{
 
 			var address = string.Empty;
 			var card = SelectedCard.Card;
 
-			address += string.IsNullOrEmpty(SelectedCard.Card.Addresses [0].Address1) ? string.Empty : card.Addresses [0].Address1;
+			address += string.IsNullOrEmpty (SelectedCard.Card.Addresses [0].Address1) ? string.Empty : card.Addresses [0].Address1;
 			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].Address2) ? string.Empty : card.Addresses [0].Address2;
+			address += string.IsNullOrEmpty (card.Addresses [0].Address2) ? string.Empty : card.Addresses [0].Address2;
 			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].City) ? string.Empty : card.Addresses [0].City;
+			address += string.IsNullOrEmpty (card.Addresses [0].City) ? string.Empty : card.Addresses [0].City;
 			address += " ";
 			address += card.Addresses [0].State == null ? string.Empty : card.Addresses [0].State.Code;
 			address += " ";
-			address += string.IsNullOrEmpty(card.Addresses [0].ZipCode) ? string.Empty : card.Addresses [0].ZipCode;
+			address += string.IsNullOrEmpty (card.Addresses [0].ZipCode) ? string.Empty : card.Addresses [0].ZipCode;
 
 			return address;
 		}

@@ -1,10 +1,13 @@
 ﻿
 using Foundation;
 using UIKit;
+
 //using WindowsAzure.Messaging;
 using System;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile;
+using BranchXamarinSDK;
+using System.Collections.Generic;
 
 namespace Busidex.Presentation.iOS
 {
@@ -12,11 +15,13 @@ namespace Busidex.Presentation.iOS
 	// User Interface of the application, as well as listening (and optionally responding) to
 	// application events from iOS.
 	[Register ("AppDelegate")]
-	public partial class AppDelegate : UIApplicationDelegate
+	public partial class AppDelegate : UIApplicationDelegate, IBranchSessionInterface
 	{
 		// class-level declarations
-		public string _deviceToken { get; set;}
+		public string _deviceToken { get; set; }
+
 		public override UIWindow Window { get; set; }
+
 		public IGAITracker Tracker;
 
 		UIWindow window;
@@ -32,18 +37,15 @@ namespace Busidex.Presentation.iOS
 			//	UIRemoteNotificationType.Alert |
 			//	UIRemoteNotificationType.Badge );
 
-			if (UIDevice.CurrentDevice.CheckSystemVersion(8,0))
-			{
+			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0)) {
 				var settings = UIUserNotificationSettings.GetSettingsForTypes (UIUserNotificationType.Sound |
-					UIUserNotificationType.Alert | UIUserNotificationType.Badge, null);
+				               UIUserNotificationType.Alert | UIUserNotificationType.Badge, null);
 
 				UIApplication.SharedApplication.RegisterUserNotificationSettings (settings);
 				UIApplication.SharedApplication.RegisterForRemoteNotifications ();
-			}
-			else
-			{
-				UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(UIRemoteNotificationType.Badge |
-					UIRemoteNotificationType.Sound | UIRemoteNotificationType.Alert);
+			} else {
+				UIApplication.SharedApplication.RegisterForRemoteNotificationTypes (UIRemoteNotificationType.Badge |
+				UIRemoteNotificationType.Sound | UIRemoteNotificationType.Alert);
 			}
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
@@ -57,21 +59,24 @@ namespace Busidex.Presentation.iOS
 
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			nav =  storyBoard.InstantiateInitialViewController() as BaseNavigationController;// UINavigationController (viewController);
-			nav.id = 123;
+			nav = storyBoard.InstantiateInitialViewController () as BaseNavigationController;
 
 			window.RootViewController = nav;
 			window.MakeKeyAndVisible ();
 
+			BranchIOS.Init (Resources.BRANCH_KEY, launchOptions, this);
+
 			return true;
 		}
-			
+
 		#region Google Analytics
-		public static void TrackAnalyticsEvent(string category, string action, string label, NSNumber value){
+
+		public static void TrackAnalyticsEvent (string category, string action, string label, NSNumber value)
+		{
 
 			var builder = GAIDictionaryBuilder.CreateEvent (category, action, label, value);
 
-			GAI.SharedInstance.DefaultTracker.Send(builder.Build());
+			GAI.SharedInstance.DefaultTracker.Send (builder.Build ());
 		}
 
 		#endregion
@@ -92,12 +97,6 @@ namespace Busidex.Presentation.iOS
 					Console.WriteLine("Success");
 			});
 		}*/
-
-		public override void ReceivedRemoteNotification (UIApplication application, NSDictionary userInfo)
-		{
-			// Process a notification received while the app was already open
-			//ProcessNotification (userInfo);
-		}
 
 		//
 		// This method is invoked when the application is about to move from active to inactive state.
@@ -125,69 +124,92 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		public override void ReceivedRemoteNotification (UIApplication application, NSDictionary userInfo)
+		{
+			BranchIOS.getInstance ().HandlePushNotification (userInfo);
+		}
+
+		public override bool ContinueUserActivity (UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+		{
+			return BranchIOS.getInstance ().ContinueUserActivity (userActivity);
+		}
 
 		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
 		{
-			var rurl = new Rivets.AppLinkUrl (url.ToString ());
+			return BranchIOS.getInstance ().OpenUrl (url);
+		}
 
-			if (rurl.InputUrl.Host.Equals ("quickshare") ) {
+		#region Branch Event Handling
 
-				var cardId = string.Empty;
+		public void InitSessionComplete (Dictionary<string, object> data)
+		{
+			var cardId = string.Empty;
 
-				var sentFrom = string.Empty;
-				string displayName = string.Empty;
-				string personalMessage = string.Empty;
+			var sentFrom = string.Empty;
+			string displayName = string.Empty;
+			string personalMessage = string.Empty;
+			const string KEY_FROM = "_f";
+			const string KEY_DISPLAY = "_d";
+			const string KEY_MESSAGE = "_m";
+			const string KEY_CARD_ID = "cardid";
 
-				if (rurl.InputQueryParameters.ContainsKey ("_f")) {
-					sentFrom = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_f"]);
-				}
-				if (rurl.InputQueryParameters.ContainsKey ("_d")) {
-					displayName = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_d"]);
-				}
-				if (rurl.InputQueryParameters.ContainsKey ("_m")) {
-					personalMessage = System.Web.HttpUtility.UrlDecode (rurl.InputQueryParameters ["_m"]);
-				}
+			if (data.ContainsKey (KEY_FROM)) {
+				sentFrom = System.Web.HttpUtility.UrlDecode (data [KEY_FROM].ToString ());
+			}
+			if (data.ContainsKey (KEY_DISPLAY)) {
+				displayName = System.Web.HttpUtility.UrlDecode (data [KEY_DISPLAY].ToString ());
+			}
+			if (data.ContainsKey (KEY_MESSAGE)) {
+				personalMessage = System.Web.HttpUtility.UrlDecode (data [KEY_MESSAGE].ToString ());
+			}
 
-				if (rurl.InputQueryParameters.ContainsKey ("cardId")) {
-					cardId = rurl.InputQueryParameters ["cardId"];
-				}
+			if (data.ContainsKey (KEY_CARD_ID)) {
+				cardId = data [KEY_CARD_ID].ToString ();
+			}
 
-				if (!string.IsNullOrEmpty (cardId)) {
+			if (!string.IsNullOrEmpty (cardId)) {
 
-					var quickShareLink = new QuickShareLink {
-						CardId = long.Parse (cardId),
-						DisplayName = displayName,
-						From = long.Parse(sentFrom),
-						PersonalMessage = personalMessage
-					};
+				var quickShareLink = new QuickShareLink {
+					CardId = long.Parse (cardId),
+					DisplayName = displayName,
+					From = long.Parse (sentFrom),
+					PersonalMessage = personalMessage
+				};
 
-					var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+				var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 
-					var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+				var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
 
-					var cookie = busidexController.GetAuthCookie ();
+				var cookie = busidexController.GetAuthCookie ();
 
-					if (cookie == null) {
-						// If the user is not logged in, save the shared card to file
-						string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
-						Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
+				if (cookie == null) {
+					// If the user is not logged in, save the shared card to file
+					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
+					Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
 
+				} else {
+					if (Application.MainController == null) {
+						InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
 					} else {
-						if (Application.MainController == null) {
-							InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
-						} else {
-							var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
-							quickShareController.SetCardSharingInfo (quickShareLink);
-							quickShareController.SaveFromUrl ();
-							InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
-							return true;
-						}
+						var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
+						quickShareController.SetCardSharingInfo (quickShareLink);
+						quickShareController.SaveFromUrl ();
+						InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
 					}
 				}
 			}
-			nav.PopToRootViewController (true);
-			return true;
 		}
+
+		public void SessionRequestError (BranchError error)
+		{
+			if (error != null) {
+				Xamarin.Insights.Report (new Exception ("Branch Error: [" + error.ErrorCode + "]" + error.ErrorMessage));
+			} else {
+				Xamarin.Insights.Report (new Exception ("Unknow Branch Error"));
+			}
+		}
+
+		#endregion
 	}
 }
 

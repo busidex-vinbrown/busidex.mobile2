@@ -116,7 +116,7 @@ namespace Busidex.Presentation.iOS
 			Cards = new List<UserCard> ();
 
 			if (OrganizationMemberMode == MemberMode.Members) {
-				if (!UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId)) {
+				if (!UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId) || UISubscriptionService.OrganizationMembers[OrganizationId] == null) {
 
 					InvokeOnMainThread (() => {
 						overlay = new MyBusidexLoadingOverlay (View.Bounds);
@@ -145,7 +145,7 @@ namespace Busidex.Presentation.iOS
 					populateMembers ();
 				}
 			} else {
-				if (!UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId)) {
+				if (!UISubscriptionService.OrganizationReferrals.ContainsKey (OrganizationId) || UISubscriptionService.OrganizationReferrals[OrganizationId] == null) {
 
 					InvokeOnMainThread (() => {
 						overlay = new MyBusidexLoadingOverlay (View.Bounds);

@@ -142,15 +142,12 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-
-				
 			OnEventCardsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
 				if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
 					overlay.TotalItems = status.Total;
 					overlay.UpdateProgress (status.Count);
 				}
 			});
-
 
 			UISubscriptionService.OnEventCardsUpdated -= update;
 			UISubscriptionService.OnEventCardsUpdated += update;

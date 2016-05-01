@@ -25,9 +25,11 @@ namespace Busidex.Mobile
 		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
 		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
-		public const string NULL_CARD_ID =  "00000000-0000-0000-0000-000000000000";
-		public const string CARD_PATH =  "https://busidexcdn.blob.core.windows.net/cards/";//"https://az381524.vo.msecnd.net/cards/";
-		public const string THUMBNAIL_PATH =  "https://busidexcdn.blob.core.windows.net/mobile-images/";//"https://az381524.vo.msecnd.net/cards/";
+		public const string NULL_CARD_ID = "00000000-0000-0000-0000-000000000000";
+		public const string CARD_PATH = "https://busidexcdn.blob.core.windows.net/cards/";
+		//"https://az381524.vo.msecnd.net/cards/";
+		public const string THUMBNAIL_PATH = "https://busidexcdn.blob.core.windows.net/mobile-images/";
+		//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_FILE_NAME_PREFIX = "lowres_";
 
 		public const string MY_BUSIDEX_FILE = "mybusidex.json";
@@ -42,10 +44,13 @@ namespace Busidex.Mobile
 		public const string QUICKSHARE_LINK = "quickShare_Link.json";
 
 		public const string COOKIE_URI = "https://localhost";
-		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365; // we don't really care about leap years
+		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365;
+		// we don't really care about leap years
 
 		public const string SHARE_CONTENT_TEXT = "{0} has shared a ";
 
+		public const string BRANCH_KEY = "key_live_cnh1UbVspZWKB1nLPE0NygmorydPic2z";
+		public const string BRANCH_APP_LINK_DOMAIN = "jqle.app.link";
 		public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
 		public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
 		public const string GA_CATEGORY_ACTIVITY = "Activity";
@@ -83,11 +88,19 @@ namespace Busidex.Mobile
 		public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
 		public const string BITLY_LOGIN = "busidexapp";
 
-		public enum HttpActions{ GET, POST, PUT, DELETE };
+		public enum HttpActions
+		{
+			GET,
+			POST,
+			PUT,
+			DELETE}
 
-		public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		;
 
-		public enum UIElements{
+		public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+
+		public enum UIElements
+		{
 			CardImage = 1,
 			NameLabel = 2,
 			CompanyLabel = 3,

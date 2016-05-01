@@ -57,6 +57,7 @@
     <BuildIpa>true</BuildIpa>
     <IpaPackageName>
     </IpaPackageName>
+    <CodesignProvision>900b0890-64b8-46d2-b5b5-7f93ea6fd667</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -162,6 +163,15 @@
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-Lib.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.3\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.3\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.3\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

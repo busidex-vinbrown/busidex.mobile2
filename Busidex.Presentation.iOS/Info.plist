@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.19</string>
+	<string>1.2.20</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -67,25 +67,25 @@
 	<key>UIRequiresFullScreen</key>
 	<string>YES</string>
 	<key>CFBundleVersion</key>
-	<string>540</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLTypes</key>
-			<string>Viewer</string>
-			<key>CFBundleURLName</key>
-			<string>quickshare.busidex.com</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>busidex</string>
-			</array>
-		</dict>
-	</array>
+	<string>543</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>CFBundleTypeName</string>
+		</dict>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.busidex.mobile</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>busidex</string>
+			</array>
+			<key>CFBundleURLTypes</key>
+			<string>Viewer</string>
 		</dict>
 	</array>
 </dict>
