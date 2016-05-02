@@ -24,12 +24,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		string currentDisplayName = string.Empty;
 
-		public ShareCardFragment()
+		public ShareCardFragment ()
 		{
 			
 		}
 
-		public ShareCardFragment(UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null)
+		public ShareCardFragment (UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null)
 		{
 			SelectedCard = selectedCard;
 			SelectedPhone = selectedPhone;
@@ -38,7 +38,7 @@ namespace Busidex.Presentation.Droid.v2
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
-			var view = inflater.Inflate(Resource.Layout.SharedCard, container, false);
+			var view = inflater.Inflate (Resource.Layout.SharedCard, container, false);
 			
 			var imgCardHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgCardVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
@@ -52,7 +52,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnShareCard = view.FindViewById<Button> (Resource.Id.btnShareCard);
 			btnShareCard.Click += delegate {
-				ShareCard();
+				ShareCard ();
 			};
 
 			txtShareDisplayName = view.FindViewById<TextView> (Resource.Id.txtShareDisplayName);
@@ -64,7 +64,7 @@ namespace Busidex.Presentation.Droid.v2
 			var imgShareHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgShareVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
 
-			if(SelectedPhone != null){
+			if (SelectedPhone != null) {
 				txtSharePhoneNumber.Text = SelectedPhone.Number;
 			}
 
@@ -78,30 +78,28 @@ namespace Busidex.Presentation.Droid.v2
 				imgShareVertical.Visibility = isHorizontal ? ViewStates.Gone : ViewStates.Visible;
 
 				imgDisplay.SetImageURI (uri);
-			}
-			else{
+			} else {
 				imgShareHorizontal.Visibility = imgShareVertical.Visibility = ViewStates.Gone;
 			}
 
 			var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 			btnClose.Click += delegate {
-				var panel = new ButtonPanelFragment();
+				var panel = new ButtonPanelFragment ();
 				panel.SelectedCard = SelectedCard;
-				((MainActivity)Activity).UnloadFragment(panel);
+				((MainActivity)Activity).UnloadFragment (panel);
 			};
 
-			var btnContacts = view.FindViewById(Resource.Id.btnContacts);
+			var btnContacts = view.FindViewById (Resource.Id.btnContacts);
 			btnContacts.Click += delegate {
-				var contactsAdapter = new ContactsAdapter(Activity, MainActivity.Contacts, SelectedCard);
-				((MainActivity)Activity).LoadFragment(new ContactsFragment(contactsAdapter, SelectedCard));
+				var contactsAdapter = new ContactsAdapter (Activity, MainActivity.Contacts, SelectedCard);
+				((MainActivity)Activity).LoadFragment (new ContactsFragment (contactsAdapter, SelectedCard));
 			};
 	
 			return view;
 		}
 
-		void ShareCard(){
-
-			var token = BaseApplicationResource.GetAuthCookie ();
+		void ShareCard ()
+		{
 
 			HideFeedbackLabels ();
 
@@ -110,40 +108,40 @@ namespace Busidex.Presentation.Droid.v2
 			var displayName = txtShareDisplayName.Text;
 			var personalMessage = txtShareMessage.Text;
 
-			if(string.IsNullOrEmpty(email) && string.IsNullOrEmpty(phoneNumber)){
+			if (string.IsNullOrEmpty (email) && string.IsNullOrEmpty (phoneNumber)) {
 				
 				return;
 			}
 
-			if(string.IsNullOrEmpty(displayName)){
+			if (string.IsNullOrEmpty (displayName)) {
 				
 				return;
 			}
 
 			// normalize the phone number if there is one
-			if(!string.IsNullOrEmpty(phoneNumber)){
-				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace(" ", "");
+			if (!string.IsNullOrEmpty (phoneNumber)) {
+				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace (" ", "");
 				var smsTask = MessagingPlugin.SmsMessenger;
-				EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (r => {
+				EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, UISubscriptionService.AuthToken).ContinueWith (r => {
 
 					var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
-					if(template != null){
-						string message = string.Format(template.Template.Subject, displayName) + System.Environment.NewLine + System.Environment.NewLine + 
-							string.Format(template.Template.Body, SelectedCard.Card.CardId, Utils.DecodeUserId(token), displayName,
-								personalMessage, System.Environment.NewLine);
+					if (template != null) {
+						string message = string.Format (template.Template.Subject, displayName) + System.Environment.NewLine + System.Environment.NewLine +
+						                 string.Format (template.Template.Body, SelectedCard.Card.CardId, Utils.DecodeUserId (UISubscriptionService.AuthToken), displayName,
+							                 personalMessage, System.Environment.NewLine);
 
-						int startIdx = message.IndexOf('[');
-						int endIdx = message.IndexOf(']');
-						string originalUrl = message.Substring(startIdx + 1, endIdx - startIdx - 2);
-						string url = WebUtility.UrlEncode(originalUrl);
+						int startIdx = message.IndexOf ('[');
+						int endIdx = message.IndexOf (']');
+						string originalUrl = message.Substring (startIdx + 1, endIdx - startIdx - 2);
+						string url = WebUtility.UrlEncode (originalUrl);
 
-						UrlShortenerController.ShortenUrl(url).ContinueWith(resp => {
+						UrlShortenerController.ShortenUrl (url).ContinueWith (resp => {
 
 							var bitlyResponse = resp.Result;
-							if(bitlyResponse != null){
-								message = message.Replace(originalUrl, bitlyResponse).Replace("[", "").Replace("]", "");
+							if (bitlyResponse != null) {
+								message = message.Replace (originalUrl, bitlyResponse).Replace ("[", "").Replace ("]", "");
 
-								Activity.RunOnUiThread( ()=> smsTask.SendSms (phoneNumber, message));
+								Activity.RunOnUiThread (() => smsTask.SendSms (phoneNumber, message));
 							}
 						});
 
@@ -168,26 +166,27 @@ namespace Busidex.Presentation.Droid.v2
 
 				lblShareError.Visibility = ViewStates.Invisible;
 				imgCheckShared.Visibility = ViewStates.Visible;
-			}else{
-				var ctrl = new SharedCardController();
-				var response = ctrl.ShareCard (SelectedCard.Card, email, phoneNumber, token);
-				if( !string.IsNullOrEmpty(response) && response.Contains("true")){
+			} else {
+				var ctrl = new SharedCardController ();
+				var response = ctrl.ShareCard (SelectedCard.Card, email, phoneNumber, UISubscriptionService.AuthToken);
+				if (!string.IsNullOrEmpty (response) && response.Contains ("true")) {
 					imgCheckShared.Visibility = ViewStates.Visible;
-				}else{
+				} else {
 					lblShareError.Visibility = ViewStates.Invisible;
 					imgCheckShared.Visibility = ViewStates.Visible;
 				}
 			}
 
-			if(!currentDisplayName.Equals(UISubscriptionService.CurrentUser.UserAccount.DisplayName, System.StringComparison.Ordinal)){
-				AccountController.UpdateDisplayName (txtShareDisplayName.Text, token);	
+			if (!currentDisplayName.Equals (UISubscriptionService.CurrentUser.UserAccount.DisplayName, System.StringComparison.Ordinal)) {
+				AccountController.UpdateDisplayName (txtShareDisplayName.Text, UISubscriptionService.AuthToken);	
 				UISubscriptionService.CurrentUser.UserAccount.DisplayName = txtShareDisplayName.Text;
 			}
 
 			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
-		void HideFeedbackLabels(){
+		void HideFeedbackLabels ()
+		{
 			lblShareError.Visibility = imgCheckShared.Visibility = ViewStates.Invisible;
 		}
 	}

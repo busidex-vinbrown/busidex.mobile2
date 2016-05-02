@@ -6,25 +6,25 @@ using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
-using Android.Telephony;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class PhoneFragment : GenericViewPagerFragment
 	{
-		private readonly UserCard SelectedCard;
+		readonly UserCard SelectedCard;
 
-		public PhoneFragment () : base()
+		public PhoneFragment ()
 		{
 		}
 
-		public PhoneFragment(UserCard selectedCard) : base(){
+		public PhoneFragment (UserCard selectedCard)
+		{
 			SelectedCard = selectedCard;
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var view = inflater.Inflate(Resource.Layout.Phone, container, false);
+			var view = inflater.Inflate (Resource.Layout.Phone, container, false);
 
 			if (SelectedCard != null && SelectedCard.Card.PhoneNumbers != null) {
 
@@ -49,28 +49,28 @@ namespace Busidex.Presentation.Droid.v2
 
 				var btnClose = view.FindViewById<ImageButton> (Resource.Id.btnClose);
 				btnClose.Click += delegate {
-					var panel = new ButtonPanelFragment();
+					var panel = new ButtonPanelFragment ();
 					panel.SelectedCard = SelectedCard;
-					((MainActivity)Activity).UnloadFragment(panel);
+					((MainActivity)Activity).UnloadFragment (panel);
 				};
 
 			}
 			return view;
 		}
 
-		void DialPhoneNumber(PhoneNumber number){
-			var userToken = BaseApplicationResource.GetAuthCookie ();
+		void DialPhoneNumber (PhoneNumber number)
+		{
 			var uri = Uri.Parse ("tel:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
-			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 			StartActivity (intent); 
 		}
 
-		void SendTextMessage(PhoneNumber number){
-			var userToken = BaseApplicationResource.GetAuthCookie ();
+		void SendTextMessage (PhoneNumber number)
+		{
 			var uri = Uri.Parse ("smsto:" + number.Number);
 			var intent = new Intent (Intent.ActionView, uri); 
-			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 			StartActivity (intent); 
 		}
 	}

@@ -202,4 +202,23 @@
         p1:layout_marginBottom="28dp"
         p1:textStyle="bold"
         p1:textSize="12pt" />
+    <RelativeLayout
+        p1:layout_height="match_parent"
+        p1:layout_width="match_parent"
+        p1:layout_centerInParent="true"
+        p1:background="@color/listBackgroundLight"
+        p1:alpha=".7"
+        p1:id="@+id/homeProgressContainer"
+        p1:visibility="gone">
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:indeterminate="false"
+            p1:progress="0"
+            p1:max="0"
+            p1:id="@+id/progressBar1"
+            p1:layout_centerInParent="true"
+            p1:visibility="visible" />
+    </RelativeLayout>
 </RelativeLayout>

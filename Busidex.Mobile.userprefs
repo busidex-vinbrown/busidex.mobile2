@@ -1,15 +1,11 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.iPhonetto" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Entitlements.plist">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile/Utils.cs">
     <Files>
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="211" Column="5" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/ButtonPanelController.cs" Line="185" Column="5" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="144" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/OrganizationTableSource.cs" Line="96" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="125" Column="9" />
-      <File FileName="Busidex.Mobile/OrganizationController.cs" Line="23" Column="1" />
-      <File FileName="Busidex.Mobile/BaseController.cs" Line="59" Column="24" />
-      <File FileName="Busidex.Presentation.iOS/Entitlements.plist" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="204" Column="5" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="562" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardDetailFragment.cs" Line="99" Column="6" />
+      <File FileName="Busidex.Mobile/Utils.cs" Line="43" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -22,10 +18,7 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="109" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Android/BaseActivity.cs" line="29" column="1" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/SettingsController.cs" line="23" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" line="186" column="13" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="121" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="124" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="140" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/GenericViewPagerFragment.cs" line="92" column="13" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

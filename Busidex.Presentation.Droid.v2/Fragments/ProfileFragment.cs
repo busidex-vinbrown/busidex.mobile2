@@ -27,15 +27,18 @@ namespace Busidex.Presentation.Droid.v2
 		bool termsAccepted;
 		public BusidexUser CurrentUser;
 
-		public ProfileFragment(){
+		public ProfileFragment ()
+		{
 			
 		}
 
-		public ProfileFragment(BusidexUser user){
+		public ProfileFragment (BusidexUser user)
+		{
 			CurrentUser = user;
 		}
 
-		public void UpdateUser(BusidexUser bu){
+		public void UpdateUser (BusidexUser bu)
+		{
 			CurrentUser = bu;
 			updateUI ();
 		}
@@ -46,8 +49,9 @@ namespace Busidex.Presentation.Droid.v2
 			updateUI ();
 		}
 
-		void updateUI(){
-			if(profileView == null){
+		void updateUI ()
+		{
+			if (profileView == null) {
 				return;
 			}
 
@@ -82,14 +86,12 @@ namespace Busidex.Presentation.Droid.v2
 			var btnSaveProfile = profileView.FindViewById<Button> (Resource.Id.btnSaveProfile);
 
 			btnLogout.Click += delegate {
-				Logout();
+				Logout ();
 			};
-
-			var token = BaseApplicationResource.GetAuthCookie ();
 
 			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
 
-			if(CurrentUser != null){
+			if (CurrentUser != null) {
 				txtProfileEmail.Text = CurrentUser.Email;
 				txtProfileEmail.RequestLayout ();
 				txtProfilePassword.Visibility = imgProfilePasswordSaved.Visibility = lblPasswordError.Visibility = ViewStates.Gone;
@@ -99,10 +101,10 @@ namespace Busidex.Presentation.Droid.v2
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionUpdateAccount);
 
 				btnSaveProfile.Click += async delegate {
-					await UpdateEmail (token, txtProfileEmail.Text);
+					await UpdateEmail (UISubscriptionService.AuthToken, txtProfileEmail.Text);
 				};
 				profileView.RequestLayout ();
-			}else{
+			} else {
 				txtProfileEmail.Text = string.Empty;
 
 				btnLogout.Visibility = ViewStates.Gone;
@@ -112,11 +114,11 @@ namespace Busidex.Presentation.Droid.v2
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 
 				txtAcceptTerms.Click += delegate {
-					toggleTerms();
+					toggleTerms ();
 				};
 
 				imgAcceptTerms.Click += delegate {
-					toggleTerms();
+					toggleTerms ();
 				};
 
 
@@ -126,26 +128,26 @@ namespace Busidex.Presentation.Droid.v2
 					var OpenBrowserIntent = new Intent (Intent.ActionView);
 					OpenBrowserIntent.SetData (uri);
 
-					var browserIntent = Intent.CreateChooser(OpenBrowserIntent, "Open with");
+					var browserIntent = Intent.CreateChooser (OpenBrowserIntent, "Open with");
 					StartActivity (browserIntent);
 
 				};
 
 				btnSaveProfile.Click += async delegate {
 					var email = txtProfileEmail.Text;
-					if(!email.Contains("@")){
-						ShowAlert("User Information", "Please use a valid email address.", GetString(Resource.String.Global_ButtonText_Ok), null);
+					if (!email.Contains ("@")) {
+						ShowAlert ("User Information", "Please use a valid email address.", GetString (Resource.String.Global_ButtonText_Ok), null);
 						return;
 					}
 
-					if(string.IsNullOrEmpty(txtProfilePassword.Text)){
-						ShowAlert("User Information", "Please enter a password.", GetString(Resource.String.Global_ButtonText_Ok), null);
+					if (string.IsNullOrEmpty (txtProfilePassword.Text)) {
+						ShowAlert ("User Information", "Please enter a password.", GetString (Resource.String.Global_ButtonText_Ok), null);
 						return;
 					}
-					if(termsAccepted){
-						await CheckAccount(token, txtProfileEmail.Text, txtProfilePassword.Text);
-					}else{
-						ShowAlert("Terms and Conditions", "Please accept the terms and conditions to continue.", GetString(Resource.String.Global_ButtonText_Ok), null);
+					if (termsAccepted) {
+						await CheckAccount (UISubscriptionService.AuthToken, txtProfileEmail.Text, txtProfilePassword.Text);
+					} else {
+						ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue.", GetString (Resource.String.Global_ButtonText_Ok), null);
 					}
 				};
 			}
@@ -154,7 +156,7 @@ namespace Busidex.Presentation.Droid.v2
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		
-			profileView = inflater.Inflate(Resource.Layout.Profile, container, false);
+			profileView = inflater.Inflate (Resource.Layout.Profile, container, false);
 
 			return profileView;
 		}
@@ -165,12 +167,13 @@ namespace Busidex.Presentation.Droid.v2
 			profileView = null;
 		}
 
-		void toggleTerms(){
+		void toggleTerms ()
+		{
 			termsAccepted = !termsAccepted;
 			imgAcceptTerms.Alpha = termsAccepted ? 1 : 0.0f;
 		}
 
-		bool SetEmailChangedResult(string result)
+		bool SetEmailChangedResult (string result)
 		{
 
 			if (result.IndexOf ("400", System.StringComparison.Ordinal) >= 0) {
@@ -196,7 +199,8 @@ namespace Busidex.Presentation.Droid.v2
 			return false;
 		}
 
-		void SetCheckAccountResult(string email, string password, string result){
+		void SetCheckAccountResult (string email, string password, string result)
+		{
 			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
 			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
 
@@ -205,7 +209,7 @@ namespace Busidex.Presentation.Droid.v2
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
 				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
-			}else if (result.ToLowerInvariant ().IndexOf (GetString(Resource.String.Profile_ErrorAccountExists), System.StringComparison.Ordinal) >= 0) {
+			} else if (result.ToLowerInvariant ().IndexOf (GetString (Resource.String.Profile_ErrorAccountExists), System.StringComparison.Ordinal) >= 0) {
 				displayCover (false);
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
 				lblEmailError.Visibility = ViewStates.Visible;
@@ -218,14 +222,14 @@ namespace Busidex.Presentation.Droid.v2
 					lblPasswordError.Visibility = ViewStates.Invisible;
 				}
 				var loginController = new LoginController ();
-				loginController.DoLogin(email, password).ContinueWith(response => {
+				loginController.DoLogin (email, password).ContinueWith (response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;
 
 					BaseApplicationResource.SetAuthCookie (userId);
 
-					Activity.RunOnUiThread(() => ((MainActivity)Activity).LoginComplete ());
+					Activity.RunOnUiThread (() => ((MainActivity)Activity).LoginComplete ());
 				});
 			} else {
 				imgProfileEmailSaved.Visibility = ViewStates.Invisible;
@@ -234,14 +238,15 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		async Task<bool> UpdateEmail(string token, string email){
+		async Task<bool> UpdateEmail (string token, string email)
+		{
 
 			//needs to happen here because we have to update the UI with any error messages
-			await SettingsController.ChangeEmail (email, token).ContinueWith(response => {
+			await SettingsController.ChangeEmail (email, token).ContinueWith (response => {
 
 				Activity.RunOnUiThread (() => {
-					if(SetEmailChangedResult (response.Result)){
-						((MainActivity)Activity).UpdateEmail(email);
+					if (SetEmailChangedResult (response.Result)) {
+						((MainActivity)Activity).UpdateEmail (email);
 					}
 				});
 
@@ -250,25 +255,28 @@ namespace Busidex.Presentation.Droid.v2
 			return true;
 		}
 
-		void displayCover(bool visible){
+		void displayCover (bool visible)
+		{
 
 			profileCover.Visibility = visible ? ViewStates.Visible : ViewStates.Gone;
 			progress1.Visibility = visible ? ViewStates.Visible : ViewStates.Gone;
 		}
 
-		async Task<bool> CheckAccount(string token, string email, string password){
+		async Task<bool> CheckAccount (string token, string email, string password)
+		{
 			token = System.Guid.NewGuid ().ToString ();
 			displayCover (true);
 			await AccountController.CheckAccount (token, email, password).ContinueWith (response => {
 
-				Activity.RunOnUiThread( ()=> SetCheckAccountResult (email, password, response.Result));
+				Activity.RunOnUiThread (() => SetCheckAccountResult (email, password, response.Result));
 
 			});
 				
 			return true;
 		}
 
-		void Logout(){
+		void Logout ()
+		{
 
 			ShowAlert (
 				Activity.GetString (Resource.String.Global_Logout_Title),
@@ -277,10 +285,10 @@ namespace Busidex.Presentation.Droid.v2
 				new System.EventHandler<DialogClickEventArgs> ((o, e) => {
 
 					var dialog = o as global::Android.App.AlertDialog;
-					Button btnClicked = dialog.GetButton(e.Which);
+					Button btnClicked = dialog.GetButton (e.Which);
 					if (btnClicked.Text == Activity.GetString (Resource.String.Global_ButtonText_Logout)) {
 						CurrentUser = null;
-						((MainActivity)Activity).DoLogout();
+						((MainActivity)Activity).DoLogout ();
 					}
 				}));
 		}

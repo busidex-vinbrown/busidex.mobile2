@@ -9,7 +9,7 @@ using Android.App;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public class BaseApplicationResource
+	public static class BaseApplicationResource
 	{
 		static Context context { get; set; }
 
@@ -18,7 +18,8 @@ namespace Busidex.Presentation.Droid.v2
 			
 		}
 
-		public static void Init(Activity ctx){
+		public static void Init (Activity ctx)
+		{
 			context = ctx;
 			var gai = GoogleAnalytics.GetInstance (context);
 			_tracker = _tracker ?? gai.NewTracker (Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
@@ -26,73 +27,78 @@ namespace Busidex.Presentation.Droid.v2
 			const int DISPATCH_PERIOD = 5;
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-			gai.SetLocalDispatchPeriod(DISPATCH_PERIOD);
+			gai.SetLocalDispatchPeriod (DISPATCH_PERIOD);
 		}
 
 		#region Authentication
-		public static string GetAuthCookie(){
-			try{
+
+		public static string GetAuthCookie ()
+		{
+			try {
 				var account = GetAuthAccount ();
-				if(account == null){
+				if (account == null) {
 					return null;
 				}
-				var cookies = account.Cookies.GetCookies(new Uri(Resources.COOKIE_URI));
+				var cookies = account.Cookies.GetCookies (new Uri (Resources.COOKIE_URI));
 				var cookie = cookies [Resources.AUTHENTICATION_COOKIE_NAME];
 
 				return cookie.Value;
-			}
-			catch(Exception ex){
+			} catch (Exception ex) {
 				TrackException (ex);
 				return string.Empty;
 			}
 		}
 
-		public static Account GetAuthAccount(){
+		public static Account GetAuthAccount ()
+		{
 			
-			return AccountStore.Create (context).FindAccountsForService (Resources.AUTHENTICATION_COOKIE_NAME).FirstOrDefault();
+			return AccountStore.Create (context).FindAccountsForService (Resources.AUTHENTICATION_COOKIE_NAME).FirstOrDefault ();
 		}
 
-		public static void SetAuthCookie(long userId, int expires = 1){
+		public static void SetAuthCookie (long userId, int expires = 1)
+		{
 
 			var cookieVal = Utils.EncodeUserId (userId);
-			var cookie = new System.Net.Cookie(Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
+			var cookie = new System.Net.Cookie (Resources.AUTHENTICATION_COOKIE_NAME, cookieVal);
 			cookie.Expires = DateTime.Now.AddYears (expires);
-			cookie.Value = Utils.EncodeUserId(userId);
+			cookie.Value = Utils.EncodeUserId (userId);
 
 			var container = new System.Net.CookieContainer ();
-			container.SetCookies (new Uri(Resources.COOKIE_URI), cookie.ToString ());
+			container.SetCookies (new Uri (Resources.COOKIE_URI), cookie.ToString ());
 
 			var account = new Account (userId.ToString (), container);
 
-			AccountStore.Create (context).Save(account, Resources.AUTHENTICATION_COOKIE_NAME);
+			AccountStore.Create (context).Save (account, Resources.AUTHENTICATION_COOKIE_NAME);
 		}
 
-		public static void SetRefreshCookie(string prop){
+		public static void SetRefreshCookie (string prop)
+		{
 			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
+			if (account != null && account.Cookies != null) {
 
 				var today = DateTime.Now;
 
-				var expireDate = new DateTime(today.Year, today.Month, today.Day, 0, 0, 1).AddDays(1);
+				var expireDate = new DateTime (today.Year, today.Month, today.Day, 0, 0, 1).AddDays (1);
 
-				if(!account.Properties.ContainsKey(prop)){
+				if (!account.Properties.ContainsKey (prop)) {
 					account.Properties.Add (prop, expireDate.ToString ());
-				}else{
+				} else {
 					account.Properties [prop] = expireDate.ToString ();
 				}
 
-				AccountStore.Create (context).Save(account, Resources.AUTHENTICATION_COOKIE_NAME);
+				AccountStore.Create (context).Save (account, Resources.AUTHENTICATION_COOKIE_NAME);
 			}
 		}
 
-		public static bool CheckRefreshDate(string prop){
+		public static bool CheckRefreshDate (string prop)
+		{
 			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
+			if (account != null && account.Cookies != null) {
 
 				DateTime expireDate;
 
-				if(account.Properties.ContainsKey(prop) && 
-					DateTime.TryParse(account.Properties [prop], out expireDate)){
+				if (account.Properties.ContainsKey (prop) &&
+				    DateTime.TryParse (account.Properties [prop], out expireDate)) {
 
 					return expireDate > DateTime.Now;
 				}
@@ -100,9 +106,10 @@ namespace Busidex.Presentation.Droid.v2
 			return false;
 		}
 
-		public static void RemoveAuthCookie(){
+		public static void RemoveAuthCookie ()
+		{
 			var account = GetAuthAccount ();
-			if(account != null && account.Cookies != null){
+			if (account != null && account.Cookies != null) {
 				AccountStore.Create (context).Delete (account, Resources.AUTHENTICATION_COOKIE_NAME);
 			}
 		}
@@ -110,7 +117,9 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Google Analytics
-		public static void TrackAnalyticsEvent(string category, string label, string action, int value){
+
+		public static void TrackAnalyticsEvent (string category, string label, string action, int value)
+		{
 
 			var build = new HitBuilders.EventBuilder ()
 				.SetCategory (category)
@@ -118,43 +127,45 @@ namespace Busidex.Presentation.Droid.v2
 				.SetAction (action)
 				.SetValue (value) 
 				.Build ();
-			var build2 = new Dictionary<string,string>();
-			foreach (var key in build.Keys)
-			{
+			var build2 = new Dictionary<string,string> ();
+			foreach (var key in build.Keys) {
 				build2.Add (key, build [key]);
 			}
 			GATracker.Send (build2);
 		}
 
-		public static void TrackScreenView(string screen){
+		public static void TrackScreenView (string screen)
+		{
 
 			_tracker.SetScreenName (screen);
 			_tracker.Send (new HitBuilders.ScreenViewBuilder ().Build ());
 		}
 
-		public static void TrackException(Exception ex){
-			try{
+		public static void TrackException (Exception ex)
+		{
+			try {
 				var build = new HitBuilders.ExceptionBuilder ()
 					.SetDescription (ex.Message)
 					.SetFatal (false) // This is useful for uncaught exceptions
-					.Build();
-				var build2 = new Dictionary<string,string>();
-				foreach (var key in build.Keys)
-				{
+					.Build ();
+				var build2 = new Dictionary<string,string> ();
+				foreach (var key in build.Keys) {
 					build2.Add (key, build [key]);
 				}
-				GATracker.Send(build2);
-			}catch{
-				// in other words, OnError resume next
+				GATracker.Send (build2);
+			} catch {
+				Xamarin.Insights.Report (ex);
 			}
 		}
 
 		static Tracker _tracker;
+
 		static Tracker GATracker { 
 			get { 
 				return _tracker; 
 			} 
 		}
+
 		#endregion
 	}
 }

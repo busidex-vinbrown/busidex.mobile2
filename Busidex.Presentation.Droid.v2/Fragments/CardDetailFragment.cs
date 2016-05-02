@@ -14,12 +14,17 @@ namespace Busidex.Presentation.Droid.v2
 	{
 
 		string FrontFileName{ get; set; }
+
 		string BackFileName{ get; set; }
 
 		public UserCard SelectedCard;
+
 		ImageButton btnCard { get; set; }
-		CardViewState ViewState {get;set;}
-		enum CardViewState{
+
+		CardViewState ViewState { get; set; }
+
+		enum CardViewState
+		{
 			Loading = 1,
 			Front = 2,
 			Back = 3
@@ -27,14 +32,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var view = inflater.Inflate(Resource.Layout.Card, container, false);
+			var view = inflater.Inflate (Resource.Layout.Card, container, false);
 
 			btnCard = view.FindViewById<ImageButton> (Resource.Id.imgCardDetail);
 
 			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
 			var frontUri = Uri.Parse (frontFileName);
-
-
 
 			if (File.Exists (frontFileName)) {
 				OnImageDownloadCompleted (frontUri);
@@ -47,7 +50,7 @@ namespace Busidex.Presentation.Droid.v2
 			btnCard.SetScaleType (ImageView.ScaleType.FitXy);
 
 			btnCard.Click += async delegate {
-				await ToggleImage();
+				await ToggleImage ();
 			};
 
 			ViewState = CardViewState.Loading;
@@ -58,14 +61,16 @@ namespace Busidex.Presentation.Droid.v2
 		public override void OnViewCreated (View view, Bundle savedInstanceState)
 		{
 			base.OnViewCreated (view, savedInstanceState);
-			ToggleImage().Wait();
+			ToggleImage ().ContinueWith (r => {
+				
+			});
 		}
 
 		public override void OnDestroy ()
 		{
 			if (btnCard != null) {
 				var bd = (BitmapDrawable)btnCard.Drawable;
-				if(bd != null){
+				if (bd != null) {
 					bd.Bitmap.Recycle ();
 				}
 				btnCard.SetImageURI (null);
@@ -73,30 +78,28 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnDestroy ();
 		}
 
-		void unload(){
-			var panel = new ButtonPanelFragment();
+		void unload ()
+		{
+			var panel = new ButtonPanelFragment ();
 			panel.SelectedCard = SelectedCard;
-			((MainActivity)Activity).UnloadFragment(panel);
+			((MainActivity)Activity).UnloadFragment (panel);
 			Activity.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;	
 		}
 
-		async Task<bool> ToggleImage(){
+		async Task<bool> ToggleImage ()
+		{
 
 			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
 			var backFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName);
 			var frontUri = Uri.Parse (frontFileName);
 			var backUri = Uri.Parse (backFileName);
 
-			switch(ViewState){
-			case CardViewState.Loading:{
-
-					Activity.RequestedOrientation = SelectedCard.Card.FrontOrientation == "H" 
-						? global::Android.Content.PM.ScreenOrientation.Landscape
-						: global::Android.Content.PM.ScreenOrientation.Portrait;
-
+			switch (ViewState) {
+			case CardViewState.Loading:
+				{
 					if (File.Exists (frontFileName)) {
 						OnImageDownloadCompleted (frontUri);
-					}else{
+					} else {
 
 						var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName;
 
@@ -107,20 +110,17 @@ namespace Busidex.Presentation.Droid.v2
 					ViewState = CardViewState.Front;
 					break;
 				}
-			case CardViewState.Front:{
+			case CardViewState.Front:
+				{
 
 					if (SelectedCard.Card.BackFileId == System.Guid.Empty ||
-						SelectedCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID) ||
-						SelectedCard.Card.BackFileId.ToString().Equals (Busidex.Mobile.Resources.NULL_CARD_ID)) {
+					    SelectedCard.Card.BackFileId.ToString ().Equals (Busidex.Mobile.Resources.EMPTY_CARD_ID) ||
+					    SelectedCard.Card.BackFileId.ToString ().Equals (Busidex.Mobile.Resources.NULL_CARD_ID)) {
 						unload ();
 					} else {
 
-						Activity.RequestedOrientation = SelectedCard.Card.BackOrientation == "H" 
-							? global::Android.Content.PM.ScreenOrientation.Landscape
-							: global::Android.Content.PM.ScreenOrientation.Portrait;
-
 						if (File.Exists (backFileName)) {
-							OnImageDownloadCompleted(backUri);
+							OnImageDownloadCompleted (backUri);
 						} else {
 
 							var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.BackFileName;
@@ -133,7 +133,8 @@ namespace Busidex.Presentation.Droid.v2
 					ViewState = CardViewState.Back;
 					break;
 				}
-			case CardViewState.Back:{
+			case CardViewState.Back:
+				{
 					unload ();
 					break;
 				}
@@ -142,9 +143,14 @@ namespace Busidex.Presentation.Droid.v2
 			return true;
 		}
 
-		protected void OnImageDownloadCompleted (Uri uri){
+		protected void OnImageDownloadCompleted (Uri uri)
+		{
 			
 			btnCard.SetImageURI (uri);
+
+			Activity.RequestedOrientation = SelectedCard.Card.FrontOrientation == "H" 
+				? global::Android.Content.PM.ScreenOrientation.Landscape
+				: global::Android.Content.PM.ScreenOrientation.Portrait;
 		}
 	}
 }

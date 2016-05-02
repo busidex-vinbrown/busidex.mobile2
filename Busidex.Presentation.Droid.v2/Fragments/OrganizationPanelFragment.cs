@@ -16,18 +16,21 @@ namespace Busidex.Presentation.Droid.v2
 		readonly Organization SelectedOrganization;
 		View view;
 
-		public OrganizationPanelFragment(){
+		public OrganizationPanelFragment ()
+		{
 			
 		}
-		public OrganizationPanelFragment(Organization organization){
+
+		public OrganizationPanelFragment (Organization organization)
+		{
 			SelectedOrganization = organization;
 		}
 
-		void DialPhoneNumber(Organization org){
-			var userToken = BaseApplicationResource.GetAuthCookie ();
+		void DialPhoneNumber (Organization org)
+		{
 			var uri = Uri.Parse ("tel:" + org.Phone1);
 			var intent = new Intent (Intent.ActionView, uri); 
-			ActivityController.SaveActivity ((long)EventSources.Call, org.OrganizationId, userToken);
+			ActivityController.SaveActivity ((long)EventSources.Call, org.OrganizationId, UISubscriptionService.AuthToken);
 			Activity.StartActivity (intent); 
 		}
 
@@ -68,18 +71,18 @@ namespace Busidex.Presentation.Droid.v2
 
 
 			btnPhone.Click += delegate {
-				DialPhoneNumber(SelectedOrganization);
+				DialPhoneNumber (SelectedOrganization);
 			}; 
 
-			var SendEmailIntent = new Intent(Intent.ActionSend);
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(SelectedOrganization);
+			var SendEmailIntent = new Intent (Intent.ActionSend);
+			var data = Newtonsoft.Json.JsonConvert.SerializeObject (SelectedOrganization);
 			SendEmailIntent.PutExtra ("Organization", data);
 
-			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{SelectedOrganization.Email} );
+			SendEmailIntent.PutExtra (Intent.ExtraEmail, new []{ SelectedOrganization.Email });
 			SendEmailIntent.SetType ("message/rfc822");
 
-			btnEmail.Click += delegate{
-				((MainActivity)Activity).SendEmail(SendEmailIntent, SelectedOrganization.OrganizationId);
+			btnEmail.Click += delegate {
+				((MainActivity)Activity).SendEmail (SendEmailIntent, SelectedOrganization.OrganizationId);
 			};
 
 			var webUri = Uri.Parse (SelectedOrganization.Url);
@@ -95,33 +98,33 @@ namespace Busidex.Presentation.Droid.v2
 			fbTwitter.SetData (twitterUri);
 
 			btnOrganizationWeb.Click += delegate {
-				var intent = Intent.CreateChooser(webIntent, "Open with");
+				var intent = Intent.CreateChooser (webIntent, "Open with");
 				StartActivity (intent);
 			};
 
 			btnOrganizationTwitter.Click += delegate {
-				var intent = Intent.CreateChooser(fbTwitter, "Open with");
+				var intent = Intent.CreateChooser (fbTwitter, "Open with");
 				StartActivity (intent);
 			};
 
 			btnOrganizationFacebook.Click += delegate {
-				var intent = Intent.CreateChooser(fbIntent, "Open with");
+				var intent = Intent.CreateChooser (fbIntent, "Open with");
 				StartActivity (intent);
 			};
 
 			btnOrgMembers.Click += delegate {
-				((MainActivity)Activity).LoadOrganizationMembers(SelectedOrganization);
+				((MainActivity)Activity).LoadOrganizationMembers (SelectedOrganization);
 			};
 
 			btnOrgReferrals.Click += delegate {
-				((MainActivity)Activity).LoadOrganizationReferrals(SelectedOrganization);
+				((MainActivity)Activity).LoadOrganizationReferrals (SelectedOrganization);
 			};
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
-			view = inflater.Inflate(Resource.Layout.Organization, container, false);
+			view = inflater.Inflate (Resource.Layout.Organization, container, false);
 
 			return view;
 		}
