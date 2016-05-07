@@ -299,15 +299,15 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="QUESTIONS" lineBreakMode="tailTruncation" minimumFontSize="10" id="4254">
-                                <rect key="frame" x="120" y="467" width="163" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SHARE MY CARD" lineBreakMode="tailTruncation" minimumFontSize="10" id="4254">
+                                <rect key="frame" x="120" y="467" width="175" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="4255" image="FAQ.png">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="4255" image="ShareIcon.png">
                                 <rect key="frame" x="30" y="440" width="75" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
@@ -327,7 +327,7 @@
                         <outlet property="lblOrganizations" destination="2808" id="name-outlet-2808"/>
                         <outlet property="lblEvents" destination="3691" id="name-outlet-3691"/>
                         <outlet property="lblQuestions" destination="4254" id="name-outlet-4254"/>
-                        <outlet property="btnQuestions" destination="4256" id="name-outlet-4256"/>
+                        <outlet property="btnShare" destination="4256" id="name-outlet-4256"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1190" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -576,6 +576,15 @@
                                 <rect key="frame" x="14" y="267" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4659">
+                                <rect key="frame" x="54" y="200" width="211" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Add / Edit My Card" backgroundImage="button.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -591,6 +600,7 @@
                         <outlet property="imgAccept" destination="3884" id="name-outlet-3884"/>
                         <outlet property="padding" destination="4208" id="name-outlet-4208"/>
                         <outlet property="lblPassword" destination="2663" id="name-outlet-2663"/>
+                        <outlet property="btnMyCard" destination="4659" id="name-outlet-4659"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2566" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -852,27 +862,27 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This referral was shared with you from {0} and has been added to your collection." lineBreakMode="wordWrap" minimumFontSize="10" id="4363" numberOfLines="4" textAlignment="center" baselineAdjustment="none">
-                                <rect key="frame" x="20" y="265" width="280" height="121"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="20" y="265" width="280" height="130"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" minimumFontSize="10" id="4383" numberOfLines="10" textAlignment="center" baselineAdjustment="none" text="[personal message]" adjustsLetterSpacingToFitWidth="NO">
-                                <rect key="frame" x="20" y="390" width="280" height="158"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" minimumFontSize="10" id="4630" numberOfLines="4" textAlignment="center" baselineAdjustment="none">
+                                <rect key="frame" x="20" y="382" width="280" height="170"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.00784313725490196" green="0.31764705882352939" blue="0.5490196078431373" alpha="1"/>
-                                <nil key="highlightedColor"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="imgSharedCard" destination="4343" id="name-outlet-4343"/>
                         <outlet property="lblMessage" destination="4363" id="name-outlet-4363"/>
-                        <outlet property="lblPersonalMessage" destination="4383" id="name-outlet-4383"/>
+                        <outlet property="lblPersonalMessage" destination="4630" id="name-outlet-4630"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4341" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1085,6 +1095,7 @@
         <image name="textmessage.png" width="256" height="256"/>
         <image name="contacts.jpg" width="175" height="175"/>
         <image name="contacts2.png" width="250" height="250"/>
+        <image name="ShareIcon.png" width="105" height="105"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

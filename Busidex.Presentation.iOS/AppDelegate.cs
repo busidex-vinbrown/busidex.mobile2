@@ -18,6 +18,12 @@ namespace Busidex.Presentation.iOS
 	public partial class AppDelegate : UIApplicationDelegate, IBranchSessionInterface
 	{
 		// class-level declarations
+		const string KEY_FROM = "_f";
+		const string KEY_DISPLAY = "_d";
+		const string KEY_MESSAGE = "_m";
+		const string KEY_CARD_ID = "cardid";
+		const string KEY_CARD_ID_ALT = "cardId";
+
 		public string _deviceToken { get; set; }
 
 		public override UIWindow Window { get; set; }
@@ -129,13 +135,45 @@ namespace Busidex.Presentation.iOS
 			BranchIOS.getInstance ().HandlePushNotification (userInfo);
 		}
 
-		public override bool ContinueUserActivity (UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+		public override bool ContinueUserActivity (UIApplication application,
+		                                           NSUserActivity userActivity,
+		                                           UIApplicationRestorationHandler completionHandler)
 		{
-			return BranchIOS.getInstance ().ContinueUserActivity (userActivity);
+			bool handledByBranch = BranchIOS.getInstance ().ContinueUserActivity (userActivity);
+			return handledByBranch;
 		}
 
 		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
 		{
+			var rUrl = new Rivets.AppLinkUrl (url.ToString ());
+
+			if (rUrl.InputUrl.Equals ("jqle.app.link")) {
+				var cardId = string.Empty;
+				var sentFrom = string.Empty;
+				string displayName = string.Empty;
+				string personalMessage = string.Empty;
+
+				if (rUrl.InputQueryParameters.ContainsKey (KEY_FROM)) {
+					sentFrom = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_FROM].ToString ());
+				}
+				if (rUrl.InputQueryParameters.ContainsKey (KEY_DISPLAY)) {
+					displayName = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_DISPLAY].ToString ());
+				}
+				if (rUrl.InputQueryParameters.ContainsKey (KEY_MESSAGE)) {
+					personalMessage = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_MESSAGE].ToString ());
+				}
+
+				if (rUrl.InputQueryParameters.ContainsKey (KEY_CARD_ID)) {
+					cardId = rUrl.InputQueryParameters [KEY_CARD_ID].ToString ();
+				}
+				if (rUrl.InputQueryParameters.ContainsKey (KEY_CARD_ID_ALT)) {
+					cardId = rUrl.InputQueryParameters [KEY_CARD_ID_ALT].ToString ();
+				}
+				if (!string.IsNullOrEmpty (cardId) && !string.IsNullOrEmpty (sentFrom)) {
+					handleQuickShareRouting (long.Parse (cardId), displayName, long.Parse (sentFrom), personalMessage);
+				}
+			}
+
 			return BranchIOS.getInstance ().OpenUrl (url);
 		}
 
@@ -144,14 +182,9 @@ namespace Busidex.Presentation.iOS
 		public void InitSessionComplete (Dictionary<string, object> data)
 		{
 			var cardId = string.Empty;
-
 			var sentFrom = string.Empty;
 			string displayName = string.Empty;
 			string personalMessage = string.Empty;
-			const string KEY_FROM = "_f";
-			const string KEY_DISPLAY = "_d";
-			const string KEY_MESSAGE = "_m";
-			const string KEY_CARD_ID = "cardid";
 
 			if (data.ContainsKey (KEY_FROM)) {
 				sentFrom = System.Web.HttpUtility.UrlDecode (data [KEY_FROM].ToString ());
@@ -166,31 +199,36 @@ namespace Busidex.Presentation.iOS
 			if (data.ContainsKey (KEY_CARD_ID)) {
 				cardId = data [KEY_CARD_ID].ToString ();
 			}
+			if (data.ContainsKey (KEY_CARD_ID_ALT)) {
+				cardId = data [KEY_CARD_ID_ALT].ToString ();
+			}
+			if (!string.IsNullOrEmpty (cardId) && !string.IsNullOrEmpty (sentFrom)) {
+				handleQuickShareRouting (long.Parse (cardId), displayName, long.Parse (sentFrom), personalMessage);
+			}
 
-			if (!string.IsNullOrEmpty (cardId)) {
+		}
+
+		void handleQuickShareRouting (long cardId, string displayName, long sentFrom, string personalMessage)
+		{
+			if (cardId > 0) {
 
 				var quickShareLink = new QuickShareLink {
-					CardId = long.Parse (cardId),
+					CardId = cardId,
 					DisplayName = displayName,
-					From = long.Parse (sentFrom),
+					From = sentFrom,
 					PersonalMessage = personalMessage
 				};
 
-				var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-
-				var busidexController = storyBoard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-
-				var cookie = busidexController.GetAuthCookie ();
-
-				if (cookie == null) {
+				if (UISubscriptionService.AuthToken == null) {
 					// If the user is not logged in, save the shared card to file
 					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
 					Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
-
+					InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
 				} else {
 					if (Application.MainController == null) {
 						InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
 					} else {
+						var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 						var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
 						quickShareController.SetCardSharingInfo (quickShareLink);
 						quickShareController.SaveFromUrl ();

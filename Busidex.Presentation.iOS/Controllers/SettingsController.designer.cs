@@ -20,6 +20,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnMyCard { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnTerms { get; set; }
 
 		[Outlet]
@@ -63,6 +67,10 @@ namespace Busidex.Presentation.iOS
 			if (btnAcceptTerms != null) {
 				btnAcceptTerms.Dispose ();
 				btnAcceptTerms = null;
+			}
+			if (btnMyCard != null) {
+				btnMyCard.Dispose ();
+				btnMyCard = null;
 			}
 			if (btnTerms != null) {
 				btnTerms.Dispose ();

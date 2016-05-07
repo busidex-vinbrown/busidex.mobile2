@@ -22,14 +22,14 @@ namespace Busidex.Mobile
 
 		public const string PREFERENCE_FIRST_USE_POPUP_SEEN = "StarupPopupSeen";
 
+		public const string MY_CARD_ADD_URL = "https://start.busidex.com/#/front/{0}";
+		public const string MY_CARD_EDIT_URL = MY_CARD_ADD_URL + "?m=edit";
 		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
 		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 		public const string NULL_CARD_ID = "00000000-0000-0000-0000-000000000000";
 		public const string CARD_PATH = "https://busidexcdn.blob.core.windows.net/cards/";
-		//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_PATH = "https://busidexcdn.blob.core.windows.net/mobile-images/";
-		//"https://az381524.vo.msecnd.net/cards/";
 		public const string THUMBNAIL_FILE_NAME_PREFIX = "lowres_";
 
 		public const string MY_BUSIDEX_FILE = "mybusidex.json";
@@ -40,7 +40,6 @@ namespace Busidex.Mobile
 		public const string ORGANIZATION_MEMBERS_FILE = "organization_members_{0}.json";
 		public const string ORGANIZATION_REFERRALS_FILE = "organization_referrals_{0}.json";
 		public const string BUSIDEX_USER_FILE = "busidex_user.json";
-
 		public const string QUICKSHARE_LINK = "quickShare_Link.json";
 
 		public const string COOKIE_URI = "https://localhost";
@@ -84,18 +83,18 @@ namespace Busidex.Mobile
 		public const string TWILLIO_AUTH_TOKEN_PROD = "401066fdfc0fe0fbc7a1ead2eadc55c5";
 		public const string TWILLIO_SID_TEST = "AC1e82c094d6bad0431b578a44816b7d84";
 		public const string TWILLIO_AUTH_TOKEN_TEST = "a9a8e56e4e009a55aae754c7aafcf995";
+		public const string TWILLIO_PHONE_NUMBER = "(754) 333-5330";
 
-		public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
-		public const string BITLY_LOGIN = "busidexapp";
+		//public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
+		//public const string BITLY_LOGIN = "busidexapp";
 
 		public enum HttpActions
 		{
 			GET,
 			POST,
 			PUT,
-			DELETE}
-
-		;
+			DELETE
+		}
 
 		public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 

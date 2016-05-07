@@ -22,7 +22,8 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		void SetFilter(string filter){
+		void SetFilter (string filter)
+		{
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
 
@@ -37,7 +38,7 @@ namespace Busidex.Presentation.iOS
 					(c.Card.Tags != null && c.Card.Tags.Any (t => t.Text.ToLowerInvariant ().Contains (loweredFilter)))
 					));
 			}
-			TableSource src = ConfigureTableSourceEventHandlers(FilterResults);
+			TableSource src = ConfigureTableSourceEventHandlers (FilterResults);
 			src.IsFiltering = true;
 			TableView.Source = src;
 			TableView.ReloadData ();
@@ -45,7 +46,8 @@ namespace Busidex.Presentation.iOS
 			TableView.SetNeedsDisplay ();
 		}
 
-		void ResetFilter(){
+		void ResetFilter ()
+		{
 
 			if (SearchBar != null) {
 				SearchBar.Text = string.Empty;
@@ -59,7 +61,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
+		TableSource ConfigureTableSourceEventHandlers (List<UserCard> data)
+		{
 			var src = new TableSource (data);
 			src.ShowNotes = true;
 			src.ShowNoCardMessage = true;
@@ -68,40 +71,42 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
-		void ConfigureSearchBar(){
+		void ConfigureSearchBar ()
+		{
 
 			SearchBar.Placeholder = "Filter";
 			SearchBar.BarStyle = UIBarStyle.Default;
 			SearchBar.ShowsCancelButton = true;
 
 			SearchBar.SearchButtonClicked += delegate {
-				SetFilter(SearchBar.Text);
-				SearchBar.ResignFirstResponder();
+				SetFilter (SearchBar.Text);
+				SearchBar.ResignFirstResponder ();
 			};
 			SearchBar.CancelButtonClicked += delegate {
-				ResetFilter();
-				SearchBar.ResignFirstResponder();
+				ResetFilter ();
+				SearchBar.ResignFirstResponder ();
 			};
 			SearchBar.TextChanged += delegate {
-				if(SearchBar.Text.Length == 0){
-					ResetFilter();
-					SearchBar.ResignFirstResponder();
+				if (SearchBar.Text.Length == 0) {
+					ResetFilter ();
+					SearchBar.ResignFirstResponder ();
 				}
 			};
 		}
 
-		public void LoadMyBusidex(){
+		public void LoadMyBusidex ()
+		{
 
 			bool refreshCookieOk = CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
-			if((UISubscriptionService.MyBusidexLoaded && refreshCookieOk)){
-				ResetFilter();
+			if ((UISubscriptionService.MyBusidexLoaded && refreshCookieOk)) {
+				ResetFilter ();
 				return;
 			}
 
 			if (!UISubscriptionService.MyBusidexLoaded || !refreshCookieOk) {
 
-				if(loadingData){
+				if (loadingData) {
 					return;
 				}
 
@@ -113,7 +118,7 @@ namespace Busidex.Presentation.iOS
 				View.AddSubview (overlay);
 
 				UISubscriptionService.LoadUserCards ();
-			}else{
+			} else {
 				InvokeOnMainThread (() => {
 					loadingData = false;
 					overlay.Hide ();
@@ -122,8 +127,9 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		public void GoToTop(){
-			if(TableView != null){
+		public void GoToTop ()
+		{
+			if (TableView != null) {
 				TableView.SetContentOffset (new CGPoint (0, -75), true);
 			}	
 		}
@@ -153,7 +159,7 @@ namespace Busidex.Presentation.iOS
 			ConfigureSearchBar ();
 
 			OnMyBusidexUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-				if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+				if (IsViewLoaded && View.Window != null) {  // no need to show anything if the view isn't visible any more
 					overlay.TotalItems = status.Total;
 					overlay.UpdateProgress (status.Count);
 				}
@@ -161,7 +167,9 @@ namespace Busidex.Presentation.iOS
 
 			OnMyBusidexLoadedEventHandler callback = list => InvokeOnMainThread (() => {
 				loadingData = false;
-				overlay.Hide ();
+				if (overlay != null) {
+					overlay.Hide ();
+				}
 				ResetFilter ();
 			});
 

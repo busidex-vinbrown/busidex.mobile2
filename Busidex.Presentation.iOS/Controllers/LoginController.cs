@@ -59,11 +59,11 @@ namespace Busidex.Presentation.iOS
 
 		bool loggingIn;
 
-		void spinImage(){
-			UIView.AnimateNotify (.5, 0, UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () =>
-				{
-					imgLogo.Transform = CGAffineTransform.MakeScale(0.01f, 1.1f);
-				}, finished => {
+		void spinImage ()
+		{
+			UIView.AnimateNotify (.5, 0, UIViewAnimationOptions.Autoreverse | UIViewAnimationOptions.CurveEaseOut, () => {
+				imgLogo.Transform = CGAffineTransform.MakeScale (0.01f, 1.1f);
+			}, finished => {
 				if (loggingIn) {
 					spinImage ();
 				} else {
@@ -72,7 +72,8 @@ namespace Busidex.Presentation.iOS
 			});
 		}
 
-		async Task<bool> DoLogin(){
+		async Task<bool> DoLogin ()
+		{
 			try {
 				lblLoginResult.Text = string.Empty;
 
@@ -80,17 +81,17 @@ namespace Busidex.Presentation.iOS
 				string password = txtPassword.Text;
 
 				// dismiss the keyboard
-				txtPassword.ResignFirstResponder();
-				txtUserName.ResignFirstResponder();
+				txtPassword.ResignFirstResponder ();
+				txtUserName.ResignFirstResponder ();
 
 				loggingIn = true;
 
-				spinImage();
-				var loginController = new Busidex.Mobile.LoginController();
-				await loginController.DoLogin (username, password).ContinueWith(async response => {
+				spinImage ();
+				var loginController = new Busidex.Mobile.LoginController ();
+				await loginController.DoLogin (username, password).ContinueWith (async response => {
 					string result = await response;
-					if (string.IsNullOrEmpty(result)){
-						InvokeOnMainThread(()=> {
+					if (string.IsNullOrEmpty (result)) {
+						InvokeOnMainThread (() => {
 							loggingIn = false;
 							lblLoginResult.Text = "Login Failed";
 							lblLoginResult.TextColor = UIColor.Red;
@@ -99,8 +100,8 @@ namespace Busidex.Presentation.iOS
 					}
 
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (result);
-					if (loginResponse == null){
-						InvokeOnMainThread(()=> {
+					if (loginResponse == null) {
+						InvokeOnMainThread (() => {
 							loggingIn = false;
 							lblLoginResult.Text = "Login Failed";
 							lblLoginResult.TextColor = UIColor.Red;
@@ -117,6 +118,7 @@ namespace Busidex.Presentation.iOS
 							SetAuthCookie (UserId);
 
 							//UISubscriptionService.Sync ();
+							UISubscriptionService.LoadUser ();
 
 							var user = NSUserDefaults.StandardUserDefaults;
 
@@ -128,18 +130,18 @@ namespace Busidex.Presentation.iOS
 
 							loggingIn = false;
 
-							var quickShareLink = Utils.GetQuickShareLink();
-							if(quickShareLink != null){
+							var quickShareLink = Utils.GetQuickShareLink ();
+							if (quickShareLink != null) {
 								
 								InvokeOnMainThread (GoToQuickShare);
-							}else{
+							} else {
 								InvokeOnMainThread (GoToMain);
 							}
 
 							return true;
 						}
 					}
-					InvokeOnMainThread(()=> {
+					InvokeOnMainThread (() => {
 						loggingIn = false;
 						lblLoginResult.Text = "Login Failed";
 						lblLoginResult.TextColor = UIColor.Red;

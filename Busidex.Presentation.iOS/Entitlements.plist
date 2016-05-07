@@ -4,8 +4,9 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:share.busidex.com</string>
 		<string>applinks:jqle.app.link</string>
+		<string>applinks:jqle-alternate.app.link</string>
+		<string>applinks:promote.busidex.com</string>
 	</array>
 </dict>
 </plist>

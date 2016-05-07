@@ -6,10 +6,11 @@ using UIKit;
 using Busidex.Mobile.Models;
 using GoogleAnalytics.iOS;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class SettingsController : BaseController
+	public partial class SettingsController : BaseController
 	{
 		public SettingsController (IntPtr handle) : base (handle)
 		{
@@ -21,7 +22,8 @@ namespace Busidex.Presentation.iOS
 		bool loggedIn;
 		LoadingOverlay overlay;
 
-		void SetPasswordChangedResult(string password, string result, ref NSUserDefaults user){
+		void SetPasswordChangedResult (string password, string result, ref NSUserDefaults user)
+		{
 
 			if (result.ToLowerInvariant ().IndexOf ("password changed", StringComparison.Ordinal) >= 0) {
 				user.SetString (password, Resources.USER_SETTING_PASSWORD);
@@ -35,7 +37,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void SetEmailChangedResult(string email, string result, ref NSUserDefaults user){
+		void SetEmailChangedResult (string email, string result, ref NSUserDefaults user)
+		{
 
 			if (result.IndexOf ("400", StringComparison.Ordinal) >= 0) {
 				imgEmailSaved.Hidden = true;
@@ -53,7 +56,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void SetCheckAccountResult(string email, string password, string result, ref NSUserDefaults user){
+		void SetCheckAccountResult (string email, string password, string result, ref NSUserDefaults user)
+		{
 			const string ERROR_UNABLE_TO_CREATE_ACCOUNT = "unable to create new account:";
 			const string ERROR_ACCOUNT_EXISTS = "account already exists";
 			var oResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CheckAccountResult> (result);
@@ -62,7 +66,7 @@ namespace Busidex.Presentation.iOS
 				imgEmailSaved.Hidden = true;
 				lblEmailError.Hidden = false;
 				lblEmailError.Text = result.Replace (ERROR_UNABLE_TO_CREATE_ACCOUNT, string.Empty);
-			}else if (result.ToLowerInvariant ().IndexOf (ERROR_ACCOUNT_EXISTS, StringComparison.Ordinal) >= 0) {
+			} else if (result.ToLowerInvariant ().IndexOf (ERROR_ACCOUNT_EXISTS, StringComparison.Ordinal) >= 0) {
 				imgEmailSaved.Hidden = true;
 				lblEmailError.Hidden = false;
 				lblEmailError.Text = "This email is already in use";
@@ -76,7 +80,7 @@ namespace Busidex.Presentation.iOS
 				lblPasswordError.Hidden = true;
 
 				var loginContrller = new Busidex.Mobile.LoginController ();
-				loginContrller.DoLogin(email, password).ContinueWith(response => {
+				loginContrller.DoLogin (email, password).ContinueWith (response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;
@@ -93,10 +97,28 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void HideStatusIndicators(){
+		void OpenBrowser ()
+		{
+			
+			try {
+				var cardFileId = UISubscriptionService.CurrentUser.CardFileId;
+
+				var url = (string.IsNullOrEmpty (cardFileId) || cardFileId == Guid.Empty.ToString ()) ? Resources.MY_CARD_ADD_URL : Resources.MY_CARD_EDIT_URL;
+				url = string.Format (url, WebUtility.UrlEncode (UISubscriptionService.AuthToken));
+
+				UIApplication.SharedApplication.OpenUrl (new NSUrl (url));
+
+			} catch (Exception ex) {
+				//BaseController.ShowAlert ("Could not open this website", string.Format ("There appears to be a problem with the website address: {0}.", SelectedCard.Card.Url), "Ok");
+				Xamarin.Insights.Report (ex);
+			}
+		}
+
+		void HideStatusIndicators ()
+		{
 			imgEmailSaved.Hidden = imgPasswordSaved.Hidden = lblEmailError.Hidden = lblPasswordError.Hidden = true;
 		}
-			
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Settings");
@@ -117,12 +139,18 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnAcceptTerms.TouchUpInside += delegate {
-				handleTermsClick();	
+				handleTermsClick ();	
 			}; 
 
 			btnTerms.TouchUpInside += delegate {
-				showTerms();
+				showTerms ();
 			};
+
+			btnMyCard.TouchUpInside += delegate {
+				OpenBrowser ();
+			};
+
+
 		}
 
 		public override void ViewDidLayoutSubviews ()
@@ -142,10 +170,10 @@ namespace Busidex.Presentation.iOS
 			lblInstructions.Font = UIFont.FromName ("Helvetica", 15f);
 			float height = loggedIn ? 85f : 105f;
 			var frame = new CoreGraphics.CGRect (
-				padding.Frame.X, 
-				padding.Frame.Y, 
-				padding.Frame.Width, 
-				height);
+				            padding.Frame.X, 
+				            padding.Frame.Y, 
+				            padding.Frame.Width, 
+				            height);
 
 			padding.Frame = frame;
 
@@ -161,7 +189,8 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		async Task<bool> SaveSettings(){
+		async Task<bool> SaveSettings ()
+		{
 			HideStatusIndicators ();
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
@@ -171,35 +200,35 @@ namespace Busidex.Presentation.iOS
 			string token;
 			var user = NSUserDefaults.StandardUserDefaults;
 
-			if(cookie != null){
+			if (cookie != null) {
 				token = cookie.Value;
 
 				user.StringForKey (Resources.USER_SETTING_USERNAME);
-				string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
-				string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
+				string oldPassword = user.StringForKey (Resources.USER_SETTING_PASSWORD);
+				string oldEmail = user.StringForKey (Resources.USER_SETTING_EMAIL);
 
-				if(!oldPassword.Equals(newPassword)){
-					await  Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
+				if (!oldPassword.Equals (newPassword)) {
+					await Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
 
-						InvokeOnMainThread( ()=> {
+						InvokeOnMainThread (() => {
 							var passwordResult = passwordResponse.Result;
-							SetPasswordChangedResult(newPassword, passwordResult, ref user);
+							SetPasswordChangedResult (newPassword, passwordResult, ref user);
 						});
 					});
 				}
-				if(!oldEmail.Equals(newEmail)){
+				if (!oldEmail.Equals (newEmail)) {
 					await Busidex.Mobile.SettingsController.ChangeEmail (newEmail, token).ContinueWith (emailResponse => {
-						InvokeOnMainThread( ()=> {
+						InvokeOnMainThread (() => {
 							var emailResult = emailResponse.Result;
-							SetEmailChangedResult(newEmail, emailResult, ref user);
+							SetEmailChangedResult (newEmail, emailResult, ref user);
 						});
 					});
 				}
-			}else{
+			} else {
 				if (termsAccepted) {
 					if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
 						await ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
-					}else if(txtEmail.Text.IndexOf('@') < 0){
+					} else if (txtEmail.Text.IndexOf ('@') < 0) {
 						await ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
 					} else {
 						token = Guid.NewGuid ().ToString ();
@@ -208,36 +237,37 @@ namespace Busidex.Presentation.iOS
 						overlay.MessageText = "Saving your information";
 						View.AddSubview (overlay);
 
-						await AccountController.CheckAccount (token, newEmail, newPassword).ContinueWith(response => {
+						await AccountController.CheckAccount (token, newEmail, newPassword).ContinueWith (response => {
 
-							if(!response.IsFaulted && !string.IsNullOrEmpty(response.Result)){
-								InvokeOnMainThread(() => {
-									overlay.Hide();
+							if (!response.IsFaulted && !string.IsNullOrEmpty (response.Result)) {
+								InvokeOnMainThread (() => {
+									overlay.Hide ();
 									SetCheckAccountResult (newEmail, newPassword, response.Result, ref user);
 								});
-							}else{
-								InvokeOnMainThread(() => {
+							} else {
+								InvokeOnMainThread (() => {
 									ShowAlert ("Saving your information", "There was a problem saving your information. There may be an issue with your internet connection. Please try again later.", "Ok");
-									overlay.Hide();
+									overlay.Hide ();
 								});
 							}
 						});
 
 					}
-				}else {
+				} else {
 					await ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
 				}
 			}
 			return true;
 		}
 
-		static string UpdateUserEmailSetting(NSUserDefaults user){
-			string email = user.StringForKey(Resources.USER_SETTING_EMAIL);
+		static string UpdateUserEmailSetting (NSUserDefaults user)
+		{
+			string email = user.StringForKey (Resources.USER_SETTING_EMAIL);
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-			if(cookie != null){
+			if (cookie != null) {
 				var busidexAccountResponse = AccountController.GetAccount (cookie.Value);
 				var busidexAccount = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (busidexAccountResponse);
-				if(busidexAccount != null){
+				if (busidexAccount != null) {
 					user.SetString (busidexAccount.Email, Resources.USER_SETTING_EMAIL);
 					user.Synchronize ();
 					email = busidexAccount.Email;
@@ -254,17 +284,17 @@ namespace Busidex.Presentation.iOS
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
 
-				NavigationItem.SetRightBarButtonItem(
-					new UIBarButtonItem(UIBarButtonSystemItem.Save, (sender, args) => SaveSettings ())
+				NavigationItem.SetRightBarButtonItem (
+					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveSettings ())
 					, true);
 			}
 
 
 			var user = NSUserDefaults.StandardUserDefaults;
 
-			string oldPassword = user.StringForKey(Resources.USER_SETTING_PASSWORD);
-			string oldEmail = user.StringForKey(Resources.USER_SETTING_EMAIL);
-			if(oldEmail != null && oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0){
+			string oldPassword = user.StringForKey (Resources.USER_SETTING_PASSWORD);
+			string oldEmail = user.StringForKey (Resources.USER_SETTING_EMAIL);
+			if (oldEmail != null && oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0) {
 				oldEmail = UpdateUserEmailSetting (user);
 			}
 			txtPassword.Text = oldPassword;
@@ -284,59 +314,61 @@ namespace Busidex.Presentation.iOS
 				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = true;
 				txtPassword.Hidden = lblPassword.Hidden = true;
 				loggedIn = true;
+				btnMyCard.Hidden = false;
 			} else {
 				loggedIn = false;
 				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = false;
 				txtPassword.Hidden = lblPassword.Hidden = false;
-
+				btnMyCard.Hidden = true;
 				imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
 			}
 
 		}
 
-		void handleTermsClick(){
+		void handleTermsClick ()
+		{
 			termsAccepted = !termsAccepted;
 			imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
 		}
 
-		void showTerms()
+		void showTerms ()
 		{
 			var termsController = Storyboard.InstantiateViewController ("TermsController") as TermsController;
 
-			if (termsController != null && NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0){
+			if (termsController != null && NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0) {
 				NavigationController.PushViewController (termsController, true);
 			}
 		}
 
 
 		// https://developer.xamarin.com/guides/ios/platform_features/introduction_to_ios9/contacts/
-//		void updateContacts(){
-//
-//			if(Application.MyBusidex != null){
-//
-//				var predicate = CNContact.GetPredicateForContacts("");
-//				var fetchKeys = new NSString[] {
-//					CNContactKey.ThumbnailImageData, 
-//					CNContactKey.ImageData, 
-//					CNContactKey.EmailAddresses, 
-//					CNContactKey.PhoneNumbers, 
-//					CNContactKey.GivenName
-//				};
-//
-//				var store = new CNContactStore();
-//				NSError error;
-//				var contacts = store.GetUnifiedContacts(predicate, fetchKeys, out error);
-//
-//				foreach(var card in Application.MyBusidex){
-//
-//					var thisContact = contacts.FirstOrDefault (c => c.EmailAddresses.Equals (card.Card.Email) || 
-//						c.PhoneNumbers.Intersect (card.Card.PhoneNumbers.Select (p => p.Number)).Count > 0);
-//
-//					if(thisContact != null){
-//						var mutable = thisContact.MutableCopy() as CNMutableContact;
-//					}
-//				}
-//			}
-//		}
+		//		void updateContacts(){
+		//
+		//			if(Application.MyBusidex != null){
+		//
+		//				var predicate = CNContact.GetPredicateForContacts("");
+		//				var fetchKeys = new NSString[] {
+		//					CNContactKey.ThumbnailImageData,
+		//					CNContactKey.ImageData,
+		//					CNContactKey.EmailAddresses,
+		//					CNContactKey.PhoneNumbers,
+		//					CNContactKey.GivenName
+		//				};
+		//
+		//				var store = new CNContactStore();
+		//				NSError error;
+		//				var contacts = store.GetUnifiedContacts(predicate, fetchKeys, out error);
+		//
+		//				foreach(var card in Application.MyBusidex){
+		//
+		//					var thisContact = contacts.FirstOrDefault (c => c.EmailAddresses.Equals (card.Card.Email) ||
+		//						c.PhoneNumbers.Intersect (card.Card.PhoneNumbers.Select (p => p.Number)).Count > 0);
+		//
+		//					if(thisContact != null){
+		//						var mutable = thisContact.MutableCopy() as CNMutableContact;
+		//					}
+		//				}
+		//			}
+		//		}
 	}
 }

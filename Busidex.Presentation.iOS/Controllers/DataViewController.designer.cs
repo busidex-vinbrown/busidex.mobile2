@@ -44,7 +44,7 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnQuestions { get; set; }
+		UIButton btnShare { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -88,9 +88,9 @@ namespace Busidex.Presentation.iOS
 				btnMyOrganizations.Dispose ();
 				btnMyOrganizations = null;
 			}
-			if (btnQuestions != null) {
-				btnQuestions.Dispose ();
-				btnQuestions = null;
+			if (btnShare != null) {
+				btnShare.Dispose ();
+				btnShare = null;
 			}
 			if (dataLabel != null) {
 				dataLabel.Dispose ();

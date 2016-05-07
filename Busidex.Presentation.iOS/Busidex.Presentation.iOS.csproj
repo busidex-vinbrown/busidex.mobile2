@@ -176,7 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="Entitlements.plist" />
+    <None Include="Entitlements.plist">
+      <DeployService-Deploy>True</DeployService-Deploy>
+    </None>
     <None Include="RELEASE-NOTES.txt" />
     <None Include="icons\.DS_Store" />
     <None Include="packages.config" />
@@ -422,6 +424,7 @@
     <BundleResource Include="Resources\textmessage.png" />
     <BundleResource Include="Resources\contacts.jpg" />
     <BundleResource Include="Resources\contacts2.png" />
+    <BundleResource Include="Resources\ShareIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

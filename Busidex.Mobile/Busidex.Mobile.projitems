@@ -78,6 +78,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BitlyData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuickShareLink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProgressStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BranchApiController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BranchApiLinkParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BranchUrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

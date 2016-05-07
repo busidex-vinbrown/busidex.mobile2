@@ -16,7 +16,7 @@ namespace Busidex.Presentation.iOS
 	{
 
 		protected LoadingOverlay Overlay;
-		protected string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		protected string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 
 		public static UIStoryboard board;
 		public static UIStoryboard orgBoard;
@@ -31,6 +31,7 @@ namespace Busidex.Presentation.iOS
 		public static ButtonPanelController buttonPanelController;
 		public static SharedCardController sharedCardController;
 		public static OrganizationDetailController orgDetailController;
+		public static SettingsController settingsController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -42,9 +43,10 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		static void init(){
+		static void init ()
+		{
 			board = board ?? UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			orgBoard = orgBoard ?? UIStoryboard.FromName("OrganizationStoryBoard_iPhone", null);
+			orgBoard = orgBoard ?? UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
 
 			eventListController = eventListController ?? board.InstantiateViewController ("EventListController") as EventListController;
 			eventCardsController = eventCardsController ?? board.InstantiateViewController ("EventCardsController") as EventCardsController;
@@ -57,15 +59,18 @@ namespace Busidex.Presentation.iOS
 			quickShareController = quickShareController ?? board.InstantiateViewController ("QuickShareController") as QuickShareController;
 			buttonPanelController = buttonPanelController ?? board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
 			sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
+			settingsController = settingsController ?? board.InstantiateViewController ("SettingsController") as SettingsController;
 		}
 
-		protected void ShowOverlay(){
+		protected void ShowOverlay ()
+		{
 			Overlay = new CardLoadingOverlay (View.Bounds);
 			Overlay.MessageText = "Loading Your Card";
 			View.AddSubview (Overlay);
 		}
 
-		protected CALayer GetBorder(CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f ){
+		protected CALayer GetBorder (CGRect frame, CGColor color, float offset = 0f, float borderWidth = 1f)
+		{
 			var layer = new CALayer ();
 			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
 			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
@@ -91,28 +96,30 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected static void SetRefreshCookie(string name){
+		protected static void SetRefreshCookie (string name)
+		{
 
-			try{
+			try {
 				var user = NSUserDefaults.StandardUserDefaults;
-				DateTime nextRefresh = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays(1);
-				user.SetString(nextRefresh.ToString(), name);
+				DateTime nextRefresh = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays (1);
+				user.SetString (nextRefresh.ToString (), name);
 
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 			}
 		}
 
-		protected static bool CheckRefreshCookie(string name){
+		protected static bool CheckRefreshCookie (string name)
+		{
 			var user = NSUserDefaults.StandardUserDefaults;
 			String val = user.StringForKey (name);
-			if(string.IsNullOrEmpty(val)){
+			if (string.IsNullOrEmpty (val)) {
 				SetRefreshCookie (name);
 				return false;
-			}else{
+			} else {
 				DateTime lastRefresh;
 				DateTime.TryParse (val, out lastRefresh);
-				if(lastRefresh <= DateTime.Now){
+				if (lastRefresh <= DateTime.Now) {
 					SetRefreshCookie (name);
 					return false;
 				}
@@ -120,33 +127,35 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		public static DateTime NSDateToDateTime(NSDate date)
+		public static DateTime NSDateToDateTime (NSDate date)
 		{
-			DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime( 
-				new DateTime(2001, 1, 1, 0, 0, 0) );
-			return reference.AddSeconds(date.SecondsSinceReferenceDate);
+			DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime (
+				                     new DateTime (2001, 1, 1, 0, 0, 0));
+			return reference.AddSeconds (date.SecondsSinceReferenceDate);
 		}
 
-		protected NSHttpCookie SetAuthCookie(long userId){
-			var nCookie = new System.Net.Cookie();
+		protected NSHttpCookie SetAuthCookie (long userId)
+		{
+			var nCookie = new System.Net.Cookie ();
 			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
-			DateTime expiration = DateTime.Now.AddYears(1);
+			DateTime expiration = DateTime.Now.AddYears (1);
 			nCookie.Expires = expiration;
-			nCookie.Value = Utils.EncodeUserId(userId);
-			var cookie = new NSHttpCookie(nCookie);
+			nCookie.Value = Utils.EncodeUserId (userId);
+			var cookie = new NSHttpCookie (nCookie);
 
-			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+			NSHttpCookieStorage.SharedStorage.SetCookie (cookie);
 
 			UISubscriptionService.AuthToken = cookie.Value;
 
 			return cookie;
 		}
 
-		public NSHttpCookie GetAuthCookie(){
+		public NSHttpCookie GetAuthCookie ()
+		{
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
-			if(cookie == null){
+			if (cookie == null) {
 				return null;
 			}
 			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
@@ -166,18 +175,20 @@ namespace Busidex.Presentation.iOS
 			return false; // implement this to return true when u want it
 		}
 
-		protected void RemoveAuthCookie(){
+		protected void RemoveAuthCookie ()
+		{
 
-			var nCookie = new System.Net.Cookie();
+			var nCookie = new System.Net.Cookie ();
 			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
 			nCookie.Expires = DateTime.Now.AddDays (-2);
-			var cookie = new NSHttpCookie(nCookie);
-			NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+			var cookie = new NSHttpCookie (nCookie);
+			NSHttpCookieStorage.SharedStorage.SetCookie (cookie);
 
 			Utils.RemoveCacheFiles ();
 		}
 
-		protected virtual void StartSearch(){
+		protected virtual void StartSearch ()
+		{
 			InvokeOnMainThread (() => {
 				Overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
 				//Overlay.RemoveFromSuperview ();
@@ -186,15 +197,26 @@ namespace Busidex.Presentation.iOS
 
 		}
 
+		protected void GoToSettings ()
+		{
+			settingsController = settingsController ?? Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+
+			if (NavigationController.ViewControllers.Any (c => c as SettingsController != null)) {
+				NavigationController.PopToViewController (settingsController, true);
+			} else {
+				NavigationController.PushViewController (settingsController, true);
+			}
+		}
+
 		protected void GoToMain ()
 		{
 			NavigationController.SetNavigationBarHidden (true, true);
 
 			dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
-			if(NavigationController.ViewControllers.Any(c => c as DataViewController != null)){
+			if (NavigationController.ViewControllers.Any (c => c as DataViewController != null)) {
 				NavigationController.PopToViewController (dataViewController, true);
-			}else{
+			} else {
 				NavigationController.PushViewController (dataViewController, true);
 			}
 		}
@@ -211,96 +233,102 @@ namespace Busidex.Presentation.iOS
 				});
 				quickShareController.SaveFromUrl ();
 
-				if(NavigationController.ViewControllers.Any(c => c as QuickShareController != null)){
+				if (NavigationController.ViewControllers.Any (c => c as QuickShareController != null)) {
 					NavigationController.PopToViewController (quickShareController, true);
-				}else{
+				} else {
 					NavigationController.PushViewController (quickShareController, true);
 				}
+			} else {
+				GoToMain ();
 			}
 		}
 
-		protected void ShareCard(UserCard seletcedCard){
+		protected void ShareCard (UserCard seletcedCard)
+		{
 
-			try{
+			try {
 				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 
 				sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
 				sharedCardController.SelectedCard = seletcedCard;
 
-				if(NavigationController.ViewControllers.Any(c => c as SharedCardController != null)){
+				if (NavigationController.ViewControllers.Any (c => c as SharedCardController != null)) {
 					NavigationController.PopToViewController (sharedCardController, true);
-				}else{
+				} else {
 					NavigationController.PushViewController (sharedCardController, true);
 				}
 
 				string name = Resources.GA_LABEL_SHARE;
-				if(sharedCardController.SelectedCard != null && sharedCardController.SelectedCard.Card != null){
-					name = string.IsNullOrEmpty(sharedCardController.SelectedCard.Card.Name) ? sharedCardController.SelectedCard.Card.CompanyName : sharedCardController.SelectedCard.Card.Name;
+				if (sharedCardController.SelectedCard != null && sharedCardController.SelectedCard.Card != null) {
+					name = string.IsNullOrEmpty (sharedCardController.SelectedCard.Card.Name) ? sharedCardController.SelectedCard.Card.CompanyName : sharedCardController.SelectedCard.Card.Name;
 				}
 
 				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
 
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 			}
 		}
 
-//		protected virtual async Task<int> DoSearch(){
-//
-//			Overlay.Hide ();
-//
-//			return 1;
-//		}
+		//		protected virtual async Task<int> DoSearch(){
+		//
+		//			Overlay.Hide ();
+		//
+		//			return 1;
+		//		}
 
-//		public void AddCardToMyBusidexCache(UserCard userCard){
-//			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-//
-//			string file;
-//			if (File.Exists (fullFilePath)) {
-//				using (var myBusidexFile = File.OpenText (fullFilePath)) {
-//					var myBusidexJson = myBusidexFile.ReadToEnd ();
-//					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-//					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
-//						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-//
-//						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-//							.ThenBy (c => c.Card != null ? c.Card.Name : "")
-//							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-//							.ToList ();
-//						
-//					}
-//					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
-//				}
-//				Utils.SaveResponse (file, fullFilePath);
-//
-//				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
-//					Application.MyBusidex.Add (userCard);
-//					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-//						.ThenBy (c => c.Card != null ? c.Card.Name : "")
-//						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-//						.ToList ();
-//				}
-//			}
+		//		public void AddCardToMyBusidexCache(UserCard userCard){
+		//			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
+		//
+		//			string file;
+		//			if (File.Exists (fullFilePath)) {
+		//				using (var myBusidexFile = File.OpenText (fullFilePath)) {
+		//					var myBusidexJson = myBusidexFile.ReadToEnd ();
+		//					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+		//					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
+		//						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+		//
+		//						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+		//							.ThenBy (c => c.Card != null ? c.Card.Name : "")
+		//							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+		//							.ToList ();
+		//
+		//					}
+		//					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
+		//				}
+		//				Utils.SaveResponse (file, fullFilePath);
+		//
+		//				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
+		//					Application.MyBusidex.Add (userCard);
+		//					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+		//						.ThenBy (c => c.Card != null ? c.Card.Name : "")
+		//						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+		//						.ToList ();
+		//				}
+		//			}
 
-//			string name = Resources.GA_LABEL_ADD;
-//			if(userCard != null && userCard.Card != null){
-//				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
-//			}
-//
-//			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
-//		}
+		//			string name = Resources.GA_LABEL_ADD;
+		//			if(userCard != null && userCard.Card != null){
+		//				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
+		//			}
+		//
+		//			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+		//		}
 
-		protected bool isProgressFinished(float processed, float total){
+		protected bool isProgressFinished (float processed, float total)
+		{
 			return processed.Equals (total);
 		}
 
-		protected virtual void ProcessCards(string data){
+		protected virtual void ProcessCards (string data)
+		{
 
 		}
 
-		protected void LoadCardsFromFile(string fullFilePath){
+		protected void LoadCardsFromFile (string fullFilePath)
+		{
 
-			if(File.Exists(fullFilePath)){
+			if (File.Exists (fullFilePath)) {
 				var file = File.OpenText (fullFilePath);
 				var fileJson = file.ReadToEnd ();
 				file.Close ();
@@ -316,7 +344,7 @@ namespace Busidex.Presentation.iOS
 		/// <param name="title">Title.</param>
 		/// <param name="message">Message.</param>
 		/// <param name="buttons">Buttons.</param>
-		public static Task<int> ShowAlert (string title, string message, params string [] buttons)
+		public static Task<int> ShowAlert (string title, string message, params string[] buttons)
 		{
 			var tcs = new TaskCompletionSource<int> ();
 			var alert = new UIAlertView {
@@ -331,7 +359,8 @@ namespace Busidex.Presentation.iOS
 			return tcs.Task;
 		}
 
-		protected BusinessCardDimensions GetCardDimensions(string orientation){
+		protected BusinessCardDimensions GetCardDimensions (string orientation)
+		{
 
 			/*
 				Business cards have an aspect ratio of 1.75 (Canada and US).
@@ -344,10 +373,10 @@ namespace Busidex.Presentation.iOS
 			float width;
 			float leftMargin;
 
-			if(orientation == "H"){
+			if (orientation == "H") {
 				height = hBase;
 				width = hBase * ASPECT_RATIO;
-			}else{
+			} else {
 				height = vBase * ASPECT_RATIO;
 				width = vBase;
 			}
@@ -356,9 +385,11 @@ namespace Busidex.Presentation.iOS
 			return new BusinessCardDimensions (height, width, leftMargin);
 		}
 
-		protected struct BusinessCardDimensions{
+		protected struct BusinessCardDimensions
+		{
 
-			public BusinessCardDimensions(float h, float w, float m){
+			public BusinessCardDimensions (float h, float w, float m)
+			{
 				Height = h;
 				Width = w;
 				MarginLeft = m;

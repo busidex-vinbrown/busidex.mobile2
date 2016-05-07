@@ -10,36 +10,37 @@ namespace Busidex.Mobile
 {
 	public static class Utils
 	{
-		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim>();
+		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim> ();
 
-		public static long DecodeUserId(string id){
+		public static long DecodeUserId (string id)
+		{
 
 			long userId = 0;
 
-			try{
-				byte[] raw = Convert.FromBase64String(id); 
-				string s = System.Text.Encoding.UTF8.GetString(raw);
-				long.TryParse(s, out userId);
+			try {
+				byte[] raw = Convert.FromBase64String (id); 
+				string s = System.Text.Encoding.UTF8.GetString (raw);
+				long.TryParse (s, out userId);
 
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				LoggingController.LogError (ex, id);
 			}
 
 			return userId;
 		}
 
-		public static async Task<string> DownloadImage(string imagePath, string documentsPath, string fileName)
+		public static async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
 		{
-			if(imagePath.Contains("00000000-0000-0000-0000-000000000000")){
+			if (imagePath.Contains ("00000000-0000-0000-0000-000000000000")) {
 				return string.Empty;
 			}
 
-			var semaphore = locks.GetOrAdd(imagePath, new SemaphoreSlim(1, 1));
-			await semaphore.WaitAsync();
+			var semaphore = locks.GetOrAdd (imagePath, new SemaphoreSlim (1, 1));
+			await semaphore.WaitAsync ();
 
 			string jpgFilename = Path.Combine (documentsPath, fileName);
 
-			try{
+			try {
 				using (var webClient = new WebClient ()) {
 
 					var imageData = webClient.DownloadDataTaskAsync (new Uri (imagePath));
@@ -49,63 +50,64 @@ namespace Busidex.Mobile
 						File.WriteAllBytes (localPath, imageData.Result); // writes to local storage  
 					}
 				}
-			}
-			catch(Exception ex){
-				Xamarin.Insights.Report(new Exception("Error loading " + imagePath, ex));
-			}
-			finally{
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (new Exception ("Error loading " + imagePath, ex));
+			} finally {
 				semaphore.Release ();
 			}
 
 			return jpgFilename;
 		}
 
-		public static string EncodeUserId(long userId){
+		public static string EncodeUserId (long userId)
+		{
 
-			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString(CultureInfo.InvariantCulture));
-			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes (userId.ToString (CultureInfo.InvariantCulture));
+			string returnValue = Convert.ToBase64String (toEncodeAsBytes);
 			return returnValue;
 		}
 
-		public static void SaveResponse(string response, string fileName){
+		public static void SaveResponse (string response, string fileName)
+		{
 			var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
-			try{
-				if(File.Exists(fullFilePath)){
-					if(!IsFileInUse(new FileInfo(fullFilePath))){
+			try {
+				if (File.Exists (fullFilePath)) {
+					if (!IsFileInUse (new FileInfo (fullFilePath))) {
 						File.WriteAllText (fullFilePath, response);
 					}
-				}else{
+				} else {
 					File.WriteAllText (fullFilePath, response);
 				}
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 			}
 		}
 
-		public static void RemoveQuickShareLink(){
+		public static void RemoveQuickShareLink ()
+		{
 			var quickShareFile = Path.Combine (Resources.DocumentsPath, Resources.QUICKSHARE_LINK);
 			if (File.Exists (quickShareFile)) {
 				File.Delete (quickShareFile);
 			}
 		}
 
-		public static QuickShareLink GetQuickShareLink(){
+		public static QuickShareLink GetQuickShareLink ()
+		{
 
-			try
-			{
+			try {
 				string fullFileName = Path.Combine (Resources.DocumentsPath, Resources.QUICKSHARE_LINK);
-				if(!File.Exists(fullFileName)){
+				if (!File.Exists (fullFileName)) {
 					return null;
 				}
 
-				using (var file = File.OpenText (fullFileName)){
+				using (var file = File.OpenText (fullFileName)) {
 					var fileJson = file.ReadToEnd ();
 					file.Close ();
-					return Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
+					var quickShareLink = Newtonsoft.Json.JsonConvert.DeserializeObject<QuickShareLink> (fileJson);
+					UISubscriptionService.AppQuickShareLink = quickShareLink;
+					return quickShareLink;
 				}
-			}
-			catch (IOException)
-			{
+			} catch (IOException) {
 				//the file is unavailable because it is:
 				//still being written to
 				//or being processed by another thread
@@ -114,57 +116,52 @@ namespace Busidex.Mobile
 			}
 		}
 
-		public static T GetCachedResult<T>(string fileName) where T : new() {
-			try
-			{
-				if(!File.Exists(fileName)){
-					return new T();
+		public static T GetCachedResult<T> (string fileName) where T : new()
+		{
+			try {
+				if (!File.Exists (fileName)) {
+					return new T ();
 				}
 
-				using (var file = File.OpenText (fileName)){
+				using (var file = File.OpenText (fileName)) {
 					var fileJson = file.ReadToEnd ();
 					file.Close ();
 					return Newtonsoft.Json.JsonConvert.DeserializeObject<T> (fileJson);
 				}
-			}
-			catch (IOException)
-			{
+			} catch (IOException) {
 				//the file is unavailable because it is:
 				//still being written to
 				//or being processed by another thread
 				//or does not exist (has already been processed)
-				return new T();
+				return new T ();
 			}		
 		}
 
-		static bool IsFileInUse(FileInfo file){
+		static bool IsFileInUse (FileInfo file)
+		{
 			FileStream stream = null;
 
-			try
-			{
-				if(!File.Exists(file.FullName)){
+			try {
+				if (!File.Exists (file.FullName)) {
 					return false;
 				}
 
-				stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-			}
-			catch (IOException)
-			{
+				stream = file.Open (FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+			} catch (IOException) {
 				//the file is unavailable because it is:
 				//still being written to
 				//or being processed by another thread
 				//or does not exist (has already been processed)
 				return true;
-			}
-			finally
-			{
+			} finally {
 				if (stream != null)
-					stream.Close();
+					stream.Close ();
 			}
 			return false; 
 		}
 
-		public static void RemoveCacheFiles(){
+		public static void RemoveCacheFiles ()
+		{
 			var myBusidexLocalFile = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 			if (File.Exists (myBusidexLocalFile)) {
 				File.Delete (myBusidexLocalFile);

@@ -1701,8 +1701,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f020078
 			public const int notification = 2130837624;
 			
-			// aapt resource value: 0x7f0200a6
-			public const int notification_template_icon_bg = 2130837670;
+			// aapt resource value: 0x7f0200a7
+			public const int notification_template_icon_bg = 2130837671;
 			
 			// aapt resource value: 0x7f020079
 			public const int NotificationDisabled = 2130837625;
@@ -1774,70 +1774,73 @@ namespace Busidex.Presentation.Droid.v2
 			public const int share = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int spinner_ab_default_busidexactionbar = 2130837648;
+			public const int ShareIcon = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int spinner_ab_disabled_busidexactionbar = 2130837649;
+			public const int spinner_ab_default_busidexactionbar = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int spinner_ab_focused_busidexactionbar = 2130837650;
+			public const int spinner_ab_disabled_busidexactionbar = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int spinner_ab_pressed_busidexactionbar = 2130837651;
+			public const int spinner_ab_focused_busidexactionbar = 2130837651;
 			
 			// aapt resource value: 0x7f020094
-			public const int spinner_background_ab_busidexactionbar = 2130837652;
+			public const int spinner_ab_pressed_busidexactionbar = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int splash = 2130837653;
+			public const int spinner_background_ab_busidexactionbar = 2130837653;
 			
 			// aapt resource value: 0x7f020096
-			public const int splash2 = 2130837654;
+			public const int splash = 2130837654;
 			
 			// aapt resource value: 0x7f020097
-			public const int spotlight_icon = 2130837655;
+			public const int splash2 = 2130837655;
 			
 			// aapt resource value: 0x7f020098
-			public const int swipe_down = 2130837656;
+			public const int spotlight_icon = 2130837656;
 			
 			// aapt resource value: 0x7f020099
-			public const int swipe_right = 2130837657;
+			public const int swipe_down = 2130837657;
 			
 			// aapt resource value: 0x7f02009a
-			public const int sync = 2130837658;
+			public const int swipe_right = 2130837658;
 			
 			// aapt resource value: 0x7f02009b
-			public const int tab_indicator_ab_busidexactionbar = 2130837659;
+			public const int sync = 2130837659;
 			
 			// aapt resource value: 0x7f02009c
-			public const int tab_selected_busidexactionbar = 2130837660;
+			public const int tab_indicator_ab_busidexactionbar = 2130837660;
 			
 			// aapt resource value: 0x7f02009d
-			public const int tab_selected_focused_busidexactionbar = 2130837661;
+			public const int tab_selected_busidexactionbar = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int tab_selected_pressed_busidexactionbar = 2130837662;
+			public const int tab_selected_focused_busidexactionbar = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int tab_unselected_busidexactionbar = 2130837663;
+			public const int tab_selected_pressed_busidexactionbar = 2130837663;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int tab_unselected_focused_busidexactionbar = 2130837664;
+			public const int tab_unselected_busidexactionbar = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int tab_unselected_pressed_busidexactionbar = 2130837665;
+			public const int tab_unselected_focused_busidexactionbar = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int textmessage = 2130837666;
+			public const int tab_unselected_pressed_busidexactionbar = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int twitter = 2130837667;
+			public const int textmessage = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int underline = 2130837668;
+			public const int twitter = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int white_underline = 2130837669;
+			public const int underline = 2130837669;
+			
+			// aapt resource value: 0x7f0200a6
+			public const int white_underline = 2130837670;
 			
 			static Drawable()
 			{

@@ -44,11 +44,15 @@ namespace Busidex.Presentation.iOS
 					imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
 				} else {
 					ShowOverlay ();
-					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
-							imgCard.Image = SelectedCard.Card.BackOrientation == "H" 
-								? new UIImage (UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right) 
-								: UIImage.FromFile (FrontFileName);
+							var image = UIImage.FromFile (FrontFileName);
+							if (image != null) {
+								imgCard.Image = SelectedCard.Card.BackOrientation == "H" 
+									? new UIImage (image.CGImage, 1, UIImageOrientation.Up) 
+									: image;	
+							}
+
 							Overlay.Hide ();
 						});
 					});
@@ -118,37 +122,41 @@ namespace Busidex.Presentation.iOS
 			} else {
 				// send text message with quick share link
 				var smsTask = MessagingPlugin.SmsMessenger;
-				if (smsTask.CanSendSms || true) {
+				if (smsTask.CanSendSms) {
 					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, cookie.Value).ContinueWith (r => {
 
 						var user = NSUserDefaults.StandardUserDefaults;
 						var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
 
 						var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
+						var userId = Utils.DecodeUserId (cookie.Value);
 						if (template != null) {
 							string message = string.Format (template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine +
-							                 string.Format (template.Template.Body, SelectedCard.Card.CardId, Utils.DecodeUserId (cookie.Value), displayName, personalMessage,
-								                 Environment.NewLine);
-						
-							int startIdx = message.IndexOf ('[');
-							int endIdx = message.IndexOf (']');
-							string originalUrl = message.Substring (startIdx + 1, endIdx - startIdx - 2);
-							string url = WebUtility.UrlEncode (originalUrl);
+							                 template.Template.Body;
+							
+							var parameters = new QuickShareLink {
+								CardId = SelectedCard.Card.CardId,
+								From = userId,
+								DisplayName = displayName,
+								PersonalMessage = personalMessage
+							};
 
-							UrlShortenerController.ShortenUrl (url).ContinueWith (resp => {
+							var resp = BranchApiController.GetBranchUrl (parameters);
+							string shortendUrl = resp;
+							if (shortendUrl != null && !shortendUrl.Contains ("error")) {
 
-								var bitlyResponse = resp.Result;
-								if (bitlyResponse != null) {
-									message = message.Replace (originalUrl, bitlyResponse).Replace ("[", "").Replace ("]", "");
+								var branchUrl = Newtonsoft.Json.JsonConvert.DeserializeObject<BranchUrl> (shortendUrl);
+								message = message + branchUrl.url;
 
-									InvokeOnMainThread (() => {
-										smsTask.SendSms (phoneNumber, message);
-										resetFields ();
-									});
-								}
-							});
-
-
+								InvokeOnMainThread (() => {
+									smsTask.SendSms (phoneNumber, message);
+									resetFields ();
+								});
+							} else {
+								InvokeOnMainThread (() => ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new string[] {
+									"Ok"
+								}));
+							}
 						}
 					});
 				}

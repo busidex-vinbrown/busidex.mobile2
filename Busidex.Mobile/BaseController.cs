@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Xamarin;
+using System.Collections.Generic;
 
 namespace Busidex.Mobile
 {
@@ -11,80 +12,79 @@ namespace Busidex.Mobile
 	{
 		const string ERROR_MESSAGE = "Error";
 
-		protected static async Task<string> MakeRequestAsync(string url, string method, string token, object data = null, HttpMessageHandler handler = null){
+		protected static async Task<string> MakeRequestAsync (string url, string method, string token, object data = null, HttpMessageHandler handler = null)
+		{
 			
 			string response = string.Empty;
 
 			try {
 				var request = new HttpRequestMessage (new HttpMethod (method), url);
-				var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
+				var httpClient = handler == null ? new HttpClient () : new HttpClient (handler);
+				httpClient.DefaultRequestHeaders.Accept.Add (new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue ("application/json"));
 
 				ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
 				request.Method = new HttpMethod (method);
 
 				request.Headers.Add ("x-authorization-token", token);
 
-				if(method == "POST"){
+				if (method == "POST") {
 
-					HttpContent content = new JsonContent(data);
-					content.Headers.Add("x-authorization-token", token);
-					await httpClient.PostAsync (url, content).ContinueWith(async r => {
-						if(!r.IsFaulted){
+					HttpContent content = new JsonContent (data);
+					content.Headers.Add ("x-authorization-token", token);
+					await httpClient.PostAsync (url, content).ContinueWith (async r => {
+						if (!r.IsFaulted) {
 							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync();
+							response = await _response.Content.ReadAsStringAsync ();
 						}
 					});	
-				}else if(method == "PUT"){
+				} else if (method == "PUT") {
 
-					HttpContent content = new JsonContent(data);
-					content.Headers.Add("x-authorization-token", token);
-					await httpClient.PutAsync (url, content).ContinueWith(async r => {
-						if(!r.IsFaulted){
+					HttpContent content = new JsonContent (data);
+					content.Headers.Add ("x-authorization-token", token);
+					await httpClient.PutAsync (url, content).ContinueWith (async r => {
+						if (!r.IsFaulted) {
 							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync();
+							response = await _response.Content.ReadAsStringAsync ();
 						}
 					});	
-				}else if(method == "DELETE"){
+				} else if (method == "DELETE") {
 
-					httpClient.DefaultRequestHeaders.Add("x-authorization-token", token);
-					await httpClient.DeleteAsync (url).ContinueWith(async r => {
-						if(!r.IsFaulted){
+					httpClient.DefaultRequestHeaders.Add ("x-authorization-token", token);
+					await httpClient.DeleteAsync (url).ContinueWith (async r => {
+						if (!r.IsFaulted) {
 							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync();
+							response = await _response.Content.ReadAsStringAsync ();
+						}
+					});
+				} else {
+					await httpClient.SendAsync (request).ContinueWith (async r => {
+						if (!r.IsFaulted) {
+							var _response = await r;
+							response = await _response.Content.ReadAsStringAsync ();
 						}
 					});
 				}
-				else{
-					await httpClient.SendAsync (request).ContinueWith(async r => {
-						if(!r.IsFaulted){
-							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync();
-						}
-					});
-				}
-			} 
-
-			catch(AggregateException e){
+			} catch (AggregateException e) {
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
 					UserId = -1,
 					ReasonPhrase = e.InnerException.Message
 				});
-				Insights.Report(e);
-			}
-			catch (Exception e) {
+				Insights.Report (e);
+			} catch (Exception e) {
 				LoggingController.LogError (e, token);
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
 					UserId = -1,
 					ReasonPhrase = e.Message
 				});
-				Insights.Report(e);
+				Insights.Report (e);
 			}
 			return response;
 		}
 
-		protected static string MakeRequest(string url, string method, string token, string data = null, HttpMessageHandler handler = null){
+		protected static string MakeRequest (string url, string method, string token, string data = null, HttpMessageHandler handler = null)
+		{
 
 		
 			url = url.Replace ("https", "http");
@@ -99,7 +99,7 @@ namespace Busidex.Mobile
 //				return ERROR_MESSAGE;
 //			}
 				
-			if(data != null){
+			if (data != null) {
 				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
 				writer.Write (data);
 				request.ContentType = "application/json";
@@ -130,46 +130,45 @@ namespace Busidex.Mobile
 //
 //				});
 
-				var webResponse = request.GetResponse();
+				var webResponse = request.GetResponse ();
 
-				using (var webStream = webResponse.GetResponseStream()) {
+				using (var webStream = webResponse.GetResponseStream ()) {
 					var responseReader = new StreamReader (webStream);
-					response = responseReader.ReadToEnd();
+					response = responseReader.ReadToEnd ();
 
-					responseReader.Close();
+					responseReader.Close ();
 
 					return response;
 				}
-			} 
-			catch(WebException e){
-				if(e.Status == WebExceptionStatus.ProtocolError){
+			} catch (WebException e) {
+				if (e.Status == WebExceptionStatus.ProtocolError) {
 					results = e.Message;
-				}else{
+				} else {
 					if (e.Message.Contains ("NameResolutionFailure")) {
 						results = ERROR_MESSAGE;
-					}else if(e.Message.Contains("ConnectFailure")){
+					} else if (e.Message.Contains ("ConnectFailure")) {
 						results = ERROR_MESSAGE;
 					} else {
 						throw new Exception (e.Message);
 					}
 				}
-				Insights.Report(e);
+				Insights.Report (e);
 				return results;
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				//NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 				//LoggingController.LogError (e, token);
 				results = ERROR_MESSAGE;
-				Insights.Report(e);
+				Insights.Report (e);
 				return results;
 			}
 
 			//return results;
 		}
 
-		protected static async Task<string> MakeExternalReequest(string url, string method, object data = null){
+		protected static async Task<string> MakeExternalReequest (string url, string method, object data = null)
+		{
 			var request = new HttpRequestMessage (new HttpMethod (method), url);
-			var httpClient = new HttpClient();
+			var httpClient = new HttpClient ();
 
 			string response = string.Empty;
 
@@ -177,19 +176,18 @@ namespace Busidex.Mobile
 
 			try {
 
-				await httpClient.SendAsync (request).ContinueWith(async r => {
+				await httpClient.SendAsync (request).ContinueWith (async r => {
 					var _response = await r;
 
-					response = await _response.Content.ReadAsStringAsync();
+					response = await _response.Content.ReadAsStringAsync ();
 				});
-			} 
-			catch (Exception e) {
+			} catch (Exception e) {
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
 					UserId = -1,
 					ReasonPhrase = e.Message
 				});
-				Insights.Report(e);
+				Insights.Report (e);
 			}
 			return response;
 		}

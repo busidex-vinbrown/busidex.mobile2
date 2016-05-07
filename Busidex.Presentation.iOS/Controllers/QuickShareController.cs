@@ -13,8 +13,9 @@ namespace Busidex.Presentation.iOS
 	{
 		QuickShareLink Link;
 
-		public QuickShareController (IntPtr handle) : base (handle){
-			documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		public QuickShareController (IntPtr handle) : base (handle)
+		{
+			documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 		}
 
 		public override void ViewDidLoad ()
@@ -24,11 +25,13 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		public void SetCardSharingInfo(QuickShareLink link){
+		public void SetCardSharingInfo (QuickShareLink link)
+		{
 			Link = link;
 		}
 
-		public void LoadCard(){
+		public void LoadCard ()
+		{
 
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (true, true);
@@ -42,8 +45,8 @@ namespace Busidex.Presentation.iOS
 			}
 
 			// Perform any additional setup after loading the view, typically from a nib.
-			var result = CardController.GetCardById(token, Link.CardId);
-			if(!string.IsNullOrEmpty(result)){
+			var result = CardController.GetCardById (token, Link.CardId);
+			if (!string.IsNullOrEmpty (result)) {
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
 				var card = cardResponse.Model;
 				var fileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName);
@@ -56,24 +59,26 @@ namespace Busidex.Presentation.iOS
 				const float messageLeft = 20f;
 				var messageTop = cardTop + cardHeight;
 				const float messageWidth = 280f;
-				const float messageHeight = 90f;
+				const float messageHeight = 130f;
 				lblMessage.Frame = new RectangleF (messageLeft, messageTop, messageWidth, messageHeight);
 
 				messageTop += messageHeight;
 
-				lblPersonalMessage.Frame = new RectangleF (messageLeft, messageTop, messageWidth, messageHeight);
+				lblPersonalMessage.Frame = new RectangleF (messageLeft, messageTop, messageWidth, 170f);
 
 				imgSharedCard.Frame = new RectangleF (leftMargin, cardTop, cardWidth, cardHeight);
 				
 				if (File.Exists (fileName)) {
 					imgSharedCard.Image = UIImage.FromFile (fileName);
-				}else{
+					imgSharedCard.Layer.AddSublayer (GetBorder (imgSharedCard.Frame, UIColor.Gray.CGColor));
+				} else {
 					ShowOverlay ();
 
 					Utils.DownloadImage (Resources.CARD_PATH + card.FrontFileName, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
 							imgSharedCard.Image = UIImage.FromFile (fileName);
-							Overlay.Hide();
+							imgSharedCard.Layer.AddSublayer (GetBorder (imgSharedCard.Frame, UIColor.Gray.CGColor));
+							Overlay.Hide ();
 						});
 					});
 				}
@@ -86,11 +91,12 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewDidAppear (animated);
 
-			lblMessage.Text = string.Format (lblMessage.Text, Link.DisplayName);
+			lblMessage.Text = string.Format (lblMessage.Text, Link.DisplayName, Link.PersonalMessage.Trim ());
 			lblPersonalMessage.Text = Link.PersonalMessage.Trim ();//+ "\"";
 		}
 
-		public void SaveFromUrl(){
+		public void SaveFromUrl ()
+		{
 
 			var sharedCardController = new Busidex.Mobile.SharedCardController ();
 			var cookie = GetAuthCookie ();
@@ -112,7 +118,7 @@ namespace Busidex.Presentation.iOS
 					UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
 					Notes = string.Empty
 				};
-				UISubscriptionService.AddCardToMyBusidex(userCard);
+				UISubscriptionService.AddCardToMyBusidex (userCard);
 
 				sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);
 				Utils.RemoveQuickShareLink ();
