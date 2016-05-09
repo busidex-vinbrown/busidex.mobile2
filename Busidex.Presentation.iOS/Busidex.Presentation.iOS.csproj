@@ -425,6 +425,7 @@
     <BundleResource Include="Resources\contacts.jpg" />
     <BundleResource Include="Resources\contacts2.png" />
     <BundleResource Include="Resources\ShareIcon.png" />
+    <BundleResource Include="Resources\spinner.gif" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

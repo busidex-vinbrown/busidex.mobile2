@@ -36,12 +36,14 @@ namespace Busidex.Mobile
 		public static event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
 		public static event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
 		public static event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
-		public static event OnMyOrganizationMembersLoadedEventHandler OnMyOrganizationMembersLoaded;
 		public static event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
-		public static event OnMyOrganizationReferralsLoadedEventHandler OnMyOrganizationReferralsLoaded;
 		public static event OnEventListLoadedEventHandler OnEventListLoaded;
 		public static event OnEventListUpdatedEventHandler OnEventListUpdated;
-		public static event OnEventCardsLoadedEventHandler OnEventCardsLoaded;
+
+		public static Dictionary<string, OnEventCardsLoadedEventHandler> EventCardsLoadedEventTable;
+		public static Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
+		public static Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
+
 		public static event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
@@ -202,7 +204,12 @@ namespace Busidex.Mobile
 					OnEventListLoaded (EventList);
 				}
 
+				EventCardsLoadedEventTable = new Dictionary<string, OnEventCardsLoadedEventHandler> ();
+
 				foreach (var ev in EventList) {
+					if (!EventCardsLoadedEventTable.ContainsKey (ev.Text)) {
+						EventCardsLoadedEventTable.Add (ev.Text, null);
+					}
 					if (!EventCards.ContainsKey (ev.Text)) {
 						EventCards.Add (ev.Text, new List<UserCard> ());
 					}
@@ -220,6 +227,15 @@ namespace Busidex.Mobile
 
 				if (OrganizationsLoaded && OnMyOrganizationsLoaded != null) {
 					OnMyOrganizationsLoaded (OrganizationList);
+				}
+
+
+				OrganizationMembersLoadedEventTable = new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> ();
+				OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
+
+				foreach (Organization org in OrganizationList) {
+					OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);
+					OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
 				}
 
 				foreach (var org in OrganizationList) {
@@ -304,9 +320,8 @@ namespace Busidex.Mobile
 			});	 	
 		}
 
-		public static void AddCardToMyBusidex (UserCard userCard)
+		public static async void AddCardToMyBusidex (UserCard userCard)
 		{
-
 			try {
 				var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 				if (userCard != null) {
@@ -323,17 +338,17 @@ namespace Busidex.Mobile
 						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
 						Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
 
-						if (UserCards.FirstOrDefault (c => c.CardId == userCard.CardId) == null) {
+						if (!UserCards.Any (c => c.CardId.Equals (userCard.CardId))) {
 							UserCards.Add (userCard);
 						}
 					}
 
-					myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
+					await myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
 					UserCards = sortUserCards ();
 
 					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
-				}
+				} 
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
@@ -479,7 +494,7 @@ namespace Busidex.Mobile
 			} else {
 				EventCardsLoaded [tag.Text] = false;
 			}
-
+				
 			var fileName = string.Format (Resources.EVENT_CARDS_FILE, tag.EventTagId);
 			var semaphore = locks.GetOrAdd (fileName, new SemaphoreSlim (1, 1));
 			await semaphore.WaitAsync ();
@@ -552,15 +567,15 @@ namespace Busidex.Mobile
 					EventCardsLoading [tag.Text] = false;
 					EventCardsLoaded [tag.Text] = true;
 
-					if (OnEventCardsLoaded != null) {
-						OnEventCardsLoaded (tag, EventCards [tag.Text]);
+					if (EventCardsLoadedEventTable [tag.Text] != null) {
+						EventCardsLoadedEventTable [tag.Text] (tag, EventCards [tag.Text]);
 					}
 				});
 			} catch (Exception ex) {
 				EventCardsLoading [tag.Text] = false;
 				EventCardsLoaded [tag.Text] = true;
-				if (OnEventCardsLoaded != null && EventCards.ContainsKey (tag.Text)) {
-					OnEventCardsLoaded (tag, EventCards [tag.Text]);
+				if (EventCardsLoadedEventTable [tag.Text] != null && EventCards.ContainsKey (tag.Text)) {
+					EventCardsLoadedEventTable [tag.Text] (tag, EventCards [tag.Text]);
 				}
 				Xamarin.Insights.Report (new Exception ("Error loading event cards", ex));
 			} finally {
@@ -593,7 +608,12 @@ namespace Busidex.Mobile
 						var eventListResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<EventListResponse> (r.Result);
 						EventList.AddRange (eventListResponse.Model);
 					}
-
+					EventCardsLoadedEventTable = new Dictionary<string, OnEventCardsLoadedEventHandler> ();
+					foreach (var e in EventList) {
+						if (!EventCardsLoadedEventTable.ContainsKey (e.Text)) {
+							EventCardsLoadedEventTable.Add (e.Text, null);
+						}
+					}
 					var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject (EventList);
 
 					Utils.SaveResponse (savedEvents, Resources.EVENT_LIST_FILE);
@@ -658,6 +678,14 @@ namespace Busidex.Mobile
 
 							var status = new ProgressStatus ();
 							status.Total = myOrganizationsResponse.Model.Count;
+
+							OrganizationMembersLoadedEventTable = new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> ();
+							OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
+
+							foreach (Organization org in myOrganizationsResponse.Model) {
+								OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);
+								OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+							}
 
 							// Get Organization members and referals
 							foreach (Organization org in myOrganizationsResponse.Model) {
@@ -746,9 +774,9 @@ namespace Busidex.Mobile
 
 					OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
 					if (!OrganizationReferrals.ContainsKey (organizationId)) {
-						OrganizationReferrals.Add (organizationId, orgReferralResponse.Model);
+						OrganizationReferrals.Add (organizationId, orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ());
 					} else {
-						OrganizationReferrals [organizationId] = orgReferralResponse.Model;
+						OrganizationReferrals [organizationId] = orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ();
 					}
 
 					var status = new ProgressStatus ();
@@ -787,15 +815,15 @@ namespace Busidex.Mobile
 					OrganizationReferralsLoading [organizationId] = false;
 					OrganizationReferralsLoaded [organizationId] = true;
 
-					if (OnMyOrganizationReferralsLoaded != null) {
-						OnMyOrganizationReferralsLoaded (OrganizationReferrals [organizationId]);
+					if (OrganizationReferralsLoadedEventTable.ContainsKey (organizationId) && OrganizationReferralsLoadedEventTable [organizationId] != null) {
+						OrganizationReferralsLoadedEventTable [organizationId] (OrganizationReferrals [organizationId]);
 					}
 				});
 			} catch (Exception ex) {
 				OrganizationReferralsLoading [organizationId] = false;
 				OrganizationReferralsLoaded [organizationId] = true;
-				if (OnMyOrganizationReferralsLoaded != null && OrganizationReferrals.ContainsKey (organizationId)) {
-					OnMyOrganizationReferralsLoaded (OrganizationReferrals [organizationId]);
+				if (OrganizationReferralsLoadedEventTable != null && OrganizationReferralsLoadedEventTable.ContainsKey (organizationId) && OrganizationReferralsLoadedEventTable [organizationId] != null && OrganizationReferrals.ContainsKey (organizationId)) {
+					OrganizationReferralsLoadedEventTable [organizationId] (OrganizationReferrals [organizationId]);
 				}
 				Xamarin.Insights.Report (new Exception ("Error Loading Organization Referrals", ex));
 			} finally {
@@ -833,8 +861,8 @@ namespace Busidex.Mobile
 						OrganizationMembersLoading [organizationId] = false;
 						OrganizationMembersLoaded [organizationId] = true;
 
-						if (OnMyOrganizationMembersLoaded != null) {
-							OnMyOrganizationMembersLoaded (new List<Card> ());
+						if (OrganizationMembersLoadedEventTable.ContainsKey (organizationId) && OrganizationMembersLoadedEventTable [organizationId] != null) {
+							OrganizationMembersLoadedEventTable [organizationId] (OrganizationMembers [organizationId]);
 						}
 					} else {
 
@@ -886,16 +914,16 @@ namespace Busidex.Mobile
 						OrganizationMembersLoading [organizationId] = false;
 						OrganizationMembersLoaded [organizationId] = true;
 
-						if (OnMyOrganizationMembersLoaded != null) {
-							OnMyOrganizationMembersLoaded (OrganizationMembers [organizationId]);
+						if (OrganizationMembersLoadedEventTable.ContainsKey (organizationId) && OrganizationMembersLoadedEventTable [organizationId] != null) {
+							OrganizationMembersLoadedEventTable [organizationId] (OrganizationMembers [organizationId]);
 						}
 					}
 				});
 			} catch (Exception ex) {
 				OrganizationMembersLoading [organizationId] = false;
 				OrganizationMembersLoaded [organizationId] = true;
-				if (OnMyOrganizationMembersLoaded != null && OrganizationMembers.ContainsKey (organizationId)) {
-					OnMyOrganizationMembersLoaded (OrganizationMembers [organizationId]);
+				if (OrganizationMembersLoadedEventTable != null && OrganizationMembersLoadedEventTable.ContainsKey (organizationId) && OrganizationMembersLoadedEventTable [organizationId] != null) {
+					OrganizationMembersLoadedEventTable [organizationId] (OrganizationMembers [organizationId]);
 				}
 				Xamarin.Insights.Report (new Exception ("Error Loading Organization Members", ex));
 			} finally {
@@ -973,7 +1001,7 @@ namespace Busidex.Mobile
 					}
 
 					UserCards.Clear ();
-					UserCards.AddRange (cards);
+					UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()));
 
 					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
 

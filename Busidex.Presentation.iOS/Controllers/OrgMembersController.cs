@@ -13,20 +13,25 @@ namespace Busidex.Presentation.iOS
 	public partial class OrgMembersController : BaseCardViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
+
 		public long OrganizationId{ get; set; }
+
 		public string OrganizationName{ get; set; }
+
 		public string OrganizationLogo{ get; set; }
 
-		public enum MemberMode{
+		public enum MemberMode
+		{
 			Members = 1,
 			Referrals = 2
 		}
+
 		List<UserCard> FilterResults;
 		List<UserCard> Cards;
 
 		const string NO_CARDS = "There are no {0} in this organization";
 
-		public MemberMode OrganizationMemberMode{ get; set;}
+		public MemberMode OrganizationMemberMode{ get; set; }
 
 		MyBusidexLoadingOverlay overlay;
 
@@ -34,19 +39,21 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		void SetNavBarOrgImage(){
+		void SetNavBarOrgImage ()
+		{
 			var fileName = Path.Combine (documentsPath, OrganizationLogo);
 
 			var imageFile = fileName;
 			if (File.Exists (imageFile)) {
 				var data = NSData.FromFile (imageFile);
 				if (data != null) {
-					imgLogo.Image = new UIImage (data);
+					btnOrgImage.SetBackgroundImage (new UIImage (data), UIControlState.Normal);
 				}
 			}
 		}
 
-		void SetFilter(string filter){
+		void SetFilter (string filter)
+		{
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
 
@@ -57,10 +64,10 @@ namespace Busidex.Presentation.iOS
 				(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant ().Contains (loweredFilter)) ||
 				(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant ().Contains (loweredFilter)) ||
 				(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter))) ||
-				(c.Card.Tags != null && c.Card.Tags.Any(t => t.Text.ToLowerInvariant().Contains(loweredFilter)))
-			));
+				(c.Card.Tags != null && c.Card.Tags.Any (t => t.Text.ToLowerInvariant ().Contains (loweredFilter)))
+				));
 
-			TableSource src = ConfigureTableSourceEventHandlers(FilterResults);
+			TableSource src = ConfigureTableSourceEventHandlers (FilterResults);
 			src.IsFiltering = true;
 			tblMembers.Source = src;
 			tblMembers.ReloadData ();
@@ -68,11 +75,12 @@ namespace Busidex.Presentation.iOS
 			tblMembers.SetNeedsDisplay ();
 		}
 
-		void ResetFilter(){
+		void ResetFilter ()
+		{
 
 			txtSearch.Text = string.Empty;
-			TableSource src = ConfigureTableSourceEventHandlers(Cards);
-			src.NoCardsMessage = string.Format(NO_CARDS, (OrganizationMemberMode == MemberMode.Members ? "members" : "referrals"));
+			TableSource src = ConfigureTableSourceEventHandlers (Cards);
+			src.NoCardsMessage = string.Format (NO_CARDS, (OrganizationMemberMode == MemberMode.Members ? "members" : "referrals"));
 			src.IsFiltering = false;
 			tblMembers.Source = src;
 			tblMembers.ReloadData ();
@@ -80,29 +88,31 @@ namespace Busidex.Presentation.iOS
 			tblMembers.SetNeedsDisplay ();
 		}
 
-		void ConfigureSearchBar(){
+		void ConfigureSearchBar ()
+		{
 
 			txtSearch.Placeholder = "Filter";
 			txtSearch.BarStyle = UIBarStyle.Default;
 			txtSearch.ShowsCancelButton = true;
 
 			txtSearch.SearchButtonClicked += delegate {
-				SetFilter(txtSearch.Text);
-				txtSearch.ResignFirstResponder();
+				SetFilter (txtSearch.Text);
+				txtSearch.ResignFirstResponder ();
 			};
 			txtSearch.CancelButtonClicked += delegate {
-				ResetFilter();
-				txtSearch.ResignFirstResponder();
+				ResetFilter ();
+				txtSearch.ResignFirstResponder ();
 			};
 			txtSearch.TextChanged += delegate {
-				if(txtSearch.Text.Length == 0){
-					ResetFilter();
-					txtSearch.ResignFirstResponder();
+				if (txtSearch.Text.Length == 0) {
+					ResetFilter ();
+					txtSearch.ResignFirstResponder ();
 				}
 			};
 		}
 
-		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
+		TableSource ConfigureTableSourceEventHandlers (List<UserCard> data)
+		{
 			var src = new OrgMemberTableSource (data);
 			src.ShowNoCardMessage = !data.Any ();
 			src.NoCardsMessage = "No members have been loaded for this organization";
@@ -111,12 +121,16 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
-		async void loadCards(){
+		async void loadCards ()
+		{
 
 			Cards = new List<UserCard> ();
 
 			if (OrganizationMemberMode == MemberMode.Members) {
-				if (!UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId) || UISubscriptionService.OrganizationMembers[OrganizationId] == null) {
+				if (!UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId) ||
+				    UISubscriptionService.OrganizationMembers [OrganizationId] == null ||
+				    !UISubscriptionService.OrganizationMembersLoaded.ContainsKey (OrganizationId) ||
+				    !UISubscriptionService.OrganizationMembersLoaded [OrganizationId]) {
 
 					InvokeOnMainThread (() => {
 						overlay = new MyBusidexLoadingOverlay (View.Bounds);
@@ -125,7 +139,7 @@ namespace Busidex.Presentation.iOS
 					});
 
 					OnMyOrganizationMembersUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-						if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+						if (IsViewLoaded && View.Window != null) {  // no need to show anything if the view isn't visible any more
 							overlay.TotalItems = status.Total;
 							overlay.UpdateProgress (status.Count);
 						}
@@ -134,10 +148,8 @@ namespace Busidex.Presentation.iOS
 					OnMyOrganizationMembersLoadedEventHandler callback = list => InvokeOnMainThread (populateMembers);
 
 					UISubscriptionService.OnMyOrganizationMembersUpdated -= update;
-					UISubscriptionService.OnMyOrganizationMembersLoaded -= callback;
-
 					UISubscriptionService.OnMyOrganizationMembersUpdated += update;
-					UISubscriptionService.OnMyOrganizationMembersLoaded += callback;
+					UISubscriptionService.OrganizationMembersLoadedEventTable [OrganizationId] += callback;
 
 					await UISubscriptionService.LoadOrganizationMembers (OrganizationId);
 
@@ -145,7 +157,10 @@ namespace Busidex.Presentation.iOS
 					populateMembers ();
 				}
 			} else {
-				if (!UISubscriptionService.OrganizationReferrals.ContainsKey (OrganizationId) || UISubscriptionService.OrganizationReferrals[OrganizationId] == null) {
+				if (!UISubscriptionService.OrganizationReferrals.ContainsKey (OrganizationId) ||
+				    UISubscriptionService.OrganizationReferrals [OrganizationId] == null ||
+				    !UISubscriptionService.OrganizationReferralsLoaded.ContainsKey (OrganizationId) ||
+				    !UISubscriptionService.OrganizationReferralsLoaded [OrganizationId]) {
 
 					InvokeOnMainThread (() => {
 						overlay = new MyBusidexLoadingOverlay (View.Bounds);
@@ -154,7 +169,7 @@ namespace Busidex.Presentation.iOS
 					});
 
 					OnMyOrganizationReferralsUpdatedEventHandler update = status => InvokeOnMainThread (() => {
-						if(IsViewLoaded && View.Window != null){  // no need to show anything if the view isn't visible any more
+						if (IsViewLoaded && View.Window != null) {  // no need to show anything if the view isn't visible any more
 							overlay.TotalItems = status.Total;
 							overlay.UpdateProgress (status.Count);
 						}
@@ -163,10 +178,9 @@ namespace Busidex.Presentation.iOS
 					OnMyOrganizationReferralsLoadedEventHandler callback = list => InvokeOnMainThread (populateReferrals);
 
 					UISubscriptionService.OnMyOrganizationReferralsUpdated -= update;
-					UISubscriptionService.OnMyOrganizationReferralsLoaded -= callback;
-
 					UISubscriptionService.OnMyOrganizationReferralsUpdated += update;
-					UISubscriptionService.OnMyOrganizationReferralsLoaded += callback;
+
+					UISubscriptionService.OrganizationReferralsLoadedEventTable [OrganizationId] += callback;
 
 					await UISubscriptionService.LoadOrganizationReferrals (OrganizationId);
 				} else {
@@ -175,12 +189,13 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void populateMembers(){
+		void populateMembers ()
+		{
 			if (UISubscriptionService.OrganizationMembers.ContainsKey (OrganizationId)) {
 				foreach (var card in UISubscriptionService.OrganizationMembers[OrganizationId]) {
 					var userCard = new UserCard ();
 
-					var mbCard = UISubscriptionService.UserCards.SingleOrDefault (c => c.CardId == card.CardId);
+					var mbCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.CardId == card.CardId);
 
 					userCard.ExistsInMyBusidex = mbCard != null;
 					userCard.Card = card;
@@ -192,24 +207,25 @@ namespace Busidex.Presentation.iOS
 					Cards.Add (userCard);
 				}
 			}
-			if(overlay != null){
+			if (overlay != null) {
 				overlay.Hide ();
 			}
 			InvokeOnMainThread (ResetFilter);
 		}
 
-		void populateReferrals(){
+		void populateReferrals ()
+		{
 			if (UISubscriptionService.OrganizationReferrals.ContainsKey (OrganizationId)) {
 				Cards.AddRange (UISubscriptionService.OrganizationReferrals [OrganizationId]);
 
 				Cards.ForEach (card => {
-					var mbCard = UISubscriptionService.UserCards.SingleOrDefault (c => c.CardId == card.CardId);
-					if(mbCard != null){
+					var mbCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.CardId == card.CardId);
+					if (mbCard != null) {
 						card.Notes = mbCard.Notes;	
 					}
 				});
 			}
-			if(overlay != null){
+			if (overlay != null) {
 				overlay.Hide ();
 			}
 			InvokeOnMainThread (ResetFilter);
@@ -249,7 +265,14 @@ namespace Busidex.Presentation.iOS
 			txtSearch.Frame = new CoreGraphics.CGRect (0, height, width, 52);
 
 			height += txtSearch.Frame.Size.Height;
-			imgLogo.Frame = new CoreGraphics.CGRect (0, height, width, 57);
+			btnOrgImage.Frame = new CoreGraphics.CGRect (0, height, width, 57);
+			btnOrgImage.TouchUpInside += delegate {
+				if (NavigationController.ViewControllers.Any (c => c as OrganizationDetailController != null)) {
+					NavigationController.PopToViewController (orgDetailController, true);
+				} else {
+					NavigationController.PushViewController (orgDetailController, true);
+				}	
+			};
 
 			var top = height;
 			height = UIScreen.MainScreen.Bounds.Height - top;

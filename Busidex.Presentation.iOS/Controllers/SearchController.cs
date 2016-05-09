@@ -1,6 +1,4 @@
-﻿
-
-namespace Busidex.Presentation.iOS
+﻿namespace Busidex.Presentation.iOS
 {
 	using System;
 	using Foundation;
@@ -10,7 +8,6 @@ namespace Busidex.Presentation.iOS
 	using System.IO;
 	using System.Linq;
 	using System.Collections.Generic;
-	//using System.Threading.Tasks;
 	using GoogleAnalytics.iOS;
 
 	public partial class SearchController : BaseCardViewController
@@ -28,7 +25,6 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewDidAppear (animated);
 		}
-
 
 		public static bool SearchButtonHandlerAssigned;
 
@@ -54,22 +50,23 @@ namespace Busidex.Presentation.iOS
 				StartSearch ();
 				txtSearch.ResignFirstResponder ();
 					
-				try{
+				try {
 					DoSearch ();
-				}catch(AggregateException ex){
-					Xamarin.Insights.Report(ex);
+				} catch (AggregateException ex) {
+					Xamarin.Insights.Report (ex);
 				}
 
 			};
 			txtSearch.CancelButtonClicked += delegate {
-				txtSearch.ResignFirstResponder();
+				txtSearch.ResignFirstResponder ();
 			};
 			var height = NavigationController.NavigationBar.Frame.Size.Height;
 			height += UIApplication.SharedApplication.StatusBarFrame.Height;
 			txtSearch.Frame = new CoreGraphics.CGRect (0, height, UIScreen.MainScreen.Bounds.Width, 52);
 		}
 
-		void ShowPhoneNumbers(){
+		void ShowPhoneNumbers ()
+		{
 			var phoneViewController = Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
 			phoneViewController.SelectedCard = ((TableSource)vwSearchResults.Source).SelectedCard;
 
@@ -78,7 +75,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
+		TableSource ConfigureTableSourceEventHandlers (List<UserCard> data)
+		{
 			var src = new TableSource (data);
 			src.ShowNotes = false;
 			src.ShowNoCardMessage = !data.Any ();
@@ -88,9 +86,10 @@ namespace Busidex.Presentation.iOS
 			return src;
 		}
 
-		void LoadSearchResults(List<UserCard> cards){
+		void LoadSearchResults (List<UserCard> cards)
+		{
 
-			var src = ConfigureTableSourceEventHandlers(cards); 
+			var src = ConfigureTableSourceEventHandlers (cards); 
 			vwSearchResults.Hidden = false;
 			vwSearchResults.Source = src;
 			vwSearchResults.ReloadData ();
@@ -100,11 +99,12 @@ namespace Busidex.Presentation.iOS
 			Overlay.Hide ();
 		}
 
-		protected override void StartSearch(){
+		protected override void StartSearch ()
+		{
 
 			base.StartSearch ();
 
-			var src = new TableSource (new List<UserCard>());
+			var src = new TableSource (new List<UserCard> ());
 
 			vwSearchResults.Source = src;
 			vwSearchResults.ReloadData ();
@@ -114,14 +114,15 @@ namespace Busidex.Presentation.iOS
 			View.SetNeedsDisplay ();
 		}
 
-		protected void DoSearch(){
+		protected void DoSearch ()
+		{
 
 			var ctrl = new Busidex.Mobile.SearchController ();
-			ctrl.DoSearch (txtSearch.Text, UISubscriptionService.AuthToken).ContinueWith(response => {
+			ctrl.DoSearch (txtSearch.Text, UISubscriptionService.AuthToken).ContinueWith (response => {
 
 				var cards = new List<UserCard> ();
 
-				if(response == null || response.Result == null || string.IsNullOrEmpty(response.Result)){
+				if (response == null || response.Result == null || string.IsNullOrEmpty (response.Result)) {
 					InvokeOnMainThread (() => LoadSearchResults (cards));
 					return;
 				}
@@ -150,13 +151,13 @@ namespace Busidex.Presentation.iOS
 							if (!File.Exists (Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + item.FrontFileName))) {
 								Utils.DownloadImage (imageUrl, documentsPath, fName).ContinueWith (t => {
 									processed++;
-									if (processed.Equals(total)) {
+									if (processed.Equals (total)) {
 										InvokeOnMainThread (() => LoadSearchResults (cards));
 									} 
 								});
 							} else {
 								processed++;
-								if (processed.Equals(total)) {
+								if (processed.Equals (total)) {
 									InvokeOnMainThread (() => LoadSearchResults (cards));
 								}
 							}

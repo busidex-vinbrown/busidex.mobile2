@@ -131,9 +131,7 @@ namespace Busidex.Presentation.iOS
 
 		void AddToMyBusidex ()
 		{
-
 			UISubscriptionService.AddCardToMyBusidex (SelectedCard);
-
 			ToggleAddRemoveButtons (false);
 
 			#region Event Tracking

@@ -81,6 +81,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BranchApiController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BranchApiLinkParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BranchUrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCardEqualityComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

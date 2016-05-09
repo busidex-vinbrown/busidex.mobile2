@@ -16,7 +16,7 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgLogo { get; set; }
+		UIButton btnOrgImage { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -28,9 +28,9 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (imgLogo != null) {
-				imgLogo.Dispose ();
-				imgLogo = null;
+			if (btnOrgImage != null) {
+				btnOrgImage.Dispose ();
+				btnOrgImage = null;
 			}
 			if (tblMembers != null) {
 				tblMembers.Dispose ();

@@ -6,6 +6,7 @@ namespace Busidex.Mobile.Models
 {
 	public class UserCard
 	{
+
 		public UserCard ()
 		{
 		}
