@@ -413,6 +413,7 @@
     <AndroidResource Include="Resources\layout\ContactProfile.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\defaultprofile.png" />
     <AndroidResource Include="Resources\drawable-hdpi\contacts2.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ShareIcon.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
