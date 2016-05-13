@@ -1,23 +1,9 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.3" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/SearchController.cs">
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.5b136be7" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/ShareCardFragment.cs">
     <Files>
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="185" Column="4" />
-      <File FileName="Busidex.Mobile/Models/UserCard.cs" Line="12" Column="4" />
-      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardDetailFragment.cs" Line="1" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/DataViewController.cs" Line="87" Column="8" />
-      <File FileName="Busidex.Mobile/CardController.cs" Line="15" Column="48" />
-      <File FileName="Busidex.Mobile/BaseController.cs" Line="21" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="53" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="166" Column="7" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="152" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/EventCardsController.cs" Line="109" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/ButtonPanelController.cs" Line="79" Column="9" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationDetailController.cs" Line="7" Column="22" />
-      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="21" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchController.cs" Line="5" Column="14" />
-      <File FileName="Busidex.Mobile/SearchController.cs" Line="40" Column="18" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/ShareCardFragment.cs" Line="149" Column="20" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="146" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

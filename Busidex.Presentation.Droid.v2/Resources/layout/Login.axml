@@ -69,12 +69,24 @@
         p1:layout_below="@id/txtLoginFailed"
         p1:layout_centerHorizontal="true"
         p1:textSize="@dimen/font_size_label_large" />
+    <Button
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:layout_marginTop="10dp"
+        p1:id="@+id/btnForgotPassword"
+        p1:textColor="@color/buttonFontColor"
+        p1:background="@drawable/mainbuttonstyle"
+        p1:text="@string/Login_btnForgotPassword"
+        p1:layout_below="@id/btnLogin"
+        p1:layout_centerHorizontal="true"
+        p1:textSize="@dimen/font_size_label_large" />
     <ImageView
         p1:src="@drawable/large_logo"
         p1:layout_width="match_parent"
         p1:layout_height="95.5dp"
+        p1:layout_below="@id/btnForgotPassword"
+        p1:layout_marginTop="20dp"
+        p1:layout_centerHorizontal="true"
         p1:id="@+id/imgLogo"
-        p1:layout_below="@id/btnLogin"
-        p1:elevation="0dp"
-        p1:layout_centerHorizontal="true" />
+        p1:elevation="0dp" />
 </RelativeLayout>

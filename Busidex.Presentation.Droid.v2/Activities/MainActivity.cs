@@ -11,7 +11,6 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Rivets;
 using Android.Net;
 using System.Linq;
 using BranchXamarinSDK;
@@ -747,8 +746,7 @@ namespace Busidex.Presentation.Droid.v2
 				UISubscriptionService.OnEventCardsUpdated -= update;
 				UISubscriptionService.OnEventCardsUpdated += update;
 
-				UISubscriptionService.OnEventCardsLoaded -= goToEventCards;
-				UISubscriptionService.OnEventCardsLoaded += goToEventCards;
+				UISubscriptionService.EventCardsLoadedEventTable [tag.Text] += goToEventCards;
 
 				await UISubscriptionService.loadEventCards (tag);
 			} else {

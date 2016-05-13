@@ -6,7 +6,6 @@ using Android.Net;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Plugin.Messaging;
-using System.Net;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -127,23 +126,29 @@ namespace Busidex.Presentation.Droid.v2
 					var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
 					if (template != null) {
 						string message = string.Format (template.Template.Subject, displayName) + System.Environment.NewLine + System.Environment.NewLine +
-						                 string.Format (template.Template.Body, SelectedCard.Card.CardId, Utils.DecodeUserId (UISubscriptionService.AuthToken), displayName,
-							                 personalMessage, System.Environment.NewLine);
+						                 template.Template.Body;
+						var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
+						var parameters = new QuickShareLink {
+							CardId = SelectedCard.Card.CardId,
+							From = userId,
+							DisplayName = displayName,
+							PersonalMessage = personalMessage
+						};
+						var resp = BranchApiController.GetBranchUrl (parameters);
+						string shortendUrl = resp;
+						if (shortendUrl != null && !shortendUrl.Contains ("error")) {
 
-						int startIdx = message.IndexOf ('[');
-						int endIdx = message.IndexOf (']');
-						string originalUrl = message.Substring (startIdx + 1, endIdx - startIdx - 2);
-						string url = WebUtility.UrlEncode (originalUrl);
+							var branchUrl = Newtonsoft.Json.JsonConvert.DeserializeObject<BranchUrl> (shortendUrl);
+							message = message + branchUrl.url;
 
-						UrlShortenerController.ShortenUrl (url).ContinueWith (resp => {
-
-							var bitlyResponse = resp.Result;
-							if (bitlyResponse != null) {
-								message = message.Replace (originalUrl, bitlyResponse).Replace ("[", "").Replace ("]", "");
-
-								Activity.RunOnUiThread (() => smsTask.SendSms (phoneNumber, message));
-							}
-						});
+							Activity.RunOnUiThread (() => smsTask.SendSms (phoneNumber, message));
+						} else {
+							Activity.RunOnUiThread (() => ShowAlert (
+								"Application Error", 
+								"There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", 
+								"Ok", null)
+							);
+						}
 
 //						Activity.RunOnUiThread( ()=> {
 //						Intent sendIntent = new Intent(Intent.ActionSend);
