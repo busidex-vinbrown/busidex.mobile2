@@ -20,6 +20,8 @@ namespace Busidex.Presentation.iOS
 
 		public string OrganizationLogo{ get; set; }
 
+		public bool IsOrgMember { get; set; }
+
 		public enum MemberMode
 		{
 			Members = 1,
@@ -238,6 +240,16 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, name + " - " + OrganizationId);
 
 			base.ViewDidAppear (animated);
+
+			btnOrgImage.TouchUpInside += delegate {
+				if (IsOrgMember) {
+					if (NavigationController.ViewControllers.Any (c => c as OrganizationDetailController != null)) {
+						NavigationController.PopToViewController (orgDetailController, true);
+					} else {
+						NavigationController.PushViewController (orgDetailController, true);
+					}	
+				}
+			};
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -266,13 +278,7 @@ namespace Busidex.Presentation.iOS
 
 			height += txtSearch.Frame.Size.Height;
 			btnOrgImage.Frame = new CoreGraphics.CGRect (0, height, width, 57);
-			btnOrgImage.TouchUpInside += delegate {
-				if (NavigationController.ViewControllers.Any (c => c as OrganizationDetailController != null)) {
-					NavigationController.PopToViewController (orgDetailController, true);
-				} else {
-					NavigationController.PushViewController (orgDetailController, true);
-				}	
-			};
+
 
 			var top = height;
 			height = UIScreen.MainScreen.Bounds.Height - top;

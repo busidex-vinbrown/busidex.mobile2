@@ -305,6 +305,14 @@
     <Compile Include="Controllers\CardDetailController.designer.cs">
       <DependentUpon>CardDetailController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\PrivacyController.cs" />
+    <Compile Include="Controllers\PrivacyController.designer.cs">
+      <DependentUpon>PrivacyController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CreateProfileController.cs" />
+    <Compile Include="Controllers\CreateProfileController.designer.cs">
+      <DependentUpon>CreateProfileController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -331,6 +339,8 @@
     <InterfaceDefinition Include="Controllers\QuickShareController.xib" />
     <InterfaceDefinition Include="Controllers\CardDetailController.xib" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
+    <InterfaceDefinition Include="Controllers\PrivacyController.xib" />
+    <InterfaceDefinition Include="Controllers\CreateProfileController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

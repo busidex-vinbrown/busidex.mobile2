@@ -1,15 +1,14 @@
 ﻿
 using System;
-
 using Foundation;
-using UIKit;
 using GoogleAnalytics.iOS;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class TermsController : BaseController
+	public partial class TermsController : BaseController
 	{
-		public TermsController  (IntPtr handle) : base (handle)
+		public TermsController (IntPtr handle) : base (handle)
 		{
 		}
 
@@ -33,7 +32,20 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 			
 			// Perform any additional setup after loading the view, typically from a nib.
-			vwTerms.LoadRequest(new NSUrlRequest(new NSUrl(Busidex.Mobile.Resources.TERMS_AND_CONDITIONS_URL)));
+			vwTerms.LoadRequest (new NSUrlRequest (new NSUrl (Busidex.Mobile.Resources.TERMS_AND_CONDITIONS_URL)));
+
+			btnPrivacy.TouchUpInside += delegate {
+				showPrivacy ();
+			};
+		}
+
+		void showPrivacy ()
+		{
+			if (NavigationController.ChildViewControllers.Count (c => c is PrivacyController) == 0) {
+				NavigationController.PushViewController (privacyController, true);
+			} else {
+				NavigationController.PopToViewController (privacyController, true);
+			}
 		}
 	}
 }

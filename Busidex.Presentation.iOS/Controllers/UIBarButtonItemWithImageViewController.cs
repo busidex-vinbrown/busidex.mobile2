@@ -274,6 +274,7 @@ namespace Busidex.Presentation.iOS
 					orgMembersController.OrganizationMemberMode = mode;
 					orgMembersController.OrganizationName = org.Name;
 					orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
+					orgMembersController.IsOrgMember = org.IsMember;
 
 					if (NavigationController.ViewControllers.Any (c => c as OrgMembersController != null)) {
 						NavigationController.PopToViewController (orgMembersController, true);

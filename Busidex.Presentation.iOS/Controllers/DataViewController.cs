@@ -88,7 +88,8 @@ namespace Busidex.Presentation.iOS
 			btnShare.TouchUpInside += async delegate {
 
 				var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
-				var myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card.OwnerId == userId);
+				var myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);
+
 				if (myCard == null) {
 					await CardController.GetMyCard ().ContinueWith (r => {
 						if (!string.IsNullOrEmpty (r.Result) && !r.Result.Contains ("\"Success\": false")) {

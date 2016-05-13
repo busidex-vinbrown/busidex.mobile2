@@ -9,7 +9,7 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class LoginController : BaseController
+	public partial class LoginController : BaseController
 	{
 		//LoadingOverlay loadingOverlay;
 
@@ -53,6 +53,15 @@ namespace Busidex.Presentation.iOS
 					UserId = userId;
 				} 
 			} 
+
+			btnForgotPassword.TouchUpInside += delegate {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl (Resources.FORGOT_PASSWORD_URL));
+			};
+
+			btnForgotUserName.Hidden = true;// not implemented yet
+			btnForgotUserName.TouchUpInside += delegate {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl (Resources.FORGOT_USERNAME_URL));
+			};
 
 			btnLogin.TouchUpInside += (o, s) => DoLogin ();
 		}

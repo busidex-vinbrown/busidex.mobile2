@@ -16,6 +16,14 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnForgotPassword { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnForgotUserName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnLogin { get; set; }
 
 		[Outlet]
@@ -40,6 +48,14 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnForgotPassword != null) {
+				btnForgotPassword.Dispose ();
+				btnForgotPassword = null;
+			}
+			if (btnForgotUserName != null) {
+				btnForgotUserName.Dispose ();
+				btnForgotUserName = null;
+			}
 			if (btnLogin != null) {
 				btnLogin.Dispose ();
 				btnLogin = null;

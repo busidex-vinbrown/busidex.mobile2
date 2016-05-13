@@ -16,27 +16,6 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		bool termsAccepted;
-		const float TERMS_NOT_ACCEPTED_DISPLAY = .0f;
-		const float TERMS_ACCEPTED_DISPLAY = 1f;
-		bool loggedIn;
-		LoadingOverlay overlay;
-
-		void SetPasswordChangedResult (string password, string result, ref NSUserDefaults user)
-		{
-
-			if (result.ToLowerInvariant ().IndexOf ("password changed", StringComparison.Ordinal) >= 0) {
-				user.SetString (password, Resources.USER_SETTING_PASSWORD);
-				user.Synchronize ();
-				imgPasswordSaved.Hidden = false;
-				lblPasswordError.Hidden = true;
-			} else {
-				imgPasswordSaved.Hidden = true;
-				lblPasswordError.Hidden = false;
-				lblPasswordError.Text = "There was a problem saving your password";
-			}
-		}
-
 		void SetEmailChangedResult (string email, string result, ref NSUserDefaults user)
 		{
 
@@ -76,8 +55,6 @@ namespace Busidex.Presentation.iOS
 				user.Synchronize ();
 				imgEmailSaved.Hidden = false;
 				lblEmailError.Hidden = true;
-				imgPasswordSaved.Hidden = false;
-				lblPasswordError.Hidden = true;
 
 				var loginContrller = new Busidex.Mobile.LoginController ();
 				loginContrller.DoLogin (email, password).ContinueWith (response => {
@@ -87,7 +64,10 @@ namespace Busidex.Presentation.iOS
 
 					SetAuthCookie (userId);
 
-					InvokeOnMainThread (GoToMain);
+					InvokeOnMainThread (() => {
+						GoToMain ();
+						HideStatusIndicators ();
+					});
 				});
 
 			} else {
@@ -97,7 +77,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void OpenBrowser ()
+		static void OpenBrowser ()
 		{
 			
 			try {
@@ -109,14 +89,13 @@ namespace Busidex.Presentation.iOS
 				UIApplication.SharedApplication.OpenUrl (new NSUrl (url));
 
 			} catch (Exception ex) {
-				//BaseController.ShowAlert ("Could not open this website", string.Format ("There appears to be a problem with the website address: {0}.", SelectedCard.Card.Url), "Ok");
 				Xamarin.Insights.Report (ex);
 			}
 		}
 
 		void HideStatusIndicators ()
 		{
-			imgEmailSaved.Hidden = imgPasswordSaved.Hidden = lblEmailError.Hidden = lblPasswordError.Hidden = true;
+			imgEmailSaved.Hidden = lblEmailError.Hidden = true;
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -128,65 +107,17 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidLoad ()
 		{
-			HideStatusIndicators ();
-
 			txtEmail.ValueChanged += delegate {
 				HideStatusIndicators ();
-			};
-
-			txtPassword.ValueChanged += delegate {
-				HideStatusIndicators ();
-			};
-
-			btnAcceptTerms.TouchUpInside += delegate {
-				handleTermsClick ();	
-			}; 
-
-			btnTerms.TouchUpInside += delegate {
-				showTerms ();
 			};
 
 			btnMyCard.TouchUpInside += delegate {
 				OpenBrowser ();
 			};
 
-
-		}
-
-		public override void ViewDidLayoutSubviews ()
-		{
-			base.ViewDidLayoutSubviews ();
-
-			var lblInstructions = new UITextView ();
-			lblInstructions.BackgroundColor = UIColor.Clear;
-			lblInstructions.UserInteractionEnabled = false;
-			lblInstructions.TextColor = UIColor.DarkGray;
-			lblInstructions.Editable = false;
-			lblInstructions.Text = loggedIn 
-				? "Update your email address so you can access your cards on the web and all your devices."
-				: "Choose an email address and password so you can access your cards on the web and all your devices.";
-			
-			lblInstructions.TextAlignment = UITextAlignment.Justified;
-			lblInstructions.Font = UIFont.FromName ("Helvetica", 15f);
-			float height = loggedIn ? 85f : 105f;
-			var frame = new CoreGraphics.CGRect (
-				            padding.Frame.X, 
-				            padding.Frame.Y, 
-				            padding.Frame.Width, 
-				            height);
-
-			padding.Frame = frame;
-
-			lblInstructions.Frame = new CoreGraphics.CGRect (
-				padding.Bounds.X + 10, 
-				padding.Bounds.Y + 30, 
-				padding.Bounds.Width - 20, 
-				padding.Bounds.Height - 10);
-			
-			padding.AddSubview (lblInstructions);
-
-			txtEmail.BecomeFirstResponder ();
-
+			btnTerms.TouchUpInside += delegate {
+				GoToTerms ();
+			};
 		}
 
 		async Task<bool> SaveSettings ()
@@ -195,7 +126,6 @@ namespace Busidex.Presentation.iOS
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
-			string newPassword = txtPassword.Text;
 			string newEmail = txtEmail.Text;
 			string token;
 			var user = NSUserDefaults.StandardUserDefaults;
@@ -203,19 +133,8 @@ namespace Busidex.Presentation.iOS
 			if (cookie != null) {
 				token = cookie.Value;
 
-				user.StringForKey (Resources.USER_SETTING_USERNAME);
-				string oldPassword = user.StringForKey (Resources.USER_SETTING_PASSWORD);
 				string oldEmail = user.StringForKey (Resources.USER_SETTING_EMAIL);
 
-				if (!oldPassword.Equals (newPassword)) {
-					await Busidex.Mobile.SettingsController.ChangePassword (oldPassword, newPassword, token).ContinueWith (passwordResponse => {
-
-						InvokeOnMainThread (() => {
-							var passwordResult = passwordResponse.Result;
-							SetPasswordChangedResult (newPassword, passwordResult, ref user);
-						});
-					});
-				}
 				if (!oldEmail.Equals (newEmail)) {
 					await Busidex.Mobile.SettingsController.ChangeEmail (newEmail, token).ContinueWith (emailResponse => {
 						InvokeOnMainThread (() => {
@@ -224,39 +143,7 @@ namespace Busidex.Presentation.iOS
 						});
 					});
 				}
-			} else {
-				if (termsAccepted) {
-					if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
-						await ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
-					} else if (txtEmail.Text.IndexOf ('@') < 0) {
-						await ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
-					} else {
-						token = Guid.NewGuid ().ToString ();
-
-						overlay = new LoadingOverlay (View.Bounds);
-						overlay.MessageText = "Saving your information";
-						View.AddSubview (overlay);
-
-						await AccountController.CheckAccount (token, newEmail, newPassword).ContinueWith (response => {
-
-							if (!response.IsFaulted && !string.IsNullOrEmpty (response.Result)) {
-								InvokeOnMainThread (() => {
-									overlay.Hide ();
-									SetCheckAccountResult (newEmail, newPassword, response.Result, ref user);
-								});
-							} else {
-								InvokeOnMainThread (() => {
-									ShowAlert ("Saving your information", "There was a problem saving your information. There may be an issue with your internet connection. Please try again later.", "Ok");
-									overlay.Hide ();
-								});
-							}
-						});
-
-					}
-				} else {
-					await ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
-				}
-			}
+			} 
 			return true;
 		}
 
@@ -280,6 +167,8 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 
+			HideStatusIndicators ();
+
 			if (NavigationController != null) {
 				const bool HIDDEN = false;
 				NavigationController.SetNavigationBarHidden (HIDDEN, true);
@@ -289,57 +178,24 @@ namespace Busidex.Presentation.iOS
 					, true);
 			}
 
+			string oldEmail;
 
-			var user = NSUserDefaults.StandardUserDefaults;
+			if (!string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
+				var user = NSUserDefaults.StandardUserDefaults;
 
-			string oldPassword = user.StringForKey (Resources.USER_SETTING_PASSWORD);
-			string oldEmail = user.StringForKey (Resources.USER_SETTING_EMAIL);
-			if (oldEmail != null && oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0) {
-				oldEmail = UpdateUserEmailSetting (user);
+				oldEmail = user.StringForKey (Resources.USER_SETTING_EMAIL);
+				if (oldEmail != null && oldEmail.IndexOf ("@", StringComparison.Ordinal) < 0) {
+					oldEmail = UpdateUserEmailSetting (user);
+				}
+				txtEmail.Text = oldEmail;
 			}
-			txtPassword.Text = oldPassword;
-			txtEmail.Text = oldEmail;
-
-			txtPassword.ShouldReturn += textField => { 
-				textField.ResignFirstResponder ();
-				return true; 
-			};
 
 			txtEmail.ShouldReturn += textField => {
 				textField.ResignFirstResponder ();
 				return true; 
 			};
 
-			if (!string.IsNullOrEmpty (oldEmail)) {
-				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = true;
-				txtPassword.Hidden = lblPassword.Hidden = true;
-				loggedIn = true;
-				btnMyCard.Hidden = false;
-			} else {
-				loggedIn = false;
-				imgAccept.Hidden = btnTerms.Hidden = btnAcceptTerms.Hidden = false;
-				txtPassword.Hidden = lblPassword.Hidden = false;
-				btnMyCard.Hidden = true;
-				imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
-			}
-
 		}
-
-		void handleTermsClick ()
-		{
-			termsAccepted = !termsAccepted;
-			imgAccept.Alpha = termsAccepted ? TERMS_ACCEPTED_DISPLAY : TERMS_NOT_ACCEPTED_DISPLAY;
-		}
-
-		void showTerms ()
-		{
-			var termsController = Storyboard.InstantiateViewController ("TermsController") as TermsController;
-
-			if (termsController != null && NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0) {
-				NavigationController.PushViewController (termsController, true);
-			}
-		}
-
 
 		// https://developer.xamarin.com/guides/ios/platform_features/introduction_to_ios9/contacts/
 		//		void updateContacts(){

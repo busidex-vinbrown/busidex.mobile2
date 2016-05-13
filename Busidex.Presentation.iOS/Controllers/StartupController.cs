@@ -25,39 +25,39 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			init ();
+
 			SetPosition ();
 
 			var cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
 
-			long userId;
 			if (cookie != null) {
-				userId = Utils.DecodeUserId (cookie.Value);
 
 				UISubscriptionService.AuthToken = cookie.Value;
 
-
-				if (userId <= 0) {
-					UpdateSettings ();
+				if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
+					GoToCreateProfile ();
 				} else {
 					GoToMain ();
 				}
 			}
 
 			btnStart.TouchUpInside += delegate {
-				UpdateSettings();
+//				NavigationController.PopViewController (false);
+//				GoToSettings ();
+				GoToCreateProfile ();
 			};
 
 			btnConnect.TouchUpInside += delegate {
-				GoToLogin();
+				GoToLogin ();
 			};
-
-
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
-			if(NavigationController != null){
-				NavigationController.SetNavigationBarHidden(true, true);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (true, true);
 			}
 
 			Application.MainController = NavigationController;
@@ -70,7 +70,9 @@ namespace Busidex.Presentation.iOS
 
 			SetPosition ();
 		}
-		void SetPosition(){
+
+		void SetPosition ()
+		{
 
 			nfloat height = UIScreen.MainScreen.Bounds.Height < 500f ? 100f : 130f;
 			nfloat width = height;
@@ -82,45 +84,33 @@ namespace Busidex.Presentation.iOS
 
 		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
-			//base.WillRotate (toInterfaceOrientation, duration);
-
 			imgLogo.Hidden = toInterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || toInterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
 			imgLogo.SetNeedsLayout ();
 		}
 
-		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation){
-
-			//base.DidRotate (fromInterfaceOrientation);
-
+		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
+		{
 			SetPosition ();
-		}
-
-		void UpdateSettings(){
-			var settingsController = Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
-
-			if (settingsController != null) {
-
-				NavigationController.PushViewController (settingsController, true);
-			}
 		}
 
 		void GoToLogin ()
 		{
-			var loginController = Storyboard.InstantiateViewController ("LoginController") as LoginController;
-
-			if (loginController != null) {
-
+			if (NavigationController.ViewControllers.Any (c => c as LoginController != null)) {
+				NavigationController.PopToViewController (loginController, true);
+			} else {
 				NavigationController.PushViewController (loginController, true);
 			}
 		}
 
-		static string EncodeUserId(long userId){
-			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes(userId.ToString());
-			string returnValue = Convert.ToBase64String(toEncodeAsBytes);
+		static string EncodeUserId (long userId)
+		{
+			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes (userId.ToString ());
+			string returnValue = Convert.ToBase64String (toEncodeAsBytes);
 			return returnValue;
 		}
 
-		static string GetDeviceId(){
+		static string GetDeviceId ()
+		{
 			var thisDeviceId = UIDevice.CurrentDevice.IdentifierForVendor;
 			if (thisDeviceId != null) {
 				var dIdString = thisDeviceId.AsString ();

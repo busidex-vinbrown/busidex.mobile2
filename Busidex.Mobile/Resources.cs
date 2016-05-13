@@ -25,6 +25,9 @@ namespace Busidex.Mobile
 		public const string MY_CARD_ADD_URL = "https://start.busidex.com/#/front/{0}";
 		public const string MY_CARD_EDIT_URL = MY_CARD_ADD_URL + "?m=edit";
 		public const string TERMS_AND_CONDITIONS_URL = "https://www.busidex.com/partials/account/terms.html";
+		public const string FORGOT_PASSWORD_URL = "https://www.busidex.com/#/account/passwordrecover";
+		public const string FORGOT_USERNAME_URL = "https://www.busidex.com/#/account/usernamerecover";
+		public const string PRIVACY_URL = "https://www.busidex.com/partials/account/privacy.html";
 		public const string BASE_API_URL = "https://www.busidexapi.com/api/";
 		public const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 		public const string NULL_CARD_ID = "00000000-0000-0000-0000-000000000000";

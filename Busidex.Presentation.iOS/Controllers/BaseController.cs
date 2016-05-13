@@ -32,6 +32,10 @@ namespace Busidex.Presentation.iOS
 		public static SharedCardController sharedCardController;
 		public static OrganizationDetailController orgDetailController;
 		public static SettingsController settingsController;
+		public static TermsController termsController;
+		public static PrivacyController privacyController;
+		public static LoginController loginController;
+		public static CreateProfileController createProfileController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -43,11 +47,12 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		static void init ()
+		protected static void init ()
 		{
 			board = board ?? UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			orgBoard = orgBoard ?? UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
 
+			loginController = loginController ?? board.InstantiateViewController ("LoginController") as LoginController;
 			eventListController = eventListController ?? board.InstantiateViewController ("EventListController") as EventListController;
 			eventCardsController = eventCardsController ?? board.InstantiateViewController ("EventCardsController") as EventCardsController;
 			myBusidexController = myBusidexController ?? board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
@@ -60,6 +65,9 @@ namespace Busidex.Presentation.iOS
 			buttonPanelController = buttonPanelController ?? board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
 			sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
 			settingsController = settingsController ?? board.InstantiateViewController ("SettingsController") as SettingsController;
+			createProfileController = createProfileController ?? board.InstantiateViewController ("CreateProfileController") as CreateProfileController;
+			termsController = termsController ?? board.InstantiateViewController ("TermsController") as TermsController;
+			privacyController = privacyController ?? board.InstantiateViewController ("PrivacyController") as PrivacyController;
 		}
 
 		protected void ShowOverlay ()
@@ -81,6 +89,13 @@ namespace Busidex.Presentation.iOS
 			return layer;
 		}
 
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+		}
+
 		public override void ViewWillAppear (bool animated)
 		{
 			NavigationController.SetToolbarHidden (true, false);
@@ -92,8 +107,6 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateScreenView ().Build ());
 
 			base.ViewDidAppear (animated);
-			init ();
-
 		}
 
 		protected static void SetRefreshCookie (string name)
@@ -197,9 +210,18 @@ namespace Busidex.Presentation.iOS
 
 		}
 
+		protected void GoToTerms ()
+		{
+			if (NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0) {
+				NavigationController.PushViewController (termsController, true);
+			} else {
+				NavigationController.PopToViewController (termsController, true);
+			}
+		}
+
 		protected void GoToSettings ()
 		{
-			settingsController = settingsController ?? Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+			//settingsController = settingsController ?? Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
 
 			if (NavigationController.ViewControllers.Any (c => c as SettingsController != null)) {
 				NavigationController.PopToViewController (settingsController, true);
@@ -208,16 +230,27 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		protected void GoToCreateProfile ()
+		{
+			if (NavigationController.ViewControllers.Any (c => c as CreateProfileController != null)) {
+				NavigationController.PopToViewController (createProfileController, true);
+			} else {
+				NavigationController.PushViewController (createProfileController, true);
+			}
+		}
+
 		protected void GoToMain ()
 		{
-			NavigationController.SetNavigationBarHidden (true, true);
+			if (NavigationController != null) {
+				NavigationController.SetNavigationBarHidden (true, true);
+			
+				dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
 
-			dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
-
-			if (NavigationController.ViewControllers.Any (c => c as DataViewController != null)) {
-				NavigationController.PopToViewController (dataViewController, true);
-			} else {
-				NavigationController.PushViewController (dataViewController, true);
+				if (NavigationController.ViewControllers.Any (c => c as DataViewController != null)) {
+					NavigationController.PopToViewController (dataViewController, true);
+				} else {
+					NavigationController.PushViewController (dataViewController, true);
+				}
 			}
 		}
 
