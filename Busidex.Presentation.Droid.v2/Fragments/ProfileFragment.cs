@@ -1,5 +1,4 @@
-﻿
-using Android.OS;
+﻿using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
@@ -7,18 +6,18 @@ using Busidex.Mobile.Models;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Net;
+using System.Net;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class ProfileFragment : GenericViewPagerFragment
 	{
-
 		ImageView imgProfileEmailSaved;
 		ImageView imgProfilePasswordSaved;
 		ImageView imgAcceptTerms;
 		TextView lblEmailError;
 		TextView lblPasswordError;
-		ImageButton btnLogout;
+		Button btnLogout;
 		RelativeLayout profileCover;
 		ProgressBar progress1;
 		View profileView;
@@ -78,7 +77,7 @@ namespace Busidex.Presentation.Droid.v2
 			imgProfilePasswordSaved = profileView.FindViewById<ImageView> (Resource.Id.imgProfilePasswordSaved);
 			lblEmailError = profileView.FindViewById<TextView> (Resource.Id.lblEmailError);
 			lblPasswordError = profileView.FindViewById<TextView> (Resource.Id.lblPasswordError);
-			btnLogout = profileView.FindViewById<ImageButton> (Resource.Id.btnLogout);
+			btnLogout = profileView.FindViewById<Button> (Resource.Id.btnLogout);
 
 			lblPasswordError.Visibility = ViewStates.Invisible;
 			lblEmailError.Visibility = ViewStates.Invisible;
@@ -87,6 +86,29 @@ namespace Busidex.Presentation.Droid.v2
 
 			btnLogout.Click += delegate {
 				Logout ();
+			};
+
+			var btnPrivacy = profileView.FindViewById<Button> (Resource.Id.btnPrivacy);
+			btnPrivacy.Click += delegate {
+				var fragment = new PrivacyFragment ();
+				((MainActivity)Activity).ShowPrivacy (fragment);
+			};
+
+			var btnTermsAndConditions = profileView.FindViewById<Button> (Resource.Id.btnTermsAndConditions);
+			btnTermsAndConditions.Click += delegate {
+
+				var fragment = new TermsAndConditionsFragment ();
+
+				((MainActivity)Activity).ShowTerms (fragment);
+			};
+
+			var btnEditCard = profileView.FindViewById<Button> (Resource.Id.btnEditCard);
+			btnEditCard.Click += delegate {
+				var OpenBrowserIntent = new Intent (Intent.ActionView);
+				var url = string.Format (Busidex.Mobile.Resources.MY_CARD_EDIT_URL, WebUtility.UrlEncode (UISubscriptionService.AuthToken));
+				var uri = Uri.Parse (url);
+				OpenBrowserIntent.SetData (uri);
+				((MainActivity)Activity).OpenBrowser (OpenBrowserIntent);
 			};
 
 			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
@@ -107,9 +129,9 @@ namespace Busidex.Presentation.Droid.v2
 			} else {
 				txtProfileEmail.Text = string.Empty;
 
-				btnLogout.Visibility = ViewStates.Gone;
+				btnLogout.Visibility = btnPrivacy.Visibility = btnTermsAndConditions.Visibility = ViewStates.Gone;
 
-				lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Visible;
+				lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = btnEditCard.Visibility = ViewStates.Visible;
 
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 
@@ -121,16 +143,10 @@ namespace Busidex.Presentation.Droid.v2
 					toggleTerms ();
 				};
 
-
 				txtViewTerms.Click += delegate {
 
-					var uri = Uri.Parse (Busidex.Mobile.Resources.TERMS_AND_CONDITIONS_URL);
-					var OpenBrowserIntent = new Intent (Intent.ActionView);
-					OpenBrowserIntent.SetData (uri);
-
-					var browserIntent = Intent.CreateChooser (OpenBrowserIntent, "Open with");
-					StartActivity (browserIntent);
-
+					var fragment = new TermsAndConditionsFragment ();
+					((MainActivity)Activity).ShowTerms (fragment);
 				};
 
 				btnSaveProfile.Click += async delegate {
@@ -155,7 +171,6 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-		
 			profileView = inflater.Inflate (Resource.Layout.Profile, container, false);
 
 			return profileView;
@@ -249,15 +264,12 @@ namespace Busidex.Presentation.Droid.v2
 						((MainActivity)Activity).UpdateEmail (email);
 					}
 				});
-
-
 			});
 			return true;
 		}
 
 		void displayCover (bool visible)
 		{
-
 			profileCover.Visibility = visible ? ViewStates.Visible : ViewStates.Gone;
 			progress1.Visibility = visible ? ViewStates.Visible : ViewStates.Gone;
 		}
@@ -277,7 +289,6 @@ namespace Busidex.Presentation.Droid.v2
 
 		void Logout ()
 		{
-
 			ShowAlert (
 				Activity.GetString (Resource.String.Global_Logout_Title),
 				Activity.GetString (Resource.String.Global_Logout_Message), 
@@ -292,7 +303,6 @@ namespace Busidex.Presentation.Droid.v2
 					}
 				}));
 		}
-
 	}
 }
 

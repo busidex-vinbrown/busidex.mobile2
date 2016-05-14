@@ -122,22 +122,22 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
-<!--FAQ-->
+<!--SHARE MY CARD-->
     <ImageView
-        p1:src="@drawable/faq"
+        p1:src="@drawable/shareicon"
         p1:layout_width="75dp"
         p1:layout_height="75dp"
         p1:layout_below="@id/imgEventIcon"
-        p1:id="@+id/imgFAQIcon"
+        p1:id="@+id/imgShareIcon"
         p1:layout_marginLeft="40dp"
         p1:layout_marginTop="20dp"
         p1:elevation="0dp" />
     <Button
-        p1:text="Questions"
+        p1:text="Share My Card"
         p1:layout_width="wrap_content"
         p1:layout_height="75dp"
-        p1:layout_toRightOf="@id/imgFAQIcon"
-        p1:id="@+id/btnQuestions"
+        p1:layout_toRightOf="@id/imgShareIcon"
+        p1:id="@+id/btnShare"
         p1:layout_below="@id/btnEvents"
         p1:layout_marginTop="20dp"
         p1:textColor="@color/buttonWhite"
@@ -151,20 +151,6 @@
         p1:shadowDx="1"
         p1:shadowDy="1"
         p1:shadowRadius="1" />
-<!--SETTINGS-->
-<!--<ImageButton
-        p1:src="@drawable/settings"
-        p1:layout_width="45dp"
-        p1:layout_height="45dp"
-        p1:id="@+id/btnSettingsHome"
-        p1:scaleType="fitXY"
-        p1:background="@android:color/transparent"
-        p1:layout_alignParentBottom="true"
-        p1:layout_marginLeft="5dp"
-        p1:layout_alignParentRight="true"
-        p1:layout_marginRight="10dp"
-        p1:layout_marginBottom="5dp"
-        p1:alpha=".7" />-->
 <!--EXIT-->
 <!--<ImageButton
         p1:src="@drawable/Exit"
@@ -176,32 +162,54 @@
         p1:layout_alignParentBottom="true"
         p1:layout_alignParentLeft="true"
         p1:layout_marginLeft="5dp" />-->
-<!--NOTIFICATIONS-->
-    <ImageView
-        p1:src="@drawable/mybusidexicon"
-        p1:layout_width="50dp"
-        p1:layout_height="50dp"
-        p1:id="@+id/btnSharedCardsNotification"
-        p1:scaleType="fitXY"
-        p1:layout_alignParentBottom="true"
-        p1:textAlignment="gravity"
-        p1:layout_marginBottom="3dp"
-        p1:layout_marginRight="15dp"
-        p1:layout_alignParentRight="true" />
-    <TextView
-        p1:text="1"
-        p1:textAppearance="?android:attr/textAppearanceSmall"
-        p1:layout_width="wrap_content"
+    <LinearLayout
+        p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:layout_toLeftOf="@id/btnSharedCardsNotification"
-        p1:id="@+id/txtNotificationCount"
-        p1:textColor="@color/buttonFontColor"
-        p1:padding="3dp"
+        p1:orientation="horizontal"
         p1:layout_alignParentBottom="true"
-        p1:layout_marginRight="-46dp"
-        p1:layout_marginBottom="28dp"
-        p1:textStyle="bold"
-        p1:textSize="12pt" />
+        p1:gravity="right">
+    <!--SETTINGS-->
+        <ImageButton
+            p1:src="@drawable/settings"
+            p1:layout_width="45dp"
+            p1:layout_height="45dp"
+            p1:id="@+id/btnSettingsHome"
+            p1:scaleType="fitXY"
+            p1:background="@android:color/transparent"
+            p1:layout_alignParentBottom="true"
+            p1:layout_marginBottom="3dp"
+            p1:alpha=".7"
+            p1:layout_alignParentRight="true"
+            p1:layout_marginRight="10dp"
+            p1:layout_marginTop="15dp" />
+    <!--NOTIFICATIONS-->
+        <ImageView
+            p1:src="@drawable/mybusidexicon"
+            p1:layout_width="50dp"
+            p1:layout_height="50dp"
+            p1:id="@+id/btnSharedCardsNotification"
+            p1:scaleType="fitXY"
+            p1:layout_alignParentBottom="true"
+            p1:textAlignment="gravity"
+            p1:layout_marginBottom="3dp"
+            p1:layout_marginRight="15dp"
+            p1:layout_alignParentRight="true"
+            p1:layout_marginTop="13dp" />
+        <TextView
+            p1:text="1"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_width="wrap_content"
+            p1:layout_height="75dp"
+            p1:id="@+id/txtNotificationCount"
+            p1:textColor="@color/buttonFontColor"
+            p1:padding="3dp"
+            p1:textStyle="bold"
+            p1:textSize="12pt"
+            p1:layout_alignParentBottom="true"
+            p1:layout_alignParentRight="true"
+            p1:layout_marginLeft="-40dp"
+            p1:layout_marginRight="10dp" />
+    </LinearLayout>
     <RelativeLayout
         p1:layout_height="match_parent"
         p1:layout_width="match_parent"

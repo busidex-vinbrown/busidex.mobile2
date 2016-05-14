@@ -3,10 +3,44 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:weightSum="4">
     <WebView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/vwTerms" />
+        android:layout_height="match_parent"
+        android:id="@+id/vwTerms"
+        android:layout_marginBottom="0.0dp"
+        android:layout_weight="2" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/btnPrivacy"
+        android:src="@drawable/button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:inputType="none"
+        android:textColor="@color/buttonFontColor"
+        android:background="@android:color/transparent"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="Privacy Policy"
+        android:paddingRight="15dp"
+        android:paddingLeft="10dp"
+        android:layout_weight="1" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/btnBack"
+        android:src="@drawable/button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:inputType="none"
+        android:textColor="@color/buttonFontColor"
+        android:background="@android:color/transparent"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="Back to Profile"
+        android:paddingRight="15dp"
+        android:paddingLeft="10dp"
+        android:layout_weight="1" />
 </LinearLayout>

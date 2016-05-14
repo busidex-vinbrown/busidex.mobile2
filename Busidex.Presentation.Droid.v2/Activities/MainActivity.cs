@@ -11,9 +11,9 @@ using Busidex.Mobile.Models;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Android.Net;
 using System.Linq;
 using BranchXamarinSDK;
+using Android.Net;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -32,13 +32,63 @@ namespace Busidex.Presentation.Droid.v2
 
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
-		void openFaq ()
-		{
-			var OpenBrowserIntent = new Intent (Intent.ActionView);
-			var uri = Uri.Parse ("https://www.busidex.com/#/faq");
-			OpenBrowserIntent.SetData (uri);
+		//		void openFaq ()
+		//		{
+		//			var OpenBrowserIntent = new Intent (Intent.ActionView);
+		//			var uri = Android.Net.Uri.Parse ("https://www.busidex.com/#/faq");
+		//			OpenBrowserIntent.SetData (uri);
+		//
+		//			OpenBrowser (OpenBrowserIntent);
+		//		}
 
-			OpenBrowser (OpenBrowserIntent);
+		async void openShare ()
+		{
+			var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
+			var myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);
+
+			if (myCard == null) {
+				await CardController.GetMyCard ().ContinueWith (r => {
+					if (!string.IsNullOrEmpty (r.Result) && !r.Result.Contains ("\"Success\": false")) {
+						try {
+							var cardDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
+							myCard = new UserCard (cardDetail.Model);
+							if (!string.IsNullOrEmpty (myCard.Card.Name) && myCard.Card.FrontFileId != System.Guid.Empty) {
+								UISubscriptionService.AddCardToMyBusidex (myCard);
+								var fragment = new ShareCardFragment (myCard);
+								ShareCard (fragment);
+							} else {
+								showNoCardMessage ();
+							}
+						} catch (System.Exception ex) {
+							Xamarin.Insights.Report (ex);
+						}
+					} else {
+						showNoCardMessage ();
+					}
+				});
+			} else {
+				var fragment = new ShareCardFragment (myCard);
+				ShareCard (fragment);
+			}
+		}
+
+		void showNoCardMessage ()
+		{
+			RunOnUiThread (() => ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string[] {
+				"Ok",
+				"Not Now"
+			}, new System.EventHandler<DialogClickEventArgs> ((o, e) => {
+
+				var dialog = o as global::Android.App.AlertDialog;
+				Button btnClicked = dialog.GetButton (e.Which);
+				if (btnClicked.Text == "Ok") {
+					RunOnUiThread (() => {
+						FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+						LoadFragment (new ProfileFragment (UISubscriptionService.CurrentUser));
+					});
+				}
+			})
+			));
 		}
 
 		void addTabs (GenericFragmentPagerAdaptor adapter)
@@ -89,18 +139,23 @@ namespace Busidex.Presentation.Droid.v2
 				};
 
 				// FAQ
-				var btnFaq = view.FindViewById<Button> (Resource.Id.btnQuestions);
-				btnFaq.Click += delegate {
-					openFaq ();
+				var btnShare = view.FindViewById<Button> (Resource.Id.btnShare);
+				btnShare.Click += delegate {
+					openShare ();
 				};
-				var imgFaq = view.FindViewById<ImageView> (Resource.Id.imgFAQIcon);
+				var imgFaq = view.FindViewById<ImageView> (Resource.Id.imgShareIcon);
 				imgFaq.Click += delegate {
-					openFaq ();
+					openShare ();
 				};
 
 				var btnSharedCardsNotification = view.FindViewById<ImageView> (Resource.Id.btnSharedCardsNotification);
 				btnSharedCardsNotification.Click += delegate {
 					pager.SetCurrentItem (5, true);
+				};
+
+				var btnSettingsHome = view.FindViewById<ImageButton> (Resource.Id.btnSettingsHome);
+				btnSettingsHome.Click += delegate {
+					pager.SetCurrentItem (6, false);	
 				};
 
 				OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => {
@@ -1032,14 +1087,26 @@ namespace Busidex.Presentation.Droid.v2
 
 		protected void ShowAlert (string title, string message, string buttonText, System.EventHandler<DialogClickEventArgs> callback)
 		{
+			ShowAlert (title, message, new string[] { buttonText }, callback);
+		}
+
+		protected void ShowAlert (string title, string message, string[] buttons, System.EventHandler<DialogClickEventArgs> callback)
+		{
 			var builder = new AlertDialog.Builder (this);
 			builder.SetTitle (title);
 			builder.SetMessage (message);
-			builder.SetNegativeButton (GetString (Resource.String.Global_ButtonText_Cancel), new System.EventHandler<DialogClickEventArgs> ((o, e) => {
-				return;
-			}));
+			if (buttons.Length > 1) {
+				builder.SetNegativeButton (buttons [1], new System.EventHandler<DialogClickEventArgs> ((o, e) => {
+					return;
+				}));
+			} else {
+				builder.SetNegativeButton (GetString (Resource.String.Global_ButtonText_Cancel), new System.EventHandler<DialogClickEventArgs> ((o, e) => {
+					return;
+				}));
+			}
 			builder.SetCancelable (true);
-			builder.SetPositiveButton (buttonText, callback);
+			builder.SetPositiveButton (buttons [0], callback);
+
 			builder.Show ();
 		}
 
@@ -1092,8 +1159,28 @@ namespace Busidex.Presentation.Droid.v2
 				Utils.RemoveQuickShareLink ();
 
 			}
-   
-			#endregion
 		}
+
+		#endregion
+
+		#region Privacy and Terms
+
+		public void ShowTerms (TermsAndConditionsFragment fragment)
+		{
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_SCREEN_TERMS, Busidex.Mobile.Resources.GA_SCREEN_TERMS, 0);
+		}
+
+		public void ShowPrivacy (PrivacyFragment fragment)
+		{
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_SCREEN_PRIVACY, Busidex.Mobile.Resources.GA_SCREEN_PRIVACY, 0);
+		}
+
+		#endregion
 	}
 }

@@ -8,7 +8,6 @@ using System.IO;
 using GoogleAnalytics.iOS;
 using CoreGraphics;
 using Plugin.Messaging;
-using System.Net;
 using ContactsUI;
 using Contacts;
 
@@ -153,7 +152,7 @@ namespace Busidex.Presentation.iOS
 									resetFields ();
 								});
 							} else {
-								InvokeOnMainThread (() => ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new string[] {
+								InvokeOnMainThread (() => ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new [] {
 									"Ok"
 								}));
 							}
@@ -182,20 +181,23 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			lblError.Hidden = true;
-			imgCardShared.Hidden = true;
+			try {
+				lblError.Hidden = true;
+				imgCardShared.Hidden = true;
 
-			var user = NSUserDefaults.StandardUserDefaults;
-			var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
-			if (string.IsNullOrEmpty (displayName)) {
-				var token = GetAuthCookie ().Value;
-				var accountResponse = AccountController.GetAccount (token);
-				var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
-				displayName = account.UserAccount.DisplayName;
+				var user = NSUserDefaults.StandardUserDefaults;
+				var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+				if (string.IsNullOrEmpty (displayName)) {
+					var accountResponse = AccountController.GetAccount (UISubscriptionService.AuthToken);
+					var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
+					displayName = account.UserAccount.DisplayName;
+				}
+				txtDisplayName.Text = displayName;
+
+				LoadCard ();
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
 			}
-			txtDisplayName.Text = displayName;
-
-			LoadCard ();
 		}
 
 		public override void ViewDidLoad ()

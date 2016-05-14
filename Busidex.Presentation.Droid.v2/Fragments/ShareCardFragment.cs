@@ -20,6 +20,7 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgCheckShared;
 		readonly UserCard SelectedCard;
 		readonly Xamarin.Contacts.Phone SelectedPhone;
+		readonly string SelectedMessage;
 
 		string currentDisplayName = string.Empty;
 
@@ -28,10 +29,11 @@ namespace Busidex.Presentation.Droid.v2
 			
 		}
 
-		public ShareCardFragment (UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null)
+		public ShareCardFragment (UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null, string selectedMessage = null)
 		{
 			SelectedCard = selectedCard;
 			SelectedPhone = selectedPhone;
+			SelectedMessage = selectedMessage;
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -58,6 +60,10 @@ namespace Busidex.Presentation.Droid.v2
 			txtShareEmail = view.FindViewById<TextView> (Resource.Id.txtShareEmail);
 			txtSharePhoneNumber = view.FindViewById<TextView> (Resource.Id.txtSharePhoneNumber);
 			txtShareMessage = view.FindViewById<TextView> (Resource.Id.txtShareMessage);
+
+			if (!string.IsNullOrEmpty (SelectedMessage)) {
+				txtShareMessage.Text = SelectedMessage;
+			}
 
 			txtShareDisplayName.Text = currentDisplayName = UISubscriptionService.CurrentUser.UserAccount.DisplayName;
 			var imgShareHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
@@ -90,8 +96,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnContacts = view.FindViewById (Resource.Id.btnContacts);
 			btnContacts.Click += delegate {
-				var contactsAdapter = new ContactsAdapter (Activity, MainActivity.Contacts, SelectedCard);
-				((MainActivity)Activity).LoadFragment (new ContactsFragment (contactsAdapter, SelectedCard));
+				var contactsAdapter = new ContactsAdapter (Activity, MainActivity.Contacts, SelectedCard, txtShareMessage.Text);
+				((MainActivity)Activity).LoadFragment (new ContactsFragment (contactsAdapter, SelectedCard, txtShareMessage.Text));
 			};
 	
 			return view;

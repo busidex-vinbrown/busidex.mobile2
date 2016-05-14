@@ -9,39 +9,44 @@ using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public class ContactsAdapter : BaseExpandableListAdapter {
+	public class ContactsAdapter : BaseExpandableListAdapter
+	{
 		
 		readonly Activity Context;
 		readonly List<Contact> ContactList;
 		readonly UserCard SelectedCard;
+		readonly string SelectedMessage;
 		List<Contact>[] ContactGroups;
 
-		public ContactsAdapter(Activity newContext, List<Contact> contactList, UserCard card)
+		public ContactsAdapter (Activity newContext, List<Contact> contactList, UserCard card, string selectedMessage)
 		{
 			Context = newContext;
 			ContactList = contactList;
 			ContactGroups = new List<Contact>[26];
 			SelectedCard = card;
+			SelectedMessage = selectedMessage;
 
-			for(var i=0; i < 26; i++){
+			for (var i = 0; i < 26; i++) {
 				var letter = ((char)(65 + i)).ToString ();
 				var newGroup = new List<Contact> ();
 				newGroup.AddRange (filterList (letter));
-				ContactGroups[i] = newGroup;
+				ContactGroups [i] = newGroup;
 			}
 		}
 
-		List<Contact> filterList(string letter){
+		List<Contact> filterList (string letter)
+		{
 			return ContactList.FindAll ((Contact obj) => {
-				if(!string.IsNullOrEmpty(obj.LastName)){
-					return obj.LastName.ToLowerInvariant().StartsWith (letter.ToLowerInvariant(), StringComparison.Ordinal);
+				if (!string.IsNullOrEmpty (obj.LastName)) {
+					return obj.LastName.ToLowerInvariant ().StartsWith (letter.ToLowerInvariant (), StringComparison.Ordinal);
 				}
-				if(!string.IsNullOrEmpty(obj.DisplayName)){
-					return obj.DisplayName.ToLowerInvariant().StartsWith (letter.ToLowerInvariant(), StringComparison.Ordinal);;
+				if (!string.IsNullOrEmpty (obj.DisplayName)) {
+					return obj.DisplayName.ToLowerInvariant ().StartsWith (letter.ToLowerInvariant (), StringComparison.Ordinal);
+					;
 				}
 
 				return false;
-			}).OrderBy(p => p.LastName).ToList();
+			}).OrderBy (p => p.LastName).ToList ();
 		}
 
 		public override View GetGroupView (int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
@@ -49,7 +54,7 @@ namespace Busidex.Presentation.Droid.v2
 			View header = convertView ?? Context.LayoutInflater.Inflate (Resource.Layout.ListGroup, null);
 			var letter = ((char)(65 + groupPosition)).ToString ();
 			var title = ContactGroups [groupPosition].Count;
-			header.FindViewById<TextView> (Resource.Id.txtContactListHeader).Text = letter + string.Format(" ({0})", title);
+			header.FindViewById<TextView> (Resource.Id.txtContactListHeader).Text = letter + string.Format (" ({0})", title);
 
 			return header;
 		}
@@ -57,23 +62,23 @@ namespace Busidex.Presentation.Droid.v2
 		public override View GetChildView (int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
 			View row = convertView ?? Context.LayoutInflater.Inflate (Resource.Layout.ContactListItem, null);
-			string newId =string.Empty, newValue = string.Empty;
+			string newId = string.Empty, newValue = string.Empty;
 			GetChildViewHelper (groupPosition, childPosition, out newId, out newValue);
 			var thisGroup = ContactGroups [groupPosition];
-			var email =  thisGroup[childPosition].Emails.FirstOrDefault ();
+			var email = thisGroup [childPosition].Emails.FirstOrDefault ();
 			var name = thisGroup [childPosition].DisplayName;
 			var first = thisGroup [childPosition].FirstName;
 			var last = thisGroup [childPosition].LastName;
-			row.FindViewById<TextView> (Resource.Id.txtContactDisplayName).Text = string.IsNullOrEmpty(name) ? email.Address : name;
+			row.FindViewById<TextView> (Resource.Id.txtContactDisplayName).Text = string.IsNullOrEmpty (name) ? email.Address : name;
 			var thumbnail = row.FindViewById<ImageView> (Resource.Id.imgContact);
-			if(thisGroup[childPosition].GetThumbnail() == null){
+			if (thisGroup [childPosition].GetThumbnail () == null) {
 				thumbnail.SetImageResource (Resource.Drawable.defaultprofile);
-			}else{
+			} else {
 				thumbnail.SetImageBitmap (thisGroup [childPosition].GetThumbnail ());
 			}
 
 			row.Click += delegate {
-				((MainActivity)Context).LoadFragment(new ContactProfileFragment(thisGroup [childPosition], SelectedCard));
+				((MainActivity)Context).LoadFragment (new ContactProfileFragment (thisGroup [childPosition], SelectedCard, SelectedMessage));
 			};
 
 			return row;

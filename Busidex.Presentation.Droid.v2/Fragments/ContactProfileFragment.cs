@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Contacts;
 using Busidex.Mobile.Models;
-using System.Collections;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -16,34 +14,32 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		readonly Contact SelectedContact;
 		readonly UserCard SelectedCard;
+		readonly string SelectedMessage;
 
-		public ContactProfileFragment(){
+		public ContactProfileFragment ()
+		{
 			
 		}
 
-		public ContactProfileFragment(Contact contact, UserCard card){
+		public ContactProfileFragment (Contact contact, UserCard card, string selectedMessage)
+		{
 			SelectedContact = contact;
 			SelectedCard = card;
+			SelectedMessage = selectedMessage;
 		}
 
-		public override void OnCreate (Bundle savedInstanceState)
+		void phoneNumberSelected (Phone number)
 		{
-			base.OnCreate (savedInstanceState);
-
-			// Create your fragment here
-		}
-
-		void phoneNumberSelected(Phone number){
 			// pass the phone number to the shareCardFragment
 			var card = SelectedCard;
-			var fragment = new ShareCardFragment(card, number);
+			var fragment = new ShareCardFragment (card, number, SelectedMessage);
 			((MainActivity)Activity).UnloadFragment (fragment);
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
-			var view = inflater.Inflate(Resource.Layout.ContactProfile, container, false);
+			var view = inflater.Inflate (Resource.Layout.ContactProfile, container, false);
 
 			if (SelectedContact != null) {
 				var lstContactPhoneNumbers = view.FindViewById<ListView> (Resource.Id.lstContactPhoneNumbers);
@@ -58,7 +54,7 @@ namespace Busidex.Presentation.Droid.v2
 				view.FindViewById<TextView> (Resource.Id.txtContactDisplayName).Text = name;
 
 				IEqualityComparer<Phone> phoneComparer = new PhoneComparer ();
-				var phoneNumbers = SelectedContact.Phones.Distinct(phoneComparer).ToList ();
+				var phoneNumbers = SelectedContact.Phones.Distinct (phoneComparer).ToList ();
 				var adapter = new ContactPhoneNumberEntryAdapter (Activity, Resource.Id.lstContactPhoneNumbers, phoneNumbers);
 				adapter.PhoneNumberSelected += phoneNumberSelected;
 
@@ -67,12 +63,12 @@ namespace Busidex.Presentation.Droid.v2
 				var btnHideProfile = view.FindViewById<ImageButton> (Resource.Id.btnHideProfile);
 				btnHideProfile.Click += delegate {
 					var card = SelectedCard;
-					var contactsAdapter = new ContactsAdapter(Activity, MainActivity.Contacts, card);
-					var fragment = new ContactsFragment (contactsAdapter, card);
+					var contactsAdapter = new ContactsAdapter (Activity, MainActivity.Contacts, card, SelectedMessage);
+					var fragment = new ContactsFragment (contactsAdapter, card, SelectedMessage);
 					((MainActivity)Activity).UnloadFragment (fragment);
 				};
 
-			}else{
+			} else {
 				((MainActivity)Activity).UnloadFragment ();
 			}
 			return view;
@@ -81,15 +77,16 @@ namespace Busidex.Presentation.Droid.v2
 
 	}
 
-	internal class PhoneComparer : IEqualityComparer<Phone>
+	class PhoneComparer : IEqualityComparer<Phone>
 	{
-		public bool Equals(Phone x, Phone y)
+		public bool Equals (Phone x, Phone y)
 		{
 			return x.Number == y.Number;
 		}
-		public int GetHashCode(Phone p)
+
+		public int GetHashCode (Phone p)
 		{
-			return p.Number.GetHashCode();
+			return p.Number.GetHashCode ();
 		}
 	}
 }

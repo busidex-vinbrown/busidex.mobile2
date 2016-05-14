@@ -167,6 +167,8 @@
     <Compile Include="Adapters\ContactsAdapter.cs" />
     <Compile Include="Adapters\ContactPhoneNumberEntryAdapter.cs" />
     <Compile Include="Fragments\ContactProfileFragment.cs" />
+    <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
+    <Compile Include="Fragments\PrivacyFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -414,6 +416,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\defaultprofile.png" />
     <AndroidResource Include="Resources\drawable-hdpi\contacts2.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ShareIcon.png" />
+    <AndroidResource Include="Resources\layout\PrivacyPolicy.axml" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

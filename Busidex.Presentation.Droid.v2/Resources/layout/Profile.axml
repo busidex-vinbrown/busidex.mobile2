@@ -144,7 +144,6 @@
             android:layout_marginTop="28dp"
             android:layout_toRightOf="@id/imgAcceptTerms">
             <Button
-                android="I accept the"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtAcceptTerms"
@@ -180,26 +179,86 @@
             android:paddingRight="5dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp" />
+    <!--SAVE PROFILE-->
         <Button
-            android:text="Save"
+            android:text="Save Profile"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_below="@id/lotAcceptTerms"
             android:id="@+id/btnSaveProfile"
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/buttonFontColor"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp" />
-        <ImageButton
-            android:src="@drawable/Exit"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="15dp" />
+    <!--SIGN OUT-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:id="@+id/btnLogout"
-            android:scaleType="fitXY"
-            android:background="@android:color/transparent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp" />
+            android:src="@drawable/button"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="none"
+            android:textColor="#ffff5252"
+            android:background="@color/listBackgroundLight"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="Sign Out"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:layout_alignParentBottom="true" />
+    <!--PRIVACY-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/btnPrivacy"
+            android:layout_above="@id/btnLogout"
+            android:src="@drawable/button"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="none"
+            android:textColor="@color/buttonFontColor"
+            android:background="@color/listBackgroundLight"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="Privacy Policy"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp" />
+    <!--TERMS AND CONDITIONS-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/btnTermsAndConditions"
+            android:layout_above="@id/btnPrivacy"
+            android:src="@drawable/button"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="none"
+            android:textColor="@color/buttonFontColor"
+            android:background="@color/listBackgroundLight"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="Terms and Conditions"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp" />
+    <!--EDIT CARD-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/btnEditCard"
+            android:layout_above="@id/btnTermsAndConditions"
+            android:src="@drawable/button"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="none"
+            android:textColor="@color/buttonWhite"
+            android:background="@android:color/holo_blue_light"
+            android:alpha=".8"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="Add or Edit My Card"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_height="fill_parent"

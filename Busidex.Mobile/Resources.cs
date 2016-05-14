@@ -81,6 +81,8 @@ namespace Busidex.Mobile
 		public const string GA_SCREEN_EVENTS = "Events";
 		public const string GA_SCREEN_REFERRALS = "Referrals";
 		public const string GA_SCREEN_PROFILE = "Profile";
+		public const string GA_SCREEN_TERMS = "Terms and Conditions";
+		public const string GA_SCREEN_PRIVACY = "Privacy Policy";
 
 		public const string TWILLIO_SID_PROD = "AC74907b35cd4dc40f595dc4f8809d10ba";
 		public const string TWILLIO_AUTH_TOKEN_PROD = "401066fdfc0fe0fbc7a1ead2eadc55c5";
