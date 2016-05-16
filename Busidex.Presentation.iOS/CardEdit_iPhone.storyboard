@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="4">
+            <objects>
+                <viewController id="5" sceneMemberID="viewController" customClass="CardImageController" storyboardIdentifier="CardImageController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2"/>
+                        <viewControllerLayoutGuide type="bottom" id="3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" translatesAutoresizingMaskIntoConstraints="NO" alpha="0.9" numberOfLines="3" text="Set the image for the Front and Back of your card. You can choose from a picture on your device or take the picture now." textAlignment="center" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="75" width="320" height="83"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact">
+                                    <rect key="frame" x="0.0" y="47" width="375" height="83"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="47" width="320" height="83"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="23" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="10" y="238" width="300" height="180"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                <state key="normal" image="default_photo.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact">
+                                    <rect key="frame" x="38" y="140" width="300" height="180"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="10" y="194" width="300" height="180"/>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="31" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="5" y="231" width="20" height="20"/>
+                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
+                                <state key="normal" backgroundImage="rotate.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="10" y="194" width="20" height="20"/>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="79" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="525" width="160" height="43"/>
+                                <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0" blue="1" alpha="1"/>
+                                <state key="normal" title="FRONT">
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="80" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="525" width="160" height="43"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <state key="normal" title="BACK">
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                </state>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnCardImage" destination="23" id="name-outlet-23"/>
+                        <outlet property="btnRotateFront" destination="31" id="name-outlet-31"/>
+                        <outlet property="lblTitle" destination="28" id="name-outlet-28"/>
+                        <outlet property="btnFront" destination="79" id="name-outlet-79"/>
+                        <outlet property="btnBack" destination="80" id="name-outlet-80"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136" y="115"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="add.png" width="128" height="128"/>
+        <image name="browser.png" width="512" height="512"/>
+        <image name="Busidex-icon.png" width="252" height="220"/>
+        <image name="card-ring.png" width="412" height="372"/>
+        <image name="checkmark.png" width="16" height="16"/>
+        <image name="defaultUserImage.png" width="512" height="512"/>
+        <image name="email-icon.png" width="396" height="408"/>
+        <image name="fb.png" width="256" height="256"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Busidex Logo Concepts.png" width="261" height="248"/>
+        <image name="maps.png" width="64" height="64"/>
+        <image name="notes.png" width="256" height="256"/>
+        <image name="People.jpg" width="259" height="194"/>
+        <image name="phone.png" width="64" height="64"/>
+        <image name="red_minus.png" width="128" height="128"/>
+        <image name="remove.png" width="128" height="128"/>
+        <image name="settings.png" width="64" height="64"/>
+        <image name="share.png" width="128" height="128"/>
+        <image name="signin.png" width="256" height="256"/>
+        <image name="spotlight-icon.png" width="100" height="100"/>
+        <image name="sync.png" width="42" height="43"/>
+        <image name="twitter.png" width="128" height="128"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="Default-568h.png" width="320" height="568"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="icons/Default-568h.png" width="320" height="568"/>
+        <image name="icons/busidex_artwork_1024x1024.png" width="1024" height="1024"/>
+        <image name="icons/busidex_artwork_512x512.png" width="512" height="512"/>
+        <image name="icons/busidex_splash_320x480.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x1136.png" width="640" height="1136"/>
+        <image name="icons/busidex_splash_640x960.png" width="640" height="960"/>
+        <image name="icons/ipad_launch_1024x768px.png" width="1024" height="768"/>
+        <image name="icons/ipad_launch_1536x2048px.png" width="1536" height="2048"/>
+        <image name="icons/ipad_launch_2048x1536px.png" width="2048" height="1536"/>
+        <image name="icons/ipad_launch_768x1024px.png" width="768" height="1024"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="60" height="60"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Exit.png" width="60" height="60"/>
+        <image name="delete.png" width="102" height="102"/>
+        <image name="delete.jpeg" width="204" height="204"/>
+        <image name="event.jpg" width="200" height="200"/>
+        <image name="event.png" width="173" height="120"/>
+        <image name="logo3.png" width="77" height="72"/>
+        <image name="spotlight-icon2.png" width="130" height="130"/>
+        <image name="EventIcon.png" width="105" height="105"/>
+        <image name="MyBusidexIcon.png" width="105" height="105"/>
+        <image name="OrganizationsIcon.png" width="105" height="105"/>
+        <image name="SearchIcon.png" width="105" height="105"/>
+        <image name="background_blur5.png" width="280" height="450"/>
+        <image name="cards_back2.png" width="324" height="486"/>
+        <image name="main_blur2.png" width="599" height="899"/>
+        <image name="profile2_blur.png" width="584" height="876"/>
+        <image name="Lato-Black.ttf" width="0" height="0"/>
+        <image name="roundback.png" width="381" height="235"/>
+        <image name="EventIcon_disabled.png" width="105" height="105"/>
+        <image name="MyBusidexIcon_disabled.png" width="105" height="105"/>
+        <image name="OrganizationsIcon_disabled.png" width="105" height="105"/>
+        <image name="SearchIcon_disabled.png" width="105" height="105"/>
+        <image name="EventIconBack.png" width="105" height="105"/>
+        <image name="FAQ.png" width="105" height="105"/>
+        <image name="Notification.png" width="105" height="105"/>
+        <image name="button.png" width="284" height="98"/>
+        <image name="textmessage.png" width="256" height="256"/>
+        <image name="contacts.jpg" width="175" height="175"/>
+        <image name="contacts2.png" width="250" height="250"/>
+        <image name="ShareIcon.png" width="105" height="105"/>
+        <image name="spinner.gif" width="150" height="150"/>
+        <image name="default_photo.png" width="64" height="64"/>
+        <image name="rotate.png" width="484" height="432"/>
+        <image name="orientation_h.jpg" width="626" height="626"/>
+        <image name="orientation_v.png" width="626" height="626"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

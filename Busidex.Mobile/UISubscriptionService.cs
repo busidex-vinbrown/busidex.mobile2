@@ -55,6 +55,8 @@ namespace Busidex.Mobile
 		static readonly OrganizationController organizationController;
 		static readonly SearchController searchController;
 
+		public static Card OwnedCard { get; set; }
+
 		public static List<UserCard> UserCards { get; set; }
 
 		public static List<EventTag> EventList { get; set; }
@@ -139,6 +141,7 @@ namespace Busidex.Mobile
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
 			Notifications = new List<SharedCard> ();
+			OwnedCard = new Card ();
 		}
 
 		#region Initialization / Startup
@@ -170,6 +173,9 @@ namespace Busidex.Mobile
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser ();
 			CurrentUser = CurrentUser ?? new BusidexUser ();
+
+			OwnedCard = loadDataFromFile<Card> (Path.Combine (Resources.DocumentsPath, Resources.OWNED_CARD_FILE)) ?? await loadOwnedCard ();
+			OwnedCard = OwnedCard ?? new Card ();
 
 			UserCards = loadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if (UserCards == null || UserCards.Count == 0) {
@@ -277,6 +283,7 @@ namespace Busidex.Mobile
 
 			loadUser ();
 
+			await loadOwnedCard ();
 			await loadUserCards ();	
 			await loadOrganizations ();
 			await loadEventList ();
@@ -1113,6 +1120,23 @@ namespace Busidex.Mobile
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 				return null;
+			}
+			return null;
+		}
+
+		static async Task<Card> loadOwnedCard ()
+		{
+
+			try {
+				
+				var cardJson = await CardController.GetMyCard ();
+				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (cardJson);
+				OwnedCard = cardResponse.Success ? new Card (cardResponse.Model) : null;
+				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (OwnedCard), Resources.OWNED_CARD_FILE);
+
+				return OwnedCard;
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
 			}
 			return null;
 		}

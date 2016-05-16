@@ -27,7 +27,6 @@ namespace Busidex.Presentation.iOS
 
 		void LoadCard ()
 		{
-
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
@@ -186,14 +185,19 @@ namespace Busidex.Presentation.iOS
 				imgCardShared.Hidden = true;
 
 				var user = NSUserDefaults.StandardUserDefaults;
-				var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
-				if (string.IsNullOrEmpty (displayName)) {
-					var accountResponse = AccountController.GetAccount (UISubscriptionService.AuthToken);
-					var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
-					displayName = account.UserAccount.DisplayName;
+				if (user != null) {
+					var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
+					if (string.IsNullOrEmpty (displayName)) {
+						var accountResponse = AccountController.GetAccount (UISubscriptionService.AuthToken);
+						if (accountResponse != null) {
+							var account = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountResponse);
+							if (account != null) {
+								displayName = account.UserAccount.DisplayName;
+							}
+						}
+					}
+					txtDisplayName.Text = displayName;
 				}
-				txtDisplayName.Text = displayName;
-
 				LoadCard ();
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
@@ -249,7 +253,6 @@ namespace Busidex.Presentation.iOS
 					picker.DisplayedPropertyKeys = new [] { CNContactKey.PhoneNumbers };
 					picker.PredicateForEnablingContact = NSPredicate.FromFormat ("phoneNumbers.@count > 0");
 					picker.PredicateForSelectionOfContact = NSPredicate.FromFormat ("phoneNumbers.@count == 0"); // always allow the user to see the contact details
-
 
 					// Respond to selection
 					picker.Delegate = new ContactPickerDelegate (txtPhoneNumber);

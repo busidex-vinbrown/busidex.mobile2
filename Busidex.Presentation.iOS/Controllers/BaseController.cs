@@ -20,6 +20,7 @@ namespace Busidex.Presentation.iOS
 
 		public static UIStoryboard board;
 		public static UIStoryboard orgBoard;
+		public static UIStoryboard cardBoard;
 		public static EventListController eventListController;
 		public static EventCardsController eventCardsController;
 		public static MyBusidexController myBusidexController;
@@ -36,6 +37,7 @@ namespace Busidex.Presentation.iOS
 		public static PrivacyController privacyController;
 		public static LoginController loginController;
 		public static CreateProfileController createProfileController;
+		public static CardImageController cardImageController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -51,6 +53,7 @@ namespace Busidex.Presentation.iOS
 		{
 			board = board ?? UIStoryboard.FromName ("MainStoryboard_iPhone", null);
 			orgBoard = orgBoard ?? UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
+			cardBoard = cardBoard ?? UIStoryboard.FromName ("CardEdit_iPhone", null);
 
 			loginController = loginController ?? board.InstantiateViewController ("LoginController") as LoginController;
 			eventListController = eventListController ?? board.InstantiateViewController ("EventListController") as EventListController;
@@ -68,6 +71,7 @@ namespace Busidex.Presentation.iOS
 			createProfileController = createProfileController ?? board.InstantiateViewController ("CreateProfileController") as CreateProfileController;
 			termsController = termsController ?? board.InstantiateViewController ("TermsController") as TermsController;
 			privacyController = privacyController ?? board.InstantiateViewController ("PrivacyController") as PrivacyController;
+			cardImageController = cardImageController ?? cardBoard.InstantiateViewController ("CardImageController") as CardImageController;
 		}
 
 		protected void ShowOverlay ()
@@ -208,6 +212,15 @@ namespace Busidex.Presentation.iOS
 				View.Add (Overlay);
 			});
 
+		}
+
+		protected void GoToCardEdit ()
+		{
+			if (NavigationController.ChildViewControllers.Count (c => c is CardImageController) == 0) {
+				NavigationController.PushViewController (cardImageController, true);
+			} else {
+				NavigationController.PopToViewController (cardImageController, true);
+			}	
 		}
 
 		protected void GoToTerms ()

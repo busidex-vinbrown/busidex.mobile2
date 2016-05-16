@@ -112,7 +112,8 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnMyCard.TouchUpInside += delegate {
-				OpenBrowser ();
+				//OpenBrowser ();
+				GoToCardEdit ();
 			};
 
 			btnTerms.TouchUpInside += delegate {

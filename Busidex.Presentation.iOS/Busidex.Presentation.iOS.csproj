@@ -313,6 +313,10 @@
     <Compile Include="Controllers\CreateProfileController.designer.cs">
       <DependentUpon>CreateProfileController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CardImageController.cs" />
+    <Compile Include="Controllers\CardImageController.designer.cs">
+      <DependentUpon>CardImageController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -341,6 +345,8 @@
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\PrivacyController.xib" />
     <InterfaceDefinition Include="Controllers\CreateProfileController.xib" />
+    <InterfaceDefinition Include="CardEdit_iPhone.storyboard" />
+    <InterfaceDefinition Include="Controllers\CardImageController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -436,6 +442,8 @@
     <BundleResource Include="Resources\contacts2.png" />
     <BundleResource Include="Resources\ShareIcon.png" />
     <BundleResource Include="Resources\spinner.gif" />
+    <BundleResource Include="Resources\default_photo.png" />
+    <BundleResource Include="Resources\rotate.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
