@@ -2,7 +2,6 @@
 
 using System.Linq;
 using GoogleAnalytics.iOS;
-using Busidex.Mobile.Models;
 using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS

@@ -46,9 +46,6 @@ namespace Busidex.Presentation.iOS
 
 				SaveCard ();
 			};
-
-
-
 		}
 
 		public override void SaveCard ()
@@ -59,12 +56,6 @@ namespace Busidex.Presentation.iOS
 
 				base.SaveCard ();
 			}
-		}
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
 		}
 	}
 }

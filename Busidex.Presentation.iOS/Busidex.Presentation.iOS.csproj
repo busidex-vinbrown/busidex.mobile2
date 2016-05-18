@@ -487,6 +487,7 @@
     <BundleResource Include="Resources\tags_64x64.png" />
     <BundleResource Include="Resources\visibility_64x64.png" />
     <BundleResource Include="Resources\default_photo_64x64.png" />
+    <BundleResource Include="Resources\ddArrow.gif" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
