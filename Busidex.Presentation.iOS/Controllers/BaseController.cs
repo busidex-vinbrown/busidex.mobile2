@@ -37,7 +37,13 @@ namespace Busidex.Presentation.iOS
 		public static PrivacyController privacyController;
 		public static LoginController loginController;
 		public static CreateProfileController createProfileController;
+		public static CardMenuController cardMenuController;
 		public static CardImageController cardImageController;
+		public static SearchInfoController searchInfoController;
+		public static ContactInfoController contactInfoController;
+		public static CardTagsController cardTagsController;
+		public static AddressInfoController addressInfoController;
+		public static VisibilityController visibilityController;
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -71,7 +77,13 @@ namespace Busidex.Presentation.iOS
 			createProfileController = createProfileController ?? board.InstantiateViewController ("CreateProfileController") as CreateProfileController;
 			termsController = termsController ?? board.InstantiateViewController ("TermsController") as TermsController;
 			privacyController = privacyController ?? board.InstantiateViewController ("PrivacyController") as PrivacyController;
+			cardMenuController = cardMenuController ?? cardBoard.InstantiateViewController ("CardMenuController") as CardMenuController;
 			cardImageController = cardImageController ?? cardBoard.InstantiateViewController ("CardImageController") as CardImageController;
+			searchInfoController = searchInfoController ?? cardBoard.InstantiateViewController ("SearchInfoController") as SearchInfoController;
+			contactInfoController = contactInfoController ?? cardBoard.InstantiateViewController ("ContactInfoController") as ContactInfoController;
+			cardTagsController = cardTagsController ?? cardBoard.InstantiateViewController ("CardTagsController") as CardTagsController;
+			addressInfoController = addressInfoController ?? cardBoard.InstantiateViewController ("AddressInfoController") as AddressInfoController;
+			visibilityController = visibilityController ?? cardBoard.InstantiateViewController ("VisibilityController") as VisibilityController;
 		}
 
 		protected void ShowOverlay ()
@@ -93,13 +105,6 @@ namespace Busidex.Presentation.iOS
 			return layer;
 		}
 
-
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-
-		}
-
 		public override void ViewWillAppear (bool animated)
 		{
 			NavigationController.SetToolbarHidden (true, false);
@@ -115,7 +120,6 @@ namespace Busidex.Presentation.iOS
 
 		protected static void SetRefreshCookie (string name)
 		{
-
 			try {
 				var user = NSUserDefaults.StandardUserDefaults;
 				DateTime nextRefresh = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays (1);
@@ -214,12 +218,12 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected void GoToCardEdit ()
+		protected void GoToCardEditMenu ()
 		{
-			if (NavigationController.ChildViewControllers.Count (c => c is CardImageController) == 0) {
-				NavigationController.PushViewController (cardImageController, true);
+			if (NavigationController.ChildViewControllers.Count (c => c is CardMenuController) == 0) {
+				NavigationController.PushViewController (cardMenuController, true);
 			} else {
-				NavigationController.PopToViewController (cardImageController, true);
+				NavigationController.PopToViewController (cardMenuController, true);
 			}	
 		}
 

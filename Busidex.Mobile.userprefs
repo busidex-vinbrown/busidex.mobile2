@@ -1,18 +1,31 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.3" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/SearchInfoController.designer.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="41" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="15" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SettingsController.cs" Line="120" Column="8" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="196" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardMenuController.cs" Line="10" Column="66" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="12" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/VisibilityController.cs" Line="9" Column="68" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" Line="4" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardTagsController.cs" Line="8" Column="66" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/AddressInfoController.cs" Line="8" Column="69" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.cs" Line="4" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="18" Column="18" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SettingsController.cs" Line="194" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.designer.cs" Line="14" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Busidex.Mobile" expanded="True">
-            <Node name="Busidex.Presentation.iOS" expanded="True" selected="True">
-              <Node name="Controllers" expanded="True" />
+            <Node name="Busidex.Mobile" expanded="True">
+              <Node name="Models" expanded="True" />
+            </Node>
+            <Node name="Busidex.Presentation.iOS" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="SearchInfoController.cs" expanded="True">
+                  <Node name="SearchInfoController.designer.cs" selected="True" />
+                </Node>
+              </Node>
             </Node>
           </Node>
         </State>
@@ -35,12 +48,12 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Busidex.Mobile/BaseController.cs" line="14" offsetX="1209" offsetY="195" expression="token" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
+  <DisabledProjects>
+    <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
   </MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS>
-  <DisabledProjects>
-    <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>
-  </DisabledProjects>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

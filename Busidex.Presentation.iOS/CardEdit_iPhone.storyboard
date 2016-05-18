@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="112" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
     </dependencies>
@@ -8,49 +8,34 @@
             <objects>
                 <viewController id="5" sceneMemberID="viewController" customClass="CardImageController" storyboardIdentifier="CardImageController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="2"/>
-                        <viewControllerLayoutGuide type="bottom" id="3"/>
+                        <viewControllerLayoutGuide type="top" id="231"/>
+                        <viewControllerLayoutGuide type="bottom" id="232"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" translatesAutoresizingMaskIntoConstraints="NO" alpha="0.9" numberOfLines="3" text="Set the image for the Front and Back of your card. You can choose from a picture on your device or take the picture now." textAlignment="center" fixedFrame="YES">
-                                <rect key="frame" x="0.0" y="75" width="320" height="83"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" alpha="0.9" numberOfLines="3" text="Set the image for the Front and Back of your card. You can choose from a picture on your device or take the picture now." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="47" width="320" height="83"/>
                                 <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact">
-                                    <rect key="frame" x="0.0" y="47" width="375" height="83"/>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="47" width="320" height="83"/>
-                                </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="23" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="10" y="238" width="300" height="180"/>
+                                <rect key="frame" x="10" y="194" width="300" height="180"/>
                                 <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 <state key="normal" image="default_photo.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="widthClass=compact">
-                                    <rect key="frame" x="38" y="140" width="300" height="180"/>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="10" y="194" width="300" height="180"/>
-                                </variation>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="31" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="5" y="231" width="20" height="20"/>
+                                <rect key="frame" x="10" y="194" width="20" height="20"/>
                                 <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
                                 <state key="normal" backgroundImage="rotate.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="10" y="194" width="20" height="20"/>
-                                </variation>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="79" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
                                 <rect key="frame" x="0.0" y="525" width="160" height="43"/>
@@ -80,7 +65,248 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136" y="115"/>
+            <point key="canvasLocation" x="517" y="102"/>
+        </scene>
+        <scene sceneID="111">
+            <objects>
+                <viewController id="112" sceneMemberID="viewController" customClass="CardMenuController" storyboardIdentifier="CardMenuController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="233"/>
+                        <viewControllerLayoutGuide type="bottom" id="234"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="113">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="133" image="visibility_64x64.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="128" width="120" height="100"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="131" image="contacts_64x64.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="228" width="120" height="100"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="130" image="default_photo_64x64.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="128" width="120" height="100"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="132" image="tags_64x64.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="328" width="120" height="100"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="134" image="search_64x64.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="228" width="120" height="100"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" id="135" image="maps.png" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="328" width="120" height="100"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="136" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="128" width="120" height="100"/>
+                                <state key="normal" title="Card Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="137" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="128" width="120" height="100"/>
+                                <state key="normal" title="Visibility">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="138" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="228" width="120" height="100"/>
+                                <state key="normal" title="Contact Info">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="139" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="228" width="120" height="100"/>
+                                <state key="normal" title="Search Info">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="140" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="160" y="328" width="120" height="100"/>
+                                <state key="normal" title="Address">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" id="141" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="40" y="328" width="120" height="100"/>
+                                <state key="normal" title="Card Tags">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnCardImage" destination="136" id="name-outlet-136"/>
+                        <outlet property="btnVisibility" destination="137" id="name-outlet-137"/>
+                        <outlet property="btnContactInfo" destination="138" id="name-outlet-138"/>
+                        <outlet property="btnSearchInfo" destination="139" id="name-outlet-139"/>
+                        <outlet property="btnTags" destination="141" id="name-outlet-141"/>
+                        <outlet property="btnAddressInfo" destination="140" id="name-outlet-140"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="114" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="122" y="103"/>
+        </scene>
+        <scene sceneID="146">
+            <objects>
+                <viewController id="147" sceneMemberID="viewController" customClass="VisibilityController" storyboardIdentifier="VisibilityController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="235"/>
+                        <viewControllerLayoutGuide type="bottom" id="236"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="148">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="149" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="904" y="105"/>
+        </scene>
+        <scene sceneID="153">
+            <objects>
+                <viewController id="154" sceneMemberID="viewController" customClass="SearchInfoController" storyboardIdentifier="SearchInfoController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="237"/>
+                        <viewControllerLayoutGuide type="bottom" id="238"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="155">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="How will your card be found?" lineBreakMode="tailTruncation" minimumFontSize="10" id="184" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="84" width="320" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.50196078431372548" blue="1" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="202" customClass="TPKeyboardAvoidingScrollView" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="180" width="320" height="360"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Company Name" lineBreakMode="tailTruncation" minimumFontSize="10" id="185" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="10" width="139" height="21"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="188" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="34" width="270" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your Name" lineBreakMode="tailTruncation" minimumFontSize="10" id="186" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="75" width="115" height="21"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="189" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="101" width="270" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" minimumFontSize="10" id="187" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="139" width="42" height="21"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="190" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="25" y="159" width="270" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="193" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                        <rect key="frame" x="88" y="251" width="143" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="Save" backgroundImage="button.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </scrollView>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" id="183" text="Add your Name, Company Name and Title to your card so people searching for those terms will find you." textAlignment="center" editable="NO" selectable="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bounces="NO" userInteractionEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="106" width="320" height="85"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </textView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="vwFields" destination="202" id="name-outlet-202"/>
+                        <outlet property="lblInstructions" destination="183" id="name-outlet-183"/>
+                        <outlet property="txtCompanyName" destination="188" id="name-outlet-188"/>
+                        <outlet property="txtName" destination="189" id="name-outlet-189"/>
+                        <outlet property="txtTitle" destination="190" id="name-outlet-190"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="156" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="122" y="749"/>
+        </scene>
+        <scene sceneID="160">
+            <objects>
+                <viewController id="161" sceneMemberID="viewController" customClass="CardTagsController" storyboardIdentifier="CardTagsController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="239"/>
+                        <viewControllerLayoutGuide type="bottom" id="240"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="162">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="163" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="516" y="747"/>
+        </scene>
+        <scene sceneID="167">
+            <objects>
+                <viewController id="168" sceneMemberID="viewController" customClass="ContactInfoController" storyboardIdentifier="ContactInfoController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="241"/>
+                        <viewControllerLayoutGuide type="bottom" id="242"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="169">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="170" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1256" y="105"/>
+        </scene>
+        <scene sceneID="174">
+            <objects>
+                <viewController id="175" sceneMemberID="viewController" customClass="AddressInfoController" storyboardIdentifier="AddressInfoController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="243"/>
+                        <viewControllerLayoutGuide type="bottom" id="244"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="176">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="177" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="903" y="750"/>
         </scene>
     </scenes>
     <resources>
@@ -160,8 +386,17 @@
         <image name="rotate.png" width="484" height="432"/>
         <image name="orientation_h.jpg" width="626" height="626"/>
         <image name="orientation_v.png" width="626" height="626"/>
+        <image name="tags.png" width="256" height="256"/>
+        <image name="visibility.png" width="256" height="256"/>
+        <image name="contacts_64x64.png" width="64" height="64"/>
+        <image name="search_64x64.png" width="64" height="64"/>
+        <image name="tags_64x64.png" width="64" height="64"/>
+        <image name="visibility_64x64.png" width="64" height="64"/>
+        <image name="default_photo_64x64.png" width="64" height="64"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

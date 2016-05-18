@@ -7,10 +7,8 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class CardImageController : BaseController
+	public partial class CardImageController : BaseCardEditController
 	{
-		public Card SelectedCard{ get; set; }
-
 		//BusinessCardDimensions frontDimensions;
 		//BusinessCardDimensions backDimensions;
 		enum DisplayMode

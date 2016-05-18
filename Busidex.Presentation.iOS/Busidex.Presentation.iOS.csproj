@@ -173,6 +173,9 @@
     <Reference Include="Branch-Xamarin-SDK">
       <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
+    <Reference Include="TPKeyboardAvoiding">
+      <HintPath>..\Components\TPKeyboardAvoiding-1.2.11.0\lib\ios-unified\TPKeyboardAvoiding.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -317,6 +320,34 @@
     <Compile Include="Controllers\CardImageController.designer.cs">
       <DependentUpon>CardImageController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CardMenuController.cs" />
+    <Compile Include="Controllers\CardMenuController.designer.cs">
+      <DependentUpon>CardMenuController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ContactInfoController.cs" />
+    <Compile Include="Controllers\ContactInfoController.designer.cs">
+      <DependentUpon>ContactInfoController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CardTagsController.cs" />
+    <Compile Include="Controllers\CardTagsController.designer.cs">
+      <DependentUpon>CardTagsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AddressInfoController.cs" />
+    <Compile Include="Controllers\AddressInfoController.designer.cs">
+      <DependentUpon>AddressInfoController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\SearchInfoController.cs" />
+    <Compile Include="Controllers\SearchInfoController.designer.cs">
+      <DependentUpon>SearchInfoController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\VisibilityController.cs" />
+    <Compile Include="Controllers\VisibilityController.designer.cs">
+      <DependentUpon>VisibilityController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\BaseCardEditController.cs" />
+    <Compile Include="Controllers\BaseCardEditController.designer.cs">
+      <DependentUpon>BaseCardEditController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -347,6 +378,13 @@
     <InterfaceDefinition Include="Controllers\CreateProfileController.xib" />
     <InterfaceDefinition Include="CardEdit_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\CardImageController.xib" />
+    <InterfaceDefinition Include="Controllers\CardMenuController.xib" />
+    <InterfaceDefinition Include="Controllers\ContactInfoController.xib" />
+    <InterfaceDefinition Include="Controllers\CardTagsController.xib" />
+    <InterfaceDefinition Include="Controllers\AddressInfoController.xib" />
+    <InterfaceDefinition Include="Controllers\SearchInfoController.xib" />
+    <InterfaceDefinition Include="Controllers\VisibilityController.xib" />
+    <InterfaceDefinition Include="Controllers\BaseCardEditController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -444,6 +482,11 @@
     <BundleResource Include="Resources\spinner.gif" />
     <BundleResource Include="Resources\default_photo.png" />
     <BundleResource Include="Resources\rotate.png" />
+    <BundleResource Include="Resources\contacts_64x64.png" />
+    <BundleResource Include="Resources\search_64x64.png" />
+    <BundleResource Include="Resources\tags_64x64.png" />
+    <BundleResource Include="Resources\visibility_64x64.png" />
+    <BundleResource Include="Resources\default_photo_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
@@ -468,6 +511,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="PlaceholderEnabledUITextView">
       <Version>1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="TPKeyboardAvoiding">
+      <Version>1.2.11.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
