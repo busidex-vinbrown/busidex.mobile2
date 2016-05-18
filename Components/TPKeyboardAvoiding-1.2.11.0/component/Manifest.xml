@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="TPKeyboardAvoiding">
+  <name>TPKeyboardAvoiding</name>
+  <publisher>Xamarin Inc</publisher>
+  <publisher-url>https://xamarin.com</publisher-url>
+  <version>1.2.11.0</version>
+  <summary>A drop-in universal solution for moving text fields out of the way of the keyboard in iOS.</summary>
+  <samples>
+    <sample id="TPKeyboardAvoidingSample">
+      <name>TPKeyboardAvoiding Sample</name>
+      <summary>TPKeyboardAvoiding Sample</summary>
+    </sample>
+  </samples>
+</component>
