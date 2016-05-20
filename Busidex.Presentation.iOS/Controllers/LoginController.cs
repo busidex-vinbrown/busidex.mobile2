@@ -11,8 +11,6 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class LoginController : BaseController
 	{
-		//LoadingOverlay loadingOverlay;
-
 		public LoginController (IntPtr handle) : base (handle)
 		{
 		}

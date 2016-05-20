@@ -18,16 +18,6 @@ namespace Busidex.Presentation.iOS
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Search Info");
 
 			base.ViewDidAppear (animated);
-
-//			txtCompanyName = vwFields.Subviews.GetValue (1) as UITextField;
-//			txtName = vwFields.Subviews.GetValue (3) as UITextField;
-//			txtTitle = vwFields.Subviews.GetValue (5) as UITextField;
-
-			if (SelectedCard != null) {
-				txtCompanyName.Text = SelectedCard.CompanyName;
-				txtName.Text = SelectedCard.Name;
-				txtTitle.Text = SelectedCard.Title;
-			}
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -35,6 +25,12 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			var frame = lblInstructions.Frame;
 			lblInstructions.Frame = new CoreGraphics.CGRect (frame.X, 95f, frame.Width, frame.Height);
+
+			if (SelectedCard != null) {
+				txtCompanyName.Text = SelectedCard.CompanyName;
+				txtName.Text = SelectedCard.Name;
+				txtTitle.Text = SelectedCard.Title;
+			}
 		}
 
 		public override void ViewDidLoad ()

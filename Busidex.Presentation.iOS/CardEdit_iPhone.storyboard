@@ -349,7 +349,80 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tag Your Card!" lineBreakMode="tailTruncation" minimumFontSize="10" id="343" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="84" width="320" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.50196078431372548" blue="1" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" id="344" textAlignment="center" editable="NO" selectable="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bounces="NO" userInteractionEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="106" width="320" height="127"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <string key="text">Tags are short keywords that describe your business so if people don't know your name, they can find you by your tags. Tags can be up to 35 letters, and you can add up to 7.</string>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="348" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="88" y="515" width="143" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Save" backgroundImage="button.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="371" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 1">
+                                <rect key="frame" x="52" y="241" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="390" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 2">
+                                <rect key="frame" x="52" y="279" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="391" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 3">
+                                <rect key="frame" x="52" y="317" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="392" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 4">
+                                <rect key="frame" x="52" y="355" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="393" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 7">
+                                <rect key="frame" x="52" y="469" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="394" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 6">
+                                <rect key="frame" x="52" y="431" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="395" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" placeholder="Tag 5">
+                                <rect key="frame" x="52" y="393" width="215" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                     </view>
+                    <connections>
+                        <outlet property="btnSave" destination="348" id="name-outlet-348"/>
+                        <outlet property="txtTag1" destination="371" id="name-outlet-371"/>
+                        <outlet property="txtTag2" destination="390" id="name-outlet-390"/>
+                        <outlet property="txtTag3" destination="391" id="name-outlet-391"/>
+                        <outlet property="txtTag4" destination="392" id="name-outlet-392"/>
+                        <outlet property="txtTag5" destination="395" id="name-outlet-395"/>
+                        <outlet property="txtTag6" destination="394" id="name-outlet-394"/>
+                        <outlet property="txtTag7" destination="393" id="name-outlet-393"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="163" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
