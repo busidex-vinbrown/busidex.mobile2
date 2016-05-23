@@ -16,7 +16,11 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSave { get; set; }
+		UILabel lblDescription { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblTitle { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -46,11 +50,19 @@ namespace Busidex.Presentation.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtTag7 { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		TPKeyboardAvoiding.TPKeyboardAvoidingScrollView vwFields { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSave != null) {
-				btnSave.Dispose ();
-				btnSave = null;
+			if (lblDescription != null) {
+				lblDescription.Dispose ();
+				lblDescription = null;
+			}
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
 			}
 			if (txtTag1 != null) {
 				txtTag1.Dispose ();
@@ -79,6 +91,10 @@ namespace Busidex.Presentation.iOS
 			if (txtTag7 != null) {
 				txtTag7.Dispose ();
 				txtTag7 = null;
+			}
+			if (vwFields != null) {
+				vwFields.Dispose ();
+				vwFields = null;
 			}
 		}
 	}

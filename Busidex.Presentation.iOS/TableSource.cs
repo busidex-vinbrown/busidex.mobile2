@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.Drawing;
 using System.Linq;
-using Busidex.Mobile;
 using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	public class TableSource : BaseTableSource {
+	public class TableSource : BaseTableSource
+	{
 
 		public bool NoCards;
 
-		public bool ShowNotes{ get; set;}
+		public bool ShowNotes{ get; set; }
 
 		List<UserCard> TableItems;
 
@@ -29,19 +29,14 @@ namespace Busidex.Presentation.iOS
 
 			Cards.AddRange (items);
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-
-			if (cookie != null) {
-				userToken = cookie.Value;
-			}
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			return TableItems.Count;
 		}
-			
-		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			if (NoCards || Cards == null || indexPath.Row >= Cards.Count) {
 				return BASE_CELL_HEIGHT;
@@ -56,7 +51,7 @@ namespace Busidex.Presentation.iOS
 					? BASE_CELL_HEIGHT
 						: CARD_HEIGHT_VERTICAL + 65f;
 		}
-			
+
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
 			
@@ -84,14 +79,15 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		public void AddControls(UITableViewCell cell, UserCard card, int idx){
+		public void AddControls (UITableViewCell cell, UserCard card, int idx)
+		{
 
 			if (card != null && card.Card != null) {
 
 				var frame = new RectangleF (LEFT_MARGIN + 5f, 10f, (float)UIScreen.MainScreen.Bounds.Width, LABEL_HEIGHT);
 
 				var noCardLabel = cell.ContentView.Subviews.SingleOrDefault (v => v.Tag == -1);
-				if(noCardLabel != null){
+				if (noCardLabel != null) {
 					noCardLabel.RemoveFromSuperview ();
 				}
 				AddCardImageButton (card, cell, idx);

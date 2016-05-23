@@ -23,8 +23,8 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			var frame = lblInstructions.Frame;
-			lblInstructions.Frame = new CoreGraphics.CGRect (frame.X, 95f, frame.Width, frame.Height);
+			//var frame = lblInstructions.Frame;
+			//lblInstructions.Frame = new CoreGraphics.CGRect (frame.X, 95f, frame.Width, frame.Height);
 
 			if (SelectedCard != null) {
 				txtCompanyName.Text = SelectedCard.CompanyName;
@@ -37,9 +37,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			var btnSave = vwFields.Subviews.GetValue (6) as UIButton;
 			btnSave.TouchUpInside += delegate {
-
 				SaveCard ();
 			};
 		}

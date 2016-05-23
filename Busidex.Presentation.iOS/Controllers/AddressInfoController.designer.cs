@@ -24,11 +24,15 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextView lblInstructions { get; set; }
+		UILabel lblDescription { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblSelectedState { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblTitle { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -64,13 +68,17 @@ namespace Busidex.Presentation.iOS
 				btnSave.Dispose ();
 				btnSave = null;
 			}
-			if (lblInstructions != null) {
-				lblInstructions.Dispose ();
-				lblInstructions = null;
+			if (lblDescription != null) {
+				lblDescription.Dispose ();
+				lblDescription = null;
 			}
 			if (lblSelectedState != null) {
 				lblSelectedState.Dispose ();
 				lblSelectedState = null;
+			}
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
 			}
 			if (pckState != null) {
 				pckState.Dispose ();

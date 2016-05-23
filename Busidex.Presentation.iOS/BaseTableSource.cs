@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Busidex.Presentation.iOS
 {
-	public delegate void CardSelected(UserCard card);
+	public delegate void CardSelected (UserCard card);
 
 	public class BaseTableSource : UITableViewSource
 	{
@@ -22,29 +22,34 @@ namespace Busidex.Presentation.iOS
 		protected const float FEATURE_BUTTON_HEIGHT = 40f;
 		protected const float FEATURE_BUTTON_WIDTH = 40f;
 		protected const float FEATURE_BUTTON_MARGIN = 15f;
-		protected const float CARD_HEIGHT_VERTICAL = 220f;//170f;
-		protected const float CARD_HEIGHT_HORIZONTAL = 128f;//120f;
-		protected const float CARD_WIDTH_VERTICAL = 128f;//110f;
-		protected const float CARD_WIDTH_HORIZONTAL = 220f;//180f;
+		protected const float CARD_HEIGHT_VERTICAL = 220f;
+		protected const float CARD_HEIGHT_HORIZONTAL = 128f;
+		protected const float CARD_WIDTH_VERTICAL = 128f;
+		protected const float CARD_WIDTH_HORIZONTAL = 220f;
 		protected const float SUB_LABEL_FONT_SIZE = 17f;
 		protected const float SUB_SUB_LABEL_FONT_SIZE = 12f;
 		protected const string NONE_MATCH_FILTER = "No cards match your filter";
+
 		protected List<UserCard> Cards{ get; set; }
+
 		public UserCard SelectedCard{ get; set; }
 
 		readonly UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 239, 243);
 
 		protected List<UITableViewCell> cellCache;
-		public string NoCardsMessage{ get; set;}
+
+		public string NoCardsMessage{ get; set; }
+
 		public bool ShowNoCardMessage{ get; set; }
-		public bool IsFiltering{ get; set;}
+
+		public bool IsFiltering{ get; set; }
 
 		protected string documentsPath = Resources.DocumentsPath;
-		protected string userToken;
 
 		public event CardSelected CardSelected;
 
-		protected void LoadNoCardMessage(UITableViewCell cell){
+		protected void LoadNoCardMessage (UITableViewCell cell)
+		{
 
 			const float LABEL_HEIGHT = 61f * 3;
 			const float LABEL_WIDTH = 280f;
@@ -57,7 +62,7 @@ namespace Busidex.Presentation.iOS
 			lbl.Font = UIFont.FromName ("Helvetica", 17f);
 			lbl.Lines = 3;
 
-			foreach(var view in cell.ContentView.Subviews){
+			foreach (var view in cell.ContentView.Subviews) {
 				view.RemoveFromSuperview ();
 			}
 			lbl.Tag = -1;
@@ -67,15 +72,17 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected void GoToCard(int idx){
+		protected void GoToCard (int idx)
+		{
 			SelectedCard = Cards [idx];
 			if (CardSelected != null) {
 				CardSelected (SelectedCard);
-				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, userToken);
+				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 			}
 		}
 
-		protected void AddCardImageButton(UserCard card, UITableViewCell cell, int idx){
+		protected void AddCardImageButton (UserCard card, UITableViewCell cell, int idx)
+		{
 
 
 			var CardImageButton = cell.ContentView.Subviews.SingleOrDefault (s => s is UIButton && s.Tag == (int)Resources.UIElements.CardImage) as UIButton;
@@ -114,18 +121,19 @@ namespace Busidex.Presentation.iOS
 			cell.ContentView.AddSubview (CardImageButton);
 		}
 
-		protected void AddNameLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
+		protected void AddNameLabel (UserCard card, UITableViewCell cell, ref RectangleF frame)
+		{
 			var needsNameLabel = false;
-			var NameLabel = cell.ContentView.Subviews.SingleOrDefault(s=> s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
+			var NameLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.NameLabel) as UILabel;
 
 			if (NameLabel == null) {
 				NameLabel = new UILabel (frame);
 				needsNameLabel = true;
-			}else{
+			} else {
 				NameLabel.Frame = frame;
 			}
 			NameLabel.Tag = (int)Resources.UIElements.NameLabel;
-			NameLabel.Text = string.IsNullOrEmpty(card.Card.Name) ? "(No Name)" : card.Card.Name;
+			NameLabel.Text = string.IsNullOrEmpty (card.Card.Name) ? "(No Name)" : card.Card.Name;
 			NameLabel.Font = UIFont.FromName ("Helvetica-Bold", 16f);
 
 			frame.Y += LABEL_HEIGHT;
@@ -134,14 +142,15 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected void AddCompanyLabel(UserCard card, UITableViewCell cell, ref RectangleF frame){
+		protected void AddCompanyLabel (UserCard card, UITableViewCell cell, ref RectangleF frame)
+		{
 			var needsCompanyLabel = false;
 
 			var CompanyLabel = cell.ContentView.Subviews.SingleOrDefault (s => s.Tag == (int)Resources.UIElements.CompanyLabel) as UILabel;
 			if (CompanyLabel == null) {
 				CompanyLabel = new UILabel (frame);
 				needsCompanyLabel = true;
-			}else{
+			} else {
 				CompanyLabel.Frame = frame;
 			}
 
@@ -163,14 +172,12 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		protected bool PanelVisible{ get; set;}
-
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
 			return 1;
 		}
 
-		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 			return BASE_CELL_HEIGHT;
 		}

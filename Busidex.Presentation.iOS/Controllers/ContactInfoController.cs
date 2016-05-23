@@ -18,11 +18,30 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			txtEmail.Text = SelectedCard.Email;
+			txtUrl.Text = SelectedCard.Url;
+
+			tblPhoneNumbers.Source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			txtEmail.ShouldReturn += textField => {
+				textField.ResignFirstResponder ();
+				return true; 
+			};
+			txtUrl.ShouldReturn += textField => {
+				textField.ResignFirstResponder ();
+				return true; 
+			};
 
+			tblPhoneNumbers.RegisterClassForCellReuse (typeof(UITableViewCell), PhoneNumberTableSource.PhoneNumberCellId);
 		}
 			
 	}

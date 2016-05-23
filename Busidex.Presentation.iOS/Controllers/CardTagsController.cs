@@ -14,14 +14,18 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Tags");
-
 			base.ViewDidAppear (animated);
+
+			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Tags");
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+			if (SelectedCard == null || SelectedCard.Tags == null) {
+				return;
+			}
+
 			var userTags = SelectedCard.Tags.Where (t => t.TagType == 1).ToList ();
 			for (var i = 0; i < userTags.Count; i++) {
 
@@ -68,37 +72,8 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			txtTag1.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag2.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag3.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag4.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag5.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag6.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
-			txtTag7.ShouldReturn += textField => {
-				textField.ResignFirstResponder ();
-				return true; 
-			};
+
 		}
-
-
 	}
 }
 

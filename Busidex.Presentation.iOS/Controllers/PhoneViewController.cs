@@ -13,6 +13,7 @@ namespace Busidex.Presentation.iOS
 	partial class PhoneViewController : BaseController
 	{
 		public UserCard SelectedCard{ get; set; }
+
 		string userToken;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
@@ -20,7 +21,8 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		void LoadCard(){
+		void LoadCard ()
+		{
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (false, true);
 			}
@@ -33,16 +35,14 @@ namespace Busidex.Presentation.iOS
 				var FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
 					imgCard.Image = UIImage.FromFile (FrontFileName);
-				}else{
+				} else {
 					ShowOverlay ();
 					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
-							if(SelectedCard.Card.BackOrientation == "H"){
-								imgCard.Image = new UIImage(UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right);
-							}else{
-								imgCard.Image = UIImage.FromFile (FrontFileName);
-							}
-							Overlay.Hide();
+							imgCard.Image = SelectedCard.Card.BackOrientation == "H" 
+								? new UIImage (UIImage.FromFile (FrontFileName).CGImage, 1, UIImageOrientation.Right) 
+								: UIImage.FromFile (FrontFileName);
+							Overlay.Hide ();
 						});
 					});
 				}
@@ -78,17 +78,9 @@ namespace Busidex.Presentation.iOS
 
 						newLabel.Font = UIFont.FromName ("Helvetica", 18f);
 						newLabel.UserInteractionEnabled = true;
-						newLabel.TextColor = UIColor.FromRGB(66,69,76);
+						newLabel.TextColor = UIColor.FromRGB (66, 69, 76);
 						newLabel.TextAlignment = UITextAlignment.Right;
 
-//						var textAttributed = new NSMutableAttributedString (
-//							number.Number, 
-//							new UIStringAttributes  {
-//								ForegroundColor = UIColor.Blue, 
-//								Font = UIFont.FromName ("Helvetica", 16f),
-//								UnderlineStyle = NSUnderlineStyle.Single 
-//							}
-//						);
 						newNumber.Text = number.Number;
 						newNumber.Font = UIFont.FromName ("Helvetica", 16f);
 						newNumber.TextColor = UIColor.Black;
@@ -98,17 +90,17 @@ namespace Busidex.Presentation.iOS
 						newPhoneImage.SetImage (UIImage.FromFile ("phone.png"), UIControlState.Normal);
 						newPhoneImage.TouchUpInside += delegate {
 
-							string pn = number.Number.Replace("(", "").Replace(")", "").Replace("-","").Replace(" ", "");
+							string pn = number.Number.Replace ("(", "").Replace (")", "").Replace ("-", "").Replace (" ", "");
 							var phoneNumber = new NSUrl ("telprompt://" + pn);
 
-							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
+							if (!UIApplication.SharedApplication.OpenUrl (phoneNumber)) {
 								var av = new UIAlertView ("Phone Number Error",
-									"We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
-									null,
-									"OK",
-									null);
+									         "We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
+									         null,
+									         "OK",
+									         null);
 								av.Show ();
-							}else{
+							} else {
 								//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
 								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
 							}
@@ -118,17 +110,17 @@ namespace Busidex.Presentation.iOS
 						newTextImage.SetImage (UIImage.FromFile ("textmessage.png"), UIControlState.Normal);
 						newTextImage.TouchUpInside += delegate {
 
-							string pn = number.Number.Replace("(", "").Replace(")", "").Replace("-","").Replace(" ", "");
+							string pn = number.Number.Replace ("(", "").Replace (")", "").Replace ("-", "").Replace (" ", "");
 							var phoneNumber = new NSUrl ("sms:" + pn);
 
-							if(!UIApplication.SharedApplication.OpenUrl (phoneNumber)){
+							if (!UIApplication.SharedApplication.OpenUrl (phoneNumber)) {
 								var av = new UIAlertView ("Phone Number Error",
-									"We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
-									null,
-									"OK",
-									null);
+									         "We are unable to dial the number: " + number.Number + ". You may need to dial this number manually.",
+									         null,
+									         "OK",
+									         null);
 								av.Show ();
-							}else{
+							} else {
 								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
 							}
 						};
@@ -155,18 +147,12 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			try{
-				documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			try {
+				documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 				LoadCard ();
 
-				var cookie = GetAuthCookie ();
-
-				if (cookie != null) {
-					userToken = cookie.Value;
-				}
-
-			}catch(Exception ex){
-				LoggingController.LogError (ex, userToken);
+			} catch (Exception ex) {
+				LoggingController.LogError (ex, UISubscriptionService.AuthToken);
 			}
 		}
 	}

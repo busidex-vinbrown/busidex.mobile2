@@ -28,7 +28,15 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnRotateFront { get; set; }
+		UIButton btnRotate { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSave { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblDescription { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -48,9 +56,17 @@ namespace Busidex.Presentation.iOS
 				btnFront.Dispose ();
 				btnFront = null;
 			}
-			if (btnRotateFront != null) {
-				btnRotateFront.Dispose ();
-				btnRotateFront = null;
+			if (btnRotate != null) {
+				btnRotate.Dispose ();
+				btnRotate = null;
+			}
+			if (btnSave != null) {
+				btnSave.Dispose ();
+				btnSave = null;
+			}
+			if (lblDescription != null) {
+				lblDescription.Dispose ();
+				lblDescription = null;
 			}
 			if (lblTitle != null) {
 				lblTitle.Dispose ();

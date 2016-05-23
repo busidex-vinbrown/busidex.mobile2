@@ -45,6 +45,9 @@ namespace Busidex.Mobile.Models
 
 		public Card ()
 		{
+			PhoneNumbers = PhoneNumbers ?? new List<PhoneNumber> ();
+			Tags = Tags ?? new List<Tag> ();
+			Addresses = Addresses ?? new List<Address> ();
 		}
 
 		public long CardId{ get; set; }

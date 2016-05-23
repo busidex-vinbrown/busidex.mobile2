@@ -44,6 +44,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblTitle { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView txtDescription { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -75,6 +79,10 @@ namespace Busidex.Presentation.iOS
 			if (lblSemiPublic != null) {
 				lblSemiPublic.Dispose ();
 				lblSemiPublic = null;
+			}
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
 			}
 			if (txtDescription != null) {
 				txtDescription.Dispose ();

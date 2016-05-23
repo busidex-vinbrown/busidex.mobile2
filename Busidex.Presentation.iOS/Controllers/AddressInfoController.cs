@@ -24,19 +24,25 @@ namespace Busidex.Presentation.iOS
 			txtAddress2.Text = address.Address2;
 			txtCity.Text = address.City;
 			lblSelectedState.Text = address.State != null ? address.State.Name : EMPTY_STATE;
+			txtZip.Text = address.ZipCode;
 
 			pckState.Hidden = true;
 
-			var frame = lblInstructions.Frame;
-			lblInstructions.Frame = new CoreGraphics.CGRect (frame.X, 95f, frame.Width, frame.Height);
-
-			btnPicker.TouchUpInside += delegate {
-				pckState.Hidden = !pckState.Hidden;
+			var model = new StateCodeModel (lblSelectedState, address.State);
+			model.OnItemSelected += delegate {
+				pckState.Hidden = true;
 			};
 
+			pckState.Model = model;
+
+			btnPicker.TouchUpInside += delegate {
+				if (address != null) {
+					pckState.Select (model.IndexOf (address.State), 0, true);
+				}
+				pckState.Hidden = !pckState.Hidden;
+			};
+			vwFields.SetContentOffset (new CoreGraphics.CGPoint (0, 50), false);
 		}
-
-
 
 		public override void ViewDidAppear (bool animated)
 		{
@@ -45,33 +51,26 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-
-			var model = new StateCodeModel (lblSelectedState);
-			model.OnItemSelected += delegate {
-				pckState.Hidden = true;
-			};
-
-			pckState.Model = model;
-		}
-
 		public delegate void OnItemSelectedHandler ();
 
 		public class StateCodeModel : UIPickerViewModel
 		{
 			public event OnItemSelectedHandler OnItemSelected;
 
+			State selectedState;
+
 			List<State> states { get; set; }
 
 			UILabel lbl;
 
-			public StateCodeModel (UILabel lbl)
+			public StateCodeModel (UILabel lbl, State _selectedState)
 			{
 				this.lbl = lbl;
 				states = new List<State> ();
 				states.AddRange (getStates ());
+
+				selectedState = _selectedState;
+				lbl.Text = selectedState.Name;
 			}
 
 			public override nint GetComponentCount (UIPickerView v)
@@ -84,7 +83,7 @@ namespace Busidex.Presentation.iOS
 				return states.Count;
 			}
 
-			public override string GetTitle (UIPickerView picker, nint row, nint component)
+			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
 			{
 				return states [(int)row].Name;
 //
@@ -100,9 +99,10 @@ namespace Busidex.Presentation.iOS
 //				}
 			}
 
-			public override void Selected (UIPickerView picker, nint row, nint component)
+			public override void Selected (UIPickerView pickerView, nint row, nint component)
 			{
-				lbl.Text = states [(int)picker.SelectedRowInComponent (new nint (0))].Name;
+				selectedState = states [(int)pickerView.SelectedRowInComponent (new nint (0))];
+				lbl.Text = selectedState.Name;
 				if (OnItemSelected != null) {
 					OnItemSelected ();
 				}
@@ -111,10 +111,19 @@ namespace Busidex.Presentation.iOS
 			public override nfloat GetComponentWidth (UIPickerView picker, nint component)
 			{
 				return 220f;
-//				if (component == 0)
-//					return 220f;
-//				else
-//					return 30f;
+			}
+
+			public int IndexOf (State state)
+			{
+				var idx = -1;
+				var selectedIdx = idx;
+				states.ForEach (s => {
+					idx++;
+					if (state.Code == s.Code) {
+						selectedIdx = idx;
+					}
+				});
+				return selectedIdx;	
 			}
 
 			List<State> getStates ()

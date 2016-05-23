@@ -348,6 +348,7 @@
       <DependentUpon>BaseCardEditController.cs</DependentUpon>
     </Compile>
     <Compile Include="UILabelExtension.cs" />
+    <Compile Include="PhoneNumberTableSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -490,6 +491,9 @@
     <BundleResource Include="Resources\ddArrow.gif" />
     <BundleResource Include="Resources\radio_off.png" />
     <BundleResource Include="Resources\radio_on.png" />
+    <BundleResource Include="Resources\add2.png" />
+    <BundleResource Include="Resources\edit.png" />
+    <BundleResource Include="Resources\delete2.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

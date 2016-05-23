@@ -175,7 +175,12 @@ namespace Busidex.Mobile
 			CurrentUser = CurrentUser ?? new BusidexUser ();
 
 			OwnedCard = loadDataFromFile<Card> (Path.Combine (Resources.DocumentsPath, Resources.OWNED_CARD_FILE)) ?? await loadOwnedCard ();
-			OwnedCard = OwnedCard ?? new Card ();
+			await loadOwnedCard ().ContinueWith (result => {
+				if (!result.IsFaulted) {
+					OwnedCard = OwnedCard ?? new Card ();
+				}
+			});
+
 
 			UserCards = loadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if (UserCards == null || UserCards.Count == 0) {
