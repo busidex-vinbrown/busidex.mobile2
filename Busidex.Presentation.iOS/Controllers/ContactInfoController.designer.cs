@@ -16,6 +16,10 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnAddNewPhoneNumber { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnAddNumber { get; set; }
 
 		[Outlet]
@@ -32,6 +36,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIPickerView pckPhoneNumberTypes { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView tblPhoneNumbers { get; set; }
 
 		[Outlet]
@@ -40,10 +48,26 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtNewExtension { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtNewPhoneNumber { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtUrl { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIScrollView vwNewPhoneNumber { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAddNewPhoneNumber != null) {
+				btnAddNewPhoneNumber.Dispose ();
+				btnAddNewPhoneNumber = null;
+			}
 			if (btnAddNumber != null) {
 				btnAddNumber.Dispose ();
 				btnAddNumber = null;
@@ -60,6 +84,10 @@ namespace Busidex.Presentation.iOS
 				lblTitle.Dispose ();
 				lblTitle = null;
 			}
+			if (pckPhoneNumberTypes != null) {
+				pckPhoneNumberTypes.Dispose ();
+				pckPhoneNumberTypes = null;
+			}
 			if (tblPhoneNumbers != null) {
 				tblPhoneNumbers.Dispose ();
 				tblPhoneNumbers = null;
@@ -68,9 +96,21 @@ namespace Busidex.Presentation.iOS
 				txtEmail.Dispose ();
 				txtEmail = null;
 			}
+			if (txtNewExtension != null) {
+				txtNewExtension.Dispose ();
+				txtNewExtension = null;
+			}
+			if (txtNewPhoneNumber != null) {
+				txtNewPhoneNumber.Dispose ();
+				txtNewPhoneNumber = null;
+			}
 			if (txtUrl != null) {
 				txtUrl.Dispose ();
 				txtUrl = null;
+			}
+			if (vwNewPhoneNumber != null) {
+				vwNewPhoneNumber.Dispose ();
+				vwNewPhoneNumber = null;
 			}
 		}
 	}

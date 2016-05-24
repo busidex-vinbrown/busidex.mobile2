@@ -349,6 +349,9 @@
     </Compile>
     <Compile Include="UILabelExtension.cs" />
     <Compile Include="PhoneNumberTableSource.cs" />
+    <Compile Include="StateCodeModel.cs" />
+    <Compile Include="PhoneNumberTypeModel.cs" />
+    <Compile Include="BasePickerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

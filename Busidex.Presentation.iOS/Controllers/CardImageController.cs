@@ -27,6 +27,11 @@ namespace Busidex.Presentation.iOS
 		const string ORIENTATION_HORIZONTAL = "H";
 		const string ORIENTATION_VERTICAL = "V";
 
+		const float DEFAULT_HOR_LEFT = 10f;
+		const float DEFAULT_HOR_TOP = 220f;
+		const float DEFAULT_VERT_LEFT = 10f;
+		const float DEFAULT_VERT_TOP = 220f;
+
 		DisplayMode SelectedDisplayMode;
 		string SelectedOrientation;
 
@@ -45,8 +50,10 @@ namespace Busidex.Presentation.iOS
 
 			int height = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_HEIGHT : VERTICAL_HEIGHT;
 			int width = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_WIDTH : VERTICAL_WIDTH;
+			float left = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_LEFT : DEFAULT_VERT_LEFT;
+			float top = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_TOP : DEFAULT_VERT_TOP;
 
-			var frame = new CGRect (btnCardImage.Frame.Left, btnCardImage.Frame.Top, width, height + 20f);
+			var frame = new CGRect (left, top, width, height + 25f);
 
 			btnCardImage.Layer.AddSublayer (GetBorder (frame, UIColor.Gray.CGColor));
 
@@ -86,7 +93,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			lblTitle.Frame = new CoreGraphics.CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
+			lblTitle.Frame = new CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
 			btnBack.TouchUpInside += delegate {
 				toggle (DisplayMode.Back);
 			};
@@ -108,10 +115,10 @@ namespace Busidex.Presentation.iOS
 			const int bSlideDistanceY = 32;
 
 			var vFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left + SLIDE_DISTANCE, btnCardImage.Frame.Top - bSlideDistanceY, VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var hFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 20f);
+			var hFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
 
 			var bvFrame = new CoreGraphics.CGRect (border.Frame.Left + bSlideDistanceX, border.Frame.Top - (bSlideDistanceY / 2), VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var bhFrame = new CoreGraphics.CGRect (border.Frame.Left - bSlideDistanceX, border.Frame.Top + (bSlideDistanceY / 2), HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 20f);
+			var bhFrame = new CoreGraphics.CGRect (border.Frame.Left - bSlideDistanceX, border.Frame.Top + (bSlideDistanceY / 2), HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
 
 			CABasicAnimation rotationAnimation = new CABasicAnimation ();
 			rotationAnimation.KeyPath = "transform.rotation.z";

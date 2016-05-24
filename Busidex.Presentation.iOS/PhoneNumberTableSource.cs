@@ -9,7 +9,7 @@ namespace Busidex.Presentation.iOS
 {
 	public class PhoneNumberTableSource : UITableViewSource
 	{
-		protected const float BASE_CELL_HEIGHT = 60f;
+		protected const float BASE_CELL_HEIGHT = 40f;
 		public static NSString PhoneNumberCellId = new NSString ("pCellId");
 		List<PhoneNumber> PhoneNumbers;
 
@@ -86,7 +86,7 @@ namespace Busidex.Presentation.iOS
 
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
-			return 1;
+			return PhoneNumbers.Count;
 		}
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
