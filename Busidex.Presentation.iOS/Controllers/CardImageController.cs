@@ -6,6 +6,7 @@ using Busidex.Mobile;
 using System.Threading.Tasks;
 using CoreAnimation;
 using Foundation;
+using CoreGraphics;
 
 namespace Busidex.Presentation.iOS
 {
@@ -45,7 +46,7 @@ namespace Busidex.Presentation.iOS
 			int height = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_HEIGHT : VERTICAL_HEIGHT;
 			int width = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_WIDTH : VERTICAL_WIDTH;
 
-			var frame = new CoreGraphics.CGRect (btnCardImage.Frame.Left, btnCardImage.Frame.Top, width, height);
+			var frame = new CGRect (btnCardImage.Frame.Left, btnCardImage.Frame.Top, width, height + 20f);
 
 			btnCardImage.Layer.AddSublayer (GetBorder (frame, UIColor.Gray.CGColor));
 
@@ -107,10 +108,10 @@ namespace Busidex.Presentation.iOS
 			const int bSlideDistanceY = 32;
 
 			var vFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left + SLIDE_DISTANCE, btnCardImage.Frame.Top - bSlideDistanceY, VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var hFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT);
+			var hFrame = new CoreGraphics.CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 20f);
 
 			var bvFrame = new CoreGraphics.CGRect (border.Frame.Left + bSlideDistanceX, border.Frame.Top - (bSlideDistanceY / 2), VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var bhFrame = new CoreGraphics.CGRect (border.Frame.Left - bSlideDistanceX, border.Frame.Top + (bSlideDistanceY / 2), HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT);
+			var bhFrame = new CoreGraphics.CGRect (border.Frame.Left - bSlideDistanceX, border.Frame.Top + (bSlideDistanceY / 2), HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 20f);
 
 			CABasicAnimation rotationAnimation = new CABasicAnimation ();
 			rotationAnimation.KeyPath = "transform.rotation.z";
@@ -170,7 +171,24 @@ namespace Busidex.Presentation.iOS
 
 			SelectedDisplayMode = mode;
 
-			setDisplay (fileName);
+			var fast = .3f;
+			UIView.Animate (fast, 0, UIViewAnimationOptions.CurveEaseInOut,
+				() => {
+					btnRotate.Hidden = true;
+					btnCardImage.Transform = CGAffineTransform.MakeScale (0.01f, 1.1f);
+
+				},
+				() => {
+					UIView.Animate (fast, 0, UIViewAnimationOptions.CurveEaseInOut,
+						() => {
+							btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+							btnCardImage.Transform = CGAffineTransform.MakeScale (1.0f, 1.0f);
+						},
+						() => {
+							btnRotate.Hidden = false;
+						});
+				});
+			
 		}
 
 		void setDisplay (string fileName)
