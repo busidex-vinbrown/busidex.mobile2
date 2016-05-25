@@ -16,7 +16,15 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnAcceptImage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnBack { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnCancelImage { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -36,6 +44,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSetImage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblDescription { get; set; }
 
 		[Outlet]
@@ -44,9 +56,17 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAcceptImage != null) {
+				btnAcceptImage.Dispose ();
+				btnAcceptImage = null;
+			}
 			if (btnBack != null) {
 				btnBack.Dispose ();
 				btnBack = null;
+			}
+			if (btnCancelImage != null) {
+				btnCancelImage.Dispose ();
+				btnCancelImage = null;
 			}
 			if (btnCardImage != null) {
 				btnCardImage.Dispose ();
@@ -63,6 +83,10 @@ namespace Busidex.Presentation.iOS
 			if (btnSave != null) {
 				btnSave.Dispose ();
 				btnSave = null;
+			}
+			if (btnSetImage != null) {
+				btnSetImage.Dispose ();
+				btnSetImage = null;
 			}
 			if (lblDescription != null) {
 				lblDescription.Dispose ();

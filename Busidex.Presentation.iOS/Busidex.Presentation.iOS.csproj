@@ -352,6 +352,7 @@
     <Compile Include="StateCodeModel.cs" />
     <Compile Include="PhoneNumberTypeModel.cs" />
     <Compile Include="BasePickerViewModel.cs" />
+    <Compile Include="UIImageExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
