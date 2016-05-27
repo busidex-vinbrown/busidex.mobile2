@@ -48,6 +48,10 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView imgGuideView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblDescription { get; set; }
 
 		[Outlet]
@@ -87,6 +91,10 @@ namespace Busidex.Presentation.iOS
 			if (btnSetImage != null) {
 				btnSetImage.Dispose ();
 				btnSetImage = null;
+			}
+			if (imgGuideView != null) {
+				imgGuideView.Dispose ();
+				imgGuideView = null;
 			}
 			if (lblDescription != null) {
 				lblDescription.Dispose ();

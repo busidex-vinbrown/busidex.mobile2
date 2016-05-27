@@ -498,6 +498,7 @@
     <BundleResource Include="Resources\add2.png" />
     <BundleResource Include="Resources\edit.png" />
     <BundleResource Include="Resources\delete2.png" />
+    <BundleResource Include="Resources\card_guide.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

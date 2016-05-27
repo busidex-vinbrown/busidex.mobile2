@@ -44,8 +44,6 @@ namespace Busidex.Presentation.iOS
 			}
 
 			btnStart.TouchUpInside += delegate {
-//				NavigationController.PopViewController (false);
-//				GoToSettings ();
 				GoToCreateProfile ();
 			};
 

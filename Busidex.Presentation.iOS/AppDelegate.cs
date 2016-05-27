@@ -35,13 +35,6 @@ namespace Busidex.Presentation.iOS
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			// Process any potential notification data from launch
-			//ProcessNotification (options);
-
-			// Register for Notifications
-			//UIApplication.SharedApplication.RegisterForRemoteNotificationTypes (
-			//	UIRemoteNotificationType.Alert |
-			//	UIRemoteNotificationType.Badge );
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0)) {
 				var settings = UIUserNotificationSettings.GetSettingsForTypes (UIUserNotificationType.Sound |
@@ -154,20 +147,20 @@ namespace Busidex.Presentation.iOS
 				string personalMessage = string.Empty;
 
 				if (rUrl.InputQueryParameters.ContainsKey (KEY_FROM)) {
-					sentFrom = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_FROM].ToString ());
+					sentFrom = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_FROM]);
 				}
 				if (rUrl.InputQueryParameters.ContainsKey (KEY_DISPLAY)) {
-					displayName = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_DISPLAY].ToString ());
+					displayName = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_DISPLAY]);
 				}
 				if (rUrl.InputQueryParameters.ContainsKey (KEY_MESSAGE)) {
-					personalMessage = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_MESSAGE].ToString ());
+					personalMessage = System.Web.HttpUtility.UrlDecode (rUrl.InputQueryParameters [KEY_MESSAGE]);
 				}
 
 				if (rUrl.InputQueryParameters.ContainsKey (KEY_CARD_ID)) {
-					cardId = rUrl.InputQueryParameters [KEY_CARD_ID].ToString ();
+					cardId = rUrl.InputQueryParameters [KEY_CARD_ID];
 				}
 				if (rUrl.InputQueryParameters.ContainsKey (KEY_CARD_ID_ALT)) {
-					cardId = rUrl.InputQueryParameters [KEY_CARD_ID_ALT].ToString ();
+					cardId = rUrl.InputQueryParameters [KEY_CARD_ID_ALT];
 				}
 				if (!string.IsNullOrEmpty (cardId) && !string.IsNullOrEmpty (sentFrom)) {
 					handleQuickShareRouting (long.Parse (cardId), displayName, long.Parse (sentFrom), personalMessage);

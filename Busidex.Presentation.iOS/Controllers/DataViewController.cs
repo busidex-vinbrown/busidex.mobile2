@@ -5,6 +5,7 @@ using UIKit;
 using System.Threading.Tasks;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
+using System.Collections.Generic;
 
 namespace Busidex.Presentation.iOS
 {
@@ -45,22 +46,7 @@ namespace Busidex.Presentation.iOS
 				UISubscriptionService.Init ();
 			});
 
-			ConfigureToolbarItems ();
-
 			Application.MainController = NavigationController;
-
-			if (!getDeviceTypeSetting ()) {
-
-				var token = GetAuthCookie ();
-
-				var deviceName = UIDevice.CurrentDevice.Name;
-
-				var deviceType = deviceName.ToUpper ().Contains ("IPHONE") ? DeviceType.iPhone : DeviceType.iPad;
-
-				AccountController.UpdateDeviceType (token.Value, deviceType).ContinueWith (r => {
-					saveDeviceTypeSet ();
-				});
-			}
 
 			UIFont font = UIFont.FromName ("Lato-Black", 22f);
 		
@@ -143,6 +129,18 @@ namespace Busidex.Presentation.iOS
 			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);
 		}
 
+		void updateNotifications (List<SharedCard> sharedCards)
+		{
+			InvokeOnMainThread (() => {
+				if (sharedCards.Count > 0) {
+					ConfigureToolbarItems ();
+					Badge.Plugin.CrossBadge.Current.SetBadge (UISubscriptionService.Notifications.Count);
+				} else {
+					Badge.Plugin.CrossBadge.Current.ClearBadge ();	
+				}
+			});
+		}
+
 		void ConfigureToolbarItems ()
 		{
 			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
@@ -172,6 +170,7 @@ namespace Busidex.Presentation.iOS
 			notificationButton.Frame = notificationFrame;
 			var notificationSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
 			notificationSystemButton.CustomView = notificationButton;
+			notificationSystemButton.Tag = 1;
 
 			SetToolbarItems (new[] {
 				logOutSystemButton,
@@ -208,6 +207,22 @@ namespace Busidex.Presentation.iOS
 			}
 
 			NavigationController.SetToolbarHidden (false, true);
+
+			ConfigureToolbarItems ();
+
+			UISubscriptionService.OnNotificationsLoaded -= updateNotifications;
+			UISubscriptionService.OnNotificationsLoaded += updateNotifications;
+
+			if (!getDeviceTypeSetting ()) {
+
+				var deviceName = UIDevice.CurrentDevice.Name;
+
+				var deviceType = deviceName.ToUpper ().Contains ("IPHONE") ? DeviceType.iPhone : DeviceType.iPad;
+
+				AccountController.UpdateDeviceType (UISubscriptionService.AuthToken, deviceType).ContinueWith (r => {
+					saveDeviceTypeSet ();
+				});
+			}
 		}
 
 		public override void ViewDidAppear (bool animated)

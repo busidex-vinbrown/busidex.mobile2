@@ -7,6 +7,20 @@ namespace Busidex.Presentation.iOS
 {
 	public static class UIImageExtension
 	{
+		public static UIImage Crop (this UIImage sourceImage, float crop_x, float crop_y, float width, float height)
+		{
+			var imgSize = sourceImage.Size;
+			UIGraphics.BeginImageContext (new SizeF (width, height));
+			var context = UIGraphics.GetCurrentContext ();
+			var clippedRect = new RectangleF (0, 0, width, height);
+			context.ClipToRect (clippedRect);
+			var drawRect = new RectangleF (-crop_x, -crop_y, (float)imgSize.Width, (float)imgSize.Height);
+			sourceImage.Draw (drawRect);
+			var modifiedImage = UIGraphics.GetImageFromCurrentImageContext ();
+			UIGraphics.EndImageContext ();
+			return modifiedImage;
+		}
+
 		public static UIImage ScaleAndRotateImage (this UIImage image)
 		{
 			int kMaxResolution = 1024 / 4; // Or whatever

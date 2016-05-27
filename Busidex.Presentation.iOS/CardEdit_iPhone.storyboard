@@ -91,6 +91,10 @@
                                     <color key="titleColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
                                 </state>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="764" restorationIdentifier="imgGuideView" image="card_guide.png">
+                                <rect key="frame" x="0.0" y="20" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="704" restorationIdentifier="btnSetImage">
                                 <rect key="frame" x="129" y="400" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -111,6 +115,7 @@
                         <outlet property="btnAcceptImage" destination="692" id="name-outlet-692"/>
                         <outlet property="btnCancelImage" destination="693" id="name-outlet-693"/>
                         <outlet property="btnSetImage" destination="704" id="name-outlet-704"/>
+                        <outlet property="imgGuideView" destination="764" id="name-outlet-764"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -892,6 +897,7 @@
         <image name="add2.png" width="30" height="30"/>
         <image name="edit.png" width="50" height="43"/>
         <image name="delete2.png" width="22" height="30"/>
+        <image name="card_guide.png" width="320" height="568"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

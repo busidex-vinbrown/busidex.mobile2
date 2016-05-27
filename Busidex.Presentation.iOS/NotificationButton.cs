@@ -7,6 +7,8 @@ namespace Busidex.Presentation.iOS
 	{
 		int NotificationCount { get; set; }
 
+		UILabel label;
+
 		public NotificationButton (int count)
 		{
 			NotificationCount = count;
@@ -15,18 +17,26 @@ namespace Busidex.Presentation.iOS
 			Hidden = count == 0;
 		}
 
-		void SetBackground(){
+		void SetBackground ()
+		{
 			SetBackgroundImage (UIImage.FromBundle ("Notification.png"), UIControlState.Normal);
 		}
 
-		void SetCountLabel(){
+		public void Update (int count)
+		{
+			label.Text = count.ToString ();
+			this.Hidden = count > 0;
+		}
+
+		void SetCountLabel ()
+		{
 
 			float x = 32f;
 			float y = -4f;
 			float width = 25f;
 			float height = 25f;
-			var label = new UILabel (new CoreGraphics.CGRect (x, y, width, height));
-			label.Text = NotificationCount.ToString();
+			label = new UILabel (new CoreGraphics.CGRect (x, y, width, height));
+			label.Text = NotificationCount.ToString ();
 			label.Font = UIFont.FromName ("Helvetica-Bold", 16f);
 			label.TextColor = UIColor.White;
 

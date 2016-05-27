@@ -23,7 +23,7 @@ namespace Busidex.Mobile
 	public delegate void OnEventCardsLoadedEventHandler (EventTag tag, List<UserCard> cards);
 	public delegate void OnEventCardsUpdatedEventHandler (ProgressStatus status);
 	public delegate void OnBusidexUserLoadedEventHandler (BusidexUser user);
-	public delegate void OnNotificationsLoadedEventHandler (List<SharedCard> notifications);
+	public delegate void OnNotificationsLoadedEventHandler (List<SharedCard> notifications = null);
 	public delegate void OnNotesUpdatedEventHandler ();
 	#endregion
 

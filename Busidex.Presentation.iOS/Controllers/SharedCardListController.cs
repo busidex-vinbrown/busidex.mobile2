@@ -23,8 +23,9 @@ namespace Busidex.Presentation.iOS
 
 			vwSharedCards.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 
-			LoadSharedCards ();
+
 		}
+
 
 		public override void ViewDidAppear (bool animated)
 		{
@@ -40,32 +41,36 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (false, true);
 				NavigationController.NavigationBar.SetBackgroundImage (null, UIBarMetrics.Default);
 			}
+			LoadSharedCards ();
 		}
 
-		void LoadSharedCards(){
+		void LoadSharedCards ()
+		{
 
-			vwSharedCards.Source = ConfigureTableSourceEventHandlers(UISubscriptionService.Notifications);
+			vwSharedCards.Source = ConfigureTableSourceEventHandlers (UISubscriptionService.Notifications);
 
 			Badge.Plugin.CrossBadge.Current.SetBadge (UISubscriptionService.Notifications.Count);	
 		}
 
-		static void SaveSharedCard(SharedCard sharedCard){
+		static void SaveSharedCard (SharedCard sharedCard)
+		{
 
-			UISubscriptionService.SaveSharedCard(sharedCard);
+			UISubscriptionService.SaveSharedCard (sharedCard);
 		
-			if(sharedCard.Accepted.GetValueOrDefault()){
+			if (sharedCard.Accepted.GetValueOrDefault ()) {
 				// track the event
 				ActivityController.SaveActivity ((long)EventSources.Add, sharedCard.Card.CardId, UISubscriptionService.AuthToken);
 			}
 		}
 
-		SharedCardTableSource ConfigureTableSourceEventHandlers(List<SharedCard> sharedCards){
+		SharedCardTableSource ConfigureTableSourceEventHandlers (List<SharedCard> sharedCards)
+		{
 
 			var src = new SharedCardTableSource (sharedCards);
 			src.NoCardsMessage = "There are no more shared cards to load";
 
 			src.CardSelected += delegate {
-				GoToCard();
+				GoToCard ();
 			};
 			src.CardShared += SaveSharedCard;
 

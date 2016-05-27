@@ -58,7 +58,7 @@ namespace Busidex.Presentation.iOS
 
 		#region Camara Functionality
 
-		async Task AuthorizeCameraUse ()
+		static async Task AuthorizeCameraUse ()
 		{
 			var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus (AVMediaType.Video);
 
@@ -67,7 +67,7 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void ConfigureCameraForDevice (AVCaptureDevice device)
+		static void ConfigureCameraForDevice (AVCaptureDevice device)
 		{
 			NSError error;
 			if (device.IsFocusModeSupported (AVCaptureFocusMode.ContinuousAutoFocus)) {
@@ -90,18 +90,19 @@ namespace Busidex.Presentation.iOS
 			captureSession = new AVCaptureSession ();
 
 			var viewLayer = btnCardImage.Layer;
-			var frame = new CGRect (0, 0, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
+			//var frame = new CGRect (0, 0, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
 
 			videoPreviewLayer = new AVCaptureVideoPreviewLayer (captureSession) {
-				Frame = frame,
+				Frame = View.Frame,
 				VideoGravity = AVLayerVideoGravity.ResizeAspectFill
 			};
 
 			if (btnCardImage.Layer.Sublayers.Length > 2) {
 				btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
 			}
-			btnCardImage.Layer.AddSublayer (videoPreviewLayer);
-			btnCardImage.Layer.Sublayers [2].ContentsRect = frame;
+			View.Layer.InsertSublayer (videoPreviewLayer, 2);
+
+			//btnCardImage.Layer.Sublayers [2].ContentsRect = frame;
 
 			var captureDevice = AVCaptureDevice.DefaultDeviceWithMediaType (AVMediaType.Video);
 			if (captureDevice != null) {
@@ -145,7 +146,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 
 
-			btnAcceptImage.Hidden = btnCancelImage.Hidden = btnSetImage.Hidden = true;
+			imgGuideView.Hidden = btnAcceptImage.Hidden = btnCancelImage.Hidden = btnSetImage.Hidden = true;
 
 			SelectedCard = UISubscriptionService.OwnedCard;
 
@@ -242,18 +243,19 @@ namespace Busidex.Presentation.iOS
 			var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync (videoConnection);
 
 			var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer);
-			var jpegAsByteArray = jpegImageAsNsData.ToArray ();
+			//var jpegAsByteArray = jpegImageAsNsData.ToArray ();
 
 			var img = UIImage.LoadFromData (jpegImageAsNsData);
-			var img2 = UIImage.FromImage (img.CGImage, 1, UIImageOrientation.Up);
-			btnCardImage.SetBackgroundImage (img2.ScaleAndRotateImage (), UIControlState.Normal);
-		
+			var img2 = UIImage.FromImage (img.CGImage, 1.0f, UIImageOrientation.Up);
+			//var img3 = img2.CreateResizableImage (new UIEdgeInsets (1, 5, 1f, 5f), UIImageResizingMode.Stretch);
+			btnCardImage.SetBackgroundImage (img2.Crop (20, 60, 420, 280), UIControlState.Normal);
+
 			btnSetImage.Hidden = true;
 
 			btnAcceptImage.Hidden = btnCancelImage.Hidden = false;
 
-			if (btnCardImage.Layer.Sublayers.Length > 2) {
-				btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
+			if (View.Layer.Sublayers.Length > 2) {
+				View.Layer.Sublayers [2].RemoveFromSuperLayer ();
 			}
 		}
 
@@ -274,8 +276,9 @@ namespace Busidex.Presentation.iOS
 			switch (mode) {
 			case CamaraViewMode.TakingPicture:
 				{
-					btnRotate.Hidden = btnSave.Hidden = true;
-					btnSetImage.Hidden = false;
+					NavigationController.SetNavigationBarHidden (true, true);
+					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = true;
+					imgGuideView.Hidden = btnSetImage.Hidden = false;
 					btnAcceptImage.Hidden = btnCancelImage.Hidden = true;
 					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = false;
 					IsTakingPicture = true;
@@ -283,8 +286,9 @@ namespace Busidex.Presentation.iOS
 				}
 			case CamaraViewMode.ReviewingPicture:
 				{
-					btnRotate.Hidden = btnSave.Hidden = true;
-					btnSetImage.Hidden = true;
+					NavigationController.SetNavigationBarHidden (true, true);
+					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = true;
+					imgGuideView.Hidden = btnSetImage.Hidden = true;
 					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = false;
 					if (btnCardImage.Layer.Sublayers.Length > 2) {
 						btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
@@ -294,11 +298,12 @@ namespace Busidex.Presentation.iOS
 				}
 			case CamaraViewMode.Done:
 				{
+					NavigationController.SetNavigationBarHidden (false, true);
 					if (btnCardImage.Layer.Sublayers.Length > 2) {
 						btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
 					}
-					btnRotate.Hidden = btnSave.Hidden = false;
-					btnSetImage.Hidden = true;
+					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = false;
+					imgGuideView.Hidden = btnSetImage.Hidden = true;
 					btnAcceptImage.Hidden = btnCancelImage.Hidden = true;
 					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = true;
 					IsTakingPicture = false;

@@ -1,11 +1,9 @@
 ﻿
 using System;
 using UIKit;
-using System.IO;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.Linq;
-using ModernHttpClient;
 
 namespace Busidex.Presentation.iOS
 {
@@ -149,49 +147,7 @@ namespace Busidex.Presentation.iOS
 			UISubscriptionService.OnMyOrganizationsLoaded += callback3;
 			UISubscriptionService.OnNotificationsLoaded += callback4;
 
-			//await LoadMyBusidexAsync (true);
-			//await LoadMyOrganizationsAsync (true);
-			//await LoadEventList (true);
-			//InvokeOnMainThread (() => GetNotifications ());
-
-			//ConfigureToolbarItems ();
 		}
-
-		//		public int GetNotifications(){
-		//
-		//			try {
-		//				var ctrl = new Busidex.Mobile.SharedCardController ();
-		//				var cookie = GetAuthCookie ();
-		//
-		//				var sharedCardsResponse = ctrl.GetSharedCards (cookie.Value, new NativeMessageHandler ());
-		//				if (sharedCardsResponse.Equals ("Error") || string.IsNullOrEmpty (sharedCardsResponse)) {
-		//					return 0;
-		//				}
-		//
-		//				var sharedCards = Newtonsoft.Json.JsonConvert.DeserializeObject<SharedCardResponse> (sharedCardsResponse);
-		//
-		//				if (sharedCards.SharedCards.Count > 0) {
-		//					Badge.Plugin.CrossBadge.Current.SetBadge (sharedCards.SharedCards.Count);
-		//				} else {
-		//					Badge.Plugin.CrossBadge.Current.ClearBadge ();
-		//				}
-		//
-		//				Utils.SaveResponse (sharedCardsResponse, Resources.SHARED_CARDS_FILE);
-		//
-		//				foreach (SharedCard card in sharedCards.SharedCards) {
-		//					var fileName = card.Card.FrontFileName;
-		//					var fImagePath = Resources.CARD_PATH + fileName;
-		//					if (!File.Exists (documentsPath + "/" + Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName)) {
-		//						Utils.DownloadImage (fImagePath, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + fileName).ContinueWith (t => {
-		//						});
-		//					}
-		//				}
-		//
-		//				return sharedCards != null ? sharedCards.SharedCards.Count : 0;
-		//			} catch {
-		//				return 0;
-		//			}
-		//		}
 
 		public void GoToMyBusidex (BaseNavigationController.NavigationDirection direction)
 		{
@@ -200,10 +156,6 @@ namespace Busidex.Presentation.iOS
 			}
 			((BaseNavigationController)NavigationController).Direction = direction;
 
-			//if(myBusidexController == null){
-			//	var board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			//	myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-			//}
 			if (NavigationController.ViewControllers.Any (c => c as MyBusidexController != null)) {
 				NavigationController.PopToViewController (myBusidexController, true);
 			} else {
@@ -248,16 +200,17 @@ namespace Busidex.Presentation.iOS
 
 			if (NavigationController == null || NavigationController.ViewControllers == null) {
 				return;
-			} else if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
+			}
+			if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
 				return;
-			} else {
-				((BaseNavigationController)NavigationController).Direction = direction;
+			}
 
-				if (NavigationController.ViewControllers.Any (c => c as EventListController != null)) {
-					NavigationController.PopToViewController (eventListController, true);
-				} else {
-					NavigationController.PushViewController (eventListController, true);
-				}
+			((BaseNavigationController)NavigationController).Direction = direction;
+
+			if (NavigationController.ViewControllers.Any (c => c as EventListController != null)) {
+				NavigationController.PopToViewController (eventListController, true);
+			} else {
+				NavigationController.PushViewController (eventListController, true);
 			}
 		}
 
@@ -267,20 +220,20 @@ namespace Busidex.Presentation.iOS
 
 				if (NavigationController == null || NavigationController.ViewControllers == null) {
 					return;
-				} else if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
+				}
+				if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
 					return;
-				} else {
-					orgMembersController.OrganizationId = org.OrganizationId;
-					orgMembersController.OrganizationMemberMode = mode;
-					orgMembersController.OrganizationName = org.Name;
-					orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
-					orgMembersController.IsOrgMember = org.IsMember;
+				}
+				orgMembersController.OrganizationId = org.OrganizationId;
+				orgMembersController.OrganizationMemberMode = mode;
+				orgMembersController.OrganizationName = org.Name;
+				orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
+				orgMembersController.IsOrgMember = org.IsMember;
 
-					if (NavigationController.ViewControllers.Any (c => c as OrgMembersController != null)) {
-						NavigationController.PopToViewController (orgMembersController, true);
-					} else {
-						NavigationController.PushViewController (orgMembersController, true);
-					}
+				if (NavigationController.ViewControllers.Any (c => c as OrgMembersController != null)) {
+					NavigationController.PopToViewController (orgMembersController, true);
+				} else {
+					NavigationController.PushViewController (orgMembersController, true);
 				}
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
