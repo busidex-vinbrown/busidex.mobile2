@@ -18,6 +18,14 @@ namespace Busidex.Presentation.Droid.v2
 		ListView lstSearchResults;
 		ProgressBar progressBar1;
 
+		public override void OnResume ()
+		{
+			base.OnResume ();
+			if (IsVisible) {
+				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_SEARCH);
+			}
+		}
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment

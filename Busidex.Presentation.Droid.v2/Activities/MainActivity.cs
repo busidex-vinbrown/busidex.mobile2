@@ -9,7 +9,6 @@ using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using BranchXamarinSDK;
@@ -29,6 +28,10 @@ namespace Busidex.Presentation.Droid.v2
 	public class MainActivity : FragmentActivity, IBranchSessionInterface
 	{
 		ViewPager pager;
+		GenericFragmentPagerAdaptor tabAdapter;
+		//IParcelable pagerState;
+		//IParcelable myBusidexState;
+		//IParcelable homeState;
 
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
@@ -41,7 +44,7 @@ namespace Busidex.Presentation.Droid.v2
 		//			OpenBrowser (OpenBrowserIntent);
 		//		}
 
-		async void openShare ()
+		public async void OpenShare ()
 		{
 			var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
 			var myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);
@@ -91,446 +94,18 @@ namespace Busidex.Presentation.Droid.v2
 			));
 		}
 
-		void addTabs (GenericFragmentPagerAdaptor adapter)
+		public void SetTab (int page)
 		{
-
-			// HOME
-			adapter.AddFragmentView ((i, v, b) => {
-				var view = i.Inflate (Resource.Layout.Home, v, false);
-
-				//MY BUSIDEX
-				var btnMyBusidex = view.FindViewById<Button> (Resource.Id.btnMyBusidex);
-				btnMyBusidex.Click += delegate {
-					pager.SetCurrentItem (1, true);
-				};
-				var imgMyBusidex = view.FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
-				imgMyBusidex.Click += delegate {
-					pager.SetCurrentItem (1, true);
-				};
-
-				// SEARCH
-				var btnSearch = view.FindViewById<Button> (Resource.Id.btnSearch);
-				btnSearch.Click += delegate {
-					pager.SetCurrentItem (2, true);
-				};
-				var imgSearch = view.FindViewById<ImageView> (Resource.Id.imgSearchIcon);
-				imgSearch.Click += delegate {
-					pager.SetCurrentItem (2, true);
-				};
-
-				// MY ORGANIZATIONS
-				var btnMyOrganizations = view.FindViewById<Button> (Resource.Id.btnMyOrganizations);
-				btnMyOrganizations.Click += delegate {
-					pager.SetCurrentItem (3, true);
-				};
-				var imgOrganizations = view.FindViewById<ImageView> (Resource.Id.imgOrgIcon);
-				imgOrganizations.Click += delegate {
-					pager.SetCurrentItem (3, true);
-				};
-
-				// EVENTS
-				var btnEvents = view.FindViewById<Button> (Resource.Id.btnEvents);
-				btnEvents.Click += delegate {
-					pager.SetCurrentItem (4, true);
-				};
-				var imgEvents = view.FindViewById<ImageView> (Resource.Id.imgEventIcon);
-				imgEvents.Click += delegate {
-					pager.SetCurrentItem (4, true);
-				};
-
-				// FAQ
-				var btnShare = view.FindViewById<Button> (Resource.Id.btnShare);
-				btnShare.Click += delegate {
-					openShare ();
-				};
-				var imgFaq = view.FindViewById<ImageView> (Resource.Id.imgShareIcon);
-				imgFaq.Click += delegate {
-					openShare ();
-				};
-
-				var btnSharedCardsNotification = view.FindViewById<ImageView> (Resource.Id.btnSharedCardsNotification);
-				btnSharedCardsNotification.Click += delegate {
-					pager.SetCurrentItem (5, true);
-				};
-
-				var btnSettingsHome = view.FindViewById<ImageButton> (Resource.Id.btnSettingsHome);
-				btnSettingsHome.Click += delegate {
-					pager.SetCurrentItem (6, false);	
-				};
-
-				OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => {
-					ViewPagerExtensions.UpdateNotificationCount (ActionBar, list.Count);
-						 
-					var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
-
-					btnSharedCardsNotification.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-					txtNotificationCount.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-					txtNotificationCount.Text = list.Count.ToString ();
-
-				});
-
-				UISubscriptionService.OnNotificationsLoaded -= callback;
-				UISubscriptionService.OnNotificationsLoaded += callback;
-
-				ThreadPool.QueueUserWorkItem (tok => UISubscriptionService.LoadNotifications ());
-
-				//var btnLogout = view.FindViewById<Button>(Resource.Id.btnLogout);
-				//btnLogout.Click += delegate {
-				//	
-				//};
-
-				return view;
-			}
-			);
-
-			// MY BUSIDEX
-			adapter.AddFragmentView ((i, v, b) => {
-				var view = i.Inflate (Resource.Layout.MyBusidex, v, false);
-
-				var progressBar1 = view.FindViewById<ProgressBar> (Resource.Id.progressBar1);
-				if (progressBar1 == null) {
-					return view; 
-				}
-
-				var myBusidexProgressStatus = view.FindViewById<TextView> (Resource.Id.myBusidexProgressStatus);
-				progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
-
-
-				var lblNoCardsMessage = view.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
-				lblNoCardsMessage.Visibility = ViewStates.Gone;
-
-				var myBusidexAdapter = new UserCardAdapter (this, Resource.Id.lstCards, UISubscriptionService.UserCards);
-
-				var txtFilter = view.FindViewById<SearchView> (Resource.Id.txtFilter);
-				txtFilter.Visibility = UISubscriptionService.UserCards.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-				txtFilter.QueryTextChange += delegate {
-					DoFilter (myBusidexAdapter, txtFilter.Query);
-				};
-
-				txtFilter.Iconified = false;
-				txtFilter.ClearFocus ();
-				txtFilter.Touch += delegate {
-					txtFilter.Focusable = true;
-					txtFilter.RequestFocus ();
-				};
-
-				myBusidexAdapter.Redirect += ShowCard;
-				myBusidexAdapter.ShowButtonPanel += ShowButtonPanel;
-				myBusidexAdapter.ShowNotes = true;
-
-				var lstCards = view.FindViewById<OverscrollListView> (Resource.Id.lstCards);
-				lstCards.Adapter = myBusidexAdapter;
-
-				int accumulatedDeltaY = 0;
-				lstCards.OverScrolled += deltaY => {
-
-					accumulatedDeltaY += -deltaY;
-					if (accumulatedDeltaY > 1000) {
-						lstCards.Visibility = ViewStates.Gone;
-						progressBar1.Visibility = ViewStates.Visible;
-						UISubscriptionService.LoadUserCards ();
-						BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MY_BUSIDEX_REFRESHED, 0);
-
-					}
-				};
-
-				lstCards.Scroll += delegate {
-					if (lstCards.CanScrollVertically (-1)) {
-						accumulatedDeltaY = 0;
-					}
-				};
-
-				OnMyBusidexLoadedEventHandler callback = list => RunOnUiThread (() => {
-					myBusidexAdapter.UpdateData (list);
-					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Gone;
-					lstCards.Visibility = ViewStates.Visible;
-					if (list.Count == 0) {
-						lblNoCardsMessage.Visibility = ViewStates.Visible;
-						lblNoCardsMessage.SetText (Resource.String.MyBusidex_NoCards);
-					}
-					txtFilter.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-					accumulatedDeltaY = 0;
-				});
-
-				OnMyBusidexUpdatedEventHandler update = status => RunOnUiThread (() => {
-					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
-					progressBar1.Max = status.Total;
-					progressBar1.Progress = status.Count;
-					myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", status.Count, status.Total);	
-					lblNoCardsMessage.Visibility = ViewStates.Gone;
-				});
-
-				UISubscriptionService.OnMyBusidexLoaded -= callback;
-				UISubscriptionService.OnMyBusidexLoaded += callback;
-
-				UISubscriptionService.OnMyBusidexUpdated -= update;
-				UISubscriptionService.OnMyBusidexUpdated += update;
-
-				var state = lstCards.OnSaveInstanceState ();
-				if (state != null) {
-					lstCards.OnRestoreInstanceState (state);
-				}
-
-				lstCards.RequestFocus (FocusSearchDirection.Down);
-
-
-				UISubscriptionService.LoadUserCards ();
-
-				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
-				return view;
-			}
-			);
-
-			// SEARCH
-			adapter.AddFragment (
-				new SearchFragment ()
-			);
-
-			// MY ORGANIZATIONS
-			adapter.AddFragmentView ((i, v, b) => {
-				var view = i.Inflate (Resource.Layout.MyOrganizations, v, false);
-				var orgAdapter = new OrganizationAdapter (this, Resource.Id.lstOrganizations, UISubscriptionService.OrganizationList);
-				orgAdapter.RedirectToOrganizationDetails += org => ShowOrganizationDetail (new OrganizationPanelFragment (org));
-				orgAdapter.RedirectToOrganizationMembers += LoadOrganizationMembers;
-
-				var lstOrganizations = view.FindViewById<OverscrollListView> (Resource.Id.lstOrganizations);
-				var lblNoOrganizationsMessage = view.FindViewById<TextView> (Resource.Id.lblNoOrganizationsMessage);
-				lblNoOrganizationsMessage.Visibility = UISubscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-				lstOrganizations.Visibility = UISubscriptionService.OrganizationList.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-
-				lstOrganizations.Adapter = orgAdapter;
-
-				var progressBar2 = view.FindViewById<ProgressBar> (Resource.Id.progressBar2);
-				progressBar2.Visibility = ViewStates.Gone;
-
-				var imgRefreshOrganizations = view.FindViewById<ImageButton> (Resource.Id.imgRefreshOrganizations);
-				imgRefreshOrganizations.Visibility = UISubscriptionService.OrganizationList.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-				imgRefreshOrganizations.Click += delegate {
-					progressBar2.Visibility = ViewStates.Visible;
-					UISubscriptionService.LoadOrganizations ();
-				};
-
-				int accumulatedDeltaY = 0;
-				lstOrganizations.OverScrolled += deltaY => {
-
-					accumulatedDeltaY += -deltaY;
-					if (accumulatedDeltaY > 1000) {
-						lstOrganizations.Visibility = ViewStates.Gone;
-						progressBar2.Visibility = ViewStates.Visible;
-						UISubscriptionService.LoadOrganizations ();
-					}
-				};
-
-				lstOrganizations.Scroll += delegate {
-					if (lstOrganizations.CanScrollVertically (-1)) {
-						accumulatedDeltaY = 0;
-					}
-				};
-
-				OnMyOrganizationsLoadedEventHandler callback = list => RunOnUiThread (() => {
-					accumulatedDeltaY = 0;
-					orgAdapter.UpdateData (list);
-					progressBar2.Visibility = ViewStates.Gone;
-					lblNoOrganizationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-					lstOrganizations.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
-				});
-
-				UISubscriptionService.OnMyOrganizationsLoaded -= callback;
-				UISubscriptionService.OnMyOrganizationsLoaded += callback;
-
-				ThreadPool.QueueUserWorkItem (tok => UISubscriptionService.LoadOrganizations ());
-
-				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
-
-				return view;
-			}	
-			);
-
-			// EVENTS
-			adapter.AddFragmentView ((i, v, b) => {
-				var view = i.Inflate (Resource.Layout.EventList, v, false);
-				var eventListAdapter = new EventListAdapter (this, Resource.Id.lstCards, UISubscriptionService.EventList);
-				eventListAdapter.RedirectToEventCards += LoadEventCards;
-
-				var lstEvents = view.FindViewById<ListView> (Resource.Id.lstEvents);
-
-				lstEvents.Adapter = eventListAdapter;
-
-				OnEventListLoadedEventHandler callback = list => RunOnUiThread (() => eventListAdapter.UpdateData (list));
-
-				UISubscriptionService.OnEventListLoaded -= callback;
-				UISubscriptionService.OnEventListLoaded += callback;
-
-				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
-
-				return view;
-			}
-			);
-
-			// REFERRALS
-			adapter.AddFragmentView ((i, v, b) => {
-					
-				var view = i.Inflate (Resource.Layout.SharedCardList, v, false);
-				var lstSharedCards = view.FindViewById<ListView> (Resource.Id.lstSharedCards);
-
-				var imgNoNotifications = view.FindViewById<ImageView> (Resource.Id.imgNoNotifications);
-				var lblNoNotificationsMessage = view.FindViewById<TextView> (Resource.Id.lblNoNotificationsMessage);
-
-				imgNoNotifications.Visibility = UISubscriptionService.Notifications.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-				lblNoNotificationsMessage.Visibility = UISubscriptionService.Notifications.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-
-				var sharedCardAdapter = new SharedCardListAdapter (this, Resource.Id.lstSharedCards, UISubscriptionService.Notifications);
-				lstSharedCards.Adapter = sharedCardAdapter;
-
-				sharedCardAdapter.SharingCard -= SaveSharedCard;
-				sharedCardAdapter.SharingCard += SaveSharedCard;
-
-				OnNotificationsLoadedEventHandler callback = list => RunOnUiThread (() => {
-					ViewPagerExtensions.UpdateNotificationCount (ActionBar, list.Count);
-					sharedCardAdapter.UpdateData (list);
-
-					imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-					lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-
-				});
-
-				UISubscriptionService.OnNotificationsLoaded -= callback;
-				UISubscriptionService.OnNotificationsLoaded += callback;
-
-				ThreadPool.QueueUserWorkItem (tok => UISubscriptionService.LoadNotifications ());
-
-				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_REFERRALS);
-
-				return view;
-			}
-			);
-
-			// PROFILE
-			var profileFragment = new ProfileFragment (UISubscriptionService.CurrentUser);
-
-			OnBusidexUserLoadedEventHandler profileCallback = user => RunOnUiThread (() => profileFragment.UpdateUser (user));
-
-			UISubscriptionService.OnBusidexUserLoaded -= profileCallback;
-			UISubscriptionService.OnBusidexUserLoaded += profileCallback;
-
-			adapter.AddFragment (
-				profileFragment
-			);
+			pager.SetCurrentItem (page, true);
 		}
 
-		void Init ()
+		void addTabs ()
 		{
-			BaseApplicationResource.Init (this);
-			var token = BaseApplicationResource.GetAuthCookie ();
-
-			UISubscriptionService.AuthToken = token;
-
-			// Load Contacts if necessary
-			if (Contacts == null || Contacts.Count == 0) {
-				Task.Factory.StartNew (() => {
-					Contacts = Contacts ?? new List<Xamarin.Contacts.Contact> ();
-					if (Contacts.Count == 0) {
-						var book = new Xamarin.Contacts.AddressBook (this);
-						var contactList = Contacts ?? new List<Xamarin.Contacts.Contact> ();
-
-						if (contactList.Count == 0) {
-							Task.Factory.StartNew (() => {
-								contactList.AddRange (book.ToList ().Where (c => c.Phones.Any () && !string.IsNullOrEmpty (c.DisplayName)).OrderBy (p => p.DisplayName).ToList ());
-								Contacts = contactList;
-							});
-						}
-					}	
-				});
-			}
-
-		}
-
-		protected override void OnResume ()
-		{
-			base.OnResume ();
-
-
-			Task.Run (() => {
-				if (!getDeviceTypeSetting ()) {
-
-					AccountController.UpdateDeviceType (UISubscriptionService.AuthToken, DeviceType.Android).ContinueWith (r => {
-						saveDeviceTypeSet ();
-					});
-				}	
-			});
-		}
-
-		void setStartTab ()
-		{
-			var tab = ActionBar.GetTabAt (0);
-			ActionBar.SelectTab (tab);
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
-		}
-
-		static void saveDeviceTypeSet ()
-		{
-			var prefs = Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
-			var prefEditor = prefs.Edit ();
-			prefEditor.PutBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
-			prefEditor.Commit ();	
-		}
-
-		public bool getDeviceTypeSetting ()
-		{
-			var prefs = Android.App.Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
-			return prefs.GetBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, false);	
-		}
-
-		protected override void OnStart ()
-		{
-			base.OnStart ();
-
-			if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
-				DoStartUp ();		
-			}
-		}
-
-		static void DoFilter (UserCardAdapter adapter, string filter)
-		{
-			if (adapter == null) {
-				return;
-			}
-			if (string.IsNullOrEmpty (filter)) {
-				adapter.CardFilter.InvokeFilter ("");
-			} else {
-				adapter.CardFilter.InvokeFilter (filter);
-			}
-		}
-
-		protected override void OnCreate (Bundle savedInstanceState)
-		{
-
-			base.OnCreate (savedInstanceState);
-
-			Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
-
-			BranchAndroid.Init (this, Busidex.Mobile.Resources.BRANCH_KEY, this);
-
-			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
-
-			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.Main);
-
-			pager = FindViewById<ViewPager> (Resource.Id.pager);
-			var tabAdapter = new GenericFragmentPagerAdaptor (SupportFragmentManager);
-
-			Init ();
-
-			addTabs (tabAdapter);
-
-			pager.Adapter = tabAdapter;
-			pager.SetOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
-
 			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 			ActionBar.SetDisplayShowHomeEnabled (false);
 			ActionBar.SetDisplayShowTitleEnabled (true);
 
-			ActionBar.Title = "My Busidex";
+			ActionBar.Title = "Busidex";
 
 			var homeTab = pager.GetViewPageTab (ActionBar, "");
 			homeTab.SetCustomView (Resource.Layout.tab);
@@ -574,28 +149,10 @@ namespace Busidex.Presentation.Droid.v2
 			txtNotificationCount.Visibility = UISubscriptionService.Notifications.Count > 0 ? ViewStates.Visible : ViewStates.Gone;
 			notificationsTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
-
 			var profileTab = pager.GetViewPageTab (ActionBar, "");
 			profileTab.SetCustomView (Resource.Layout.tab);
 			profileTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).SetImageResource (Resource.Drawable.settingsDisabled);
 			profileTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
-
-//			var optionsTab = pager.GetViewPageTab (ActionBar, "Options");
-//			optionsTab.SetCustomView (Resource.Layout.OptionsTab);
-//			optionsTab.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
-//				showActionBarTitle = !showActionBarTitle;
-//				for(var i=0; i< ActionBar.TabCount; i++){
-//					var tab = ActionBar.GetTabAt(i);
-//					var title = (TextView)tab.CustomView.FindViewById(Resource.Id.txtTabTitle);
-//					if(title != null){
-//						if(showActionBarTitle){
-//							title.Text = titles[i];
-//						}else{
-//							title.Text = "";
-//						}
-//					}
-//				}
-//			};
 
 			ActionBar.AddTab (homeTab);
 			ActionBar.AddTab (myBusidexTab);
@@ -604,15 +161,212 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.AddTab (eventsTab);
 			ActionBar.AddTab (notificationsTab);
 			ActionBar.AddTab (profileTab);
-			//ActionBar.AddTab (optionsTab);
+
+		}
+
+		void addFragments (GenericFragmentPagerAdaptor adapter)
+		{
+
+			// HOME
+			adapter.AddFragment (new HomeFragment ());
+
+			// MY BUSIDEX
+			adapter.AddFragment (new MyBusidexFragment ());
+
+			// SEARCH
+			adapter.AddFragment (new SearchFragment ());
+
+			// MY ORGANIZATIONS
+			adapter.AddFragment (new OrganizationsFragment ());
+
+			// EVENTS
+			adapter.AddFragment (new EventListFragment ());
+
+			// REFERRALS
+			adapter.AddFragment (new SharedCardListFragment ());
+
+			// PROFILE
+			var profileFragment = new ProfileFragment (UISubscriptionService.CurrentUser);
+
+			OnBusidexUserLoadedEventHandler profileCallback = user => RunOnUiThread (() => profileFragment.UpdateUser (user));
+
+			UISubscriptionService.OnBusidexUserLoaded -= profileCallback;
+			UISubscriptionService.OnBusidexUserLoaded += profileCallback;
+
+			adapter.AddFragment (profileFragment);
+		}
+
+		void Init ()
+		{
+			BaseApplicationResource.Init (this);
+			var token = BaseApplicationResource.GetAuthCookie ();
+
+			UISubscriptionService.AuthToken = token;
+
+			// Load Contacts if necessary
+			if (Contacts == null || Contacts.Count == 0) {
+				Task.Factory.StartNew (() => {
+					Contacts = Contacts ?? new List<Xamarin.Contacts.Contact> ();
+					if (Contacts.Count == 0) {
+						var book = new Xamarin.Contacts.AddressBook (this);
+						var contactList = Contacts ?? new List<Xamarin.Contacts.Contact> ();
+
+						if (contactList.Count == 0) {
+							Task.Factory.StartNew (() => {
+								contactList.AddRange (book.ToList ().Where (c => c.Phones.Any () && !string.IsNullOrEmpty (c.DisplayName)).OrderBy (p => p.DisplayName).ToList ());
+								Contacts = contactList;
+							});
+						}
+					}	
+				});
+			}
+		}
+
+		#region Override Methods
+
+		protected override void OnStop ()
+		{
+			//pager.Adapter = null;
+			//pager.OnSaveInstanceState ();
+
+			base.OnStop ();
+			//((GenericFragmentPagerAdaptor)pager.Adapter).Clear ();
+			//Android.OS.Process.KillProcess (Android.OS.Process.MyPid ());
+
+		}
+
+		protected override void OnPause ()
+		{
+			base.OnPause ();
+		}
+
+		protected override void OnSaveInstanceState (Bundle outState)
+		{
+//			outState.PutInt ("tab", ActionBar.SelectedNavigationIndex);
+//			outState.PutParcelable ("pager", pager.Adapter.SaveState ());
+
+			((GenericFragmentPagerAdaptor)pager.Adapter).Clear ();
+			pager.Adapter.NotifyDataSetChanged ();
+			pager.Adapter = null;
+			ActionBar.RemoveAllTabs ();
+
+			base.OnSaveInstanceState (outState);
+		}
+
+		protected override void OnResume ()
+		{
+			base.OnResume ();
+
+			Task.Run (() => {
+				if (!getDeviceTypeSetting ()) {
+					AccountController.UpdateDeviceType (UISubscriptionService.AuthToken, DeviceType.Android).ContinueWith (r => {
+						saveDeviceTypeSet ();
+					});
+				}	
+			});
+		}
+
+		protected override void OnStart ()
+		{
+			base.OnStart ();
+
+			if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
+				DoStartUp ();		
+			}
+		
+			setUpPager (true);
+		}
+
+		public override View OnCreateView (string name, Context context, Android.Util.IAttributeSet attrs)
+		{
+
+
+
+			return base.OnCreateView (name, context, attrs);
+		}
+
+		protected override void OnCreate (Bundle savedInstanceState)
+		{
+
+			base.OnCreate (savedInstanceState);
+
+			Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
+
+			BranchAndroid.Init (this, Busidex.Mobile.Resources.BRANCH_KEY, this);
+
+			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
+
+			// Set our view from the "main" layout resource
+			SetContentView (Resource.Layout.Main);
+			Init ();
+
+			setUpPager ();
 
 
 		}
 
-		protected override void OnNewIntent (Intent intent)
+		#endregion
+
+		void setStartTab ()
 		{
-			base.OnNewIntent (intent);
-			//BranchAndroid.getInstance ().SetNewUrl (intent.Data);
+			var tab = ActionBar.GetTabAt (0);
+			ActionBar.SelectTab (tab);
+			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+		}
+
+		static void saveDeviceTypeSet ()
+		{
+			var prefs = Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			var prefEditor = prefs.Edit ();
+			prefEditor.PutBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
+			prefEditor.Commit ();	
+		}
+
+		public bool getDeviceTypeSetting ()
+		{
+			var prefs = Android.App.Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			return prefs.GetBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, false);	
+		}
+
+		public static void DoFilter (UserCardAdapter adapter, string filter)
+		{
+			if (adapter == null) {
+				return;
+			}
+			if (string.IsNullOrEmpty (filter)) {
+				adapter.CardFilter.InvokeFilter ("");
+			} else {
+				adapter.CardFilter.InvokeFilter (filter);
+			}
+		}
+
+		void setUpPager (bool restore = false)
+		{
+			
+			ActionBar.RemoveAllTabs ();
+			pager = FindViewById<ViewPager> (Resource.Id.pager);
+
+			pager.Visibility = ViewStates.Visible;
+			if (restore) {
+				tabAdapter = new GenericFragmentPagerAdaptor (SupportFragmentManager);
+
+			}
+			tabAdapter = tabAdapter ?? new GenericFragmentPagerAdaptor (SupportFragmentManager);
+
+			pager.Adapter = tabAdapter;
+			pager.Activated = false;
+			pager.ClearOnPageChangeListeners ();
+			pager.CurrentItem = -1;
+			pager.Invalidate ();
+			pager.RemoveViews (0, pager.Adapter.Count);
+
+			addTabs ();
+			addFragments (tabAdapter);
+
+			pager.Adapter.NotifyDataSetChanged ();
+
+			pager.AddOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
+
 		}
 
 		#region Branch Deep Linking
@@ -1004,10 +758,12 @@ namespace Busidex.Presentation.Droid.v2
 		)
 		{
 
-			if (fragment.IsVisible) {
-				return;
-			}
-				
+//			if (fragment.IsVisible) {
+//				return;
+//			}
+
+			pager.Visibility = ViewStates.Visible;
+
 			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
 
 				if (openAnimation.HasValue && closeAnimation.HasValue) {

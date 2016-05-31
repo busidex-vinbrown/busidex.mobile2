@@ -7,8 +7,8 @@ using Android.App;
 namespace Busidex.Presentation.Droid.v2
 {
 
-	public delegate void DialPhoneNumberHandler(PhoneNumber number);
-	public delegate void SendTextMessageHandler(PhoneNumber number);
+	public delegate void DialPhoneNumberHandler (PhoneNumber number);
+	public delegate void SendTextMessageHandler (PhoneNumber number);
 
 	public class PhoneNumberEntryAdapter : ArrayAdapter<PhoneNumber>
 	{
@@ -16,9 +16,10 @@ namespace Busidex.Presentation.Droid.v2
 		public event SendTextMessageHandler TextMessageSent;
 
 		List<PhoneNumber> PhoneNumbers { get; set; }
+
 		readonly Activity context;
 
-		public PhoneNumberEntryAdapter (Activity ctx, int id, List<PhoneNumber> phoneNumbers) : base(ctx, id, phoneNumbers)
+		public PhoneNumberEntryAdapter (Activity ctx, int id, List<PhoneNumber> phoneNumbers) : base (ctx, id, phoneNumbers)
 		{
 			context = ctx;
 			PhoneNumbers = phoneNumbers;
@@ -26,7 +27,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override int Count {
 			get {
-				return PhoneNumbers.Count;
+				return PhoneNumbers == null ? 0 : PhoneNumbers.Count;
 			}
 		}
 
@@ -44,14 +45,14 @@ namespace Busidex.Presentation.Droid.v2
 			lblPhoneNumber.Text = number.Number;
 
 			btnPhoneNumber.Click += delegate {
-				if(PhoneNumberDialed != null){
-					PhoneNumberDialed(number);
+				if (PhoneNumberDialed != null) {
+					PhoneNumberDialed (number);
 				}								
 			};
 
 			btnTextMessage.Click += delegate {
-				if(TextMessageSent != null){
-					TextMessageSent(number);
+				if (TextMessageSent != null) {
+					TextMessageSent (number);
 				}								
 			};
 			return view;

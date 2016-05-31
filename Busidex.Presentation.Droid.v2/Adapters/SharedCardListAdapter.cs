@@ -10,46 +10,59 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public delegate void SharingCardHandler(SharedCard card);
+	public delegate void SharingCardHandler (SharedCard card);
 
 	public class SharedCardListAdapter : ArrayAdapter<SharedCard>
 	{
 		List<SharedCard> Cards { get; set; }
+
 		List<View> ViewCache{ get; set; }
+
 		readonly Activity context;
 
 		public event SharingCardHandler SharingCard;
 
-		public SharedCardListAdapter (Activity ctx, int id, List<SharedCard> cards) : base(ctx, id, cards)
+		public override int Count {
+			get {
+				return Cards == null ? 0 : Cards.Count;
+			}
+		}
+
+		public SharedCardListAdapter (Activity ctx, int id, List<SharedCard> cards) : base (ctx, id, cards)
 		{
 			Cards = cards;
 			context = ctx;
-			ViewCache = new List<View>();
+			ViewCache = new List<View> ();
 		}
 
-		public void UpdateData(List<SharedCard> cards){
+		public void UpdateData (List<SharedCard> cards)
+		{
 			Cards = cards;
 			NotifyDataSetChanged ();
 		}
 
-		protected void ConfirmAcceptCard(object sender, System.EventArgs e){
+		protected void ConfirmAcceptCard (object sender, System.EventArgs e)
+		{
 
 			var title = context.GetString (Resource.String.Share_ConfirmShareTitleAccept);
 			var message = context.GetString (Resource.String.Share_ConfirmAccept);
 			var position = System.Convert.ToInt32 (((Button)sender).Tag);
 
-			var builder = new AlertDialog.Builder(context);
+			var builder = new AlertDialog.Builder (context);
 
 			builder.SetTitle (title);
 			builder.SetMessage (message);
-			builder.SetPositiveButton("OK", (ss, ee) => AcceptCard (position));
-			builder.SetNegativeButton("Cancel", (ss, ee) => { return; });
+			builder.SetPositiveButton ("OK", (ss, ee) => AcceptCard (position));
+			builder.SetNegativeButton ("Cancel", (ss, ee) => {
+				return;
+			});
 			builder.SetCancelable (false);
-			builder.Create().Show();
+			builder.Create ().Show ();
 		}
 
-		void AcceptCard(int position){
-			if(position < Cards.Count){
+		void AcceptCard (int position)
+		{
+			if (position < Cards.Count) {
 				var card = Cards [position];
 
 				card.Accepted = true;
@@ -60,24 +73,28 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		protected void ConfirmDeclineCard(object sender, System.EventArgs e){
+		protected void ConfirmDeclineCard (object sender, System.EventArgs e)
+		{
 
 			var title = context.GetString (Resource.String.Share_ConfirmShareTitleDecline);
 			var message = context.GetString (Resource.String.Share_ConfirmDecline);
 
 			var position = System.Convert.ToInt32 (((Button)sender).Tag);
 
-			var builder = new AlertDialog.Builder(context);
+			var builder = new AlertDialog.Builder (context);
 
 			builder.SetTitle (title);
 			builder.SetMessage (message);
-			builder.SetPositiveButton("OK", (ss, ee) => DeclineCard (position));
-			builder.SetNegativeButton("Cancel", (ss, ee) => { return; });
+			builder.SetPositiveButton ("OK", (ss, ee) => DeclineCard (position));
+			builder.SetNegativeButton ("Cancel", (ss, ee) => {
+				return;
+			});
 			builder.SetCancelable (false);
-			builder.Create().Show();
+			builder.Create ().Show ();
 		}
 
-		void DeclineCard(int position){
+		void DeclineCard (int position)
+		{
 			if (position < Cards.Count) {
 				var card = Cards [position];
 
@@ -89,10 +106,11 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void UpdateSharingUI(int position, bool accepted){
+		void UpdateSharingUI (int position, bool accepted)
+		{
 
-			var view = ViewCache.SingleOrDefault(v=> System.Convert.ToInt32(v.Tag) == position);
-			if(view != null){
+			var view = ViewCache.SingleOrDefault (v => System.Convert.ToInt32 (v.Tag) == position);
+			if (view != null) {
 				var btnAccept = view.FindViewById<TextView> (Resource.Id.btnAccept);
 				var btnDecline = view.FindViewById<TextView> (Resource.Id.btnDecline);
 				var imgResults = view.FindViewById<ImageView> (Resource.Id.imgResults);
@@ -103,8 +121,9 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void SaveSharedCard(SharedCard card){
-			if(SharingCard != null){
+		void SaveSharedCard (SharedCard card)
+		{
+			if (SharingCard != null) {
 				SharingCard (card);
 			}
 		}
@@ -118,7 +137,7 @@ namespace Busidex.Presentation.Droid.v2
 			var txtSharedCardName = view.FindViewById<TextView> (Resource.Id.txtSharedCardName);
 			var txtSharedCardCompanyName = view.FindViewById<TextView> (Resource.Id.txtSharedCardCompanyName);
 			var imgSharedCardHorizontal = view.FindViewById<ImageView> (Resource.Id.imgSharedCardHorizontal);
-			var imgSharedCardVertical =  view.FindViewById<ImageView> (Resource.Id.imgSharedCardVertical);
+			var imgSharedCardVertical = view.FindViewById<ImageView> (Resource.Id.imgSharedCardVertical);
 			var btnAccept = view.FindViewById<TextView> (Resource.Id.btnAccept);
 			var btnDecline = view.FindViewById<TextView> (Resource.Id.btnDecline);
 			var imgResults = view.FindViewById<ImageView> (Resource.Id.imgResults);
@@ -156,7 +175,7 @@ namespace Busidex.Presentation.Droid.v2
 				if (ViewCache.SingleOrDefault (v => System.Convert.ToInt32 (v.Tag) == position) == null) {
 					ViewCache.Add (view);
 				}
-			}else{
+			} else {
 				btnAccept.Visibility = btnDecline.Visibility = imgSharedCardHorizontal.Visibility = imgSharedCardVertical.Visibility =
 					txtSharedCardName.Visibility = txtSharedCardCompanyName.Visibility = ViewStates.Gone;
 			}

@@ -52,6 +52,7 @@ namespace Busidex.Mobile
 
 		public const string SHARE_CONTENT_TEXT = "{0} has shared a ";
 
+		public const string XAMARIN_INSIGHTS_KEY = "064b046194c04b614f285ac8b2c9677468d93e71";
 		public const string BRANCH_KEY = "key_live_cnh1UbVspZWKB1nLPE0NygmorydPic2z";
 		public const string BRANCH_APP_LINK_DOMAIN = "jqle.app.link";
 		public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
@@ -59,6 +60,8 @@ namespace Busidex.Mobile
 		public const string GA_CATEGORY_ACTIVITY = "Activity";
 		public const string GA_MY_BUSIDEX_LABEL = "My Busidex";
 		public const string GA_MY_ORGANIZATIONS_LABEL = "My Organizations";
+		public const string GA_NOTIFICATIONS_LABEL = "Notifications";
+		public const string GA_LABEL_OPEN = "Opened";
 		public const string GA_LABEL_LIST = "List";
 		public const string GA_LABEL_DETAILS = "Details";
 		public const string GA_LABEL_PHONE = "Called";
@@ -76,6 +79,7 @@ namespace Busidex.Mobile
 		public const string GA_LABEL_APP_START = "Application Started";
 		public const string GA_LABEL_MY_BUSIDEX_REFRESHED = "My Busidex Refreshed";
 
+		public const string GA_SCREEN_HOME = "Home";
 		public const string GA_SCREEN_MY_BUSIDEX = "My Busidex";
 		public const string GA_SCREEN_SEARCH = "Search";
 		public const string GA_SCREEN_ORGANIZATIONS = "Organizations";

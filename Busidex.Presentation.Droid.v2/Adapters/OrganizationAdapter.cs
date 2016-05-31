@@ -7,8 +7,8 @@ using Android.Graphics;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public delegate void RedirectToOrganizationDetailsHandler(Organization organization);
-	public delegate void RedirectToOrganizationMembersHandler(Organization organization);
+	public delegate void RedirectToOrganizationDetailsHandler (Organization organization);
+	public delegate void RedirectToOrganizationMembersHandler (Organization organization);
 
 	public class OrganizationAdapter : ArrayAdapter<Organization>
 	{
@@ -18,7 +18,7 @@ namespace Busidex.Presentation.Droid.v2
 		public event RedirectToOrganizationDetailsHandler RedirectToOrganizationDetails;
 		public event RedirectToOrganizationMembersHandler RedirectToOrganizationMembers;
 
-		public OrganizationAdapter (Activity ctx, int id, List<Organization> organizations) : base(ctx, id, organizations)
+		public OrganizationAdapter (Activity ctx, int id, List<Organization> organizations) : base (ctx, id, organizations)
 		{
 			Organizations = organizations;
 			context = ctx;
@@ -26,30 +26,33 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override int Count {
 			get {
-				return Organizations.Count;
+				return Organizations == null ? 0 : Organizations.Count;
 			}
 		}
 
-		void OnRedirectToOrganizationMembers(Organization org){
-			if(RedirectToOrganizationMembers != null){
+		void OnRedirectToOrganizationMembers (Organization org)
+		{
+			if (RedirectToOrganizationMembers != null) {
 				RedirectToOrganizationMembers (org);
 			}
 		}
 
-		void OnRedirectToOrganizationDetails(Organization org){
-			if(RedirectToOrganizationDetails != null){
+		void OnRedirectToOrganizationDetails (Organization org)
+		{
+			if (RedirectToOrganizationDetails != null) {
 				RedirectToOrganizationDetails (org);
 			}
 		}
 
-		public void UpdateData(List<Organization> organizations){
+		public void UpdateData (List<Organization> organizations)
+		{
 			Organizations = organizations;
 			NotifyDataSetChanged ();
 		}
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
-			var view =  context.LayoutInflater.Inflate (Resource.Layout.OrganizationListItem, null);
+			var view = context.LayoutInflater.Inflate (Resource.Layout.OrganizationListItem, null);
 			if (Organizations != null && position >= 0 && position < Organizations.Count) {
 				var organization = Organizations [position];
 

@@ -8,7 +8,7 @@ using Android.Content;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public delegate void RedirectToEventCardsHandler(EventTag tag);
+	public delegate void RedirectToEventCardsHandler (EventTag tag);
 
 	public class EventListAdapter : ArrayAdapter<EventTag>
 	{
@@ -17,7 +17,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public event RedirectToEventCardsHandler RedirectToEventCards;
 
-		public EventListAdapter (Activity ctx, int id, List<EventTag> tags) : base(ctx, id, tags)
+		public EventListAdapter (Activity ctx, int id, List<EventTag> tags) : base (ctx, id, tags)
 		{
 			Tags = tags;
 			context = ctx;
@@ -25,20 +25,22 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override int Count {
 			get {
-				return Tags.Count;
+				return Tags == null ? 0 : Tags.Count;
 			}
 		}
 
-		void OnRedirectToEventCards(object sender, EventArgs e){
+		void OnRedirectToEventCards (object sender, EventArgs e)
+		{
 
 			int position = (int)((Button)sender).Tag;
 
-			if(RedirectToEventCards != null){
+			if (RedirectToEventCards != null) {
 				RedirectToEventCards (Tags [position]);
 			}
 		}
 
-		public void  UpdateData(List<EventTag> tags){
+		public void  UpdateData (List<EventTag> tags)
+		{
 			Tags = tags;
 			NotifyDataSetChanged ();
 		}

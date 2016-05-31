@@ -91,12 +91,6 @@
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Basement">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.1\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Analytics">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Analytics.29.0.0.1\lib\MonoAndroid41\Xamarin.GooglePlayServices.Analytics.dll</HintPath>
-    </Reference>
     <Reference Include="Refractored.Controls.CircleImageView">
       <HintPath>..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
     </Reference>
@@ -127,6 +121,12 @@
     <Reference Include="Branch-Xamarin-SDK">
       <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Analytics">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Analytics.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Analytics.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -148,7 +148,6 @@
     <Compile Include="Fragments\SearchFragment.cs" />
     <Compile Include="Fragments\EventListFragment.cs" />
     <Compile Include="Adapters\EventListAdapter.cs" />
-    <Compile Include="Fragments\MyOrganizationsFragment.cs" />
     <Compile Include="Adapters\OrganizationAdapter.cs" />
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="Fragments\OrganizationPanelFragment.cs" />
@@ -169,6 +168,9 @@
     <Compile Include="Fragments\ContactProfileFragment.cs" />
     <Compile Include="Fragments\TermsAndConditionsFragment.cs" />
     <Compile Include="Fragments\PrivacyFragment.cs" />
+    <Compile Include="Fragments\HomeFragment.cs" />
+    <Compile Include="Fragments\MyBusidexFragment.cs" />
+    <Compile Include="Fragments\OrganizationsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -423,6 +425,7 @@
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets')" />
   <ItemGroup>
     <Folder Include="Resources\layout\" />
     <Folder Include="Adapters\" />

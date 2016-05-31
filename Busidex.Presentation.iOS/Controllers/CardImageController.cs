@@ -234,7 +234,7 @@ namespace Busidex.Presentation.iOS
 			btnSetImage.TouchUpInside += delegate {
 				setCamaraMode (CamaraViewMode.ReviewingPicture);
 				setImage ();
-			};
+			};ad
 		}
 
 		async void setImage ()

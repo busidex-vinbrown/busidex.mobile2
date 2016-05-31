@@ -46,6 +46,10 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			base.OnResume ();
 			updateUI ();
+
+			if (IsVisible) {
+				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_PROFILE);
+			}
 		}
 
 		void updateUI ()

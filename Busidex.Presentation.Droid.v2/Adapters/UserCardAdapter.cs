@@ -10,13 +10,13 @@ using System.Threading;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	public delegate void RedirectToCardHandler(CardDetailFragment fragment);
-	public delegate void ShowButtonPanelHandler(ButtonPanelFragment fragment, Uri uri, string orientation);
-	public delegate void SendEmailHandler(Intent intent);
-	public delegate void OpenMapHandler(Intent intent);
-	public delegate void OpenBrowserHandler(Intent intent);
-	public delegate void CardAddedToMyBusidexHandler(Intent intent);
-	public delegate void CardRemovedFromMyBusidexHandler(Intent intent);
+	public delegate void RedirectToCardHandler (CardDetailFragment fragment);
+	public delegate void ShowButtonPanelHandler (ButtonPanelFragment fragment, Uri uri, string orientation);
+	public delegate void SendEmailHandler (Intent intent);
+	public delegate void OpenMapHandler (Intent intent);
+	public delegate void OpenBrowserHandler (Intent intent);
+	public delegate void CardAddedToMyBusidexHandler (Intent intent);
+	public delegate void CardRemovedFromMyBusidexHandler (Intent intent);
 
 	public class UserCardAdapter : ArrayAdapter<UserCard>//, IFilterable
 	{
@@ -36,34 +36,44 @@ namespace Busidex.Presentation.Droid.v2
 		protected const int CARD_WIDTH_HORIZONTAL = 180;
 
 		public List<UserCard> Cards { get; set; }
+
 		public List<UserCard> _originalItems { get; set; }
-		List<int> PanelReferences {get;set;}
+
+		List<int> PanelReferences { get; set; }
 
 		readonly Activity context;
 
 		Intent PhoneIntent { get; set; }
+
 		Intent NotesIntent { get; set; }
+
 		Intent ShareCardIntent { get; set; }
+
 		Intent CardDetailIntent{ get; set; }
+
 		Intent OpenMapIntent{ get; set; }
+
 		Intent SendEmailIntent{ get; set; }
+
 		Intent OpenBrowserIntent{ get; set; }
+
 		Intent AddToMyBusidexIntent{ get; set; }
+
 		Intent RemoveFromMyBusidexIntent{ get; set; }
 
-		public override int Count
-		{
-			get { return Cards.Count; }
+		public override int Count {
+			get { return Cards == null ? 0 : Cards.Count; }
 		}
 
 		public Filter CardFilter { get; private set; }
 
-		public void UpdateData(List<UserCard> cards){
+		public void UpdateData (List<UserCard> cards)
+		{
 			Cards = cards;
 			NotifyDataSetChanged ();
 		}
 
-		public UserCardAdapter (Activity ctx, int id, List<UserCard> cards) : base(ctx, id, cards)
+		public UserCardAdapter (Activity ctx, int id, List<UserCard> cards) : base (ctx, id, cards)
 		{
 			Cards = _originalItems = cards;
 			context = ctx;
@@ -71,35 +81,39 @@ namespace Busidex.Presentation.Droid.v2
 			CardFilter = new UserCardFilter (this);
 		}
 
-		public UserCard this[int position]{ 
-			get{ 
-				if(Count == 0){
+		public UserCard this [int position] { 
+			get { 
+				if (Count == 0) {
 					return null;
 				}
 				return position > Count ? Cards [Count - 1] : Cards [position];
 			}
 		}
 
-		void OnMapButtonClicked(object sender, System.EventArgs e){
-			if(OpenMap != null){
+		void OnMapButtonClicked (object sender, System.EventArgs e)
+		{
+			if (OpenMap != null) {
 				OpenMap (OpenMapIntent);
 			}
 		}
 
-		void OnEmailButtonClicked(object sender, System.EventArgs e){
-			if(SendEmail != null){
+		void OnEmailButtonClicked (object sender, System.EventArgs e)
+		{
+			if (SendEmail != null) {
 				SendEmail (SendEmailIntent);
 			}
 		}
 
-		void OnBrowserButtonClicked(object sender, System.EventArgs e){
-			if(OpenBrowser != null){
+		void OnBrowserButtonClicked (object sender, System.EventArgs e)
+		{
+			if (OpenBrowser != null) {
 				OpenBrowser (OpenBrowserIntent);
 			}
 		}
 
-		void OnAddToMyBusidexClicked(object sender, System.EventArgs e){
-			if (CardAddedToMyBusidex != null){
+		void OnAddToMyBusidexClicked (object sender, System.EventArgs e)
+		{
+			if (CardAddedToMyBusidex != null) {
 				CardAddedToMyBusidex (AddToMyBusidexIntent);
 			}
 			var btnAddToMyBusidex = (ImageButton)sender;
@@ -111,8 +125,9 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void OnRemoveFromMyBusidexClicked(object sender, System.EventArgs e){
-			if(CardRemovedFromMyBusidex != null){
+		void OnRemoveFromMyBusidexClicked (object sender, System.EventArgs e)
+		{
+			if (CardRemovedFromMyBusidex != null) {
 				CardRemovedFromMyBusidex (RemoveFromMyBusidexIntent);
 			}
 			var btnRemoveFromMyBusidex = (ImageButton)sender;
@@ -124,10 +139,11 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void OnCardDetailButtonClicked(object sender, System.EventArgs e){
+		void OnCardDetailButtonClicked (object sender, System.EventArgs e)
+		{
 
-			var position = System.Convert.ToInt32(((ImageButton)sender).Tag);
-			var fragment = new ButtonPanelFragment();
+			var position = System.Convert.ToInt32 (((ImageButton)sender).Tag);
+			var fragment = new ButtonPanelFragment ();
 			fragment.SelectedCard = Cards [position];
 
 			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
@@ -143,7 +159,7 @@ namespace Busidex.Presentation.Droid.v2
 			var txtName = view.FindViewById<TextView> (Resource.Id.txtName);
 			var txtCompanyName = view.FindViewById<TextView> (Resource.Id.txtCompanyName);
 			var btnCardH = view.FindViewById<ImageButton> (Resource.Id.imgCardHorizontal);
-			var btnCardV =  view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
+			var btnCardV = view.FindViewById<ImageButton> (Resource.Id.imgCardVertical);
 
 			var btnInfo = view.FindViewById<ImageButton> (Resource.Id.btnInfo);
 			btnInfo.Visibility = ViewStates.Gone;
@@ -159,7 +175,7 @@ namespace Busidex.Presentation.Droid.v2
 			btnCardV.Click += OnCardDetailButtonClicked;
 			btnCardV.Tag = position;
 
-			if(card != null){
+			if (card != null) {
 
 				txtName.Text = card.Card.Name;
 				txtCompanyName.Text = card.Card.CompanyName;

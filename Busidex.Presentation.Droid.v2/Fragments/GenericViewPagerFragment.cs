@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Content;
-using System.IO;
-using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Views.InputMethods;
-using Android.Gms.Analytics;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -26,18 +22,18 @@ namespace Busidex.Presentation.Droid.v2
 
 		public GenericViewPagerFragment ()
 		{
-			
+			RetainInstance = true;
 		}
 
-		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			if (_view == null) {
-				return base.OnCreateView (inflater, container, savedInstanceState);
-			} else {
-				base.OnCreateView (inflater, container, savedInstanceState);
-				return _view (inflater, container, savedInstanceState);
-			}
-		}
+		//		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		//		{
+		//			if (_view == null) {
+		//				return base.OnCreateView (inflater, container, savedInstanceState);
+		//			} else {
+		//				base.OnCreateView (inflater, container, savedInstanceState);
+		//				return _view (inflater, container, savedInstanceState);
+		//			}
+		//		}
 
 		#region Alerts
 

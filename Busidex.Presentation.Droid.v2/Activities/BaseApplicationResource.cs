@@ -24,7 +24,7 @@ namespace Busidex.Presentation.Droid.v2
 			var gai = GoogleAnalytics.GetInstance (context);
 			_tracker = _tracker ?? gai.NewTracker (Resources.GOOGLE_ANALYTICS_KEY_ANDROID);
 
-			const int DISPATCH_PERIOD = 5;
+			const int DISPATCH_PERIOD = 1;
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
 			gai.SetLocalDispatchPeriod (DISPATCH_PERIOD);

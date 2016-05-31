@@ -1,60 +1,54 @@
 ﻿
-using System.Collections.Generic;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class EventListFragment : GenericViewPagerFragment
 	{
-		static EventListAdapter eventListAdapter { get; set; }
-		List<EventTag> Tags;
-		EventTag SelectedEvent { get; set; }
+		OnEventListLoadedEventHandler callback;
+		View view;
 		ListView lstEvents;
-
-		public EventListFragment(){
-			
-		}
-
-		public EventListFragment(List<EventTag> tags){
-			Tags = tags;	
-		}
+		EventListAdapter eventListAdapter;
 
 		public override void OnResume ()
 		{
 			base.OnResume ();
-			if (IsVisible) {
-				//TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_EVENT_LIST, Busidex.Mobile.Resources.GA_LABEL_LIST, 0);
+			if (callback == null) {
+				callback = list => Activity.RunOnUiThread (() => eventListAdapter.UpdateData (list));
 			}
-		}
+			UISubscriptionService.OnEventListLoaded -= callback;
+			UISubscriptionService.OnEventListLoaded += callback;
 
-		public void SetEventList(List<EventTag> tags){
-			Tags = tags;
-			eventListAdapter.UpdateData (tags);
-			eventListAdapter.NotifyDataSetChanged ();
+			UISubscriptionService.LoadEventList ();
+
+			if (IsVisible) {
+				BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
+			}
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var view = inflater.Inflate (Resource.Layout.EventList, container, false);
+			view = inflater.Inflate (Resource.Layout.EventList, container, false);
+
+			eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.EventList);
+			eventListAdapter.RedirectToEventCards += ((MainActivity)Activity).LoadEventCards;
 
 			lstEvents = view.FindViewById<ListView> (Resource.Id.lstEvents);
 
-			eventListAdapter = new EventListAdapter (Activity, Resource.Id.lstCards, Tags);
-
-			eventListAdapter.RedirectToEventCards -= GoToEvent;
-			eventListAdapter.RedirectToEventCards += GoToEvent;
-
 			lstEvents.Adapter = eventListAdapter;
+
+			UISubscriptionService.LoadEventList ();
 
 			return view;
 		}
 
-		void GoToEvent(EventTag tag){
-			SelectedEvent = tag;
-			((MainActivity)Activity).LoadEventCards (tag);
+		public override void OnDestroy ()
+		{
+			base.OnDestroy ();
+			UISubscriptionService.OnEventListLoaded -= callback;
 		}
 	}
 }

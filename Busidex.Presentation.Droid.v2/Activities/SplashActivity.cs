@@ -6,13 +6,16 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
+	[Activity (Theme = "@style/Theme.Splash", 
+		MainLauncher = true, 
+		NoHistory = true, 
+		ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class SplashActivity : Activity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			Xamarin.Insights.Initialize (XamarinInsights.ApiKey, this);
-			base.OnCreate (bundle);
+			Xamarin.Insights.Initialize (Busidex.Mobile.Resources.XAMARIN_INSIGHTS_KEY, this);
+			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
 
 			UISubscriptionService.Init ();
