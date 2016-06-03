@@ -45,12 +45,13 @@ namespace Busidex.Presentation.Droid.v2
 
 			if (callback == null) {
 				callback = list => Activity.RunOnUiThread (() => {
-					ViewPagerExtensions.UpdateNotificationCount (Activity.ActionBar, list.Count);
-					sharedCardAdapter.UpdateData (list);
+					if (Activity != null) {
+						ViewPagerExtensions.UpdateNotificationCount (Activity.ActionBar, list.Count);
+						sharedCardAdapter.UpdateData (list);
 
-					imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-					lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-
+						imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+						lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+					}
 				});
 			}
 			UISubscriptionService.OnNotificationsLoaded -= callback;

@@ -33,47 +33,54 @@ namespace Busidex.Presentation.Droid.v2
 
 			var view = inflater.Inflate (Resource.Layout.Home, container, false);
 
+			const int TAB_SEARCH = 1;
+			const int TAB_MY_BUSIDEX = 2;
+			const int TAB_ORGANIZATIONS = 3;
+			const int TAB_EVENTS = 4;
+			const int TAB_NOTIFICATIONS = 5;
+			const int TAB_PROFILE = 6;
+
 			var layout = view.FindViewById<RelativeLayout> (Resource.Id.homeLayout);
 			layout.Visibility = ViewStates.Visible;
-
-			//MY BUSIDEX BUTTON
-			var btnMyBusidex = view.FindViewById<Button> (Resource.Id.btnMyBusidex);
-			btnMyBusidex.Click += delegate {
-				((MainActivity)Activity).SetTab (1);
-			};
-			var imgMyBusidex = view.FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
-			imgMyBusidex.Click += delegate {
-				((MainActivity)Activity).SetTab (1);
-			};
 
 			// SEARCH BUTTON
 			var btnSearch = view.FindViewById<Button> (Resource.Id.btnSearch);
 			btnSearch.Click += delegate {
-				((MainActivity)Activity).SetTab (2);
+				((MainActivity)Activity).SetTab (TAB_SEARCH);
 			};
 			var imgSearch = view.FindViewById<ImageView> (Resource.Id.imgSearchIcon);
 			imgSearch.Click += delegate {
-				((MainActivity)Activity).SetTab (2);
+				((MainActivity)Activity).SetTab (TAB_SEARCH);
+			};
+
+			//MY BUSIDEX BUTTON
+			var btnMyBusidex = view.FindViewById<Button> (Resource.Id.btnMyBusidex);
+			btnMyBusidex.Click += delegate {
+				((MainActivity)Activity).SetTab (TAB_MY_BUSIDEX);
+			};
+			var imgMyBusidex = view.FindViewById<ImageView> (Resource.Id.imgBusidexIcon);
+			imgMyBusidex.Click += delegate {
+				((MainActivity)Activity).SetTab (TAB_MY_BUSIDEX);
 			};
 
 			// MY ORGANIZATIONS BUTTON
 			var btnMyOrganizations = view.FindViewById<Button> (Resource.Id.btnMyOrganizations);
 			btnMyOrganizations.Click += delegate {
-				((MainActivity)Activity).SetTab (3);
+				((MainActivity)Activity).SetTab (TAB_ORGANIZATIONS);
 			};
 			var imgOrganizations = view.FindViewById<ImageView> (Resource.Id.imgOrgIcon);
 			imgOrganizations.Click += delegate {
-				((MainActivity)Activity).SetTab (3);
+				((MainActivity)Activity).SetTab (TAB_ORGANIZATIONS);
 			};
 
 			// EVENTS BUTTON
 			var btnEvents = view.FindViewById<Button> (Resource.Id.btnEvents);
 			btnEvents.Click += delegate {
-				((MainActivity)Activity).SetTab (4);
+				((MainActivity)Activity).SetTab (TAB_EVENTS);
 			};
 			var imgEvents = view.FindViewById<ImageView> (Resource.Id.imgEventIcon);
 			imgEvents.Click += delegate {
-				((MainActivity)Activity).SetTab (4);
+				((MainActivity)Activity).SetTab (TAB_EVENTS);
 			};
 
 			// SHARE BUTTON
@@ -88,27 +95,31 @@ namespace Busidex.Presentation.Droid.v2
 
 			// SHARED CARDS NOTIFICATION
 			var btnSharedCardsNotification = view.FindViewById<ImageView> (Resource.Id.btnSharedCardsNotification);
+			btnSharedCardsNotification.Visibility = ViewStates.Gone;
+
 			btnSharedCardsNotification.Click += delegate {
-				((MainActivity)Activity).SetTab (5);
+				((MainActivity)Activity).SetTab (TAB_NOTIFICATIONS);
 			};
 
 			// SETTINGS BUTTON
 			var btnSettingsHome = view.FindViewById<ImageButton> (Resource.Id.btnSettingsHome);
 			btnSettingsHome.Click += delegate {
-				((MainActivity)Activity).SetTab (6);	
+				((MainActivity)Activity).SetTab (TAB_PROFILE);	
 			};
 
 			if (Activity != null) {
 				callback = list => Activity.RunOnUiThread (() => {
 
-					var count = list == null ? 0 : list.Count;
-					ViewPagerExtensions.UpdateNotificationCount (((MainActivity)Activity).ActionBar, count);
+					if (Activity != null) {
+						var count = list == null ? 0 : list.Count;
+						ViewPagerExtensions.UpdateNotificationCount (((MainActivity)Activity).ActionBar, count);
 
-					var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
+						var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
 
-					btnSharedCardsNotification.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
-					txtNotificationCount.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
-					txtNotificationCount.Text = count.ToString ();
+						btnSharedCardsNotification.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						txtNotificationCount.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						txtNotificationCount.Text = count.ToString ();
+					}
 
 				});
 			}

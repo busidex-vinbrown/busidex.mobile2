@@ -155,8 +155,8 @@ namespace Busidex.Presentation.Droid.v2
 			profileTab.CustomView.FindViewById<ImageView> (Resource.Id.imgTabIcon).Alpha = DISABLED_ALPHA;
 
 			ActionBar.AddTab (homeTab);
-			ActionBar.AddTab (myBusidexTab);
 			ActionBar.AddTab (searchTab);
+			ActionBar.AddTab (myBusidexTab);
 			ActionBar.AddTab (myOrganizationsTab);
 			ActionBar.AddTab (eventsTab);
 			ActionBar.AddTab (notificationsTab);
@@ -170,11 +170,11 @@ namespace Busidex.Presentation.Droid.v2
 			// HOME
 			adapter.AddFragment (new HomeFragment ());
 
-			// MY BUSIDEX
-			adapter.AddFragment (new MyBusidexFragment ());
-
 			// SEARCH
 			adapter.AddFragment (new SearchFragment ());
+
+			// MY BUSIDEX
+			adapter.AddFragment (new MyBusidexFragment ());
 
 			// MY ORGANIZATIONS
 			adapter.AddFragment (new OrganizationsFragment ());

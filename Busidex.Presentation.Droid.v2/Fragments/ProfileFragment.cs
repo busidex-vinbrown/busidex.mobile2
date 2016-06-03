@@ -133,9 +133,9 @@ namespace Busidex.Presentation.Droid.v2
 			} else {
 				txtProfileEmail.Text = string.Empty;
 
-				btnLogout.Visibility = btnPrivacy.Visibility = btnTermsAndConditions.Visibility = ViewStates.Gone;
+				btnLogout.Visibility = btnPrivacy.Visibility = btnTermsAndConditions.Visibility = btnEditCard.Visibility = ViewStates.Gone;
 
-				lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = btnEditCard.Visibility = ViewStates.Visible;
+				lotAcceptTerms.Visibility = txtAcceptTerms.Visibility = txtViewTerms.Visibility = imgAcceptTerms.Visibility = ViewStates.Visible;
 
 				txtProfileDescription.SetText (Resource.String.Profile_DescriptionNewAccount);
 

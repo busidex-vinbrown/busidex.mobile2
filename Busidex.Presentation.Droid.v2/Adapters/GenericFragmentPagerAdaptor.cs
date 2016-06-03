@@ -86,8 +86,8 @@ namespace Busidex.Presentation.Droid.v2
 			tabs = new List<tabData> ();
 
 			tabs.Add (new tabData ("Home", Resource.Drawable.home, Resource.Drawable.home));
-			tabs.Add (new tabData ("My Busidex", Resource.Drawable.MyBusidexIcon, Resource.Drawable.MyBusidexIconDisabled));
 			tabs.Add (new tabData ("Search", Resource.Drawable.SearchIcon, Resource.Drawable.SearchIconDisabled));
+			tabs.Add (new tabData ("My Busidex", Resource.Drawable.MyBusidexIcon, Resource.Drawable.MyBusidexIconDisabled));
 			tabs.Add (new tabData ("Organizations", Resource.Drawable.OrganizationsIcon, Resource.Drawable.OrganizationsIconDisabled));
 			tabs.Add (new tabData ("Events", Resource.Drawable.EventIcon, Resource.Drawable.EventIconDisabled));
 			tabs.Add (new tabData ("Referrals Received", Resource.Drawable.notification, Resource.Drawable.NotificationDisabled));
@@ -119,12 +119,12 @@ namespace Busidex.Presentation.Droid.v2
 				}
 			case 1:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
+					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_SEARCH);
 					break;
 				}
 			case 2:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_SEARCH);
+					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
 					break;
 				}
 			case 3:

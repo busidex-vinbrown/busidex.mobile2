@@ -22,18 +22,18 @@ namespace Busidex.Presentation.Droid.v2
 
 		public GenericViewPagerFragment ()
 		{
-			RetainInstance = true;
+			//RetainInstance = true;
 		}
 
-		//		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		//		{
-		//			if (_view == null) {
-		//				return base.OnCreateView (inflater, container, savedInstanceState);
-		//			} else {
-		//				base.OnCreateView (inflater, container, savedInstanceState);
-		//				return _view (inflater, container, savedInstanceState);
-		//			}
-		//		}
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			if (_view == null) {
+				return base.OnCreateView (inflater, container, savedInstanceState);
+			} else {
+				base.OnCreateView (inflater, container, savedInstanceState);
+				return _view (inflater, container, savedInstanceState);
+			}
+		}
 
 		#region Alerts
 

@@ -1972,8 +1972,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0d00e1
 			public const int btnLogout = 2131558625;
 			
-			// aapt resource value: 0x7f0d0076
-			public const int btnMyBusidex = 2131558518;
+			// aapt resource value: 0x7f0d0078
+			public const int btnMyBusidex = 2131558520;
 			
 			// aapt resource value: 0x7f0d007a
 			public const int btnMyOrganizations = 2131558522;
@@ -2032,8 +2032,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0d00e0
 			public const int btnSaveProfile = 2131558624;
 			
-			// aapt resource value: 0x7f0d0078
-			public const int btnSearch = 2131558520;
+			// aapt resource value: 0x7f0d0076
+			public const int btnSearch = 2131558518;
 			
 			// aapt resource value: 0x7f0d007f
 			public const int btnSettingsHome = 2131558527;
@@ -2140,8 +2140,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0d00dc
 			public const int imgAcceptTerms = 2131558620;
 			
-			// aapt resource value: 0x7f0d0075
-			public const int imgBusidexIcon = 2131558517;
+			// aapt resource value: 0x7f0d0077
+			public const int imgBusidexIcon = 2131558519;
 			
 			// aapt resource value: 0x7f0d0060
 			public const int imgCardDetail = 2131558496;
@@ -2218,8 +2218,8 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f0d0104
 			public const int imgResults = 2131558660;
 			
-			// aapt resource value: 0x7f0d0077
-			public const int imgSearchIcon = 2131558519;
+			// aapt resource value: 0x7f0d0075
+			public const int imgSearchIcon = 2131558517;
 			
 			// aapt resource value: 0x7f0d00f7
 			public const int imgShareHorizontal = 2131558647;
