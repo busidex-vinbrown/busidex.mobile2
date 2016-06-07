@@ -163,17 +163,23 @@
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-Lib.iOS">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK.iOS">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
-    </Reference>
     <Reference Include="TPKeyboardAvoiding">
       <HintPath>..\Components\TPKeyboardAvoiding-1.2.11.0\lib\ios-unified\TPKeyboardAvoiding.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-Lib.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media">
+      <HintPath>..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

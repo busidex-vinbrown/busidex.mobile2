@@ -9,6 +9,8 @@ using CoreGraphics;
 using System.Threading.Tasks;
 using AVFoundation;
 using GoogleAnalytics.iOS;
+using Plugin.Media.Abstractions;
+using Plugin.Media;
 
 namespace Busidex.Presentation.iOS
 {
@@ -45,10 +47,7 @@ namespace Busidex.Presentation.iOS
 
 		string SelectedOrientation;
 
-		AVCaptureSession captureSession;
-		AVCaptureDeviceInput captureDeviceInput;
-		AVCaptureStillImageOutput stillImageOutput;
-		AVCaptureVideoPreviewLayer videoPreviewLayer;
+
 
 		bool IsTakingPicture { get; set; }
 
@@ -56,8 +55,13 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		#region Camara Functionality
+		#region Manual Camara Functionality
 
+		/* 
+	    AVCaptureSession captureSession;
+		AVCaptureDeviceInput captureDeviceInput;
+		AVCaptureStillImageOutput stillImageOutput;
+		AVCaptureVideoPreviewLayer videoPreviewLayer;
 		static async Task AuthorizeCameraUse ()
 		{
 			var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus (AVMediaType.Video);
@@ -120,15 +124,17 @@ namespace Busidex.Presentation.iOS
 				captureSession.StartRunning ();
 			}
 		}
+		*/
 
 		#endregion
 
 		CGRect getDefaultFrame ()
 		{
-			int height = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_HEIGHT : VERTICAL_HEIGHT;
-			int width = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_WIDTH : VERTICAL_WIDTH;
-			float left = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_LEFT : DEFAULT_VERT_LEFT;
-			float top = SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_TOP : DEFAULT_VERT_TOP;
+			var frontOrientation = SelectedCard.FrontOrientation;
+			int height = frontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_HEIGHT : VERTICAL_HEIGHT;
+			int width = frontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_WIDTH : VERTICAL_WIDTH;
+			float left = frontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_LEFT : DEFAULT_VERT_LEFT;
+			float top = frontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_TOP : DEFAULT_VERT_TOP;
 
 			var frame = new CGRect (left, top, width, height + 25f);
 			return frame;
@@ -141,12 +147,17 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		void setImageSelectionUI (bool visible)
+		{
+			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = !visible;
+		}
+
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 
 
-			imgGuideView.Hidden = btnAcceptImage.Hidden = btnCancelImage.Hidden = btnSetImage.Hidden = true;
+			setImageSelectionUI (false);
 
 			SelectedCard = UISubscriptionService.OwnedCard;
 
@@ -189,21 +200,76 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		void setImage (MediaFile picture)
+		{
+			if (picture != null) {
+				InvokeOnMainThread (() => btnCardImage.SetBackgroundImage (UIImage.FromFile (picture.Path), UIControlState.Normal));
+			}
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			AuthorizeCameraUse ().ContinueWith (r => {
-				InvokeOnMainThread (() => {
-					btnCardImage.TouchUpInside += delegate {
-						if (!IsTakingPicture) {
-							SetupLiveCameraStream ();	
-							setCamaraMode (CamaraViewMode.TakingPicture);
-						}
-					};
-				});
-			});
+			btnCancelImage.TouchUpInside += delegate {
+				setImageSelectionUI (false);
+			};
 
+			btnSelectImage.TouchUpInside += async (sender, e) => {
+				var file = await CrossMedia.Current.PickPhotoAsync ();	
+				if (file != null) {
+					setImage (file);
+				}
+			};
+
+			btnTakeImage.TouchUpInside += async (sender, e) => {
+				var file = await CrossMedia.Current.TakePhotoAsync (new Plugin.Media.Abstractions.StoreCameraMediaOptions {
+					Directory = "Sample",
+					Name = "test.jpg"
+				});
+				setImage (file);
+			};
+
+			btnCardImage.TouchUpInside += (sender, args) => {
+
+				if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported) {
+					ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
+					return;
+				}
+
+				setImageSelectionUI (true);
+
+//				var isAvailable = CrossMedia.Current.IsCameraAvailable;
+//				var defaultName = Guid.NewGuid ().ToString ();
+//				if (isAvailable) {
+//					int button = await ShowAlert ("Card Image", "Choose an image source", new [] {
+//						"Select from Gallery",
+//						"Take a picture now"
+//					});
+//
+//					var picture = button == 0
+//							? await CrossMedia.Current.PickPhotoAsync ()
+//							: await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions {
+//						Name = defaultName + ".jpg",
+//						SaveToAlbum = true
+//					});
+//
+//					setImage (picture);
+//
+//				} else {
+//					ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
+//				}
+			};
+//			AuthorizeCameraUse ().ContinueWith (r => {
+//				InvokeOnMainThread (() => {
+//					btnCardImage.TouchUpInside += delegate {
+//						if (!IsTakingPicture) {
+//							SetupLiveCameraStream ();	
+//							setCamaraMode (CamaraViewMode.TakingPicture);
+//						}
+//					};
+//				});
+//			});
 
 			lblTitle.Frame = new CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
 			btnBack.TouchUpInside += delegate {
@@ -216,33 +282,34 @@ namespace Busidex.Presentation.iOS
 				var orientation = SelectedOrientation == ORIENTATION_VERTICAL ? ORIENTATION_HORIZONTAL : ORIENTATION_VERTICAL;
 				rotate (orientation);
 			};
-			btnAcceptImage.Layer.CornerRadius = 2;
-			btnAcceptImage.Layer.BorderWidth = 1;
+//			btnAcceptImage.Layer.CornerRadius = 2;
+//			btnAcceptImage.Layer.BorderWidth = 1;
+//
+//			btnCancelImage.Layer.CornerRadius = 2;
+//			btnCancelImage.Layer.BorderWidth = 1;
 
-			btnCancelImage.Layer.CornerRadius = 2;
-			btnCancelImage.Layer.BorderWidth = 1;
-
-			btnCancelImage.TouchUpInside += delegate {
-				discardImage ();
-				setCamaraMode (CamaraViewMode.Done);
-			};
-
-			btnAcceptImage.TouchUpInside += delegate {
-				setCamaraMode (CamaraViewMode.Done);
-			};
-
-			btnSetImage.TouchUpInside += delegate {
-				setCamaraMode (CamaraViewMode.ReviewingPicture);
-				setImage ();
-			};ad
+//			btnCancelImage.TouchUpInside += delegate {
+//				discardImage ();
+//				setCamaraMode (CamaraViewMode.Done);
+//			};
+//
+//			btnAcceptImage.TouchUpInside += delegate {
+//				setCamaraMode (CamaraViewMode.Done);
+//			};
+//
+//			btnSetImage.TouchUpInside += delegate {
+//				setCamaraMode (CamaraViewMode.ReviewingPicture);
+//				//setImage ();
+//			};
 		}
 
+		/*
 		async void setImage ()
 		{
-			var videoConnection = stillImageOutput.ConnectionFromMediaType (AVMediaType.Video);
-			var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync (videoConnection);
+			//var videoConnection = stillImageOutput.ConnectionFromMediaType (AVMediaType.Video);
+			//var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync (videoConnection);
 
-			var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer);
+			//var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer);
 			//var jpegAsByteArray = jpegImageAsNsData.ToArray ();
 
 			var img = UIImage.LoadFromData (jpegImageAsNsData);
@@ -311,6 +378,7 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 		}
+		*/
 
 		void rotate (string orientation)
 		{

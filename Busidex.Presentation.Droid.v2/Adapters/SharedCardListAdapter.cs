@@ -6,7 +6,6 @@ using Android.Views;
 using System.IO;
 using Android.Net;
 using System.Linq;
-using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {

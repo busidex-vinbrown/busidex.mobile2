@@ -194,6 +194,9 @@ namespace Busidex.Presentation.Droid.v2
 			UISubscriptionService.OnBusidexUserLoaded += profileCallback;
 
 			adapter.AddFragment (profileFragment);
+
+			UISubscriptionService.OnNotificationCountUpdated -= UpdateNotificationCount;
+			UISubscriptionService.OnNotificationCountUpdated += UpdateNotificationCount;
 		}
 
 		void Init ()
@@ -224,32 +227,18 @@ namespace Busidex.Presentation.Droid.v2
 
 		#region Override Methods
 
-		protected override void OnStop ()
-		{
-			//pager.Adapter = null;
-			//pager.OnSaveInstanceState ();
-
-			base.OnStop ();
-			//((GenericFragmentPagerAdaptor)pager.Adapter).Clear ();
-			//Android.OS.Process.KillProcess (Android.OS.Process.MyPid ());
-
-		}
-
-		protected override void OnPause ()
-		{
-			base.OnPause ();
-		}
-
 		protected override void OnSaveInstanceState (Bundle outState)
 		{
-//			outState.PutInt ("tab", ActionBar.SelectedNavigationIndex);
-//			outState.PutParcelable ("pager", pager.Adapter.SaveState ());
-
-			((GenericFragmentPagerAdaptor)pager.Adapter).Clear ();
-			pager.Adapter.NotifyDataSetChanged ();
-			pager.Adapter = null;
-			ActionBar.RemoveAllTabs ();
-
+			if (pager != null) {
+				using (var adapter = pager.Adapter as GenericFragmentPagerAdaptor) {
+					if (adapter != null) {
+						adapter.Clear ();
+						adapter.NotifyDataSetChanged ();
+						pager.Adapter = null;
+						ActionBar.RemoveAllTabs ();
+					}
+				}
+			}
 			base.OnSaveInstanceState (outState);
 		}
 
@@ -277,14 +266,6 @@ namespace Busidex.Presentation.Droid.v2
 			setUpPager (true);
 		}
 
-		public override View OnCreateView (string name, Context context, Android.Util.IAttributeSet attrs)
-		{
-
-
-
-			return base.OnCreateView (name, context, attrs);
-		}
-
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 
@@ -301,8 +282,6 @@ namespace Busidex.Presentation.Droid.v2
 			Init ();
 
 			setUpPager ();
-
-
 		}
 
 		#endregion
@@ -364,6 +343,7 @@ namespace Busidex.Presentation.Droid.v2
 			addFragments (tabAdapter);
 
 			pager.Adapter.NotifyDataSetChanged ();
+			pager.OffscreenPageLimit = 6;
 
 			pager.AddOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
 
@@ -436,10 +416,19 @@ namespace Busidex.Presentation.Droid.v2
 
 		#region Card Sharing
 
-		public void SaveSharedCard (SharedCard card)
+		public void UpdateNotificationCount (int count)
 		{
-			UISubscriptionService.SaveSharedCard (card);
-			ViewPagerExtensions.UpdateNotificationCount (ActionBar, UISubscriptionService.Notifications.Count);
+			const int NOTIFICATION_TAB = 5;
+			if (ActionBar.TabCount > 0) {
+				var selectedTab = ActionBar.GetTabAt (NOTIFICATION_TAB);
+				var txtNotificationCount = selectedTab.CustomView.FindViewById<TextView> (Resource.Id.txtNotificationCount);
+				if (count > 0) {
+					txtNotificationCount.Visibility = ViewStates.Visible;
+					txtNotificationCount.Text = count.ToString ();
+				} else {
+					txtNotificationCount.Visibility = ViewStates.Gone;
+				}
+			}
 		}
 
 		#endregion

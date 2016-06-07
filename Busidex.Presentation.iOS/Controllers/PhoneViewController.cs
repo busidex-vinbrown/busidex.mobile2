@@ -14,7 +14,6 @@ namespace Busidex.Presentation.iOS
 	{
 		public UserCard SelectedCard{ get; set; }
 
-		string userToken;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
 		{
@@ -102,7 +101,7 @@ namespace Busidex.Presentation.iOS
 								av.Show ();
 							} else {
 								//NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
+								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 							}
 						};
 
@@ -121,7 +120,7 @@ namespace Busidex.Presentation.iOS
 									         null);
 								av.Show ();
 							} else {
-								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, userToken);
+								ActivityController.SaveActivity ((long)EventSources.Call, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 							}
 						};
 
@@ -152,7 +151,7 @@ namespace Busidex.Presentation.iOS
 				LoadCard ();
 
 			} catch (Exception ex) {
-				LoggingController.LogError (ex, UISubscriptionService.AuthToken);
+				Xamarin.Insights.Report (ex);
 			}
 		}
 	}

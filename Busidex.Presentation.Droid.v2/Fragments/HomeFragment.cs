@@ -112,7 +112,6 @@ namespace Busidex.Presentation.Droid.v2
 
 					if (Activity != null) {
 						var count = list == null ? 0 : list.Count;
-						ViewPagerExtensions.UpdateNotificationCount (((MainActivity)Activity).ActionBar, count);
 
 						var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
 

@@ -16,10 +16,6 @@ namespace Busidex.Presentation.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnAcceptImage { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnBack { get; set; }
 
 		[Outlet]
@@ -44,11 +40,15 @@ namespace Busidex.Presentation.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSetImage { get; set; }
+		UIButton btnSelectImage { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgGuideView { get; set; }
+		UIButton btnTakeImage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView imgButtonFrame { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -60,10 +60,6 @@ namespace Busidex.Presentation.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnAcceptImage != null) {
-				btnAcceptImage.Dispose ();
-				btnAcceptImage = null;
-			}
 			if (btnBack != null) {
 				btnBack.Dispose ();
 				btnBack = null;
@@ -88,13 +84,17 @@ namespace Busidex.Presentation.iOS
 				btnSave.Dispose ();
 				btnSave = null;
 			}
-			if (btnSetImage != null) {
-				btnSetImage.Dispose ();
-				btnSetImage = null;
+			if (btnSelectImage != null) {
+				btnSelectImage.Dispose ();
+				btnSelectImage = null;
 			}
-			if (imgGuideView != null) {
-				imgGuideView.Dispose ();
-				imgGuideView = null;
+			if (btnTakeImage != null) {
+				btnTakeImage.Dispose ();
+				btnTakeImage = null;
+			}
+			if (imgButtonFrame != null) {
+				imgButtonFrame.Dispose ();
+				imgButtonFrame = null;
 			}
 			if (lblDescription != null) {
 				lblDescription.Dispose ();

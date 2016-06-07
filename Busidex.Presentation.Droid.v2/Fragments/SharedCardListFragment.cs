@@ -20,9 +20,9 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void SaveSharedCard (SharedCard card)
+		static void SaveSharedCard (SharedCard card)
 		{
-			((MainActivity)Activity).SaveSharedCard (card);
+			UISubscriptionService.SaveSharedCard (card);
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,7 +46,6 @@ namespace Busidex.Presentation.Droid.v2
 			if (callback == null) {
 				callback = list => Activity.RunOnUiThread (() => {
 					if (Activity != null) {
-						ViewPagerExtensions.UpdateNotificationCount (Activity.ActionBar, list.Count);
 						sharedCardAdapter.UpdateData (list);
 
 						imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;

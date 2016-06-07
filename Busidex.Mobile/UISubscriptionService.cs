@@ -24,6 +24,7 @@ namespace Busidex.Mobile
 	public delegate void OnEventCardsUpdatedEventHandler (ProgressStatus status);
 	public delegate void OnBusidexUserLoadedEventHandler (BusidexUser user);
 	public delegate void OnNotificationsLoadedEventHandler (List<SharedCard> notifications = null);
+	public delegate void OnNotificationCountUpdatedEventHandler (int count);
 	public delegate void OnNotesUpdatedEventHandler ();
 	#endregion
 
@@ -47,6 +48,7 @@ namespace Busidex.Mobile
 		public static event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
 		public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 		public static event OnNotificationsLoadedEventHandler OnNotificationsLoaded;
+		public static event OnNotificationCountUpdatedEventHandler OnNotificationCountUpdated;
 		public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 
 		#endregion
@@ -480,6 +482,12 @@ namespace Busidex.Mobile
 				// update local copy of Shared Cards
 				Notifications.RemoveAll (c => c.Card.CardId == sharedCard.Card.CardId);
 				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (Notifications), Resources.SHARED_CARDS_FILE);
+
+				// Notify subscribers
+				if (OnNotificationCountUpdated != null) {
+					OnNotificationCountUpdated (Notifications.Count);
+				}
+
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 			}
@@ -1080,6 +1088,10 @@ namespace Busidex.Mobile
 
 				if (OnNotificationsLoaded != null) {
 					OnNotificationsLoaded (Notifications);
+				}
+
+				if (OnNotificationCountUpdated != null) {
+					OnNotificationCountUpdated (Notifications.Count);
 				}
 
 			} catch (Exception ex) {

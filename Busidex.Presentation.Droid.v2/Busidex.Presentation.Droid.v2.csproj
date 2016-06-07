@@ -112,20 +112,20 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-Lib.Droid">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK.Droid">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.4\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Basement">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.GooglePlayServices.Analytics">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Analytics.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-Lib.Droid">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK.Droid">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.5\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
