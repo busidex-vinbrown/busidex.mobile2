@@ -58,6 +58,22 @@ namespace Busidex.Presentation.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblTitle { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtH { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtW { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtX { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtY { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnBack != null) {
@@ -103,6 +119,22 @@ namespace Busidex.Presentation.iOS
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+			if (txtH != null) {
+				txtH.Dispose ();
+				txtH = null;
+			}
+			if (txtW != null) {
+				txtW.Dispose ();
+				txtW = null;
+			}
+			if (txtX != null) {
+				txtX.Dispose ();
+				txtX = null;
+			}
+			if (txtY != null) {
+				txtY.Dispose ();
+				txtY = null;
 			}
 		}
 	}

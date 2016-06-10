@@ -63,6 +63,10 @@ namespace Busidex.Presentation.iOS
 		public int IndexOf (State state)
 		{
 			var idx = -1;
+			if (state == null) {
+				return idx;
+			}
+
 			var selectedIdx = idx;
 			states.ForEach (s => {
 				idx++;

@@ -1,6 +1,5 @@
 ﻿using System;
 
-using UIKit;
 using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS

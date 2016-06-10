@@ -6,11 +6,10 @@ using Busidex.Mobile;
 using CoreAnimation;
 using Foundation;
 using CoreGraphics;
-using System.Threading.Tasks;
-using AVFoundation;
 using GoogleAnalytics.iOS;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
+using System.Drawing;
 
 namespace Busidex.Presentation.iOS
 {
@@ -33,23 +32,17 @@ namespace Busidex.Presentation.iOS
 
 		DisplayMode SelectedDisplayMode { get; set; }
 
+		const float HEIGHT_RATIO = .583f;
 		const int HORIZONTAL_WIDTH = 300;
-		const int HORIZONTAL_HEIGHT = 150;
-		const int VERTICAL_WIDTH = 150;
+		const int HORIZONTAL_HEIGHT = 176;
+		const int VERTICAL_WIDTH = 176;
 		const int VERTICAL_HEIGHT = 300;
 		const string ORIENTATION_HORIZONTAL = "H";
 		const string ORIENTATION_VERTICAL = "V";
 
-		const float DEFAULT_HOR_LEFT = 10f;
-		const float DEFAULT_HOR_TOP = 220f;
-		const float DEFAULT_VERT_LEFT = 10f;
-		const float DEFAULT_VERT_TOP = 220f;
+		string SelectedOrientation = null;
 
-		string SelectedOrientation;
-
-
-
-		bool IsTakingPicture { get; set; }
+		//bool IsTakingPicture;
 
 		public CardImageController (IntPtr handle) : base (handle)
 		{
@@ -128,18 +121,6 @@ namespace Busidex.Presentation.iOS
 
 		#endregion
 
-		CGRect getDefaultFrame ()
-		{
-			var frontOrientation = SelectedCard.FrontOrientation;
-			int height = frontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_HEIGHT : VERTICAL_HEIGHT;
-			int width = frontOrientation == ORIENTATION_HORIZONTAL ? HORIZONTAL_WIDTH : VERTICAL_WIDTH;
-			float left = frontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_LEFT : DEFAULT_VERT_LEFT;
-			float top = frontOrientation == ORIENTATION_HORIZONTAL ? DEFAULT_HOR_TOP : DEFAULT_VERT_TOP;
-
-			var frame = new CGRect (left, top, width, height + 25f);
-			return frame;
-		}
-
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Image");
@@ -152,58 +133,105 @@ namespace Busidex.Presentation.iOS
 			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = !visible;
 		}
 
+
 		public override void ViewWillAppear (bool animated)
 		{
-			base.ViewWillAppear (animated);
+			var loaded = SelectedCard != null;
 
+			base.ViewWillAppear (animated);
 
 			setImageSelectionUI (false);
 
+
 			SelectedCard = UISubscriptionService.OwnedCard;
 
-			SelectedOrientation = SelectedCard.FrontOrientation;
+			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
 
-			var frame = getDefaultFrame ();
+			if (!loaded) {
+				try {
+					if (!SelectedCard.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
+					    !SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 
-			btnCardImage.Layer.AddSublayer (GetBorder (frame, UIColor.Gray.CGColor));
+						var frontFileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
+						if (File.Exists (frontFileName)) {
+							setDisplay (frontFileName);
+						} else {
 
-			try {
-				if (!SelectedCard.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
-				    !SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
+							ShowOverlay ();
 
-					var frontFileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
-					if (File.Exists (frontFileName)) {
-						setDisplay (frontFileName);
-					} else {
-
-						ShowOverlay ();
-
-						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
-							InvokeOnMainThread (() => {
-								setDisplay (frontFileName);
-								Overlay.Hide ();
+							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
+								InvokeOnMainThread (() => {
+									setDisplay (frontFileName);
+									Overlay.Hide ();
+								});
 							});
-						});
-					}
+						}
 
-					var backFileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
-					if (!File.Exists (backFileName)) {
-						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
+						var backFileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+						if (!File.Exists (backFileName)) {
+							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
 							
-						});
+							});
+						}
+					} else {
+						setDisplay (string.Empty);
 					}
-				} else {
-					setDisplay (string.Empty);
+				} catch (Exception ex) {
+					Xamarin.Insights.Report (ex);
 				}
-			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
 			}
 		}
 
+		static UIImage cropImage (UIImage srcImage, RectangleF rect)
+		{ 
+			using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
+				UIImage cropped = UIImage.FromImage (cr);
+				return cropped;
+			}
+		}
+
+
 		void setImage (MediaFile picture)
 		{
+			
 			if (picture != null) {
-				InvokeOnMainThread (() => btnCardImage.SetBackgroundImage (UIImage.FromFile (picture.Path), UIControlState.Normal));
+
+				var img = UIImage.FromFile (picture.Path);
+
+				InvokeOnMainThread (() => {
+					
+					//var data = UIImage.FromFile (picture.Path).AsJPEG (.4f);
+					//var img = UIImage.LoadFromData (data);
+					float x, y, w, h;
+					x = 50;
+					y = 350;
+					w = 3200;
+					h = 1800;
+
+//					if (txtH.Text == "") {
+//						txtX.Text = x.ToString ();
+//						txtY.Text = y.ToString ();
+//						txtW.Text = w.ToString ();
+//						txtH.Text = h.ToString ();
+//					} else {
+//						x = float.Parse (txtX.Text);
+//						y = float.Parse (txtY.Text);
+//						w = float.Parse (txtW.Text);
+//						h = float.Parse (txtH.Text);
+//					}
+					var rect = new RectangleF (x, y, w, h);
+
+					var croppedImage = cropImage (img, rect);// img.CGImage.WithImageInRect (rect);
+
+					img = SelectedOrientation == "H"
+						? new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_WIDTH * 2, HORIZONTAL_HEIGHT * 2))
+						: new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_HEIGHT * 2, HORIZONTAL_WIDTH * 2));
+
+					if (SelectedOrientation == "V") {
+						img = new UIImage (img.CGImage, 1f, UIImageOrientation.Right);
+					}
+					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);	
+				});
 			}
 		}
 
@@ -211,22 +239,31 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
+			txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
+
+			btnCardImage.Layer.BorderWidth = 1;
+			btnCardImage.Layer.CornerRadius = 1;
+			btnCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
+
 			btnCancelImage.TouchUpInside += delegate {
 				setImageSelectionUI (false);
 			};
 
 			btnSelectImage.TouchUpInside += async (sender, e) => {
 				var file = await CrossMedia.Current.PickPhotoAsync ();	
+
 				if (file != null) {
 					setImage (file);
 				}
 			};
 
 			btnTakeImage.TouchUpInside += async (sender, e) => {
-				var file = await CrossMedia.Current.TakePhotoAsync (new Plugin.Media.Abstractions.StoreCameraMediaOptions {
+				var options = new StoreCameraMediaOptions {
 					Directory = "Sample",
 					Name = "test.jpg"
-				});
+				};
+
+				var file = await CrossMedia.Current.TakePhotoAsync (options);
 				setImage (file);
 			};
 
@@ -238,38 +275,7 @@ namespace Busidex.Presentation.iOS
 				}
 
 				setImageSelectionUI (true);
-
-//				var isAvailable = CrossMedia.Current.IsCameraAvailable;
-//				var defaultName = Guid.NewGuid ().ToString ();
-//				if (isAvailable) {
-//					int button = await ShowAlert ("Card Image", "Choose an image source", new [] {
-//						"Select from Gallery",
-//						"Take a picture now"
-//					});
-//
-//					var picture = button == 0
-//							? await CrossMedia.Current.PickPhotoAsync ()
-//							: await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions {
-//						Name = defaultName + ".jpg",
-//						SaveToAlbum = true
-//					});
-//
-//					setImage (picture);
-//
-//				} else {
-//					ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
-//				}
 			};
-//			AuthorizeCameraUse ().ContinueWith (r => {
-//				InvokeOnMainThread (() => {
-//					btnCardImage.TouchUpInside += delegate {
-//						if (!IsTakingPicture) {
-//							SetupLiveCameraStream ();	
-//							setCamaraMode (CamaraViewMode.TakingPicture);
-//						}
-//					};
-//				});
-//			});
 
 			lblTitle.Frame = new CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
 			btnBack.TouchUpInside += delegate {
@@ -382,17 +388,12 @@ namespace Busidex.Presentation.iOS
 
 		void rotate (string orientation)
 		{
-			const int SLIDE_DISTANCE = HORIZONTAL_WIDTH / 4;
+			const int SLIDE_DISTANCE = HORIZONTAL_WIDTH / 4 - 15;
 
-			var border = btnCardImage.Layer.Sublayers [1];
-			const int bSlideDistanceX = (SLIDE_DISTANCE / 4) - 15;
-			const int bSlideDistanceY = 32;
+			const int bSlideDistanceY = 40;
 
 			var vFrame = new CGRect (btnCardImage.Frame.Left + SLIDE_DISTANCE, btnCardImage.Frame.Top - bSlideDistanceY, VERTICAL_WIDTH, VERTICAL_HEIGHT);
 			var hFrame = new CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
-
-			var bvFrame = new CGRect (border.Frame.Left + bSlideDistanceX, border.Frame.Top - (bSlideDistanceY / 2), VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var bhFrame = new CGRect (border.Frame.Left - bSlideDistanceX, border.Frame.Top + (bSlideDistanceY / 2), HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
 
 			var rotationAnimation = new CABasicAnimation ();
 			rotationAnimation.KeyPath = "transform.rotation.z";
@@ -404,16 +405,14 @@ namespace Busidex.Presentation.iOS
 			UIView.Animate (.5, 0, UIViewAnimationOptions.CurveEaseInOut,
 				() => {
 					if (SelectedOrientation == ORIENTATION_HORIZONTAL) {
-						var buttonFrame = new CGRect (btnRotate.Frame.X + SLIDE_DISTANCE, btnRotate.Frame.Y - bSlideDistanceY - 15, btnRotate.Frame.Width, btnRotate.Frame.Height);
+						var buttonFrame = new CGRect (btnRotate.Frame.X + SLIDE_DISTANCE, btnRotate.Frame.Y - bSlideDistanceY, btnRotate.Frame.Width, btnRotate.Frame.Height);
 						btnRotate.Frame = buttonFrame;
-						btnCardImage.Layer.Sublayers [1].Frame = bvFrame;
 						btnCardImage.Frame = vFrame;
 						btnRotate.Layer.AddAnimation (rotationAnimation, "rotationAnimation");
 
 					} else {
-						var buttonFrame = new CGRect (btnRotate.Frame.X - SLIDE_DISTANCE, btnRotate.Frame.Y + bSlideDistanceY + 15, btnRotate.Frame.Width, btnRotate.Frame.Height);
+						var buttonFrame = new CGRect (btnRotate.Frame.X - SLIDE_DISTANCE, btnRotate.Frame.Y + bSlideDistanceY, btnRotate.Frame.Width, btnRotate.Frame.Height);
 						btnRotate.Frame = buttonFrame;
-						btnCardImage.Layer.Sublayers [1].Frame = bhFrame;
 						btnCardImage.Frame = hFrame;
 						btnRotate.Layer.AddAnimation (rotationAnimation, "rotationAnimation");
 					}
