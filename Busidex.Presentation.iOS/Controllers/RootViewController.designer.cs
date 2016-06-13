@@ -11,11 +11,11 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("RootViewController")]
-	partial class RootViewController
-	{
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    [Register ("RootViewController")]
+    partial class RootViewController
+    {
+        void ReleaseDesignerOutlets ()
+        {
+        }
+    }
 }

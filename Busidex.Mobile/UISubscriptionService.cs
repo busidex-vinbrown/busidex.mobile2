@@ -26,6 +26,9 @@ namespace Busidex.Mobile
 	public delegate void OnNotificationsLoadedEventHandler (List<SharedCard> notifications = null);
 	public delegate void OnNotificationCountUpdatedEventHandler (int count);
 	public delegate void OnNotesUpdatedEventHandler ();
+	public delegate void OnCardInfoUpdatingHandler ();
+	public delegate void OnCardInfoSavedHandler ();
+
 	#endregion
 
 	public static class UISubscriptionService
@@ -40,6 +43,8 @@ namespace Busidex.Mobile
 		public static event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
 		public static event OnEventListLoadedEventHandler OnEventListLoaded;
 		public static event OnEventListUpdatedEventHandler OnEventListUpdated;
+		public static event OnCardInfoUpdatingHandler OnCardInfoUpdating;
+		public static event OnCardInfoSavedHandler OnCardInfoSaved;
 
 		public static Dictionary<string, OnEventCardsLoadedEventHandler> EventCardsLoadedEventTable;
 		public static Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
@@ -56,7 +61,9 @@ namespace Busidex.Mobile
 		static readonly MyBusidexController myBusidexController;
 		static readonly OrganizationController organizationController;
 		static readonly SearchController searchController;
+		static readonly CardController cardController;
 
+		#region Public Properties
 		public static Card OwnedCard { get; set; }
 
 		public static List<UserCard> UserCards { get; set; }
@@ -93,6 +100,8 @@ namespace Busidex.Mobile
 
 		public static bool MyBusidexLoaded { get; private set; }
 
+		#endregion
+
 		static bool MyBusidexLoading;
 		static bool EventListLoading;
 		static Dictionary<string, bool> EventCardsLoading;
@@ -104,47 +113,19 @@ namespace Busidex.Mobile
 		static UISubscriptionService ()
 		{
 
+			myBusidexController = new MyBusidexController ();
+			organizationController = new OrganizationController ();
+			searchController = new SearchController ();
+			cardController = new CardController ();
+
 			InitDataStructures ();
 
 			ResetFlags ();
 
 			CurrentUser = loadDataFromFile<BusidexUser> (Path.Combine (Resources.DocumentsPath, Resources.BUSIDEX_USER_FILE)) ?? loadUser ();
-
-			myBusidexController = new MyBusidexController ();
-			organizationController = new OrganizationController ();
-			searchController = new SearchController ();
 		}
 
-		static void ResetFlags ()
-		{
-			OrganizationsLoaded = false;
-			MyBusidexLoaded = false;
-			EventListLoaded = false;
 
-			MyBusidexLoading = false;
-			OrganizationsLoading = false;
-			EventListLoading = false;
-
-			EventCardsLoaded = new Dictionary<string, bool> ();
-			OrganizationMembersLoaded = new Dictionary<long, bool> ();
-			OrganizationReferralsLoaded = new Dictionary<long, bool> ();
-
-			EventCardsLoading = new Dictionary<string, bool> ();
-			OrganizationMembersLoading = new Dictionary<long, bool> ();
-			OrganizationReferralsLoading = new Dictionary<long, bool> ();
-		}
-
-		static void InitDataStructures ()
-		{
-			EventCards = new Dictionary<string, List<UserCard>> ();
-			OrganizationMembers = new Dictionary<long, List<Card>> ();
-			OrganizationReferrals = new Dictionary<long, List<UserCard>> ();
-			UserCards = new List<UserCard> ();
-			EventList = new List<EventTag> ();
-			OrganizationList = new List<Organization> ();
-			Notifications = new List<SharedCard> ();
-			OwnedCard = new Card ();
-		}
 
 		#region Initialization / Startup
 
@@ -153,7 +134,7 @@ namespace Busidex.Mobile
 			return loadDataFromFile<T> (path);
 		}
 
-		static T loadDataFromFile<T> (string path) where T: new()
+		static T loadDataFromFile<T> (string path) where T : new()
 		{
 
 			try {
@@ -203,7 +184,7 @@ namespace Busidex.Mobile
 			await loadNotifications ().ContinueWith (r => {
 				if (OnNotificationsLoaded != null) {
 					OnNotificationsLoaded (Notifications);
-				}	
+				}
 			});
 
 			EventList = loadData<List<EventTag>> (Path.Combine (Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
@@ -291,7 +272,7 @@ namespace Busidex.Mobile
 			loadUser ();
 
 			await loadOwnedCard ();
-			await loadUserCards ();	
+			await loadUserCards ();
 			await loadOrganizations ();
 			await loadEventList ();
 			await loadNotifications ();
@@ -304,7 +285,7 @@ namespace Busidex.Mobile
 
 		public async static void LoadUserCards ()
 		{
-			await loadUserCards (); 	
+			await loadUserCards ();
 		}
 
 		public async static void LoadOrganizations ()
@@ -331,7 +312,7 @@ namespace Busidex.Mobile
 				if (OnNotificationsLoaded != null) {
 					OnNotificationsLoaded (Notifications);
 				}
-			});	 	
+			});
 		}
 
 		public static async void AddCardToMyBusidex (UserCard userCard)
@@ -362,7 +343,7 @@ namespace Busidex.Mobile
 					UserCards = sortUserCards ();
 
 					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
-				} 
+				}
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
@@ -455,8 +436,8 @@ namespace Busidex.Mobile
 				var cardId = new long? (sharedCard.Card.CardId);
 
 				ctrl.UpdateSharedCards (
-					sharedCard.Accepted.GetValueOrDefault () ? cardId : null, 
-					sharedCard.Declined.GetValueOrDefault () ? cardId : null, 
+					sharedCard.Accepted.GetValueOrDefault () ? cardId : null,
+					sharedCard.Declined.GetValueOrDefault () ? cardId : null,
 					AuthToken);
 
 				// if the card was accepted, update local copy of MyBusidex
@@ -514,7 +495,7 @@ namespace Busidex.Mobile
 			} else {
 				EventCardsLoaded [tag.Text] = false;
 			}
-				
+
 			var fileName = string.Format (Resources.EVENT_CARDS_FILE, tag.EventTagId);
 			var semaphore = locks.GetOrAdd (fileName, new SemaphoreSlim (1, 1));
 			await semaphore.WaitAsync ();
@@ -535,7 +516,7 @@ namespace Busidex.Mobile
 						EventCards [tag.Text] = new List<UserCard> ();
 					}
 
-					foreach (var card in eventSearchResponse.SearchModel.Results.Where(c => c.OwnerId.HasValue).ToList()) {
+					foreach (var card in eventSearchResponse.SearchModel.Results.Where (c => c.OwnerId.HasValue).ToList ()) {
 						if (card != null) {
 
 							var userCard = new UserCard (card);
@@ -617,7 +598,7 @@ namespace Busidex.Mobile
 			await semaphore.WaitAsync ();
 
 			try {
-				
+
 				await searchController.GetEventTags (AuthToken).ContinueWith (async r => {
 
 					EventList.Clear ();
@@ -721,14 +702,14 @@ namespace Busidex.Mobile
 											}
 										});
 									} catch (Exception) {
-										
+
 									}
 								} else {
 									status.Count++;
 									if (OnMyOrganizationsUpdated != null) {
 										OnMyOrganizationsUpdated (status);
 									}
-								} 
+								}
 
 								// load organization members and referrals
 								await LoadOrganizationMembers (org.OrganizationId);
@@ -766,7 +747,7 @@ namespace Busidex.Mobile
 
 		public static async Task<bool> LoadOrganizationReferrals (long organizationId)
 		{
-		
+
 			if (OrganizationReferralsLoading.ContainsKey (organizationId) && OrganizationReferralsLoading [organizationId]) {
 				return false;
 			}
@@ -847,7 +828,7 @@ namespace Busidex.Mobile
 				}
 				Xamarin.Insights.Report (new Exception ("Error Loading Organization Referrals", ex));
 			} finally {
-				semaphore.Release ();	
+				semaphore.Release ();
 			}
 			return true;
 		}
@@ -978,7 +959,7 @@ namespace Busidex.Mobile
 					} else {
 						var myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (r.Result);
 						cards.AddRange (myBusidexResponse.MyBusidex.Busidex);
-						cards.ForEach (c => c.ExistsInMyBusidex = true);	
+						cards.ForEach (c => c.ExistsInMyBusidex = true);
 					}
 
 					status.Total = cards.Count;
@@ -1102,7 +1083,60 @@ namespace Busidex.Mobile
 
 		#endregion
 
+		#region Saving Card Data
+		public static void SaveCardImage (MobileCardImage card)
+		{
+			if (OnCardInfoUpdating != null) {
+				OnCardInfoUpdating ();
+			}
+			CardController.UpdateCardImage (card).ContinueWith (async result => {
+				await loadOwnedCard ();
+			});
+		}
+
+		public static void SaveCardVisibility (byte visibility)
+		{
+			if (OnCardInfoUpdating != null) {
+				OnCardInfoUpdating ();
+			}
+			CardController.UpdateCardVisibility (visibility).ContinueWith (async result => {
+				await loadOwnedCard ();
+			});
+		}
+
+		#endregion
+
 		#region Private Methods
+		static void ResetFlags ()
+		{
+			OrganizationsLoaded = false;
+			MyBusidexLoaded = false;
+			EventListLoaded = false;
+
+			MyBusidexLoading = false;
+			OrganizationsLoading = false;
+			EventListLoading = false;
+
+			EventCardsLoaded = new Dictionary<string, bool> ();
+			OrganizationMembersLoaded = new Dictionary<long, bool> ();
+			OrganizationReferralsLoaded = new Dictionary<long, bool> ();
+
+			EventCardsLoading = new Dictionary<string, bool> ();
+			OrganizationMembersLoading = new Dictionary<long, bool> ();
+			OrganizationReferralsLoading = new Dictionary<long, bool> ();
+		}
+
+		static void InitDataStructures ()
+		{
+			EventCards = new Dictionary<string, List<UserCard>> ();
+			OrganizationMembers = new Dictionary<long, List<Card>> ();
+			OrganizationReferrals = new Dictionary<long, List<UserCard>> ();
+			UserCards = new List<UserCard> ();
+			EventList = new List<EventTag> ();
+			OrganizationList = new List<Organization> ();
+			Notifications = new List<SharedCard> ();
+			OwnedCard = new Card ();
+		}
 
 		static List<UserCard> sortUserCards ()
 		{
@@ -1145,11 +1179,15 @@ namespace Busidex.Mobile
 		{
 
 			try {
-				
+
 				var cardJson = await CardController.GetMyCard ();
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (cardJson);
 				OwnedCard = cardResponse.Success ? new Card (cardResponse.Model) : null;
 				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (OwnedCard), Resources.OWNED_CARD_FILE);
+
+				if (OnCardInfoSaved != null) {
+					OnCardInfoSaved ();
+				}
 
 				return OwnedCard;
 			} catch (Exception ex) {

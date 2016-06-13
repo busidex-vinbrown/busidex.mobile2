@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Xamarin;
-using System.Collections.Generic;
 
 namespace Busidex.Mobile
 {
@@ -14,7 +13,7 @@ namespace Busidex.Mobile
 
 		protected static async Task<string> MakeRequestAsync (string url, string method, string token, object data = null, HttpMessageHandler handler = null)
 		{
-			
+
 			string response = string.Empty;
 
 			try {
@@ -24,31 +23,31 @@ namespace Busidex.Mobile
 
 				ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
 				request.Method = new HttpMethod (method);
+				HttpContent content;
 
 				request.Headers.Add ("x-authorization-token", token);
-
-				if (method == "POST") {
-
-					HttpContent content = new JsonContent (data);
+				switch (method) {
+				case "POST":
+					content = new JsonContent (data);
 					content.Headers.Add ("x-authorization-token", token);
 					await httpClient.PostAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 							var _response = await r;
 							response = await _response.Content.ReadAsStringAsync ();
 						}
-					});	
-				} else if (method == "PUT") {
-
-					HttpContent content = new JsonContent (data);
+					});
+					break;
+				case "PUT":
+					content = new JsonContent (data);
 					content.Headers.Add ("x-authorization-token", token);
 					await httpClient.PutAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 							var _response = await r;
 							response = await _response.Content.ReadAsStringAsync ();
 						}
-					});	
-				} else if (method == "DELETE") {
-
+					});
+					break;
+				case "DELETE":
 					httpClient.DefaultRequestHeaders.Add ("x-authorization-token", token);
 					await httpClient.DeleteAsync (url).ContinueWith (async r => {
 						if (!r.IsFaulted) {
@@ -56,13 +55,15 @@ namespace Busidex.Mobile
 							response = await _response.Content.ReadAsStringAsync ();
 						}
 					});
-				} else {
+					break;
+				default:
 					await httpClient.SendAsync (request).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 							var _response = await r;
 							response = await _response.Content.ReadAsStringAsync ();
 						}
 					});
+					break;
 				}
 			} catch (AggregateException e) {
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
@@ -86,19 +87,19 @@ namespace Busidex.Mobile
 		protected static string MakeRequest (string url, string method, string token, string data = null, HttpMessageHandler handler = null)
 		{
 
-		
+
 			url = url.Replace ("https", "http");
 			//var httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
 
-			 
+
 			var request = (HttpWebRequest)WebRequest.Create (url);//new HttpRequestMessage (new HttpMethod (method), url);
 
 			request.Method = method;
 
-//			if(!NetworkInterface.GetIsNetworkAvailable()){
-//				return ERROR_MESSAGE;
-//			}
-				
+			//			if(!NetworkInterface.GetIsNetworkAvailable()){
+			//				return ERROR_MESSAGE;
+			//			}
+
 			if (data != null) {
 				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
 				writer.Write (data);
@@ -109,26 +110,26 @@ namespace Busidex.Mobile
 			}
 			request.Headers.Add ("x-authorization-token", token);
 
-//			if (method == "POST") {
-//				StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
-//				requestWriter.Write("{}");
-//				request.ContentType = "application/json";
-//				requestWriter.Close();
-//			}
+			//			if (method == "POST") {
+			//				StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+			//				requestWriter.Write("{}");
+			//				request.ContentType = "application/json";
+			//				requestWriter.Close();
+			//			}
 
 
 
 			string response = string.Empty;
 			string results = string.Empty;
 			try {
-//				await httpClient.SendAsync (request).ContinueWith(async r => {
-//					response = await r;
-//
-//					await response.Content.ReadAsStringAsync().ContinueWith(rr => {
-//						return rr.Result;
-//					});
-//
-//				});
+				//				await httpClient.SendAsync (request).ContinueWith(async r => {
+				//					response = await r;
+				//
+				//					await response.Content.ReadAsStringAsync().ContinueWith(rr => {
+				//						return rr.Result;
+				//					});
+				//
+				//				});
 
 				var webResponse = request.GetResponse ();
 

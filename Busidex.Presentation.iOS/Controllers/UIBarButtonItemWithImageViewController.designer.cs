@@ -11,11 +11,11 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("UIBarButtonItemWithImageViewController")]
-	partial class UIBarButtonItemWithImageViewController
-	{
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    [Register ("UIBarButtonItemWithImageViewController")]
+    partial class UIBarButtonItemWithImageViewController
+    {
+        void ReleaseDesignerOutlets ()
+        {
+        }
+    }
 }

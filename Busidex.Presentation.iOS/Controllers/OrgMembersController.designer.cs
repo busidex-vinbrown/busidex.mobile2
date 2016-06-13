@@ -11,35 +11,37 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("OrgMembersController")]
-	partial class OrgMembersController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnOrgImage { get; set; }
+    [Register ("OrgMembersController")]
+    partial class OrgMembersController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnOrgImage { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView tblMembers { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView tblMembers { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UISearchBar txtSearch { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISearchBar txtSearch { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (btnOrgImage != null) {
-				btnOrgImage.Dispose ();
-				btnOrgImage = null;
-			}
-			if (tblMembers != null) {
-				tblMembers.Dispose ();
-				tblMembers = null;
-			}
-			if (txtSearch != null) {
-				txtSearch.Dispose ();
-				txtSearch = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (btnOrgImage != null) {
+                btnOrgImage.Dispose ();
+                btnOrgImage = null;
+            }
+
+            if (tblMembers != null) {
+                tblMembers.Dispose ();
+                tblMembers = null;
+            }
+
+            if (txtSearch != null) {
+                txtSearch.Dispose ();
+                txtSearch = null;
+            }
+        }
+    }
 }

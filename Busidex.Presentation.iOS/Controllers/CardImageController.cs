@@ -10,6 +10,7 @@ using GoogleAnalytics.iOS;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
 using System.Drawing;
+using Busidex.Mobile.Models;
 
 namespace Busidex.Presentation.iOS
 {
@@ -19,8 +20,8 @@ namespace Busidex.Presentation.iOS
 		//BusinessCardDimensions backDimensions;
 		enum DisplayMode
 		{
-			Front = 1,
-			Back = 2
+			Front = 0,
+			Back = 1
 		}
 
 		enum CamaraViewMode
@@ -30,7 +31,7 @@ namespace Busidex.Presentation.iOS
 			Done = 3
 		}
 
-		DisplayMode SelectedDisplayMode { get; set; }
+		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
 
 		const float HEIGHT_RATIO = .583f;
 		const int HORIZONTAL_WIDTH = 300;
@@ -40,9 +41,9 @@ namespace Busidex.Presentation.iOS
 		const string ORIENTATION_HORIZONTAL = "H";
 		const string ORIENTATION_VERTICAL = "V";
 
-		string SelectedOrientation = null;
+		string SelectedOrientation;
 
-		//bool IsTakingPicture;
+		MobileCardImage CardModel { get; set; }
 
 		public CardImageController (IntPtr handle) : base (handle)
 		{
@@ -144,13 +145,18 @@ namespace Busidex.Presentation.iOS
 
 
 			SelectedCard = UISubscriptionService.OwnedCard;
-
 			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
+
+			CardModel = new MobileCardImage {
+				Orientation = SelectedOrientation,
+				Side = MobileCardImage.DisplayMode.Front,
+				EncodedCardImage = string.Empty
+			};
 
 			if (!loaded) {
 				try {
 					if (!SelectedCard.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
-					    !SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
+						!SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 
 						var frontFileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
 						if (File.Exists (frontFileName)) {
@@ -170,7 +176,7 @@ namespace Busidex.Presentation.iOS
 						var backFileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
 						if (!File.Exists (backFileName)) {
 							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
-							
+
 							});
 						}
 					} else {
@@ -183,7 +189,7 @@ namespace Busidex.Presentation.iOS
 		}
 
 		static UIImage cropImage (UIImage srcImage, RectangleF rect)
-		{ 
+		{
 			using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
 				UIImage cropped = UIImage.FromImage (cr);
 				return cropped;
@@ -193,13 +199,13 @@ namespace Busidex.Presentation.iOS
 
 		void setImage (MediaFile picture)
 		{
-			
+
 			if (picture != null) {
 
 				var img = UIImage.FromFile (picture.Path);
 
 				InvokeOnMainThread (() => {
-					
+
 					//var data = UIImage.FromFile (picture.Path).AsJPEG (.4f);
 					//var img = UIImage.LoadFromData (data);
 					float x, y, w, h;
@@ -208,17 +214,17 @@ namespace Busidex.Presentation.iOS
 					w = 3200;
 					h = 1800;
 
-//					if (txtH.Text == "") {
-//						txtX.Text = x.ToString ();
-//						txtY.Text = y.ToString ();
-//						txtW.Text = w.ToString ();
-//						txtH.Text = h.ToString ();
-//					} else {
-//						x = float.Parse (txtX.Text);
-//						y = float.Parse (txtY.Text);
-//						w = float.Parse (txtW.Text);
-//						h = float.Parse (txtH.Text);
-//					}
+					//					if (txtH.Text == "") {
+					//						txtX.Text = x.ToString ();
+					//						txtY.Text = y.ToString ();
+					//						txtW.Text = w.ToString ();
+					//						txtH.Text = h.ToString ();
+					//					} else {
+					//						x = float.Parse (txtX.Text);
+					//						y = float.Parse (txtY.Text);
+					//						w = float.Parse (txtW.Text);
+					//						h = float.Parse (txtH.Text);
+					//					}
 					var rect = new RectangleF (x, y, w, h);
 
 					var croppedImage = cropImage (img, rect);// img.CGImage.WithImageInRect (rect);
@@ -230,7 +236,10 @@ namespace Busidex.Presentation.iOS
 					if (SelectedOrientation == "V") {
 						img = new UIImage (img.CGImage, 1f, UIImageOrientation.Right);
 					}
-					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);	
+
+					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
+
+					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);
 				});
 			}
 		}
@@ -250,7 +259,7 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnSelectImage.TouchUpInside += async (sender, e) => {
-				var file = await CrossMedia.Current.PickPhotoAsync ();	
+				var file = await CrossMedia.Current.PickPhotoAsync ();
 
 				if (file != null) {
 					setImage (file);
@@ -279,112 +288,20 @@ namespace Busidex.Presentation.iOS
 
 			lblTitle.Frame = new CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
 			btnBack.TouchUpInside += delegate {
-				toggle (DisplayMode.Back);
+				toggle (MobileCardImage.DisplayMode.Back);
 			};
 			btnFront.TouchUpInside += delegate {
-				toggle (DisplayMode.Front);
+				toggle (MobileCardImage.DisplayMode.Front);
 			};
 			btnRotate.TouchUpInside += delegate {
 				var orientation = SelectedOrientation == ORIENTATION_VERTICAL ? ORIENTATION_HORIZONTAL : ORIENTATION_VERTICAL;
 				rotate (orientation);
 			};
-//			btnAcceptImage.Layer.CornerRadius = 2;
-//			btnAcceptImage.Layer.BorderWidth = 1;
-//
-//			btnCancelImage.Layer.CornerRadius = 2;
-//			btnCancelImage.Layer.BorderWidth = 1;
 
-//			btnCancelImage.TouchUpInside += delegate {
-//				discardImage ();
-//				setCamaraMode (CamaraViewMode.Done);
-//			};
-//
-//			btnAcceptImage.TouchUpInside += delegate {
-//				setCamaraMode (CamaraViewMode.Done);
-//			};
-//
-//			btnSetImage.TouchUpInside += delegate {
-//				setCamaraMode (CamaraViewMode.ReviewingPicture);
-//				//setImage ();
-//			};
+			btnSave.TouchUpInside += delegate {
+				UISubscriptionService.SaveCardImage (CardModel);
+			};
 		}
-
-		/*
-		async void setImage ()
-		{
-			//var videoConnection = stillImageOutput.ConnectionFromMediaType (AVMediaType.Video);
-			//var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync (videoConnection);
-
-			//var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer);
-			//var jpegAsByteArray = jpegImageAsNsData.ToArray ();
-
-			var img = UIImage.LoadFromData (jpegImageAsNsData);
-			var img2 = UIImage.FromImage (img.CGImage, 1.0f, UIImageOrientation.Up);
-			//var img3 = img2.CreateResizableImage (new UIEdgeInsets (1, 5, 1f, 5f), UIImageResizingMode.Stretch);
-			btnCardImage.SetBackgroundImage (img2.Crop (20, 60, 420, 280), UIControlState.Normal);
-
-			btnSetImage.Hidden = true;
-
-			btnAcceptImage.Hidden = btnCancelImage.Hidden = false;
-
-			if (View.Layer.Sublayers.Length > 2) {
-				View.Layer.Sublayers [2].RemoveFromSuperLayer ();
-			}
-		}
-
-		void discardImage ()
-		{
-			var fileName = string.Empty;
-			if (SelectedDisplayMode == DisplayMode.Front) {
-				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
-			} else {
-				fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
-			}
-			setDisplay (fileName);
-		}
-
-		void setCamaraMode (CamaraViewMode mode)
-		{
-
-			switch (mode) {
-			case CamaraViewMode.TakingPicture:
-				{
-					NavigationController.SetNavigationBarHidden (true, true);
-					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = true;
-					imgGuideView.Hidden = btnSetImage.Hidden = false;
-					btnAcceptImage.Hidden = btnCancelImage.Hidden = true;
-					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = false;
-					IsTakingPicture = true;
-					break;
-				}
-			case CamaraViewMode.ReviewingPicture:
-				{
-					NavigationController.SetNavigationBarHidden (true, true);
-					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = true;
-					imgGuideView.Hidden = btnSetImage.Hidden = true;
-					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = false;
-					if (btnCardImage.Layer.Sublayers.Length > 2) {
-						btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
-					}
-					IsTakingPicture = true;
-					break;
-				}
-			case CamaraViewMode.Done:
-				{
-					NavigationController.SetNavigationBarHidden (false, true);
-					if (btnCardImage.Layer.Sublayers.Length > 2) {
-						btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
-					}
-					lblTitle.Hidden = btnRotate.Hidden = btnSave.Hidden = false;
-					imgGuideView.Hidden = btnSetImage.Hidden = true;
-					btnAcceptImage.Hidden = btnCancelImage.Hidden = true;
-					btnBack.Enabled = btnFront.Enabled = btnCardImage.Enabled = true;
-					IsTakingPicture = false;
-					break;
-				}
-			}
-		}
-		*/
 
 		void rotate (string orientation)
 		{
@@ -421,21 +338,24 @@ namespace Busidex.Presentation.iOS
 				});
 
 			SelectedOrientation = orientation;
+			CardModel.Orientation = SelectedOrientation;
 		}
 
-		void toggle (DisplayMode mode)
+		void toggle (MobileCardImage.DisplayMode mode)
 		{
 			SelectedDisplayMode = mode;
 
+			CardModel.Side = mode;
+
 			string fileName;
-			if (mode == DisplayMode.Front) {
+			if (mode == MobileCardImage.DisplayMode.Front) {
 				btnFront.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnFront.BackgroundColor = UIColor.Blue;
 
 				btnBack.SetTitleColor (UIColor.Blue, UIControlState.Normal);
 				btnBack.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
-				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);	
+				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
 			} else {
 				btnBack.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnBack.BackgroundColor = UIColor.Blue;
@@ -444,10 +364,10 @@ namespace Busidex.Presentation.iOS
 				btnFront.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
 				if (SelectedCard.BackFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) ||
-				    SelectedCard.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
+					SelectedCard.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 					fileName = string.Empty;
 				} else {
-					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);	
+					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
 				}
 			}
 
@@ -468,7 +388,7 @@ namespace Busidex.Presentation.iOS
 							btnRotate.Hidden = false;
 						});
 				});
-			
+
 		}
 
 		void setDisplay (string fileName)

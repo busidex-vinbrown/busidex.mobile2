@@ -3,6 +3,7 @@
 using UIKit;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile.Models;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -14,9 +15,9 @@ namespace Busidex.Presentation.iOS
 
 		enum Visibility
 		{
-			Public = 0,
-			SemiPublic = 1,
-			Private = 2
+			Public = 1,
+			SemiPublic = 2,
+			Private = 3
 		}
 
 		public VisibilityController (IntPtr handle) : base (handle)
@@ -27,19 +28,16 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 			switch (SelectedCard.Visibility) {
-			case (int)Visibility.Public:
-				{
-					setVisibilityUI (Visibility.Public); 
+			case (int)Visibility.Public: {
+					setVisibilityUI (Visibility.Public);
 					break;
 				}
-			case (int)Visibility.SemiPublic:
-				{
-					setVisibilityUI (Visibility.SemiPublic); 
+			case (int)Visibility.SemiPublic: {
+					setVisibilityUI (Visibility.SemiPublic);
 					break;
 				}
-			case (int)Visibility.Private:
-				{
-					setVisibilityUI (Visibility.Private); 
+			case (int)Visibility.Private: {
+					setVisibilityUI (Visibility.Private);
 					break;
 				}
 			}
@@ -67,6 +65,10 @@ namespace Busidex.Presentation.iOS
 			btnPrivate.TouchUpInside += delegate {
 				setVisibilityUI (Visibility.Private);
 			};
+
+			btnSave.TouchUpInside += delegate {
+				UISubscriptionService.SaveCardVisibility ((byte)SelectedCard.Visibility);
+			};
 		}
 
 		void setVisibilityUI (Visibility visibility)
@@ -74,8 +76,7 @@ namespace Busidex.Presentation.iOS
 			const float DEFAULT_FONT_SIZE = 15F;
 
 			switch (visibility) {
-			case Visibility.Public:
-				{
+			case Visibility.Public: {
 					setButtonState (btnPublic, true);
 					setButtonState (btnSemiPublic, false);
 					setButtonState (btnPrivate, false);
@@ -85,8 +86,7 @@ namespace Busidex.Presentation.iOS
 					lblPrivate.Font = UIFont.SystemFontOfSize (DEFAULT_FONT_SIZE);
 					break;
 				}
-			case Visibility.SemiPublic:
-				{
+			case Visibility.SemiPublic: {
 					setButtonState (btnPublic, false);
 					setButtonState (btnSemiPublic, true);
 					setButtonState (btnPrivate, false);
@@ -96,8 +96,7 @@ namespace Busidex.Presentation.iOS
 					lblPrivate.Font = UIFont.SystemFontOfSize (DEFAULT_FONT_SIZE);
 					break;
 				}
-			case Visibility.Private:
-				{
+			case Visibility.Private: {
 					setButtonState (btnPublic, false);
 					setButtonState (btnSemiPublic, false);
 					setButtonState (btnPrivate, true);
@@ -108,6 +107,8 @@ namespace Busidex.Presentation.iOS
 					break;
 				}
 			}
+
+			SelectedCard.Visibility = (int)visibility;
 		}
 
 		void setButtonState (UIButton button, bool state)
