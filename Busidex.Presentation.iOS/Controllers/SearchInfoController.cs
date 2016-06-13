@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Busidex.Mobile;
 using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
@@ -9,7 +9,7 @@ namespace Busidex.Presentation.iOS
 
 		public SearchInfoController (IntPtr handle) : base (handle)
 		{
-			
+
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -37,18 +37,17 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			btnSave.TouchUpInside += delegate {
-				SaveCard ();
+				if (txtCompanyName.Text != SelectedCard.CompanyName ||
+					txtName.Text != SelectedCard.Name ||
+					txtTitle.Text != SelectedCard.Title) {
+
+					SelectedCard.CompanyName = txtCompanyName.Text;
+					SelectedCard.Name = txtName.Text;
+					SelectedCard.Title = txtTitle.Text;
+
+					UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+				}
 			};
-		}
-
-		public override void SaveCard ()
-		{
-			if (txtCompanyName.Text != SelectedCard.CompanyName ||
-			    txtName.Text != SelectedCard.Name ||
-			    txtTitle.Text != SelectedCard.Title) {
-
-				base.SaveCard ();
-			}
 		}
 	}
 }

@@ -28,6 +28,12 @@ namespace Busidex.Mobile
 			string url = Resources.BASE_API_URL + "card/SaveCardVisibility?visibility=" + visibility;
 			return await MakeRequestAsync (url, "PUT", UISubscriptionService.AuthToken, handler: new ModernHttpClient.NativeMessageHandler ());
 		}
+
+		public static async Task<string> UpdateCardContactInfo (CardDetailModel card)
+		{
+			string url = Resources.BASE_API_URL + "card/SaveContactInfo";
+			return await MakeRequestAsync (url, "PUT", UISubscriptionService.AuthToken, data: card, handler: new ModernHttpClient.NativeMessageHandler ());
+		}
 	}
 }
 

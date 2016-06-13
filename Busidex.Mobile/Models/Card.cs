@@ -91,7 +91,7 @@ namespace Busidex.Mobile.Models
 
 		public string Markup { get; set; }
 
-		public int Visibility { get; set; }
+		public byte Visibility { get; set; }
 
 		public int Display { get; set; }
 

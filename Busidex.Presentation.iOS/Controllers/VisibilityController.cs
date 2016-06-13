@@ -108,7 +108,7 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			SelectedCard.Visibility = (int)visibility;
+			SelectedCard.Visibility = (byte)visibility;
 		}
 
 		void setButtonState (UIButton button, bool state)

@@ -1104,6 +1104,16 @@ namespace Busidex.Mobile
 			});
 		}
 
+		public static void SaveCardInfo (CardDetailModel card)
+		{
+			if (OnCardInfoUpdating != null) {
+				OnCardInfoUpdating ();
+			}
+			CardController.UpdateCardContactInfo (card).ContinueWith (async result => {
+				await loadOwnedCard ();
+			});
+		}
+
 		#endregion
 
 		#region Private Methods

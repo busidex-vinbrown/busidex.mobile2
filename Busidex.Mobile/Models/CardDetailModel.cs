@@ -5,13 +5,58 @@ namespace Busidex.Mobile.Models
 {
 	public class CardDetailModel
 	{
+		public CardDetailModel ()
+		{
+
+		}
+
+		public CardDetailModel (Card card)
+		{
+			CardId = card.CardId;
+			Name = card.Name;
+			Title = card.Title;
+			BusinessId = card.BusinessId;
+			Searchable = card.Searchable;
+			Email = card.Email;
+			Url = card.Url;
+			CompanyName = card.CompanyName;
+
+			PhoneNumbers = new List<PhoneNumber> ();
+			if (card.PhoneNumbers != null) {
+				PhoneNumbers.AddRange (card.PhoneNumbers);
+			}
+			OwnerId = card.OwnerId;
+			IsMyCard = card.IsMyCard;
+			IsUserLoggedIn = true;
+			FrontFileId = card.FrontFileId;
+			FrontFileType = FrontType = card.FrontType;
+			BackFileId = card.BackFileId;
+			BackFileType = BackType = card.BackType;
+			FrontOrientation = card.FrontOrientation;
+			BackOrientation = card.BackOrientation;
+			ExistsInMyBusidex = card.ExistsInMyBusidex;
+			TagList = card.TagList;
+			Tags = new List<Tag> ();
+			if (card.Tags != null) {
+				Tags.AddRange (card.Tags);
+			}
+			Display = (DisplayType)Enum.Parse (typeof (DisplayType), card.Display.ToString ());
+			CreatedBy = card.CreatedBy;
+			Visibility = card.Visibility;
+			CardType = (CardType)Enum.Parse (typeof (CardType), card.CardType.ToString ());
+			Addresses = new List<Address> ();
+			if (card.Addresses != null) {
+				Addresses.AddRange (card.Addresses);
+			}
+		}
+
 		public long CardId { get; set; }
 
 		public string Name { get; set; }
 
 		public string Title { get; set; }
 
-		public int? BusinessId { get; set; }
+		public long? BusinessId { get; set; }
 
 		public bool Searchable { get; set; }
 
