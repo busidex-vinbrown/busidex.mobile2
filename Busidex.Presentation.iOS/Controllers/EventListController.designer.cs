@@ -11,19 +11,19 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("EventListController")]
-	partial class EventListController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView vwEventList { get; set; }
+    [Register ("EventListController")]
+    partial class EventListController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView vwEventList { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (vwEventList != null) {
-				vwEventList.Dispose ();
-				vwEventList = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (vwEventList != null) {
+                vwEventList.Dispose ();
+                vwEventList = null;
+            }
+        }
+    }
 }

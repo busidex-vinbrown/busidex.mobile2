@@ -65,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="413">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="413" restorationIdentifier="btnSave">
                                 <rect key="frame" x="88" y="488" width="143" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Save" backgroundImage="button.png">
@@ -310,7 +310,7 @@
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="338">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="338" restorationIdentifier="btnSave">
                                 <rect key="frame" x="89" y="523" width="143" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Save" backgroundImage="button.png">
@@ -390,7 +390,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="193">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="193" restorationIdentifier="btnSave">
                                         <rect key="frame" x="88" y="251" width="143" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Save" backgroundImage="button.png">
@@ -495,7 +495,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="348">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="348" restorationIdentifier="btnSave">
                                         <rect key="frame" x="88" y="280" width="143" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Save" backgroundImage="button.png">
@@ -529,6 +529,7 @@
                         <outlet property="txtTag5" destination="395" id="name-outlet-395"/>
                         <outlet property="txtTag6" destination="394" id="name-outlet-394"/>
                         <outlet property="txtTag7" destination="393" id="name-outlet-393"/>
+                        <outlet property="btnSave" destination="348" id="name-outlet-348"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="163" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -572,7 +573,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="URL"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="414">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="414" restorationIdentifier="btnSave">
                                 <rect key="frame" x="88" y="523" width="143" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Save" backgroundImage="button.png">
@@ -754,7 +755,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="267">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="267" restorationIdentifier="btnSave">
                                         <rect key="frame" x="83" y="325" width="143" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Save" backgroundImage="button.png">
@@ -821,20 +822,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="177" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="903" y="750"/>
-        </scene>
-        <scene sceneID="619">
-            <objects>
-                <viewController id="618" sceneMemberID="viewController">
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="620">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="621" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1626" y="100"/>
         </scene>
     </scenes>
     <resources>
@@ -912,7 +899,6 @@
         <image name="spinner.gif" width="150" height="150"/>
         <image name="default_photo.png" width="64" height="64"/>
         <image name="rotate.png" width="484" height="432"/>
-        <image name="orientation_h.jpg" width="626" height="626"/>
         <image name="orientation_v.png" width="626" height="626"/>
         <image name="tags.png" width="256" height="256"/>
         <image name="visibility.png" width="256" height="256"/>

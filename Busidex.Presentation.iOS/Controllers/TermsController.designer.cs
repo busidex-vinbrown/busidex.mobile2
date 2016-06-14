@@ -11,27 +11,28 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("TermsController")]
-	partial class TermsController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnPrivacy { get; set; }
+    [Register ("TermsController")]
+    partial class TermsController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnPrivacy { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIWebView vwTerms { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIWebView vwTerms { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (btnPrivacy != null) {
-				btnPrivacy.Dispose ();
-				btnPrivacy = null;
-			}
-			if (vwTerms != null) {
-				vwTerms.Dispose ();
-				vwTerms = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (btnPrivacy != null) {
+                btnPrivacy.Dispose ();
+                btnPrivacy = null;
+            }
+
+            if (vwTerms != null) {
+                vwTerms.Dispose ();
+                vwTerms = null;
+            }
+        }
+    }
 }

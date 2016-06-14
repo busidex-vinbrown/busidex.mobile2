@@ -45,8 +45,8 @@ namespace Busidex.Presentation.iOS
 			InvokeOnMainThread (() => {
 				if (overlay == null) {
 					overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-
 				}
+
 				overlay.MessageText = "Saving your card information...";
 				View.Add (overlay);
 			});
@@ -54,6 +54,8 @@ namespace Busidex.Presentation.iOS
 
 		protected void CardUpdated ()
 		{
+			SelectedCard = UISubscriptionService.OwnedCard;
+
 			InvokeOnMainThread (() => {
 				if (overlay != null) {
 					overlay.Hide ();

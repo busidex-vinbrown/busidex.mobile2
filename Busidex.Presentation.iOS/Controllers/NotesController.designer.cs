@@ -11,43 +11,46 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("NotesController")]
-	partial class NotesController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSaveNotes { get; set; }
+    [Register ("NotesController")]
+    partial class NotesController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnSaveNotes { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgCard { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgCard { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgSaved { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgSaved { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextView txtNotes { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextView txtNotes { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (btnSaveNotes != null) {
-				btnSaveNotes.Dispose ();
-				btnSaveNotes = null;
-			}
-			if (imgCard != null) {
-				imgCard.Dispose ();
-				imgCard = null;
-			}
-			if (imgSaved != null) {
-				imgSaved.Dispose ();
-				imgSaved = null;
-			}
-			if (txtNotes != null) {
-				txtNotes.Dispose ();
-				txtNotes = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (btnSaveNotes != null) {
+                btnSaveNotes.Dispose ();
+                btnSaveNotes = null;
+            }
+
+            if (imgCard != null) {
+                imgCard.Dispose ();
+                imgCard = null;
+            }
+
+            if (imgSaved != null) {
+                imgSaved.Dispose ();
+                imgSaved = null;
+            }
+
+            if (txtNotes != null) {
+                txtNotes.Dispose ();
+                txtNotes = null;
+            }
+        }
+    }
 }

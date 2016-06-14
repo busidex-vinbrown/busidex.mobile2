@@ -3,7 +3,8 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	public class LoadingOverlay : UIView {
+	public class LoadingOverlay : UIView
+	{
 		// control declarations
 		UIActivityIndicatorView activitySpinner;
 		protected UILabel LoadingLabel;
@@ -12,17 +13,19 @@ namespace Busidex.Presentation.iOS
 		protected float centerY;
 		protected float labelWidth;
 		protected const float LABEL_HEIGHT = 22;
+		protected const float BASE_ALPHA = .75f;
 
-		public string MessageText{ get{ return LoadingLabel.Text; } set{ LoadingLabel.Text = value;	} }
+		public string MessageText { get { return LoadingLabel.Text; } set { LoadingLabel.Text = value; } }
 
 		public LoadingOverlay (CoreGraphics.CGRect frame) : base (frame)
 		{
 			init ();
 		}
-			
-		void init(){
+
+		void init ()
+		{
 			BackgroundColor = UIColor.Black;
-			Alpha = 0.75f;
+			Alpha = BASE_ALPHA;
 			AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
 
 
@@ -33,21 +36,21 @@ namespace Busidex.Presentation.iOS
 			centerY = (float)Frame.Height / 2;
 
 			// create the activity spinner, center it horizontall and put it 5 points above center x
-			activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+			activitySpinner = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.WhiteLarge);
 			activitySpinner.Frame = new RectangleF (
-				centerX - ((float)activitySpinner.Frame.Width / 2) ,
-				centerY - (float)activitySpinner.Frame.Height - 20 ,
-				(float)activitySpinner.Frame.Width ,
+				centerX - ((float)activitySpinner.Frame.Width / 2),
+				centerY - (float)activitySpinner.Frame.Height - 20,
+				(float)activitySpinner.Frame.Width,
 				(float)activitySpinner.Frame.Height);
 			activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			AddSubview (activitySpinner);
 			activitySpinner.StartAnimating ();
 
 			// create and configure the "Loading Data" label
-			LoadingLabel = new UILabel(new RectangleF (
+			LoadingLabel = new UILabel (new RectangleF (
 				centerX - (labelWidth / 2),
-				centerY + 20 ,
-				labelWidth ,
+				centerY + 20,
+				labelWidth,
 				LABEL_HEIGHT
 			));
 			LoadingLabel.BackgroundColor = UIColor.Clear;
@@ -68,7 +71,10 @@ namespace Busidex.Presentation.iOS
 				() => {
 					Alpha = 0;
 				},
-				RemoveFromSuperview
+				() => {
+					RemoveFromSuperview ();
+					Alpha = BASE_ALPHA;
+				}
 			);
 		}
 	};

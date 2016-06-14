@@ -11,35 +11,37 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("QuickShareController")]
-	partial class QuickShareController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgSharedCard { get; set; }
+    [Register ("QuickShareController")]
+    partial class QuickShareController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgSharedCard { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblMessage { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblMessage { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblPersonalMessage { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblPersonalMessage { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (imgSharedCard != null) {
-				imgSharedCard.Dispose ();
-				imgSharedCard = null;
-			}
-			if (lblMessage != null) {
-				lblMessage.Dispose ();
-				lblMessage = null;
-			}
-			if (lblPersonalMessage != null) {
-				lblPersonalMessage.Dispose ();
-				lblPersonalMessage = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (imgSharedCard != null) {
+                imgSharedCard.Dispose ();
+                imgSharedCard = null;
+            }
+
+            if (lblMessage != null) {
+                lblMessage.Dispose ();
+                lblMessage = null;
+            }
+
+            if (lblPersonalMessage != null) {
+                lblPersonalMessage.Dispose ();
+                lblPersonalMessage = null;
+            }
+        }
+    }
 }

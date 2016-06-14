@@ -11,35 +11,37 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("EventCardsController")]
-	partial class EventCardsController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblEventName { get; set; }
+    [Register ("EventCardsController")]
+    partial class EventCardsController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblEventName { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView tblEventCards { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView tblEventCards { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UISearchBar txtFilter { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISearchBar txtFilter { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (lblEventName != null) {
-				lblEventName.Dispose ();
-				lblEventName = null;
-			}
-			if (tblEventCards != null) {
-				tblEventCards.Dispose ();
-				tblEventCards = null;
-			}
-			if (txtFilter != null) {
-				txtFilter.Dispose ();
-				txtFilter = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (lblEventName != null) {
+                lblEventName.Dispose ();
+                lblEventName = null;
+            }
+
+            if (tblEventCards != null) {
+                tblEventCards.Dispose ();
+                tblEventCards = null;
+            }
+
+            if (txtFilter != null) {
+                txtFilter.Dispose ();
+                txtFilter = null;
+            }
+        }
+    }
 }

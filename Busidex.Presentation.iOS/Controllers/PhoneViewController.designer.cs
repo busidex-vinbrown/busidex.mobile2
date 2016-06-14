@@ -11,27 +11,28 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("PhoneViewController")]
-	partial class PhoneViewController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgCard { get; set; }
+    [Register ("PhoneViewController")]
+    partial class PhoneViewController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgCard { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIView PhoneView { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView PhoneView { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (imgCard != null) {
-				imgCard.Dispose ();
-				imgCard = null;
-			}
-			if (PhoneView != null) {
-				PhoneView.Dispose ();
-				PhoneView = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (imgCard != null) {
+                imgCard.Dispose ();
+                imgCard = null;
+            }
+
+            if (PhoneView != null) {
+                PhoneView.Dispose ();
+                PhoneView = null;
+            }
+        }
+    }
 }

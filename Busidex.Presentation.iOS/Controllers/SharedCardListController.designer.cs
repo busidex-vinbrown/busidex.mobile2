@@ -11,19 +11,19 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("SharedCardListController")]
-	partial class SharedCardListController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView vwSharedCards { get; set; }
+    [Register ("SharedCardListController")]
+    partial class SharedCardListController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView vwSharedCards { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (vwSharedCards != null) {
-				vwSharedCards.Dispose ();
-				vwSharedCards = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (vwSharedCards != null) {
+                vwSharedCards.Dispose ();
+                vwSharedCards = null;
+            }
+        }
+    }
 }

@@ -11,27 +11,28 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-	[Register ("MyBusidexController")]
-	partial class MyBusidexController
-	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UISearchBar SearchBar { get; set; }
+    [Register ("MyBusidexController")]
+    partial class MyBusidexController
+    {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISearchBar SearchBar { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView TableView { get; set; }
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView TableView { get; set; }
 
-		void ReleaseDesignerOutlets ()
-		{
-			if (SearchBar != null) {
-				SearchBar.Dispose ();
-				SearchBar = null;
-			}
-			if (TableView != null) {
-				TableView.Dispose ();
-				TableView = null;
-			}
-		}
-	}
+        void ReleaseDesignerOutlets ()
+        {
+            if (SearchBar != null) {
+                SearchBar.Dispose ();
+                SearchBar = null;
+            }
+
+            if (TableView != null) {
+                TableView.Dispose ();
+                TableView = null;
+            }
+        }
+    }
 }
