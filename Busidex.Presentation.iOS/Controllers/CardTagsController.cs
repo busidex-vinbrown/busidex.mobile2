@@ -1,5 +1,4 @@
 ﻿using System;
-
 using GoogleAnalytics.iOS;
 using System.Linq;
 using Busidex.Mobile;

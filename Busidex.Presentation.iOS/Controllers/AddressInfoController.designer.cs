@@ -56,6 +56,10 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView vwAddress { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         TPKeyboardAvoiding.TPKeyboardAvoidingScrollView vwFields { get; set; }
 
         void ReleaseDesignerOutlets ()
@@ -108,6 +112,11 @@ namespace Busidex.Presentation.iOS
             if (txtZip != null) {
                 txtZip.Dispose ();
                 txtZip = null;
+            }
+
+            if (vwAddress != null) {
+                vwAddress.Dispose ();
+                vwAddress = null;
             }
 
             if (vwFields != null) {

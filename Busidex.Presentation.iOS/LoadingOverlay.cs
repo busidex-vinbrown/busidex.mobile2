@@ -66,7 +66,7 @@ namespace Busidex.Presentation.iOS
 		/// </summary>
 		public void Hide ()
 		{
-			UIView.Animate (
+			Animate (
 				0.5, // duration
 				() => {
 					Alpha = 0;

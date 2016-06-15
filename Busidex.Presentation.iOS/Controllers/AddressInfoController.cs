@@ -1,9 +1,8 @@
 ﻿using System;
-
-using UIKit;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile.Models;
-using System.Collections.Generic;
+using UIKit;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -31,6 +30,8 @@ namespace Busidex.Presentation.iOS
 			var model = new StateCodeModel (lblSelectedState, address.State);
 			model.OnItemSelected += delegate {
 				pckState.Hidden = true;
+				address.State = model.selectedState;
+				fadeIn ();
 			};
 
 			pckState.Model = model;
@@ -40,8 +41,49 @@ namespace Busidex.Presentation.iOS
 					pckState.Select (model.IndexOf (address.State), 0, true);
 				}
 				pckState.Hidden = !pckState.Hidden;
+				if (pckState.Hidden) {
+					fadeIn ();
+				} else {
+					fadeOut ();
+				}
 			};
-			vwFields.SetContentOffset (new CoreGraphics.CGPoint (0, 50), false);
+
+			btnSave.TouchUpInside += delegate {
+
+				address.Address1 = txtAddress1.Text;
+				address.Address2 = txtAddress2.Text;
+				address.City = txtCity.Text;
+				address.ZipCode = txtZip.Text;
+
+				SelectedCard.Addresses [0] = address;
+				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+			};
+		}
+
+		void fadeOut ()
+		{
+			UIView.Animate (
+					0.5, // duration
+					() => {
+						vwFields.BackgroundColor = View.BackgroundColor = UIColor.UnderPageBackgroundColor;
+					},
+					() => {
+
+					}
+				);
+		}
+
+		void fadeIn ()
+		{
+			UIView.Animate (
+					0.5, // duration
+					() => {
+						vwFields.BackgroundColor = View.BackgroundColor = UIColor.White;
+					},
+					() => {
+
+					}
+				);
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -50,9 +92,5 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewDidAppear (animated);
 		}
-
-
-
-
 	}
 }

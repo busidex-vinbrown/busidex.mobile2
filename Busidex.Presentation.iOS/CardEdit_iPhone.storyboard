@@ -683,80 +683,57 @@
         <scene sceneID="174">
             <objects>
                 <viewController id="175" sceneMemberID="viewController" customClass="AddressInfoController" storyboardIdentifier="AddressInfoController">
-                    <view key="view" contentMode="scaleToFill" id="176">
+                    <view key="view" contentMode="scaleToFill" id="176" restorationIdentifier="vwAddress">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="534" numberOfLines="5" textAlignment="center" restorationIdentifier="lblDescription">
+                                <rect key="frame" x="20" y="117" width="280" height="116"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <string key="text">When you add your office address, people will be able to tap the map icon in the app and get directions right to your office.</string>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="What is your office address?" lineBreakMode="tailTruncation" minimumFontSize="10" id="255" textAlignment="center" restorationIdentifier="lblTitle">
+                                <rect key="frame" x="0.0" y="84" width="320" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.50196078431372548" blue="1" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="256" customClass="TPKeyboardAvoidingScrollView" restorationIdentifier="vwFields">
-                                <rect key="frame" x="0.0" y="180" width="320" height="381"/>
+                                <rect key="frame" x="0.0" y="241" width="320" height="327"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Address 1" lineBreakMode="tailTruncation" minimumFontSize="10" id="257">
-                                        <rect key="frame" x="25" y="10" width="139" height="21"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="258">
-                                        <rect key="frame" x="25" y="34" width="280" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="258" placeholder="Address 1" restorationIdentifier="txtAddress1">
+                                        <rect key="frame" x="20" y="0.0" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="259">
-                                        <rect key="frame" x="25" y="92" width="280" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="259" placeholder="Address 2" restorationIdentifier="txtAddress2">
+                                        <rect key="frame" x="20" y="38" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Address 2" lineBreakMode="tailTruncation" minimumFontSize="10" id="260">
-                                        <rect key="frame" x="25" y="70" width="139" height="21"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="261" text="City">
-                                        <rect key="frame" x="25" y="134" width="139" height="21"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="262">
-                                        <rect key="frame" x="25" y="156" width="280" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="262" restorationIdentifier="txtCity" placeholder="City">
+                                        <rect key="frame" x="20" y="76" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="264" text="State">
-                                        <rect key="frame" x="25" y="194" width="139" height="21"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="265" text="Zip">
-                                        <rect key="frame" x="25" y="259" width="139" height="21"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="266">
-                                        <rect key="frame" x="25" y="287" width="280" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="266" restorationIdentifier="txtZip" placeholder="Zip Code">
+                                        <rect key="frame" x="20" y="114" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="267" restorationIdentifier="btnSave">
-                                        <rect key="frame" x="83" y="325" width="143" height="30"/>
+                                        <rect key="frame" x="83" y="280" width="143" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <state key="normal" title="Save" backgroundImage="button.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -764,59 +741,44 @@
                                         </state>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Selected State]" lineBreakMode="tailTruncation" minimumFontSize="10" id="268">
-                                        <rect key="frame" x="25" y="218" width="165" height="30"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Selected State]" lineBreakMode="tailTruncation" minimumFontSize="10" id="268" restorationIdentifier="lblSelectedState">
+                                        <rect key="frame" x="20" y="152" width="165" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="269">
-                                        <rect key="frame" x="160" y="218" width="30" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="269" restorationIdentifier="btnPicker">
+                                        <rect key="frame" x="155" y="152" width="30" height="30"/>
                                         <state key="normal" backgroundImage="ddArrow.gif">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </button>
                                     <pickerView contentMode="scaleToFill" id="263" restorationIdentifier="pckState">
-                                        <rect key="frame" x="0.0" y="10" width="320" height="205"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                                         <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </pickerView>
                                 </subviews>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </scrollView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="What is your office address?" lineBreakMode="tailTruncation" minimumFontSize="10" id="255" textAlignment="center" restorationIdentifier="lblTitle">
-                                <rect key="frame" x="0.0" y="84" width="320" height="21"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.50196078431372548" blue="1" alpha="1"/>
-                                <nil key="highlightedColor"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="When you add your office address, people can tap the map icon in the app and get directions to your office." lineBreakMode="tailTruncation" minimumFontSize="10" id="534" numberOfLines="3" textAlignment="center" restorationIdentifier="lblDescription">
-                                <rect key="frame" x="5" y="110" width="310" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="lblDescription" destination="534" id="name-outlet-534"/>
+                        <outlet property="lblTitle" destination="255" id="name-outlet-255"/>
                         <outlet property="vwFields" destination="256" id="name-outlet-256"/>
-                        <outlet property="btnSave" destination="267" id="name-outlet-267"/>
-                        <outlet property="txtZip" destination="266" id="name-outlet-266"/>
-                        <outlet property="txtCity" destination="262" id="name-outlet-262"/>
-                        <outlet property="txtAddress2" destination="259" id="name-outlet-259"/>
                         <outlet property="txtAddress1" destination="258" id="name-outlet-258"/>
+                        <outlet property="txtAddress2" destination="259" id="name-outlet-259"/>
+                        <outlet property="txtCity" destination="262" id="name-outlet-262"/>
+                        <outlet property="txtZip" destination="266" id="name-outlet-266"/>
+                        <outlet property="pckState" destination="263" id="name-outlet-263"/>
                         <outlet property="btnPicker" destination="269" id="name-outlet-269"/>
                         <outlet property="lblSelectedState" destination="268" id="name-outlet-268"/>
-                        <outlet property="lblDescription" destination="534" id="name-outlet-534"/>
-                        <outlet property="pckState" destination="263" id="name-outlet-263"/>
-                        <outlet property="lblTitle" destination="255" id="name-outlet-255"/>
+                        <outlet property="vwAddress" destination="176" id="name-outlet-176"/>
+                        <outlet property="btnSave" destination="267" id="name-outlet-267"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="177" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -899,9 +861,6 @@
         <image name="spinner.gif" width="150" height="150"/>
         <image name="default_photo.png" width="64" height="64"/>
         <image name="rotate.png" width="484" height="432"/>
-        <image name="orientation_v.png" width="626" height="626"/>
-        <image name="tags.png" width="256" height="256"/>
-        <image name="visibility.png" width="256" height="256"/>
         <image name="contacts_64x64.png" width="64" height="64"/>
         <image name="search_64x64.png" width="64" height="64"/>
         <image name="tags_64x64.png" width="64" height="64"/>
