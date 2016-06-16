@@ -38,10 +38,6 @@ namespace Busidex.Presentation.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField txtTitle { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        TPKeyboardAvoiding.TPKeyboardAvoidingScrollView vwFields { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
             if (btnSave != null) {
@@ -72,11 +68,6 @@ namespace Busidex.Presentation.iOS
             if (txtTitle != null) {
                 txtTitle.Dispose ();
                 txtTitle = null;
-            }
-
-            if (vwFields != null) {
-                vwFields.Dispose ();
-                vwFields = null;
             }
         }
     }

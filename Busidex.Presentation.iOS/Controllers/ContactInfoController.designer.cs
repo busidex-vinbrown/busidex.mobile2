@@ -24,6 +24,10 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnCancel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnSave { get; set; }
 
         [Outlet]
@@ -72,6 +76,11 @@ namespace Busidex.Presentation.iOS
             if (btnAddNumber != null) {
                 btnAddNumber.Dispose ();
                 btnAddNumber = null;
+            }
+
+            if (btnCancel != null) {
+                btnCancel.Dispose ();
+                btnCancel = null;
             }
 
             if (btnSave != null) {

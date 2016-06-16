@@ -359,6 +359,10 @@
     <Compile Include="PhoneNumberTypeModel.cs" />
     <Compile Include="BasePickerViewModel.cs" />
     <Compile Include="UIImageExtension.cs" />
+    <Compile Include="txtMask.cs" />
+    <Compile Include="txtMask.designer.cs">
+      <DependentUpon>txtMask.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -505,6 +509,7 @@
     <BundleResource Include="Resources\edit.png" />
     <BundleResource Include="Resources\delete2.png" />
     <BundleResource Include="Resources\card_guide.png" />
+    <BundleResource Include="Resources\button_cancel.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
