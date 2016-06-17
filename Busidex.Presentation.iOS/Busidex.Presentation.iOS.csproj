@@ -363,6 +363,7 @@
     <Compile Include="txtMask.designer.cs">
       <DependentUpon>txtMask.cs</DependentUpon>
     </Compile>
+    <Compile Include="BusidexStringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />

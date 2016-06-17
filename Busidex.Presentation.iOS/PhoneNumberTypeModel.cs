@@ -11,17 +11,28 @@ namespace Busidex.Presentation.iOS
 
 		List<PhoneNumberType> phoneNumberTypes { get; set; }
 
-		public PhoneNumberType selectedPhoneNumberType { get; set; }
+		PhoneNumberType _selectedPhoneNumberType;
+		public PhoneNumberType SelectedPhoneNumberType {
+			get {
+				return _selectedPhoneNumberType;
+			}
+			set {
+				_selectedPhoneNumberType = value;
+				if (_selectedPhoneNumberType != null) {
+					lbl.Text = _selectedPhoneNumberType.Name;
+				}
+			}
+		}
 
-		public PhoneNumberTypeModel (UILabel lbl, PhoneNumberType _selectedPhoneNumberType)
+		public PhoneNumberTypeModel (UILabel lbl, PhoneNumberType _selectedType)
 		{
 			this.lbl = new UILabel ();
 			phoneNumberTypes = new List<PhoneNumberType> ();
 			phoneNumberTypes.AddRange (getPhoneNumberTypes ());
 
-			selectedPhoneNumberType = _selectedPhoneNumberType;
-			if (selectedPhoneNumberType != null) {
-				lbl.Text = selectedPhoneNumberType.Name;
+			_selectedPhoneNumberType = _selectedType;
+			if (_selectedPhoneNumberType != null) {
+				this.lbl.Text = _selectedPhoneNumberType.Name;
 			}
 		}
 
@@ -37,8 +48,8 @@ namespace Busidex.Presentation.iOS
 
 		public override void Selected (UIPickerView pickerView, nint row, nint component)
 		{
-			selectedPhoneNumberType = phoneNumberTypes [(int)pickerView.SelectedRowInComponent (new nint (0))];
-			lbl.Text = selectedPhoneNumberType.Name;
+			_selectedPhoneNumberType = phoneNumberTypes [(int)pickerView.SelectedRowInComponent (new nint (0))];
+			lbl.Text = _selectedPhoneNumberType.Name;
 			if (OnItemSelected != null) {
 				OnItemSelected ();
 			}
@@ -59,7 +70,7 @@ namespace Busidex.Presentation.iOS
 					selectedIdx = idx;
 				}
 			});
-			return selectedIdx;	
+			return selectedIdx;
 		}
 
 		static List<PhoneNumberType> getPhoneNumberTypes ()

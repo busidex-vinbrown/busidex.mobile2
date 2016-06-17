@@ -7,8 +7,12 @@ using System.Drawing;
 
 namespace Busidex.Presentation.iOS
 {
+	public delegate void OnPhoneNumberEditingHandler (PhoneNumber number);
+
 	public class PhoneNumberTableSource : UITableViewSource
 	{
+		public event OnPhoneNumberEditingHandler OnPhoneNumberEditing;
+
 		protected const float BASE_CELL_HEIGHT = 40f;
 		public static NSString PhoneNumberCellId = new NSString ("pCellId");
 		List<PhoneNumber> PhoneNumbers;
@@ -39,38 +43,49 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		static void AddControls (UIView cell, PhoneNumber number)
+		void AddControls (UIView cell, PhoneNumber number)
 		{
 			const float labelX = 10f;
 			const float labelY = 10f;
 			const float labelHeight = 40f;
-			const float labelWidth = 80f;
+			const float labelWidth = 30f;
+			const float extensionWidth = 40f;
 			const float buttonHeight = 30f;
 			const float buttonWidth = 30f;
 			const float phoneFrameX = labelX + labelWidth + 10;
-			const float phoneFrameWidth = 110f;
+			const float phoneFrameWidth = 100f;
+			const float extensionFrameX = phoneFrameX + phoneFrameWidth + 10f;
+			const float editImageFrameX = extensionFrameX + extensionWidth + 20f;
+			const float deleteImageFrameX = editImageFrameX + buttonWidth + 20f;
 
 			var labelFrame = new RectangleF (labelX, labelY, labelWidth, labelHeight);
 			var phoneFrame = new RectangleF (phoneFrameX, labelY, phoneFrameWidth, labelHeight);
-			var editImageFrame = new RectangleF (phoneFrameX + phoneFrame.Width + 20f, labelY, buttonWidth, buttonHeight);
-			var deleteImageFrame = new RectangleF (editImageFrame.X + 50f, editImageFrame.Y, editImageFrame.Width, editImageFrame.Height);
+			var extensionFrame = new RectangleF (extensionFrameX, labelY, extensionWidth, labelHeight);
+			var editImageFrame = new RectangleF (editImageFrameX, extensionFrame.Y, buttonWidth, buttonHeight);
+			var deleteImageFrame = new RectangleF (deleteImageFrameX, editImageFrame.Y, buttonWidth, buttonHeight);
 
 			var newLabel = new UILabel (labelFrame);
 			var newNumber = new UILabel (phoneFrame);
+			var newExtension = new UILabel (extensionFrame);
 			var editButton = UIButton.FromType (UIButtonType.Custom);
 			var deleteButton = UIButton.FromType (UIButtonType.Custom);
 
-			newLabel.Text = Enum.GetName (typeof(PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId);
+			newLabel.Text = "(" + Enum.GetName (typeof (PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId).Substring (0, 1).ToUpper () + ")";
 
-			newLabel.Font = UIFont.FromName ("Helvetica", 18f);
+			newLabel.Font = UIFont.BoldSystemFontOfSize (18f);
 			newLabel.UserInteractionEnabled = true;
 			newLabel.TextColor = UIColor.FromRGB (66, 69, 76);
 			newLabel.TextAlignment = UITextAlignment.Right;
 
-			newNumber.Text = number.Number;
+			newNumber.Text = number.Number.AsPhoneNumber ();
 			newNumber.Font = UIFont.FromName ("Helvetica", 16f);
 			newNumber.TextColor = UIColor.FromRGB (66, 69, 76);
 			newNumber.TextAlignment = UITextAlignment.Left;
+
+			newExtension.Text = string.IsNullOrEmpty (number.Extension) ? number.Extension : "x" + number.Extension;
+			newExtension.Font = UIFont.FromName ("Helvetica", 16f);
+			newExtension.TextColor = UIColor.FromRGB (66, 69, 76);
+			newExtension.TextAlignment = UITextAlignment.Left;
 
 			editButton.Frame = editImageFrame;
 			editButton.SetBackgroundImage (UIImage.FromFile ("edit.png"), UIControlState.Normal);
@@ -78,8 +93,15 @@ namespace Busidex.Presentation.iOS
 			deleteButton.Frame = deleteImageFrame;
 			deleteButton.SetBackgroundImage (UIImage.FromFile ("delete2.png"), UIControlState.Normal);
 
+			editButton.TouchUpInside += delegate {
+				if (OnPhoneNumberEditing != null) {
+					OnPhoneNumberEditing (number);
+				}
+			};
+
 			cell.Add (newLabel);
 			cell.Add (newNumber);
+			cell.Add (newExtension);
 			cell.Add (editButton);
 			cell.Add (deleteButton);
 		}

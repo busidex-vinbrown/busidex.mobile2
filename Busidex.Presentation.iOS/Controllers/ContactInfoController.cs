@@ -31,16 +31,34 @@ namespace Busidex.Presentation.iOS
 			txtUrl.Text = SelectedCard.Url;
 			vwNewPhoneNumber.Hidden = true;
 
-			tblPhoneNumbers.Source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
+			var source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
+			source.OnPhoneNumberEditing += editPhoneNumber;
+
+			tblPhoneNumbers.Source = source;
+			pckPhoneNumberTypes.Model = model;
 
 			btnAddNumber.TouchUpInside += delegate {
-				fadeOut ();
-				vwNewPhoneNumber.Hidden = false;
+				editPhoneNumber (null);
+			};
+		}
+
+		void editPhoneNumber (PhoneNumber number)
+		{
+			fadeOut ();
+
+			if (number == null) {
 				txtNewPhoneNumber.Text = txtNewExtension.Text = string.Empty;
+			} else {
+				txtNewPhoneNumber.Text = number.Number;
+				txtNewExtension.Text = number.Extension;
+
+				model = new PhoneNumberTypeModel (null, number.PhoneNumberType);
+				model.SelectedPhoneNumberType = number.PhoneNumberType;
 
 				pckPhoneNumberTypes.Model = model;
-			};
-
+				pckPhoneNumberTypes.Select (model.IndexOf (number.PhoneNumberType), 0, false);
+			}
+			vwNewPhoneNumber.Hidden = false;
 		}
 
 		void clearFields ()
@@ -108,16 +126,16 @@ namespace Busidex.Presentation.iOS
 
 			btnAddNewPhoneNumber.TouchUpInside += delegate {
 				vwNewPhoneNumber.Hidden = true;
-				if (model.selectedPhoneNumberType == null) {
-					model.selectedPhoneNumberType = new PhoneNumberType {
+				if (model.SelectedPhoneNumberType == null) {
+					model.SelectedPhoneNumberType = new PhoneNumberType {
 						Name = "Business",
 						PhoneNumberTypeId = 1
 					};
 				}
 				SelectedCard.PhoneNumbers.Add (new PhoneNumber {
-					Number = txtNewPhoneNumber.Text,
+					Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", "."),
 					Extension = txtNewExtension.Text,
-					PhoneNumberType = model.selectedPhoneNumberType
+					PhoneNumberType = model.SelectedPhoneNumberType
 				});
 				tblPhoneNumbers.Source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
 				tblPhoneNumbers.ReloadData ();
@@ -167,6 +185,7 @@ namespace Busidex.Presentation.iOS
 
 		void fadeOut ()
 		{
+			tblPhoneNumbers.Hidden = lblTitle.Hidden = lblDescription.Hidden = lblDescription.Hidden = true;
 			UIView.Animate (
 					0.5, // duration
 					() => {
@@ -181,6 +200,7 @@ namespace Busidex.Presentation.iOS
 
 		void fadeIn ()
 		{
+			tblPhoneNumbers.Hidden = lblTitle.Hidden = lblDescription.Hidden = lblDescription.Hidden = false;
 			UIView.Animate (
 					0.5, // duration
 					() => {
