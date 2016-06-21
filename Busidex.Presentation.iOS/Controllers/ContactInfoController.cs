@@ -33,6 +33,7 @@ namespace Busidex.Presentation.iOS
 
 			var source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
 			source.OnPhoneNumberEditing += editPhoneNumber;
+			source.OnPhoneNumberDeleting += deletePhoneNumber;
 
 			tblPhoneNumbers.Source = source;
 			pckPhoneNumberTypes.Model = model;
@@ -40,6 +41,22 @@ namespace Busidex.Presentation.iOS
 			btnAddNumber.TouchUpInside += delegate {
 				editPhoneNumber (null);
 			};
+		}
+
+		void deletePhoneNumber (PhoneNumber number)
+		{
+			ShowAlert ("Delete", string.Format ("Delete {0}?", number.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
+				if (button.Result == 0) {
+					SelectedCard.PhoneNumbers.RemoveAll (p =>
+														 p.Number.Equals (number.Number) &&
+														 p.Extension.Equals (number.Extension) &&
+														 p.PhoneNumberType.Name.Equals (number.PhoneNumberType.Name));
+					InvokeOnMainThread (() => {
+						((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers);
+						tblPhoneNumbers.ReloadData ();
+					});
+				}
+			});
 		}
 
 		void editPhoneNumber (PhoneNumber number)
@@ -137,7 +154,7 @@ namespace Busidex.Presentation.iOS
 					Extension = txtNewExtension.Text,
 					PhoneNumberType = model.SelectedPhoneNumberType
 				});
-				tblPhoneNumbers.Source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
+				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers);
 				tblPhoneNumbers.ReloadData ();
 				clearFields ();
 				fadeIn ();

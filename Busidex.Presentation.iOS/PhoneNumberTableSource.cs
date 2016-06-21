@@ -8,16 +8,24 @@ using System.Drawing;
 namespace Busidex.Presentation.iOS
 {
 	public delegate void OnPhoneNumberEditingHandler (PhoneNumber number);
+	public delegate void OnPhoneNumberDeletingHandler (PhoneNumber number);
 
 	public class PhoneNumberTableSource : UITableViewSource
 	{
 		public event OnPhoneNumberEditingHandler OnPhoneNumberEditing;
+		public event OnPhoneNumberDeletingHandler OnPhoneNumberDeleting;
 
 		protected const float BASE_CELL_HEIGHT = 40f;
 		public static NSString PhoneNumberCellId = new NSString ("pCellId");
 		List<PhoneNumber> PhoneNumbers;
 
 		public PhoneNumberTableSource (List<PhoneNumber> phoneNumbers)
+		{
+			PhoneNumbers = new List<PhoneNumber> ();
+			PhoneNumbers.AddRange (phoneNumbers);
+		}
+
+		public void UpdateData (List<PhoneNumber> phoneNumbers)
 		{
 			PhoneNumbers = new List<PhoneNumber> ();
 			PhoneNumbers.AddRange (phoneNumbers);
@@ -98,6 +106,16 @@ namespace Busidex.Presentation.iOS
 					OnPhoneNumberEditing (number);
 				}
 			};
+
+			deleteButton.TouchUpInside += delegate {
+				if (OnPhoneNumberDeleting != null) {
+					OnPhoneNumberDeleting (number);
+				}
+			};
+
+			foreach (var v in cell.Subviews) {
+				v.RemoveFromSuperview ();
+			}
 
 			cell.Add (newLabel);
 			cell.Add (newNumber);
