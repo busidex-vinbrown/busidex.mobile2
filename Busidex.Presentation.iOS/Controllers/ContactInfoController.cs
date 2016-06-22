@@ -5,12 +5,22 @@ using GoogleAnalytics.iOS;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
 	public partial class ContactInfoController : BaseCardEditController
 	{
 		PhoneNumberTypeModel model;
+		enum PhoneNumberUpdateMode
+		{
+			Add,
+			Edit
+		}
+
+		int SelectedPhoneNumber;
+
+		PhoneNumberUpdateMode UpdateMode { get; set; }
 
 		public ContactInfoController (IntPtr handle) : base (handle)
 		{
@@ -47,12 +57,17 @@ namespace Busidex.Presentation.iOS
 		{
 			ShowAlert ("Delete", string.Format ("Delete {0}?", number.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
 				if (button.Result == 0) {
-					SelectedCard.PhoneNumbers.RemoveAll (p =>
+
+					var selectedNumber = SelectedCard.PhoneNumbers.SingleOrDefault (p =>
 														 p.Number.Equals (number.Number) &&
 														 p.Extension.Equals (number.Extension) &&
 														 p.PhoneNumberType.Name.Equals (number.PhoneNumberType.Name));
+					if (selectedNumber != null) {
+						selectedNumber.Deleted = true;
+					}
+
 					InvokeOnMainThread (() => {
-						((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers);
+						((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where (p => !p.Deleted).ToList ());
 						tblPhoneNumbers.ReloadData ();
 					});
 				}
@@ -64,8 +79,16 @@ namespace Busidex.Presentation.iOS
 			fadeOut ();
 
 			if (number == null) {
+				SelectedPhoneNumber = -1;
+				UpdateMode = PhoneNumberUpdateMode.Edit;
+				btnAddNewPhoneNumber.SetTitle ("Add Phone Number", UIControlState.Normal);
 				txtNewPhoneNumber.Text = txtNewExtension.Text = string.Empty;
 			} else {
+				SelectedPhoneNumber = number.GetHashCode ();
+
+				UpdateMode = PhoneNumberUpdateMode.Add;
+				btnAddNewPhoneNumber.SetTitle ("Update Phone Number", UIControlState.Normal);
+
 				txtNewPhoneNumber.Text = number.Number;
 				txtNewExtension.Text = number.Extension;
 
@@ -142,6 +165,7 @@ namespace Busidex.Presentation.iOS
 			model = new PhoneNumberTypeModel (null, null);
 
 			btnAddNewPhoneNumber.TouchUpInside += delegate {
+
 				vwNewPhoneNumber.Hidden = true;
 				if (model.SelectedPhoneNumberType == null) {
 					model.SelectedPhoneNumberType = new PhoneNumberType {
@@ -149,11 +173,22 @@ namespace Busidex.Presentation.iOS
 						PhoneNumberTypeId = 1
 					};
 				}
-				SelectedCard.PhoneNumbers.Add (new PhoneNumber {
-					Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", "."),
-					Extension = txtNewExtension.Text,
-					PhoneNumberType = model.SelectedPhoneNumberType
-				});
+				if (SelectedPhoneNumber < 0) {
+					SelectedCard.PhoneNumbers.Add (new PhoneNumber {
+						Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", "."),
+						Extension = txtNewExtension.Text,
+						PhoneNumberType = model.SelectedPhoneNumberType,
+						PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId
+					});
+				} else {
+					var selected = SelectedCard.PhoneNumbers.SingleOrDefault (p => p.GetHashCode () == SelectedPhoneNumber);
+					if (selected != null) {
+						selected.Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", ".");
+						selected.Extension = txtNewExtension.Text;
+						selected.PhoneNumberType = model.SelectedPhoneNumberType;
+						selected.PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId;
+					}
+				}
 				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers);
 				tblPhoneNumbers.ReloadData ();
 				clearFields ();
