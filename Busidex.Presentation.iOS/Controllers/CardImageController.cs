@@ -31,6 +31,9 @@ namespace Busidex.Presentation.iOS
 			Done = 3
 		}
 
+		bool frontImageChanged;
+		bool backImageChanged;
+
 		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
 
 		const float HEIGHT_RATIO = .583f;
@@ -134,27 +137,26 @@ namespace Busidex.Presentation.iOS
 			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = !visible;
 		}
 
-
 		public override void ViewWillAppear (bool animated)
 		{
-			var loaded = SelectedCard != null;
+			var loaded = SelectedCard != null && SelectedCard.FrontFileId.Equals (UISubscriptionService.OwnedCard.FrontFileId);
 
 			base.ViewWillAppear (animated);
 
 			setImageSelectionUI (false);
-
 
 			SelectedCard = UISubscriptionService.OwnedCard;
 			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
 
 			CardModel = new MobileCardImage {
 				Orientation = SelectedOrientation,
-				Side = MobileCardImage.DisplayMode.Front,
+				Side = SelectedDisplayMode,
 				EncodedCardImage = string.Empty
 			};
 
 			if (!loaded) {
 				try {
+
 					if (!SelectedCard.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
 						!SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 
@@ -240,6 +242,10 @@ namespace Busidex.Presentation.iOS
 					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
 
 					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);
+
+					frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
+					backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+
 				});
 			}
 		}
@@ -299,6 +305,14 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnSave.TouchUpInside += delegate {
+
+				var newFileName = Guid.NewGuid ();
+				if (frontImageChanged) {
+					CardModel.FrontFileId = newFileName;
+				}
+				if (backImageChanged) {
+					CardModel.BackFileId = newFileName;
+				}
 				UISubscriptionService.SaveCardImage (CardModel);
 			};
 		}
@@ -356,6 +370,14 @@ namespace Busidex.Presentation.iOS
 				btnBack.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
 				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
+				if (!File.Exists (fileName)) {
+					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
+						InvokeOnMainThread (() => {
+							setDisplay (fileName);
+							Overlay.Hide ();
+						});
+					});
+				}
 			} else {
 				btnBack.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnBack.BackgroundColor = UIColor.Blue;
@@ -368,6 +390,14 @@ namespace Busidex.Presentation.iOS
 					fileName = string.Empty;
 				} else {
 					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+					if (!File.Exists (fileName)) {
+						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
+							InvokeOnMainThread (() => {
+								setDisplay (fileName);
+								Overlay.Hide ();
+							});
+						});
+					}
 				}
 			}
 

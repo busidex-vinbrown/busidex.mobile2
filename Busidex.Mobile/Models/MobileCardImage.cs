@@ -1,4 +1,6 @@
-﻿namespace Busidex.Mobile.Models
+﻿using System;
+
+namespace Busidex.Mobile.Models
 {
 	public class MobileCardImage
 	{
@@ -8,6 +10,8 @@
 			Back = 1
 		}
 
+		public Guid? FrontFileId { get; set; }
+		public Guid? BackFileId { get; set; }
 		public string Orientation { get; set; }
 		public string EncodedCardImage { get; set; }
 		public DisplayMode Side { get; set; }

@@ -83,9 +83,9 @@ namespace Busidex.Mobile.Models
 
 		public Guid? OwnerToken { get; set; }
 
-		public Guid FrontFileId { get; set; }
+		public Guid? FrontFileId { get; set; }
 
-		public Guid BackFileId { get; set; }
+		public Guid? BackFileId { get; set; }
 
 		public string Title { get; set; }
 
