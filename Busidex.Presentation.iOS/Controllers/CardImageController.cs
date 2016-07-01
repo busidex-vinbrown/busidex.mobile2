@@ -134,7 +134,7 @@ namespace Busidex.Presentation.iOS
 
 		void setImageSelectionUI (bool visible)
 		{
-			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = !visible;
+			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = btnReset.Hidden = !visible;
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -241,6 +241,7 @@ namespace Busidex.Presentation.iOS
 
 					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
 
+					btnCardImage.SetImage (null, UIControlState.Normal);
 					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);
 
 					frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
@@ -254,7 +255,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
+			//txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
 
 			btnCardImage.Layer.BorderWidth = 1;
 			btnCardImage.Layer.CornerRadius = 1;
@@ -266,6 +267,12 @@ namespace Busidex.Presentation.iOS
 
 			btnSelectImage.TouchUpInside += async (sender, e) => {
 				var file = await CrossMedia.Current.PickPhotoAsync ();
+
+				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+					CardModel.FrontFileId = Guid.NewGuid ();
+				} else {
+					CardModel.BackFileId = Guid.NewGuid ();
+				}
 
 				if (file != null) {
 					setImage (file);
@@ -279,6 +286,11 @@ namespace Busidex.Presentation.iOS
 				};
 
 				var file = await CrossMedia.Current.TakePhotoAsync (options);
+				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+					CardModel.FrontFileId = Guid.NewGuid ();
+				} else {
+					CardModel.BackFileId = Guid.NewGuid ();
+				}
 				setImage (file);
 			};
 
@@ -304,15 +316,20 @@ namespace Busidex.Presentation.iOS
 				rotate (orientation);
 			};
 
-			btnSave.TouchUpInside += delegate {
+			btnReset.TouchUpInside += delegate {
 
-				var newFileName = Guid.NewGuid ();
-				if (frontImageChanged) {
-					CardModel.FrontFileId = newFileName;
+				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+					CardModel.FrontFileId = Guid.Empty;
+				} else {
+					CardModel.BackFileId = Guid.Empty;
 				}
-				if (backImageChanged) {
-					CardModel.BackFileId = newFileName;
-				}
+				CardModel.EncodedCardImage = Guid.Empty.ToString ();
+
+				setDisplay (string.Empty);
+				setImageSelectionUI (false);
+			};
+
+			btnSave.TouchUpInside += delegate {
 				UISubscriptionService.SaveCardImage (CardModel);
 			};
 		}
@@ -374,7 +391,9 @@ namespace Busidex.Presentation.iOS
 					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
 							setDisplay (fileName);
-							Overlay.Hide ();
+							if (Overlay != null) {
+								Overlay.Hide ();
+							}
 						});
 					});
 				}
@@ -394,7 +413,9 @@ namespace Busidex.Presentation.iOS
 						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
 								setDisplay (fileName);
-								Overlay.Hide ();
+								if (Overlay != null) {
+									Overlay.Hide ();
+								}
 							});
 						});
 					}
@@ -411,7 +432,8 @@ namespace Busidex.Presentation.iOS
 				() => {
 					UIView.Animate (ANIMATION_SPPED_FAST, 0, UIViewAnimationOptions.CurveEaseInOut,
 						() => {
-							btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+							//btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+							setDisplay (fileName);
 							btnCardImage.Transform = CGAffineTransform.MakeScale (1.0f, 1.0f);
 						},
 						() => {
@@ -426,6 +448,7 @@ namespace Busidex.Presentation.iOS
 			if (string.IsNullOrEmpty (fileName)) {
 				const string DEFALUT_PHOTO_IMAGE = "default_photo.png";
 				btnCardImage.SetImage (UIImage.FromFile (DEFALUT_PHOTO_IMAGE), UIControlState.Normal);
+				btnCardImage.SetBackgroundImage (null, UIControlState.Normal);
 			} else {
 				btnCardImage.SetImage (null, UIControlState.Normal);
 				if (SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL) {

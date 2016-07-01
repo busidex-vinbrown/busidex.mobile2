@@ -32,6 +32,10 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnReset { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnRotate { get; set; }
 
         [Outlet]
@@ -58,22 +62,6 @@ namespace Busidex.Presentation.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblTitle { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField txtH { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField txtW { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField txtX { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextField txtY { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
             if (btnBack != null) {
@@ -94,6 +82,11 @@ namespace Busidex.Presentation.iOS
             if (btnFront != null) {
                 btnFront.Dispose ();
                 btnFront = null;
+            }
+
+            if (btnReset != null) {
+                btnReset.Dispose ();
+                btnReset = null;
             }
 
             if (btnRotate != null) {
@@ -129,26 +122,6 @@ namespace Busidex.Presentation.iOS
             if (lblTitle != null) {
                 lblTitle.Dispose ();
                 lblTitle = null;
-            }
-
-            if (txtH != null) {
-                txtH.Dispose ();
-                txtH = null;
-            }
-
-            if (txtW != null) {
-                txtW.Dispose ();
-                txtW = null;
-            }
-
-            if (txtX != null) {
-                txtX.Dispose ();
-                txtX = null;
-            }
-
-            if (txtY != null) {
-                txtY.Dispose ();
-                txtY = null;
             }
         }
     }
