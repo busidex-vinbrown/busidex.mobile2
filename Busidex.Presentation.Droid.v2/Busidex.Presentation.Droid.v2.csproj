@@ -171,6 +171,14 @@
     <Compile Include="Fragments\HomeFragment.cs" />
     <Compile Include="Fragments\MyBusidexFragment.cs" />
     <Compile Include="Fragments\OrganizationsFragment.cs" />
+    <Compile Include="Fragments\CardMenuFragment.cs" />
+    <Compile Include="Fragments\CardTagsFragment.cs" />
+    <Compile Include="Fragments\CardSearchInfoFragment.cs" />
+    <Compile Include="Fragments\CardVisibilityFragment.cs" />
+    <Compile Include="Fragments\CardAddressInfoFragment.cs" />
+    <Compile Include="Fragments\CardImageEditFragment.cs" />
+    <Compile Include="Fragments\CardContactInfoFragment.cs" />
+    <Compile Include="Fragments\BaseCardEditFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -202,7 +210,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\logo3.png" />
     <AndroidResource Include="Resources\drawable-hdpi\main_blur2.png" />
     <AndroidResource Include="Resources\drawable-hdpi\MainButtonStyle.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\maps.png" />
     <AndroidResource Include="Resources\drawable-hdpi\MyBusidexIcon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\notes.png" />
     <AndroidResource Include="Resources\drawable-hdpi\OrganizationsIcon.png" />
@@ -419,6 +426,19 @@
     <AndroidResource Include="Resources\drawable-hdpi\contacts2.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ShareIcon.png" />
     <AndroidResource Include="Resources\layout\PrivacyPolicy.axml" />
+    <AndroidResource Include="Resources\layout\CardMenu.axml" />
+    <AndroidResource Include="Resources\layout\CardImageEdit.axml" />
+    <AndroidResource Include="Resources\layout\CardVisibility.axml" />
+    <AndroidResource Include="Resources\layout\CardContactInfo.axml" />
+    <AndroidResource Include="Resources\layout\CardSearchInfo.axml" />
+    <AndroidResource Include="Resources\layout\CardTags.axml" />
+    <AndroidResource Include="Resources\layout\CardAddressInfo.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\contacts_64x64.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\default_photo_64x64.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\maps.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\search_64x64.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tags_64x64.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\visibility_64x64.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

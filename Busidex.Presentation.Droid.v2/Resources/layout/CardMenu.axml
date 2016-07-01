@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/layoutBackground"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <LinearLayout
+        android:id="@+id/containerGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="50dp">
+        <LinearLayout
+            android:id="@+id/imgEditCardImageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/default_photo_64x64"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgEditCardImage" />
+            <TextView
+                android:text="Card Image"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgEditCardImage"
+                android:id="@+id/txtCardImageLabel"
+                android:gravity="center" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/imgVisibilityContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgEditCardImageContainer"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/visibility_64x64"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgVisibility" />
+            <TextView
+                android:text="Visibility"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgVisibility"
+                android:id="@+id/txtVisibilityLabel"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/containerGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/containerGroup1"
+        android:layout_marginBottom="10dp">
+        <LinearLayout
+            android:id="@+id/imgEditContactInfoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgEditCardImageContainer"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/contacts_64x64"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgEditContactInfo" />
+            <TextView
+                android:text="Contact Info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgEditContactInfo"
+                android:id="@+id/txtContactInfoLabel"
+                android:gravity="center" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/imgSeachInfoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgEditContactInfoContainer"
+            android:layout_below="@id/imgVisibilityContainer"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/search_64x64"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgSeachInfo" />
+            <TextView
+                android:text="Search Info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgSeachInfo"
+                android:id="@+id/txtSearchInfoLabel"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/containerGroup3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/containerGroup2">
+        <LinearLayout
+            android:id="@+id/imgTagsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgEditContactInfoContainer"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/tags_64x64"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgTags" />
+            <TextView
+                android:text="Tags"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgTags"
+                android:id="@+id/txtTagsLabel"
+                android:gravity="center" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/imgAddressInfoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgTagsContainer"
+            android:layout_below="@id/imgSeachInfoContainer"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/maps"
+                style="@style/CardMenuButton"
+                android:id="@+id/imgAddressInfo" />
+            <TextView
+                android:text="Address Info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgAddressInfo"
+                android:id="@+id/txtAddressInfoLabel"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

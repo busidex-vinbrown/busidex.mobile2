@@ -26,7 +26,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public ShareCardFragment ()
 		{
-			
+
 		}
 
 		public ShareCardFragment (UserCard selectedCard, Xamarin.Contacts.Phone selectedPhone = null, string selectedMessage = null)
@@ -40,7 +40,7 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			// Use this to return your custom view for this Fragment
 			var view = inflater.Inflate (Resource.Layout.SharedCard, container, false);
-			
+
 			var imgCardHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgCardVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
 
@@ -74,7 +74,7 @@ namespace Busidex.Presentation.Droid.v2
 			}
 
 			if (SelectedCard != null) {
-				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
+				var fileName = Path.Combine (Mobile.Resources.DocumentsPath, Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
 
 				var isHorizontal = SelectedCard.Card.FrontOrientation == "H";
@@ -99,7 +99,7 @@ namespace Busidex.Presentation.Droid.v2
 				var contactsAdapter = new ContactsAdapter (Activity, MainActivity.Contacts, SelectedCard, txtShareMessage.Text);
 				((MainActivity)Activity).LoadFragment (new ContactsFragment (contactsAdapter, SelectedCard, txtShareMessage.Text));
 			};
-	
+
 			return view;
 		}
 
@@ -114,12 +114,10 @@ namespace Busidex.Presentation.Droid.v2
 			var personalMessage = txtShareMessage.Text;
 
 			if (string.IsNullOrEmpty (email) && string.IsNullOrEmpty (phoneNumber)) {
-				
 				return;
 			}
 
 			if (string.IsNullOrEmpty (displayName)) {
-				
 				return;
 			}
 
@@ -132,7 +130,7 @@ namespace Busidex.Presentation.Droid.v2
 					var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
 					if (template != null) {
 						string message = string.Format (template.Template.Subject, displayName) + System.Environment.NewLine + System.Environment.NewLine +
-						                 template.Template.Body;
+										 template.Template.Body;
 						var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
 						var parameters = new QuickShareLink {
 							CardId = SelectedCard.Card.CardId,
@@ -150,28 +148,11 @@ namespace Busidex.Presentation.Droid.v2
 							Activity.RunOnUiThread (() => smsTask.SendSms (phoneNumber, message));
 						} else {
 							Activity.RunOnUiThread (() => ShowAlert (
-								"Application Error", 
-								"There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", 
+								"Application Error",
+								"There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.",
 								"Ok", null)
 							);
 						}
-
-//						Activity.RunOnUiThread( ()=> {
-//						Intent sendIntent = new Intent(Intent.ActionSend);
-//						//sendIntent.SetClassName("com.android.mms", "com.android.mms.ui.ComposeMessageActivity");
-//						sendIntent.PutExtra("address", phoneNumber);
-//						sendIntent.PutExtra("sms_body", message);
-//
-//						File file1 = new File("mFileName");
-//						if(file1.Exists())
-//						{
-//							//File Exist
-//						}
-//						//Uri uri = Uri.FromFile(file1);
-//						//sendIntent.PutExtra(Intent.ExtraStream, uri);
-//						sendIntent.SetType("image/*");
-//						StartActivity(sendIntent);
-//						});
 					}
 				});
 
@@ -189,11 +170,11 @@ namespace Busidex.Presentation.Droid.v2
 			}
 
 			if (!currentDisplayName.Equals (UISubscriptionService.CurrentUser.UserAccount.DisplayName, System.StringComparison.Ordinal)) {
-				AccountController.UpdateDisplayName (txtShareDisplayName.Text, UISubscriptionService.AuthToken);	
+				AccountController.UpdateDisplayName (txtShareDisplayName.Text, UISubscriptionService.AuthToken);
 				UISubscriptionService.CurrentUser.UserAccount.DisplayName = txtShareDisplayName.Text;
 			}
 
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
 		void HideFeedbackLabels ()
