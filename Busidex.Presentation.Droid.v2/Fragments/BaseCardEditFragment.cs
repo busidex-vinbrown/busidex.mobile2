@@ -23,6 +23,7 @@ namespace Busidex.Presentation.Droid.v2
 			// Create your fragment here
 		}
 
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment

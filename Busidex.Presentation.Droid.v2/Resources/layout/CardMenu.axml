@@ -6,6 +6,16 @@
     android:background="@color/layoutBackground"
     android:minWidth="25px"
     android:minHeight="25px">
+    <ImageButton
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:visibility="visible"
+        android:id="@+id/btnBack"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY" />
     <LinearLayout
         android:id="@+id/containerGroup1"
         android:layout_width="wrap_content"
@@ -13,6 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="50dp">
+    <!--CARD IMAGE-->
         <LinearLayout
             android:id="@+id/imgEditCardImageContainer"
             android:layout_width="wrap_content"
@@ -22,7 +33,8 @@
             <ImageView
                 android:src="@drawable/default_photo_64x64"
                 style="@style/CardMenuButton"
-                android:id="@+id/imgEditCardImage" />
+                android:id="@+id/imgEditCardImage"
+                android:background="@android:color/transparent" />
             <TextView
                 android:text="Card Image"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -30,8 +42,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgEditCardImage"
                 android:id="@+id/txtCardImageLabel"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnCardImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
+    <!--VISIBILITY-->
         <LinearLayout
             android:id="@+id/imgVisibilityContainer"
             android:layout_width="wrap_content"
@@ -51,7 +71,14 @@
                 android:layout_below="@id/imgVisibility"
                 android:id="@+id/txtVisibilityLabel"
                 android:layout_gravity="fill_horizontal"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnVisibility"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -61,6 +88,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/containerGroup1"
         android:layout_marginBottom="10dp">
+    <!--CONTACT INFO-->
         <LinearLayout
             android:id="@+id/imgEditContactInfoContainer"
             android:layout_width="wrap_content"
@@ -79,8 +107,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgEditContactInfo"
                 android:id="@+id/txtContactInfoLabel"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnContactInfo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
+    <!--SEARCH INFO-->
         <LinearLayout
             android:id="@+id/imgSeachInfoContainer"
             android:layout_width="wrap_content"
@@ -100,7 +136,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgSeachInfo"
                 android:id="@+id/txtSearchInfoLabel"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnSearchInfo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -109,6 +152,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/containerGroup2">
+    <!--TAGS-->
         <LinearLayout
             android:id="@+id/imgTagsContainer"
             android:layout_width="wrap_content"
@@ -127,8 +171,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgTags"
                 android:id="@+id/txtTagsLabel"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnTags"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
+    <!--ADDRESS INFO-->
         <LinearLayout
             android:id="@+id/imgAddressInfoContainer"
             android:layout_width="wrap_content"
@@ -148,7 +200,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgAddressInfo"
                 android:id="@+id/txtAddressInfoLabel"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/buttonFontColor" />
+            <Button
+                android:id="@+id/btnAddressInfo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-110dp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

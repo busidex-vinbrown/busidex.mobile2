@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -25,10 +26,14 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			// Use this to return your custom view for this Fragment
-			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+			var view = inflater.Inflate (Resource.Layout.CardAddressInfo, container, false);
 
-			return base.OnCreateView (inflater, container, savedInstanceState);
+			var btnBack = view.FindViewById<ImageButton> (Resource.Id.btnBack);
+			btnBack.Click += delegate {
+				((MainActivity)Activity).LoadFragment (new CardMenuFragment ());
+			};
+
+			return view;
 		}
 	}
 }

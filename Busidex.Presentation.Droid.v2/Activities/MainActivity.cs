@@ -17,32 +17,20 @@ using Android.Net;
 namespace Busidex.Presentation.Droid.v2
 {
 	[Activity (
-		Label = "Busidex", 
-		LaunchMode = Android.Content.PM.LaunchMode.SingleTask, 
+		Label = "Busidex",
+		LaunchMode = Android.Content.PM.LaunchMode.SingleTask,
 		ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
-	[IntentFilter (new [] { Android.Content.Intent.ActionView }, 
-		DataScheme = "busidex", 
+	[IntentFilter (new [] { Intent.ActionView },
+		DataScheme = "busidex",
 		DataPathPrefix = "/Uebo",
 		//DataHost = "jqle.app.link", 
-		Categories = new [] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable })]
+		Categories = new [] { Intent.CategoryDefault, Intent.CategoryBrowsable })]
 	public class MainActivity : FragmentActivity, IBranchSessionInterface
 	{
 		ViewPager pager;
 		GenericFragmentPagerAdaptor tabAdapter;
-		//IParcelable pagerState;
-		//IParcelable myBusidexState;
-		//IParcelable homeState;
 
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
-
-		//		void openFaq ()
-		//		{
-		//			var OpenBrowserIntent = new Intent (Intent.ActionView);
-		//			var uri = Android.Net.Uri.Parse ("https://www.busidex.com/#/faq");
-		//			OpenBrowserIntent.SetData (uri);
-		//
-		//			OpenBrowser (OpenBrowserIntent);
-		//		}
 
 		public async void OpenShare ()
 		{
@@ -77,7 +65,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		void showNoCardMessage ()
 		{
-			RunOnUiThread (() => ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string[] {
+			RunOnUiThread (() => ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string [] {
 				"Ok",
 				"Not Now"
 			}, new System.EventHandler<DialogClickEventArgs> ((o, e) => {
@@ -120,7 +108,7 @@ namespace Busidex.Presentation.Droid.v2
 			myBusidexTab.TabReselected += delegate {
 
 				var activity = tabAdapter.GetItem (1).Activity;
-				if (activity != null) {				
+				if (activity != null) {
 					var lstCards = (OverscrollListView)activity.FindViewById (Resource.Id.lstCards);
 					lstCards.SmoothScrollToPosition (0);
 				}
@@ -220,7 +208,7 @@ namespace Busidex.Presentation.Droid.v2
 								Contacts = contactList;
 							});
 						}
-					}	
+					}
 				});
 			}
 		}
@@ -251,7 +239,7 @@ namespace Busidex.Presentation.Droid.v2
 					AccountController.UpdateDeviceType (UISubscriptionService.AuthToken, DeviceType.Android).ContinueWith (r => {
 						saveDeviceTypeSet ();
 					});
-				}	
+				}
 			});
 		}
 
@@ -260,9 +248,9 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnStart ();
 
 			if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
-				DoStartUp ();		
+				DoStartUp ();
 			}
-		
+
 			setUpPager (true);
 		}
 
@@ -273,7 +261,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
 
-			BranchAndroid.Init (this, Busidex.Mobile.Resources.BRANCH_KEY, this);
+			BranchAndroid.Init (this, Mobile.Resources.BRANCH_KEY, this);
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
@@ -290,21 +278,21 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var tab = ActionBar.GetTabAt (0);
 			ActionBar.SelectTab (tab);
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_LABEL_APP_START, Busidex.Mobile.Resources.GA_LABEL_APP_START, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_LABEL_APP_START, Mobile.Resources.GA_LABEL_APP_START, 0);
 		}
 
 		static void saveDeviceTypeSet ()
 		{
-			var prefs = Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			var prefs = Application.Context.GetSharedPreferences (Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
 			var prefEditor = prefs.Edit ();
-			prefEditor.PutBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
-			prefEditor.Commit ();	
+			prefEditor.PutBoolean (Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, true);
+			prefEditor.Commit ();
 		}
 
 		public bool getDeviceTypeSetting ()
 		{
-			var prefs = Android.App.Application.Context.GetSharedPreferences (Busidex.Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
-			return prefs.GetBoolean (Busidex.Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, false);	
+			var prefs = Application.Context.GetSharedPreferences (Mobile.Resources.APPLICATION_NAME, FileCreationMode.Private);
+			return prefs.GetBoolean (Mobile.Resources.USER_SETTING_DEVICE_TYPE_SET, false);
 		}
 
 		public static void DoFilter (UserCardAdapter adapter, string filter)
@@ -321,7 +309,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		void setUpPager (bool restore = false)
 		{
-			
+
 			ActionBar.RemoveAllTabs ();
 			pager = FindViewById<ViewPager> (Resource.Id.pager);
 
@@ -353,7 +341,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void InitSessionComplete (Dictionary<string, object> data)
 		{
-			
+
 			var cardId = string.Empty;
 
 			var sentFrom = string.Empty;
@@ -393,12 +381,12 @@ namespace Busidex.Presentation.Droid.v2
 				// If the user isn't logged in, save the quickShare link to file and continue with startup.
 				if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
 					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
-					Utils.SaveResponse (json, Busidex.Mobile.Resources.QUICKSHARE_LINK);
+					Utils.SaveResponse (json, Mobile.Resources.QUICKSHARE_LINK);
 					setStartTab ();
 				} else {
 					var userCard = LoadQuickShareCardData (quickShareLink);
 					var fragment = new QuickShareFragment (userCard, displayName, personalMessage);
-					ShowQuickShare (fragment);	
+					ShowQuickShare (fragment);
 				}
 			}
 		}
@@ -505,7 +493,7 @@ namespace Busidex.Presentation.Droid.v2
 			if (quickShareLink != null) {
 				var userCard = LoadQuickShareCardData (quickShareLink);
 				var fragment = new QuickShareFragment (userCard, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
-				ShowQuickShare (fragment);	
+				ShowQuickShare (fragment);
 			}
 		}
 
@@ -526,11 +514,11 @@ namespace Busidex.Presentation.Droid.v2
 
 		public async void LoadEventCards (EventTag tag)
 		{
-			 
+
 			if (!UISubscriptionService.EventCards.ContainsKey (tag.Text) || UISubscriptionService.EventCards [tag.Text] == null) {
 
 				var progressBar1 = FindViewById<ProgressBar> (Resource.Id.progressBar1);
-				
+
 				var myBusidexProgressStatus = FindViewById<TextView> (Resource.Id.eventProgressStatus);
 				progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
 
@@ -538,7 +526,7 @@ namespace Busidex.Presentation.Droid.v2
 					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
 					progressBar1.Max = status.Total;
 					progressBar1.Progress = status.Count;
-					myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", status.Count, status.Total);	
+					myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", status.Count, status.Total);
 				});
 
 				UISubscriptionService.OnEventCardsUpdated -= update;
@@ -587,7 +575,7 @@ namespace Busidex.Presentation.Droid.v2
 					orgMembers.Add (userCard);
 				}
 			}
-			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var logoPath = Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
@@ -597,8 +585,8 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void LoadOrganizationReferrals (Organization organization)
 		{
-			
-			var logoPath = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+
+			var logoPath = Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (UISubscriptionService.OrganizationReferrals [organization.OrganizationId], logoPath);
 			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
 		}
@@ -620,7 +608,7 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Hide ();
 			ActivityController.SaveActivity ((long)EventSources.Details, fragment.SelectedCard.CardId, UISubscriptionService.AuthToken);
 
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_DETAILS, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_DETAILS, 0);
 		}
 
 		public void HideCard ()
@@ -641,7 +629,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_PHONE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_PHONE, 0);
 
 		}
 
@@ -650,7 +638,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_NOTES, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_NOTES, 0);
 
 		}
 
@@ -658,10 +646,10 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var holder = FindViewById (Resource.Id.fragment_holder);
 			holder.Visibility = ViewStates.Visible;
-//			var progressBar1 = holder.FindViewById<RelativeLayout> (Resource.Id.homeProgressContainer);
-//			if (progressBar1 != null) {
-//				progressBar1.Visibility = ViewStates.Visible;	
-//			}
+			//			var progressBar1 = holder.FindViewById<RelativeLayout> (Resource.Id.homeProgressContainer);
+			//			if (progressBar1 != null) {
+			//				progressBar1.Visibility = ViewStates.Visible;	
+			//			}
 
 			LoadFragment (fragment);
 			ActionBar.Hide ();
@@ -672,14 +660,14 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_SHARE, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_SHARE, 0);
 		}
 
 		public void SendEmail (Intent intent, long id)
 		{
 			ActivityController.SaveActivity ((long)EventSources.Email, id, UISubscriptionService.AuthToken);
 
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_EMAIL, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_EMAIL, 0);
 
 			StartActivity (intent);
 		}
@@ -688,11 +676,11 @@ namespace Busidex.Presentation.Droid.v2
 		{
 
 			var userCard = GetUserCardFromIntent (intent);
-		
+
 			if (userCard != null) {
 				ActivityController.SaveActivity ((long)EventSources.Website, userCard.CardId, UISubscriptionService.AuthToken);
 			}
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_URL, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_URL, 0);
 
 			var browserIntent = Intent.CreateChooser (intent, "Open with");
 			StartActivity (browserIntent);
@@ -702,10 +690,10 @@ namespace Busidex.Presentation.Droid.v2
 		{
 
 			var userCard = GetUserCardFromIntent (intent);
-		
+
 			ActivityController.SaveActivity ((long)EventSources.Map, userCard.CardId, UISubscriptionService.AuthToken);
 
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_MAP, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_MAP, 0);
 
 			StartActivity (intent);
 		}
@@ -720,13 +708,13 @@ namespace Busidex.Presentation.Droid.v2
 		public void AddToMyBusidex (UserCard userCard)
 		{
 			UISubscriptionService.AddCardToMyBusidex (userCard);
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_ADD, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_ADD, 0);
 		}
 
 		public void RemoveFromMyBusidex (UserCard userCard)
 		{
 			UISubscriptionService.RemoveCardFromMyBusidex (userCard);
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_MY_BUSIDEX_LABEL, Busidex.Mobile.Resources.GA_LABEL_REMOVED, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_REMOVED, 0);
 		}
 
 		#endregion
@@ -740,16 +728,16 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		public void LoadFragment (
-			Android.Support.V4.App.Fragment fragment, 
-			int? openAnimation = Resource.Animation.SlideAnimation, 
+			Android.Support.V4.App.Fragment fragment,
+			int? openAnimation = Resource.Animation.SlideAnimation,
 			int? closeAnimation = Resource.Animation.SlideOutAnimation,
 			int container = Resource.Id.fragment_holder
 		)
 		{
 
-//			if (fragment.IsVisible) {
-//				return;
-//			}
+			//			if (fragment.IsVisible) {
+			//				return;
+			//			}
 
 			pager.Visibility = ViewStates.Visible;
 
@@ -758,9 +746,9 @@ namespace Busidex.Presentation.Droid.v2
 				if (openAnimation.HasValue && closeAnimation.HasValue) {
 					transaction
 						.SetCustomAnimations (
-						openAnimation.Value, 
-						closeAnimation.Value, 
-						openAnimation.Value, 
+						openAnimation.Value,
+						closeAnimation.Value,
+						openAnimation.Value,
 						closeAnimation.Value
 					);
 				}
@@ -769,7 +757,7 @@ namespace Busidex.Presentation.Droid.v2
 
 				transaction
 					.Replace (container, fragment, name)
-				//.AddToBackStack (name)
+					//.AddToBackStack (name)
 					.Commit ();
 			}
 		}
@@ -789,6 +777,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			} else if (SupportFragmentManager.Fragments.SingleOrDefault (f => f is ContactProfileFragment) != null) {
 
+			} else if (SupportFragmentManager.Fragments.SingleOrDefault (f => f is BaseCardEditFragment) != null) {
+				UnloadFragment (new CardMenuFragment ());
 			} else if (UISubscriptionService.CurrentUser != null) {
 				UnloadFragment ();
 			} else if (DoingLogin) {
@@ -798,7 +788,7 @@ namespace Busidex.Presentation.Droid.v2
 				UnloadFragment (new StartUpFragment ());
 				DoingRegistration = false;
 			} else if (pager.CurrentItem == 1) {
-			
+
 			} else {
 				base.OnBackPressed ();
 			}
@@ -806,7 +796,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void UnloadFragment (
 			Android.Support.V4.App.Fragment fragment = null,
-			int? openAnimation = Resource.Animation.SlideAnimation, 
+			int? openAnimation = Resource.Animation.SlideAnimation,
 			int? closeAnimation = Resource.Animation.SlideOutAnimation,
 			int container = Resource.Id.fragment_holder,
 			bool showActionBar = true)
@@ -832,10 +822,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		protected void ShowAlert (string title, string message, string buttonText, System.EventHandler<DialogClickEventArgs> callback)
 		{
-			ShowAlert (title, message, new string[] { buttonText }, callback);
+			ShowAlert (title, message, new string [] { buttonText }, callback);
 		}
 
-		protected void ShowAlert (string title, string message, string[] buttons, System.EventHandler<DialogClickEventArgs> callback)
+		protected void ShowAlert (string title, string message, string [] buttons, System.EventHandler<DialogClickEventArgs> callback)
 		{
 			var builder = new AlertDialog.Builder (this);
 			builder.SetTitle (title);
@@ -888,7 +878,7 @@ namespace Busidex.Presentation.Droid.v2
 		{
 
 			var sharedCardController = new SharedCardController ();
-	
+
 			var result = CardController.GetCardById (UISubscriptionService.AuthToken, uc.CardId);
 			if (!string.IsNullOrEmpty (result)) {
 
@@ -908,6 +898,23 @@ namespace Busidex.Presentation.Droid.v2
 
 		#endregion
 
+		#region Card Editing
+		public void ShowCardEditMenu (CardMenuFragment fragment)
+		{
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
+
+		public void ShowCardEditFragment (BaseCardEditFragment fragment)
+		{
+			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+			LoadFragment (fragment);
+			ActionBar.Hide ();
+		}
+
+		#endregion
+
 		#region Privacy and Terms
 
 		public void ShowTerms (TermsAndConditionsFragment fragment)
@@ -915,7 +922,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_SCREEN_TERMS, Busidex.Mobile.Resources.GA_SCREEN_TERMS, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_SCREEN_TERMS, Mobile.Resources.GA_SCREEN_TERMS, 0);
 		}
 
 		public void ShowPrivacy (PrivacyFragment fragment)
@@ -923,7 +930,7 @@ namespace Busidex.Presentation.Droid.v2
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
 			LoadFragment (fragment);
 			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Busidex.Mobile.Resources.GA_CATEGORY_ACTIVITY, Busidex.Mobile.Resources.GA_SCREEN_PRIVACY, Busidex.Mobile.Resources.GA_SCREEN_PRIVACY, 0);
+			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_SCREEN_PRIVACY, Mobile.Resources.GA_SCREEN_PRIVACY, 0);
 		}
 
 		#endregion

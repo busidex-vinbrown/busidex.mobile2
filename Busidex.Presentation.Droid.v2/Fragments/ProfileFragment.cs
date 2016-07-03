@@ -28,7 +28,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public ProfileFragment ()
 		{
-			
+
 		}
 
 		public ProfileFragment (BusidexUser user)
@@ -108,11 +108,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnEditCard = profileView.FindViewById<Button> (Resource.Id.btnEditCard);
 			btnEditCard.Click += delegate {
-				var OpenBrowserIntent = new Intent (Intent.ActionView);
-				var url = string.Format (Busidex.Mobile.Resources.MY_CARD_EDIT_URL, WebUtility.UrlEncode (UISubscriptionService.AuthToken));
-				var uri = Uri.Parse (url);
-				OpenBrowserIntent.SetData (uri);
-				((MainActivity)Activity).OpenBrowser (OpenBrowserIntent);
+				var fragment = new CardMenuFragment ();
+				((MainActivity)Activity).ShowCardEditMenu (fragment);
 			};
 
 			imgProfileEmailSaved.Visibility = imgProfilePasswordSaved.Visibility = ViewStates.Invisible;
@@ -129,6 +126,9 @@ namespace Busidex.Presentation.Droid.v2
 				btnSaveProfile.Click += async delegate {
 					await UpdateEmail (UISubscriptionService.AuthToken, txtProfileEmail.Text);
 				};
+
+				btnLogout.Visibility = btnPrivacy.Visibility = btnTermsAndConditions.Visibility = btnEditCard.Visibility = ViewStates.Visible;
+
 				profileView.RequestLayout ();
 			} else {
 				txtProfileEmail.Text = string.Empty;
@@ -287,7 +287,7 @@ namespace Busidex.Presentation.Droid.v2
 				Activity.RunOnUiThread (() => SetCheckAccountResult (email, password, response.Result));
 
 			});
-				
+
 			return true;
 		}
 
@@ -295,7 +295,7 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			ShowAlert (
 				Activity.GetString (Resource.String.Global_Logout_Title),
-				Activity.GetString (Resource.String.Global_Logout_Message), 
+				Activity.GetString (Resource.String.Global_Logout_Message),
 				Activity.GetString (Resource.String.Global_ButtonText_Logout),
 				new System.EventHandler<DialogClickEventArgs> ((o, e) => {
 

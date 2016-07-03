@@ -88,6 +88,13 @@ namespace Busidex.Mobile
 		public const string GA_SCREEN_PROFILE = "Profile";
 		public const string GA_SCREEN_TERMS = "Terms and Conditions";
 		public const string GA_SCREEN_PRIVACY = "Privacy Policy";
+		public const string GA_SCREEN_CARD_MENU = "Card Menu";
+		public const string GA_SCREEN_VISIBILITY = "Card Visibility";
+		public const string GA_SCREEN_SEARCH_INFO = "Search Info";
+		public const string GA_SCREEN_CONTACT_INFO = "Contact Info";
+		public const string GA_SCREEN_TAGS = "Card Tags";
+		public const string GA_SCREEN_ADDRESS_INFO = "Address Info";
+		public const string GA_SCREEN_CARD_IMAGE = "Card Image";
 
 		public const string TWILLIO_SID_PROD = "AC74907b35cd4dc40f595dc4f8809d10ba";
 		public const string TWILLIO_AUTH_TOKEN_PROD = "401066fdfc0fe0fbc7a1ead2eadc55c5";
