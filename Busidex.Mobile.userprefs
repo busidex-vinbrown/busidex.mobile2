@@ -1,14 +1,16 @@
 ﻿<Properties StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/CardImageController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/CardVisibilityFragment.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="215" Column="14" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1092" Column="1" />
-      <File FileName="Busidex.Mobile/Models/CardDetailModel.cs" Line="6" Column="15" />
-      <File FileName="Busidex.Mobile/BaseController.cs" Line="38" Column="9" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="23" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/BaseCardEditFragment.cs" Line="48" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="848" Column="13" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardVisibilityFragment.cs" Line="14" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget">
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
     <IPhoneTestFlightSettings_27CDebug ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="fix app images" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />
@@ -17,5 +19,5 @@
   <DisabledProjects>
     <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>
   </DisabledProjects>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.Droid.v2 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.5b136be7" />
 </Properties>

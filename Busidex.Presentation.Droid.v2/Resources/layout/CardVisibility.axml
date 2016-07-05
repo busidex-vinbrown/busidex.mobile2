@@ -16,4 +16,76 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY" />
+    <TextView
+        android:text="Who can see your card?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/txtCardImageLabel"
+        android:gravity="center"
+        android:textColor="@color/buttonFontColor" />
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rdoGroupVisibility"
+        android:gravity="center"
+        android:layout_marginLeft="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:tag="1"
+            android:text="Public - Anyone can find your card, add it to their collection and share it."
+            android:id="@+id/rdoPublic"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="2"
+            android:text="Semi-Public - Your card can be found only by those with whom it has been shared, and anyone can share your card."
+            android:id="@+id/rdoSemiPrivate"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="3"
+            android:text="Private - Your card can only be found by those with whom it has been shared, and only you can share your card."
+            android:id="@+id/rdoPrivate"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+    </RadioGroup>
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/buttonWhite" />
+    <RelativeLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:background="@color/buttonWhite"
+        android:layout_alignParentTop="true"
+        android:id="@+id/updateCover"
+        android:alpha=".4"
+        android:minWidth="25px"
+        android:minHeight="25px" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:id="@+id/progressBar1"
+        android:layout_centerInParent="true"
+        android:paddingBottom="150dp" />
 </RelativeLayout>

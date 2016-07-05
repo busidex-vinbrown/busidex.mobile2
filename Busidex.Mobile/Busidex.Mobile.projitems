@@ -83,6 +83,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BranchUrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserCardEqualityComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MobileCardImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CardVisibility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

@@ -13,12 +13,7 @@ namespace Busidex.Presentation.iOS
 		const string DESCRIPTION_SEMI_PUBLIC = "Searching\nYour card will not be searchable by anyone except by those that have a Busidex account with whom your card has been shared.\n\nSharing\nIf you share with someone that does not have a Busidex account they will need to open an account to view your card in their Busidex page. Once you have shared your card, you give those with whom you shared your card the authorization to then share your card with whomever they wish. In other words, you authorize that your card can be shared with anyone by anyone that has your card.";
 		const string DESCRIPTION_PRIVATE = "With this option your card can only be shared by you. Even those that have your card cannot share it. You are the only person that can give your card to others.";
 
-		enum Visibility
-		{
-			Public = 1,
-			SemiPublic = 2,
-			Private = 3
-		}
+
 
 		public VisibilityController (IntPtr handle) : base (handle)
 		{
@@ -28,16 +23,16 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 			switch (SelectedCard.Visibility) {
-			case (int)Visibility.Public: {
-					setVisibilityUI (Visibility.Public);
+			case (int)CardVisibility.Public: {
+					setVisibilityUI (CardVisibility.Public);
 					break;
 				}
-			case (int)Visibility.SemiPublic: {
-					setVisibilityUI (Visibility.SemiPublic);
+			case (int)CardVisibility.SemiPublic: {
+					setVisibilityUI (CardVisibility.SemiPublic);
 					break;
 				}
-			case (int)Visibility.Private: {
-					setVisibilityUI (Visibility.Private);
+			case (int)CardVisibility.Private: {
+					setVisibilityUI (CardVisibility.Private);
 					break;
 				}
 			}
@@ -55,28 +50,28 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			btnPublic.TouchUpInside += delegate {
-				setVisibilityUI (Visibility.Public);
+				setVisibilityUI (CardVisibility.Public);
 			};
 
 			btnSemiPublic.TouchUpInside += delegate {
-				setVisibilityUI (Visibility.SemiPublic);
+				setVisibilityUI (CardVisibility.SemiPublic);
 			};
 
 			btnPrivate.TouchUpInside += delegate {
-				setVisibilityUI (Visibility.Private);
+				setVisibilityUI (CardVisibility.Private);
 			};
 
 			btnSave.TouchUpInside += delegate {
-				UISubscriptionService.SaveCardVisibility ((byte)SelectedCard.Visibility);
+				UISubscriptionService.SaveCardVisibility (SelectedCard.Visibility);
 			};
 		}
 
-		void setVisibilityUI (Visibility visibility)
+		void setVisibilityUI (CardVisibility visibility)
 		{
 			const float DEFAULT_FONT_SIZE = 15F;
 
 			switch (visibility) {
-			case Visibility.Public: {
+			case CardVisibility.Public: {
 					setButtonState (btnPublic, true);
 					setButtonState (btnSemiPublic, false);
 					setButtonState (btnPrivate, false);
@@ -86,7 +81,7 @@ namespace Busidex.Presentation.iOS
 					lblPrivate.Font = UIFont.SystemFontOfSize (DEFAULT_FONT_SIZE);
 					break;
 				}
-			case Visibility.SemiPublic: {
+			case CardVisibility.SemiPublic: {
 					setButtonState (btnPublic, false);
 					setButtonState (btnSemiPublic, true);
 					setButtonState (btnPrivate, false);
@@ -96,7 +91,7 @@ namespace Busidex.Presentation.iOS
 					lblPrivate.Font = UIFont.SystemFontOfSize (DEFAULT_FONT_SIZE);
 					break;
 				}
-			case Visibility.Private: {
+			case CardVisibility.Private: {
 					setButtonState (btnPublic, false);
 					setButtonState (btnSemiPublic, false);
 					setButtonState (btnPrivate, true);

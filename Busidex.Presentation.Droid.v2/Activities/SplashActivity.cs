@@ -6,9 +6,9 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
-	[Activity (Theme = "@style/Theme.Splash", 
-		MainLauncher = true, 
-		NoHistory = true, 
+	[Activity (Theme = "@style/Theme.Splash",
+		MainLauncher = true,
+		NoHistory = true,
 		ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class SplashActivity : Activity
 	{
@@ -18,19 +18,19 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
 
-			UISubscriptionService.Init ();
+
 
 			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);
 			var splashAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.Spin);
 			var fadeOutAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.abc_fade_out);
 			splashAnimation.AnimationEnd += delegate {
-				
+
 				imgSplashLogo.StartAnimation (fadeOutAnimation);
 			};
 			fadeOutAnimation.AnimationEnd += delegate {
 				imgSplashLogo.Visibility = Android.Views.ViewStates.Gone;
 				Finish ();
-				StartActivity (typeof(MainActivity));
+				StartActivity (typeof (MainActivity));
 			};
 			imgSplashLogo.StartAnimation (splashAnimation);
 		}

@@ -192,7 +192,8 @@ namespace Busidex.Presentation.Droid.v2
 			BaseApplicationResource.Init (this);
 			var token = BaseApplicationResource.GetAuthCookie ();
 
-			UISubscriptionService.AuthToken = token;
+			UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
+			UISubscriptionService.Init ();
 
 			// Load Contacts if necessary
 			if (Contacts == null || Contacts.Count == 0) {
