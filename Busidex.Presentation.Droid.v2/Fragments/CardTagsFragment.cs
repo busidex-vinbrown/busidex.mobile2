@@ -16,11 +16,13 @@ namespace Busidex.Presentation.Droid.v2
 {
 	public class CardTagsFragment : BaseCardEditFragment
 	{
-		public override void OnCreate (Bundle savedInstanceState)
+		public override void OnResume ()
 		{
-			base.OnCreate (savedInstanceState);
+			base.OnResume ();
 
-			// Create your fragment here
+			if (IsVisible) {
+				BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_TAGS);
+			}
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

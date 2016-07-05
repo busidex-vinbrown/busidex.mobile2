@@ -110,7 +110,7 @@ namespace Busidex.Mobile.Models
 
 		public string Markup { get; set; }
 
-		public long CreatedBy { get; set; }
+		public long? CreatedBy { get; set; }
 
 		public byte Visibility { get; set; }
 

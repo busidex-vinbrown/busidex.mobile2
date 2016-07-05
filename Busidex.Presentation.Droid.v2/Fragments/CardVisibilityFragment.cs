@@ -13,6 +13,27 @@ namespace Busidex.Presentation.Droid.v2
 		RadioButton rdoSemiPrivate;
 		RadioButton rdoPrivate;
 
+		byte SelectedVisibility;
+
+		public override void OnDetach ()
+		{
+			rdoPublic = null;
+			rdoSemiPrivate = null;
+			rdoPrivate = null;
+			view = null;
+
+			base.OnDetach ();
+		}
+
+		public override void OnResume ()
+		{
+			base.OnResume ();
+
+			if (IsVisible) {
+				BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_VISIBILITY);
+			}
+		}
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			view = inflater.Inflate (Resource.Layout.CardVisibility, container, false);
@@ -30,10 +51,8 @@ namespace Busidex.Presentation.Droid.v2
 
 			var btnSave = view.FindViewById<Button> (Resource.Id.btnSave);
 			btnSave.Click += delegate {
-				UISubscriptionService.SaveCardVisibility (SelectedCard.Visibility);
+				UISubscriptionService.SaveCardVisibility (SelectedVisibility);
 			};
-
-			hideProgress ();
 
 			var radioGroup = view.FindViewById<RadioGroup> (Resource.Id.rdoGroupVisibility);
 			radioGroup.SetOnCheckedChangeListener (this);
@@ -60,7 +79,7 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			var checkedRadioButton = group.FindViewById<RadioButton> (checkedId);
 			var val = byte.Parse (checkedRadioButton.Tag.ToString ());
-			SelectedCard.Visibility = val;
+			SelectedVisibility = val;
 		}
 	}
 }

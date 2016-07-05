@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/layoutBackground"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <ImageButton
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:layout_width="45dp"
@@ -16,6 +18,80 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY" />
+    <TextView
+        android:text="How will your card be found?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/buttonFontColor" />
+    <TextView
+        android:text="Keeping your card inforrmation up to date is very important. Add your Name, Company Name and Title to your card so people searching for those terms will find you."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/txtSearchInfoDescription"
+        android:layout_below="@id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/labelFontColorDark" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtSearchInfoDescription"
+        android:id="@+id/txtCompanyName"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="Company Name"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtCompanyName"
+        android:id="@+id/txtYourName"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="Your Name"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtYourName"
+        android:id="@+id/txtTitle"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="Title"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/buttonWhite" />
     <RelativeLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"

@@ -60,6 +60,8 @@ namespace Busidex.Presentation.Droid.v2
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
+			hideProgress ();
+
 			return base.OnCreateView (inflater, container, savedInstanceState);
 		}
 

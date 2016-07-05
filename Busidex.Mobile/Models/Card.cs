@@ -71,7 +71,7 @@ namespace Busidex.Mobile.Models
 
 		public DateTime Created { get; set; }
 
-		public long CreatedBy { get; set; }
+		public long? CreatedBy { get; set; }
 
 		public long? OwnerId { get; set; }
 
