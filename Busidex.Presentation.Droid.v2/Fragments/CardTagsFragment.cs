@@ -2,13 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
@@ -26,11 +20,17 @@ namespace Busidex.Presentation.Droid.v2
 		EditText txtTag6;
 		EditText txtTag7;
 		TextView txtDescription;
-		TextView txtTitle;
 
 		public override void OnDetach ()
 		{
 
+			txtTag1 = null;
+			txtTag2 = null;
+			txtTag3 = null;
+			txtTag4 = null;
+			txtTag5 = null;
+			txtTag6 = null;
+			txtTag7 = null;
 
 			base.OnDetach ();
 		}
@@ -51,7 +51,6 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnCreateView (inflater, container, savedInstanceState);
 
 			txtDescription = view.FindViewById<TextView> (Resource.Id.txtDescription);
-			txtTitle = view.FindViewById<TextView> (Resource.Id.txtTitle);
 
 			var btnBack = view.FindViewById<ImageButton> (Resource.Id.btnBack);
 			btnBack.Click += delegate {
@@ -90,7 +89,7 @@ namespace Busidex.Presentation.Droid.v2
 				// Add new tags
 				foreach (var tag in tags) {
 					if (SelectedCard.Tags.FirstOrDefault (t => string.Equals (t.Text, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
-						SelectedCard.Tags.Add (new Mobile.Models.Tag {
+						SelectedCard.Tags.Add (new Tag {
 							Text = tag,
 							TagTypeId = 1,
 							Deleted = false

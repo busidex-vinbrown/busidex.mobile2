@@ -180,6 +180,8 @@
     <Compile Include="Fragments\CardContactInfoFragment.cs" />
     <Compile Include="Fragments\BaseCardEditFragment.cs" />
     <Compile Include="Adapters\StateAdapter.cs" />
+    <Compile Include="Adapters\PhoneNumberTypeAdapter.cs" />
+    <Compile Include="Adapters\CardPhoneNumberAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -441,6 +443,10 @@
     <AndroidResource Include="Resources\drawable-hdpi\tags_64x64.png" />
     <AndroidResource Include="Resources\drawable-hdpi\visibility_64x64.png" />
     <AndroidResource Include="Resources\layout\StateSpinnerItem.axml" />
+    <AndroidResource Include="Resources\layout\PhoneTypeSpinnerItem.axml" />
+    <AndroidResource Include="Resources\layout\CardPhoneNumber.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\edit.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\delete2.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

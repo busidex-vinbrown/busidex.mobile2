@@ -50,5 +50,6 @@
 	<string name="QuickShareMessage">This referral was shared with you from {0} and has been added to your collection.{1}{2}</string>
 	<string name="quickshare">Busidex</string>
 	<string name="StateSpinnerPropmt">State</string>
+	<string name="PhoneTypePrompt">Type</string>
 	<string name="app_loading">One moment...</string>
 </resources>

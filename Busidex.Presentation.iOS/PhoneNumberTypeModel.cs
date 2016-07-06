@@ -2,6 +2,7 @@
 using UIKit;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
@@ -28,7 +29,7 @@ namespace Busidex.Presentation.iOS
 		{
 			this.lbl = new UILabel ();
 			phoneNumberTypes = new List<PhoneNumberType> ();
-			phoneNumberTypes.AddRange (getPhoneNumberTypes ());
+			phoneNumberTypes.AddRange (UISubscriptionService.GetPhoneNumberTypes ());
 
 			_selectedPhoneNumberType = _selectedType;
 			if (_selectedPhoneNumberType != null) {
@@ -73,51 +74,7 @@ namespace Busidex.Presentation.iOS
 			return selectedIdx;
 		}
 
-		static List<PhoneNumberType> getPhoneNumberTypes ()
-		{
-			return new List<PhoneNumberType> {
-				new PhoneNumberType {
-					PhoneNumberTypeId = 1,
-					Name = "Business"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 2,
-					Name = "Home"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 3,
-					Name = "Mobile"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 4,
-					Name = "Fax"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 5,
-					Name = "Toll Free"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 6,
-					Name = "eFax"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 7,
-					Name = "Other"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 8,
-					Name = "Direct"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 9,
-					Name = "Voice Mail"
-				},
-				new PhoneNumberType {
-					PhoneNumberTypeId = 10,
-					Name = "Business 2"
-				}
-			};
-		}
+
 	}
 }
 
