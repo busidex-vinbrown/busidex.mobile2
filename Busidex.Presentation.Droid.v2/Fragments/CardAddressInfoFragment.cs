@@ -117,6 +117,11 @@ namespace Busidex.Presentation.Droid.v2
 			var adapter = new StateAdapter (Activity, Android.Resource.Layout.SimpleSpinnerItem, UISubscriptionService.GetStates ());
 
 			spnState.Adapter = adapter;
+			if (SelectedAddress.State != null) {
+				var position = UISubscriptionService.GetStates ().FindIndex ((State obj) => obj.Code == SelectedAddress.State.Code);
+				spnState.SetSelection (position);
+			}
+
 			spnState.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) => {
 				SelectedAddress.State = ((StateAdapter)spnState.Adapter).GetItemAtPosition (e.Position);
 			};
