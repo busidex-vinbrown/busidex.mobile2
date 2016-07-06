@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/layoutBackground"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <ImageButton
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:layout_width="45dp"
@@ -16,6 +18,111 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY" />
+    <TextView
+        android:text="What is your office address?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/buttonFontColor" />
+    <TextView
+        android:text="When you add your office address, people will be able to tap the map icon in the app and get directions right to your office."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15sp"
+        android:id="@+id/txtDescription"
+        android:layout_below="@id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/labelFontColorDark"
+        android:layout_centerHorizontal="true" />
+    <EditText
+        android:inputType="textPostalAddress"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtDescription"
+        android:id="@+id/txtAddress1"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="Address 1"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <EditText
+        android:inputType="textPostalAddress"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtAddress1"
+        android:id="@+id/txtAddress2"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="Address 2"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <EditText
+        android:inputType="textPostalAddress"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/txtAddress2"
+        android:id="@+id/txtCity"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@color/labelFontColor"
+        android:gravity="center_horizontal"
+        android:hint="City"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_label_medium"
+        android:imeOptions="actionDone" />
+    <LinearLayout
+        android:id="@+id/zipStateContainer"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/txtCity"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:inputType="textPostalAddress"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:id="@+id/txtZip"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="@color/labelFontColor"
+            android:hint="Zip Code"
+            android:textSize="@dimen/font_size_label_medium"
+            android:imeOptions="actionDone" />
+        <Spinner xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="160dp"
+            android:layout_height="35dp"
+            android:minHeight="25dp"
+            android:layout_toRightOf="@id/txtZip"
+            android:background="@android:drawable/editbox_background"
+            android:id="@+id/spnState"
+            android:prompt="@string/StateSpinnerPropmt"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/statespinneritem" />
+    </LinearLayout>
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/buttonWhite" />
     <RelativeLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"

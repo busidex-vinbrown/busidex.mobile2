@@ -16,6 +16,37 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY" />
+    <TextView
+        android:text="Tag Your Card!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/buttonFontColor" />
+    <TextView
+        android:text="Tags are short keywords that describe your business so if people don't know your name, they can find you by your tags. Tags can be up to 35 letters, and you can add up to 7."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15sp"
+        android:id="@+id/txtSearchInfoDescription"
+        android:layout_below="@id/txtSearchInfoTitle"
+        android:gravity="center"
+        android:textColor="@color/labelFontColorDark"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/buttonWhite" />
     <RelativeLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"

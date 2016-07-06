@@ -12,7 +12,7 @@ namespace Busidex.Presentation.Droid.v2
 		EditText txtCompanyName;
 		EditText txtYourName;
 		EditText txtTitle;
-		InputMethodManager imm;
+
 
 		public override void OnResume ()
 		{
@@ -25,11 +25,9 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override void OnDetach ()
 		{
-			imm = null;
 			txtCompanyName = null;
 			txtTitle = null;
 			txtYourName = null;
-			view = null;
 
 			base.OnDetach ();
 		}
@@ -39,8 +37,6 @@ namespace Busidex.Presentation.Droid.v2
 			view = inflater.Inflate (Resource.Layout.CardSearchInfo, container, false);
 
 			base.OnCreateView (inflater, container, savedInstanceState);
-
-			imm = (InputMethodManager)Activity.GetSystemService (Context.InputMethodService);
 
 			txtCompanyName = view.FindViewById<EditText> (Resource.Id.txtCompanyName);
 			txtYourName = view.FindViewById<EditText> (Resource.Id.txtYourName);

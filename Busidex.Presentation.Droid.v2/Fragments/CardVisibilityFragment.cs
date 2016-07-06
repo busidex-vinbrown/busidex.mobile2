@@ -20,7 +20,6 @@ namespace Busidex.Presentation.Droid.v2
 			rdoPublic = null;
 			rdoSemiPrivate = null;
 			rdoPrivate = null;
-			view = null;
 
 			base.OnDetach ();
 		}

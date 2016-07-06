@@ -189,12 +189,6 @@ namespace Busidex.Presentation.Droid.v2
 
 		void Init ()
 		{
-			BaseApplicationResource.Init (this);
-			var token = BaseApplicationResource.GetAuthCookie ();
-
-			UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
-			UISubscriptionService.Init ();
-
 			// Load Contacts if necessary
 			if (Contacts == null || Contacts.Count == 0) {
 				Task.Factory.StartNew (() => {
@@ -212,6 +206,9 @@ namespace Busidex.Presentation.Droid.v2
 					}
 				});
 			}
+
+			BranchAndroid.Init (this, Mobile.Resources.BRANCH_KEY, this);
+
 		}
 
 		#region Override Methods
@@ -260,14 +257,11 @@ namespace Busidex.Presentation.Droid.v2
 
 			base.OnCreate (savedInstanceState);
 
-			Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
-
-			BranchAndroid.Init (this, Mobile.Resources.BRANCH_KEY, this);
+			// Set our view from the "main" layout resource
+			SetContentView (Resource.Layout.Main);
 
 			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
 
-			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.Main);
 			Init ();
 
 			setUpPager ();
@@ -314,7 +308,6 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.RemoveAllTabs ();
 			pager = FindViewById<ViewPager> (Resource.Id.pager);
 
-			pager.Visibility = ViewStates.Visible;
 			if (restore) {
 				tabAdapter = new GenericFragmentPagerAdaptor (SupportFragmentManager);
 
@@ -335,6 +328,8 @@ namespace Busidex.Presentation.Droid.v2
 			pager.OffscreenPageLimit = 6;
 
 			pager.AddOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
+
+			pager.Visibility = ViewStates.Visible;
 
 		}
 

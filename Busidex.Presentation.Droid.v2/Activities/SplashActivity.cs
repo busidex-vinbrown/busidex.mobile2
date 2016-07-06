@@ -3,6 +3,8 @@ using Android.OS;
 using Android.Widget;
 using Android.Views.Animations;
 using Busidex.Mobile;
+using System.Threading.Tasks;
+using BranchXamarinSDK;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -18,7 +20,15 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
 
+			Task.Factory.StartNew (() => {
+				BaseApplicationResource.Init (this);
+				UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
+				UISubscriptionService.Init ();
+			});
+			Task.Factory.StartNew (() => {
+				Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
 
+			});
 
 			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);
 			var splashAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.Spin);

@@ -16,6 +16,37 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY" />
+    <TextView
+        android:text="How will they contact you?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/txtPageTitle"
+        android:gravity="center"
+        android:textColor="@color/buttonFontColor" />
+    <TextView
+        android:text="Keep your contact info up to date so people can find you when they need you. Everyone that has your card will immediately get your new information when you update it."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15sp"
+        android:id="@+id/txtDescription"
+        android:layout_below="@id/txtPageTitle"
+        android:gravity="center"
+        android:textColor="@color/labelFontColorDark"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/buttonWhite" />
     <RelativeLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
