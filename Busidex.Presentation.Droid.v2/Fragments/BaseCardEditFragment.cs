@@ -82,7 +82,7 @@ namespace Busidex.Presentation.Droid.v2
 			showProgress ();
 		}
 
-		protected void CardUpdated ()
+		protected virtual void CardUpdated ()
 		{
 			hideProgress ();
 			SelectedCard = UISubscriptionService.OwnedCard;

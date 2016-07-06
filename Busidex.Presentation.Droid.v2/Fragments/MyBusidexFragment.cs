@@ -3,6 +3,7 @@ using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
 using System.Threading;
+using System;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -23,7 +24,7 @@ namespace Busidex.Presentation.Droid.v2
 				progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
 				progressBar1.Max = total;// status.Total;
 				progressBar1.Progress = count;// status.Count;
-				myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", count, total);	
+				myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", count, total);
 				lblNoCardsMessage.Visibility = ViewStates.Gone;
 			}
 		}
@@ -57,7 +58,7 @@ namespace Busidex.Presentation.Droid.v2
 				txtFilter.Focusable = true;
 				txtFilter.RequestFocus ();
 			};
-				
+
 			int accumulatedDeltaY = 0;
 			lstCards.OverScrolled += deltaY => {
 
@@ -81,25 +82,30 @@ namespace Busidex.Presentation.Droid.v2
 
 					accumulatedDeltaY = 0;
 					Activity.RunOnUiThread (() => {
-						myBusidexAdapter = myBusidexAdapter ?? new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
-						myBusidexAdapter.UpdateData (UISubscriptionService.UserCards);
-						myBusidexAdapter.Redirect += ((MainActivity)Activity).ShowCard;
-						myBusidexAdapter.ShowButtonPanel += ((MainActivity)Activity).ShowButtonPanel;
-						myBusidexAdapter.ShowNotes = true;
-						txtFilter.QueryTextChange += delegate {
-							MainActivity.DoFilter (myBusidexAdapter, txtFilter.Query);
-						};
 
-						lstCards.Adapter = myBusidexAdapter;
-						progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Gone;
-						lstCards.Visibility = ViewStates.Visible;
-						((UserCardAdapter)lstCards.Adapter).NotifyDataSetChanged ();
+						try {
+							myBusidexAdapter = myBusidexAdapter ?? new UserCardAdapter (Activity, Resource.Id.lstCards, UISubscriptionService.UserCards);
+							myBusidexAdapter.UpdateData (UISubscriptionService.UserCards);
+							myBusidexAdapter.Redirect += ((MainActivity)Activity).ShowCard;
+							myBusidexAdapter.ShowButtonPanel += ((MainActivity)Activity).ShowButtonPanel;
+							myBusidexAdapter.ShowNotes = true;
+							txtFilter.QueryTextChange += delegate {
+								MainActivity.DoFilter (myBusidexAdapter, txtFilter.Query);
+							};
 
-						if (list.Count == 0) {
-							lblNoCardsMessage.Visibility = ViewStates.Visible;
-							lblNoCardsMessage.SetText (Resource.String.MyBusidex_NoCards);
+							lstCards.Adapter = myBusidexAdapter;
+							progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Gone;
+							lstCards.Visibility = ViewStates.Visible;
+							((UserCardAdapter)lstCards.Adapter).NotifyDataSetChanged ();
+
+							if (list.Count == 0) {
+								lblNoCardsMessage.Visibility = ViewStates.Visible;
+								lblNoCardsMessage.SetText (Resource.String.MyBusidex_NoCards);
+							}
+							txtFilter.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
+						} catch (Exception ex) {
+							Xamarin.Insights.Report (ex);
 						}
-						txtFilter.Visibility = list.Count == 0 ? ViewStates.Gone : ViewStates.Visible;
 					});
 				};
 			}
