@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Mobile
 {
 	public static class BusidexStringExtensions
 	{
 		public static string AsPhoneNumber (this string str)
 		{
+			if (string.IsNullOrEmpty (str)) {
+				return str;
+			}
+
 			var digits = Regex.Replace (str, @"[^\d]", "").ToCharArray ();
 
 			var display = string.Empty;

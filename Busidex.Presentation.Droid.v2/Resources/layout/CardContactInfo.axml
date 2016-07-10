@@ -39,6 +39,7 @@
         android:gravity="center"
         android:textColor="@color/labelFontColorDark"
         android:layout_centerHorizontal="true" />
+<!--EMAIL ADDRESS-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
             android:textSize="@dimen/font_size_label_medium"
             android:imeOptions="actionDone" />
     </LinearLayout>
+<!--WEBSITE URL-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,22 +95,42 @@
             android:textSize="@dimen/font_size_label_medium"
             android:imeOptions="actionDone" />
     </LinearLayout>
-    <TextView
-        android:text="Phone Numbers"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+<!--PHONE NUMBER LIST-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginTop="10dp"
         android:layout_below="@id/contactInfoContainer"
-        android:id="@+id/txtPhoneNumbersTitle"
-        android:gravity="center"
-        android:textColor="@color/buttonFontColor" />
+        android:id="@+id/contactListViewTitle">
+        <TextView
+            android:text="Phone Numbers"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactInfoContainer"
+            android:id="@+id/txtPhoneNumbersTitle"
+            android:gravity="center"
+            android:textColor="@color/buttonFontColor" />
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/btnAddPhoneNumber"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:src="@drawable/add2"
+            android:layout_below="@id/contactInfoContainer"
+            android:layout_toRightOf="@id/txtPhoneNumbersTitle"
+            android:layout_marginLeft="20dp" />
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:id="@+id/lstCardPhoneNumbers"
-        android:layout_below="@id/txtPhoneNumbersTitle" />
+        android:layout_below="@id/contactListViewTitle" />
+<!--SAVE BUTTON-->
     <Button
         android:layout_width="110dp"
         android:layout_height="45dp"
@@ -119,13 +141,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:textColor="@color/buttonWhite" />
+<!--PROGRESS BAR AND COVER-->
     <RelativeLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:background="@color/buttonWhite"
+        android:background="@color/listBackgroundLight"
         android:layout_alignParentTop="true"
         android:id="@+id/updateCover"
-        android:alpha=".4" />
+        android:alpha=".9" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
@@ -138,50 +161,95 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
         android:layout_centerInParent="true"
+        android:background="@color/layoutBackground"
         android:id="@+id/newPhoneNumberContainer">
-        <Spinner xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="15dp"
-            android:minHeight="25dp"
-            android:layout_toRightOf="@id/txtZip"
-            android:background="@android:drawable/editbox_background"
-            android:id="@+id/spnPhoneNumberType"
-            android:prompt="@string/PhoneTypePrompt"
-            android:spinnerMode="dropdown"
-            tools:listitem="@layout/phonetypespinneritem" />
-        <EditText
-            android:inputType="text"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_height="35dp"
-            android:layout_toRightOf="@id/spnPhoneNumberType"
-            android:id="@+id/txtNewPhoneNumber"
-            android:background="@android:drawable/editbox_background"
-            android:textColor="@color/labelFontColor"
-            android:gravity="center_horizontal"
-            android:hint="Phone Number"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/font_size_label_medium"
-            android:imeOptions="actionDone" />
-        <EditText
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_height="35dp"
-            android:layout_toRightOf="@id/spnPhoneNumberType"
-            android:layout_below="@id/txtNewPhoneNumber"
-            android:id="@+id/txtExtension"
-            android:background="@android:drawable/editbox_background"
-            android:textColor="@color/labelFontColor"
-            android:gravity="center_horizontal"
-            android:hint="Extension"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/font_size_label_medium"
-            android:imeOptions="actionDone" />
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:id="@+id/innerContainer">
+            <Spinner xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="15dp"
+                android:minHeight="25dp"
+                android:layout_toRightOf="@id/txtZip"
+                android:background="@android:drawable/editbox_background"
+                android:id="@+id/spnPhoneNumberType"
+                android:prompt="@string/PhoneTypePrompt"
+                android:spinnerMode="dropdown"
+                tools:listitem="@layout/phonetypespinneritem" />
+            <EditText
+                android:inputType="phone"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="35dp"
+                android:layout_toRightOf="@id/spnPhoneNumberType"
+                android:id="@+id/txtNewPhoneNumber"
+                android:background="@android:drawable/editbox_background"
+                android:textColor="@color/labelFontColor"
+                android:gravity="center_horizontal"
+                android:hint="Phone Number"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/font_size_label_medium"
+                android:imeOptions="actionDone"
+                android:phoneNumber="true"
+                android:maxLength="11" />
+            <EditText
+                android:inputType="phone"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_height="35dp"
+                android:layout_toRightOf="@id/spnPhoneNumberType"
+                android:layout_below="@id/txtNewPhoneNumber"
+                android:id="@+id/txtExtension"
+                android:background="@android:drawable/editbox_background"
+                android:textColor="@color/labelFontColor"
+                android:gravity="center_horizontal"
+                android:hint="Extension"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/font_size_label_medium"
+                android:imeOptions="actionDone"
+                android:phoneNumber="true"
+                android:maxLength="11" />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@id/txtExtension"
+                android:src="@drawable/button"
+                android:scaleType="fitXY" />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:background="@android:color/transparent"
+                android:id="@+id/btnSavePhoneNumber"
+                android:layout_below="@id/txtExtension"
+                android:text="Update Phone Number"
+                android:textColor="@color/buttonWhite" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/txtExtension"
+                android:layout_toRightOf="@id/btnSavePhoneNumber"
+                android:src="@drawable/button_cancel"
+                android:scaleType="fitXY" />
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
+                android:id="@+id/btnCancel"
+                android:layout_below="@id/txtExtension"
+                android:layout_toRightOf="@id/btnSavePhoneNumber"
+                android:text="Cancel"
+                android:textColor="@color/buttonWhite" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -3,6 +3,7 @@ using Android.Views;
 using Busidex.Mobile.Models;
 using System.Collections.Generic;
 using Android.App;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -41,7 +42,7 @@ namespace Busidex.Presentation.Droid.v2
 			var btnDeletePhoneNumber = view.FindViewById<ImageButton> (Resource.Id.btnDeletePhoneNumber);
 
 			lblPhoneNumberType.Text = System.Enum.GetName (typeof (PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId) + ":";
-			lblPhoneNumber.Text = number.Number;
+			lblPhoneNumber.Text = number.Number.AsPhoneNumber ();
 
 			btnEditPhoneNumber.Click += delegate {
 				if (EditPhoneNumber != null) {
@@ -51,7 +52,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			btnDeletePhoneNumber.Click += delegate {
 				if (DeletePhoneNumber != null) {
-					DeletePhoneNumber (number);
+					if (DeletePhoneNumber != null) {
+						DeletePhoneNumber (number);
+					}
 				}
 			};
 			return view;

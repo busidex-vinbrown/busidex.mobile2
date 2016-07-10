@@ -4,6 +4,7 @@ using Foundation;
 using System.Collections.Generic;
 using Busidex.Mobile.Models;
 using System.Drawing;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
