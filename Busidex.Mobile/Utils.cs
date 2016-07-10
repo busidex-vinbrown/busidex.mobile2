@@ -5,6 +5,7 @@ using System.IO;
 using System.Globalization;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace Busidex.Mobile
 {
@@ -12,13 +13,18 @@ namespace Busidex.Mobile
 	{
 		static readonly ConcurrentDictionary<string, SemaphoreSlim> locks = new ConcurrentDictionary<string, SemaphoreSlim> ();
 
+		public static char [] GetDigits (string text)
+		{
+			return Regex.Replace (text, @"[^\d]", "").ToCharArray ();
+		}
+
 		public static long DecodeUserId (string id)
 		{
 
 			long userId = 0;
 
 			try {
-				byte[] raw = Convert.FromBase64String (id); 
+				byte [] raw = Convert.FromBase64String (id);
 				string s = System.Text.Encoding.UTF8.GetString (raw);
 				long.TryParse (s, out userId);
 
@@ -62,7 +68,7 @@ namespace Busidex.Mobile
 		public static string EncodeUserId (long userId)
 		{
 
-			byte[] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes (userId.ToString (CultureInfo.InvariantCulture));
+			byte [] toEncodeAsBytes = System.Text.Encoding.ASCII.GetBytes (userId.ToString (CultureInfo.InvariantCulture));
 			string returnValue = Convert.ToBase64String (toEncodeAsBytes);
 			return returnValue;
 		}
@@ -134,7 +140,7 @@ namespace Busidex.Mobile
 				//or being processed by another thread
 				//or does not exist (has already been processed)
 				return new T ();
-			}		
+			}
 		}
 
 		static bool IsFileInUse (FileInfo file)
@@ -157,7 +163,7 @@ namespace Busidex.Mobile
 				if (stream != null)
 					stream.Close ();
 			}
-			return false; 
+			return false;
 		}
 
 		public static void RemoveCacheFiles ()

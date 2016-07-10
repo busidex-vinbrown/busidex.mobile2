@@ -14,6 +14,7 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		public event EditPhoneNumberHandler EditPhoneNumber;
 		public event DeletePhoneNumberHandler DeletePhoneNumber;
+		bool bindingComplete;
 
 		List<PhoneNumber> PhoneNumbers { get; set; }
 
@@ -33,7 +34,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
-			var view = convertView ?? context.LayoutInflater.Inflate (Resource.Layout.CardPhoneNumber, null);
+			var view = context.LayoutInflater.Inflate (Resource.Layout.CardPhoneNumber, null);
 			var number = PhoneNumbers [position];
 
 			var lblPhoneNumberType = view.FindViewById<TextView> (Resource.Id.lblPhoneNumberType);

@@ -127,7 +127,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/lstCardPhoneNumbers"
         android:layout_below="@id/contactListViewTitle" />
 <!--SAVE BUTTON-->
@@ -167,10 +167,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:id="@+id/innerContainer">
             <Spinner xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="160dp"
+                android:layout_width="150dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="15dp"
                 android:minHeight="25dp"
@@ -196,7 +196,7 @@
                 android:textSize="@dimen/font_size_label_medium"
                 android:imeOptions="actionDone"
                 android:phoneNumber="true"
-                android:maxLength="11" />
+                android:maxLength="15" />
             <EditText
                 android:inputType="phone"
                 android:layout_width="match_parent"

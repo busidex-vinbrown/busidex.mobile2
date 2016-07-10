@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
 using Android.OS;
+using Android.Telephony;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
@@ -10,6 +12,7 @@ namespace Busidex.Presentation.Droid.v2
 {
 	public class CardContactInfoFragment : BaseCardEditFragment
 	{
+		List<PhoneNumberType> phoneNumberTypes;
 		PhoneNumber SelectedPhoneNumber;
 		ListView lstCardPhoneNumbers;
 		Spinner spnPhoneNumberType;
@@ -34,6 +37,8 @@ namespace Busidex.Presentation.Droid.v2
 			txtNewPhoneNumber = null;
 			txtExtension = null;
 			btnSave = null;
+
+			UISubscriptionService.OnCardInfoSaved -= AfterCardUpdated;
 
 			base.OnDetach ();
 		}
@@ -66,6 +71,7 @@ namespace Busidex.Presentation.Droid.v2
 			newPhoneNumberContainer.Visibility = updateCover.Visibility = ViewStates.Visible;
 			btnSavePhoneNumber.Text = "Update Phone Number";
 			populatePhoneFields (SelectedPhoneNumber);
+			setPhoneNumberType ();
 		}
 
 		void AddPhoneNumber ()
@@ -76,6 +82,7 @@ namespace Busidex.Presentation.Droid.v2
 			SelectedPhoneNumber.PhoneNumberType = new PhoneNumberType ();
 
 			populatePhoneFields (SelectedPhoneNumber);
+			setPhoneNumberType ();
 		}
 
 		void SavePhoneNumber ()
@@ -91,13 +98,13 @@ namespace Busidex.Presentation.Droid.v2
 				});
 			} else {
 				SelectedCard.PhoneNumbers.Add (new PhoneNumber {
-					Number = SelectedPhoneNumber.Number,
-					Extension = SelectedPhoneNumber.Extension,
+					Number = txtNewPhoneNumber.Text,
+					Extension = txtExtension.Text,
 					PhoneNumberType = SelectedPhoneNumber.PhoneNumberType,
-					PhoneNumberTypeId = SelectedPhoneNumber.PhoneNumberTypeId
+					PhoneNumberTypeId = SelectedPhoneNumber.PhoneNumberType.PhoneNumberTypeId
 				});
 			}
-			((CardPhoneNumberAdapter)lstCardPhoneNumbers.Adapter).NotifyDataSetChanged ();
+			resetAdapter ();
 
 			SelectedPhoneNumber = new PhoneNumber ();
 			SelectedPhoneNumber.PhoneNumberType = new PhoneNumberType ();
@@ -114,16 +121,48 @@ namespace Busidex.Presentation.Droid.v2
 						  var btnClicked = dialog.GetButton (e.Which);
 						  if (btnClicked.Text == Activity.GetString (Resource.String.Global_ButtonText_Ok)) {
 							  var idx = SelectedCard.PhoneNumbers.FindIndex (p => p.Number == number.Number && p.PhoneNumberType.Name == number.PhoneNumberType.Name);
-							  SelectedCard.PhoneNumbers.RemoveAt (idx);
+							  if (idx >= 0) {
+								  SelectedCard.PhoneNumbers [idx].Deleted = true;
+								  resetAdapter ();
+							  }
 						  }
 					  }));
+		}
+
+		void resetAdapter ()
+		{
+			var cardPhoneNumberAdapter = new CardPhoneNumberAdapter (Activity, Resource.Id.lstCardPhoneNumbers, SelectedCard.PhoneNumbers.Where (p => !p.Deleted).ToList ());
+			cardPhoneNumberAdapter.EditPhoneNumber -= EditPhoneNumber;
+			cardPhoneNumberAdapter.DeletePhoneNumber -= DeletePhoneNumber;
+
+			cardPhoneNumberAdapter.EditPhoneNumber += EditPhoneNumber;
+			cardPhoneNumberAdapter.DeletePhoneNumber += DeletePhoneNumber;
+
+			lstCardPhoneNumbers.Adapter = cardPhoneNumberAdapter;
+		}
+
+		void setPhoneNumberType ()
+		{
+			var position = phoneNumberTypes.FindIndex ((PhoneNumberType obj) => obj.Name == SelectedPhoneNumber.PhoneNumberType.Name);
+			spnPhoneNumberType.SetSelection (position);
+		}
+
+		void AfterCardUpdated ()
+		{
+			Activity.RunOnUiThread (() => {
+				resetAdapter ();
+			});
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			view = inflater.Inflate (Resource.Layout.CardContactInfo, container, false);
 
+			phoneNumberTypes = UISubscriptionService.GetPhoneNumberTypes ();
+
 			base.OnCreateView (inflater, container, savedInstanceState);
+
+			UISubscriptionService.OnCardInfoSaved += AfterCardUpdated;
 
 			newPhoneNumberContainer = view.FindViewById<RelativeLayout> (Resource.Id.newPhoneNumberContainer);
 			newPhoneNumberContainer.Visibility = ViewStates.Gone;
@@ -134,11 +173,7 @@ namespace Busidex.Presentation.Droid.v2
 			spnPhoneNumberType = view.FindViewById<Spinner> (Resource.Id.spnPhoneNumberType);
 			lstCardPhoneNumbers = view.FindViewById<ListView> (Resource.Id.lstCardPhoneNumbers);
 
-			var cardPhoneNumberAdapter = new CardPhoneNumberAdapter (Activity, Resource.Id.lstCardPhoneNumbers, SelectedCard.PhoneNumbers);
-			cardPhoneNumberAdapter.EditPhoneNumber += EditPhoneNumber;
-			cardPhoneNumberAdapter.DeletePhoneNumber += DeletePhoneNumber;
-
-			lstCardPhoneNumbers.Adapter = cardPhoneNumberAdapter;
+			resetAdapter ();
 
 			txtUrl = view.FindViewById<EditText> (Resource.Id.txtUrl);
 			txtEmail = view.FindViewById<EditText> (Resource.Id.txtEmail);
@@ -147,6 +182,9 @@ namespace Busidex.Presentation.Droid.v2
 
 			txtUrl.Text = SelectedCard.Url;
 			txtEmail.Text = SelectedCard.Email;
+
+			txtNewPhoneNumber.AddTextChangedListener (new PhoneNumberFormattingTextWatcher ());
+
 
 			btnAddPhoneNumber = view.FindViewById<ImageButton> (Resource.Id.btnAddPhoneNumber);
 			btnAddPhoneNumber.Click += delegate {
@@ -172,7 +210,14 @@ namespace Busidex.Presentation.Droid.v2
 
 			btnSave = view.FindViewById<Button> (Resource.Id.btnSave);
 			btnSave.Click += delegate {
+				imm.HideSoftInputFromWindow (txtUrl.WindowToken, 0);
+				imm.HideSoftInputFromWindow (txtEmail.WindowToken, 0);
+				imm.HideSoftInputFromWindow (txtNewPhoneNumber.WindowToken, 0);
+				imm.HideSoftInputFromWindow (txtExtension.WindowToken, 0);
 
+				SelectedCard.Url = txtUrl.Text;
+				SelectedCard.Email = txtEmail.Text;
+				UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
 			};
 
 			var phoneNumberTypeAdapter = new PhoneNumberTypeAdapter (Activity, Android.Resource.Layout.SimpleSpinnerItem, UISubscriptionService.GetPhoneNumberTypes ());
@@ -181,12 +226,12 @@ namespace Busidex.Presentation.Droid.v2
 
 			spnPhoneNumberType.Adapter = phoneNumberTypeAdapter;
 			if (SelectedPhoneNumber != null) {
-				var position = UISubscriptionService.GetPhoneNumberTypes ().FindIndex ((PhoneNumberType obj) => obj.Name == SelectedPhoneNumber.PhoneNumberType.Name);
-				spnPhoneNumberType.SetSelection (position);
+				setPhoneNumberType ();
 			}
 
 			spnPhoneNumberType.ItemSelected += (object sender, AdapterView.ItemSelectedEventArgs e) => {
-				SelectedPhoneNumber.PhoneNumberType = ((PhoneNumberTypeAdapter)spnPhoneNumberType.Adapter).GetItemAtPosition (e.Position);
+				var newPhoneType = ((PhoneNumberTypeAdapter)spnPhoneNumberType.Adapter).GetItemAtPosition (e.Position);
+				SelectedPhoneNumber.PhoneNumberType = newPhoneType;
 			};
 
 			imm.HideSoftInputFromWindow (txtUrl.WindowToken, 0);

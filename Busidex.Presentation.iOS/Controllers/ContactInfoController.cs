@@ -158,6 +158,8 @@ namespace Busidex.Presentation.iOS
 			txtNewPhoneNumber.Text = display;
 		}
 
+
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -198,7 +200,8 @@ namespace Busidex.Presentation.iOS
 			txtNewPhoneNumber.ShouldChangeCharacters = (tf, range, replacementString) => {
 				bool isBackspace = replacementString == "";
 
-				var digits = Regex.Replace (txtNewPhoneNumber.Text, @"[^\d]", "").ToCharArray ();
+				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
+
 				if (isBackspace || digits.Length > 10) {
 					Array.Resize (ref digits, digits.Length - 1);
 					updateText (digits);
@@ -209,7 +212,7 @@ namespace Busidex.Presentation.iOS
 
 			txtNewPhoneNumber.AllEditingEvents += (object sender, EventArgs e) => {
 
-				var digits = Regex.Replace (txtNewPhoneNumber.Text, @"[^\d]", "").ToCharArray ();
+				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
 				updateText (digits);
 			};
 			btnCancel.TouchUpInside += delegate {
@@ -229,6 +232,8 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnSave.TouchUpInside += delegate {
+				SelectedCard.Url = txtUrl.Text;
+				SelectedCard.Email = txtEmail.Text;
 				UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
 			};
 
