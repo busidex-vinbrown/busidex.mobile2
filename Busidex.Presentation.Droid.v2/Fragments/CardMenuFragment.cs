@@ -66,7 +66,7 @@ namespace Busidex.Presentation.Droid.v2
 			};
 
 			btnBack.Click += delegate {
-				((MainActivity)Activity).LoadFragment (new ProfileFragment (UISubscriptionService.CurrentUser));
+				((MainActivity)Activity).UnloadFragment (null);
 			};
 			return cardMenu;
 		}
