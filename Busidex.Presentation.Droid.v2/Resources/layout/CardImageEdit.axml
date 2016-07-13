@@ -38,21 +38,56 @@
         android:textColor="@color/labelFontColorDark"
         android:layout_centerHorizontal="true" />
 <!--CARD IMAGE-->
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/imageWrapper"
         android:layout_width="300dp"
         android:layout_height="180dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="45dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/default_photo_64x64"
-        android:scaleType="center"
-        android:layout_below="@id/txtSearchInfoDescription" />
-    <ImageButton
-        android:layout_width="300dp"
-        android:layout_height="180dp"
+        android:layout_below="@id/txtSearchInfoDescription"
+        android:background="@android:drawable/picture_frame">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/default_photo_64x64"
+            android:scaleType="center" />
+        <ImageButton
+            android:layout_width="320dp"
+            android:layout_height="200dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:id="@+id/btnCardImage" />
+    </RelativeLayout>
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rdoOrientation"
+        android:layout_below="@id/imageWrapper"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="25dp"
-        android:id="@+id/imgCard"
-        android:layout_below="@id/txtSearchInfoDescription" />
+        android:layout_marginTop="35dp">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:tag="H"
+            android:text="Horizontal"
+            android:id="@+id/rdoHorizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="V"
+            android:text="Vertical."
+            android:id="@+id/rdoVertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+    </RadioGroup>
 <!--SAVE BUTTON-->
     <Button
         android:layout_width="110dp"

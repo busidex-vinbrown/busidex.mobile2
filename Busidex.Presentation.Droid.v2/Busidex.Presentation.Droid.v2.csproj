@@ -449,6 +449,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\delete2.png" />
     <AndroidResource Include="Resources\drawable-hdpi\button_cancel.png" />
     <AndroidResource Include="Resources\drawable-hdpi\add2.png" />
+    <AndroidResource Include="Resources\anim\ResizeHorizontal.xml" />
+    <AndroidResource Include="Resources\anim\ResizeVertical.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\rotate.png" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

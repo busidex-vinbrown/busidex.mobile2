@@ -14,7 +14,7 @@ namespace Busidex.Presentation.Droid.v2
 	{
 		public event EditPhoneNumberHandler EditPhoneNumber;
 		public event DeletePhoneNumberHandler DeletePhoneNumber;
-		bool bindingComplete;
+		//bool bindingComplete;
 
 		List<PhoneNumber> PhoneNumbers { get; set; }
 
