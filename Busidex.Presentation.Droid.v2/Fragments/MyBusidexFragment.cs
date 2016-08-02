@@ -36,7 +36,7 @@ namespace Busidex.Presentation.Droid.v2
 			progressBar1 = view.FindViewById<ProgressBar> (Resource.Id.progressBar1);
 
 			myBusidexProgressStatus = view.FindViewById<TextView> (Resource.Id.myBusidexProgressStatus);
-			progressBar1.Visibility = myBusidexProgressStatus.Visibility = UISubscriptionService.UserCards.Count > 0 ? ViewStates.Gone : ViewStates.Visible;
+			progressBar1.Visibility = myBusidexProgressStatus.Visibility = UISubscriptionService.MyBusidexLoaded /*UISubscriptionService.UserCards.Count > 0*/ ? ViewStates.Gone : ViewStates.Visible;
 
 			lblNoCardsMessage = view.FindViewById<TextView> (Resource.Id.lblNoCardsMessage);
 			lblNoCardsMessage.Visibility = UISubscriptionService.UserCards.Count > 0 ? ViewStates.Gone : ViewStates.Visible;

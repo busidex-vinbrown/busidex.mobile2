@@ -65,7 +65,7 @@ namespace Busidex.Presentation.Droid.v2
 				txtShareMessage.Text = SelectedMessage;
 			}
 
-			txtShareDisplayName.Text = currentDisplayName = UISubscriptionService.CurrentUser.UserAccount.DisplayName;
+			txtShareDisplayName.Text = currentDisplayName = UISubscriptionService.CurrentUser.UserAccount.DisplayName ?? string.Empty;
 			var imgShareHorizontal = view.FindViewById<ImageView> (Resource.Id.imgShareHorizontal);
 			var imgShareVertical = view.FindViewById<ImageView> (Resource.Id.imgShareVertical);
 
@@ -118,6 +118,8 @@ namespace Busidex.Presentation.Droid.v2
 			}
 
 			if (string.IsNullOrEmpty (displayName)) {
+				ShowAlert ("Missing Information", "Please enter a display name so they know who sent this referral", "Ok", null);
+				txtShareDisplayName.RequestFocus ();
 				return;
 			}
 

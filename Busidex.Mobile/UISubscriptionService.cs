@@ -228,8 +228,12 @@ namespace Busidex.Mobile
 				OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
 
 				foreach (Organization org in OrganizationList) {
-					OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);
-					OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+					if(!OrganizationMembersLoadedEventTable.ContainsKey(org.OrganizationId)){
+						OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);	
+					}
+					if (!OrganizationReferralsLoadedEventTable.ContainsKey (org.OrganizationId)) { 
+						OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+					}
 				}
 
 				foreach (var org in OrganizationList) {
@@ -990,8 +994,12 @@ namespace Busidex.Mobile
 							OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
 
 							foreach (Organization org in myOrganizationsResponse.Model) {
-								OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);
-								OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+								if(!OrganizationMembersLoadedEventTable.ContainsKey(org.OrganizationId)){
+									OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);	
+								}
+								if (!OrganizationReferralsLoadedEventTable.ContainsKey (org.OrganizationId)) { 
+									OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+								}
 							}
 
 							// Get Organization members and referals
@@ -1063,10 +1071,10 @@ namespace Busidex.Mobile
 			} else {
 				OrganizationReferralsLoading [organizationId] = true;
 			}
-			if (!OrganizationReferralsLoading.ContainsKey (organizationId)) {
-				OrganizationReferralsLoading.Add (organizationId, false);
+			if (!OrganizationReferralsLoaded.ContainsKey (organizationId)) {
+				OrganizationReferralsLoaded.Add (organizationId, false);
 			} else {
-				OrganizationReferralsLoading [organizationId] = false;
+				OrganizationReferralsLoaded [organizationId] = false;
 			}
 
 			var fileName = string.Format (Resources.ORGANIZATION_REFERRALS_FILE, organizationId);

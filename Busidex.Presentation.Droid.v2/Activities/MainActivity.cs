@@ -553,7 +553,7 @@ namespace Busidex.Presentation.Droid.v2
 		public void ShowOrganizationDetail (Android.Support.V4.App.Fragment panel)
 		{
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (panel, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			LoadFragment (panel, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
 			ActionBar.Hide ();
 		}
 
@@ -575,7 +575,7 @@ namespace Busidex.Presentation.Droid.v2
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
 			ActionBar.Hide ();
 		}
 
@@ -584,7 +584,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			var logoPath = Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (UISubscriptionService.OrganizationReferrals [organization.OrganizationId], logoPath);
-			LoadFragment (fragment, Resource.Animation.SlideUpAnimation, Resource.Animation.SlideDownAnimation);
+			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
 		}
 
 		#endregion
@@ -653,10 +653,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void ShareCard (ShareCardFragment fragment)
 		{
-			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (fragment);
-			ActionBar.Hide ();
-			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_SHARE, 0);
+			RunOnUiThread (() => {
+				FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
+				LoadFragment (fragment);
+				ActionBar.Hide ();
+				BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_SHARE, 0);
+			});
 		}
 
 		public void SendEmail (Intent intent, long id)

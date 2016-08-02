@@ -4,19 +4,19 @@ using Android.Widget;
 using Android.Views.Animations;
 using Busidex.Mobile;
 using System.Threading.Tasks;
-using BranchXamarinSDK;
+using Android.Content;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	[Activity (Theme = "@style/Theme.Splash",
 		MainLauncher = true,
 		NoHistory = true,
-		ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
+		ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
 	public class SplashActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			Xamarin.Insights.Initialize (Busidex.Mobile.Resources.XAMARIN_INSIGHTS_KEY, this);
+			Xamarin.Insights.Initialize (Mobile.Resources.XAMARIN_INSIGHTS_KEY, this);
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
 
@@ -32,16 +32,14 @@ namespace Busidex.Presentation.Droid.v2
 
 			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);
 			var splashAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.Spin);
-			var fadeOutAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.abc_fade_out);
 			splashAnimation.AnimationEnd += delegate {
 
-				imgSplashLogo.StartAnimation (fadeOutAnimation);
-			};
-			fadeOutAnimation.AnimationEnd += delegate {
-				imgSplashLogo.Visibility = Android.Views.ViewStates.Gone;
+				var mainActivityIntent = new Intent (this, typeof (MainActivity));
+				mainActivityIntent.AddFlags (ActivityFlags.NoHistory);
+				StartActivity (mainActivityIntent);
 				Finish ();
-				StartActivity (typeof (MainActivity));
 			};
+	
 			imgSplashLogo.StartAnimation (splashAnimation);
 		}
 	}

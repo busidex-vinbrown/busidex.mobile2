@@ -101,6 +101,10 @@ namespace Busidex.Presentation.Droid.v2
 				((MainActivity)Activity).SetTab (TAB_NOTIFICATIONS);
 			};
 
+			// NOTIFICATION COUNT
+			var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
+			txtNotificationCount.Visibility = ViewStates.Gone;
+
 			// SETTINGS BUTTON
 			var btnSettingsHome = view.FindViewById<ImageButton> (Resource.Id.btnSettingsHome);
 			btnSettingsHome.Click += delegate {
@@ -112,8 +116,6 @@ namespace Busidex.Presentation.Droid.v2
 
 					if (Activity != null) {
 						var count = list == null ? 0 : list.Count;
-
-						var txtNotificationCount = view.FindViewById<TextView> (Resource.Id.txtNotificationCount);
 
 						btnSharedCardsNotification.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
 						txtNotificationCount.Visibility = count == 0 ? ViewStates.Gone : ViewStates.Visible;
