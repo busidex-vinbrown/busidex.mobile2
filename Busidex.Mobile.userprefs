@@ -1,33 +1,49 @@
 ﻿<Properties StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Busidex.Mobile/OrganizationController.cs" Line="7" Column="2" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1065" Column="22" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationsController.cs" Line="43" Column="40" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" Line="238" Column="36" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="116" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/OrganizationTableSource.cs" Line="97" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" Line="233" Column="1" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1098" Column="42" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardImageEditFragment.cs" Line="177" Column="33" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Busidex.Mobile" expanded="True">
+            <Node name="Busidex.Mobile" expanded="True" />
+            <Node name="Busidex.Presentation.Droid.v2" expanded="True">
+              <Node name="Activities" expanded="True" />
+              <Node name="Fragments" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="anim" expanded="True">
+                  <Node name="ResizeVertical.xml" selected="True" />
+                </Node>
+                <Node name="layout" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" line="221" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="131" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="260" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="272" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="240" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="222" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="198" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" line="233" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="46" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="59" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="83" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="96" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="118" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/BaseController.cs" line="123" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/BaseController.cs" line="380" column="1" />
-    <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/OrganizationTableSource.cs" line="98" column="1" />
+    <BreakpointStore>
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" line="221" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="131" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="260" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="272" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="240" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="222" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="198" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" line="233" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="46" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="59" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="83" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="96" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/OrgMembersController.cs" line="118" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/BaseController.cs" line="123" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/BaseController.cs" line="380" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/OrganizationTableSource.cs" line="98" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget">
     <IPhoneTestFlightSettings_27CRelease ApiToken="c4b07bd4439f065e554c72092ad71361_MTA3NDgyNTIwMTMtMDUtMjcgMTc6MzM6MjkuMTcyNzcw" TeamToken="5cb28742c66c1525b94ef5c337509a31_MjI4OTgzMjAxMy0xMS0wOSAyMjoxNjo0OC4wMjUwMjc" ReleaseNotes="add display name to shared cards" NotifyTeamMembers="True" ReplaceBinaries="True" DistributionLists="" UploadDSYMs="False" />

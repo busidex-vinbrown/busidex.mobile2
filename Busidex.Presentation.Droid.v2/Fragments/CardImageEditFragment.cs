@@ -5,7 +5,7 @@ using Android.Content;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Views;
-using Android.Views.Animations;
+//using Android.Views.Animations;
 using Android.Widget;
 using Busidex.Mobile;
 
@@ -16,8 +16,10 @@ namespace Busidex.Presentation.Droid.v2
 		ImageButton btnBack;
 		Button btnCardFront;
 		Button btnCardBack;
-		ImageButton btnCardImage;
-		RelativeLayout imageWrapper;
+		ImageButton btnCardImageHor;
+		ImageButton btnCardImageVer;
+		RelativeLayout imageWrapperHor;
+		RelativeLayout imageWrapperVer;
 
 		string SelectedFrontOrientation;
 		string SelectedBackOrientation;
@@ -38,14 +40,22 @@ namespace Busidex.Presentation.Droid.v2
 			btnBack = null;
 			btnCardFront = null;
 			btnCardFront = null;
-			imageWrapper = null;
+			imageWrapperHor = null;
+			imageWrapperVer = null;
 
-			if (btnCardImage != null) {
-				var bd = (BitmapDrawable)btnCardImage.Drawable;
+			if (btnCardImageHor != null) {
+				var bd = (BitmapDrawable)btnCardImageHor.Drawable;
 				if (bd != null) {
 					bd.Bitmap.Recycle ();
 				}
-				btnCardImage.SetImageURI (null);
+				btnCardImageHor.SetImageURI (null);
+			}
+			if (btnCardImageVer != null) {
+				var bd = (BitmapDrawable)btnCardImageVer.Drawable;
+				if (bd != null) {
+					bd.Bitmap.Recycle ();
+				}
+				btnCardImageVer.SetImageURI (null);
 			}
 			btnCardFront = null;
 			base.OnDetach ();
@@ -82,14 +92,12 @@ namespace Busidex.Presentation.Droid.v2
 
 		void setDisplay (CardEditMode mode, string fileName)
 		{
-			var uri = Android.Net.Uri.Parse (fileName);
+			var uri = !string.IsNullOrEmpty (fileName) ? Android.Net.Uri.Parse (fileName) : null;
 
-			if (string.IsNullOrEmpty (fileName)) {
-				btnCardImage.SetImageURI (null);
-			} else {
-				btnCardImage.SetImageURI (uri);
-			}
-			//setOrientation (mode == CardEditMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
+			btnCardImageHor.SetImageURI (uri);
+			btnCardImageVer.SetImageURI (uri);
+
+			setOrientation (mode == CardEditMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
 			SelectedCardEditMode = mode;
 		}
 
@@ -134,8 +142,10 @@ namespace Busidex.Presentation.Droid.v2
 			updateCover = view.FindViewById<RelativeLayout> (Resource.Id.updateCover);
 			updateCover.Visibility = ViewStates.Gone;
 
-			imageWrapper = view.FindViewById<RelativeLayout> (Resource.Id.imageWrapper);
-			btnCardImage = view.FindViewById<ImageButton> (Resource.Id.btnCardImage);
+			imageWrapperHor = view.FindViewById<RelativeLayout> (Resource.Id.imageWrapperHor);
+			imageWrapperVer = view.FindViewById<RelativeLayout> (Resource.Id.imageWrapperVer);
+			btnCardImageHor = view.FindViewById<ImageButton> (Resource.Id.btnCardImageHor);
+			btnCardImageVer = view.FindViewById<ImageButton> (Resource.Id.btnCardImageVer);
 			btnCardFront = view.FindViewById<Button> (Resource.Id.btnCardFront);
 			btnCardBack = view.FindViewById<Button> (Resource.Id.btnCardBack);
 
@@ -179,8 +189,11 @@ namespace Busidex.Presentation.Droid.v2
 
 		void setOrientation(string orientation){
 
-			var rotateHorizontal = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeHorizontal);
-			var rotateVertical = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeVertical);
+			imageWrapperHor.Visibility = orientation == "H" ? ViewStates.Visible : ViewStates.Gone;
+			imageWrapperVer.Visibility = orientation == "H" ? ViewStates.Gone : ViewStates.Visible;
+
+			//var rotateHorizontal = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeHorizontal);
+			//var rotateVertical = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeVertical);
 
 			//var h = orientation == "H" ? (int)((300) * Resources.DisplayMetrics.Density) : (int)((480) * Resources.DisplayMetrics.Density);
 			//var w = orientation == "H" ? (int)((480) * Resources.DisplayMetrics.Density) : (int)((300) * Resources.DisplayMetrics.Density);
@@ -188,11 +201,11 @@ namespace Busidex.Presentation.Droid.v2
 			//var layoutParams = new RelativeLayout.LayoutParams (w, h); //Width, Height
 
 
-			var rotate = orientation == "H"
-				? rotateHorizontal
-				: rotateVertical;
+			//var rotate = orientation == "H"
+			//	? rotateHorizontal
+			//	: rotateVertical;
 			
-			imageWrapper.StartAnimation (rotate);
+			//imageWrapperHor.StartAnimation (rotate);
 		}
 
 		void toggleSide (CardEditMode mode)

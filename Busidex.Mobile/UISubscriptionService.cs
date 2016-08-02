@@ -1085,45 +1085,47 @@ namespace Busidex.Mobile
 				await organizationController.GetOrganizationReferrals (AuthToken, organizationId).ContinueWith (async cards => {
 
 					var orgReferralResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrgReferralResponse> (cards.Result);
-					Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (orgReferralResponse.Model), string.Format (Resources.ORGANIZATION_REFERRALS_FILE, organizationId));
+					if (orgReferralResponse != null) {
+						Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (orgReferralResponse.Model), string.Format (Resources.ORGANIZATION_REFERRALS_FILE, organizationId));
 
-					OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
-					if (!OrganizationReferrals.ContainsKey (organizationId)) {
-						OrganizationReferrals.Add (organizationId, orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ());
-					} else {
-						OrganizationReferrals [organizationId] = orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ();
-					}
-
-					var status = new ProgressStatus ();
-					status.Total = OrganizationReferrals [organizationId].Count;
-
-					foreach (var card in orgReferralResponse.Model) {
-
-						var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
-						var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
-						var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-						var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-						if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
-							try {
-								await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (r => {
-									status.Count++;
-								});
-							} catch (Exception) {
-
-							}
+						OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>> ();
+						if (!OrganizationReferrals.ContainsKey (organizationId)) {
+							OrganizationReferrals.Add (organizationId, orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ());
 						} else {
-							status.Count++;
+							OrganizationReferrals [organizationId] = orgReferralResponse.Model.Distinct (new UserCardEqualityComparer ()).ToList ();
 						}
 
-						if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString ().ToLowerInvariant () != Resources.EMPTY_CARD_ID) {
-							try {
-								await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
-							} catch (Exception) {
+						var status = new ProgressStatus ();
+						status.Total = OrganizationReferrals [organizationId].Count;
 
+						foreach (var card in orgReferralResponse.Model) {
+
+							var fImageUrl = Resources.THUMBNAIL_PATH + card.Card.FrontFileName;
+							var bImageUrl = Resources.THUMBNAIL_PATH + card.Card.BackFileName;
+							var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+							var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+							if (!File.Exists (Resources.DocumentsPath + "/" + fName)) {
+								try {
+									await Utils.DownloadImage (fImageUrl, Resources.DocumentsPath, fName).ContinueWith (r => {
+										status.Count++;
+									});
+								} catch (Exception) {
+
+								}
+							} else {
+								status.Count++;
 							}
-						}
-						if (OnMyOrganizationReferralsUpdated != null) {
-							OnMyOrganizationReferralsUpdated (status);
+
+							if (!File.Exists (Resources.DocumentsPath + "/" + bName) && card.Card.BackFileId.ToString ().ToLowerInvariant () != Resources.EMPTY_CARD_ID) {
+								try {
+									await Utils.DownloadImage (bImageUrl, Resources.DocumentsPath, bName);
+								} catch (Exception) {
+
+								}
+							}
+							if (OnMyOrganizationReferralsUpdated != null) {
+								OnMyOrganizationReferralsUpdated (status);
+							}
 						}
 					}
 
