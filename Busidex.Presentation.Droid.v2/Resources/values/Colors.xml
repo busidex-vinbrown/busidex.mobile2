@@ -10,4 +10,6 @@
 	<color name="primaryLabelColor">#ff000000</color>
 	<color name="textInputColor">#ff000000</color>
 	<color name="notificationColor">#ff3300</color>
+	<color name="buttonSuccess">#5CB85C</color>
+	<color name="buttonMuted">#808080</color>
 </resources>

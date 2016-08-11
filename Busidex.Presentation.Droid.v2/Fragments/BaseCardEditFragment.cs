@@ -44,6 +44,8 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			Activity.RunOnUiThread (() => {
 				updateCover.Visibility = progressBar1.Visibility = ViewStates.Gone;
+				updateCover.Invalidate ();
+				progressBar1.Invalidate ();
 			});
 		}
 
@@ -51,6 +53,8 @@ namespace Busidex.Presentation.Droid.v2
 		{
 			Activity.RunOnUiThread (() => {
 				updateCover.Visibility = progressBar1.Visibility = ViewStates.Visible;
+				updateCover.Invalidate ();
+				progressBar1.Invalidate ();
 			});
 		}
 

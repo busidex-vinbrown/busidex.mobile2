@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
@@ -8,18 +9,27 @@ using Android.Support.V4.View;
 using Android.Support.V4.App;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using System.IO;
+using Java.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using BranchXamarinSDK;
 using Android.Net;
+using Plugin.Permissions;
+using Android.Content.PM;
 
 namespace Busidex.Presentation.Droid.v2
 {
+
+	public static class App
+	{
+		public static File _file;
+		public static File _dir;
+		public static Bitmap bitmap;
+	}
+
 	[Activity (
 		Label = "Busidex",
-		LaunchMode = Android.Content.PM.LaunchMode.SingleTask,
-		ConfigurationChanges = global::Android.Content.PM.ConfigChanges.Orientation | global::Android.Content.PM.ConfigChanges.ScreenSize)]
+		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
 	[IntentFilter (new [] { Intent.ActionView },
 		DataScheme = "busidex",
 		DataPathPrefix = "/Uebo",
@@ -70,7 +80,7 @@ namespace Busidex.Presentation.Droid.v2
 				"Not Now"
 			}, new System.EventHandler<DialogClickEventArgs> ((o, e) => {
 
-				var dialog = o as global::Android.App.AlertDialog;
+				var dialog = o as AlertDialog;
 				Button btnClicked = dialog.GetButton (e.Which);
 				if (btnClicked.Text == "Ok") {
 					RunOnUiThread (() => {
@@ -212,6 +222,10 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		#region Override Methods
+		public override void OnRequestPermissionsResult (int requestCode, string [] permissions, Permission [] grantResults)
+		{
+			PermissionsImplementation.Current.OnRequestPermissionsResult (requestCode, permissions, grantResults);
+		}
 
 		protected override void OnSaveInstanceState (Bundle outState)
 		{
@@ -260,7 +274,7 @@ namespace Busidex.Presentation.Droid.v2
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
-			RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;
+			RequestedOrientation = ScreenOrientation.Portrait;
 
 			Init ();
 
@@ -325,7 +339,7 @@ namespace Busidex.Presentation.Droid.v2
 			addFragments (tabAdapter);
 
 			pager.Adapter.NotifyDataSetChanged ();
-			pager.OffscreenPageLimit = 6;
+			pager.OffscreenPageLimit = 1;
 
 			pager.AddOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
 
@@ -571,7 +585,7 @@ namespace Busidex.Presentation.Droid.v2
 					orgMembers.Add (userCard);
 				}
 			}
-			var logoPath = Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var logoPath = System.IO.Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
@@ -582,7 +596,7 @@ namespace Busidex.Presentation.Droid.v2
 		public void LoadOrganizationReferrals (Organization organization)
 		{
 
-			var logoPath = Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
+			var logoPath = System.IO.Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (UISubscriptionService.OrganizationReferrals [organization.OrganizationId], logoPath);
 			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
 		}

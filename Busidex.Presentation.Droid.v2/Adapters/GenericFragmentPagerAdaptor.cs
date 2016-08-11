@@ -29,8 +29,6 @@ namespace Busidex.Presentation.Droid.v2
 		public override void DestroyItem (View container, int position, Java.Lang.Object objectValue)
 		{
 			((ViewPager)container).RemoveView ((View)objectValue);
-			//_fragmentList [position] = null;
-			//_fragmentList.RemoveAt (position);
 			NotifyDataSetChanged ();
 		}
 

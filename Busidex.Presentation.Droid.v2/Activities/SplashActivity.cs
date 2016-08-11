@@ -35,7 +35,6 @@ namespace Busidex.Presentation.Droid.v2
 			splashAnimation.AnimationEnd += delegate {
 
 				var mainActivityIntent = new Intent (this, typeof (MainActivity));
-				mainActivityIntent.AddFlags (ActivityFlags.NoHistory);
 				StartActivity (mainActivityIntent);
 				Finish ();
 			};

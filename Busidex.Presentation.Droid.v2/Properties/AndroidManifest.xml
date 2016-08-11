@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="546" package="com.busidex" android:versionName="1.4.8">
-	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21" />
+	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="21" />
 	<application android:label="Busidex" android:theme="@style/Theme.Busidexactionbar" android:icon="@drawable/logo">
-		<activity android:name=".SplashActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intentcategory.LAUNCHER" />
-			</intent-filter>
-		</activity>
 	</application>
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -26,4 +20,5 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

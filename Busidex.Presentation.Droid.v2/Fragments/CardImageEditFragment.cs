@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using Android.Content;
 using Android.Graphics.Drawables;
@@ -8,32 +7,54 @@ using Android.Views;
 //using Android.Views.Animations;
 using Android.Widget;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Android.Graphics;
+using Android.Provider;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	public class CardImageEditFragment : BaseCardEditFragment, RadioGroup.IOnCheckedChangeListener
 	{
+		//keep track of camera capture intent
+
+		//captured picture uri
+		private Android.Net.Uri picUri;
+
+		enum DisplayMode
+		{
+			Front = 0,
+			Back = 1
+		}
+
+		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
+
 		ImageButton btnBack;
 		Button btnCardFront;
 		Button btnCardBack;
+		Button btnSave;
+		Button btnTakePicture;
+		Button btnSelectPicture;
+		Button btnCancelPicture;
 		ImageButton btnCardImageHor;
 		ImageButton btnCardImageVer;
+		ImageView imgPlaceholderHor;
+		ImageView imgPlaceholderVer;
 		RelativeLayout imageWrapperHor;
 		RelativeLayout imageWrapperVer;
+		ProgressBar progressBarCardEdit;
+		RelativeLayout imageSelectOptions;
 
 		string SelectedFrontOrientation;
 		string SelectedBackOrientation;
-		CardEditMode SelectedCardEditMode;
 
+		MobileCardImage CardModel { get; set; }
+
+		const int PICTURE_SELECT = 0;
+		const int CAMERA_CAPTURE = 1;
 		const int PIC_CROP = 2;
+		const int RESULT_OK = -1;
 		const string ORIENTATION_HORIZONTAL = "H";
 		const string ORIENTATION_VERTICAL = "V";
-
-		enum CardEditMode
-		{
-			Front,
-			Back
-		}
 
 		public override void OnDetach ()
 		{
@@ -61,6 +82,12 @@ namespace Busidex.Presentation.Droid.v2
 			base.OnDetach ();
 		}
 
+		public override void OnViewCreated (View view, Bundle savedInstanceState)
+		{
+			base.OnViewCreated (view, savedInstanceState);
+			loadCardImage (MobileCardImage.DisplayMode.Front);
+		}
+
 		public override void OnResume ()
 		{
 			base.OnResume ();
@@ -70,58 +97,50 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-		void cropImage (Android.Net.Uri srcImage, RectangleF rect)
-		{
-			var cropIntent = new Intent ("com.android.camera.action.CROP");
-			//indicate image type and Uri
-			cropIntent.SetData (srcImage);
-			cropIntent.SetType ("image/*");
-			//set crop properties
-			cropIntent.PutExtra ("crop", "true");
-			//indicate aspect of desired crop
-			cropIntent.PutExtra ("aspectX", 1);
-			cropIntent.PutExtra ("aspectY", 1);
-			//indicate output X and Y
-			cropIntent.PutExtra ("outputX", 256);
-			cropIntent.PutExtra ("outputY", 256);
-			//retrieve data on return
-			cropIntent.PutExtra ("return-data", true);
-			//start the activity - we handle returning in onActivityResult
-			StartActivityForResult (cropIntent, PIC_CROP);
-		}
-
-		void setDisplay (CardEditMode mode, string fileName)
+		void setDisplay (MobileCardImage.DisplayMode mode, string fileName)
 		{
 			var uri = !string.IsNullOrEmpty (fileName) ? Android.Net.Uri.Parse (fileName) : null;
 
-			btnCardImageHor.SetImageURI (uri);
-			btnCardImageVer.SetImageURI (uri);
+			imgPlaceholderHor.Visibility = ViewStates.Gone;
+			imgPlaceholderVer.Visibility = ViewStates.Gone;
+			btnCardImageHor.Visibility = ViewStates.Visible;
+			btnCardImageVer.Visibility = ViewStates.Visible;
 
-			setOrientation (mode == CardEditMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
-			SelectedCardEditMode = mode;
+			var bm = Drawable.CreateFromPath (uri.Path);
+			btnCardImageHor.SetImageDrawable (bm);
+			btnCardImageVer.SetImageDrawable (bm);
+			btnCardImageHor.Invalidate ();
+			btnCardImageVer.Invalidate ();
+			setOrientation (mode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
+
+			SelectedDisplayMode = mode;
+
+			CardModel.Orientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Back ? SelectedBackOrientation : SelectedFrontOrientation;
+			CardModel.Side = SelectedDisplayMode;
+
+			hideProgress ();
 		}
 
-		void loadCardImage (CardEditMode mode)
+		async void loadCardImage (MobileCardImage.DisplayMode mode)
 		{
 			try {
 
+				showProgress ();
+
 				if (!SelectedCard.FrontFileId.ToString ().Equals (Mobile.Resources.EMPTY_CARD_ID) &&
 					!SelectedCard.FrontFileId.ToString ().Equals (Mobile.Resources.NULL_CARD_ID)) {
-					var fileName = mode == CardEditMode.Front
+					var fileName = mode == MobileCardImage.DisplayMode.Front
 													   ? SelectedCard.FrontFileId + "." + SelectedCard.FrontType
 													   : SelectedCard.BackFileId + "." + SelectedCard.BackType;
 
-					var fullFileName = Path.Combine (Mobile.Resources.DocumentsPath, fileName);
+					var fullFileName = System.IO.Path.Combine (Mobile.Resources.DocumentsPath, fileName);
 					if (File.Exists (fullFileName)) {
 						setDisplay (mode, fullFileName);
 					} else {
 
-						//ShowOverlay ();
-
-						Utils.DownloadImage (Mobile.Resources.CARD_PATH + fileName, Mobile.Resources.DocumentsPath, fileName).ContinueWith (t => {
+						await Utils.DownloadImage (Mobile.Resources.CARD_PATH + fileName, Mobile.Resources.DocumentsPath, fileName).ContinueWith (t => {
 							Activity.RunOnUiThread (() => {
-								setDisplay (mode, fileName);
-								//Overlay.Hide ();
+								loadCardImage (mode);
 							});
 						});
 					}
@@ -133,33 +152,169 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
+		private void cropImage ()
+		{
+			// assume front
+			double aspectX = 1.5;
+			double aspectY = 1;
+
+			var cropIntent = new Intent ("com.android.camera.action.CROP");
+			//indicate image type and Uri
+			cropIntent.SetDataAndType (picUri, "image/*");
+			//set crop properties
+			cropIntent.PutExtra ("crop", "true");
+			//indicate aspect of desired crop
+			cropIntent.PutExtra ("aspectX", aspectX);
+			cropIntent.PutExtra ("aspectY", aspectY);
+			//indicate output X and Y
+			cropIntent.PutExtra ("outputX", 512);
+			cropIntent.PutExtra ("outputY", 512);
+			//retrieve data on return
+			cropIntent.PutExtra ("return-data", true);
+			//start the activity - we handle returning in onActivityResult
+			StartActivityForResult (cropIntent, PIC_CROP);
+		}
+
+		public override void OnActivityResult (int requestCode, int resultCode, Intent data)
+		{
+			base.OnActivityResult (requestCode, resultCode, data);
+
+			var selectedOrientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? SelectedFrontOrientation : SelectedBackOrientation;
+
+			Bitmap thePic;
+			if (resultCode == RESULT_OK) {
+				switch(requestCode){
+					case PICTURE_SELECT:{
+						picUri = data.Data;
+						cropImage ();
+						break;
+					}
+					case CAMERA_CAPTURE: {
+						picUri = data.Data;
+						cropImage ();
+						break;
+					}
+					case PIC_CROP:{
+						if (data != null) {
+							Bundle extras = data.Extras;
+							//get the cropped bitmap
+							thePic = (Bitmap)extras.GetParcelable ("data");
+
+							btnCardImageHor.SetImageBitmap (thePic);
+							btnCardImageVer.SetImageBitmap (thePic);
+
+							byte [] b;
+							using (var stream = new MemoryStream ()) {
+								thePic.Compress (Bitmap.CompressFormat.Png, 0, stream);
+								b = stream.ToArray ();
+
+								var s = Convert.ToBase64String (b);
+
+								if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+									CardModel.FrontFileId = Guid.NewGuid ();
+								} else {
+									CardModel.BackFileId = Guid.NewGuid ();
+								}
+								CardModel.EncodedCardImage = s;
+								CardModel.Side = SelectedDisplayMode;
+								CardModel.Orientation = selectedOrientation;
+							}
+						}
+						break;
+					}
+				}
+				setCardImageOptionsDisplay (ViewStates.Gone);
+
+				GC.Collect ();
+			} 
+		}
+
+		void setCardImageOptionsDisplay(ViewStates visibility){
+			imageSelectOptions.Visibility = visibility;
+		}
+
+		void takePicture(){
+			imageSelectOptions.Visibility = ViewStates.Gone;
+			var captureIntent = new Intent (MediaStore.ActionImageCapture);
+			//we will handle the returned data in onActivityResult
+			StartActivityForResult (captureIntent, CAMERA_CAPTURE);
+		}
+
+		void selectPicture(){
+			var imageIntent = new Intent ();
+			imageIntent.SetType ("image/*");
+			imageIntent.SetAction (Intent.ActionGetContent);
+			StartActivityForResult (
+				Intent.CreateChooser (imageIntent, "Select photo"), 0);
+		}
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			view = inflater.Inflate (Resource.Layout.CardImageEdit, container, false);
 
 			base.OnCreateView (inflater, container, savedInstanceState);
 
-			updateCover = view.FindViewById<RelativeLayout> (Resource.Id.updateCover);
-			updateCover.Visibility = ViewStates.Gone;
-
 			imageWrapperHor = view.FindViewById<RelativeLayout> (Resource.Id.imageWrapperHor);
 			imageWrapperVer = view.FindViewById<RelativeLayout> (Resource.Id.imageWrapperVer);
 			btnCardImageHor = view.FindViewById<ImageButton> (Resource.Id.btnCardImageHor);
 			btnCardImageVer = view.FindViewById<ImageButton> (Resource.Id.btnCardImageVer);
+			imgPlaceholderHor = view.FindViewById<ImageView> (Resource.Id.imgPlaceholderHor);
+			imgPlaceholderVer = view.FindViewById<ImageView> (Resource.Id.imgPlaceholderVer);
 			btnCardFront = view.FindViewById<Button> (Resource.Id.btnCardFront);
 			btnCardBack = view.FindViewById<Button> (Resource.Id.btnCardBack);
+			btnSave = view.FindViewById<Button> (Resource.Id.btnSave);
+			btnTakePicture = view.FindViewById<Button> (Resource.Id.btnTakePicture);
+			btnSelectPicture = view.FindViewById<Button> (Resource.Id.btnSelectPicture);
+			btnCancelPicture = view.FindViewById<Button> (Resource.Id.btnCancelPicture);
+
+			imageSelectOptions = view.FindViewById<RelativeLayout> (Resource.Id.imageSelectOptions);
+
+			SelectedDisplayMode = MobileCardImage.DisplayMode.Front;
+			SelectedBackOrientation = SelectedCard.FrontOrientation;
+
+			CardModel = new MobileCardImage {
+				Orientation = SelectedCard.FrontOrientation,
+				Side = SelectedDisplayMode,
+				EncodedCardImage = string.Empty
+			};
+
+			imageSelectOptions.Visibility = ViewStates.Gone;
+
+			btnCardImageHor.Click += delegate {
+				setCardImageOptionsDisplay (ViewStates.Visible);	
+			}; 
+
+			btnCardImageVer.Click += delegate {
+				setCardImageOptionsDisplay (ViewStates.Visible);
+			};
+
+			btnCancelPicture.Click += delegate {
+				setCardImageOptionsDisplay (ViewStates.Gone);
+			};
+
+			btnTakePicture.Click += delegate {
+				takePicture ();
+			};
+
+			btnSelectPicture.Click += delegate {
+				selectPicture ();
+			};
 
 			btnCardFront.Click += delegate {
-				toggleSide (CardEditMode.Front);
+				toggleSide (MobileCardImage.DisplayMode.Front);
 			};
 
 			btnCardBack.Click += delegate {
-				toggleSide (CardEditMode.Back);
+				toggleSide (MobileCardImage.DisplayMode.Back);
 			};
 
 			btnBack = view.FindViewById<ImageButton> (Resource.Id.btnBack);
 			btnBack.Click += delegate {
 				((MainActivity)Activity).LoadFragment (new CardMenuFragment ());
+			};
+
+			btnSave.Click += delegate {
+				UISubscriptionService.SaveCardImage (CardModel);
 			};
 
 			SelectedFrontOrientation = SelectedCard.FrontOrientation;
@@ -168,61 +323,40 @@ namespace Busidex.Presentation.Droid.v2
 			var radioGroup = view.FindViewById<RadioGroup> (Resource.Id.rdoOrientation);
 			radioGroup.SetOnCheckedChangeListener (this);
 
-			loadCardImage (CardEditMode.Front);
-
 			return view;
-		}
-
-		void toggleOrientation(){
-
-			var orientation = string.Empty;
-
-			if (SelectedCardEditMode == CardEditMode.Front) {
-				SelectedFrontOrientation = (SelectedFrontOrientation == "H") ? "V" : "H";
-				orientation = SelectedFrontOrientation;
-			} else {
-				SelectedBackOrientation = (SelectedBackOrientation == "H") ? "V" : "H";
-				orientation = SelectedBackOrientation;
-			}
-			setOrientation (orientation);
 		}
 
 		void setOrientation(string orientation){
 
+			if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+				SelectedFrontOrientation = orientation;
+			} else {
+				SelectedBackOrientation = orientation;
+			}
+
 			imageWrapperHor.Visibility = orientation == "H" ? ViewStates.Visible : ViewStates.Gone;
 			imageWrapperVer.Visibility = orientation == "H" ? ViewStates.Gone : ViewStates.Visible;
-
-			//var rotateHorizontal = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeHorizontal);
-			//var rotateVertical = AnimationUtils.LoadAnimation (Activity, Resource.Animation.ResizeVertical);
-
-			//var h = orientation == "H" ? (int)((300) * Resources.DisplayMetrics.Density) : (int)((480) * Resources.DisplayMetrics.Density);
-			//var w = orientation == "H" ? (int)((480) * Resources.DisplayMetrics.Density) : (int)((300) * Resources.DisplayMetrics.Density);
-
-			//var layoutParams = new RelativeLayout.LayoutParams (w, h); //Width, Height
-
-
-			//var rotate = orientation == "H"
-			//	? rotateHorizontal
-			//	: rotateVertical;
-			
-			//imageWrapperHor.StartAnimation (rotate);
 		}
 
-		void toggleSide (CardEditMode mode)
+		void toggleSide (MobileCardImage.DisplayMode mode)
 		{
 			switch (mode) {
-			case CardEditMode.Front: {
+			case MobileCardImage.DisplayMode.Front: {
 					btnCardFront.SetBackgroundResource (Resource.Color.buttonFontColor);
 					btnCardFront.SetTextColor (Resources.GetColor (Resource.Color.buttonWhite));
 					btnCardBack.SetBackgroundResource (Resource.Color.buttonWhite);
 					btnCardBack.SetTextColor (Resources.GetColor (Resource.Color.buttonFontColor));
+					SelectedDisplayMode = MobileCardImage.DisplayMode.Front;
+
 					break;
 				}
-			case CardEditMode.Back: {
+			case MobileCardImage.DisplayMode.Back: {
 					btnCardFront.SetBackgroundResource (Resource.Color.buttonWhite);
 					btnCardFront.SetTextColor (Resources.GetColor (Resource.Color.buttonFontColor));
 					btnCardBack.SetBackgroundResource (Resource.Color.buttonFontColor);
 					btnCardBack.SetTextColor (Resources.GetColor (Resource.Color.buttonWhite));
+					SelectedDisplayMode = MobileCardImage.DisplayMode.Back;
+
 					break;
 				}
 			}

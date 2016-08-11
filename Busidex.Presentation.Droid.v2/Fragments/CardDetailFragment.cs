@@ -36,13 +36,13 @@ namespace Busidex.Presentation.Droid.v2
 
 			btnCard = view.FindViewById<ImageButton> (Resource.Id.imgCardDetail);
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
+			var frontFileName = Path.Combine (Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
 			var frontUri = Uri.Parse (frontFileName);
 
 			if (File.Exists (frontFileName)) {
 				OnImageDownloadCompleted (frontUri);
 			} else {
-				Utils.DownloadImage (Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+				Utils.DownloadImage (Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName, Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 					Activity.RunOnUiThread (() => OnImageDownloadCompleted (frontUri));
 				});
 			}
@@ -83,14 +83,14 @@ namespace Busidex.Presentation.Droid.v2
 			var panel = new ButtonPanelFragment ();
 			panel.SelectedCard = SelectedCard;
 			((MainActivity)Activity).UnloadFragment (panel);
-			Activity.RequestedOrientation = global::Android.Content.PM.ScreenOrientation.Portrait;	
+			Activity.RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;	
 		}
 
 		async Task<bool> ToggleImage ()
 		{
 
-			var frontFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
-			var backFileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName);
+			var frontFileName = Path.Combine (Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName);
+			var backFileName = Path.Combine (Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName);
 			var frontUri = Uri.Parse (frontFileName);
 			var backUri = Uri.Parse (backFileName);
 
@@ -101,9 +101,9 @@ namespace Busidex.Presentation.Droid.v2
 						OnImageDownloadCompleted (frontUri);
 					} else {
 
-						var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName;
+						var imagePath = Mobile.Resources.CARD_PATH + SelectedCard.Card.FrontFileName;
 
-						await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
+						await Utils.DownloadImage (imagePath, Mobile.Resources.DocumentsPath, SelectedCard.Card.FrontFileName).ContinueWith (t => {
 							Activity.RunOnUiThread (() => OnImageDownloadCompleted (frontUri));
 						});
 					}
@@ -123,9 +123,9 @@ namespace Busidex.Presentation.Droid.v2
 							OnImageDownloadCompleted (backUri);
 						} else {
 
-							var imagePath = Busidex.Mobile.Resources.CARD_PATH + SelectedCard.Card.BackFileName;
+							var imagePath = Mobile.Resources.CARD_PATH + SelectedCard.Card.BackFileName;
 
-							await Utils.DownloadImage (imagePath, Busidex.Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName).ContinueWith (t => {
+							await Utils.DownloadImage (imagePath, Mobile.Resources.DocumentsPath, SelectedCard.Card.BackFileName).ContinueWith (t => {
 								Activity.RunOnUiThread (() => OnImageDownloadCompleted (backUri));
 							});
 						}

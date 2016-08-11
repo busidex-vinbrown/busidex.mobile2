@@ -189,11 +189,11 @@
             android:background="@android:drawable/editbox_background"
             android:textColor="@color/buttonFontColor"
             android:layout_marginLeft="48dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="5dp" />
     <!--SIGN OUT-->
         <Button
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:id="@+id/btnLogout"
             android:src="@drawable/button"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -201,8 +201,8 @@
             android:textColor="#ffff5252"
             android:background="@color/listBackgroundLight"
             android:alpha=".8"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="Sign Out"
             android:paddingRight="15dp"
             android:paddingLeft="10dp"
@@ -210,7 +210,7 @@
     <!--PRIVACY-->
         <Button
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:id="@+id/btnPrivacy"
             android:layout_above="@id/btnLogout"
             android:src="@drawable/button"
@@ -219,15 +219,15 @@
             android:textColor="@color/buttonFontColor"
             android:background="@color/listBackgroundLight"
             android:alpha=".8"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="Privacy Policy"
             android:paddingRight="15dp"
             android:paddingLeft="10dp" />
     <!--TERMS AND CONDITIONS-->
         <Button
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:id="@+id/btnTermsAndConditions"
             android:layout_above="@id/btnPrivacy"
             android:src="@drawable/button"
@@ -236,15 +236,15 @@
             android:textColor="@color/buttonFontColor"
             android:background="@color/listBackgroundLight"
             android:alpha=".8"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="Terms and Conditions"
             android:paddingRight="15dp"
             android:paddingLeft="10dp" />
     <!--EDIT CARD-->
         <Button
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:id="@+id/btnEditCard"
             android:layout_above="@id/btnTermsAndConditions"
             android:src="@drawable/button"
@@ -253,8 +253,8 @@
             android:textColor="@color/buttonWhite"
             android:background="@android:color/holo_blue_light"
             android:alpha=".8"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="Add or Edit My Card"
             android:paddingRight="15dp"
             android:paddingLeft="10dp"

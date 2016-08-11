@@ -1,28 +1,11 @@
 ﻿<Properties StartupItem="Busidex.Presentation.Droid.v2/Busidex.Presentation.Droid.v2.csproj" RefactoringSettings.EnableRefactorings="True" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.Droid.v2/Fragments/CardImageEditFragment.cs">
     <Files>
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1098" Column="42" />
-      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardImageEditFragment.cs" Line="177" Column="33" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/CardImageEditFragment.cs" Line="177" Column="3" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/BaseCardEditFragment.cs" Line="51" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="142" Column="79" />
+      <File FileName="Busidex.Presentation.Droid.v2/Resources/values/Colors.xml" Line="14" Column="35" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Busidex.Mobile" expanded="True">
-            <Node name="Busidex.Mobile" expanded="True" />
-            <Node name="Busidex.Presentation.Droid.v2" expanded="True">
-              <Node name="Activities" expanded="True" />
-              <Node name="Fragments" expanded="True" />
-              <Node name="Resources" expanded="True">
-                <Node name="anim" expanded="True">
-                  <Node name="ResizeVertical.xml" selected="True" />
-                </Node>
-                <Node name="layout" expanded="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
