@@ -28,12 +28,28 @@
 
 		public static bool SearchButtonHandlerAssigned;
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			ResetUI ();
+		}
+
+		void ResetUI ()
+		{
+			txtSearch.Text = string.Empty;
+
+			var src = ConfigureTableSourceEventHandlers (new List<UserCard> ());
+			vwSearchResults.Source = src;
+			vwSearchResults.ReloadData ();
+			vwSearchResults.Hidden = true;
+
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
-			vwSearchResults.Hidden = true;
 
 			SearchButtonHandlerAssigned = true;
 
