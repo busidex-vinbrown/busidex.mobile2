@@ -11,8 +11,8 @@ using UIKit;
 
 namespace Busidex.Presentation.iOS
 {
-    [Register ("DataViewController")]
-    partial class DataViewController
+    [Register ("HomeController")]
+    partial class HomeController
     {
         [Outlet]
         UIKit.UILabel dataLabel { get; set; }

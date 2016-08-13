@@ -32,7 +32,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 			
 			// Perform any additional setup after loading the view, typically from a nib.
-			vwTerms.LoadRequest (new NSUrlRequest (new NSUrl (Busidex.Mobile.Resources.TERMS_AND_CONDITIONS_URL)));
+			vwTerms.LoadRequest (new NSUrlRequest (new NSUrl (Mobile.Resources.TERMS_AND_CONDITIONS_URL)));
 
 			btnPrivacy.TouchUpInside += delegate {
 				showPrivacy ();
@@ -42,9 +42,9 @@ namespace Busidex.Presentation.iOS
 		void showPrivacy ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is PrivacyController) == 0) {
-				NavigationController.PushViewController (privacyController, true);
+				NavigationController.PushViewController (BaseNavigationController.privacyController, true);
 			} else {
-				NavigationController.PopToViewController (privacyController, true);
+				NavigationController.PopToViewController (BaseNavigationController.privacyController, true);
 			}
 		}
 	}

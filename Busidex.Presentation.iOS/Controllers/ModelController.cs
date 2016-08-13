@@ -16,26 +16,26 @@ namespace Busidex.Presentation.iOS
 			pageData = new List<string> (formatter.MonthSymbols);
 		}
 
-		public DataViewController GetViewController (int index, UIStoryboard storyboard)
+		public HomeController GetViewController (int index, UIStoryboard storyboard)
 		{
 			if (index >= pageData.Count)
 				return null;
 
 			// Create a new view controller and pass suitable data.
-			var dataViewController = (DataViewController)storyboard.InstantiateViewController ("DataViewController");
+			var dataViewController = (HomeController)storyboard.InstantiateViewController ("DataViewController");
 			dataViewController.DataObject = pageData [index];
 
 			return dataViewController;
 		}
 
-		public int IndexOf (DataViewController viewController)
+		public int IndexOf (HomeController viewController)
 		{
 			return pageData.IndexOf (viewController.DataObject);
 		}
 
 		public override UIViewController GetNextViewController (UIPageViewController pageViewController, UIViewController referenceViewController)
 		{
-			int index = IndexOf ((DataViewController)referenceViewController);
+			int index = IndexOf ((HomeController)referenceViewController);
 
 			if (index == -1 || index == pageData.Count - 1)
 				return null;
@@ -45,7 +45,7 @@ namespace Busidex.Presentation.iOS
 
 		public override UIViewController GetPreviousViewController (UIPageViewController pageViewController, UIViewController referenceViewController)
 		{
-			int index = IndexOf ((DataViewController)referenceViewController);
+			int index = IndexOf ((HomeController)referenceViewController);
 
 			if (index == -1 || index == 0)
 				return null;

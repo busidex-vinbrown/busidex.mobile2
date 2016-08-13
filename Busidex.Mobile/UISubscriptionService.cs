@@ -28,6 +28,7 @@ namespace Busidex.Mobile
 	public delegate void OnNotesUpdatedEventHandler ();
 	public delegate void OnCardInfoUpdatingHandler ();
 	public delegate void OnCardInfoSavedHandler ();
+	public delegate void OnQuickShareLoadedHandler (QuickShareLink link);
 
 	#endregion
 
@@ -56,12 +57,13 @@ namespace Busidex.Mobile
 		public static event OnNotificationCountUpdatedEventHandler OnNotificationCountUpdated;
 		public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 
+		public static event OnQuickShareLoadedHandler OnQuickShareLoaded;
 		#endregion
 
 		static readonly MyBusidexController myBusidexController;
 		static readonly OrganizationController organizationController;
 		static readonly SearchController searchController;
-		static readonly CardController cardController;
+		//static readonly CardController cardController;
 
 		#region Public Properties
 		public static Card OwnedCard { get; set; }
@@ -82,7 +84,18 @@ namespace Busidex.Mobile
 
 		public static List<SharedCard> Notifications { get; set; }
 
-		public static QuickShareLink AppQuickShareLink { get; set; }
+		static QuickShareLink _quickShareLink;
+		public static QuickShareLink AppQuickShareLink { 
+			get{
+				return _quickShareLink;
+			}
+			set {
+				_quickShareLink = value;	
+				if(OnQuickShareLoaded != null){
+					OnQuickShareLoaded (_quickShareLink);
+				}
+			} 
+		}
 
 		public static string AuthToken { get; set; }
 
@@ -116,7 +129,7 @@ namespace Busidex.Mobile
 			myBusidexController = new MyBusidexController ();
 			organizationController = new OrganizationController ();
 			searchController = new SearchController ();
-			cardController = new CardController ();
+			//cardController = new CardController ();
 
 			InitDataStructures ();
 
@@ -139,11 +152,14 @@ namespace Busidex.Mobile
 
 			try {
 				var jsonData = loadFromFile (path);
+				if(string.IsNullOrEmpty(jsonData)){
+					return default(T);
+				}
 				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
 				return result;
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
-				return new T ();
+				Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path, ex));
+				return default(T);
 			}
 		}
 
@@ -163,7 +179,6 @@ namespace Busidex.Mobile
 					OwnedCard = OwnedCard ?? new Card ();
 				}
 			});
-
 
 			UserCards = loadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
 			if (UserCards == null || UserCards.Count == 0) {
@@ -253,6 +268,7 @@ namespace Busidex.Mobile
 		#endregion
 
 		#region Public Methods
+
 		public static List<PhoneNumberType> GetPhoneNumberTypes ()
 		{
 			return new List<PhoneNumberType> {

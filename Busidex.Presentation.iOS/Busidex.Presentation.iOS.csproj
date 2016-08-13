@@ -285,9 +285,9 @@
       <DependentUpon>TermsController.cs</DependentUpon>
     </Compile>
     <Compile Include="Reachability.cs" />
-    <Compile Include="Controllers\DataViewController.cs" />
-    <Compile Include="Controllers\DataViewController.designer.cs">
-      <DependentUpon>DataViewController.cs</DependentUpon>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeController.designer.cs">
+      <DependentUpon>HomeController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\BaseNavigationController.cs" />
     <Compile Include="Controllers\BaseNavigationController.designer.cs">
@@ -364,6 +364,10 @@
     <Compile Include="txtMask.designer.cs">
       <DependentUpon>txtMask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\SharedCardLoadingController.cs" />
+    <Compile Include="Controllers\SharedCardLoadingController.designer.cs">
+      <DependentUpon>SharedCardLoadingController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
@@ -401,6 +405,7 @@
     <InterfaceDefinition Include="Controllers\SearchInfoController.xib" />
     <InterfaceDefinition Include="Controllers\VisibilityController.xib" />
     <InterfaceDefinition Include="Controllers\BaseCardEditController.xib" />
+    <InterfaceDefinition Include="Controllers\SharedCardLoadingController.xib" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

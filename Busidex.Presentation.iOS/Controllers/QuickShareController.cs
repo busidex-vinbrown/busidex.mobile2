@@ -21,8 +21,16 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			SaveFromUrl ();
 			LoadCard ();
 
+
+			//var w = UIApplication.SharedApplication.KeyWindow;
+			//foreach(var view in w.Subviews){
+			//	if(view.Tag == (int)Resources.UIElements.QuickShare){
+			//		((LoadingOverlay)view).Hide ();
+			//	}
+			//}
 		}
 
 		public void SetCardSharingInfo (QuickShareLink link)
@@ -37,7 +45,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.SetNavigationBarHidden (true, true);
 			}
 
-			var cookie = GetAuthCookie ();
+			var cookie = Application.GetAuthCookie ();
 			string token = string.Empty;
 
 			if (cookie != null) {
@@ -93,13 +101,27 @@ namespace Busidex.Presentation.iOS
 
 			lblMessage.Text = string.Format (lblMessage.Text, Link.DisplayName, Link.PersonalMessage.Trim ());
 			lblPersonalMessage.Text = Link.PersonalMessage.Trim ();//+ "\"";
+
+			if (Application.Overlay != null) {
+				Application.Overlay.Hide ();
+				Application.Overlay = null;
+			}
+
+
 		}
 
-		public void SaveFromUrl ()
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			NavigationController.SetToolbarHidden (false, true);
+			NavigationItem.LeftBarButtonItem.CustomView.Hidden = false;
+		}
+
+		void SaveFromUrl ()
 		{
 
-			var sharedCardController = new Busidex.Mobile.SharedCardController ();
-			var cookie = GetAuthCookie ();
+			var _sharedCardController = new Mobile.SharedCardController ();
+			var cookie = Application.GetAuthCookie ();
 
 			string token = cookie.Value;
 			var result = CardController.GetCardById (token, Link.CardId);
@@ -120,7 +142,7 @@ namespace Busidex.Presentation.iOS
 				};
 				UISubscriptionService.AddCardToMyBusidex (userCard);
 
-				sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);
+				_sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);
 				Utils.RemoveQuickShareLink ();
 			}
 

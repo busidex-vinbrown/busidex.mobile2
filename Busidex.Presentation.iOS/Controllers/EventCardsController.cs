@@ -114,11 +114,15 @@ namespace Busidex.Presentation.iOS
 				ResetFilter ();
 				overlays [SelectedTag.Text].Hide ();
 			} else {
-				
-				overlays.Add (SelectedTag.Text, new MyBusidexLoadingOverlay (View.Bounds));
-				overlays [SelectedTag.Text].MessageText = "Loading Event Cards";
-				overlays [SelectedTag.Text].Hidden = false;
-				View.AddSubview (overlays [SelectedTag.Text]);
+
+				if (!overlays.ContainsKey (SelectedTag.Text)) {
+					overlays.Add (SelectedTag.Text, new MyBusidexLoadingOverlay (View.Bounds));
+					overlays [SelectedTag.Text].MessageText = "Loading Event Cards";
+					overlays [SelectedTag.Text].Hidden = false;
+					View.AddSubview (overlays [SelectedTag.Text]);
+				}else{
+					overlays [SelectedTag.Text].Hidden = false;
+				}
 
 				OnEventCardsLoadedEventHandler callback = (tag, list) => {
 

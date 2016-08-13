@@ -1,13 +1,12 @@
 ﻿
 using Foundation;
 using UIKit;
-
-//using WindowsAzure.Messaging;
 using System;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile;
 using BranchXamarinSDK;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -132,8 +131,20 @@ namespace Busidex.Presentation.iOS
 		                                           NSUserActivity userActivity,
 		                                           UIApplicationRestorationHandler completionHandler)
 		{
+			AddOverlay ();
 			bool handledByBranch = BranchIOS.getInstance ().ContinueUserActivity (userActivity);
 			return handledByBranch;
+		}
+
+		void AddOverlay(){
+			if (Application.Overlay == null) {
+				var w = UIApplication.SharedApplication.KeyWindow;
+
+				Application.Overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				Application.Overlay.Tag = (int)Resources.UIElements.QuickShare;
+				w.Add (Application.Overlay);
+				w.SetNeedsLayout ();
+			}
 		}
 
 		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
@@ -141,6 +152,7 @@ namespace Busidex.Presentation.iOS
 			var rUrl = new Rivets.AppLinkUrl (url.ToString ());
 
 			if (rUrl.InputUrl.Equals ("jqle.app.link")) {
+
 				var cardId = string.Empty;
 				var sentFrom = string.Empty;
 				string displayName = string.Empty;
@@ -198,12 +210,13 @@ namespace Busidex.Presentation.iOS
 			if (!string.IsNullOrEmpty (cardId) && !string.IsNullOrEmpty (sentFrom)) {
 				handleQuickShareRouting (long.Parse (cardId), displayName, long.Parse (sentFrom), personalMessage);
 			}
-
 		}
 
 		void handleQuickShareRouting (long cardId, string displayName, long sentFrom, string personalMessage)
 		{
 			if (cardId > 0) {
+
+				AddOverlay ();
 
 				var quickShareLink = new QuickShareLink {
 					CardId = cardId,
@@ -212,22 +225,12 @@ namespace Busidex.Presentation.iOS
 					PersonalMessage = personalMessage
 				};
 
-				if (UISubscriptionService.AuthToken == null) {
-					// If the user is not logged in, save the shared card to file
+				Task.Run (() => {
 					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
 					Utils.SaveResponse (json, Resources.QUICKSHARE_LINK);
-					InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
-				} else {
-					if (Application.MainController == null) {
-						InvokeOnMainThread (() => UISubscriptionService.AppQuickShareLink = quickShareLink);
-					} else {
-						var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-						var quickShareController = storyBoard.InstantiateViewController ("QuickShareController") as QuickShareController;
-						quickShareController.SetCardSharingInfo (quickShareLink);
-						quickShareController.SaveFromUrl ();
-						InvokeOnMainThread (() => Application.MainController.PushViewController (quickShareController, true));
-					}
-				}
+				});
+
+				UISubscriptionService.AppQuickShareLink = quickShareLink;
 			}
 		}
 

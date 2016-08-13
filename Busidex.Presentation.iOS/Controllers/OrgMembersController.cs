@@ -246,9 +246,9 @@ namespace Busidex.Presentation.iOS
 			btnOrgImage.TouchUpInside += delegate {
 				if (IsOrgMember) {
 					if (NavigationController.ViewControllers.Any (c => c as OrganizationDetailController != null)) {
-						NavigationController.PopToViewController (orgDetailController, true);
+						NavigationController.PopToViewController (BaseNavigationController.orgDetailController, true);
 					} else {
-						NavigationController.PushViewController (orgDetailController, true);
+						NavigationController.PushViewController (BaseNavigationController.orgDetailController, true);
 					}
 				}
 			};

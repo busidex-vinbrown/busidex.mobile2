@@ -74,7 +74,7 @@ namespace Busidex.Presentation.iOS
 			// If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
 			currentViewController = pageViewController.ViewControllers [0];
 
-			int index = ModelController.IndexOf ((DataViewController)currentViewController);
+			int index = ModelController.IndexOf ((HomeController)currentViewController);
 			if (index == 0 || index % 2 == 0) {
 				var nextViewController = ModelController.GetNextViewController (pageViewController, currentViewController);
 				viewControllers = new UIViewController[] {

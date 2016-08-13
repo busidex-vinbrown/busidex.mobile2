@@ -53,54 +53,54 @@ namespace Busidex.Presentation.iOS
 		void GoToImageEdit ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is CardImageController) == 0) {
-				NavigationController.PushViewController (cardImageController, true);
+				NavigationController.PushViewController (BaseNavigationController.cardImageController, true);
 			} else {
-				NavigationController.PopToViewController (cardImageController, true);
+				NavigationController.PopToViewController (BaseNavigationController.cardImageController, true);
 			}	
 		}
 
 		void GoToSearchInfo ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is SearchInfoController) == 0) {
-				NavigationController.PushViewController (searchInfoController, true);
+				NavigationController.PushViewController (BaseNavigationController.searchInfoController, true);
 			} else {
-				NavigationController.PopToViewController (searchInfoController, true);
+				NavigationController.PopToViewController (BaseNavigationController.searchInfoController, true);
 			}	
 		}
 
 		void GoToAddressInfo ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is AddressInfoController) == 0) {
-				NavigationController.PushViewController (addressInfoController, true);
+				NavigationController.PushViewController (BaseNavigationController.addressInfoController, true);
 			} else {
-				NavigationController.PopToViewController (addressInfoController, true);
+				NavigationController.PopToViewController (BaseNavigationController.addressInfoController, true);
 			}	
 		}
 
 		void GoToContactInfo ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is ContactInfoController) == 0) {
-				NavigationController.PushViewController (contactInfoController, true);
+				NavigationController.PushViewController (BaseNavigationController.contactInfoController, true);
 			} else {
-				NavigationController.PopToViewController (contactInfoController, true);
+				NavigationController.PopToViewController (BaseNavigationController.contactInfoController, true);
 			}	
 		}
 
 		void GoToVisibility ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is VisibilityController) == 0) {
-				NavigationController.PushViewController (visibilityController, true);
+				NavigationController.PushViewController (BaseNavigationController.visibilityController, true);
 			} else {
-				NavigationController.PopToViewController (visibilityController, true);
+				NavigationController.PopToViewController (BaseNavigationController.visibilityController, true);
 			}	
 		}
 
 		void GoToTags ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is CardTagsController) == 0) {
-				NavigationController.PushViewController (cardTagsController, true);
+				NavigationController.PushViewController (BaseNavigationController.cardTagsController, true);
 			} else {
-				NavigationController.PopToViewController (cardTagsController, true);
+				NavigationController.PopToViewController (BaseNavigationController.cardTagsController, true);
 			}	
 		}
 	}

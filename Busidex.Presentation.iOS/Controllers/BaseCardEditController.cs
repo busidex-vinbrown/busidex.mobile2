@@ -52,7 +52,7 @@ namespace Busidex.Presentation.iOS
 			});
 		}
 
-		protected void CardUpdated ()
+		protected virtual void CardUpdated ()
 		{
 			SelectedCard = UISubscriptionService.OwnedCard;
 

@@ -27,12 +27,12 @@ namespace Busidex.Presentation.iOS
 
 				try{
 					
-					orgDetailController.OrganizationId = orgId;
+					BaseNavigationController.orgDetailController.OrganizationId = orgId;
 
 					if(NavigationController.ViewControllers.Any(c => c as OrganizationDetailController != null)){
-						NavigationController.PopToViewController (orgDetailController, true);
+						NavigationController.PopToViewController (BaseNavigationController.orgDetailController, true);
 					}else{
-						NavigationController.PushViewController (orgDetailController, true);
+						NavigationController.PushViewController (BaseNavigationController.orgDetailController, true);
 					}
 
 				}catch(Exception ex){

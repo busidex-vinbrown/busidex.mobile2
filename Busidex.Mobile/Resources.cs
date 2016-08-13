@@ -135,7 +135,8 @@ namespace Busidex.Mobile
 			RemoveFromMyBusidexButton = 16,
 			AcceptCard = 17,
 			DeclineCard = 18,
-			PersonalMessageLabel = 19
+			PersonalMessageLabel = 19,
+			QuickShare = 20
 		}
 	}
 }

@@ -33,10 +33,26 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+		}
+	
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 
+			ResetUI ();
+		}
+
+		protected override void CardUpdated(){
+			base.CardUpdated ();
+			InvokeOnMainThread (() => {
+				ResetUI ();
+			});
+		}
+
+		void ResetUI(){
 			txtEmail.Text = SelectedCard.Email;
 			txtUrl.Text = SelectedCard.Url;
 			vwNewPhoneNumber.Hidden = true;
@@ -158,8 +174,6 @@ namespace Busidex.Presentation.iOS
 			txtNewPhoneNumber.Text = display;
 		}
 
-
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -271,5 +285,3 @@ namespace Busidex.Presentation.iOS
 		}
 	}
 }
-
-

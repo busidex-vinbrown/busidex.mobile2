@@ -9,16 +9,16 @@ using System.Collections.Generic;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class DataViewController : UIBarButtonItemWithImageViewController
+	public partial class HomeController : UIBarButtonItemWithImageViewController
 	{
 		public string DataObject { get;	set; }
 
-		public DataViewController ()
+		public HomeController ()
 		{
 
 		}
 
-		public DataViewController (IntPtr handle) : base (handle)
+		public HomeController (IntPtr handle) : base (handle)
 		{
 		}
 
@@ -45,6 +45,8 @@ namespace Busidex.Presentation.iOS
 			Task.Run (() => {
 				UISubscriptionService.Init ();
 			});
+
+
 
 			Application.MainController = NavigationController;
 
@@ -126,7 +128,7 @@ namespace Busidex.Presentation.iOS
 			var url = new NSUrl ("https://www.busidex.com/#/faq");
 			UIApplication.SharedApplication.OpenUrl (url);
 
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, String.Empty, 0);
+			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_QUESTIONS, string.Empty, 0);
 		}
 
 		void updateNotifications (List<SharedCard> sharedCards)
@@ -198,6 +200,27 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
+			//try {
+			//if (Application.LoadingSharedCard) {
+			//	if (Overlay == null) {
+			//		Overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+
+			//	}
+			//	Overlay.MessageText = "Loading your shared card...";
+			//	View.Add (Overlay);
+
+			//} else {
+			//	InvokeOnMainThread (() => {
+			//		if (Overlay != null) {
+			//			Overlay.Hide ();
+			//		}
+			//	});
+			//}
+			//} catch (Exception ex) {
+			//	Xamarin.Insights.Report (ex);
+			//}
+
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (true, true);
 			}
@@ -228,14 +251,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			try {
-				if (UISubscriptionService.AppQuickShareLink != null) {
-					GoToQuickShare ();
-					UISubscriptionService.AppQuickShareLink = null;
-				}
-			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
-			}
+
 		}
 
 		void GoToSharedCards ()
@@ -268,7 +284,7 @@ namespace Busidex.Presentation.iOS
 					InvokeOnMainThread (() => {
 						ClearSettings ();
 						UISubscriptionService.Clear ();
-						RemoveAuthCookie ();
+						Application.RemoveAuthCookie ();
 						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
 
 						if (startUpController != null) {

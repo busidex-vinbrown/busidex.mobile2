@@ -18,32 +18,7 @@ namespace Busidex.Presentation.iOS
 		protected LoadingOverlay Overlay;
 		protected string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 
-		public static UIStoryboard board;
-		public static UIStoryboard orgBoard;
-		public static UIStoryboard cardBoard;
-		public static EventListController eventListController;
-		public static EventCardsController eventCardsController;
-		public static MyBusidexController myBusidexController;
-		public static SearchController searchController;
-		public static OrganizationsController organizationsController;
-		public static OrgMembersController orgMembersController;
-		public static DataViewController dataViewController;
-		public static QuickShareController quickShareController;
-		public static ButtonPanelController buttonPanelController;
-		public static SharedCardController sharedCardController;
-		public static OrganizationDetailController orgDetailController;
-		public static SettingsController settingsController;
-		public static TermsController termsController;
-		public static PrivacyController privacyController;
-		public static LoginController loginController;
-		public static CreateProfileController createProfileController;
-		public static CardMenuController cardMenuController;
-		public static CardImageController cardImageController;
-		public static SearchInfoController searchInfoController;
-		public static ContactInfoController contactInfoController;
-		public static CardTagsController cardTagsController;
-		public static AddressInfoController addressInfoController;
-		public static VisibilityController visibilityController;
+
 
 		public BaseController (IntPtr handle) : base (handle)
 		{
@@ -53,37 +28,6 @@ namespace Busidex.Presentation.iOS
 		public BaseController ()
 		{
 
-		}
-
-		protected static void init ()
-		{
-			board = board ?? UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-			orgBoard = orgBoard ?? UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
-			cardBoard = cardBoard ?? UIStoryboard.FromName ("CardEdit_iPhone", null);
-
-			loginController = loginController ?? board.InstantiateViewController ("LoginController") as LoginController;
-			eventListController = eventListController ?? board.InstantiateViewController ("EventListController") as EventListController;
-			eventCardsController = eventCardsController ?? board.InstantiateViewController ("EventCardsController") as EventCardsController;
-			myBusidexController = myBusidexController ?? board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-			searchController = searchController ?? board.InstantiateViewController ("SearchController") as SearchController;
-			organizationsController = organizationsController ?? board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
-			orgMembersController = orgMembersController ?? orgBoard.InstantiateViewController ("OrgMembersController") as OrgMembersController;
-			orgDetailController = orgDetailController ?? orgBoard.InstantiateViewController ("OrganizationDetailController") as OrganizationDetailController;
-			dataViewController = dataViewController ?? board.InstantiateViewController ("DataViewController") as DataViewController;
-			quickShareController = quickShareController ?? board.InstantiateViewController ("QuickShareController") as QuickShareController;
-			buttonPanelController = buttonPanelController ?? board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
-			sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
-			settingsController = settingsController ?? board.InstantiateViewController ("SettingsController") as SettingsController;
-			createProfileController = createProfileController ?? board.InstantiateViewController ("CreateProfileController") as CreateProfileController;
-			termsController = termsController ?? board.InstantiateViewController ("TermsController") as TermsController;
-			privacyController = privacyController ?? board.InstantiateViewController ("PrivacyController") as PrivacyController;
-			cardMenuController = cardMenuController ?? cardBoard.InstantiateViewController ("CardMenuController") as CardMenuController;
-			cardImageController = cardImageController ?? cardBoard.InstantiateViewController ("CardImageController") as CardImageController;
-			searchInfoController = searchInfoController ?? cardBoard.InstantiateViewController ("SearchInfoController") as SearchInfoController;
-			contactInfoController = contactInfoController ?? cardBoard.InstantiateViewController ("ContactInfoController") as ContactInfoController;
-			cardTagsController = cardTagsController ?? cardBoard.InstantiateViewController ("CardTagsController") as CardTagsController;
-			addressInfoController = addressInfoController ?? cardBoard.InstantiateViewController ("AddressInfoController") as AddressInfoController;
-			visibilityController = visibilityController ?? cardBoard.InstantiateViewController ("VisibilityController") as VisibilityController;
 		}
 
 		protected void ShowOverlay ()
@@ -103,6 +47,19 @@ namespace Busidex.Presentation.iOS
 			layer.BorderColor = color;
 
 			return layer;
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+			UISubscriptionService.OnQuickShareLoaded += delegate (QuickShareLink link) {
+				if (NavigationController != null) {
+					((BaseNavigationController)NavigationController).GoToQuickShare (link);
+					if (Application.Overlay != null) {
+						Application.Overlay.Hide ();
+					}
+				}
+			};
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -133,7 +90,7 @@ namespace Busidex.Presentation.iOS
 		protected static bool CheckRefreshCookie (string name)
 		{
 			var user = NSUserDefaults.StandardUserDefaults;
-			String val = user.StringForKey (name);
+			var val = user.StringForKey (name);
 			if (string.IsNullOrEmpty (val)) {
 				SetRefreshCookie (name);
 				return false;
@@ -148,42 +105,6 @@ namespace Busidex.Presentation.iOS
 			return true;
 		}
 
-		public static DateTime NSDateToDateTime (NSDate date)
-		{
-			DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime (
-				                     new DateTime (2001, 1, 1, 0, 0, 0));
-			return reference.AddSeconds (date.SecondsSinceReferenceDate);
-		}
-
-		protected NSHttpCookie SetAuthCookie (long userId)
-		{
-			var nCookie = new System.Net.Cookie ();
-			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
-			DateTime expiration = DateTime.Now.AddYears (1);
-			nCookie.Expires = expiration;
-			nCookie.Value = Utils.EncodeUserId (userId);
-			var cookie = new NSHttpCookie (nCookie);
-
-			NSHttpCookieStorage.SharedStorage.SetCookie (cookie);
-
-			UISubscriptionService.AuthToken = cookie.Value;
-
-			return cookie;
-		}
-
-		public NSHttpCookie GetAuthCookie ()
-		{
-
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-
-			if (cookie == null) {
-				return null;
-			}
-			var expireDate = NSDateToDateTime (cookie.ExpiresDate);
-
-			return (expireDate > DateTime.Now) ? cookie : null;
-		}
-
 		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
 		{
 			var shouldAllowOtherOrientation = ShouldAllowLandscape (); // same here
@@ -194,18 +115,6 @@ namespace Busidex.Presentation.iOS
 		protected bool ShouldAllowLandscape ()
 		{
 			return false; // implement this to return true when u want it
-		}
-
-		protected void RemoveAuthCookie ()
-		{
-
-			var nCookie = new System.Net.Cookie ();
-			nCookie.Name = Resources.AUTHENTICATION_COOKIE_NAME;
-			nCookie.Expires = DateTime.Now.AddDays (-2);
-			var cookie = new NSHttpCookie (nCookie);
-			NSHttpCookieStorage.SharedStorage.SetCookie (cookie);
-
-			Utils.RemoveCacheFiles ();
 		}
 
 		protected virtual void StartSearch ()
@@ -221,38 +130,36 @@ namespace Busidex.Presentation.iOS
 		protected void GoToCardEditMenu ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is CardMenuController) == 0) {
-				NavigationController.PushViewController (cardMenuController, true);
+				NavigationController.PushViewController (BaseNavigationController.cardMenuController, true);
 			} else {
-				NavigationController.PopToViewController (cardMenuController, true);
+				NavigationController.PopToViewController (BaseNavigationController.cardMenuController, true);
 			}	
 		}
 
 		protected void GoToTerms ()
 		{
 			if (NavigationController.ChildViewControllers.Count (c => c is TermsController) == 0) {
-				NavigationController.PushViewController (termsController, true);
+				NavigationController.PushViewController (BaseNavigationController.termsController, true);
 			} else {
-				NavigationController.PopToViewController (termsController, true);
+				NavigationController.PopToViewController (BaseNavigationController.termsController, true);
 			}
 		}
 
 		protected void GoToSettings ()
 		{
-			//settingsController = settingsController ?? Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
-
 			if (NavigationController.ViewControllers.Any (c => c as SettingsController != null)) {
-				NavigationController.PopToViewController (settingsController, true);
+				NavigationController.PopToViewController (BaseNavigationController.settingsController, true);
 			} else {
-				NavigationController.PushViewController (settingsController, true);
+				NavigationController.PushViewController (BaseNavigationController.settingsController, true);
 			}
 		}
 
 		protected void GoToCreateProfile ()
 		{
 			if (NavigationController.ViewControllers.Any (c => c as CreateProfileController != null)) {
-				NavigationController.PopToViewController (createProfileController, true);
+				NavigationController.PopToViewController (BaseNavigationController.createProfileController, true);
 			} else {
-				NavigationController.PushViewController (createProfileController, true);
+				NavigationController.PushViewController (BaseNavigationController.createProfileController, true);
 			}
 		}
 
@@ -261,56 +168,32 @@ namespace Busidex.Presentation.iOS
 			if (NavigationController != null) {
 				NavigationController.SetNavigationBarHidden (true, true);
 			
-				dataViewController = dataViewController ?? Storyboard.InstantiateViewController ("DataViewController") as DataViewController;
-
-				if (NavigationController.ViewControllers.Any (c => c as DataViewController != null)) {
-					NavigationController.PopToViewController (dataViewController, true);
+				if (NavigationController.ViewControllers.Any (c => c as HomeController != null)) {
+					NavigationController.PopToViewController (BaseNavigationController.homeController, true);
 				} else {
-					NavigationController.PushViewController (dataViewController, true);
+					NavigationController.PushViewController (BaseNavigationController.homeController, true);
 				}
 			}
 		}
 
-		protected void GoToQuickShare ()
-		{
-			if (UISubscriptionService.AppQuickShareLink != null) {
-				quickShareController = quickShareController ?? Storyboard.InstantiateViewController ("QuickShareController") as QuickShareController;
-				quickShareController.SetCardSharingInfo (new QuickShareLink {
-					CardId = UISubscriptionService.AppQuickShareLink.CardId,
-					PersonalMessage = UISubscriptionService.AppQuickShareLink.PersonalMessage,
-					From = UISubscriptionService.AppQuickShareLink.From,
-					DisplayName = UISubscriptionService.AppQuickShareLink.DisplayName
-				});
-				quickShareController.SaveFromUrl ();
 
-				if (NavigationController.ViewControllers.Any (c => c as QuickShareController != null)) {
-					NavigationController.PopToViewController (quickShareController, true);
-				} else {
-					NavigationController.PushViewController (quickShareController, true);
-				}
-			} else {
-				GoToMain ();
-			}
-		}
 
 		protected void ShareCard (UserCard seletcedCard)
 		{
 
 			try {
-				UIStoryboard board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
-
-				sharedCardController = sharedCardController ?? board.InstantiateViewController ("SharedCardController") as SharedCardController;
-				sharedCardController.SelectedCard = seletcedCard;
+				
+				BaseNavigationController.sharedCardController.SelectedCard = seletcedCard;
 
 				if (NavigationController.ViewControllers.Any (c => c as SharedCardController != null)) {
-					NavigationController.PopToViewController (sharedCardController, true);
+					NavigationController.PopToViewController (BaseNavigationController.sharedCardController, true);
 				} else {
-					NavigationController.PushViewController (sharedCardController, true);
+					NavigationController.PushViewController (BaseNavigationController.sharedCardController, true);
 				}
 
 				string name = Resources.GA_LABEL_SHARE;
-				if (sharedCardController.SelectedCard != null && sharedCardController.SelectedCard.Card != null) {
-					name = string.IsNullOrEmpty (sharedCardController.SelectedCard.Card.Name) ? sharedCardController.SelectedCard.Card.CompanyName : sharedCardController.SelectedCard.Card.Name;
+				if (BaseNavigationController.sharedCardController.SelectedCard != null && BaseNavigationController.sharedCardController.SelectedCard.Card != null) {
+					name = string.IsNullOrEmpty (BaseNavigationController.sharedCardController.SelectedCard.Card.Name) ? BaseNavigationController.sharedCardController.SelectedCard.Card.CompanyName : BaseNavigationController.sharedCardController.SelectedCard.Card.Name;
 				}
 
 				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_SHARE, name, 0);
@@ -319,51 +202,6 @@ namespace Busidex.Presentation.iOS
 				Xamarin.Insights.Report (ex);
 			}
 		}
-
-		//		protected virtual async Task<int> DoSearch(){
-		//
-		//			Overlay.Hide ();
-		//
-		//			return 1;
-		//		}
-
-		//		public void AddCardToMyBusidexCache(UserCard userCard){
-		//			var fullFilePath = Path.Combine (documentsPath, Resources.MY_BUSIDEX_FILE);
-		//
-		//			string file;
-		//			if (File.Exists (fullFilePath)) {
-		//				using (var myBusidexFile = File.OpenText (fullFilePath)) {
-		//					var myBusidexJson = myBusidexFile.ReadToEnd ();
-		//					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
-		//					if (myBusidexResponse.MyBusidex.Busidex.All (uc => uc.Card.CardId != userCard.Card.CardId)) {
-		//						myBusidexResponse.MyBusidex.Busidex.Add (userCard);
-		//
-		//						myBusidexResponse.MyBusidex.Busidex = myBusidexResponse.MyBusidex.Busidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-		//							.ThenBy (c => c.Card != null ? c.Card.Name : "")
-		//							.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-		//							.ToList ();
-		//
-		//					}
-		//					file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidexResponse);
-		//				}
-		//				Utils.SaveResponse (file, fullFilePath);
-		//
-		//				if (Application.MyBusidex.All (c => c.CardId != userCard.CardId)) {
-		//					Application.MyBusidex.Add (userCard);
-		//					Application.MyBusidex = Application.MyBusidex.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-		//						.ThenBy (c => c.Card != null ? c.Card.Name : "")
-		//						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-		//						.ToList ();
-		//				}
-		//			}
-
-		//			string name = Resources.GA_LABEL_ADD;
-		//			if(userCard != null && userCard.Card != null){
-		//				name = string.IsNullOrEmpty(userCard.Card.Name) ? userCard.Card.CompanyName : userCard.Card.Name;
-		//			}
-		//
-		//			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
-		//		}
 
 		protected bool isProgressFinished (float processed, float total)
 		{

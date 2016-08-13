@@ -96,21 +96,21 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			var cookie = GetAuthCookie ();
-			if (cookie == null) {
+			var token = UISubscriptionService.AuthToken;
+			if (string.IsNullOrEmpty(token)) {
 				return;
 			}
 
-			UpdateDisplayName (cookie.Value);
+			UpdateDisplayName (token);
 
 			lblError.Hidden = true;
 
-			var controller = new Busidex.Mobile.SharedCardController ();
+			var controller = new Mobile.SharedCardController ();
 
 			string response;
 			if (string.IsNullOrEmpty (phoneNumber)) {
 				// send the shared card the 'traditional' way
-				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, cookie.Value);
+				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, token);
 				if (!string.IsNullOrEmpty (response) && response.Contains ("true")) {
 					imgCardShared.Hidden = false;
 				} else {
@@ -121,13 +121,13 @@ namespace Busidex.Presentation.iOS
 				// send text message with quick share link
 				var smsTask = MessagingPlugin.SmsMessenger;
 				if (smsTask.CanSendSms) {
-					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, cookie.Value).ContinueWith (r => {
+					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (r => {
 
 						var user = NSUserDefaults.StandardUserDefaults;
 						var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
 
 						var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
-						var userId = Utils.DecodeUserId (cookie.Value);
+						var userId = Utils.DecodeUserId (token);
 						if (template != null) {
 							string message = string.Format (template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine +
 							                 template.Template.Body;
@@ -214,7 +214,7 @@ namespace Busidex.Presentation.iOS
 			};
 			UITextViewCondition tvReturnCallback = textField => {
 				if (textField == null)
-					throw new ArgumentNullException ("textField");
+					throw new ArgumentNullException (nameof(textField));
 				textField.ResignFirstResponder ();
 				return true;
 			};

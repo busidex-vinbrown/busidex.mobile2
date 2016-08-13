@@ -5,6 +5,7 @@ using Busidex.Mobile.Models;
 using System.IO;
 using Busidex.Mobile;
 using CoreGraphics;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
@@ -122,10 +123,12 @@ namespace Busidex.Presentation.iOS
 
 		protected void ShowCardActions(UserCard card){
 			
-			buttonPanelController.SelectedCard = card;
+			BaseNavigationController.buttonPanelController.SelectedCard = card;
 
-			if (buttonPanelController != null) {
-				NavigationController.PushViewController (buttonPanelController, true);
+			if (NavigationController.ChildViewControllers.Count (c => c is ButtonPanelController) == 0) {
+				NavigationController.PushViewController (BaseNavigationController.buttonPanelController, true);
+			} else {
+				NavigationController.PopToViewController (BaseNavigationController.buttonPanelController, true);
 			}
 		}
 

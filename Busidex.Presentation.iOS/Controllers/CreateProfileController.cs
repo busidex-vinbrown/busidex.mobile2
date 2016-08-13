@@ -140,13 +140,13 @@ namespace Busidex.Presentation.iOS
 				imgPasswordSaved.Hidden = false;
 				lblPasswordError.Hidden = true;
 
-				var loginContrller = new Busidex.Mobile.LoginController ();
+				var loginContrller = new Mobile.LoginController ();
 				loginContrller.DoLogin (email, password).ContinueWith (response => {
 					var loginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse> (response.Result);
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;
 
-					SetAuthCookie (userId);
+					Application.SetAuthCookie (userId);
 
 					InvokeOnMainThread (() => {
 						GoToMain ();

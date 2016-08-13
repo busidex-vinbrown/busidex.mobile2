@@ -48,7 +48,7 @@ namespace Busidex.Presentation.iOS
 
 		protected void OnSwipeLeft ()
 		{
-			if (this is DataViewController) {
+			if (this is HomeController) {
 				GoToSearch (BaseNavigationController.NavigationDirection.Forward);
 			}
 			if (this is SearchController) {
@@ -83,7 +83,7 @@ namespace Busidex.Presentation.iOS
 			View.AddGestureRecognizer (swiperRight);
 			View.AddGestureRecognizer (swiperLeft);
 
-			if (this is DataViewController) {
+			if (this is HomeController) {
 				View.AddGestureRecognizer (swiperDown);
 			}
 
@@ -157,9 +157,9 @@ namespace Busidex.Presentation.iOS
 			((BaseNavigationController)NavigationController).Direction = direction;
 
 			if (NavigationController.ViewControllers.Any (c => c as MyBusidexController != null)) {
-				NavigationController.PopToViewController (myBusidexController, true);
+				NavigationController.PopToViewController (BaseNavigationController.myBusidexController, true);
 			} else {
-				NavigationController.PushViewController (myBusidexController, true);
+				NavigationController.PushViewController (BaseNavigationController.myBusidexController, true);
 			}
 		}
 
@@ -171,9 +171,9 @@ namespace Busidex.Presentation.iOS
 			((BaseNavigationController)NavigationController).Direction = direction;
 
 			if (NavigationController.ViewControllers.Any (c => c as SearchController != null)) {
-				NavigationController.PopToViewController (searchController, true);
+				NavigationController.PopToViewController (BaseNavigationController.searchController, true);
 			} else {
-				NavigationController.PushViewController (searchController, true);
+				NavigationController.PushViewController (BaseNavigationController.searchController, true);
 			}
 		}
 
@@ -186,9 +186,9 @@ namespace Busidex.Presentation.iOS
 				((BaseNavigationController)NavigationController).Direction = direction;
 
 				if (NavigationController.ViewControllers.Any (c => c as OrganizationsController != null)) {
-					NavigationController.PopToViewController (organizationsController, true);
+					NavigationController.PopToViewController (BaseNavigationController.organizationsController, true);
 				} else {
-					NavigationController.PushViewController (organizationsController, true);
+					NavigationController.PushViewController (BaseNavigationController.organizationsController, true);
 				}
 			} catch (Exception ex) {
 				new UIAlertView ("Error", ex.Message, null, "OK", null).Show ();
@@ -208,9 +208,9 @@ namespace Busidex.Presentation.iOS
 			((BaseNavigationController)NavigationController).Direction = direction;
 
 			if (NavigationController.ViewControllers.Any (c => c as EventListController != null)) {
-				NavigationController.PopToViewController (eventListController, true);
+				NavigationController.PopToViewController (BaseNavigationController.eventListController, true);
 			} else {
-				NavigationController.PushViewController (eventListController, true);
+				NavigationController.PushViewController (BaseNavigationController.eventListController, true);
 			}
 		}
 
@@ -224,16 +224,16 @@ namespace Busidex.Presentation.iOS
 				if (NavigationController.ViewControllers.Length > 0 && NavigationController.ViewControllers [NavigationController.ViewControllers.Length - 1]  is EventListController) {
 					return;
 				}
-				orgMembersController.OrganizationId = org.OrganizationId;
-				orgMembersController.OrganizationMemberMode = mode;
-				orgMembersController.OrganizationName = org.Name;
-				orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
-				orgMembersController.IsOrgMember = org.IsMember;
+				BaseNavigationController.orgMembersController.OrganizationId = org.OrganizationId;
+				BaseNavigationController.orgMembersController.OrganizationMemberMode = mode;
+				BaseNavigationController.orgMembersController.OrganizationName = org.Name;
+				BaseNavigationController.orgMembersController.OrganizationLogo = org.LogoFileName + "." + org.LogoType;
+				BaseNavigationController.orgMembersController.IsOrgMember = org.IsMember;
 
 				if (NavigationController.ViewControllers.Any (c => c as OrgMembersController != null)) {
-					NavigationController.PopToViewController (orgMembersController, true);
+					NavigationController.PopToViewController (BaseNavigationController.orgMembersController, true);
 				} else {
-					NavigationController.PushViewController (orgMembersController, true);
+					NavigationController.PushViewController (BaseNavigationController.orgMembersController, true);
 				}
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
@@ -244,10 +244,10 @@ namespace Busidex.Presentation.iOS
 		{
 			((BaseNavigationController)NavigationController).Direction = BaseNavigationController.NavigationDirection.Backward;
 
-			if (NavigationController.ViewControllers.Any (c => c as DataViewController != null)) {
-				NavigationController.PopToViewController (dataViewController, true);
+			if (NavigationController.ViewControllers.Any (c => c as HomeController != null)) {
+				NavigationController.PopToViewController (BaseNavigationController.homeController, true);
 			} else {
-				NavigationController.PushViewController (dataViewController, true);
+				NavigationController.PushViewController (BaseNavigationController.homeController, true);
 			}
 		}
 

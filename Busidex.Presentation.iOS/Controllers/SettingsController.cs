@@ -62,7 +62,7 @@ namespace Busidex.Presentation.iOS
 
 					var userId = loginResponse != null ? loginResponse.UserId : 0;
 
-					SetAuthCookie (userId);
+					Application.SetAuthCookie (userId);
 
 					InvokeOnMainThread (() => {
 						GoToMain ();

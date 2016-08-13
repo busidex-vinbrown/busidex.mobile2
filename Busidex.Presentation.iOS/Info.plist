@@ -88,5 +88,7 @@
 			<string>Viewer</string>
 		</dict>
 	</array>
+	<key>CFBundleName</key>
+	<string>Busidex</string>
 </dict>
 </plist>

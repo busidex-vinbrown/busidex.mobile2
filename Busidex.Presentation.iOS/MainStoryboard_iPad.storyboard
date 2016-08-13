@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4478" systemVersion="13A510c" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="703-4V-yAM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
     </dependencies>
     <scenes>
         <!--class Prefix:identifier Root View Controller-->
@@ -26,7 +26,7 @@
         <!--class Prefix:identifier Data View Controller-->
         <scene sceneID="snT-py-3hH">
             <objects>
-                <viewController storyboardIdentifier="DataViewController" id="S4R-Ja-viH" customClass="DataViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeController" id="S4R-Ja-viH" customClass="HomeController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fXf-Jd-eTc"/>
                         <viewControllerLayoutGuide type="bottom" id="EPS-s9-h4K"/>
@@ -72,4 +72,92 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <resources>
+        <image name="add.png" width="128" height="128"/>
+        <image name="browser.png" width="512" height="512"/>
+        <image name="Busidex-icon.png" width="252" height="220"/>
+        <image name="card-ring.png" width="412" height="372"/>
+        <image name="checkmark.png" width="16" height="16"/>
+        <image name="defaultUserImage.png" width="512" height="512"/>
+        <image name="email-icon.png" width="396" height="408"/>
+        <image name="fb.png" width="256" height="256"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Busidex Logo Concepts.png" width="261" height="248"/>
+        <image name="maps.png" width="64" height="64"/>
+        <image name="notes.png" width="256" height="256"/>
+        <image name="People.jpg" width="259" height="194"/>
+        <image name="phone.png" width="64" height="64"/>
+        <image name="red_minus.png" width="128" height="128"/>
+        <image name="remove.png" width="128" height="128"/>
+        <image name="settings.png" width="64" height="64"/>
+        <image name="share.png" width="128" height="128"/>
+        <image name="signin.png" width="256" height="256"/>
+        <image name="spotlight-icon.png" width="100" height="100"/>
+        <image name="sync.png" width="42" height="43"/>
+        <image name="twitter.png" width="128" height="128"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="Default-568h.png" width="320" height="568"/>
+        <image name="Default-Portrait.png" width="768" height="1024"/>
+        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="icons/Default-568h.png" width="320" height="568"/>
+        <image name="icons/busidex_artwork_1024x1024.png" width="1024" height="1024"/>
+        <image name="icons/busidex_artwork_512x512.png" width="512" height="512"/>
+        <image name="icons/busidex_splash_320x480.png" width="320" height="480"/>
+        <image name="icons/busidex_splash_640x1136.png" width="640" height="1136"/>
+        <image name="icons/busidex_splash_640x960.png" width="640" height="960"/>
+        <image name="icons/ipad_launch_1024x768px.png" width="1024" height="768"/>
+        <image name="icons/ipad_launch_1536x2048px.png" width="1536" height="2048"/>
+        <image name="icons/ipad_launch_2048x1536px.png" width="2048" height="1536"/>
+        <image name="icons/ipad_launch_768x1024px.png" width="768" height="1024"/>
+        <image name="Icon.png" width="57" height="57"/>
+        <image name="Icon-60.png" width="60" height="60"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Exit.png" width="60" height="60"/>
+        <image name="delete.png" width="102" height="102"/>
+        <image name="delete.jpeg" width="204" height="204"/>
+        <image name="event.jpg" width="200" height="200"/>
+        <image name="event.png" width="173" height="120"/>
+        <image name="logo3.png" width="77" height="72"/>
+        <image name="spotlight-icon2.png" width="130" height="130"/>
+        <image name="EventIcon.png" width="105" height="105"/>
+        <image name="MyBusidexIcon.png" width="105" height="105"/>
+        <image name="OrganizationsIcon.png" width="105" height="105"/>
+        <image name="SearchIcon.png" width="105" height="105"/>
+        <image name="background_blur5.png" width="280" height="450"/>
+        <image name="cards_back2.png" width="324" height="486"/>
+        <image name="main_blur2.png" width="599" height="899"/>
+        <image name="profile2_blur.png" width="584" height="876"/>
+        <image name="roundback.png" width="381" height="235"/>
+        <image name="EventIcon_disabled.png" width="105" height="105"/>
+        <image name="MyBusidexIcon_disabled.png" width="105" height="105"/>
+        <image name="OrganizationsIcon_disabled.png" width="105" height="105"/>
+        <image name="SearchIcon_disabled.png" width="105" height="105"/>
+        <image name="EventIconBack.png" width="105" height="105"/>
+        <image name="FAQ.png" width="105" height="105"/>
+        <image name="Notification.png" width="105" height="105"/>
+        <image name="button.png" width="284" height="98"/>
+        <image name="textmessage.png" width="256" height="256"/>
+        <image name="contacts.jpg" width="175" height="175"/>
+        <image name="contacts2.png" width="250" height="250"/>
+        <image name="ShareIcon.png" width="105" height="105"/>
+        <image name="spinner.gif" width="150" height="150"/>
+        <image name="default_photo.png" width="64" height="64"/>
+        <image name="rotate.png" width="484" height="432"/>
+        <image name="contacts_64x64.png" width="64" height="64"/>
+        <image name="search_64x64.png" width="64" height="64"/>
+        <image name="tags_64x64.png" width="64" height="64"/>
+        <image name="visibility_64x64.png" width="64" height="64"/>
+        <image name="default_photo_64x64.png" width="64" height="64"/>
+        <image name="ddArrow.gif" width="21" height="23"/>
+        <image name="radio_off.png" width="128" height="128"/>
+        <image name="radio_on.png" width="128" height="128"/>
+        <image name="add2.png" width="30" height="30"/>
+        <image name="edit.png" width="50" height="43"/>
+        <image name="delete2.png" width="22" height="30"/>
+        <image name="card_guide.png" width="320" height="568"/>
+        <image name="button_cancel.png" width="284" height="98"/>
+    </resources>
 </document>

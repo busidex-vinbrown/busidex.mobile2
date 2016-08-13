@@ -43,7 +43,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			var cookie = GetAuthCookie ();
+			var cookie = Application.GetAuthCookie ();
 			long userId;
 			if (cookie != null) {
 				userId = Utils.DecodeUserId (cookie.Value);
@@ -61,7 +61,7 @@ namespace Busidex.Presentation.iOS
 				UIApplication.SharedApplication.OpenUrl (new NSUrl (Resources.FORGOT_USERNAME_URL));
 			};
 
-			btnLogin.TouchUpInside += (o, s) => DoLogin ();
+			btnLogin.TouchUpInside += async (o, s) => await DoLogin ();
 		}
 
 		bool loggingIn;
@@ -94,8 +94,8 @@ namespace Busidex.Presentation.iOS
 				loggingIn = true;
 
 				spinImage ();
-				var loginController = new Busidex.Mobile.LoginController ();
-				await loginController.DoLogin (username, password).ContinueWith (async response => {
+				var _loginController = new Mobile.LoginController ();
+				await _loginController.DoLogin (username, password).ContinueWith (async response => {
 					string result = await response;
 					if (string.IsNullOrEmpty (result)) {
 						InvokeOnMainThread (() => {
@@ -122,7 +122,7 @@ namespace Busidex.Presentation.iOS
 
 						if (UserId > 0) {
 
-							SetAuthCookie (UserId);
+						    Application.SetAuthCookie (UserId);
 
 							//UISubscriptionService.Sync ();
 							UISubscriptionService.LoadUser ();
@@ -139,8 +139,7 @@ namespace Busidex.Presentation.iOS
 
 							var quickShareLink = Utils.GetQuickShareLink ();
 							if (quickShareLink != null) {
-								
-								InvokeOnMainThread (GoToQuickShare);
+								InvokeOnMainThread (()=> ((BaseNavigationController)NavigationController).GoToQuickShare(quickShareLink));
 							} else {
 								InvokeOnMainThread (GoToMain);
 							}

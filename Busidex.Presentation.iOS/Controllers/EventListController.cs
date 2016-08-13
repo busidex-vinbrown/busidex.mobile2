@@ -83,12 +83,12 @@ namespace Busidex.Presentation.iOS
 			
 		void GoToEvent(EventTag item){
 			
-			if (eventCardsController != null) {
-				eventCardsController.SelectedTag = item;
+			if (BaseNavigationController.eventCardsController != null) {
+				BaseNavigationController.eventCardsController.SelectedTag = item;
 				if(NavigationController.ViewControllers.Any(c => c as EventCardsController != null)){
-					NavigationController.PopToViewController (eventCardsController, true);
+					NavigationController.PopToViewController (BaseNavigationController.eventCardsController, true);
 				}else{
-					NavigationController.PushViewController (eventCardsController, true);
+					NavigationController.PushViewController (BaseNavigationController.eventCardsController, true);
 				}
 			}
 		}

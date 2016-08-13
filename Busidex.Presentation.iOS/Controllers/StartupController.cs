@@ -1,13 +1,11 @@
 ﻿using System;
-using Foundation;
 using UIKit;
 using System.Linq;
-using Busidex.Mobile;
 using GoogleAnalytics.iOS;
 
 namespace Busidex.Presentation.iOS
 {
-	partial class StartupController : BaseController
+	public partial class StartupController : BaseController
 	{
 		const string TEST_ACCOUNT_ID = "45ef6a4e-3c9d-452c-9409-9e4d7b6e532f";
 		const bool DEVELOPMENT_MODE = false;
@@ -26,22 +24,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			init ();
-
 			SetPosition ();
-
-			var cookie = NSHttpCookieStorage.SharedStorage.Cookies.SingleOrDefault (c => c.Name == Resources.AUTHENTICATION_COOKIE_NAME);
-
-			if (cookie != null) {
-
-				UISubscriptionService.AuthToken = cookie.Value;
-
-				if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
-					GoToCreateProfile ();
-				} else {
-					GoToMain ();
-				}
-			}
 
 			btnStart.TouchUpInside += delegate {
 				GoToCreateProfile ();
@@ -94,9 +77,9 @@ namespace Busidex.Presentation.iOS
 		void GoToLogin ()
 		{
 			if (NavigationController.ViewControllers.Any (c => c as LoginController != null)) {
-				NavigationController.PopToViewController (loginController, true);
+				NavigationController.PopToViewController (BaseNavigationController.loginController, true);
 			} else {
-				NavigationController.PushViewController (loginController, true);
+				NavigationController.PushViewController (BaseNavigationController.loginController, true);
 			}
 		}
 
