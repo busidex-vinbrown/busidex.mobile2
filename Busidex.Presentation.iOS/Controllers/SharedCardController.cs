@@ -121,7 +121,7 @@ namespace Busidex.Presentation.iOS
 				// send text message with quick share link
 				var smsTask = MessagingPlugin.SmsMessenger;
 				if (smsTask.CanSendSms) {
-					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (r => {
+					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (async r => {
 
 						var user = NSUserDefaults.StandardUserDefaults;
 						var displayName = user.StringForKey (Resources.USER_SETTING_DISPLAYNAME);
@@ -130,8 +130,8 @@ namespace Busidex.Presentation.iOS
 						var userId = Utils.DecodeUserId (token);
 						if (template != null) {
 							string message = string.Format (template.Template.Subject, displayName) + Environment.NewLine + Environment.NewLine +
-							                 template.Template.Body;
-							
+											 template.Template.Body;
+
 							var parameters = new QuickShareLink {
 								CardId = SelectedCard.Card.CardId,
 								From = userId,
@@ -145,6 +145,8 @@ namespace Busidex.Presentation.iOS
 
 								var branchUrl = Newtonsoft.Json.JsonConvert.DeserializeObject<BranchUrl> (shortendUrl);
 								message = message + branchUrl.url;
+
+								await SMSShareController.SaveSmsShare (parameters.From, parameters.CardId, phoneNumber, parameters.PersonalMessage, UISubscriptionService.AuthToken);
 
 								InvokeOnMainThread (() => {
 									smsTask.SendSms (phoneNumber, message);

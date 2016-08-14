@@ -127,7 +127,7 @@ namespace Busidex.Presentation.Droid.v2
 			if (!string.IsNullOrEmpty (phoneNumber)) {
 				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace (" ", "");
 				var smsTask = MessagingPlugin.SmsMessenger;
-				EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, UISubscriptionService.AuthToken).ContinueWith (r => {
+				EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, UISubscriptionService.AuthToken).ContinueWith (async r => {
 
 					var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
 					if (template != null) {
@@ -146,6 +146,8 @@ namespace Busidex.Presentation.Droid.v2
 
 							var branchUrl = Newtonsoft.Json.JsonConvert.DeserializeObject<BranchUrl> (shortendUrl);
 							message = message + branchUrl.url;
+
+							await SMSShareController.SaveSmsShare (parameters.From, parameters.CardId, phoneNumber, parameters.PersonalMessage, UISubscriptionService.AuthToken);
 
 							Activity.RunOnUiThread (() => smsTask.SendSms (phoneNumber, message));
 						} else {

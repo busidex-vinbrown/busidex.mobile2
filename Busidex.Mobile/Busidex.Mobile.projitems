@@ -85,6 +85,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\MobileCardImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CardVisibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BusidexStringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SMSShareController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SMSShare.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
