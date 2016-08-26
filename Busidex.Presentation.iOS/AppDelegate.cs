@@ -64,6 +64,8 @@ namespace Busidex.Presentation.iOS
 
 			BranchIOS.Init (Resources.BRANCH_KEY, launchOptions, this);
 
+			CheckAppVersion ();
+
 			return true;
 		}
 
@@ -103,6 +105,30 @@ namespace Busidex.Presentation.iOS
 		//
 		public override void OnResignActivation (UIApplication application)
 		{
+		}
+
+		async void UpdateAppVersion(){
+			await UserDeviceController.UpdateDeviceDetails (DeviceType.iPhone, Application.APP_VERSION, UISubscriptionService.AuthToken);
+		}
+
+		void CheckAppVersion(){
+			UserDeviceController.GetCurrentAppInfo (UISubscriptionService.AuthToken).ContinueWith ((device) => {
+				if (device == null || device.Result == null || device.Result.iOS > Application.APP_VERSION) {
+					const string MESSAGE = "There are critical updates available. You need to update the app now to get the latest features and bug fixes.";
+					InvokeOnMainThread (() => {
+						Application.ShowAlert ("Critical Updates", MESSAGE, new [] { "Update Now", "Update Later" }).ContinueWith (button => {
+							if (button.Result == 0) {
+								InvokeOnMainThread (() => {
+									var url = new NSUrl (Resources.IOS_UPDATE_URL);
+									UIApplication.SharedApplication.OpenUrl (url);
+								});
+							}
+						});
+					});
+				}else{
+					UpdateAppVersion ();
+				}
+			});
 		}
 
 		// This method should be used to release shared resources and it should store the application state.

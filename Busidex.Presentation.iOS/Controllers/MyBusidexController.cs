@@ -97,7 +97,7 @@ namespace Busidex.Presentation.iOS
 		public void LoadMyBusidex ()
 		{
 
-			bool refreshCookieOk = CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
+			bool refreshCookieOk = Application.CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
 
 			if ((UISubscriptionService.MyBusidexLoaded && refreshCookieOk)) {
 				ResetFilter ();

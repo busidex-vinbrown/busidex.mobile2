@@ -33,6 +33,7 @@ namespace Busidex.Presentation.iOS
 
 		bool frontImageChanged;
 		bool backImageChanged;
+		bool animationInProgress;
 
 		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
 
@@ -45,9 +46,21 @@ namespace Busidex.Presentation.iOS
 		const string ORIENTATION_VERTICAL = "V";
 
 		string SelectedOrientation;
+		struct TempCardInfo {
+			public string FrontFileName { get; set;}
+			public string BackFileName { get; set; }
+			public Guid? FrontFileId { get; set; }
+			public Guid? BackFileId { get; set; }
+			public string FrontType { get; set; }
+			public string BackType { get; set; }
+			public string FrontOrientation { get; set; }
+			public string BackOrientation { get; set; }
+		};
+
+		TempCardInfo tempCard = new TempCardInfo();
 
 		MobileCardImage CardModel { get; set; }
-
+	
 		public CardImageController (IntPtr handle) : base (handle)
 		{
 		}
@@ -132,9 +145,45 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+		protected override void CardUpdated(){
+			base.CardUpdated ();
+			setTempCardInfo ();
+
+			backImageChanged = frontImageChanged = false;
+
+			var fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+																 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
+																 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+			InvokeOnMainThread (() => {
+				setDisplay (fileName);
+			});
+
+
+		}
+
 		void setImageSelectionUI (bool visible)
 		{
 			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = btnReset.Hidden = !visible;
+		}
+
+		void setTempCardInfo(){
+			tempCard.BackFileId = SelectedCard.BackFileId;
+			tempCard.BackOrientation = SelectedCard.BackOrientation;
+			tempCard.BackType = SelectedCard.BackType;
+			tempCard.FrontFileId = SelectedCard.FrontFileId;
+			tempCard.FrontType = SelectedCard.FrontType;
+			tempCard.FrontOrientation = SelectedCard.FrontOrientation;
+		}
+
+		void restoreCardInfo(){
+			SelectedCard.BackFileId = tempCard.BackFileId;
+			SelectedCard.BackOrientation = tempCard.BackOrientation;
+			SelectedCard.BackType = tempCard.BackType;
+			SelectedCard.FrontFileId = tempCard.FrontFileId;
+			SelectedCard.FrontType = tempCard.FrontType;
+			SelectedCard.FrontOrientation = tempCard.FrontOrientation;
+
+			backImageChanged = frontImageChanged = false;
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -146,7 +195,10 @@ namespace Busidex.Presentation.iOS
 			setImageSelectionUI (false);
 
 			SelectedCard = UISubscriptionService.OwnedCard;
+			setTempCardInfo ();
+
 			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
+			//SelectedDisplayMode = SelectedDisplayMode == MobileCardImage.DisplayMode.None ? MobileCardImage.DisplayMode.Front : SelectedDisplayMode;
 
 			CardModel = new MobileCardImage {
 				Orientation = SelectedOrientation,
@@ -162,7 +214,9 @@ namespace Busidex.Presentation.iOS
 
 						var frontFileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
 						if (File.Exists (frontFileName)) {
-							setDisplay (frontFileName);
+							if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+								setDisplay (frontFileName);
+							}
 						} else {
 
 							ShowOverlay ();
@@ -176,11 +230,22 @@ namespace Busidex.Presentation.iOS
 						}
 
 						var backFileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+
 						if (!File.Exists (backFileName)) {
 							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
-
+								if (SelectedDisplayMode == MobileCardImage.DisplayMode.Back) {
+									InvokeOnMainThread (() => {
+										setDisplay (backFileName);
+										Overlay.Hide ();
+									});
+								}
 							});
+						}else{
+							if (SelectedDisplayMode == MobileCardImage.DisplayMode.Back) {
+								setDisplay (backFileName);
+							}
 						}
+						
 					} else {
 						setDisplay (string.Empty);
 					}
@@ -198,6 +263,13 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			//CardUpdated ();
+			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
+		}
 
 		void setImage (MediaFile picture)
 		{
@@ -251,6 +323,16 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		void saveImage(){
+
+			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
+			UISubscriptionService.OnCardInfoSaved += CardUpdated;
+
+			UISubscriptionService.SaveCardImage (CardModel);
+
+			setTempCardInfo ();
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -297,7 +379,7 @@ namespace Busidex.Presentation.iOS
 			btnCardImage.TouchUpInside += (sender, args) => {
 
 				if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported) {
-					ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
+					Application.ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
 					return;
 				}
 
@@ -330,7 +412,7 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnSave.TouchUpInside += delegate {
-				UISubscriptionService.SaveCardImage (CardModel);
+				saveImage ();
 			};
 		}
 
@@ -372,13 +454,35 @@ namespace Busidex.Presentation.iOS
 			CardModel.Orientation = SelectedOrientation;
 		}
 
-		void toggle (MobileCardImage.DisplayMode mode)
+		async void toggle (MobileCardImage.DisplayMode mode)
 		{
+			if(mode == SelectedDisplayMode || animationInProgress){
+				return;
+			}
+			string fileName;
+
+			if(frontImageChanged || backImageChanged){
+				var choice = await Application.ShowAlert ("Card Image Changed", "You have updated your card image. Save before changing?", new [] { "Ok", "Cancel" });
+				if(choice == 1){
+					restoreCardInfo ();
+					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+																	 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
+																	 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+					InvokeOnMainThread (() => {
+						setDisplay (fileName);
+					});
+
+					return;
+				}else{
+					saveImage ();
+					return;
+				}
+			}
+
 			SelectedDisplayMode = mode;
 
 			CardModel.Side = mode;
 
-			string fileName;
 			if (mode == MobileCardImage.DisplayMode.Front) {
 				btnFront.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnFront.BackgroundColor = UIColor.Blue;
@@ -388,7 +492,7 @@ namespace Busidex.Presentation.iOS
 
 				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
 				if (!File.Exists (fileName)) {
-					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
+					await Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
 							setDisplay (fileName);
 							if (Overlay != null) {
@@ -410,7 +514,7 @@ namespace Busidex.Presentation.iOS
 				} else {
 					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
 					if (!File.Exists (fileName)) {
-						Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
+						await Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
 								setDisplay (fileName);
 								if (Overlay != null) {
@@ -427,16 +531,16 @@ namespace Busidex.Presentation.iOS
 				() => {
 					btnRotate.Hidden = true;
 					btnCardImage.Transform = CGAffineTransform.MakeScale (0.01f, 1.1f);
-
+					animationInProgress = true;
 				},
 				() => {
 					UIView.Animate (ANIMATION_SPPED_FAST, 0, UIViewAnimationOptions.CurveEaseInOut,
 						() => {
-							//btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
 							setDisplay (fileName);
 							btnCardImage.Transform = CGAffineTransform.MakeScale (1.0f, 1.0f);
 						},
 						() => {
+							animationInProgress = false;
 							btnRotate.Hidden = false;
 						});
 				});
@@ -451,11 +555,23 @@ namespace Busidex.Presentation.iOS
 				btnCardImage.SetBackgroundImage (null, UIControlState.Normal);
 			} else {
 				btnCardImage.SetImage (null, UIControlState.Normal);
-				if (SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL) {
-					btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+				//if (SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL) {
+				if (!File.Exists (fileName)) {
+					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontFileName : SelectedCard.BackFileName;
+					Utils.DownloadImage (Resources.CARD_PATH + fileName, documentsPath, fileName).ContinueWith (t => {
+						InvokeOnMainThread (() => {
+							setDisplay (fileName);
+							if (Overlay != null) {
+								Overlay.Hide ();
+							}
+						});
+					});
 				} else {
 					btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
 				}
+				//} else {
+				//	btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+				//}
 			}
 		}
 	}

@@ -26,6 +26,10 @@ namespace Busidex.Presentation.iOS
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
+			if (SelectedCard.CardId <= 0) {
+				UISubscriptionService.LoadOwnedCard ();
+			}
+
 			if (overlay == null) {
 				overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
 			}
@@ -35,9 +39,9 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillDisappear (animated);
 
-			CardUpdated ();
-			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
-			UISubscriptionService.OnCardInfoUpdating -= CardUpdating;
+			//CardUpdated ();
+			//UISubscriptionService.OnCardInfoSaved -= CardUpdated;
+			//UISubscriptionService.OnCardInfoUpdating -= CardUpdating;
 		}
 
 		protected void CardUpdating ()

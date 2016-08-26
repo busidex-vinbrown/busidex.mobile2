@@ -175,8 +175,8 @@ namespace Busidex.Mobile
 
 			OwnedCard = loadDataFromFile<Card> (Path.Combine (Resources.DocumentsPath, Resources.OWNED_CARD_FILE)) ?? await loadOwnedCard ();
 			await loadOwnedCard ().ContinueWith (result => {
-				if (!result.IsFaulted) {
-					OwnedCard = OwnedCard ?? new Card ();
+				if (result.IsFaulted) {
+					OwnedCard = null;//OwnedCard ;?? new Card ();
 				}
 			});
 
@@ -268,6 +268,9 @@ namespace Busidex.Mobile
 		#endregion
 
 		#region Public Methods
+		public static async void LoadOwnedCard(){
+			await loadOwnedCard (); 	
+		}
 
 		public static List<PhoneNumberType> GetPhoneNumberTypes ()
 		{

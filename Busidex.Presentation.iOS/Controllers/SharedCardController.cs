@@ -78,7 +78,7 @@ namespace Busidex.Presentation.iOS
 		{
 
 			if (string.IsNullOrEmpty (txtDisplayName.Text)) {
-				ShowAlert ("Missing Information", "Please enter your display name", "Ok");
+				Application.ShowAlert ("Missing Information", "Please enter your display name", "Ok");
 				txtDisplayName.BecomeFirstResponder ();
 				return;
 			}
@@ -91,7 +91,7 @@ namespace Busidex.Presentation.iOS
 			var personalMessage = txtPersonalMessage.Text.Replace ("\n", "  ");
 
 			if (string.IsNullOrEmpty (phoneNumber) && (string.IsNullOrEmpty (email) || email.IndexOf ("@", StringComparison.Ordinal) < 0)) {
-				ShowAlert ("Missing Information", "Please enter an email address or phone number", "Ok");
+				Application.ShowAlert ("Missing Information", "Please enter an email address or phone number", "Ok");
 				txtEmail.BecomeFirstResponder ();
 				return;
 			}
@@ -153,7 +153,7 @@ namespace Busidex.Presentation.iOS
 									resetFields ();
 								});
 							} else {
-								InvokeOnMainThread (() => ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new [] {
+								InvokeOnMainThread (() => Application.ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new [] {
 									"Ok"
 								}));
 							}
@@ -265,13 +265,13 @@ namespace Busidex.Presentation.iOS
 							PresentModalViewController (picker, true);
 						} catch (Exception ex) {
 							Xamarin.Insights.Report (ex);
-							ShowAlert ("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
+							Application.ShowAlert ("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
 						}
 					};
 
 				} catch (Exception ex) {
 					Xamarin.Insights.Report (ex);
-					ShowAlert ("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
+					Application.ShowAlert ("Upgrade Required", "This feature requires iOS 9 or higher.", "Ok");
 				}
 			}
 		}

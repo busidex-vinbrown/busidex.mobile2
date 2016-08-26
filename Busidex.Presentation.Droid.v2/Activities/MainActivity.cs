@@ -432,6 +432,36 @@ namespace Busidex.Presentation.Droid.v2
 		#endregion
 
 		#region Startup Actions
+		const int APP_VERSION = 546;
+		async void UpdateAppVersion ()
+		{
+			await UserDeviceController.UpdateDeviceDetails (DeviceType.iPhone, APP_VERSION, UISubscriptionService.AuthToken);
+		}
+
+		void CheckAppVersion ()
+		{
+			UserDeviceController.GetCurrentAppInfo (UISubscriptionService.AuthToken).ContinueWith ((device) => {
+				if (device == null || device.Result == null || device.Result.iOS > APP_VERSION) {
+					const string MESSAGE = "There are critical updates available. You need to update the app now to get the latest features and bug fixes.";
+					RunOnUiThread (() => {
+						ShowAlert ("Critical Updates", MESSAGE, new [] { GetString (Resource.String.button_update_now), GetString (Resource.String.button_update_later) }, (o, e) => {
+							var dialog = o as AlertDialog;
+							var btnClicked = dialog.GetButton (e.Which);
+							if (btnClicked.Text == GetString (Resource.String.Global_ButtonText_Ok)) {
+								RunOnUiThread (() => {
+									var OpenBrowserIntent = new Intent (Intent.ActionView);
+									var uri = Uri.Parse (Mobile.Resources.ANDROID_UPDATE_URL);
+									OpenBrowserIntent.SetData (uri);
+									OpenBrowser (OpenBrowserIntent);
+								});
+							}
+						});
+					});
+				} else {
+					UpdateAppVersion ();
+				}
+			});
+		}
 
 		public void DoStartUp ()
 		{

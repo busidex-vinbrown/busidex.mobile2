@@ -4,7 +4,6 @@ using UIKit;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
-using System.Text.RegularExpressions;
 using System.Linq;
 
 namespace Busidex.Presentation.iOS
@@ -71,7 +70,7 @@ namespace Busidex.Presentation.iOS
 
 		void deletePhoneNumber (PhoneNumber number)
 		{
-			ShowAlert ("Delete", string.Format ("Delete {0}?", number.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
+			Application.ShowAlert ("Delete", string.Format ("Delete {0}?", number.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
 				if (button.Result == 0) {
 
 					var selectedNumber = SelectedCard.PhoneNumbers.SingleOrDefault (p =>

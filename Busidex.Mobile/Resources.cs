@@ -102,6 +102,9 @@ namespace Busidex.Mobile
 		public const string TWILLIO_AUTH_TOKEN_TEST = "a9a8e56e4e009a55aae754c7aafcf995";
 		public const string TWILLIO_PHONE_NUMBER = "(754) 333-5330";
 
+		public const string IOS_UPDATE_URL = "https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#";
+		public const string ANDROID_UPDATE_URL = "https://play.google.com/store/apps/details?id=com.busidex";
+
 		//public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
 		//public const string BITLY_LOGIN = "busidexapp";
 

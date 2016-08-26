@@ -105,7 +105,7 @@ namespace Busidex.Presentation.iOS
 
 		void showNoCardMessage ()
 		{
-			InvokeOnMainThread (() => ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string[] {
+			InvokeOnMainThread (() => Application.ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string[] {
 				"Ok",
 				"Not Now"
 			}).ContinueWith (async button => {
@@ -278,7 +278,7 @@ namespace Busidex.Presentation.iOS
 		void LogOut ()
 		{
 
-			ShowAlert ("Logout", "Sign out of Busidex?", "Ok", "Cancel").ContinueWith (button => {
+			Application.ShowAlert ("Logout", "Sign out of Busidex?", "Ok", "Cancel").ContinueWith (button => {
 
 				if (button.Result == 0) {
 					InvokeOnMainThread (() => {

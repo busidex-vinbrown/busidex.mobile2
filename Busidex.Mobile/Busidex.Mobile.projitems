@@ -87,6 +87,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BusidexStringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SMSShareController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SMSShare.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserDeviceController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AppVersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

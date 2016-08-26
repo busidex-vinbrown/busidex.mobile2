@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Busidex.Mobile;
 using Foundation;
 using UIKit;
@@ -12,6 +13,8 @@ namespace Busidex.Presentation.iOS
 		public static UINavigationController MainController { get; set; }
 		public static bool LoadingSharedCard { get; set; }
 		public static LoadingOverlay Overlay;
+
+		public const int APP_VERSION = 546;
 
 		// This is the main entry point of the application.
 		static void Main (string[] args)
@@ -63,11 +66,64 @@ namespace Busidex.Presentation.iOS
 			Utils.RemoveCacheFiles ();
 		}
 
+		public static void SetRefreshCookie (string name)
+		{
+			try {
+				var user = NSUserDefaults.StandardUserDefaults;
+				DateTime nextRefresh = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays (1);
+				user.SetString (nextRefresh.ToString (), name);
+
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
+			}
+		}
+
+		public static bool CheckRefreshCookie (string name)
+		{
+			var user = NSUserDefaults.StandardUserDefaults;
+			var val = user.StringForKey (name);
+			if (string.IsNullOrEmpty (val)) {
+				SetRefreshCookie (name);
+				return false;
+			} else {
+				DateTime lastRefresh;
+				DateTime.TryParse (val, out lastRefresh);
+				if (lastRefresh <= DateTime.Now) {
+					SetRefreshCookie (name);
+					return false;
+				}
+			}
+			return true;
+		}
+
 		public static DateTime NSDateToDateTime (NSDate date)
 		{
 			DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime (
 									 new DateTime (2001, 1, 1, 0, 0, 0));
 			return reference.AddSeconds (date.SecondsSinceReferenceDate);
+		}
+
+		/// <summary>
+		/// Shows the alert.
+		/// int button = await ShowAlert ("Foo", "Bar", "Ok", "Cancel", "Maybe");
+		/// </summary>
+		/// <returns>The alert.</returns>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="buttons">Buttons.</param>
+		public static Task<int> ShowAlert (string title, string message, params string [] buttons)
+		{
+			var tcs = new TaskCompletionSource<int> ();
+			var alert = new UIAlertView {
+				Title = title,
+				Message = message
+			};
+			foreach (var button in buttons) {
+				alert.AddButton (button);
+			}
+			alert.Clicked += (s, e) => tcs.TrySetResult ((int)e.ButtonIndex);
+			alert.Show ();
+			return tcs.Task;
 		}
 	}
 }

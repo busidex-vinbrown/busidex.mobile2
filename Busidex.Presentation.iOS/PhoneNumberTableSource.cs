@@ -79,7 +79,7 @@ namespace Busidex.Presentation.iOS
 			var editButton = UIButton.FromType (UIButtonType.Custom);
 			var deleteButton = UIButton.FromType (UIButtonType.Custom);
 
-			newLabel.Text = "(" + Enum.GetName (typeof (PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId).Substring (0, 1).ToUpper () + ")";
+			newLabel.Text = number.PhoneNumberType == null ? string.Empty : "(" + Enum.GetName (typeof (PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId).Substring (0, 1).ToUpper () + ")";
 
 			newLabel.Font = UIFont.BoldSystemFontOfSize (18f);
 			newLabel.UserInteractionEnabled = true;

@@ -80,9 +80,9 @@ namespace Busidex.Presentation.iOS
 
 			if (termsAccepted) {
 				if (string.IsNullOrEmpty (txtEmail.Text) || string.IsNullOrEmpty (txtPassword.Text)) {
-					await ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
+					await Application.ShowAlert ("Email and Password", "Please add your email and password to continue", "Ok");
 				} else if (txtEmail.Text.IndexOf ('@') < 0) {
-					await ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
+					await Application.ShowAlert ("Email and Password", "Please add a valid email address to continue", "Ok");
 				} else {
 					var token = Guid.NewGuid ().ToString ();
 
@@ -103,7 +103,7 @@ namespace Busidex.Presentation.iOS
 							});
 						} else {
 							InvokeOnMainThread (() => {
-								ShowAlert ("Saving your information", "There was a problem saving your information. There may be an issue with your internet connection. Please try again later.", "Ok");
+								Application.ShowAlert ("Saving your information", "There was a problem saving your information. There may be an issue with your internet connection. Please try again later.", "Ok");
 								overlay.Hide ();
 							});
 						}
@@ -111,7 +111,7 @@ namespace Busidex.Presentation.iOS
 
 				}
 			} else {
-				await ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
+				await Application.ShowAlert ("Terms and Conditions", "Please accept the terms and conditions to continue", "Ok");
 			}
 
 			return true;

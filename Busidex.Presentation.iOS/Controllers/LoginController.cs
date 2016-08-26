@@ -87,6 +87,10 @@ namespace Busidex.Presentation.iOS
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
 
+#if DEBUG
+	password = "1/2C.BrFl2/3PFl";
+#endif
+
 				// dismiss the keyboard
 				txtPassword.ResignFirstResponder ();
 				txtUserName.ResignFirstResponder ();
@@ -158,7 +162,7 @@ namespace Busidex.Presentation.iOS
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 				InvokeOnMainThread (() => {
-					ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
+					Application.ShowAlert ("Login Error", "There was a problem logging in.", new []{ "Ok" });
 					loggingIn = false;	
 				});
 			} 

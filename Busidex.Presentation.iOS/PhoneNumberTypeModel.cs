@@ -67,7 +67,7 @@ namespace Busidex.Presentation.iOS
 			var selectedIdx = idx;
 			phoneNumberTypes.ForEach (s => {
 				idx++;
-				if (phoneNumberType.Name == s.Name) {
+				if (phoneNumberType != null && phoneNumberType.Name == s.Name) {
 					selectedIdx = idx;
 				}
 			});

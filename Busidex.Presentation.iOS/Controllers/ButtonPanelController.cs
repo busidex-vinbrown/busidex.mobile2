@@ -149,7 +149,7 @@ namespace Busidex.Presentation.iOS
 		void RemoveCardFromMyBusidex (UserCard userCard)
 		{
 
-			BaseController.ShowAlert ("Remove Card", "Remove this card from your Busidex?", "Ok", "Cancel").ContinueWith (button => {
+			Application.ShowAlert ("Remove Card", "Remove this card from your Busidex?", "Ok", "Cancel").ContinueWith (button => {
 
 				if (button.Result == 0) {
 
@@ -190,7 +190,7 @@ namespace Busidex.Presentation.iOS
 				ActivityController.SaveActivity ((long)EventSources.Website, SelectedCard.CardId, UISubscriptionService.AuthToken);
 
 			} catch (Exception ex) {
-				BaseController.ShowAlert ("Could not open this website", string.Format ("There appears to be a problem with the website address: {0}.", SelectedCard.Card.Url), "Ok");
+				Application.ShowAlert ("Could not open this website", string.Format ("There appears to be a problem with the website address: {0}.", SelectedCard.Card.Url), "Ok");
 				Xamarin.Insights.Report (ex);
 			}
 		}

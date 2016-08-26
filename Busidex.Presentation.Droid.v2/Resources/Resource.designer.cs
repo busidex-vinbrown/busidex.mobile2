@@ -3521,6 +3521,12 @@ namespace Busidex.Presentation.Droid.v2
 			// aapt resource value: 0x7f070014
 			public const int auth_google_play_services_client_google_display_name = 2131165204;
 			
+			// aapt resource value: 0x7f07004d
+			public const int button_update_later = 2131165261;
+			
+			// aapt resource value: 0x7f07004c
+			public const int button_update_now = 2131165260;
+			
 			// aapt resource value: 0x7f070016
 			public const int common_google_play_services_unknown_issue = 2131165206;
 			

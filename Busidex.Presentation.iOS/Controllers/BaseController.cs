@@ -1,5 +1,4 @@
 ﻿using System;
-using Foundation;
 using UIKit;
 using System.IO;
 using System.Linq;
@@ -75,36 +74,6 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
-		protected static void SetRefreshCookie (string name)
-		{
-			try {
-				var user = NSUserDefaults.StandardUserDefaults;
-				DateTime nextRefresh = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 1).AddDays (1);
-				user.SetString (nextRefresh.ToString (), name);
-
-			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
-			}
-		}
-
-		protected static bool CheckRefreshCookie (string name)
-		{
-			var user = NSUserDefaults.StandardUserDefaults;
-			var val = user.StringForKey (name);
-			if (string.IsNullOrEmpty (val)) {
-				SetRefreshCookie (name);
-				return false;
-			} else {
-				DateTime lastRefresh;
-				DateTime.TryParse (val, out lastRefresh);
-				if (lastRefresh <= DateTime.Now) {
-					SetRefreshCookie (name);
-					return false;
-				}
-			}
-			return true;
-		}
-
 		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
 		{
 			var shouldAllowOtherOrientation = ShouldAllowLandscape (); // same here
@@ -176,11 +145,8 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-
-
 		protected void ShareCard (UserCard seletcedCard)
 		{
-
 			try {
 				
 				BaseNavigationController.sharedCardController.SelectedCard = seletcedCard;
@@ -222,29 +188,6 @@ namespace Busidex.Presentation.iOS
 				file.Close ();
 				InvokeInBackground (() => ProcessCards (fileJson));
 			}
-		}
-
-		/// <summary>
-		/// Shows the alert.
-		/// int button = await ShowAlert ("Foo", "Bar", "Ok", "Cancel", "Maybe");
-		/// </summary>
-		/// <returns>The alert.</returns>
-		/// <param name="title">Title.</param>
-		/// <param name="message">Message.</param>
-		/// <param name="buttons">Buttons.</param>
-		public static Task<int> ShowAlert (string title, string message, params string[] buttons)
-		{
-			var tcs = new TaskCompletionSource<int> ();
-			var alert = new UIAlertView {
-				Title = title,
-				Message = message
-			};
-			foreach (var button in buttons) {
-				alert.AddButton (button);
-			}
-			alert.Clicked += (s, e) => tcs.TrySetResult ((int)e.ButtonIndex);
-			alert.Show ();
-			return tcs.Task;
 		}
 
 		protected BusinessCardDimensions GetCardDimensions (string orientation)
