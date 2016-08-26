@@ -50,6 +50,14 @@ namespace Busidex.Presentation.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnShare { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblCompany { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblName { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (btnAdd != null) {
@@ -95,6 +103,16 @@ namespace Busidex.Presentation.iOS
             if (btnShare != null) {
                 btnShare.Dispose ();
                 btnShare = null;
+            }
+
+            if (lblCompany != null) {
+                lblCompany.Dispose ();
+                lblCompany = null;
+            }
+
+            if (lblName != null) {
+                lblName.Dispose ();
+                lblName = null;
             }
         }
     }

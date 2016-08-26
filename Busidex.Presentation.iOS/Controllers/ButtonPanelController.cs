@@ -99,15 +99,20 @@ namespace Busidex.Presentation.iOS
 
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
+				lblName.Text = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+
+				lblCompany.Text = string.IsNullOrEmpty (SelectedCard.Card.Name) ? string.Empty : SelectedCard.Card.CompanyName;
+
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
-				btnCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 75f, dimensions.Width, dimensions.Height);
+				btnCard.Frame = new CoreGraphics.CGRect (dimensions.MarginLeft, 120f, dimensions.Width, dimensions.Height);
 
 				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
 					btnCard.SetBackgroundImage (UIImage.FromFile (FrontFileName), UIControlState.Normal);
-					btnCard.Layer.AddSublayer (GetBorder (btnCard.Frame, UIColor.Gray.CGColor));
+				}else{
+					btnCard.SetBackgroundImage (UIImage.FromBundle ("defaultUserImage.png"), UIControlState.Normal);
 				}
-
+				btnCard.Layer.AddSublayer (GetBorder (btnCard.Frame, UIColor.Gray.CGColor));
 				btnCard.TouchUpInside -= goToCard;
 				btnCard.TouchUpInside += goToCard;
 			}
