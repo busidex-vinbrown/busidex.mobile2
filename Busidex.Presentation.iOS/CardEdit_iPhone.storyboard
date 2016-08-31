@@ -12,8 +12,8 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" alpha="0.9" numberOfLines="5" textAlignment="center" restorationIdentifier="lblDescription" text="Tap the image below to either choose from a picture on your device or take the picture now.">
-                                <rect key="frame" x="15" y="105" width="287" height="70"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" alpha="0.9" numberOfLines="5" textAlignment="center" restorationIdentifier="lblDescription" text="Tap the image below to choose a picture on your device or take a new one.">
+                                <rect key="frame" x="5" y="105" width="310" height="50"/>
                                 <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
@@ -30,14 +30,6 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" image="YES" button="YES"/>
                                 </accessibility>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="31">
-                                <rect key="frame" x="5" y="210" width="20" height="20"/>
-                                <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
-                                <state key="normal" backgroundImage="rotate.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="79">
                                 <rect key="frame" x="0.0" y="528" width="160" height="40"/>
@@ -66,7 +58,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="413" restorationIdentifier="btnSave">
-                                <rect key="frame" x="88" y="488" width="143" height="30"/>
+                                <rect key="frame" x="88" y="490" width="143" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Save" backgroundImage="button.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -112,11 +104,45 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="992">
+                                <rect key="frame" x="72" y="153" width="180" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="993">
+                                <rect key="frame" x="65" y="460" width="20" height="20"/>
+                                <state key="normal" backgroundImage="radio_off.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="994">
+                                <rect key="frame" x="188" y="460" width="20" height="20"/>
+                                <state key="normal" backgroundImage="radio_off.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1006">
+                                <rect key="frame" x="64" y="456" width="121" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Horizontal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1007">
+                                <rect key="frame" x="189" y="456" width="101" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Vertical">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="btnCardImage" destination="23" id="name-outlet-23"/>
-                        <outlet property="btnRotate" destination="31" id="name-outlet-31"/>
+                        <outlet property="btnHCardImage" destination="23" id="name-outlet-23"/>
                         <outlet property="lblDescription" destination="28" id="name-outlet-28"/>
                         <outlet property="btnFront" destination="79" id="name-outlet-79"/>
                         <outlet property="btnBack" destination="80" id="name-outlet-80"/>
@@ -127,6 +153,11 @@
                         <outlet property="btnCancelImage" destination="785" id="name-outlet-785"/>
                         <outlet property="btnTakeImage" destination="784" id="name-outlet-784"/>
                         <outlet property="btnReset" destination="982" id="name-outlet-982"/>
+                        <outlet property="btnVCardImage" destination="992" id="name-outlet-992"/>
+                        <outlet property="rdoHorizontal" destination="993" id="name-outlet-993"/>
+                        <outlet property="rdoVertical" destination="994" id="name-outlet-994"/>
+                        <outlet property="btnHorizontal" destination="1006" id="name-outlet-1006"/>
+                        <outlet property="btnVertical" destination="1007" id="name-outlet-1007"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -68,30 +68,36 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void deletePhoneNumber (PhoneNumber number)
+		void deletePhoneNumber (int idx)
 		{
-			Application.ShowAlert ("Delete", string.Format ("Delete {0}?", number.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
-				if (button.Result == 0) {
+			var selectedNumber = SelectedCard.PhoneNumbers.Where(p => !p.Deleted).ToList() [idx];
+			if (selectedNumber != null) {
+				Application.ShowAlert ("Delete", string.Format ("Delete {0}?", selectedNumber.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
+					if (button.Result == 0) {
 
-					var selectedNumber = SelectedCard.PhoneNumbers.SingleOrDefault (p =>
-														 p.Number.Equals (number.Number) &&
-														 p.Extension.Equals (number.Extension) &&
-														 p.PhoneNumberType.Name.Equals (number.PhoneNumberType.Name));
-					if (selectedNumber != null) {
+						//var selectedNumber = SelectedCard.PhoneNumbers.FirstOrDefault (p =>
+						//									 p.Number.Equals (number.Number) &&
+						//									 p.Extension.Equals (number.Extension) &&
+						//                                     p.PhoneNumberType != null &&
+						//									 p.PhoneNumberType.Name.Equals (number.PhoneNumberType.Name));
+
+
 						selectedNumber.Deleted = true;
-					}
 
-					InvokeOnMainThread (() => {
-						((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where (p => !p.Deleted).ToList ());
-						tblPhoneNumbers.ReloadData ();
-					});
-				}
-			});
+						InvokeOnMainThread (() => {
+							((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where (p => !p.Deleted).ToList ());
+							tblPhoneNumbers.ReloadData ();
+						});
+					}
+				});
+			}
 		}
 
 		void editPhoneNumber (PhoneNumber number)
 		{
 			fadeOut ();
+
+			btnAddNewPhoneNumber.Enabled = false;
 
 			if (number == null) {
 				SelectedPhoneNumber = -1;
@@ -126,6 +132,7 @@ namespace Busidex.Presentation.iOS
 		private void updateText (char [] digits)
 		{
 			var display = string.Empty;
+
 			for (var i = 0; i < digits.Length; i++) {
 				switch (i) {
 				case 0: {
@@ -141,7 +148,7 @@ namespace Busidex.Presentation.iOS
 						break;
 					}
 				case 3: {
-						display += "(" + digits [i];
+						display += digits [i];
 						break;
 					}
 				case 4: {
@@ -149,11 +156,11 @@ namespace Busidex.Presentation.iOS
 						break;
 					}
 				case 5: {
-						display += digits [i] + ") ";
+						display += digits [i];
 						break;
 					}
 				case 6: {
-						display += "(" + digits [i];
+						display += "-" + digits [i];
 						break;
 					}
 				case 7: {
@@ -165,7 +172,7 @@ namespace Busidex.Presentation.iOS
 						break;
 					}
 				case 9: {
-						display += digits [i] + ") ";
+						display += digits [i];
 						break;
 					}
 				}
@@ -204,7 +211,7 @@ namespace Busidex.Presentation.iOS
 						selected.PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId;
 					}
 				}
-				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers);
+				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where(p => !p.Deleted).ToList());
 				tblPhoneNumbers.ReloadData ();
 				clearFields ();
 				fadeIn ();
@@ -215,9 +222,12 @@ namespace Busidex.Presentation.iOS
 
 				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
 
+
+
 				if (isBackspace || digits.Length > 10) {
 					Array.Resize (ref digits, digits.Length - 1);
 					updateText (digits);
+					btnAddNewPhoneNumber.Enabled = digits.Length > 0;
 					return false;
 				}
 				return true;
@@ -227,7 +237,9 @@ namespace Busidex.Presentation.iOS
 
 				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
 				updateText (digits);
+				btnAddNewPhoneNumber.Enabled = digits.Length > 0;
 			};
+
 			btnCancel.TouchUpInside += delegate {
 				vwNewPhoneNumber.Hidden = true;
 

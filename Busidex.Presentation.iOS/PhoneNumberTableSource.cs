@@ -9,7 +9,7 @@ using Busidex.Mobile;
 namespace Busidex.Presentation.iOS
 {
 	public delegate void OnPhoneNumberEditingHandler (PhoneNumber number);
-	public delegate void OnPhoneNumberDeletingHandler (PhoneNumber number);
+	public delegate void OnPhoneNumberDeletingHandler (int idx);
 
 	public class PhoneNumberTableSource : UITableViewSource
 	{
@@ -43,7 +43,7 @@ namespace Busidex.Presentation.iOS
 			if (indexPath.Row <= PhoneNumbers.Count) {
 				var number = PhoneNumbers [indexPath.Row];
 
-				AddControls (cell, number);
+				AddControls (cell, number, indexPath.Row);
 
 				cell.SetNeedsLayout ();
 				cell.SetNeedsDisplay ();
@@ -52,7 +52,7 @@ namespace Busidex.Presentation.iOS
 			return cell;
 		}
 
-		void AddControls (UIView cell, PhoneNumber number)
+		void AddControls (UIView cell, PhoneNumber number, int idx)
 		{
 			const float labelX = 10f;
 			const float labelY = 10f;
@@ -110,7 +110,7 @@ namespace Busidex.Presentation.iOS
 
 			deleteButton.TouchUpInside += delegate {
 				if (OnPhoneNumberDeleting != null) {
-					OnPhoneNumberDeleting (number);
+					OnPhoneNumberDeleting (idx);
 				}
 			};
 

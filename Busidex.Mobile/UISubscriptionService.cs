@@ -1526,6 +1526,13 @@ namespace Busidex.Mobile
 			try {
 
 				var cardJson = await CardController.GetMyCard ();
+				if(string.IsNullOrEmpty(cardJson)){
+					if (OnCardInfoSaved != null) {
+						OnCardInfoSaved ();
+					}
+					return null;
+				}
+
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (cardJson);
 				OwnedCard = cardResponse.Success ? new Card (cardResponse.Model) : null;
 				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (OwnedCard), Resources.OWNED_CARD_FILE);

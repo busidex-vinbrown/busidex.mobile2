@@ -3,7 +3,6 @@
 using UIKit;
 using System.IO;
 using Busidex.Mobile;
-using CoreAnimation;
 using Foundation;
 using CoreGraphics;
 using GoogleAnalytics.iOS;
@@ -33,7 +32,6 @@ namespace Busidex.Presentation.iOS
 
 		bool frontImageChanged;
 		bool backImageChanged;
-		bool animationInProgress;
 
 		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
 
@@ -198,13 +196,14 @@ namespace Busidex.Presentation.iOS
 			setTempCardInfo ();
 
 			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
-			//SelectedDisplayMode = SelectedDisplayMode == MobileCardImage.DisplayMode.None ? MobileCardImage.DisplayMode.Front : SelectedDisplayMode;
 
 			CardModel = new MobileCardImage {
 				Orientation = SelectedOrientation,
 				Side = SelectedDisplayMode,
 				EncodedCardImage = string.Empty
 			};
+
+			setOrientation (SelectedOrientation);
 
 			if (!loaded) {
 				try {
@@ -273,7 +272,6 @@ namespace Busidex.Presentation.iOS
 
 		void setImage (MediaFile picture)
 		{
-
 			if (picture != null) {
 
 				var img = UIImage.FromFile (picture.Path);
@@ -313,8 +311,11 @@ namespace Busidex.Presentation.iOS
 
 					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
 
-					btnCardImage.SetImage (null, UIControlState.Normal);
-					btnCardImage.SetBackgroundImage (img, UIControlState.Normal);
+					btnHCardImage.SetImage (null, UIControlState.Normal);
+					btnHCardImage.SetBackgroundImage (img, UIControlState.Normal);
+
+					btnVCardImage.SetImage (null, UIControlState.Normal);
+					btnVCardImage.SetBackgroundImage (img, UIControlState.Normal);
 
 					frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
 					backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
@@ -339,9 +340,13 @@ namespace Busidex.Presentation.iOS
 
 			//txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
 
-			btnCardImage.Layer.BorderWidth = 1;
-			btnCardImage.Layer.CornerRadius = 1;
-			btnCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
+			btnHCardImage.Layer.BorderWidth = 1;
+			btnHCardImage.Layer.CornerRadius = 1;
+			btnHCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
+
+			btnVCardImage.Layer.BorderWidth = 1;
+			btnVCardImage.Layer.CornerRadius = 1;
+			btnVCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
 
 			btnCancelImage.TouchUpInside += delegate {
 				setImageSelectionUI (false);
@@ -376,7 +381,17 @@ namespace Busidex.Presentation.iOS
 				setImage (file);
 			};
 
-			btnCardImage.TouchUpInside += (sender, args) => {
+			btnHCardImage.TouchUpInside += (sender, args) => {
+
+				if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported) {
+					Application.ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
+					return;
+				}
+
+				setImageSelectionUI (true);
+			};
+
+			btnVCardImage.TouchUpInside += (sender, args) => {
 
 				if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported) {
 					Application.ShowAlert ("No Camara Available", "There is no camara available right now", "Ok");
@@ -393,9 +408,23 @@ namespace Busidex.Presentation.iOS
 			btnFront.TouchUpInside += delegate {
 				toggle (MobileCardImage.DisplayMode.Front);
 			};
-			btnRotate.TouchUpInside += delegate {
-				var orientation = SelectedOrientation == ORIENTATION_VERTICAL ? ORIENTATION_HORIZONTAL : ORIENTATION_VERTICAL;
-				rotate (orientation);
+			             
+			btnHorizontal.TouchUpInside += delegate {
+				if (SelectedOrientation == "H") {
+					return;
+				}
+				frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
+				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+				setOrientation ("H");
+			};
+
+			btnVertical.TouchUpInside += delegate {
+				if (SelectedOrientation == "V") {
+					return;
+				}
+				frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
+				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+				setOrientation ("V");
 			};
 
 			btnReset.TouchUpInside += delegate {
@@ -416,39 +445,20 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
+		void setOrientation(string orientation){
+
+			SelectedOrientation = orientation;
+
+			rotate (SelectedOrientation);
+
+			rdoHorizontal.SetImage (orientation == "H" ? UIImage.FromFile ("radio_on.png") : UIImage.FromFile ("radio_off.png"), UIControlState.Normal);
+			rdoVertical.SetImage (orientation == "V" ? UIImage.FromFile ("radio_on.png") : UIImage.FromFile ("radio_off.png"), UIControlState.Normal);
+		}
+
 		void rotate (string orientation)
 		{
-			const int SLIDE_DISTANCE = HORIZONTAL_WIDTH / 4 - 15;
-
-			const int bSlideDistanceY = 40;
-
-			var vFrame = new CGRect (btnCardImage.Frame.Left + SLIDE_DISTANCE, btnCardImage.Frame.Top - bSlideDistanceY, VERTICAL_WIDTH, VERTICAL_HEIGHT);
-			var hFrame = new CGRect (btnCardImage.Frame.Left - SLIDE_DISTANCE, btnCardImage.Frame.Top + bSlideDistanceY, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
-
-			var rotationAnimation = new CABasicAnimation ();
-			rotationAnimation.KeyPath = "transform.rotation.z";
-			rotationAnimation.To = new NSNumber (Math.PI * 2);
-			rotationAnimation.Duration = 1;
-			rotationAnimation.Cumulative = true;
-			rotationAnimation.RepeatCount = .5f;
-
-			UIView.Animate (.5, 0, UIViewAnimationOptions.CurveEaseInOut,
-				() => {
-					if (SelectedOrientation == ORIENTATION_HORIZONTAL) {
-						var buttonFrame = new CGRect (btnRotate.Frame.X + SLIDE_DISTANCE, btnRotate.Frame.Y - bSlideDistanceY, btnRotate.Frame.Width, btnRotate.Frame.Height);
-						btnRotate.Frame = buttonFrame;
-						btnCardImage.Frame = vFrame;
-						btnRotate.Layer.AddAnimation (rotationAnimation, "rotationAnimation");
-
-					} else {
-						var buttonFrame = new CGRect (btnRotate.Frame.X - SLIDE_DISTANCE, btnRotate.Frame.Y + bSlideDistanceY, btnRotate.Frame.Width, btnRotate.Frame.Height);
-						btnRotate.Frame = buttonFrame;
-						btnCardImage.Frame = hFrame;
-						btnRotate.Layer.AddAnimation (rotationAnimation, "rotationAnimation");
-					}
-				},
-				() => {
-				});
+			btnHCardImage.Hidden = orientation == "V";
+			btnVCardImage.Hidden = orientation == "H";
 
 			SelectedOrientation = orientation;
 			CardModel.Orientation = SelectedOrientation;
@@ -456,7 +466,7 @@ namespace Busidex.Presentation.iOS
 
 		async void toggle (MobileCardImage.DisplayMode mode)
 		{
-			if(mode == SelectedDisplayMode || animationInProgress){
+			if(mode == SelectedDisplayMode){
 				return;
 			}
 			string fileName;
@@ -475,6 +485,11 @@ namespace Busidex.Presentation.iOS
 					return;
 				}else{
 					saveImage ();
+					if(SelectedDisplayMode == MobileCardImage.DisplayMode.Front){
+						SelectedCard.FrontOrientation = SelectedOrientation;
+					}else{
+						SelectedCard.BackOrientation = SelectedOrientation;
+					}
 					return;
 				}
 			}
@@ -484,6 +499,7 @@ namespace Busidex.Presentation.iOS
 			CardModel.Side = mode;
 
 			if (mode == MobileCardImage.DisplayMode.Front) {
+
 				btnFront.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnFront.BackgroundColor = UIColor.Blue;
 
@@ -500,8 +516,11 @@ namespace Busidex.Presentation.iOS
 							}
 						});
 					});
+				}else{
+					setDisplay (fileName);
 				}
 			} else {
+
 				btnBack.SetTitleColor (UIColor.White, UIControlState.Normal);
 				btnBack.BackgroundColor = UIColor.Blue;
 
@@ -522,40 +541,30 @@ namespace Busidex.Presentation.iOS
 								}
 							});
 						});
+					}else{
+						setDisplay (fileName);
 					}
 				}
 			}
 
-			const float ANIMATION_SPPED_FAST = .3f;
-			UIView.Animate (ANIMATION_SPPED_FAST, 0, UIViewAnimationOptions.CurveEaseInOut,
-				() => {
-					btnRotate.Hidden = true;
-					btnCardImage.Transform = CGAffineTransform.MakeScale (0.01f, 1.1f);
-					animationInProgress = true;
-				},
-				() => {
-					UIView.Animate (ANIMATION_SPPED_FAST, 0, UIViewAnimationOptions.CurveEaseInOut,
-						() => {
-							setDisplay (fileName);
-							btnCardImage.Transform = CGAffineTransform.MakeScale (1.0f, 1.0f);
-						},
-						() => {
-							animationInProgress = false;
-							btnRotate.Hidden = false;
-						});
-				});
-
+			setOrientation (mode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
 		}
 
 		void setDisplay (string fileName)
 		{
+			UIImage img = null;
+
 			if (string.IsNullOrEmpty (fileName)) {
 				const string DEFALUT_PHOTO_IMAGE = "default_photo.png";
-				btnCardImage.SetImage (UIImage.FromFile (DEFALUT_PHOTO_IMAGE), UIControlState.Normal);
-				btnCardImage.SetBackgroundImage (null, UIControlState.Normal);
+				img = UIImage.FromFile (DEFALUT_PHOTO_IMAGE);
+				btnHCardImage.SetImage (img, UIControlState.Normal);
+				btnHCardImage.SetBackgroundImage (null, UIControlState.Normal);
+
+				btnVCardImage.SetImage (img, UIControlState.Normal);
+				btnVCardImage.SetBackgroundImage (null, UIControlState.Normal);
 			} else {
-				btnCardImage.SetImage (null, UIControlState.Normal);
-				//if (SelectedCard.FrontOrientation == ORIENTATION_HORIZONTAL) {
+				btnHCardImage.SetImage (null, UIControlState.Normal);
+				btnVCardImage.SetImage (null, UIControlState.Normal);
 				if (!File.Exists (fileName)) {
 					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontFileName : SelectedCard.BackFileName;
 					Utils.DownloadImage (Resources.CARD_PATH + fileName, documentsPath, fileName).ContinueWith (t => {
@@ -567,11 +576,13 @@ namespace Busidex.Presentation.iOS
 						});
 					});
 				} else {
-					btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
+					img = UIImage.FromFile (fileName);
+					btnHCardImage.SetBackgroundImage (img, UIControlState.Normal);
+					btnVCardImage.SetBackgroundImage (img, UIControlState.Normal);
 				}
-				//} else {
-				//	btnCardImage.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal);
-				//}
+			}
+			if (img != null) {
+				CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
 			}
 		}
 	}

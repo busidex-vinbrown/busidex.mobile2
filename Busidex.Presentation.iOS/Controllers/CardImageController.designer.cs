@@ -24,19 +24,19 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnCardImage { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnFront { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnReset { get; set; }
+        UIKit.UIButton btnHCardImage { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnRotate { get; set; }
+        UIKit.UIButton btnHorizontal { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnReset { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -52,6 +52,14 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnVCardImage { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnVertical { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView imgButtonFrame { get; set; }
 
         [Outlet]
@@ -61,6 +69,14 @@ namespace Busidex.Presentation.iOS
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblTitle { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton rdoHorizontal { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton rdoVertical { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
@@ -74,24 +90,24 @@ namespace Busidex.Presentation.iOS
                 btnCancelImage = null;
             }
 
-            if (btnCardImage != null) {
-                btnCardImage.Dispose ();
-                btnCardImage = null;
-            }
-
             if (btnFront != null) {
                 btnFront.Dispose ();
                 btnFront = null;
             }
 
+            if (btnHCardImage != null) {
+                btnHCardImage.Dispose ();
+                btnHCardImage = null;
+            }
+
+            if (btnHorizontal != null) {
+                btnHorizontal.Dispose ();
+                btnHorizontal = null;
+            }
+
             if (btnReset != null) {
                 btnReset.Dispose ();
                 btnReset = null;
-            }
-
-            if (btnRotate != null) {
-                btnRotate.Dispose ();
-                btnRotate = null;
             }
 
             if (btnSave != null) {
@@ -109,6 +125,16 @@ namespace Busidex.Presentation.iOS
                 btnTakeImage = null;
             }
 
+            if (btnVCardImage != null) {
+                btnVCardImage.Dispose ();
+                btnVCardImage = null;
+            }
+
+            if (btnVertical != null) {
+                btnVertical.Dispose ();
+                btnVertical = null;
+            }
+
             if (imgButtonFrame != null) {
                 imgButtonFrame.Dispose ();
                 imgButtonFrame = null;
@@ -122,6 +148,16 @@ namespace Busidex.Presentation.iOS
             if (lblTitle != null) {
                 lblTitle.Dispose ();
                 lblTitle = null;
+            }
+
+            if (rdoHorizontal != null) {
+                rdoHorizontal.Dispose ();
+                rdoHorizontal = null;
+            }
+
+            if (rdoVertical != null) {
+                rdoVertical.Dispose ();
+                rdoVertical = null;
             }
         }
     }
