@@ -146,7 +146,7 @@ namespace Busidex.Presentation.Droid.v2
 			var fragment = new ButtonPanelFragment ();
 			fragment.SelectedCard = Cards [position];
 
-			var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
+			var fileName = Path.Combine (Mobile.Resources.DocumentsPath, Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + Cards [position].Card.FrontFileName);
 			var uri = Uri.Parse (fileName);
 
 			ShowButtonPanel (fragment, uri, Cards [position].Card.FrontOrientation);
@@ -181,7 +181,7 @@ namespace Busidex.Presentation.Droid.v2
 				txtCompanyName.Text = card.Card.CompanyName;
 				txtCompanyName.Visibility = string.IsNullOrEmpty (card.Card.CompanyName) ? ViewStates.Gone : ViewStates.Visible;
 
-				var fileName = Path.Combine (Busidex.Mobile.Resources.DocumentsPath, Busidex.Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
+				var fileName = Path.Combine (Mobile.Resources.DocumentsPath, Mobile.Resources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName);
 				var uri = Uri.Parse (fileName);
 
 				ProgressBar progress1 = view.FindViewById<ProgressBar> (Resource.Id.progressBar1);

@@ -1,9 +1,8 @@
 ﻿<Properties StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/CardImageController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="8" Column="20" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1520" Column="16" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="40" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="107" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/HomeController.cs" Line="279" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />

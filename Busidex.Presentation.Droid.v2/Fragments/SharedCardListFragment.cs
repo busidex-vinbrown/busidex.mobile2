@@ -46,10 +46,15 @@ namespace Busidex.Presentation.Droid.v2
 			if (callback == null) {
 				callback = list => Activity.RunOnUiThread (() => {
 					if (Activity != null) {
-						sharedCardAdapter.UpdateData (list);
+						if (list != null) {
+							sharedCardAdapter.UpdateData (list);
 
-						imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
-						lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+							imgNoNotifications.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+							lblNoNotificationsMessage.Visibility = list.Count == 0 ? ViewStates.Visible : ViewStates.Gone;
+						}else{
+							imgNoNotifications.Visibility = ViewStates.Visible;
+							lblNoNotificationsMessage.Visibility = ViewStates.Visible;
+						}
 					}
 				});
 			}

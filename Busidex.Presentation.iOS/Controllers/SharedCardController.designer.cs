@@ -24,11 +24,11 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIImageView imgCardShared { get; set; }
+        UIKit.UILabel lblError { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblError { get; set; }
+        UIKit.UILabel lblSuccess { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -62,14 +62,14 @@ namespace Busidex.Presentation.iOS
                 imgCard = null;
             }
 
-            if (imgCardShared != null) {
-                imgCardShared.Dispose ();
-                imgCardShared = null;
-            }
-
             if (lblError != null) {
                 lblError.Dispose ();
                 lblError = null;
+            }
+
+            if (lblSuccess != null) {
+                lblSuccess.Dispose ();
+                lblSuccess = null;
             }
 
             if (ShareCardView != null) {

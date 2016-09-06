@@ -41,7 +41,7 @@ namespace Busidex.Presentation.Droid.v2
 		ImageView imgPlaceholderVer;
 		RelativeLayout imageWrapperHor;
 		RelativeLayout imageWrapperVer;
-		ProgressBar progressBarCardEdit;
+		//ProgressBar progressBarCardEdit;
 		RelativeLayout imageSelectOptions;
 
 		string SelectedFrontOrientation;

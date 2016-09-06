@@ -106,6 +106,37 @@ namespace Busidex.Presentation.iOS
 			startUpController = startUpController ?? board.InstantiateViewController ("StartupController") as StartupController;
 		}
 
+		public static void Reset(){
+			board = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
+			orgBoard = UIStoryboard.FromName ("OrganizationStoryBoard_iPhone", null);
+			cardBoard = UIStoryboard.FromName ("CardEdit_iPhone", null);
+
+			//loginController = board.InstantiateViewController ("LoginController") as LoginController;
+			eventListController = board.InstantiateViewController ("EventListController") as EventListController;
+			eventCardsController = board.InstantiateViewController ("EventCardsController") as EventCardsController;
+			myBusidexController = board.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+			searchController = board.InstantiateViewController ("SearchController") as SearchController;
+			organizationsController = board.InstantiateViewController ("OrganizationsController") as OrganizationsController;
+			orgMembersController = orgBoard.InstantiateViewController ("OrgMembersController") as OrgMembersController;
+			orgDetailController = orgBoard.InstantiateViewController ("OrganizationDetailController") as OrganizationDetailController;
+			//homeController = board.InstantiateViewController ("HomeController") as HomeController;
+			quickShareController = board.InstantiateViewController ("QuickShareController") as QuickShareController;
+			buttonPanelController = board.InstantiateViewController ("ButtonPanelController") as ButtonPanelController;
+			sharedCardController = board.InstantiateViewController ("SharedCardController") as SharedCardController;
+			settingsController = board.InstantiateViewController ("SettingsController") as SettingsController;
+			createProfileController = board.InstantiateViewController ("CreateProfileController") as CreateProfileController;
+			termsController = board.InstantiateViewController ("TermsController") as TermsController;
+			privacyController = board.InstantiateViewController ("PrivacyController") as PrivacyController;
+			cardMenuController = cardBoard.InstantiateViewController ("CardMenuController") as CardMenuController;
+			cardImageController = cardBoard.InstantiateViewController ("CardImageController") as CardImageController;
+			searchInfoController = cardBoard.InstantiateViewController ("SearchInfoController") as SearchInfoController;
+			contactInfoController = cardBoard.InstantiateViewController ("ContactInfoController") as ContactInfoController;
+			cardTagsController = cardBoard.InstantiateViewController ("CardTagsController") as CardTagsController;
+			addressInfoController = cardBoard.InstantiateViewController ("AddressInfoController") as AddressInfoController;
+			visibilityController = cardBoard.InstantiateViewController ("VisibilityController") as VisibilityController;
+			startUpController = board.InstantiateViewController ("StartupController") as StartupController;
+		}
+
 		public void DoStartup(){
 			transition = CATransition.CreateAnimation ();
 			transition.Duration = 0.25f;

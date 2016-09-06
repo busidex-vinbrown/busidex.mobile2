@@ -57,7 +57,7 @@ namespace Busidex.Presentation.iOS
 				}
 
 			}
-			imgCardShared.Hidden = true;
+			lblSuccess.Hidden = true;
 		}
 
 		void UpdateDisplayName (string token)
@@ -112,10 +112,11 @@ namespace Busidex.Presentation.iOS
 				// send the shared card the 'traditional' way
 				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, token);
 				if (!string.IsNullOrEmpty (response) && response.Contains ("true")) {
-					imgCardShared.Hidden = false;
+					lblSuccess.Hidden = false;
+					resetFields ();
 				} else {
 					lblError.Hidden = false;
-					imgCardShared.Hidden = true;
+					lblSuccess.Hidden = true;
 				}
 			} else {
 				// send text message with quick share link
@@ -160,7 +161,7 @@ namespace Busidex.Presentation.iOS
 						}
 					});
 				}
-				imgCardShared.Hidden = false;
+				lblSuccess.Hidden = false;
 			}
 		}
 
@@ -184,7 +185,7 @@ namespace Busidex.Presentation.iOS
 
 			try {
 				lblError.Hidden = true;
-				imgCardShared.Hidden = true;
+				lblSuccess.Hidden = true;
 
 				var user = NSUserDefaults.StandardUserDefaults;
 				if (user != null) {

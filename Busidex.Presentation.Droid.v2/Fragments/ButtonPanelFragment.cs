@@ -26,7 +26,6 @@ namespace Busidex.Presentation.Droid.v2
 			}
 		}
 
-
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			// Use this to return your custom view for this Fragment
@@ -119,7 +118,7 @@ namespace Busidex.Presentation.Droid.v2
 				btnEmail.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Email);
 				btnEmail.Alpha = btnEmail.Enabled ? ENABLED : DISABLED;
 
-				//btnNotes.Enabled = ShowNotes;
+				btnNotes.Enabled = SelectedCard.Card.ExistsInMyBusidex; // //ShowNotes;
 				btnNotes.Alpha = btnNotes.Enabled ? ENABLED : DISABLED;
 
 				btnBrowser.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Url);

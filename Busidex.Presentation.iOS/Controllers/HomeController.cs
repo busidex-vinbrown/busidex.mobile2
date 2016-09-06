@@ -285,6 +285,9 @@ namespace Busidex.Presentation.iOS
 						ClearSettings ();
 						UISubscriptionService.Clear ();
 						Application.RemoveAuthCookie ();
+
+						BaseNavigationController.Reset ();
+
 						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
 
 						if (startUpController != null) {
@@ -294,8 +297,5 @@ namespace Busidex.Presentation.iOS
 				}
 			});
 		}
-	
-
 	}
 }
-
