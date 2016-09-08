@@ -373,12 +373,16 @@ namespace Busidex.Presentation.iOS
 				};
 
 				var file = await CrossMedia.Current.TakePhotoAsync (options);
+
 				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 					CardModel.FrontFileId = Guid.NewGuid ();
 				} else {
 					CardModel.BackFileId = Guid.NewGuid ();
 				}
-				setImage (file);
+
+				if (file != null) {
+					setImage (file);
+				}
 			};
 
 			btnHCardImage.TouchUpInside += (sender, args) => {
@@ -530,6 +534,7 @@ namespace Busidex.Presentation.iOS
 				if (SelectedCard.BackFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) ||
 					SelectedCard.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 					fileName = string.Empty;
+					setDisplay (fileName);
 				} else {
 					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
 					if (!File.Exists (fileName)) {

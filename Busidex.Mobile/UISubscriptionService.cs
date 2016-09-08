@@ -1537,6 +1537,16 @@ namespace Busidex.Mobile
 				OwnedCard = cardResponse.Success ? new Card (cardResponse.Model) : null;
 				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (OwnedCard), Resources.OWNED_CARD_FILE);
 
+				if(UserCards != null){
+					foreach(var uc in UserCards){
+						if(uc.Card.CardId == OwnedCard.CardId){
+							OwnedCard.ExistsInMyBusidex = true;
+							uc.Card = new Card (OwnedCard);
+							break;
+						}
+					}	
+				}
+
 				if (OnCardInfoSaved != null) {
 					OnCardInfoSaved ();
 				}
