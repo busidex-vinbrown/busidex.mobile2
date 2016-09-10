@@ -30,11 +30,6 @@ namespace Busidex.Presentation.Droid.v2
 	[Activity (
 		Label = "Busidex",
 		ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-	[IntentFilter (new [] { Intent.ActionView },
-		DataScheme = "busidex",
-		DataPathPrefix = "/Uebo",
-		//DataHost = "jqle.app.link", 
-		Categories = new [] { Intent.CategoryDefault, Intent.CategoryBrowsable })]
 	public class MainActivity : FragmentActivity, IBranchSessionInterface
 	{
 		ViewPager pager;
@@ -351,6 +346,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		public void InitSessionComplete (Dictionary<string, object> data)
 		{
+
+			if(data == null){
+				return;
+			}
 
 			var cardId = string.Empty;
 

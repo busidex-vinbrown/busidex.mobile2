@@ -75,13 +75,6 @@ namespace Busidex.Presentation.iOS
 				Application.ShowAlert ("Delete", string.Format ("Delete {0}?", selectedNumber.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
 					if (button.Result == 0) {
 
-						//var selectedNumber = SelectedCard.PhoneNumbers.FirstOrDefault (p =>
-						//									 p.Number.Equals (number.Number) &&
-						//									 p.Extension.Equals (number.Extension) &&
-						//                                     p.PhoneNumberType != null &&
-						//									 p.PhoneNumberType.Name.Equals (number.PhoneNumberType.Name));
-
-
 						selectedNumber.Deleted = true;
 
 						InvokeOnMainThread (() => {
@@ -222,8 +215,6 @@ namespace Busidex.Presentation.iOS
 
 				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
 
-
-
 				if (isBackspace || digits.Length > 10) {
 					Array.Resize (ref digits, digits.Length - 1);
 					updateText (digits);
@@ -257,8 +248,22 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnSave.TouchUpInside += delegate {
-				SelectedCard.Url = txtUrl.Text;
-				SelectedCard.Email = txtEmail.Text;
+
+				var email = txtEmail.Text;
+				var url = txtUrl.Text;
+
+				if(!string.IsNullOrEmpty (email) && (!email.Contains("@") || !email.Contains(".") || email.Contains(" "))){
+					Application.ShowAlert ("Invalid Email", "Please enter a valid email address", "Ok");
+					return;
+				}
+
+				if (!string.IsNullOrEmpty(url) && (!url.Contains (".") || url.Contains (" "))) {
+					Application.ShowAlert ("Invalid Url", "Please enter a valid website address", "Ok");
+					return;
+				}
+
+				SelectedCard.Url = url;
+				SelectedCard.Email = email;
 				UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
 			};
 

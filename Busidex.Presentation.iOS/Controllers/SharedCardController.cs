@@ -10,6 +10,7 @@ using CoreGraphics;
 using Plugin.Messaging;
 using ContactsUI;
 using Contacts;
+using System.Linq;
 
 namespace Busidex.Presentation.iOS
 {
@@ -39,7 +40,12 @@ namespace Busidex.Presentation.iOS
 				FrontFileName = Path.Combine (documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName);
 				if (File.Exists (FrontFileName)) {
 					imgCard.Image = UIImage.FromFile (FrontFileName);
-					//imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
+
+					if (imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border") != null) {
+						imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border").RemoveFromSuperLayer ();
+					}
+
+					imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
 				} else {
 					ShowOverlay ();
 					Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.Card.FrontFileName, documentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName).ContinueWith (t => {

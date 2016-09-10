@@ -489,7 +489,7 @@ namespace Busidex.Mobile
 			states.Add (new State {
 				StateCodeId = 34,
 				Code = "NC",
-				Name = "North Carolina",
+				Name = "North Carolina"
 			});
 			states.Add (new State {
 				StateCodeId = 35,
@@ -647,29 +647,19 @@ namespace Busidex.Mobile
 		public static async void AddCardToMyBusidex (UserCard userCard)
 		{
 			try {
-				var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 				if (userCard != null) {
 					userCard.Card.ExistsInMyBusidex = true;
-					string file;
-					string myBusidexJson;
-					if (File.Exists (fullFilePath)) {
-						using (var myBusidexFile = File.OpenText (fullFilePath)) {
-							myBusidexJson = myBusidexFile.ReadToEnd ();
-						}
 
-						var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
-						myBusidex.Add (userCard);
-						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
-						Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
-
-						if (!UserCards.Any (c => c.CardId.Equals (userCard.CardId))) {
-							UserCards.Add (userCard);
-						}
+					if (!UserCards.Any (c => c.CardId.Equals (userCard.CardId))) {
+						UserCards.Add (userCard);
 					}
 
 					await myBusidexController.AddToMyBusidex (userCard.Card.CardId, AuthToken);
 
 					UserCards = sortUserCards ();
+
+					var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
 
 					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
 				}
@@ -680,25 +670,15 @@ namespace Busidex.Mobile
 
 		public static void RemoveCardFromMyBusidex (UserCard userCard)
 		{
-
 			try {
-				var fullFilePath = Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
 
 				if (userCard != null) {
 
-					string file;
-					string myBusidexJson;
-					if (File.Exists (fullFilePath)) {
-						using (var myBusidexFile = File.OpenText (fullFilePath)) {
-							myBusidexJson = myBusidexFile.ReadToEnd ();
-						}
-						var myBusidex = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserCard>> (myBusidexJson);
-						myBusidex.RemoveAll (uc => uc.CardId == userCard.CardId);
-						file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
-						Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+					UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
 
-						UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
-					}
+					var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
+					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
 					myBusidexController.RemoveFromMyBusidex (userCard.Card.CardId, AuthToken);
 				}
 			} catch (Exception ex) {
@@ -713,7 +693,6 @@ namespace Busidex.Mobile
 
 		public async static void SaveNotes (long userCardId, string notes)
 		{
-
 			try {
 				var controller = new NotesController ();
 				await controller.SaveNotes (userCardId, notes, AuthToken).ContinueWith (response => {
@@ -758,7 +737,6 @@ namespace Busidex.Mobile
 
 		public static void SaveSharedCard (SharedCard sharedCard)
 		{
-
 			try {
 				// Accept/Decline the card
 				var ctrl = new SharedCardController ();
@@ -1337,7 +1315,18 @@ namespace Busidex.Mobile
 					}
 
 					UserCards.Clear ();
-					UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()));
+
+					// If the user has a card, make sure it's always at the top of the list
+					if(OwnedCard != null){
+						var ownersCard = cards.SingleOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
+						if (ownersCard != null) {
+							UserCards.Add (ownersCard);
+							UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()).Where (c => c.Card.CardId != OwnedCard.CardId));
+						}
+
+					}else{
+						UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()));
+					}
 
 					var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
 
@@ -1485,10 +1474,29 @@ namespace Busidex.Mobile
 
 		static List<UserCard> sortUserCards ()
 		{
-			return UserCards.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
-				.ThenBy (c => c.Card != null ? c.Card.Name : "")
-				.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
-				.ToList ();
+			var list = new List<UserCard> ();
+			if(OwnedCard != null){
+				var ownersCard = UserCards.SingleOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
+				if(ownersCard != null){
+					list.Add (ownersCard);	
+				}
+				list.AddRange (
+					UserCards.Where(c => c.Card.CardId != OwnedCard.CardId)
+								.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+								.ThenBy (c => c.Card != null ? c.Card.Name : "")
+								.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+							  	.ToList ()
+						 );
+			}else{
+				list.AddRange (
+						UserCards.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+						.ThenBy (c => c.Card != null ? c.Card.Name : "")
+						.ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+						.ToList ()
+				);
+			}
+			
+			return list;
 		}
 
 		static string loadFromFile (string fullFilePath)

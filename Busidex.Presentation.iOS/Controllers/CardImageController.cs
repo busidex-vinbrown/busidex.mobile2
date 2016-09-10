@@ -196,6 +196,7 @@ namespace Busidex.Presentation.iOS
 			setTempCardInfo ();
 
 			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
+			SelectedOrientation = SelectedOrientation ?? "H";
 
 			CardModel = new MobileCardImage {
 				Orientation = SelectedOrientation,

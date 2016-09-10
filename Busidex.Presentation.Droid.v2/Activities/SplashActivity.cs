@@ -12,11 +12,21 @@ namespace Busidex.Presentation.Droid.v2
 		MainLauncher = true,
 		NoHistory = true,
 		ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+	[IntentFilter (new [] { Intent.ActionView },
+		DataScheme = "busidex",
+		DataPathPrefix = "/Uebo",
+		//DataHost = "jqle.app.link", 
+		Categories = new [] { Intent.CategoryDefault, Intent.CategoryBrowsable })]
 	public class SplashActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			Xamarin.Insights.Initialize (Mobile.Resources.XAMARIN_INSIGHTS_KEY, this);
+			//Xamarin.Insights.Initialize (Mobile.Resources.XAMARIN_INSIGHTS_KEY, this);
+			//Task.Factory.StartNew (() => {
+				Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
+
+			//});
+
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
 
@@ -24,10 +34,6 @@ namespace Busidex.Presentation.Droid.v2
 				BaseApplicationResource.Init (this);
 				UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 				UISubscriptionService.Init ();
-			});
-			Task.Factory.StartNew (() => {
-				Xamarin.Insights.Initialize (GetString (Resource.String.InsightsApiKey), ApplicationContext);
-
 			});
 
 			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);

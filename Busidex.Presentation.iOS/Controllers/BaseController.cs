@@ -40,10 +40,12 @@ namespace Busidex.Presentation.iOS
 		{
 			var layer = new CALayer ();
 			layer.Bounds = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
+			layer.Frame = new CGRect (frame.X, frame.Y, frame.Width + offset, frame.Height + offset);
 			layer.Position = new CGPoint ((frame.Width / 2f) + offset, (frame.Height / 2f) + offset);
 			layer.ContentsGravity = CALayer.GravityResize;
 			layer.BorderWidth = borderWidth;
 			layer.BorderColor = color;
+			layer.Name = "Border";
 
 			return layer;
 		}
