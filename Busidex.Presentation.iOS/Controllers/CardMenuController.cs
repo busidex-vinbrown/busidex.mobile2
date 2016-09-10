@@ -6,7 +6,7 @@ using Busidex.Mobile;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class CardMenuController : BaseCardEditController
+	public partial class CardMenuController : BaseController
 	{
 		public CardMenuController (IntPtr handle) : base (handle)
 		{
@@ -25,7 +25,7 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewDidAppear (animated);
 
-			SelectedCard = UISubscriptionService.OwnedCard;
+			//SelectedCard = UISubscriptionService.OwnedCard;
 		}
 
 		public override void ViewDidLoad ()

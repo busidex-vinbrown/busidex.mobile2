@@ -1,5 +1,4 @@
 ﻿using System;
-
 using UIKit;
 using GoogleAnalytics.iOS;
 using Busidex.Mobile.Models;
@@ -20,7 +19,7 @@ namespace Busidex.Presentation.iOS
 		protected override void CardUpdated ()
 		{
 			base.CardUpdated ();
-			switch (SelectedCard.Visibility) {
+			switch (UnsavedData.Visibility) {
 			case (int)CardVisibility.Public: {
 					setVisibilityUI (CardVisibility.Public);
 					break;
@@ -50,7 +49,7 @@ namespace Busidex.Presentation.iOS
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
-			switch (SelectedCard.Visibility) {
+			switch (UnsavedData.Visibility) {
 			case (int)CardVisibility.Public: {
 					setVisibilityUI (CardVisibility.Public);
 					break;
@@ -78,21 +77,24 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			btnPublic.TouchUpInside += delegate {
+				CardInfoChanged = true;
 				setVisibilityUI (CardVisibility.Public);
 			};
 
 			btnSemiPublic.TouchUpInside += delegate {
+				CardInfoChanged = true;
 				setVisibilityUI (CardVisibility.SemiPublic);
 			};
 
 			btnPrivate.TouchUpInside += delegate {
+				CardInfoChanged = true;
 				setVisibilityUI (CardVisibility.Private);
 			};
 		}
 
 		public override void SaveCard ()
 		{
-			UISubscriptionService.SaveCardVisibility (SelectedCard.Visibility);
+			UISubscriptionService.SaveCardVisibility (UnsavedData.Visibility);
 
 			base.SaveCard ();
 		}
@@ -134,7 +136,7 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			SelectedCard.Visibility = (byte)visibility;
+			UnsavedData.Visibility = (byte)visibility;
 		}
 
 		void setButtonState (UIButton button, bool state)
@@ -143,5 +145,3 @@ namespace Busidex.Presentation.iOS
 		}
 	}
 }
-
-

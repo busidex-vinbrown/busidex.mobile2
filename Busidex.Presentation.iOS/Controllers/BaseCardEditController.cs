@@ -9,6 +9,8 @@ namespace Busidex.Presentation.iOS
 	public partial class BaseCardEditController : BaseController
 	{
 		protected Card SelectedCard { get; set; }
+		protected Card UnsavedData { get; set; }
+
 		LoadingOverlay overlay;
 		public bool CardInfoChanged { get; set; }
 
@@ -20,6 +22,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 			SelectedCard = UISubscriptionService.OwnedCard;
+			UnsavedData = new Card (SelectedCard);
 
 			CardInfoChanged = false;
 
@@ -37,9 +40,32 @@ namespace Busidex.Presentation.iOS
 				overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
 			}
 
+			NavigationItem.SetHidesBackButton (true, false); 
+
 			NavigationItem.SetRightBarButtonItem (
 					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
 					, true);
+
+			NavigationItem.SetLeftBarButtonItem (
+					new UIBarButtonItem (UIBarButtonSystemItem.Done, (sender, args) => GoBack ())
+					, true);
+		}
+
+		void GoBack(){
+
+			if (CardInfoChanged) {
+				Application.ShowAlert ("Unsaved Changes", "You have unsaved changes, continue and lose those changes?", new string [] {
+					"Ok",
+					"Cancel"
+				}).ContinueWith (async button => {
+					if (await button == 0) {
+						InvokeOnMainThread (GoToCardEditMenu);
+					}
+				});
+			}else{
+				GoToCardEditMenu ();
+			}
+
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -66,6 +92,8 @@ namespace Busidex.Presentation.iOS
 		protected virtual void CardUpdated ()
 		{
 			SelectedCard = UISubscriptionService.OwnedCard;
+
+			UnsavedData = new Card (SelectedCard);
 
 			CardInfoChanged = false;
 

@@ -15,7 +15,7 @@ namespace Busidex.Presentation.iOS
 
 		void loadTags ()
 		{
-			var userTags = SelectedCard.Tags.Where (t => t.TagType == 1).ToList ();
+			var userTags = UnsavedData.Tags.Where (t => t.TagType == 1).ToList ();
 			txtTag1.Text = txtTag2.Text = txtTag3.Text = txtTag4.Text = txtTag5.Text = txtTag6.Text = txtTag7.Text = string.Empty;
 			for (var i = 0; i < userTags.Count; i++) {
 
@@ -62,11 +62,44 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			if (SelectedCard == null || SelectedCard.Tags == null) {
+			if (UnsavedData == null || UnsavedData.Tags == null) {
 				return;
 			}
 
 			loadTags ();
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			txtTag1.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag2.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag3.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag4.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag5.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag6.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTag7.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
 		}
 
 		public override void SaveCard ()
@@ -83,8 +116,8 @@ namespace Busidex.Presentation.iOS
 
 			// Add new tags
 			foreach (var tag in tags) {
-				if (SelectedCard.Tags.FirstOrDefault (t => string.Equals (t.Text, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
-					SelectedCard.Tags.Add (new Mobile.Models.Tag {
+				if (UnsavedData.Tags.FirstOrDefault (t => string.Equals (t.Text, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
+					UnsavedData.Tags.Add (new Mobile.Models.Tag {
 						Text = tag,
 						TagTypeId = 1,
 						Deleted = false
@@ -94,14 +127,14 @@ namespace Busidex.Presentation.iOS
 
 			// Clear tags that have been removed
 			var existingTags = new List<string> ();
-			existingTags.AddRange (SelectedCard.Tags.Select (t => t.Text.ToLower ()).Distinct ());
+			existingTags.AddRange (UnsavedData.Tags.Select (t => t.Text.ToLower ()).Distinct ());
 			foreach (var tag in existingTags) {
 				if (tags.FirstOrDefault (t => string.Equals (t, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
-					SelectedCard.Tags.RemoveAll (t => t.Text.ToLower () == tag);
+					UnsavedData.Tags.RemoveAll (t => t.Text.ToLower () == tag);
 				}
 			}
 
-			UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+			UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (UnsavedData));
 
 			base.SaveCard ();
 		}

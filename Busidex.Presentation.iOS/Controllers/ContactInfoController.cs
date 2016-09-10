@@ -40,9 +40,6 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-
-
-			
 			ResetUI ();
 		}
 
@@ -54,11 +51,13 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void ResetUI(){
-			txtEmail.Text = SelectedCard.Email;
-			txtUrl.Text = SelectedCard.Url;
+
+			txtEmail.Text = UnsavedData.Email;
+			txtUrl.Text = UnsavedData.Url;
 			vwNewPhoneNumber.Hidden = true;
 
-			var source = new PhoneNumberTableSource (SelectedCard.PhoneNumbers);
+
+			var source = new PhoneNumberTableSource (UnsavedData.PhoneNumbers);
 			source.OnPhoneNumberEditing += editPhoneNumber;
 			source.OnPhoneNumberDeleting += deletePhoneNumber;
 
@@ -72,7 +71,7 @@ namespace Busidex.Presentation.iOS
 
 		void deletePhoneNumber (int idx)
 		{
-			var selectedNumber = SelectedCard.PhoneNumbers.Where(p => !p.Deleted).ToList() [idx];
+			var selectedNumber = UnsavedData.PhoneNumbers.Where(p => !p.Deleted).ToList() [idx];
 			if (selectedNumber != null) {
 				Application.ShowAlert ("Delete", string.Format ("Delete {0}?", selectedNumber.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
 					if (button.Result == 0) {
@@ -80,7 +79,7 @@ namespace Busidex.Presentation.iOS
 						selectedNumber.Deleted = true;
 
 						InvokeOnMainThread (() => {
-							((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where (p => !p.Deleted).ToList ());
+							((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (UnsavedData.PhoneNumbers.Where (p => !p.Deleted).ToList ());
 							tblPhoneNumbers.ReloadData ();
 						});
 					}
@@ -191,14 +190,14 @@ namespace Busidex.Presentation.iOS
 					};
 				}
 				if (SelectedPhoneNumber < 0) {
-					SelectedCard.PhoneNumbers.Add (new PhoneNumber {
+					UnsavedData.PhoneNumbers.Add (new PhoneNumber {
 						Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", "."),
 						Extension = txtNewExtension.Text,
 						PhoneNumberType = model.SelectedPhoneNumberType,
 						PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId
 					});
 				} else {
-					var selected = SelectedCard.PhoneNumbers.SingleOrDefault (p => p.GetHashCode () == SelectedPhoneNumber);
+					var selected = UnsavedData.PhoneNumbers.SingleOrDefault (p => p.GetHashCode () == SelectedPhoneNumber);
 					if (selected != null) {
 						selected.Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", ".");
 						selected.Extension = txtNewExtension.Text;
@@ -206,7 +205,7 @@ namespace Busidex.Presentation.iOS
 						selected.PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId;
 					}
 				}
-				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (SelectedCard.PhoneNumbers.Where(p => !p.Deleted).ToList());
+				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (UnsavedData.PhoneNumbers.Where(p => !p.Deleted).ToList());
 				tblPhoneNumbers.ReloadData ();
 				clearFields ();
 				fadeIn ();
@@ -275,9 +274,9 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			SelectedCard.Url = url;
-			SelectedCard.Email = email;
-			UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
+			UnsavedData.Url = url;
+			UnsavedData.Email = email;
+			UISubscriptionService.SaveCardInfo (new CardDetailModel (UnsavedData));
 
 			base.SaveCard ();
 		}

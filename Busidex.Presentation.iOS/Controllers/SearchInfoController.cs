@@ -22,24 +22,41 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			if (SelectedCard != null) {
-				txtCompanyName.Text = SelectedCard.CompanyName;
-				txtName.Text = SelectedCard.Name;
-				txtTitle.Text = SelectedCard.Title;
+			if (UnsavedData != null) {
+				txtCompanyName.Text = UnsavedData.CompanyName;
+				txtName.Text = UnsavedData.Name;
+				txtTitle.Text = UnsavedData.Title;
 			}
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			txtCompanyName.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtName.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtTitle.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
 		}
 
 		public override void SaveCard ()
 		{
-			if (txtCompanyName.Text != SelectedCard.CompanyName ||
-					txtName.Text != SelectedCard.Name ||
-					txtTitle.Text != SelectedCard.Title) {
+			if (txtCompanyName.Text != UnsavedData.CompanyName ||
+					txtName.Text != UnsavedData.Name ||
+					txtTitle.Text != UnsavedData.Title) {
 
-				SelectedCard.CompanyName = txtCompanyName.Text;
-				SelectedCard.Name = txtName.Text;
-				SelectedCard.Title = txtTitle.Text;
+				UnsavedData.CompanyName = txtCompanyName.Text;
+				UnsavedData.Name = txtName.Text;
+				UnsavedData.Title = txtTitle.Text;
 
-				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (UnsavedData));
 			}
 
 			base.SaveCard ();

@@ -19,7 +19,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			const string EMPTY_STATE = "(Select State)";
 
-			address = SelectedCard.Addresses != null && SelectedCard.Addresses.Count >= 0 ? SelectedCard.Addresses [0] : new Address ();
+			address = UnsavedData.Addresses != null && UnsavedData.Addresses.Count >= 0 ? UnsavedData.Addresses [0] : new Address ();
 
 			txtAddress1.Text = address.Address1;
 			txtAddress2.Text = address.Address2;
@@ -33,7 +33,24 @@ namespace Busidex.Presentation.iOS
 			model.OnItemSelected += delegate {
 				pckState.Hidden = true;
 				address.State = model.selectedState;
+				CardInfoChanged = true;
 				fadeIn ();
+			};
+
+			txtAddress1.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtAddress2.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtCity.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
+			txtZip.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
 			};
 
 			pckState.Model = model;
@@ -58,8 +75,8 @@ namespace Busidex.Presentation.iOS
 			address.City = txtCity.Text;
 			address.ZipCode = txtZip.Text;
 
-			SelectedCard.Addresses [0] = address;
-			UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
+			UnsavedData.Addresses [0] = address;
+			UISubscriptionService.SaveCardInfo (new CardDetailModel (UnsavedData));
 
 			base.SaveCard ();
 		}

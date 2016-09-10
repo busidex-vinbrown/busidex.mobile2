@@ -29,6 +29,7 @@ namespace Busidex.Presentation.iOS
 
 		}
 
+
 		protected void ShowOverlay ()
 		{
 			Overlay = new CardLoadingOverlay (View.Bounds);

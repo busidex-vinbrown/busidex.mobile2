@@ -148,8 +148,8 @@ namespace Busidex.Presentation.iOS
 			backImageChanged = frontImageChanged = false;
 
 			var fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
-																 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+																 ? Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType)
+																 : Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 			InvokeOnMainThread (() => {
 				setDisplay (fileName);
 			});
@@ -163,28 +163,28 @@ namespace Busidex.Presentation.iOS
 		}
 
 		void setTempCardInfo(){
-			tempCard.BackFileId = SelectedCard.BackFileId;
-			tempCard.BackOrientation = SelectedCard.BackOrientation;
-			tempCard.BackType = SelectedCard.BackType;
-			tempCard.FrontFileId = SelectedCard.FrontFileId;
-			tempCard.FrontType = SelectedCard.FrontType;
-			tempCard.FrontOrientation = SelectedCard.FrontOrientation;
+			tempCard.BackFileId = UnsavedData.BackFileId;
+			tempCard.BackOrientation = UnsavedData.BackOrientation;
+			tempCard.BackType = UnsavedData.BackType;
+			tempCard.FrontFileId = UnsavedData.FrontFileId;
+			tempCard.FrontType = UnsavedData.FrontType;
+			tempCard.FrontOrientation = UnsavedData.FrontOrientation;
 		}
 
 		void restoreCardInfo(){
-			SelectedCard.BackFileId = tempCard.BackFileId;
-			SelectedCard.BackOrientation = tempCard.BackOrientation;
-			SelectedCard.BackType = tempCard.BackType;
-			SelectedCard.FrontFileId = tempCard.FrontFileId;
-			SelectedCard.FrontType = tempCard.FrontType;
-			SelectedCard.FrontOrientation = tempCard.FrontOrientation;
+			UnsavedData.BackFileId = tempCard.BackFileId;
+			UnsavedData.BackOrientation = tempCard.BackOrientation;
+			UnsavedData.BackType = tempCard.BackType;
+			UnsavedData.FrontFileId = tempCard.FrontFileId;
+			UnsavedData.FrontType = tempCard.FrontType;
+			UnsavedData.FrontOrientation = tempCard.FrontOrientation;
 
 			backImageChanged = frontImageChanged = false;
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
-			var loaded = SelectedCard != null && SelectedCard.FrontFileId.Equals (UISubscriptionService.OwnedCard.FrontFileId);
+			var loaded = UnsavedData != null && UnsavedData.FrontFileId.Equals (UISubscriptionService.OwnedCard.FrontFileId);
 
 			base.ViewWillAppear (animated);
 
@@ -194,10 +194,9 @@ namespace Busidex.Presentation.iOS
 			
 			setImageSelectionUI (false);
 
-			SelectedCard = UISubscriptionService.OwnedCard;
 			setTempCardInfo ();
 
-			SelectedOrientation = SelectedOrientation ?? SelectedCard.FrontOrientation;
+			SelectedOrientation = SelectedOrientation ?? UnsavedData.FrontOrientation;
 			SelectedOrientation = SelectedOrientation ?? "H";
 
 			CardModel = new MobileCardImage {
@@ -211,10 +210,10 @@ namespace Busidex.Presentation.iOS
 			if (!loaded) {
 				try {
 
-					if (!SelectedCard.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
-						!SelectedCard.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
+					if (!UnsavedData.FrontFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) &&
+						!UnsavedData.FrontFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 
-						var frontFileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
+						var frontFileName = Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType);
 						if (File.Exists (frontFileName)) {
 							if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 								setDisplay (frontFileName);
@@ -223,7 +222,7 @@ namespace Busidex.Presentation.iOS
 
 							ShowOverlay ();
 
-							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
+							Utils.DownloadImage (Resources.CARD_PATH + UnsavedData.FrontFileName, documentsPath, UnsavedData.FrontFileName).ContinueWith (t => {
 								InvokeOnMainThread (() => {
 									setDisplay (frontFileName);
 									Overlay.Hide ();
@@ -231,10 +230,10 @@ namespace Busidex.Presentation.iOS
 							});
 						}
 
-						var backFileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+						var backFileName = Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 
 						if (!File.Exists (backFileName)) {
-							Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
+							Utils.DownloadImage (Resources.CARD_PATH + UnsavedData.BackFileName, documentsPath, UnsavedData.BackFileName).ContinueWith (t => {
 								if (SelectedDisplayMode == MobileCardImage.DisplayMode.Back) {
 									InvokeOnMainThread (() => {
 										setDisplay (backFileName);
@@ -321,6 +320,8 @@ namespace Busidex.Presentation.iOS
 
 					frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
 					backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+
+					CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 
 				});
 			}
@@ -423,6 +424,7 @@ namespace Busidex.Presentation.iOS
 				}
 				frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
 				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+				CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 				setOrientation ("H");
 			};
 
@@ -432,6 +434,7 @@ namespace Busidex.Presentation.iOS
 				}
 				frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
 				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+				CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 				setOrientation ("V");
 			};
 
@@ -480,8 +483,8 @@ namespace Busidex.Presentation.iOS
 				if(choice == 1){
 					restoreCardInfo ();
 					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																	 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
-																	 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+																	 ? Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType)
+																	 : Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 					InvokeOnMainThread (() => {
 						setDisplay (fileName);
 					});
@@ -490,9 +493,9 @@ namespace Busidex.Presentation.iOS
 				}else{
 					SaveCard ();
 					if(SelectedDisplayMode == MobileCardImage.DisplayMode.Front){
-						SelectedCard.FrontOrientation = SelectedOrientation;
+						UnsavedData.FrontOrientation = SelectedOrientation;
 					}else{
-						SelectedCard.BackOrientation = SelectedOrientation;
+						UnsavedData.BackOrientation = SelectedOrientation;
 					}
 					return;
 				}
@@ -510,9 +513,9 @@ namespace Busidex.Presentation.iOS
 				btnBack.SetTitleColor (UIColor.Blue, UIControlState.Normal);
 				btnBack.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
-				fileName = Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType);
+				fileName = Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType);
 				if (!File.Exists (fileName)) {
-					await Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.FrontFileName, documentsPath, SelectedCard.FrontFileName).ContinueWith (t => {
+					await Utils.DownloadImage (Resources.CARD_PATH + UnsavedData.FrontFileName, documentsPath, UnsavedData.FrontFileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
 							setDisplay (fileName);
 							if (Overlay != null) {
@@ -531,14 +534,14 @@ namespace Busidex.Presentation.iOS
 				btnFront.SetTitleColor (UIColor.Blue, UIControlState.Normal);
 				btnFront.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
-				if (SelectedCard.BackFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) ||
-					SelectedCard.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
+				if (UnsavedData.BackFileId.ToString ().Equals (Resources.EMPTY_CARD_ID) ||
+					UnsavedData.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 					fileName = string.Empty;
 					setDisplay (fileName);
 				} else {
-					fileName = Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+					fileName = Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 					if (!File.Exists (fileName)) {
-						await Utils.DownloadImage (Resources.CARD_PATH + SelectedCard.BackFileName, documentsPath, SelectedCard.BackFileName).ContinueWith (t => {
+						await Utils.DownloadImage (Resources.CARD_PATH + UnsavedData.BackFileName, documentsPath, UnsavedData.BackFileName).ContinueWith (t => {
 							InvokeOnMainThread (() => {
 								setDisplay (fileName);
 								if (Overlay != null) {
@@ -552,7 +555,7 @@ namespace Busidex.Presentation.iOS
 				}
 			}
 
-			setOrientation (mode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontOrientation : SelectedCard.BackOrientation);
+			setOrientation (mode == MobileCardImage.DisplayMode.Front ? UnsavedData.FrontOrientation : UnsavedData.BackOrientation);
 		}
 
 		void setDisplay (string fileName)
@@ -571,7 +574,7 @@ namespace Busidex.Presentation.iOS
 				btnHCardImage.SetImage (null, UIControlState.Normal);
 				btnVCardImage.SetImage (null, UIControlState.Normal);
 				if (!File.Exists (fileName)) {
-					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? SelectedCard.FrontFileName : SelectedCard.BackFileName;
+					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? UnsavedData.FrontFileName : UnsavedData.BackFileName;
 					Utils.DownloadImage (Resources.CARD_PATH + fileName, documentsPath, fileName).ContinueWith (t => {
 						InvokeOnMainThread (() => {
 							setDisplay (fileName);
