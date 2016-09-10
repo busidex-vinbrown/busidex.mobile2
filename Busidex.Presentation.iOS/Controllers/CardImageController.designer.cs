@@ -40,10 +40,6 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnSave { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnSelectImage { get; set; }
 
         [Outlet]
@@ -108,11 +104,6 @@ namespace Busidex.Presentation.iOS
             if (btnReset != null) {
                 btnReset.Dispose ();
                 btnReset = null;
-            }
-
-            if (btnSave != null) {
-                btnSave.Dispose ();
-                btnSave = null;
             }
 
             if (btnSelectImage != null) {

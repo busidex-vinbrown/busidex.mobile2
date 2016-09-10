@@ -6,7 +6,6 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class SearchInfoController : BaseCardEditController
 	{
-
 		public SearchInfoController (IntPtr handle) : base (handle)
 		{
 
@@ -30,24 +29,20 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		public override void ViewDidLoad ()
+		public override void SaveCard ()
 		{
-			base.ViewDidLoad ();
-
-			btnSave.TouchUpInside += delegate {
-				if (txtCompanyName.Text != SelectedCard.CompanyName ||
+			if (txtCompanyName.Text != SelectedCard.CompanyName ||
 					txtName.Text != SelectedCard.Name ||
 					txtTitle.Text != SelectedCard.Title) {
 
-					SelectedCard.CompanyName = txtCompanyName.Text;
-					SelectedCard.Name = txtName.Text;
-					SelectedCard.Title = txtTitle.Text;
+				SelectedCard.CompanyName = txtCompanyName.Text;
+				SelectedCard.Name = txtName.Text;
+				SelectedCard.Title = txtTitle.Text;
 
-					UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
-				}
-			};
+				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+			}
+
+			base.SaveCard ();
 		}
 	}
 }
-
-

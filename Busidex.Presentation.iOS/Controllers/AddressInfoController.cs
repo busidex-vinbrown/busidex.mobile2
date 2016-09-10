@@ -12,12 +12,14 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		Address address;
+
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 			const string EMPTY_STATE = "(Select State)";
 
-			var address = SelectedCard.Addresses != null && SelectedCard.Addresses.Count >= 0 ? SelectedCard.Addresses [0] : new Address ();
+			address = SelectedCard.Addresses != null && SelectedCard.Addresses.Count >= 0 ? SelectedCard.Addresses [0] : new Address ();
 
 			txtAddress1.Text = address.Address1;
 			txtAddress2.Text = address.Address2;
@@ -47,17 +49,19 @@ namespace Busidex.Presentation.iOS
 					fadeOut ();
 				}
 			};
+		}
 
-			btnSave.TouchUpInside += delegate {
+		public override void SaveCard ()
+		{
+			address.Address1 = txtAddress1.Text;
+			address.Address2 = txtAddress2.Text;
+			address.City = txtCity.Text;
+			address.ZipCode = txtZip.Text;
 
-				address.Address1 = txtAddress1.Text;
-				address.Address2 = txtAddress2.Text;
-				address.City = txtCity.Text;
-				address.ZipCode = txtZip.Text;
+			SelectedCard.Addresses [0] = address;
+			UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
 
-				SelectedCard.Addresses [0] = address;
-				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
-			};
+			base.SaveCard ();
 		}
 
 		void fadeOut ()

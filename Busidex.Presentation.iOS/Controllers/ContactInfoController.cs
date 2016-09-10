@@ -41,6 +41,8 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 
+
+			
 			ResetUI ();
 		}
 
@@ -238,6 +240,14 @@ namespace Busidex.Presentation.iOS
 				fadeIn ();
 			};
 
+			txtEmail.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;	
+			};
+
+			txtUrl.EditingDidBegin += (sender, e) => {
+				CardInfoChanged = true;
+			};
+
 			txtEmail.ShouldReturn += textField => {
 				textField.ResignFirstResponder ();
 				return true;
@@ -247,29 +257,31 @@ namespace Busidex.Presentation.iOS
 				return true;
 			};
 
-			btnSave.TouchUpInside += delegate {
-
-				var email = txtEmail.Text;
-				var url = txtUrl.Text;
-
-				if(!string.IsNullOrEmpty (email) && (!email.Contains("@") || !email.Contains(".") || email.Contains(" "))){
-					Application.ShowAlert ("Invalid Email", "Please enter a valid email address", "Ok");
-					return;
-				}
-
-				if (!string.IsNullOrEmpty(url) && (!url.Contains (".") || url.Contains (" "))) {
-					Application.ShowAlert ("Invalid Url", "Please enter a valid website address", "Ok");
-					return;
-				}
-
-				SelectedCard.Url = url;
-				SelectedCard.Email = email;
-				UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
-			};
-
 			tblPhoneNumbers.RegisterClassForCellReuse (typeof (UITableViewCell), PhoneNumberTableSource.PhoneNumberCellId);
 		}
 
+		public override void SaveCard ()
+		{
+			var email = txtEmail.Text;
+			var url = txtUrl.Text;
+
+			if (!string.IsNullOrEmpty (email) && (!email.Contains ("@") || !email.Contains (".") || email.Contains (" "))) {
+				Application.ShowAlert ("Invalid Email", "Please enter a valid email address", "Ok");
+				return;
+			}
+
+			if (!string.IsNullOrEmpty (url) && (!url.Contains (".") || url.Contains (" "))) {
+				Application.ShowAlert ("Invalid Url", "Please enter a valid website address", "Ok");
+				return;
+			}
+
+			SelectedCard.Url = url;
+			SelectedCard.Email = email;
+			UISubscriptionService.SaveCardInfo (new CardDetailModel (SelectedCard));
+
+			base.SaveCard ();
+		}
+	
 		void fadeOut ()
 		{
 			tblPhoneNumbers.Hidden = lblTitle.Hidden = lblDescription.Hidden = lblDescription.Hidden = true;
@@ -277,10 +289,8 @@ namespace Busidex.Presentation.iOS
 					0.5, // duration
 					() => {
 						lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.UnderPageBackgroundColor;
-						btnSave.Alpha = .3f;
 					},
 					() => {
-						btnSave.Enabled = false;
 					}
 				);
 		}
@@ -294,8 +304,6 @@ namespace Busidex.Presentation.iOS
 						lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.White;
 					},
 					() => {
-						btnSave.Enabled = true;
-						btnSave.Alpha = 1f;
 					}
 				);
 		}

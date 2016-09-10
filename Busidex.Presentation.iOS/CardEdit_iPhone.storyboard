@@ -57,15 +57,6 @@
                                 <nil key="highlightedColor"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="413" restorationIdentifier="btnSave">
-                                <rect key="frame" x="88" y="490" width="143" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Save" backgroundImage="button.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="992">
                                 <rect key="frame" x="72" y="153" width="180" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -146,7 +137,6 @@
                         <outlet property="lblDescription" destination="28" id="name-outlet-28"/>
                         <outlet property="btnFront" destination="79" id="name-outlet-79"/>
                         <outlet property="btnBack" destination="80" id="name-outlet-80"/>
-                        <outlet property="btnSave" destination="413" id="name-outlet-413"/>
                         <outlet property="lblTitle" destination="308" id="name-outlet-308"/>
                         <outlet property="imgButtonFrame" destination="782" id="name-outlet-782"/>
                         <outlet property="btnSelectImage" destination="783" id="name-outlet-783"/>
@@ -322,15 +312,6 @@
                                 <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="338" restorationIdentifier="btnSave">
-                                <rect key="frame" x="89" y="523" width="143" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Save" backgroundImage="button.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -341,7 +322,6 @@
                         <outlet property="lblPublic" destination="316" id="name-outlet-316"/>
                         <outlet property="lblSemiPublic" destination="317" id="name-outlet-317"/>
                         <outlet property="lblPrivate" destination="318" id="name-outlet-318"/>
-                        <outlet property="btnSave" destination="338" id="name-outlet-338"/>
                         <outlet property="lblTitle" destination="309" id="name-outlet-309"/>
                     </connections>
                 </viewController>
@@ -395,15 +375,6 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="193" restorationIdentifier="btnSave">
-                                        <rect key="frame" x="88" y="280" width="143" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="Save" backgroundImage="button.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                        </state>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </button>
                                 </subviews>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </scrollView>
@@ -415,7 +386,6 @@
                         <outlet property="txtCompanyName" destination="188" id="name-outlet-188"/>
                         <outlet property="txtName" destination="189" id="name-outlet-189"/>
                         <outlet property="txtTitle" destination="190" id="name-outlet-190"/>
-                        <outlet property="btnSave" destination="193" id="name-outlet-193"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="156" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -483,15 +453,6 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="348" restorationIdentifier="btnSave">
-                                        <rect key="frame" x="88" y="280" width="143" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="Save" backgroundImage="button.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                        </state>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </button>
                                 </subviews>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </scrollView>
@@ -517,7 +478,6 @@
                         <outlet property="txtTag5" destination="395" id="name-outlet-395"/>
                         <outlet property="txtTag6" destination="394" id="name-outlet-394"/>
                         <outlet property="txtTag7" destination="393" id="name-outlet-393"/>
-                        <outlet property="btnSave" destination="348" id="name-outlet-348"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="163" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -561,15 +521,6 @@
                                 <textInputTraits key="textInputTraits" keyboardType="URL" autocorrectionType="no"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="414" restorationIdentifier="btnSave">
-                                <rect key="frame" x="88" y="523" width="143" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Save" backgroundImage="button.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                </state>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="40" sectionHeaderHeight="1" sectionFooterHeight="1" id="424" showsSelectionImmediatelyOnTouchBegin="NO" restorationIdentifier="tblPhoneNumbers" separatorStyle="none" showsHorizontalScrollIndicator="NO">
                                 <rect key="frame" x="0.0" y="335" width="320" height="180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -644,7 +595,6 @@
                     <connections>
                         <outlet property="txtEmail" destination="407" id="name-outlet-407"/>
                         <outlet property="txtUrl" destination="408" id="name-outlet-408"/>
-                        <outlet property="btnSave" destination="414" id="name-outlet-414"/>
                         <outlet property="tblPhoneNumbers" destination="424" id="name-outlet-424"/>
                         <outlet property="btnAddNumber" destination="444" id="name-outlet-444"/>
                         <outlet property="lblTitle" destination="405" id="name-outlet-405"/>
@@ -713,15 +663,6 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="267" restorationIdentifier="btnSave">
-                                        <rect key="frame" x="83" y="280" width="143" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="Save" backgroundImage="button.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
-                                        </state>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="[Selected State]" lineBreakMode="tailTruncation" minimumFontSize="10" id="268" restorationIdentifier="lblSelectedState">
                                         <rect key="frame" x="20" y="152" width="165" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -759,7 +700,6 @@
                         <outlet property="btnPicker" destination="269" id="name-outlet-269"/>
                         <outlet property="lblSelectedState" destination="268" id="name-outlet-268"/>
                         <outlet property="vwAddress" destination="176" id="name-outlet-176"/>
-                        <outlet property="btnSave" destination="267" id="name-outlet-267"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="177" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,6 +12,13 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			NavigationItem.SetRightBarButtonItem (null, true);
+		}
+	
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Menu");

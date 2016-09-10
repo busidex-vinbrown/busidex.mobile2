@@ -20,10 +20,6 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnSave { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblDescription { get; set; }
 
         [Outlet]
@@ -67,11 +63,6 @@ namespace Busidex.Presentation.iOS
             if (btnPicker != null) {
                 btnPicker.Dispose ();
                 btnPicker = null;
-            }
-
-            if (btnSave != null) {
-                btnSave.Dispose ();
-                btnSave = null;
             }
 
             if (lblDescription != null) {

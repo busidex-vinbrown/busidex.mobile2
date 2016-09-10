@@ -13,15 +13,43 @@ namespace Busidex.Presentation.iOS
 		const string DESCRIPTION_SEMI_PUBLIC = "Searching\nYour card will not be searchable by anyone except by those that have a Busidex account with whom your card has been shared.\n\nSharing\nIf you share with someone that does not have a Busidex account they will need to open an account to view your card in their Busidex page. Once you have shared your card, you give those with whom you shared your card the authorization to then share your card with whomever they wish. In other words, you authorize that your card can be shared with anyone by anyone that has your card.";
 		const string DESCRIPTION_PRIVATE = "With this option your card can only be shared by you. Even those that have your card cannot share it. You are the only person that can give your card to others.";
 
-
-
 		public VisibilityController (IntPtr handle) : base (handle)
 		{
+		}
+
+		protected override void CardUpdated ()
+		{
+			base.CardUpdated ();
+			switch (SelectedCard.Visibility) {
+			case (int)CardVisibility.Public: {
+					setVisibilityUI (CardVisibility.Public);
+					break;
+				}
+			case (int)CardVisibility.SemiPublic: {
+					setVisibilityUI (CardVisibility.SemiPublic);
+					break;
+				}
+			case (int)CardVisibility.Private: {
+					setVisibilityUI (CardVisibility.Private);
+					break;
+				}
+			}
+		}
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
+			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
+			UISubscriptionService.OnCardInfoSaved += CardUpdated;
+
 			switch (SelectedCard.Visibility) {
 			case (int)CardVisibility.Public: {
 					setVisibilityUI (CardVisibility.Public);
@@ -60,10 +88,13 @@ namespace Busidex.Presentation.iOS
 			btnPrivate.TouchUpInside += delegate {
 				setVisibilityUI (CardVisibility.Private);
 			};
+		}
 
-			btnSave.TouchUpInside += delegate {
-				UISubscriptionService.SaveCardVisibility (SelectedCard.Visibility);
-			};
+		public override void SaveCard ()
+		{
+			UISubscriptionService.SaveCardVisibility (SelectedCard.Visibility);
+
+			base.SaveCard ();
 		}
 
 		void setVisibilityUI (CardVisibility visibility)

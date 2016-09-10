@@ -15,8 +15,6 @@ namespace Busidex.Presentation.iOS
 {
 	public partial class CardImageController : BaseCardEditController
 	{
-		//BusinessCardDimensions frontDimensions;
-		//BusinessCardDimensions backDimensions;
 		enum DisplayMode
 		{
 			Front = 0,
@@ -190,6 +188,10 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewWillAppear (animated);
 
+			NavigationItem.SetRightBarButtonItem (
+					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
+					, true);
+			
 			setImageSelectionUI (false);
 
 			SelectedCard = UISubscriptionService.OwnedCard;
@@ -267,7 +269,6 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillDisappear (animated);
 
-			//CardUpdated ();
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 		}
 
@@ -325,14 +326,16 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
-		void saveImage(){
-
+		public override void SaveCard ()
+		{
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
 			UISubscriptionService.SaveCardImage (CardModel);
 
 			setTempCardInfo ();
+
+			base.SaveCard ();
 		}
 
 		public override void ViewDidLoad ()
@@ -444,10 +447,6 @@ namespace Busidex.Presentation.iOS
 				setDisplay (string.Empty);
 				setImageSelectionUI (false);
 			};
-
-			btnSave.TouchUpInside += delegate {
-				saveImage ();
-			};
 		}
 
 		void setOrientation(string orientation){
@@ -489,7 +488,7 @@ namespace Busidex.Presentation.iOS
 
 					return;
 				}else{
-					saveImage ();
+					SaveCard ();
 					if(SelectedDisplayMode == MobileCardImage.DisplayMode.Front){
 						SelectedCard.FrontOrientation = SelectedOrientation;
 					}else{

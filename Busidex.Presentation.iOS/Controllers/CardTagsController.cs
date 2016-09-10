@@ -69,46 +69,41 @@ namespace Busidex.Presentation.iOS
 			loadTags ();
 		}
 
-		public override void ViewDidLoad ()
+		public override void SaveCard ()
 		{
-			base.ViewDidLoad ();
+			var tags = new List<string> ();
+			tags.Add (txtTag1.Text);
+			tags.Add (txtTag2.Text);
+			tags.Add (txtTag3.Text);
+			tags.Add (txtTag4.Text);
+			tags.Add (txtTag5.Text);
+			tags.Add (txtTag6.Text);
+			tags.Add (txtTag7.Text);
+			tags.RemoveAll (t => string.IsNullOrEmpty (t));
 
-
-			btnSave.TouchUpInside += delegate {
-
-				var tags = new List<string> ();
-				tags.Add (txtTag1.Text);
-				tags.Add (txtTag2.Text);
-				tags.Add (txtTag3.Text);
-				tags.Add (txtTag4.Text);
-				tags.Add (txtTag5.Text);
-				tags.Add (txtTag6.Text);
-				tags.Add (txtTag7.Text);
-				tags.RemoveAll (t => string.IsNullOrEmpty (t));
-
-				// Add new tags
-				foreach (var tag in tags) {
-					if (SelectedCard.Tags.FirstOrDefault (t => string.Equals (t.Text, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
-						SelectedCard.Tags.Add (new Mobile.Models.Tag {
-							Text = tag,
-							TagTypeId = 1,
-							Deleted = false
-						});
-					}
+			// Add new tags
+			foreach (var tag in tags) {
+				if (SelectedCard.Tags.FirstOrDefault (t => string.Equals (t.Text, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
+					SelectedCard.Tags.Add (new Mobile.Models.Tag {
+						Text = tag,
+						TagTypeId = 1,
+						Deleted = false
+					});
 				}
+			}
 
-				// Clear tags that have been removed
-				var existingTags = new List<string> ();
-				existingTags.AddRange (SelectedCard.Tags.Select (t => t.Text.ToLower ()).Distinct ());
-				foreach (var tag in existingTags) {
-					if (tags.FirstOrDefault (t => string.Equals (t, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
-						SelectedCard.Tags.RemoveAll (t => t.Text.ToLower () == tag);
-					}
+			// Clear tags that have been removed
+			var existingTags = new List<string> ();
+			existingTags.AddRange (SelectedCard.Tags.Select (t => t.Text.ToLower ()).Distinct ());
+			foreach (var tag in existingTags) {
+				if (tags.FirstOrDefault (t => string.Equals (t, tag, StringComparison.InvariantCultureIgnoreCase)) == null) {
+					SelectedCard.Tags.RemoveAll (t => t.Text.ToLower () == tag);
 				}
+			}
 
-				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
+			UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (SelectedCard));
 
-			};
+			base.SaveCard ();
 		}
 	}
 }

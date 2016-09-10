@@ -24,10 +24,6 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnSave { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnSemiPublic { get; set; }
 
         [Outlet]
@@ -60,11 +56,6 @@ namespace Busidex.Presentation.iOS
             if (btnPublic != null) {
                 btnPublic.Dispose ();
                 btnPublic = null;
-            }
-
-            if (btnSave != null) {
-                btnSave.Dispose ();
-                btnSave = null;
             }
 
             if (btnSemiPublic != null) {

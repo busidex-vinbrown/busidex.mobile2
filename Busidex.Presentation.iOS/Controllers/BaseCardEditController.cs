@@ -10,6 +10,7 @@ namespace Busidex.Presentation.iOS
 	{
 		protected Card SelectedCard { get; set; }
 		LoadingOverlay overlay;
+		public bool CardInfoChanged { get; set; }
 
 		public BaseCardEditController (IntPtr handle) : base (handle)
 		{
@@ -19,6 +20,8 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 			SelectedCard = UISubscriptionService.OwnedCard;
+
+			CardInfoChanged = false;
 
 			UISubscriptionService.OnCardInfoUpdating -= CardUpdating;
 			UISubscriptionService.OnCardInfoUpdating += CardUpdating;
@@ -33,6 +36,10 @@ namespace Busidex.Presentation.iOS
 			if (overlay == null) {
 				overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
 			}
+
+			NavigationItem.SetRightBarButtonItem (
+					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
+					, true);
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -59,6 +66,8 @@ namespace Busidex.Presentation.iOS
 		protected virtual void CardUpdated ()
 		{
 			SelectedCard = UISubscriptionService.OwnedCard;
+
+			CardInfoChanged = false;
 
 			InvokeOnMainThread (() => {
 				if (overlay != null) {
