@@ -11,6 +11,8 @@ namespace Busidex.Presentation.iOS
 		protected Card SelectedCard { get; set; }
 		protected Card UnsavedData { get; set; }
 
+		protected const string CARD_UPDATED_WARNING = "You have unsaved changes, continue and lose those changes?";
+
 		LoadingOverlay overlay;
 		public bool CardInfoChanged { get; set; }
 
@@ -54,7 +56,7 @@ namespace Busidex.Presentation.iOS
 		void GoBack(){
 
 			if (CardInfoChanged) {
-				Application.ShowAlert ("Unsaved Changes", "You have unsaved changes, continue and lose those changes?", new string [] {
+				Application.ShowAlert ("Unsaved Changes", CARD_UPDATED_WARNING, new string [] {
 					"Ok",
 					"Cancel"
 				}).ContinueWith (async button => {

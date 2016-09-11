@@ -200,6 +200,8 @@ namespace Busidex.Presentation.iOS
 			SelectedOrientation = SelectedOrientation ?? "H";
 
 			CardModel = new MobileCardImage {
+				FrontFileId = UnsavedData.FrontFileId,
+				BackFileId = UnsavedData.BackFileId,
 				Orientation = SelectedOrientation,
 				Side = SelectedDisplayMode,
 				EncodedCardImage = string.Empty
@@ -447,8 +449,12 @@ namespace Busidex.Presentation.iOS
 				}
 				CardModel.EncodedCardImage = Guid.Empty.ToString ();
 
+				frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
+				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
+
 				setDisplay (string.Empty);
 				setImageSelectionUI (false);
+				CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 			};
 		}
 
@@ -479,26 +485,31 @@ namespace Busidex.Presentation.iOS
 			string fileName;
 
 			if(frontImageChanged || backImageChanged){
-				var choice = await Application.ShowAlert ("Card Image Changed", "You have updated your card image. Save before changing?", new [] { "Ok", "Cancel" });
-				if(choice == 1){
+				var choice = await Application.ShowAlert ("Card Image Changed", CARD_UPDATED_WARNING, new [] { "Ok", "Cancel" });
+				if (choice == 1) {
 					restoreCardInfo ();
+					// Use the Original
 					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																	 ? Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType)
-																	 : Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
+																	 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
+																	 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+					var orientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+																			? SelectedCard.FrontOrientation
+																			: SelectedCard.BackOrientation;
 					InvokeOnMainThread (() => {
 						setDisplay (fileName);
+						rotate (orientation);
 					});
 
 					return;
-				}else{
-					SaveCard ();
-					if(SelectedDisplayMode == MobileCardImage.DisplayMode.Front){
-						UnsavedData.FrontOrientation = SelectedOrientation;
-					}else{
-						UnsavedData.BackOrientation = SelectedOrientation;
-					}
-					return;
 				}
+
+				SaveCard ();
+				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
+					UnsavedData.FrontOrientation = SelectedOrientation;
+				} else {
+					UnsavedData.BackOrientation = SelectedOrientation;
+				}
+				return;
 			}
 
 			SelectedDisplayMode = mode;
@@ -562,7 +573,7 @@ namespace Busidex.Presentation.iOS
 		{
 			UIImage img = null;
 
-			if (string.IsNullOrEmpty (fileName)) {
+			if (string.IsNullOrEmpty (fileName) || fileName.Contains(Guid.Empty.ToString())) {
 				const string DEFALUT_PHOTO_IMAGE = "default_photo.png";
 				img = UIImage.FromFile (DEFALUT_PHOTO_IMAGE);
 				btnHCardImage.SetImage (img, UIControlState.Normal);

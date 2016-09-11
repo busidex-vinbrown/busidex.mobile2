@@ -1,23 +1,8 @@
 ﻿<Properties StartupItem="Busidex.Presentation.iOS/Busidex.Presentation.iOS.csproj" RefactoringSettings.EnableRefactorings="True" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs">
-    <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" Line="186" Column="9" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="79" Column="3" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1553" Column="14" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/AddressInfoController.cs" Line="52" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="297" Column="42" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.cs" Line="47" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardTagsController.cs" Line="96" Column="47" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/VisibilityController.cs" Line="3" Column="27" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" Line="112" Column="27" />
-      <File FileName="Busidex.Mobile/Models/Card.cs" Line="16" Column="20" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="197" column="28" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

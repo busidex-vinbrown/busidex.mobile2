@@ -19,20 +19,23 @@ namespace Busidex.Presentation.iOS
 		protected override void CardUpdated ()
 		{
 			base.CardUpdated ();
-			switch (UnsavedData.Visibility) {
-			case (int)CardVisibility.Public: {
-					setVisibilityUI (CardVisibility.Public);
-					break;
+
+			InvokeOnMainThread (() => {
+				switch (UnsavedData.Visibility) {
+				case (int)CardVisibility.Public: {
+						setVisibilityUI (CardVisibility.Public);
+						break;
+					}
+				case (int)CardVisibility.SemiPublic: {
+						setVisibilityUI (CardVisibility.SemiPublic);
+						break;
+					}
+				case (int)CardVisibility.Private: {
+						setVisibilityUI (CardVisibility.Private);
+						break;
+					}
 				}
-			case (int)CardVisibility.SemiPublic: {
-					setVisibilityUI (CardVisibility.SemiPublic);
-					break;
-				}
-			case (int)CardVisibility.Private: {
-					setVisibilityUI (CardVisibility.Private);
-					break;
-				}
-			}
+			});
 		}
 
 		public override void ViewWillDisappear (bool animated)
