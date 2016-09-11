@@ -173,7 +173,7 @@ namespace Busidex.Presentation.iOS
 				AddNameLabel(userCard, cell, ref frame);
 				AddCompanyLabel (userCard, cell, ref frame);
 				AddAcceptDeclineButtons (sharedCard, cell);
-				AddCardImageButton (userCard, cell, 0);
+				AddCardImageButton (userCard, cell, 0, false);
 
 				frame.Y += sharedCard.Card.FrontOrientation == "H" 
 					? CARD_HEIGHT_HORIZONTAL

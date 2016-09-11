@@ -19,7 +19,7 @@ namespace Busidex.Presentation.iOS
 
 		int SelectedPhoneNumber;
 
-		PhoneNumberUpdateMode UpdateMode { get; set; }
+		//PhoneNumberUpdateMode UpdateMode { get; set; }
 
 		public ContactInfoController (IntPtr handle) : base (handle)
 		{
@@ -35,6 +35,9 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillDisappear (bool animated)
 		{
 			base.ViewWillDisappear (animated);
+			if(tblPhoneNumbers.Hidden){
+				fadeIn ();
+			}
 		}
 	
 		public override void ViewWillAppear (bool animated)
@@ -62,6 +65,8 @@ namespace Busidex.Presentation.iOS
 			source.OnPhoneNumberDeleting += deletePhoneNumber;
 
 			tblPhoneNumbers.Source = source;
+			tblPhoneNumbers.ReloadData ();
+
 			pckPhoneNumberTypes.Model = model;
 
 			btnAddNumber.TouchUpInside += delegate {
@@ -77,7 +82,7 @@ namespace Busidex.Presentation.iOS
 					if (button.Result == 0) {
 
 						selectedNumber.Deleted = true;
-
+						CardInfoChanged = true;
 						InvokeOnMainThread (() => {
 							((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (UnsavedData.PhoneNumbers.Where (p => !p.Deleted).ToList ());
 							tblPhoneNumbers.ReloadData ();
@@ -95,13 +100,15 @@ namespace Busidex.Presentation.iOS
 
 			if (number == null) {
 				SelectedPhoneNumber = -1;
-				UpdateMode = PhoneNumberUpdateMode.Edit;
+				//UpdateMode = PhoneNumberUpdateMode.Add;
 				btnAddNewPhoneNumber.SetTitle ("Add Phone Number", UIControlState.Normal);
 				txtNewPhoneNumber.Text = txtNewExtension.Text = string.Empty;
 			} else {
 				SelectedPhoneNumber = number.GetHashCode ();
-
-				UpdateMode = PhoneNumberUpdateMode.Add;
+				if(SelectedPhoneNumber < 0){
+					SelectedPhoneNumber = Math.Abs (SelectedPhoneNumber);
+				}
+				//UpdateMode = PhoneNumberUpdateMode.Edit;
 				btnAddNewPhoneNumber.SetTitle ("Update Phone Number", UIControlState.Normal);
 
 				txtNewPhoneNumber.Text = number.Number;
@@ -197,7 +204,7 @@ namespace Busidex.Presentation.iOS
 						PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId
 					});
 				} else {
-					var selected = UnsavedData.PhoneNumbers.SingleOrDefault (p => p.GetHashCode () == SelectedPhoneNumber);
+					var selected = UnsavedData.PhoneNumbers.SingleOrDefault (p => Math.Abs(p.GetHashCode ()) == SelectedPhoneNumber);
 					if (selected != null) {
 						selected.Number = txtNewPhoneNumber.Text.Trim ().Replace ("(", "").Replace (")", "").Replace (" ", ".");
 						selected.Extension = txtNewExtension.Text;
@@ -205,6 +212,7 @@ namespace Busidex.Presentation.iOS
 						selected.PhoneNumberTypeId = model.SelectedPhoneNumberType.PhoneNumberTypeId;
 					}
 				}
+				CardInfoChanged = true;
 				((PhoneNumberTableSource)tblPhoneNumbers.Source).UpdateData (UnsavedData.PhoneNumbers.Where(p => !p.Deleted).ToList());
 				tblPhoneNumbers.ReloadData ();
 				clearFields ();
@@ -230,6 +238,7 @@ namespace Busidex.Presentation.iOS
 				var digits = Utils.GetDigits (txtNewPhoneNumber.Text);
 				updateText (digits);
 				btnAddNewPhoneNumber.Enabled = digits.Length > 0;
+				CardInfoChanged = true;
 			};
 
 			btnCancel.TouchUpInside += delegate {
@@ -284,27 +293,13 @@ namespace Busidex.Presentation.iOS
 		void fadeOut ()
 		{
 			tblPhoneNumbers.Hidden = lblTitle.Hidden = lblDescription.Hidden = lblDescription.Hidden = true;
-			UIView.Animate (
-					0.5, // duration
-					() => {
-						lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.UnderPageBackgroundColor;
-					},
-					() => {
-					}
-				);
+			lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.UnderPageBackgroundColor;
 		}
 
 		void fadeIn ()
 		{
 			tblPhoneNumbers.Hidden = lblTitle.Hidden = lblDescription.Hidden = lblDescription.Hidden = false;
-			UIView.Animate (
-					0.5, // duration
-					() => {
-						lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.White;
-					},
-					() => {
-					}
-				);
+			lblDescription.BackgroundColor = tblPhoneNumbers.BackgroundColor = View.BackgroundColor = UIColor.White;
 		}
 	}
 }

@@ -14,6 +14,7 @@ namespace Busidex.Presentation.iOS
 	public partial class ButtonPanelController : BaseController
 	{
 		public UserCard SelectedCard{ get; set; }
+		public bool ShowNotes { get; set; }
 
 		string FrontFileName{ get; set; }
 
@@ -66,7 +67,6 @@ namespace Busidex.Presentation.iOS
 					ShowMaps ();
 				}
 			};
-
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -89,14 +89,13 @@ namespace Busidex.Presentation.iOS
 			btnRemove.Hidden = !SelectedCard.ExistsInMyBusidex;
 			btnEmail.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Email);	
 			btnBrowser.Enabled = !string.IsNullOrEmpty (SelectedCard.Card.Url);
-			btnNotes.Enabled = SelectedCard.ExistsInMyBusidex;
+			btnNotes.Enabled = SelectedCard.ExistsInMyBusidex && ShowNotes;
 			btnPhone.Enabled = SelectedCard.Card.PhoneNumbers != null && SelectedCard.Card.PhoneNumbers.Any (p => !p.Deleted);	
 			btnMaps.Enabled = SelectedCard.Card.Addresses != null && SelectedCard.Card.Addresses.Any ();
 		}
 
 		void LoadCard ()
 		{
-
 			if (SelectedCard != null && SelectedCard.Card != null) {
 
 				lblName.Text = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;

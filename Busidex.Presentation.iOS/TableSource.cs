@@ -90,7 +90,7 @@ namespace Busidex.Presentation.iOS
 				if (noCardLabel != null) {
 					noCardLabel.RemoveFromSuperview ();
 				}
-				AddCardImageButton (card, cell, idx);
+				AddCardImageButton (card, cell, idx, ShowNotes);
 				AddNameLabel (card, cell, ref frame);
 				AddCompanyLabel (card, cell, ref frame);
 			}

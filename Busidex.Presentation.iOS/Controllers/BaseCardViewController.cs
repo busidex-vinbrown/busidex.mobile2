@@ -121,9 +121,10 @@ namespace Busidex.Presentation.iOS
 			ToggleImage ();
 		}
 
-		protected void ShowCardActions(UserCard card){
+		protected void ShowCardActions(UserCard card, bool showNotes){
 			
 			BaseNavigationController.buttonPanelController.SelectedCard = card;
+			BaseNavigationController.buttonPanelController.ShowNotes = showNotes;
 
 			if (NavigationController.ChildViewControllers.Count (c => c is ButtonPanelController) == 0) {
 				NavigationController.PushViewController (BaseNavigationController.buttonPanelController, true);

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Busidex.Presentation.iOS
 {
-	public delegate void CardSelected (UserCard card);
+	public delegate void CardSelected (UserCard card, bool showNotes);
 
 	public class BaseTableSource : UITableViewSource
 	{
@@ -72,16 +72,16 @@ namespace Busidex.Presentation.iOS
 
 		}
 
-		protected void GoToCard (int idx)
+		protected void GoToCard (int idx, bool showNotes)
 		{
 			SelectedCard = Cards [idx];
 			if (CardSelected != null) {
-				CardSelected (SelectedCard);
+				CardSelected (SelectedCard, showNotes);
 				ActivityController.SaveActivity ((long)EventSources.Details, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
 			}
 		}
 
-		protected void AddCardImageButton (UserCard card, UITableViewCell cell, int idx)
+		protected void AddCardImageButton (UserCard card, UITableViewCell cell, int idx, bool showNotes)
 		{
 
 
@@ -102,7 +102,7 @@ namespace Busidex.Presentation.iOS
 			}
 
 			CardImageButton.TouchUpInside += delegate {
-				GoToCard (idx);
+				GoToCard (idx, showNotes);
 			};
 
 			// Highlight the user's card

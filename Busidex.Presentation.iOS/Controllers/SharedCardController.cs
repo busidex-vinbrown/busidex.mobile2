@@ -114,7 +114,13 @@ namespace Busidex.Presentation.iOS
 			var controller = new Mobile.SharedCardController ();
 
 			string response;
+			const string MESSAGE_SUCCESS_SMS = "Preparing Your Text Msg";
+			const string MESSAGE_SUCCESS_EMAIL = "Delivered";
+
 			if (string.IsNullOrEmpty (phoneNumber)) {
+
+				lblSuccess.Text = MESSAGE_SUCCESS_EMAIL;
+
 				// send the shared card the 'traditional' way
 				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, token);
 				if (!string.IsNullOrEmpty (response) && response.Contains ("true")) {
@@ -126,6 +132,9 @@ namespace Busidex.Presentation.iOS
 				}
 			} else {
 				// send text message with quick share link
+
+				lblSuccess.Text = MESSAGE_SUCCESS_SMS;
+
 				var smsTask = MessagingPlugin.SmsMessenger;
 				if (smsTask.CanSendSms) {
 					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (async r => {

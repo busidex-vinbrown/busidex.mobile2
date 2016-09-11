@@ -26,9 +26,9 @@ namespace Busidex.Mobile.Models
 			Display = (int)model.Display;
 			FrontType = model.FrontType;
 			BackType = model.BackType;
-			Tags = new List<Tag>(model.Tags);
-			Addresses = new List<Address>(model.Addresses);;
-			PhoneNumbers = new List<PhoneNumber> (model.PhoneNumbers);
+			Tags = new List<Tag>();
+			Addresses = new List<Address>();;
+			PhoneNumbers = new List<PhoneNumber> ();
 			Visibility = model.Visibility;
 			ExistsInMyBusidex = model.ExistsInMyBusidex;
 
