@@ -112,7 +112,7 @@ namespace Busidex.Presentation.iOS
 					btnCard.SetBackgroundImage (UIImage.FromBundle ("defaultUserImage.png"), UIControlState.Normal);
 				}
 
-				if (btnCard.Layer.Sublayers.SingleOrDefault(layer => layer.Name == "Border") != null) {
+				if (btnCard.Layer.Sublayers != null && btnCard.Layer.Sublayers.SingleOrDefault(layer => layer.Name == "Border") != null) {
 					btnCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border").RemoveFromSuperLayer ();
 				}
 

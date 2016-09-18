@@ -1318,7 +1318,7 @@ namespace Busidex.Mobile
 
 					// If the user has a card, make sure it's always at the top of the list
 					if(OwnedCard != null){
-						var ownersCard = cards.SingleOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
+						var ownersCard = cards.FirstOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
 						if (ownersCard != null) {
 							UserCards.Add (ownersCard);
 							UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()).Where (c => c.Card.CardId != OwnedCard.CardId));

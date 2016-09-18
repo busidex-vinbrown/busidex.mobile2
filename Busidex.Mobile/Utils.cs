@@ -37,6 +37,8 @@ namespace Busidex.Mobile
 
 		public static async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
 		{
+			ServicePointManager.Expect100Continue = false;
+
 			if (imagePath.Contains ("00000000-0000-0000-0000-000000000000")) {
 				return string.Empty;
 			}

@@ -11,13 +11,17 @@ namespace Busidex.Presentation.iOS
 		protected Card SelectedCard { get; set; }
 		protected Card UnsavedData { get; set; }
 
-		protected const string CARD_UPDATED_WARNING = "You have unsaved changes, continue and lose those changes?";
-
+		protected const string CARD_UPDATED_LOSE_WARNING = "You have unsaved changes, Continue and lose all changes or Go Back to save those changes?";
+		protected const string CARD_UPDATED_SAVE_WARNING = "You have unsaved changes, continue and save those changes?";
 		LoadingOverlay overlay;
 		public bool CardInfoChanged { get; set; }
 
 		public BaseCardEditController (IntPtr handle) : base (handle)
 		{
+		}
+
+		protected virtual void CancelChanges(){
+			
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -56,12 +60,15 @@ namespace Busidex.Presentation.iOS
 		void GoBack(){
 
 			if (CardInfoChanged) {
-				Application.ShowAlert ("Unsaved Changes", CARD_UPDATED_WARNING, new string [] {
-					"Ok",
-					"Cancel"
+				Application.ShowAlert ("Unsaved Changes", CARD_UPDATED_LOSE_WARNING, new string [] {
+					"Continue",
+					"Go Back"
 				}).ContinueWith (async button => {
 					if (await button == 0) {
-						InvokeOnMainThread (GoToCardEditMenu);
+						InvokeOnMainThread (() => {
+							CancelChanges ();
+							GoToCardEditMenu ();
+						});
 					}
 				});
 			}else{
@@ -73,10 +80,6 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillDisappear (bool animated)
 		{
 			base.ViewWillDisappear (animated);
-
-			//CardUpdated ();
-			//UISubscriptionService.OnCardInfoSaved -= CardUpdated;
-			//UISubscriptionService.OnCardInfoUpdating -= CardUpdating;
 		}
 
 		protected void CardUpdating ()

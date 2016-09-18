@@ -41,7 +41,7 @@ namespace Busidex.Presentation.iOS
 				if (File.Exists (FrontFileName)) {
 					imgCard.Image = UIImage.FromFile (FrontFileName);
 
-					if (imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border") != null) {
+					if (imgCard.Layer.Sublayers != null && imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border") != null) {
 						imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border").RemoveFromSuperLayer ();
 					}
 

@@ -76,6 +76,11 @@ namespace Busidex.Presentation.iOS
 
 		void deletePhoneNumber (int idx)
 		{
+			var numberCount = UnsavedData.PhoneNumbers.Count (p => !p.Deleted);
+			if(idx >= numberCount){
+				return;
+			}
+
 			var selectedNumber = UnsavedData.PhoneNumbers.Where(p => !p.Deleted).ToList() [idx];
 			if (selectedNumber != null) {
 				Application.ShowAlert ("Delete", string.Format ("Delete {0}?", selectedNumber.Number.AsPhoneNumber ()), new [] { "Ok", "Cancel" }).ContinueWith (button => {
@@ -100,7 +105,6 @@ namespace Busidex.Presentation.iOS
 
 			if (number == null) {
 				SelectedPhoneNumber = -1;
-				//UpdateMode = PhoneNumberUpdateMode.Add;
 				btnAddNewPhoneNumber.SetTitle ("Add Phone Number", UIControlState.Normal);
 				txtNewPhoneNumber.Text = txtNewExtension.Text = string.Empty;
 			} else {
@@ -108,7 +112,6 @@ namespace Busidex.Presentation.iOS
 				if(SelectedPhoneNumber < 0){
 					SelectedPhoneNumber = Math.Abs (SelectedPhoneNumber);
 				}
-				//UpdateMode = PhoneNumberUpdateMode.Edit;
 				btnAddNewPhoneNumber.SetTitle ("Update Phone Number", UIControlState.Normal);
 
 				txtNewPhoneNumber.Text = number.Number;

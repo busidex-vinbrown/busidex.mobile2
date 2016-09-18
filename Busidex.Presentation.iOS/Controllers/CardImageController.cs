@@ -61,79 +61,6 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		#region Manual Camara Functionality
-
-		/* 
-	    AVCaptureSession captureSession;
-		AVCaptureDeviceInput captureDeviceInput;
-		AVCaptureStillImageOutput stillImageOutput;
-		AVCaptureVideoPreviewLayer videoPreviewLayer;
-		static async Task AuthorizeCameraUse ()
-		{
-			var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus (AVMediaType.Video);
-
-			if (authorizationStatus != AVAuthorizationStatus.Authorized) {
-				await AVCaptureDevice.RequestAccessForMediaTypeAsync (AVMediaType.Video);
-			}
-		}
-
-		static void ConfigureCameraForDevice (AVCaptureDevice device)
-		{
-			NSError error;
-			if (device.IsFocusModeSupported (AVCaptureFocusMode.ContinuousAutoFocus)) {
-				device.LockForConfiguration (out error);
-				device.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
-				device.UnlockForConfiguration ();
-			} else if (device.IsExposureModeSupported (AVCaptureExposureMode.ContinuousAutoExposure)) {
-				device.LockForConfiguration (out error);
-				device.ExposureMode = AVCaptureExposureMode.ContinuousAutoExposure;
-				device.UnlockForConfiguration ();
-			} else if (device.IsWhiteBalanceModeSupported (AVCaptureWhiteBalanceMode.ContinuousAutoWhiteBalance)) {
-				device.LockForConfiguration (out error);
-				device.WhiteBalanceMode = AVCaptureWhiteBalanceMode.ContinuousAutoWhiteBalance;
-				device.UnlockForConfiguration ();
-			}
-		}
-
-		public void SetupLiveCameraStream ()
-		{
-			captureSession = new AVCaptureSession ();
-
-			var viewLayer = btnCardImage.Layer;
-			//var frame = new CGRect (0, 0, HORIZONTAL_WIDTH, HORIZONTAL_HEIGHT + 25f);
-
-			videoPreviewLayer = new AVCaptureVideoPreviewLayer (captureSession) {
-				Frame = View.Frame,
-				VideoGravity = AVLayerVideoGravity.ResizeAspectFill
-			};
-
-			if (btnCardImage.Layer.Sublayers.Length > 2) {
-				btnCardImage.Layer.Sublayers [2].RemoveFromSuperLayer ();
-			}
-			View.Layer.InsertSublayer (videoPreviewLayer, 2);
-
-			//btnCardImage.Layer.Sublayers [2].ContentsRect = frame;
-
-			var captureDevice = AVCaptureDevice.DefaultDeviceWithMediaType (AVMediaType.Video);
-			if (captureDevice != null) {
-				ConfigureCameraForDevice (captureDevice);
-				captureDeviceInput = AVCaptureDeviceInput.FromDevice (captureDevice);
-				captureSession.AddInput (captureDeviceInput);
-
-				var dictionary = new NSMutableDictionary ();
-				dictionary [AVVideo.CodecKey] = new NSNumber ((int)AVVideoCodec.JPEG);
-				stillImageOutput = new AVCaptureStillImageOutput () {
-					OutputSettings = new NSDictionary ()
-				};
-
-				captureSession.AddOutput (stillImageOutput);
-				captureSession.StartRunning ();
-			}
-		}
-		*/
-
-		#endregion
-
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Image");
@@ -153,8 +80,6 @@ namespace Busidex.Presentation.iOS
 			InvokeOnMainThread (() => {
 				setDisplay (fileName);
 			});
-
-
 		}
 
 		void setImageSelectionUI (bool visible)
@@ -180,6 +105,11 @@ namespace Busidex.Presentation.iOS
 			UnsavedData.FrontOrientation = tempCard.FrontOrientation;
 
 			backImageChanged = frontImageChanged = false;
+		}
+
+		protected override void CancelChanges(){
+			restoreCardInfo ();
+			setDisplay (getFileName ());
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -477,6 +407,23 @@ namespace Busidex.Presentation.iOS
 			CardModel.Orientation = SelectedOrientation;
 		}
 
+		string getOrientation ()
+		{
+			var orientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+																			? SelectedCard.FrontOrientation
+																			: SelectedCard.BackOrientation;
+
+			return orientation;
+		}
+
+		string getFileName ()
+		{
+			var fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+																	 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
+																	 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
+			return fileName;
+		}
+
 		async void toggle (MobileCardImage.DisplayMode mode)
 		{
 			if(mode == SelectedDisplayMode){
@@ -485,19 +432,17 @@ namespace Busidex.Presentation.iOS
 			string fileName;
 
 			if(frontImageChanged || backImageChanged){
-				var choice = await Application.ShowAlert ("Card Image Changed", CARD_UPDATED_WARNING, new [] { "Ok", "Cancel" });
+				var choice = await Application.ShowAlert ("Card Image Changed", CARD_UPDATED_SAVE_WARNING, new [] { "Save", "Cancel" });
 				if (choice == 1) {
 					restoreCardInfo ();
 					// Use the Original
-					fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																	 ? Path.Combine (documentsPath, SelectedCard.FrontFileId + "." + SelectedCard.FrontType)
-																	 : Path.Combine (documentsPath, SelectedCard.BackFileId + "." + SelectedCard.BackType);
-					var orientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																			? SelectedCard.FrontOrientation
-																			: SelectedCard.BackOrientation;
+					fileName = getFileName ();
+
+					var orientation = getOrientation ();
+
 					InvokeOnMainThread (() => {
-						setDisplay (fileName);
 						rotate (orientation);
+						setDisplay (fileName);
 					});
 
 					return;
@@ -515,6 +460,8 @@ namespace Busidex.Presentation.iOS
 			SelectedDisplayMode = mode;
 
 			CardModel.Side = mode;
+
+			setOrientation (mode == MobileCardImage.DisplayMode.Front ? UnsavedData.FrontOrientation : UnsavedData.BackOrientation);
 
 			if (mode == MobileCardImage.DisplayMode.Front) {
 
@@ -549,6 +496,7 @@ namespace Busidex.Presentation.iOS
 					UnsavedData.BackFileId.ToString ().Equals (Resources.NULL_CARD_ID)) {
 					fileName = string.Empty;
 					setDisplay (fileName);
+					return;
 				} else {
 					fileName = Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 					if (!File.Exists (fileName)) {
@@ -565,8 +513,6 @@ namespace Busidex.Presentation.iOS
 					}
 				}
 			}
-
-			setOrientation (mode == MobileCardImage.DisplayMode.Front ? UnsavedData.FrontOrientation : UnsavedData.BackOrientation);
 		}
 
 		void setDisplay (string fileName)
@@ -606,5 +552,3 @@ namespace Busidex.Presentation.iOS
 		}
 	}
 }
-
-
