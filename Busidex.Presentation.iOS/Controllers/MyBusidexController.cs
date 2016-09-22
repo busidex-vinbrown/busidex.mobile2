@@ -52,6 +52,7 @@ namespace Busidex.Presentation.iOS
 			if (SearchBar != null) {
 				SearchBar.Text = string.Empty;
 				TableSource src = ConfigureTableSourceEventHandlers (UISubscriptionService.UserCards);
+				//src.NoCards = UISubscriptionService.UserCards.Count == 0;
 				src.NoCardsMessage = NO_CARDS;
 				src.IsFiltering = false;
 				TableView.Source = src;
@@ -66,6 +67,7 @@ namespace Busidex.Presentation.iOS
 			var src = new TableSource (data);
 			src.ShowNotes = true;
 			src.ShowNoCardMessage = true;
+			src.CardSelected -= ShowCardActions;
 			src.CardSelected += ShowCardActions;
 
 			return src;

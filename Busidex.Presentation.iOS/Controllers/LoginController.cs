@@ -87,10 +87,6 @@ namespace Busidex.Presentation.iOS
 				string username = txtUserName.Text;
 				string password = txtPassword.Text;
 
-#if DEBUG
-	password = "1/2C.BrFl2/3PFl";
-#endif
-
 				// dismiss the keyboard
 				txtPassword.ResignFirstResponder ();
 				txtUserName.ResignFirstResponder ();

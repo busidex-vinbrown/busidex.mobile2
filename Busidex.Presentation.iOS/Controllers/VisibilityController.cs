@@ -52,18 +52,20 @@ namespace Busidex.Presentation.iOS
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
-			switch (UnsavedData.Visibility) {
-			case (int)CardVisibility.Public: {
-					setVisibilityUI (CardVisibility.Public);
-					break;
-				}
-			case (int)CardVisibility.SemiPublic: {
-					setVisibilityUI (CardVisibility.SemiPublic);
-					break;
-				}
-			case (int)CardVisibility.Private: {
-					setVisibilityUI (CardVisibility.Private);
-					break;
+			if(UnsavedData != null){
+				switch (UnsavedData.Visibility) {
+				case (int)CardVisibility.Public: {
+						setVisibilityUI (CardVisibility.Public);
+						break;
+					}
+				case (int)CardVisibility.SemiPublic: {
+						setVisibilityUI (CardVisibility.SemiPublic);
+						break;
+					}
+				case (int)CardVisibility.Private: {
+						setVisibilityUI (CardVisibility.Private);
+						break;
+					}
 				}
 			}
 		}
@@ -97,6 +99,10 @@ namespace Busidex.Presentation.iOS
 
 		public override void SaveCard ()
 		{
+			if (!CardInfoChanged) {
+				return;
+			}
+
 			UISubscriptionService.SaveCardVisibility (UnsavedData.Visibility);
 
 			base.SaveCard ();

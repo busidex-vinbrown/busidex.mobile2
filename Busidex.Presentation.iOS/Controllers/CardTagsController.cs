@@ -73,37 +73,41 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			txtTag1.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag1.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count == 0 && !string.IsNullOrEmpty(txtTag1.Text)) || (UnsavedData.Tags.Count >= 1 && txtTag1.Text != UnsavedData.Tags [0].Text);
 			};
 
-			txtTag2.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag2.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 1 && !string.IsNullOrEmpty (txtTag2.Text)) || (UnsavedData.Tags.Count >= 2 && txtTag2.Text != UnsavedData.Tags [1].Text);
 			};
 
-			txtTag3.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag3.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 2 && !string.IsNullOrEmpty (txtTag3.Text)) || (UnsavedData.Tags.Count >= 3 && txtTag3.Text != UnsavedData.Tags [2].Text);
 			};
 
-			txtTag4.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag4.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 3 && !string.IsNullOrEmpty (txtTag4.Text)) || (UnsavedData.Tags.Count >= 4 && txtTag4.Text != UnsavedData.Tags [3].Text);
 			};
 
-			txtTag5.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag5.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 4 && !string.IsNullOrEmpty (txtTag5.Text)) || (UnsavedData.Tags.Count >= 5 && txtTag5.Text != UnsavedData.Tags [4].Text);
 			};
 
-			txtTag6.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag6.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 5 && !string.IsNullOrEmpty (txtTag6.Text)) || (UnsavedData.Tags.Count >= 6 && txtTag6.Text != UnsavedData.Tags [5].Text);
 			};
 
-			txtTag7.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTag7.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = (UnsavedData.Tags.Count <= 6 && !string.IsNullOrEmpty (txtTag7.Text)) || (UnsavedData.Tags.Count >= 7 && txtTag7.Text != UnsavedData.Tags [6].Text);
 			};
 		}
 
 		public override void SaveCard ()
 		{
+			if(!CardInfoChanged){
+				return;
+			}
+
 			var tags = new List<string> ();
 			tags.Add (txtTag1.Text);
 			tags.Add (txtTag2.Text);
@@ -112,7 +116,7 @@ namespace Busidex.Presentation.iOS
 			tags.Add (txtTag5.Text);
 			tags.Add (txtTag6.Text);
 			tags.Add (txtTag7.Text);
-			tags.RemoveAll (t => string.IsNullOrEmpty (t));
+			tags.RemoveAll (t => string.IsNullOrEmpty (t.Trim()));
 
 			// Add new tags
 			foreach (var tag in tags) {

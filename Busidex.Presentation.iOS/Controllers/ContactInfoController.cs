@@ -55,6 +55,10 @@ namespace Busidex.Presentation.iOS
 
 		void ResetUI(){
 
+			if(UnsavedData == null){
+				return;
+			}
+
 			txtEmail.Text = UnsavedData.Email;
 			txtUrl.Text = UnsavedData.Url;
 			vwNewPhoneNumber.Hidden = true;
@@ -222,6 +226,13 @@ namespace Busidex.Presentation.iOS
 				fadeIn ();
 			};
 
+			btnCancel.TouchUpInside += delegate {
+				vwNewPhoneNumber.Hidden = true;
+
+				clearFields ();
+				fadeIn ();
+			};
+
 			txtNewPhoneNumber.ShouldChangeCharacters = (tf, range, replacementString) => {
 				bool isBackspace = replacementString == "";
 
@@ -244,19 +255,12 @@ namespace Busidex.Presentation.iOS
 				CardInfoChanged = true;
 			};
 
-			btnCancel.TouchUpInside += delegate {
-				vwNewPhoneNumber.Hidden = true;
-
-				clearFields ();
-				fadeIn ();
+			txtEmail.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = txtEmail.Text != UnsavedData.Email;	
 			};
 
-			txtEmail.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;	
-			};
-
-			txtUrl.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtUrl.ValueChanged += (sender, e) => {
+				CardInfoChanged = txtUrl.Text != UnsavedData.Url;
 			};
 
 			txtEmail.ShouldReturn += textField => {
@@ -273,6 +277,10 @@ namespace Busidex.Presentation.iOS
 
 		public override void SaveCard ()
 		{
+			if(!CardInfoChanged){
+				return;
+			}
+
 			var email = txtEmail.Text;
 			var url = txtUrl.Text;
 

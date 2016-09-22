@@ -9,12 +9,11 @@ namespace Busidex.Presentation.iOS
 {
 	public class Application
 	{
-		//public static List<UserCard> MyBusidex { get; set; }
 		public static UINavigationController MainController { get; set; }
 		public static bool LoadingSharedCard { get; set; }
 		public static LoadingOverlay Overlay;
 
-		public const int APP_VERSION = 546;
+		public const int APP_VERSION = 547;
 
 		// This is the main entry point of the application.
 		static void Main (string[] args)

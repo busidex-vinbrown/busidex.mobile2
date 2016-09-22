@@ -141,19 +141,23 @@ namespace Busidex.Presentation.iOS
 
 		void AddToMyBusidex ()
 		{
-			UISubscriptionService.AddCardToMyBusidex (SelectedCard);
-			ToggleAddRemoveButtons (false);
+			UISubscriptionService.AddCardToMyBusidex (SelectedCard).ContinueWith((result)=>{
 
-			#region Event Tracking
-			string name = Resources.GA_LABEL_ADD;
-			if (SelectedCard != null && SelectedCard.Card != null) {
-				name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
-			}
+				InvokeOnMainThread (() => {
+					ToggleAddRemoveButtons (false);
+				});
 
-			AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+				#region Event Tracking
+				string name = Resources.GA_LABEL_ADD;
+				if (SelectedCard != null && SelectedCard.Card != null) {
+					name = string.IsNullOrEmpty (SelectedCard.Card.Name) ? SelectedCard.Card.CompanyName : SelectedCard.Card.Name;
+				}
 
-			ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
-			#endregion
+				AppDelegate.TrackAnalyticsEvent (Resources.GA_CATEGORY_ACTIVITY, Resources.GA_LABEL_ADD, name, 0);
+
+				ActivityController.SaveActivity ((long)EventSources.Add, SelectedCard.Card.CardId, UISubscriptionService.AuthToken);
+				#endregion
+			});
 		}
 
 		void RemoveCardFromMyBusidex (UserCard userCard)

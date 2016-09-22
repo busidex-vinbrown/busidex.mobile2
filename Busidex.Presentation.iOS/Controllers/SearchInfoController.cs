@@ -33,31 +33,35 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidLoad ();
 
-			txtCompanyName.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtCompanyName.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = txtCompanyName.Text != UnsavedData.CompanyName;
 			};
 
-			txtName.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtName.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = txtName.Text != UnsavedData.Name;
 			};
 
-			txtTitle.EditingDidBegin += (sender, e) => {
-				CardInfoChanged = true;
+			txtTitle.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = txtTitle.Text != UnsavedData.Title;
 			};
 		}
 
 		public override void SaveCard ()
 		{
-			if (txtCompanyName.Text != UnsavedData.CompanyName ||
-					txtName.Text != UnsavedData.Name ||
-					txtTitle.Text != UnsavedData.Title) {
+			if (!CardInfoChanged) {
+				return;
+			}
+
+			//if (txtCompanyName.Text != UnsavedData.CompanyName ||
+			//		txtName.Text != UnsavedData.Name ||
+			//		txtTitle.Text != UnsavedData.Title) {
 
 				UnsavedData.CompanyName = txtCompanyName.Text;
 				UnsavedData.Name = txtName.Text;
 				UnsavedData.Title = txtTitle.Text;
 
 				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (UnsavedData));
-			}
+			//}
 
 			base.SaveCard ();
 		}

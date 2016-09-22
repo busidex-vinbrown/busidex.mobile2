@@ -591,7 +591,7 @@ namespace Busidex.Mobile
 			AuthToken = string.Empty;
 		}
 
-		public static async void Sync ()
+		public static async Task<bool> Sync ()
 		{
 
 			OrganizationsLoaded = false;
@@ -605,6 +605,8 @@ namespace Busidex.Mobile
 			await loadOrganizations ();
 			await loadEventList ();
 			await loadNotifications ();
+
+			return true;
 		}
 
 		public static void LoadUser ()
@@ -612,27 +614,27 @@ namespace Busidex.Mobile
 			loadUser ();
 		}
 
-		public async static void LoadUserCards ()
+		public async static Task<bool> LoadUserCards ()
 		{
-			await loadUserCards ();
+			return await loadUserCards ();
 		}
 
-		public async static void LoadOrganizations ()
+		public async static Task<bool> LoadOrganizations ()
 		{
-			await loadOrganizations ();
+			return await loadOrganizations ();
 		}
 
-		public async static void LoadEventList ()
+		public async static Task<bool> LoadEventList ()
 		{
-			await loadEventList ();
+			return await loadEventList ();
 		}
 
-		public async static void LoadEventCards (EventTag tag)
+		public async static Task<bool> LoadEventCards (EventTag tag)
 		{
-			await loadEventCards (tag);
+			return await loadEventCards (tag);
 		}
 
-		public static async void LoadNotifications ()
+		public static async Task<bool> LoadNotifications ()
 		{
 
 			Notifications = loadData<List<SharedCard>> (Path.Combine (Resources.DocumentsPath, Resources.SHARED_CARDS_FILE));
@@ -642,9 +644,10 @@ namespace Busidex.Mobile
 					OnNotificationsLoaded (Notifications);
 				}
 			});
+			return true;
 		}
 
-		public static async void AddCardToMyBusidex (UserCard userCard)
+		public static async Task<bool> AddCardToMyBusidex (UserCard userCard)
 		{
 			try {
 				if (userCard != null) {
@@ -662,10 +665,12 @@ namespace Busidex.Mobile
 					Utils.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
 
 					ActivityController.SaveActivity ((long)EventSources.Add, userCard.CardId, AuthToken);
+
 				}
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			}
+			return true;
 		}
 
 		public static void RemoveCardFromMyBusidex (UserCard userCard)
@@ -691,7 +696,7 @@ namespace Busidex.Mobile
 			return UserCards.Any (uc => uc.CardId == card.CardId);
 		}
 
-		public async static void SaveNotes (long userCardId, string notes)
+		public async static Task<bool> SaveNotes (long userCardId, string notes)
 		{
 			try {
 				var controller = new NotesController ();
@@ -702,15 +707,15 @@ namespace Busidex.Mobile
 						SaveNotesResponse obj = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveNotesResponse> (result);
 						if (obj.Success) {
 
-							var card = UserCards.SingleOrDefault (uc => uc.UserCardId == userCardId);
-							if (card != null) {
+							//var card = UserCards.FirstOrDefault (uc => uc.UserCardId == userCardId);
+							//if (card != null) {
 								UserCards.ForEach (uc => {
 									if (uc.UserCardId == userCardId) {
 										uc.Notes = notes;
 									}
 								});
 								Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (UserCards), Resources.MY_BUSIDEX_FILE);
-							}
+							//}
 						}
 					}
 					if (OnNotesUpdated != null) {
@@ -720,6 +725,7 @@ namespace Busidex.Mobile
 			} catch (Exception ex) {
 				Xamarin.Insights.Report (ex);
 			}
+			return true;
 		}
 
 		public static void ChangeEmail (string email)
@@ -1318,7 +1324,10 @@ namespace Busidex.Mobile
 
 					// If the user has a card, make sure it's always at the top of the list
 					if(OwnedCard != null){
-						var ownersCard = cards.FirstOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
+						var ownersCard = cards.FirstOrDefault (uc => uc.Card.CardId == OwnedCard.CardId &&
+						                                      (!string.IsNullOrEmpty(OwnedCard.Name) ||
+						                                      !string.IsNullOrEmpty(OwnedCard.CompanyName) ||
+						                                       OwnedCard.FrontFileId.HasValue));
 						if (ownersCard != null) {
 							UserCards.Add (ownersCard);
 							UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()).Where (c => c.Card.CardId != OwnedCard.CardId));
@@ -1469,12 +1478,15 @@ namespace Busidex.Mobile
 			EventList = new List<EventTag> ();
 			OrganizationList = new List<Organization> ();
 			Notifications = new List<SharedCard> ();
-			OwnedCard = new Card ();
+			OwnedCard = null;//new Card ();
 		}
 
 		static List<UserCard> sortUserCards ()
 		{
 			var list = new List<UserCard> ();
+
+			UserCards.RemoveAll (c => c.Card == null);
+
 			if(OwnedCard != null){
 				var ownersCard = UserCards.SingleOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
 				if(ownersCard != null){
@@ -1547,7 +1559,7 @@ namespace Busidex.Mobile
 
 				if(UserCards != null){
 					foreach(var uc in UserCards){
-						if(uc.Card.CardId == OwnedCard.CardId){
+						if(OwnedCard != null && uc.Card != null && uc.Card.CardId == OwnedCard.CardId){
 							OwnedCard.ExistsInMyBusidex = true;
 							uc.Card = new Card (OwnedCard);
 							break;

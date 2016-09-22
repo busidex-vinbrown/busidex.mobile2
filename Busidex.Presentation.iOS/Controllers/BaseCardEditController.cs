@@ -13,7 +13,7 @@ namespace Busidex.Presentation.iOS
 
 		protected const string CARD_UPDATED_LOSE_WARNING = "You have unsaved changes, Continue and lose all changes or Go Back to save those changes?";
 		protected const string CARD_UPDATED_SAVE_WARNING = "You have unsaved changes, continue and save those changes?";
-		LoadingOverlay overlay;
+		protected LoadingOverlay overlay;
 		public bool CardInfoChanged { get; set; }
 
 		public BaseCardEditController (IntPtr handle) : base (handle)
@@ -27,8 +27,13 @@ namespace Busidex.Presentation.iOS
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
 			SelectedCard = UISubscriptionService.OwnedCard;
-			UnsavedData = new Card (SelectedCard);
+			if (SelectedCard == null || SelectedCard.CardId <= 0) {
+				UISubscriptionService.LoadOwnedCard ();
+			}else{
+				UnsavedData = new Card (SelectedCard);
+			}
 
 			CardInfoChanged = false;
 
@@ -37,10 +42,6 @@ namespace Busidex.Presentation.iOS
 
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
-
-			if (SelectedCard.CardId <= 0) {
-				UISubscriptionService.LoadOwnedCard ();
-			}
 
 			if (overlay == null) {
 				overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
@@ -84,14 +85,16 @@ namespace Busidex.Presentation.iOS
 
 		protected void CardUpdating ()
 		{
-			InvokeOnMainThread (() => {
-				if (overlay == null) {
-					overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				}
+			if (CardInfoChanged) {
+				InvokeOnMainThread (() => {
+					if (overlay == null) {
+						overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+					}
 
-				overlay.MessageText = "Saving your card information...";
-				View.Add (overlay);
-			});
+					overlay.MessageText = "Saving your card information...";
+					View.Add (overlay);
+				});
+			}
 		}
 
 		protected virtual void CardUpdated ()

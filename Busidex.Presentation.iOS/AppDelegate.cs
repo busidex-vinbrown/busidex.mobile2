@@ -107,8 +107,9 @@ namespace Busidex.Presentation.iOS
 		{
 		}
 
-		async void UpdateAppVersion(){
+		async Task<bool> UpdateAppVersion(){
 			await UserDeviceController.UpdateDeviceDetails (DeviceType.iPhone, Application.APP_VERSION, UISubscriptionService.AuthToken);
+			return true;
 		}
 
 		void CheckAppVersion(){
@@ -126,7 +127,9 @@ namespace Busidex.Presentation.iOS
 						});
 					});
 				}else{
-					UpdateAppVersion ();
+					UpdateAppVersion ().ContinueWith( (result)=>{
+						
+					});
 				}
 			});
 		}

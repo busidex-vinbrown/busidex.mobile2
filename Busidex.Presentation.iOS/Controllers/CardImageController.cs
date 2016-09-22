@@ -21,6 +21,11 @@ namespace Busidex.Presentation.iOS
 			Back = 1
 		}
 
+		enum UIVisibility{
+			Hidden = 0,
+			Visible = 1
+		}
+
 		enum CamaraViewMode
 		{
 			TakingPicture = 1,
@@ -74,20 +79,26 @@ namespace Busidex.Presentation.iOS
 
 			backImageChanged = frontImageChanged = false;
 
-			var fileName = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
-																 ? Path.Combine (documentsPath, UnsavedData.FrontFileId + "." + UnsavedData.FrontType)
-																 : Path.Combine (documentsPath, UnsavedData.BackFileId + "." + UnsavedData.BackType);
 			InvokeOnMainThread (() => {
-				setDisplay (fileName);
+				//setDisplay (fileName);
+				initUI (false);
 			});
 		}
 
-		void setImageSelectionUI (bool visible)
+		void setImageSelectionUI (UIVisibility visibility)
 		{
-			imgButtonFrame.Hidden = btnCancelImage.Hidden = btnTakeImage.Hidden = btnSelectImage.Hidden = btnReset.Hidden = !visible;
+			imgButtonFrame.Hidden =
+				btnCancelImage.Hidden =
+					btnTakeImage.Hidden =
+						btnSelectImage.Hidden =
+							btnReset.Hidden = visibility == UIVisibility.Hidden;
 		}
 
 		void setTempCardInfo(){
+			if(UnsavedData == null){
+				return;
+			}
+
 			tempCard.BackFileId = UnsavedData.BackFileId;
 			tempCard.BackOrientation = UnsavedData.BackOrientation;
 			tempCard.BackType = UnsavedData.BackType;
@@ -112,17 +123,7 @@ namespace Busidex.Presentation.iOS
 			setDisplay (getFileName ());
 		}
 
-		public override void ViewWillAppear (bool animated)
-		{
-			var loaded = UnsavedData != null && UnsavedData.FrontFileId.Equals (UISubscriptionService.OwnedCard.FrontFileId);
-
-			base.ViewWillAppear (animated);
-
-			NavigationItem.SetRightBarButtonItem (
-					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
-					, true);
-			
-			setImageSelectionUI (false);
+		void initUI(bool loaded){
 
 			setTempCardInfo ();
 
@@ -157,7 +158,9 @@ namespace Busidex.Presentation.iOS
 							Utils.DownloadImage (Resources.CARD_PATH + UnsavedData.FrontFileName, documentsPath, UnsavedData.FrontFileName).ContinueWith (t => {
 								InvokeOnMainThread (() => {
 									setDisplay (frontFileName);
-									Overlay.Hide ();
+									if (Overlay != null) {
+										Overlay.Hide ();
+									}
 								});
 							});
 						}
@@ -169,22 +172,46 @@ namespace Busidex.Presentation.iOS
 								if (SelectedDisplayMode == MobileCardImage.DisplayMode.Back) {
 									InvokeOnMainThread (() => {
 										setDisplay (backFileName);
-										Overlay.Hide ();
+										if (Overlay != null) {
+											Overlay.Hide ();
+										}
 									});
 								}
 							});
-						}else{
+						} else {
 							if (SelectedDisplayMode == MobileCardImage.DisplayMode.Back) {
 								setDisplay (backFileName);
 							}
 						}
-						
+
 					} else {
 						setDisplay (string.Empty);
 					}
 				} catch (Exception ex) {
 					Xamarin.Insights.Report (ex);
 				}
+			}
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			var loaded = UnsavedData != null && UnsavedData.FrontFileId.Equals (UISubscriptionService.OwnedCard.FrontFileId);
+
+			base.ViewWillAppear (animated);
+
+			btnHCardImage.Hidden = btnVCardImage.Hidden = true;
+
+			setImageSelectionUI (UIVisibility.Hidden);
+
+			if(UISubscriptionService.OwnedCard != null){
+				initUI (loaded);	
+			}else{
+				if (overlay == null) {
+					overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				}
+
+				overlay.MessageText = "Loading your card information...";
+				View.Add (overlay);
 			}
 		}
 
@@ -261,6 +288,10 @@ namespace Busidex.Presentation.iOS
 
 		public override void SaveCard ()
 		{
+			if (!CardInfoChanged) {
+				return;
+			}
+
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 			UISubscriptionService.OnCardInfoSaved += CardUpdated;
 
@@ -276,7 +307,10 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			//txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
-
+			NavigationItem.SetRightBarButtonItem (
+					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
+					, true);
+			
 			btnHCardImage.Layer.BorderWidth = 1;
 			btnHCardImage.Layer.CornerRadius = 1;
 			btnHCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
@@ -286,7 +320,7 @@ namespace Busidex.Presentation.iOS
 			btnVCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
 
 			btnCancelImage.TouchUpInside += delegate {
-				setImageSelectionUI (false);
+				setImageSelectionUI (UIVisibility.Hidden);
 			};
 
 			btnSelectImage.TouchUpInside += async (sender, e) => {
@@ -329,7 +363,7 @@ namespace Busidex.Presentation.iOS
 					return;
 				}
 
-				setImageSelectionUI (true);
+				setImageSelectionUI (UIVisibility.Visible);
 			};
 
 			btnVCardImage.TouchUpInside += (sender, args) => {
@@ -339,7 +373,7 @@ namespace Busidex.Presentation.iOS
 					return;
 				}
 
-				setImageSelectionUI (true);
+				setImageSelectionUI (UIVisibility.Visible);
 			};
 
 			lblTitle.Frame = new CGRect (lblTitle.Frame.Left, lblTitle.Frame.Top, UIScreen.MainScreen.Bounds.Width, lblTitle.Frame.Height);
@@ -383,7 +417,7 @@ namespace Busidex.Presentation.iOS
 				backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
 
 				setDisplay (string.Empty);
-				setImageSelectionUI (false);
+				setImageSelectionUI (UIVisibility.Hidden);
 				CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 			};
 		}
@@ -412,7 +446,6 @@ namespace Busidex.Presentation.iOS
 			var orientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
 																			? SelectedCard.FrontOrientation
 																			: SelectedCard.BackOrientation;
-
 			return orientation;
 		}
 
