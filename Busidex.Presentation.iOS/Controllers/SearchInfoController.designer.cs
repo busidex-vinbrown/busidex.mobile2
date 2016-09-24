@@ -34,6 +34,10 @@ namespace Busidex.Presentation.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField txtTitle { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView vwPage { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (lblDescription != null) {
@@ -59,6 +63,11 @@ namespace Busidex.Presentation.iOS
             if (txtTitle != null) {
                 txtTitle.Dispose ();
                 txtTitle = null;
+            }
+
+            if (vwPage != null) {
+                vwPage.Dispose ();
+                vwPage = null;
             }
         }
     }

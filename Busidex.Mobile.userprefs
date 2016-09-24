@@ -3,12 +3,11 @@
     <Files>
       <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1445" Column="33" />
       <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="20" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" Line="257" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/VisibilityController.cs" Line="108" Column="21" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/AddressInfoController.cs" Line="47" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.cs" Line="43" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardTagsController.cs" Line="66" Column="12" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" Line="250" Column="6" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardTagsController.cs" Line="147" Column="21" />
       <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="166" Column="8" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.cs" Line="40" Column="24" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/AddressInfoController.cs" Line="53" Column="42" />
       <File FileName="Busidex.Mobile Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>

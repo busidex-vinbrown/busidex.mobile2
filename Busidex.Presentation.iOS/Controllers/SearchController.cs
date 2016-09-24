@@ -3,8 +3,8 @@
 	using System;
 	using Foundation;
 	using UIKit;
-	using Busidex.Mobile;
-	using Busidex.Mobile.Models;
+	using Mobile;
+	using Mobile.Models;
 	using System.IO;
 	using System.Linq;
 	using System.Collections.Generic;
@@ -134,7 +134,7 @@
 		protected void DoSearch ()
 		{
 
-			var ctrl = new Busidex.Mobile.SearchController ();
+			var ctrl = new Mobile.SearchController ();
 			ctrl.DoSearch (txtSearch.Text, UISubscriptionService.AuthToken).ContinueWith (response => {
 
 				var cards = new List<UserCard> ();

@@ -38,19 +38,19 @@ namespace Busidex.Presentation.iOS
 			};
 
 			txtAddress1.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtAddress1.Text != address.Address1;
+				CardInfoChanged = CardInfoChanged || txtAddress1.Text != address.Address1;
 			};
 
 			txtAddress2.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtAddress2.Text != address.Address2;
+				CardInfoChanged = CardInfoChanged || txtAddress2.Text != address.Address2;
 			};
 
 			txtCity.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtCity.Text != address.City;
+				CardInfoChanged = CardInfoChanged || txtCity.Text != address.City;
 			};
 
 			txtZip.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtZip.Text != address.ZipCode;
+				CardInfoChanged = CardInfoChanged || txtZip.Text != address.ZipCode;
 			};
 
 			pckState.Model = model;
@@ -67,6 +67,12 @@ namespace Busidex.Presentation.iOS
 				}
 				CardInfoChanged = true;
 			};
+
+			txtAddress1.ResignFirstResponder ();
+			txtAddress2.ResignFirstResponder ();
+			txtCity.ResignFirstResponder ();
+			txtZip.ResignFirstResponder ();
+
 		}
 
 		public override void SaveCard ()

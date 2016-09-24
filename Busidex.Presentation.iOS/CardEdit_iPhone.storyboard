@@ -386,6 +386,7 @@
                         <outlet property="txtCompanyName" destination="188" id="name-outlet-188"/>
                         <outlet property="txtName" destination="189" id="name-outlet-189"/>
                         <outlet property="txtTitle" destination="190" id="name-outlet-190"/>
+                        <outlet property="vwPage" destination="155" id="name-outlet-155"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="156" userLabel="First Responder" sceneMemberID="firstResponder"/>

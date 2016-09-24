@@ -18,6 +18,7 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
+
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
@@ -27,6 +28,11 @@ namespace Busidex.Presentation.iOS
 				txtName.Text = UnsavedData.Name;
 				txtTitle.Text = UnsavedData.Title;
 			}
+
+			txtCompanyName.ResignFirstResponder ();
+			txtName.ResignFirstResponder ();
+			txtTitle.ResignFirstResponder ();
+
 		}
 
 		public override void ViewDidLoad ()
@@ -34,15 +40,15 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			txtCompanyName.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtCompanyName.Text != UnsavedData.CompanyName;
+				CardInfoChanged = CardInfoChanged || txtCompanyName.Text != UnsavedData.CompanyName;
 			};
 
 			txtName.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtName.Text != UnsavedData.Name;
+				CardInfoChanged = CardInfoChanged || txtName.Text != UnsavedData.Name;
 			};
 
 			txtTitle.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtTitle.Text != UnsavedData.Title;
+				CardInfoChanged = CardInfoChanged || txtTitle.Text != UnsavedData.Title;
 			};
 		}
 
@@ -52,16 +58,11 @@ namespace Busidex.Presentation.iOS
 				return;
 			}
 
-			//if (txtCompanyName.Text != UnsavedData.CompanyName ||
-			//		txtName.Text != UnsavedData.Name ||
-			//		txtTitle.Text != UnsavedData.Title) {
+			UnsavedData.CompanyName = txtCompanyName.Text;
+			UnsavedData.Name = txtName.Text;
+			UnsavedData.Title = txtTitle.Text;
 
-				UnsavedData.CompanyName = txtCompanyName.Text;
-				UnsavedData.Name = txtName.Text;
-				UnsavedData.Title = txtTitle.Text;
-
-				UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (UnsavedData));
-			//}
+			UISubscriptionService.SaveCardInfo (new Mobile.Models.CardDetailModel (UnsavedData));
 
 			base.SaveCard ();
 		}

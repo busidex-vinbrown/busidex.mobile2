@@ -63,6 +63,8 @@ namespace Busidex.Presentation.iOS
 			txtUrl.Text = UnsavedData.Url;
 			vwNewPhoneNumber.Hidden = true;
 
+			txtEmail.ResignFirstResponder ();
+			txtUrl.ResignFirstResponder ();
 
 			var source = new PhoneNumberTableSource (UnsavedData.PhoneNumbers);
 			source.OnPhoneNumberEditing += editPhoneNumber;
@@ -256,11 +258,11 @@ namespace Busidex.Presentation.iOS
 			};
 
 			txtEmail.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = txtEmail.Text != UnsavedData.Email;	
+				CardInfoChanged = CardInfoChanged || txtEmail.Text != UnsavedData.Email;	
 			};
 
-			txtUrl.ValueChanged += (sender, e) => {
-				CardInfoChanged = txtUrl.Text != UnsavedData.Url;
+			txtUrl.AllEditingEvents += (sender, e) => {
+				CardInfoChanged = CardInfoChanged || txtUrl.Text != UnsavedData.Url;
 			};
 
 			txtEmail.ShouldReturn += textField => {

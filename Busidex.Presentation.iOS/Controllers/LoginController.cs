@@ -124,7 +124,6 @@ namespace Busidex.Presentation.iOS
 
 						    Application.SetAuthCookie (UserId);
 
-							//UISubscriptionService.Sync ();
 							UISubscriptionService.LoadUser ();
 
 							var user = NSUserDefaults.StandardUserDefaults;
