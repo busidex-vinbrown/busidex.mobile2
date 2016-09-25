@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.27</string>
+	<string>1.2.28</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -67,7 +67,7 @@
 	<key>UIRequiresFullScreen</key>
 	<string>YES</string>
 	<key>CFBundleVersion</key>
-	<string>550</string>
+	<string>551</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -90,5 +90,7 @@
 	</array>
 	<key>CFBundleName</key>
 	<string>Busidex</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow users to take or select a photo to use for there card</string>
 </dict>
 </plist>
