@@ -18,32 +18,16 @@ namespace Busidex.Presentation.iOS
 			documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-			SaveFromUrl ();
-			LoadCard ();
-
-
-			//var w = UIApplication.SharedApplication.KeyWindow;
-			//foreach(var view in w.Subviews){
-			//	if(view.Tag == (int)Resources.UIElements.QuickShare){
-			//		((LoadingOverlay)view).Hide ();
-			//	}
-			//}
-		}
-
 		public void SetCardSharingInfo (QuickShareLink link)
 		{
 			Link = link;
 		}
 
-		public void LoadCard ()
+		void LoadCard ()
 		{
-
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (true, true);
-			}
+			//if (NavigationController != null) {
+			//	NavigationController.SetNavigationBarHidden (true, true);
+			//}
 
 			var cookie = Application.GetAuthCookie ();
 			string token = string.Empty;
@@ -106,8 +90,6 @@ namespace Busidex.Presentation.iOS
 				Application.Overlay.Hide ();
 				Application.Overlay = null;
 			}
-
-
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -115,16 +97,16 @@ namespace Busidex.Presentation.iOS
 			base.ViewWillAppear (animated);
 			NavigationController.SetToolbarHidden (false, true);
 			NavigationItem.LeftBarButtonItem.CustomView.Hidden = false;
+
+			SaveFromUrl ();
+			LoadCard ();
 		}
 
 		void SaveFromUrl ()
 		{
-
 			var _sharedCardController = new Mobile.SharedCardController ();
-			var cookie = Application.GetAuthCookie ();
 
-			string token = cookie.Value;
-			var result = CardController.GetCardById (token, Link.CardId);
+			var result = CardController.GetCardById (UISubscriptionService.AuthToken, Link.CardId);
 			if (!string.IsNullOrEmpty (result)) {
 
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
@@ -140,14 +122,12 @@ namespace Busidex.Presentation.iOS
 					UserId = cardResponse.Model.OwnerId.GetValueOrDefault (),
 					Notes = string.Empty
 				};
-				UISubscriptionService.AddCardToMyBusidex (userCard);
-
-				_sharedCardController.AcceptQuickShare (card, email, Link.From, token, Link.PersonalMessage);
-				Utils.RemoveQuickShareLink ();
+				UISubscriptionService.AddCardToMyBusidex (userCard).ContinueWith (r => {
+					_sharedCardController.AcceptQuickShare (card, email, Link.From, UISubscriptionService.AuthToken, Link.PersonalMessage);
+					Utils.RemoveQuickShareLink ();
+					UISubscriptionService.AppQuickShareLink = null;
+				});
 			}
-
 		}
 	}
 }
-
-

@@ -1,13 +1,18 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using System.Linq;
 using GoogleAnalytics.iOS;
-using Busidex.Mobile;
+using UIKit;
+using Xamarin.InAppPurchase;
 
 namespace Busidex.Presentation.iOS
 {
-	public partial class CardMenuController : BaseController
+	public partial class CardMenuController :  BaseController, IPurchaseViewController
 	{
+		List<InAppProduct> Products { get; set; }
+
+		InAppProduct CardEditProduct;
+
 		public CardMenuController (IntPtr handle) : base (handle)
 		{
 		}
@@ -18,14 +23,12 @@ namespace Busidex.Presentation.iOS
 
 			NavigationItem.SetRightBarButtonItem (null, true);
 		}
-	
+
 		public override void ViewDidAppear (bool animated)
 		{
 			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Menu");
 
 			base.ViewDidAppear (animated);
-
-			//SelectedCard = UISubscriptionService.OwnedCard;
 		}
 
 		public override void ViewDidLoad ()
@@ -55,6 +58,40 @@ namespace Busidex.Presentation.iOS
 			btnAddressInfo.TouchUpInside += delegate {
 				GoToAddressInfo ();
 			};
+
+			btnAppStore.TouchUpInside += delegate {
+
+				AppDelegate.PurchaseManager.BuyProduct (CardEditProduct);
+				AppDelegate.PurchaseManager.RequeryInventory ();
+
+			};
+
+			AppDelegate.PurchaseManager.InAppProductPurchased += (transaction, product) => {
+				using (var alert = new UIAlertView ("Busidex", string.Format ("Successfully purchased {0}", product.Title), null, "OK", null)) {
+					//alert.Show ();
+				}
+				btnAppStore.Hidden = imgAppStore.Hidden = btnLockLayer.Hidden = checkProductPurchased (AppDelegate.IN_APP_PUCHASE_CARD_EDIT);
+			};
+
+			var productPurchased = checkProductPurchased (AppDelegate.IN_APP_PUCHASE_CARD_EDIT);
+
+			// TESTING
+			productPurchased = true;
+
+			btnAppStore.Hidden = imgAppStore.Hidden = btnLockLayer.Hidden = productPurchased;
+		}
+
+		bool checkProductPurchased(string identifier){
+			bool productPurchased = AppDelegate.PurchaseManager.ProductPurchased(identifier);
+			foreach (InAppProduct product in AppDelegate.PurchaseManager) {
+				// Was the product purchased?
+				if (product.ProductIdentifier == identifier) {
+					productPurchased = !product.SubscriptionExpired;
+					CardEditProduct = product;
+					break;
+				}
+			}
+			return productPurchased;
 		}
 
 		void GoToImageEdit ()
@@ -63,7 +100,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.cardImageController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.cardImageController, true);
-			}	
+			}
 		}
 
 		void GoToSearchInfo ()
@@ -72,7 +109,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.searchInfoController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.searchInfoController, true);
-			}	
+			}
 		}
 
 		void GoToAddressInfo ()
@@ -81,7 +118,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.addressInfoController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.addressInfoController, true);
-			}	
+			}
 		}
 
 		void GoToContactInfo ()
@@ -90,7 +127,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.contactInfoController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.contactInfoController, true);
-			}	
+			}
 		}
 
 		void GoToVisibility ()
@@ -99,7 +136,7 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.visibilityController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.visibilityController, true);
-			}	
+			}
 		}
 
 		void GoToTags ()
@@ -108,9 +145,12 @@ namespace Busidex.Presentation.iOS
 				NavigationController.PushViewController (BaseNavigationController.cardTagsController, true);
 			} else {
 				NavigationController.PopToViewController (BaseNavigationController.cardTagsController, true);
-			}	
+			}
+		}
+
+		public void AttachToPurchaseManager (UIStoryboard Storyboard, InAppPurchaseManager purchaseManager)
+		{
+			
 		}
 	}
 }
-
-

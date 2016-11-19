@@ -21,7 +21,8 @@ namespace Busidex.Presentation.iOS
 			Back = 1
 		}
 
-		enum UIVisibility{
+		enum UIVisibility
+		{
 			Hidden = 0,
 			Visible = 1
 		}
@@ -47,8 +48,9 @@ namespace Busidex.Presentation.iOS
 		const string ORIENTATION_VERTICAL = "V";
 
 		string SelectedOrientation;
-		struct TempCardInfo {
-			public string FrontFileName { get; set;}
+		struct TempCardInfo
+		{
+			public string FrontFileName { get; set; }
 			public string BackFileName { get; set; }
 			public Guid? FrontFileId { get; set; }
 			public Guid? BackFileId { get; set; }
@@ -58,10 +60,10 @@ namespace Busidex.Presentation.iOS
 			public string BackOrientation { get; set; }
 		};
 
-		TempCardInfo tempCard = new TempCardInfo();
+		TempCardInfo tempCard = new TempCardInfo ();
 
 		MobileCardImage CardModel { get; set; }
-	
+
 		public CardImageController (IntPtr handle) : base (handle)
 		{
 		}
@@ -73,7 +75,8 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidAppear (animated);
 		}
 
-		protected override void CardUpdated(){
+		protected override void CardUpdated ()
+		{
 			base.CardUpdated ();
 			setTempCardInfo ();
 
@@ -94,8 +97,9 @@ namespace Busidex.Presentation.iOS
 							btnReset.Hidden = visibility == UIVisibility.Hidden;
 		}
 
-		void setTempCardInfo(){
-			if(UnsavedData == null){
+		void setTempCardInfo ()
+		{
+			if (UnsavedData == null) {
 				return;
 			}
 
@@ -107,7 +111,8 @@ namespace Busidex.Presentation.iOS
 			tempCard.FrontOrientation = UnsavedData.FrontOrientation;
 		}
 
-		void restoreCardInfo(){
+		void restoreCardInfo ()
+		{
 			UnsavedData.BackFileId = tempCard.BackFileId;
 			UnsavedData.BackOrientation = tempCard.BackOrientation;
 			UnsavedData.BackType = tempCard.BackType;
@@ -118,12 +123,14 @@ namespace Busidex.Presentation.iOS
 			backImageChanged = frontImageChanged = false;
 		}
 
-		protected override void CancelChanges(){
+		protected override void CancelChanges ()
+		{
 			restoreCardInfo ();
 			setDisplay (getFileName ());
 		}
 
-		void initUI(bool loaded){
+		void initUI (bool loaded)
+		{
 
 			setTempCardInfo ();
 
@@ -199,13 +206,15 @@ namespace Busidex.Presentation.iOS
 
 			base.ViewWillAppear (animated);
 
+			CrossMedia.Current.Initialize ();
+
 			btnHCardImage.Hidden = btnVCardImage.Hidden = true;
 
 			setImageSelectionUI (UIVisibility.Hidden);
 
-			if(UISubscriptionService.OwnedCard != null){
-				initUI (loaded);	
-			}else{
+			if (UISubscriptionService.OwnedCard != null) {
+				initUI (loaded);
+			} else {
 				if (overlay == null) {
 					overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
 				}
@@ -310,7 +319,7 @@ namespace Busidex.Presentation.iOS
 			NavigationItem.SetRightBarButtonItem (
 					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
 					, true);
-			
+
 			btnHCardImage.Layer.BorderWidth = 1;
 			btnHCardImage.Layer.CornerRadius = 1;
 			btnHCardImage.Layer.BorderColor = UIColor.Gray.CGColor;
@@ -383,7 +392,7 @@ namespace Busidex.Presentation.iOS
 			btnFront.TouchUpInside += delegate {
 				toggle (MobileCardImage.DisplayMode.Front);
 			};
-			             
+
 			btnHorizontal.TouchUpInside += delegate {
 				if (SelectedOrientation == "H") {
 					return;
@@ -422,7 +431,8 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		void setOrientation(string orientation){
+		void setOrientation (string orientation)
+		{
 
 			SelectedOrientation = orientation;
 
@@ -459,12 +469,12 @@ namespace Busidex.Presentation.iOS
 
 		async void toggle (MobileCardImage.DisplayMode mode)
 		{
-			if(mode == SelectedDisplayMode){
+			if (mode == SelectedDisplayMode) {
 				return;
 			}
 			string fileName;
 
-			if(frontImageChanged || backImageChanged){
+			if (frontImageChanged || backImageChanged) {
 				var choice = await Application.ShowAlert ("Card Image Changed", CARD_UPDATED_SAVE_WARNING, new [] { "Save", "Cancel" });
 				if (choice == 1) {
 					restoreCardInfo ();
@@ -514,7 +524,7 @@ namespace Busidex.Presentation.iOS
 							}
 						});
 					});
-				}else{
+				} else {
 					setDisplay (fileName);
 				}
 			} else {
@@ -541,7 +551,7 @@ namespace Busidex.Presentation.iOS
 								}
 							});
 						});
-					}else{
+					} else {
 						setDisplay (fileName);
 					}
 				}
@@ -552,7 +562,7 @@ namespace Busidex.Presentation.iOS
 		{
 			UIImage img = null;
 
-			if (string.IsNullOrEmpty (fileName) || fileName.Contains(Guid.Empty.ToString())) {
+			if (string.IsNullOrEmpty (fileName) || fileName.Contains (Guid.Empty.ToString ())) {
 				const string DEFALUT_PHOTO_IMAGE = "default_photo.png";
 				img = UIImage.FromFile (DEFALUT_PHOTO_IMAGE);
 				btnHCardImage.SetImage (img, UIControlState.Normal);

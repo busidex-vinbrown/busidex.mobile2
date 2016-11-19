@@ -258,11 +258,11 @@ namespace Busidex.Presentation.iOS
 			};
 
 			txtEmail.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtEmail.Text != UnsavedData.Email;	
+				CardInfoChanged = CardInfoChanged || txtEmail.Text != (UnsavedData.Email ?? string.Empty) ;	
 			};
 
 			txtUrl.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtUrl.Text != UnsavedData.Url;
+				CardInfoChanged = CardInfoChanged || txtUrl.Text != (UnsavedData.Url ?? string.Empty);
 			};
 
 			txtEmail.ShouldReturn += textField => {

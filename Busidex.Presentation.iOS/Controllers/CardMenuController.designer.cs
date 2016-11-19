@@ -20,11 +20,19 @@ namespace Busidex.Presentation.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnAppStore { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnCardImage { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnContactInfo { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnLockLayer { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -38,11 +46,20 @@ namespace Busidex.Presentation.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnVisibility { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgAppStore { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (btnAddressInfo != null) {
                 btnAddressInfo.Dispose ();
                 btnAddressInfo = null;
+            }
+
+            if (btnAppStore != null) {
+                btnAppStore.Dispose ();
+                btnAppStore = null;
             }
 
             if (btnCardImage != null) {
@@ -53,6 +70,11 @@ namespace Busidex.Presentation.iOS
             if (btnContactInfo != null) {
                 btnContactInfo.Dispose ();
                 btnContactInfo = null;
+            }
+
+            if (btnLockLayer != null) {
+                btnLockLayer.Dispose ();
+                btnLockLayer = null;
             }
 
             if (btnSearchInfo != null) {
@@ -68,6 +90,11 @@ namespace Busidex.Presentation.iOS
             if (btnVisibility != null) {
                 btnVisibility.Dispose ();
                 btnVisibility = null;
+            }
+
+            if (imgAppStore != null) {
+                imgAppStore.Dispose ();
+                imgAppStore = null;
             }
         }
     }

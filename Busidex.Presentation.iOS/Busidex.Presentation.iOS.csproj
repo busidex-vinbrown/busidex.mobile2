@@ -16,18 +16,18 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Distribution: Vincent Brown (8XB962LF3Q)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchSdkVersion>9.3</MtouchSdkVersion>
-    <CodesignProvision>deba6f29-e14e-411a-8007-3733a3a5cf6c</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -58,6 +58,7 @@
     <IpaPackageName>
     </IpaPackageName>
     <CodesignProvision>b4e2738c-e14d-42d3-9e71-2af4c7ad3afc</CodesignProvision>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -164,23 +165,26 @@
     <Reference Include="TPKeyboardAvoiding">
       <HintPath>..\Components\TPKeyboardAvoiding-1.2.11.0\lib\ios-unified\TPKeyboardAvoiding.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Media">
-      <HintPath>..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Media.Abstractions">
-      <HintPath>..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-Lib.iOS">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.6\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
+    <Reference Include="Xamarin.InAppPurchase-Unified">
+      <HintPath>..\Components\xamarin.inapppurchase-2.8\lib\ios-unified\Xamarin.InAppPurchase-Unified.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-SDK.iOS">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.6\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
+    <Reference Include="Plugin.Media.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Media.2.6.1\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media">
+      <HintPath>..\packages\Xam.Plugin.Media.2.6.1\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-Lib.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Branch-Xamarin-SDK">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.2.1.6\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK.iOS">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -396,7 +400,6 @@
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\PrivacyController.xib" />
     <InterfaceDefinition Include="Controllers\CreateProfileController.xib" />
-    <InterfaceDefinition Include="CardEdit_iPhone.storyboard" />
     <InterfaceDefinition Include="Controllers\CardImageController.xib" />
     <InterfaceDefinition Include="Controllers\CardMenuController.xib" />
     <InterfaceDefinition Include="Controllers\ContactInfoController.xib" />
@@ -406,6 +409,7 @@
     <InterfaceDefinition Include="Controllers\VisibilityController.xib" />
     <InterfaceDefinition Include="Controllers\BaseCardEditController.xib" />
     <InterfaceDefinition Include="Controllers\SharedCardLoadingController.xib" />
+    <InterfaceDefinition Include="CardEdit_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -516,6 +520,7 @@
     <BundleResource Include="Resources\delete2.png" />
     <BundleResource Include="Resources\card_guide.png" />
     <BundleResource Include="Resources\button_cancel.png" />
+    <BundleResource Include="Resources\AppStore8_2x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
@@ -544,6 +549,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="TPKeyboardAvoiding">
       <Version>1.2.11.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamarin.inapppurchase">
+      <Version>2.8</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

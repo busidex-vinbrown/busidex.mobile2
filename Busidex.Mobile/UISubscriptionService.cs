@@ -91,7 +91,7 @@ namespace Busidex.Mobile
 			}
 			set {
 				_quickShareLink = value;	
-				if(OnQuickShareLoaded != null){
+				if(OnQuickShareLoaded != null && _quickShareLink != null){
 					OnQuickShareLoaded (_quickShareLink);
 				}
 			} 
@@ -149,16 +149,16 @@ namespace Busidex.Mobile
 
 		static T loadDataFromFile<T> (string path) where T : new()
 		{
-
+			var jsonData = string.Empty;
 			try {
-				var jsonData = loadFromFile (path);
+				jsonData = loadFromFile (path);
 				if(string.IsNullOrEmpty(jsonData)){
 					return default(T);
 				}
 				var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
 				return result;
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path, ex));
+				Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
 				return default(T);
 			}
 		}
@@ -176,7 +176,7 @@ namespace Busidex.Mobile
 			OwnedCard = loadDataFromFile<Card> (Path.Combine (Resources.DocumentsPath, Resources.OWNED_CARD_FILE)) ?? await loadOwnedCard ();
 			await loadOwnedCard ().ContinueWith (result => {
 				if (result.IsFaulted) {
-					OwnedCard = null;//OwnedCard ;?? new Card ();
+					OwnedCard = null;
 				}
 			});
 
@@ -589,6 +589,15 @@ namespace Busidex.Mobile
 			CurrentUser = null;
 
 			AuthToken = string.Empty;
+
+			Utils.SaveResponse (null, Resources.OWNED_CARD_FILE);
+			Utils.SaveResponse (null, Resources.MY_BUSIDEX_FILE);
+			Utils.SaveResponse (null, Resources.EVENT_LIST_FILE);
+			Utils.SaveResponse (null, Resources.EVENT_CARDS_FILE);
+			Utils.SaveResponse (null, Resources.SHARED_CARDS_FILE);
+			Utils.SaveResponse (null, Resources.MY_ORGANIZATIONS_FILE);
+			Utils.SaveResponse (null, Resources.THUMBNAIL_FILE_NAME_PREFIX);
+			Utils.SaveResponse (null, Resources.ORGANIZATION_REFERRALS_FILE);
 		}
 
 		public static async Task<bool> Sync ()
@@ -1330,8 +1339,8 @@ namespace Busidex.Mobile
 						                                       OwnedCard.FrontFileId.HasValue));
 						if (ownersCard != null) {
 							UserCards.Add (ownersCard);
-							UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()).Where (c => c.Card.CardId != OwnedCard.CardId));
 						}
+						UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()).Where (c => c.Card.CardId != OwnedCard.CardId));
 
 					}else{
 						UserCards.AddRange (cards.Distinct (new UserCardEqualityComparer ()));
@@ -1542,7 +1551,6 @@ namespace Busidex.Mobile
 
 		static async Task<Card> loadOwnedCard ()
 		{
-
 			try {
 
 				var cardJson = await CardController.GetMyCard ();
@@ -1554,18 +1562,21 @@ namespace Busidex.Mobile
 				}
 
 				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (cardJson);
-				OwnedCard = cardResponse.Success ? new Card (cardResponse.Model) : null;
-				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (OwnedCard), Resources.OWNED_CARD_FILE);
+				var card = cardResponse.Success && cardResponse.Model != null ? new Card (cardResponse.Model) : null;
+
+				Utils.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), Resources.OWNED_CARD_FILE);
 
 				if(UserCards != null){
 					foreach(var uc in UserCards){
-						if(OwnedCard != null && uc.Card != null && uc.Card.CardId == OwnedCard.CardId){
-							OwnedCard.ExistsInMyBusidex = true;
-							uc.Card = new Card (OwnedCard);
+						if(card != null && uc.Card != null && uc.Card.CardId == card.CardId){
+							card.ExistsInMyBusidex = true;
+							uc.Card = new Card (card);
 							break;
 						}
 					}	
 				}
+
+				OwnedCard = card;
 
 				if (OnCardInfoSaved != null) {
 					OnCardInfoSaved ();

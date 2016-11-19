@@ -7,6 +7,7 @@ using Busidex.Mobile;
 using BranchXamarinSDK;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.InAppPurchase;
 
 namespace Busidex.Presentation.iOS
 {
@@ -23,18 +24,21 @@ namespace Busidex.Presentation.iOS
 		const string KEY_CARD_ID = "cardid";
 		const string KEY_CARD_ID_ALT = "cardId";
 
+		public const string IN_APP_PUCHASE_CARD_EDIT = "card.editing.nonconsumable.duration1month";
+
 		public string _deviceToken { get; set; }
 
 		public override UIWindow Window { get; set; }
 
 		public IGAITracker Tracker;
 
+		public static InAppPurchaseManager PurchaseManager;
+
 		UIWindow window;
 		BaseNavigationController nav;
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-
 			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0)) {
 				var settings = UIUserNotificationSettings.GetSettingsForTypes (UIUserNotificationType.Sound |
 				               UIUserNotificationType.Alert | UIUserNotificationType.Badge, null);
@@ -65,6 +69,8 @@ namespace Busidex.Presentation.iOS
 			BranchIOS.Init (Resources.BRANCH_KEY, launchOptions, this);
 
 			CheckAppVersion ();
+
+			SetUpPurchases ();
 
 			return true;
 		}
@@ -272,6 +278,120 @@ namespace Busidex.Presentation.iOS
 			}
 		}
 
+		#endregion
+
+		#region In App Purchases
+		public static void SetUpPurchases ()
+		{
+			PurchaseManager = new InAppPurchaseManager ();
+
+			#region In App Purchase Handling
+			// Shared Secret
+			string value = Xamarin.InAppPurchase.Utilities.Security.Unify (
+				new string [] { "613b875e49",
+					"4f483e8ed",
+					"2dcc843",
+					"558149" },
+				new int [] { 0, 1, 2, 3 });
+
+			// Initialize the In App Purchase Manager
+#if SIMULATED
+			PurchaseManager.SimulateiTunesAppStore = true;
+#else
+			PurchaseManager.SimulateiTunesAppStore = false;
+			PurchaseManager.CheckInternetConnection = true;
+#endif
+			PurchaseManager.PublicKey = value;
+			PurchaseManager.ApplicationUserName = UISubscriptionService.CurrentUser != null
+				? UISubscriptionService.CurrentUser.UserName
+				: string.Empty;
+				// "KMullins";
+
+			// Warn user that the store is not available
+			if (PurchaseManager.CanMakePayments) {
+				Console.WriteLine ("Busidex: User can make payments to iTunes App Store.");
+			} else {
+				//Display Alert Dialog Box
+				using (var alert = new UIAlertView ("Busidex", "Sorry but you cannot make purchases from the iTunes App Store. Please try again later.", null, "OK", null)) {
+					alert.Show ();
+				}
+			}
+
+			// Warn user if the Purchase Manager is unable to connect to
+			// the network.
+			PurchaseManager.NoInternetConnectionAvailable += () => {
+				//Display Alert Dialog Box
+				using (var alert = new UIAlertView ("Busidex", "No open internet connection is available.", null, "OK", null)) {
+					alert.Show ();
+				}
+			};
+
+			// Show any invalid product queries
+			PurchaseManager.ReceivedInvalidProducts += (productIDs) => {
+				// Display any invalid product IDs to the console
+				Console.WriteLine ("The following IDs were rejected by the iTunes App Store:");
+				foreach (string ID in productIDs) {
+					Console.WriteLine (ID);
+				}
+				Console.WriteLine (" ");
+			};
+
+			// Report the results of the user restoring previous purchases
+			PurchaseManager.InAppPurchasesRestored += (count) => {
+				// Anything restored?
+				if (count == 0) {
+					// No, inform user
+					using (var alert = new UIAlertView ("Busidex", "No products were available to be restored from the iTunes App Store.", null, "OK", null)) {
+						alert.Show ();
+					}
+				} else {
+					// Yes, inform user
+					using (var alert = new UIAlertView ("Busidex", String.Format ("{0} {1} restored from the iTunes App Store.", count, (count > 1) ? "products were" : "product was"), null, "OK", null)) {
+						alert.Show ();
+					}
+				}
+			};
+
+			// Report miscellanous processing errors
+			PurchaseManager.InAppPurchaseProcessingError += (message) => {
+				//Display Alert Dialog Box
+				using (var alert = new UIAlertView ("Busidex", message, null, "OK", null)) {
+					alert.Show ();
+				}
+			};
+
+			// Report any issues with persistence
+			PurchaseManager.InAppProductPersistenceError += (message) => {
+				using (var alert = new UIAlertView ("Busidex", message, null, "OK", null)) {
+					alert.Show ();
+				}
+			};
+
+			// Setup automatic purchase persistance and load any previous purchases
+			PurchaseManager.AutomaticPersistenceType = InAppPurchasePersistenceType.LocalFile;
+			PurchaseManager.PersistenceFilename = "AtomicData" + UISubscriptionService.CurrentUser?.UserId;
+			PurchaseManager.ShuffleProductsOnPersistence = false;
+			PurchaseManager.RestoreProducts ();
+			PurchaseManager.RestorePreviousPurchases ();
+
+#if SIMULATED
+			// Ask the iTunes App Store to return information about available In App Products for sale
+			PurchaseManager.QueryInventory (new string [] {
+				IN_APP_PUCHASE_CARD_EDIT
+			});
+
+			// Setup the list of simulated purchases to restore when doing a simulated restore of pruchases
+			// from the iTunes App Store
+			//PurchaseManager.SimulatedRestoredPurchaseProducts = IN_APP_PUCHASE_CARD_EDIT;
+#else
+			// Ask the iTunes App Store to return information about available In App Products for sale
+			PurchaseManager.QueryInventory (new string[] { 
+				IN_APP_PUCHASE_CARD_EDIT
+			});
+#endif
+
+			#endregion
+		}
 		#endregion
 	}
 }

@@ -104,6 +104,8 @@ namespace Busidex.Presentation.iOS
 			addressInfoController = addressInfoController ?? cardBoard.InstantiateViewController ("AddressInfoController") as AddressInfoController;
 			visibilityController = visibilityController ?? cardBoard.InstantiateViewController ("VisibilityController") as VisibilityController;
 			startUpController = startUpController ?? board.InstantiateViewController ("StartupController") as StartupController;
+
+			cardMenuController.AttachToPurchaseManager (cardBoard, AppDelegate.PurchaseManager);
 		}
 
 		public static void Reset(){

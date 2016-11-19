@@ -96,7 +96,7 @@ namespace Busidex.Presentation.iOS
 			};
 		}
 
-		public void LoadMyBusidex ()
+		void loadMyBusidex ()
 		{
 
 			bool refreshCookieOk = Application.CheckRefreshCookie (Resources.BUSIDEX_REFRESH_COOKIE_NAME);
@@ -140,7 +140,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			LoadMyBusidex ();
+			loadMyBusidex ();
 		}
 
 		public override void ViewDidAppear (bool animated)

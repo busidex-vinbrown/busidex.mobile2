@@ -134,6 +134,8 @@ namespace Busidex.Presentation.iOS
 							user.SetBool (true, Resources.USER_SETTING_AUTOSYNC);
 							user.Synchronize ();
 
+							// AppDelegate.SetUpPurchases ();
+							
 							loggingIn = false;
 
 							var quickShareLink = Utils.GetQuickShareLink ();

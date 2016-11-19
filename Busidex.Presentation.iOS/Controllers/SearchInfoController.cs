@@ -40,15 +40,15 @@ namespace Busidex.Presentation.iOS
 			base.ViewDidLoad ();
 
 			txtCompanyName.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtCompanyName.Text != UnsavedData.CompanyName;
+				CardInfoChanged = CardInfoChanged || txtCompanyName.Text != (UnsavedData.CompanyName ?? string.Empty);
 			};
 
 			txtName.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtName.Text != UnsavedData.Name;
+				CardInfoChanged = CardInfoChanged || txtName.Text != (UnsavedData.Name ?? string.Empty);
 			};
 
 			txtTitle.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtTitle.Text != UnsavedData.Title;
+				CardInfoChanged = CardInfoChanged || txtTitle.Text != (UnsavedData.Title ?? string.Empty);
 			};
 		}
 

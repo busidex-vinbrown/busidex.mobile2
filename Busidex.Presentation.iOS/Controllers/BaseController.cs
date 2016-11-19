@@ -51,17 +51,20 @@ namespace Busidex.Presentation.iOS
 			return layer;
 		}
 
+		void handleQuickShare(QuickShareLink link){
+			if (NavigationController != null) {
+				((BaseNavigationController)NavigationController).GoToQuickShare (link);
+				if (Application.Overlay != null) {
+					Application.Overlay.Hide ();
+				}
+			}
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			UISubscriptionService.OnQuickShareLoaded += delegate (QuickShareLink link) {
-				if (NavigationController != null) {
-					((BaseNavigationController)NavigationController).GoToQuickShare (link);
-					if (Application.Overlay != null) {
-						Application.Overlay.Hide ();
-					}
-				}
-			};
+			UISubscriptionService.OnQuickShareLoaded -= handleQuickShare;
+			UISubscriptionService.OnQuickShareLoaded += handleQuickShare;
 		}
 
 		public override void ViewWillAppear (bool animated)

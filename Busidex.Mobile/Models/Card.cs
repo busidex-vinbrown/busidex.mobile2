@@ -7,6 +7,14 @@ namespace Busidex.Mobile.Models
 	{
 		public Card (Card model)
 		{
+			Tags = new List<Tag> ();
+			Addresses = new List<Address> ();
+			PhoneNumbers = new List<PhoneNumber> ();
+
+			if (model == null) {
+				return;
+			}
+
 			CardId = model.CardId;
 			Name = model.Name;
 			FrontOrientation = model.FrontOrientation;
@@ -23,12 +31,9 @@ namespace Busidex.Mobile.Models
 			BackFileId = model.BackFileId.GetValueOrDefault ();
 			Title = model.Title;
 			Markup = model.Markup;
-			Display = (int)model.Display;
+			Display = model.Display;
 			FrontType = model.FrontType;
 			BackType = model.BackType;
-			Tags = new List<Tag>();
-			Addresses = new List<Address>();;
-			PhoneNumbers = new List<PhoneNumber> ();
 			Visibility = model.Visibility;
 			ExistsInMyBusidex = model.ExistsInMyBusidex;
 
@@ -45,6 +50,13 @@ namespace Busidex.Mobile.Models
 
 		public Card (CardDetailModel model)
 		{
+			Tags = new List<Tag> ();// model.Tags;
+			Addresses = new List<Address> ();// model.Addresses;
+			PhoneNumbers = new List<PhoneNumber> ();
+
+			if (model == null) {
+				return;
+			}
 
 			CardId = model.CardId;
 			Name = model.Name;
@@ -53,7 +65,6 @@ namespace Busidex.Mobile.Models
 			Searchable = model.Searchable;
 			Email = model.Email;
 			Url = model.Url;
-
 			CreatedBy = model.CreatedBy;
 			OwnerId = model.OwnerId;
 			CompanyName = model.CompanyName;
@@ -65,9 +76,6 @@ namespace Busidex.Mobile.Models
 			Display = (int)model.Display;
 			FrontType = model.FrontFileType ?? model.FrontType;
 			BackType = model.BackFileType ?? model.BackType;
-			Tags = new List<Tag> ();// model.Tags;
-			Addresses = new List<Address> ();// model.Addresses;
-			PhoneNumbers = new List<PhoneNumber> ();
 			Visibility = model.Visibility;
 			ExistsInMyBusidex = model.ExistsInMyBusidex;
 

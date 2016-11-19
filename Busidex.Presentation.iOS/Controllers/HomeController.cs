@@ -46,8 +46,6 @@ namespace Busidex.Presentation.iOS
 				UISubscriptionService.Init ();
 			});
 
-
-
 			Application.MainController = NavigationController;
 
 			UIFont font = UIFont.FromName ("Lato-Black", 22f);
@@ -272,6 +270,8 @@ namespace Busidex.Presentation.iOS
 			user.SetString (string.Empty, Resources.USER_SETTING_PASSWORD);
 			user.SetString (string.Empty, Resources.USER_SETTING_EMAIL);
 			user.SetBool (false, Resources.USER_SETTING_DEVICE_TYPE_SET);
+			AppDelegate.PurchaseManager.Reset ();
+			AppDelegate.PurchaseManager.PurgeProducts ();
 			user.Synchronize ();
 		}
 
@@ -286,6 +286,8 @@ namespace Busidex.Presentation.iOS
 						UISubscriptionService.Clear ();
 						Application.RemoveAuthCookie ();
 
+						AppDelegate.PurchaseManager.ApplicationUserName = string.Empty;
+						
 						BaseNavigationController.Reset ();
 
 						var startUpController = Storyboard.InstantiateViewController ("StartupController") as StartupController;
@@ -297,5 +299,7 @@ namespace Busidex.Presentation.iOS
 				}
 			});
 		}
+
+
 	}
 }

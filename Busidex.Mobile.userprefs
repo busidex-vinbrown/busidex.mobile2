@@ -1,25 +1,25 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{7EDC59CE-339D-46FD-94A6-E6DEF5955413}|Default" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile Status">
     <Files>
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1445" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseCardEditController.cs" Line="20" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardTagsController.cs" Line="140" Column="58" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="166" Column="8" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/SearchInfoController.cs" Line="40" Column="24" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/AddressInfoController.cs" Line="53" Column="42" />
-      <File FileName="Busidex.Mobile/Models/CardDetailModel.cs" Line="51" Column="1" />
-      <File FileName="Busidex.Mobile/CardController.cs" Line="35" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="26" Column="43" />
-      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="8" Column="35" />
-      <File FileName="Busidex.Presentation.iOS/Info.plist" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/NotesController.cs" Line="65" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="122" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="229" Column="38" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1356" Column="1" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="57" Column="39" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="108" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="14" Column="23" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/LoginController.cs" Line="104" Column="4" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="95" Column="6" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardMenuController.cs" Line="60" Column="6" />
       <File FileName="Busidex.Mobile Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="224" column="27" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/AppDelegate.cs" line="187" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/UISubscriptionService.cs" line="1284" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/UISubscriptionService.cs" line="1356" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

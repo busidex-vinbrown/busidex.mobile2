@@ -23,7 +23,9 @@ namespace Busidex.Presentation.iOS
 		public PhoneNumberTableSource (List<PhoneNumber> phoneNumbers)
 		{
 			PhoneNumbers = new List<PhoneNumber> ();
-			PhoneNumbers.AddRange (phoneNumbers);
+			if (phoneNumbers != null) {
+				PhoneNumbers.AddRange (phoneNumbers);
+			}
 		}
 
 		public void UpdateData (List<PhoneNumber> phoneNumbers)

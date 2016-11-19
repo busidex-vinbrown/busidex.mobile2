@@ -38,19 +38,19 @@ namespace Busidex.Presentation.iOS
 			};
 
 			txtAddress1.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtAddress1.Text != address.Address1;
+				CardInfoChanged = CardInfoChanged || txtAddress1.Text != (address.Address1 ?? string.Empty);
 			};
 
 			txtAddress2.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtAddress2.Text != address.Address2;
+				CardInfoChanged = CardInfoChanged || txtAddress2.Text != (address.Address2 ?? string.Empty);
 			};
 
 			txtCity.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtCity.Text != address.City;
+				CardInfoChanged = CardInfoChanged || txtCity.Text != (address.City ?? string.Empty);
 			};
 
 			txtZip.AllEditingEvents += (sender, e) => {
-				CardInfoChanged = CardInfoChanged || txtZip.Text != address.ZipCode;
+				CardInfoChanged = CardInfoChanged || txtZip.Text != (address.ZipCode ?? string.Empty);
 			};
 
 			pckState.Model = model;
