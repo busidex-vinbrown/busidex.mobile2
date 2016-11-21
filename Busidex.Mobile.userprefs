@@ -1,14 +1,16 @@
-﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{7EDC59CE-339D-46FD-94A6-E6DEF5955413}|Default" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{B9A7EE9B-6AB9-4B93-9969-E14C1620143F}|Default" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile Status">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="229" Column="38" />
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="1356" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseController.cs" Line="57" Column="39" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="108" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/QuickShareController.cs" Line="14" Column="23" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/LoginController.cs" Line="104" Column="4" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="95" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardMenuController.cs" Line="60" Column="6" />
+      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="92" Column="9" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/MainActivity.cs" Line="483" Column="4" />
+      <File FileName="Busidex.Mobile/BranchApiController.cs" Line="23" Column="1" />
+      <File FileName="Busidex.Presentation.Droid.v2/MainApplication.cs" Line="6" Column="24" />
+      <File FileName="Busidex.Mobile/Resources.cs" Line="56" Column="78" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/ShareCardFragment.cs" Line="141" Column="41" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/BaseApplicationResource.cs" Line="26" Column="4" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/QuickShareActivity.cs" Line="25" Column="3" />
+      <File FileName="Busidex.Presentation.Droid.v2/Fragments/QuickShareFragment.cs" Line="30" Column="56" />
+      <File FileName="Busidex.Presentation.Droid.v2/Activities/SplashActivity.cs" Line="22" Column="63" />
       <File FileName="Busidex.Mobile Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
@@ -17,8 +19,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="224" column="27" />
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/AppDelegate.cs" line="187" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/UISubscriptionService.cs" line="1284" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Mobile/UISubscriptionService.cs" line="1356" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="159" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />

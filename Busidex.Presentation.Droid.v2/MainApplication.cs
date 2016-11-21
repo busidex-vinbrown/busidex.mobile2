@@ -3,12 +3,14 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
+using BranchXamarinSDK;
 using Plugin.CurrentActivity;
 
 namespace Busidex.Presentation.Droid.v2
 {
 	//You can specify additional application information in this attribute
     [Application]
+	[MetaData ("io.branch.sdk.BranchKey", Value = "@string/branch_key")]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
@@ -20,6 +22,9 @@ namespace Busidex.Presentation.Droid.v2
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
+
+			BranchAndroid.GetAutoInstance (this.ApplicationContext);
+
             //A great place to initialize Xamarin.Insights and Dependency Services!
         }
 

@@ -16,6 +16,7 @@ using BranchXamarinSDK;
 using Android.Net;
 using Plugin.Permissions;
 using Android.Content.PM;
+using Newtonsoft.Json;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -35,12 +36,17 @@ namespace Busidex.Presentation.Droid.v2
 		ViewPager pager;
 		GenericFragmentPagerAdaptor tabAdapter;
 
+		QuickShareFragment quickShareDelayedFragment;
+
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
-		public async void OpenShare ()
+		public async Task<bool> OpenShare ()
 		{
 			var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
-			var myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);
+			var myCard = new UserCard(UISubscriptionService.OwnedCard);
+			if(myCard == null ){
+				myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);	
+			}
 
 			if (myCard == null) {
 				await CardController.GetMyCard ().ContinueWith (r => {
@@ -49,9 +55,10 @@ namespace Busidex.Presentation.Droid.v2
 							var cardDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
 							myCard = new UserCard (cardDetail.Model);
 							if (!string.IsNullOrEmpty (myCard.Card.Name) && myCard.Card.FrontFileId != System.Guid.Empty) {
-								UISubscriptionService.AddCardToMyBusidex (myCard);
-								var fragment = new ShareCardFragment (myCard);
-								ShareCard (fragment);
+								UISubscriptionService.AddCardToMyBusidex (myCard).ContinueWith (c => {
+									var fragment = new ShareCardFragment (myCard);
+									ShareCard (fragment);
+								});
 							} else {
 								showNoCardMessage ();
 							}
@@ -66,6 +73,7 @@ namespace Busidex.Presentation.Droid.v2
 				var fragment = new ShareCardFragment (myCard);
 				ShareCard (fragment);
 			}
+			return await Task.FromResult (true);
 		}
 
 		void showNoCardMessage ()
@@ -234,6 +242,7 @@ namespace Busidex.Presentation.Droid.v2
 					}
 				}
 			}
+
 			base.OnSaveInstanceState (outState);
 		}
 
@@ -343,10 +352,8 @@ namespace Busidex.Presentation.Droid.v2
 		}
 
 		#region Branch Deep Linking
-
 		public void InitSessionComplete (Dictionary<string, object> data)
 		{
-
 			if(data == null){
 				return;
 			}
@@ -375,7 +382,6 @@ namespace Busidex.Presentation.Droid.v2
 				cardId = data [KEY_CARD_ID].ToString ();
 			}
 
-
 			if (!string.IsNullOrEmpty (cardId)) {
 
 				Intent.SetData (null);
@@ -394,8 +400,14 @@ namespace Busidex.Presentation.Droid.v2
 					setStartTab ();
 				} else {
 					var userCard = LoadQuickShareCardData (quickShareLink);
-					var fragment = new QuickShareFragment (userCard, displayName, personalMessage);
-					ShowQuickShare (fragment);
+					//quickShareDelayedFragment = new QuickShareFragment (userCard, displayName, personalMessage);
+					var intent = new Intent (this, typeof (QuickShareActivity));
+					intent.PutExtra ("SelectedCard", JsonConvert.SerializeObject (userCard));
+					intent.PutExtra ("DisplayName", displayName);
+					intent.PutExtra ("PersonalMessage", personalMessage);
+
+					StartActivity (intent);
+					Finish ();
 				}
 			}
 		}
@@ -523,6 +535,7 @@ namespace Busidex.Presentation.Droid.v2
 			UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 
 			UISubscriptionService.Sync ();
+
 			DoingLogin = false;
 			if (DoingRegistration) {
 				DoingRegistration = false;
@@ -799,7 +812,7 @@ namespace Busidex.Presentation.Droid.v2
 				transaction
 					.Replace (container, fragment, name)
 					//.AddToBackStack (name)
-					.Commit ();
+					.Commit();//AllowingStateLoss ();
 			}
 		}
 
