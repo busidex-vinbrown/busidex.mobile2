@@ -36,7 +36,7 @@ namespace Busidex.Presentation.Droid.v2
 		ViewPager pager;
 		GenericFragmentPagerAdaptor tabAdapter;
 
-		QuickShareFragment quickShareDelayedFragment;
+		// QuickShareFragment quickShareDelayedFragment;
 
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
@@ -52,7 +52,7 @@ namespace Busidex.Presentation.Droid.v2
 				await CardController.GetMyCard ().ContinueWith (r => {
 					if (!string.IsNullOrEmpty (r.Result) && !r.Result.Contains ("\"Success\": false")) {
 						try {
-							var cardDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
+							var cardDetail = JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
 							myCard = new UserCard (cardDetail.Model);
 							if (!string.IsNullOrEmpty (myCard.Card.Name) && myCard.Card.FrontFileId != System.Guid.Empty) {
 								UISubscriptionService.AddCardToMyBusidex (myCard).ContinueWith (c => {
@@ -289,8 +289,10 @@ namespace Busidex.Presentation.Droid.v2
 
 		void setStartTab ()
 		{
-			var tab = ActionBar.GetTabAt (0);
-			ActionBar.SelectTab (tab);
+			if (ActionBar.TabCount > 0) {
+				var tab = ActionBar.GetTabAt (0);
+				ActionBar.SelectTab (tab);
+			}
 			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_LABEL_APP_START, Mobile.Resources.GA_LABEL_APP_START, 0);
 		}
 
@@ -395,7 +397,7 @@ namespace Busidex.Presentation.Droid.v2
 
 				// If the user isn't logged in, save the quickShare link to file and continue with startup.
 				if (string.IsNullOrEmpty (UISubscriptionService.AuthToken)) {
-					string json = Newtonsoft.Json.JsonConvert.SerializeObject (quickShareLink);
+					string json = JsonConvert.SerializeObject (quickShareLink);
 					Utils.SaveResponse (json, Mobile.Resources.QUICKSHARE_LINK);
 					setStartTab ();
 				} else {
@@ -444,14 +446,14 @@ namespace Busidex.Presentation.Droid.v2
 
 		#region Startup Actions
 		const int APP_VERSION = 546;
-		async void UpdateAppVersion ()
+		async Task<bool> UpdateAppVersion ()
 		{
-			await UserDeviceController.UpdateDeviceDetails (DeviceType.iPhone, APP_VERSION, UISubscriptionService.AuthToken);
+			return await UserDeviceController.UpdateDeviceDetails (DeviceType.iPhone, APP_VERSION, UISubscriptionService.AuthToken);
 		}
 
 		void CheckAppVersion ()
 		{
-			UserDeviceController.GetCurrentAppInfo (UISubscriptionService.AuthToken).ContinueWith ((device) => {
+			UserDeviceController.GetCurrentAppInfo (UISubscriptionService.AuthToken).ContinueWith (async (device) => {
 				if (device == null || device.Result == null || device.Result.iOS > APP_VERSION) {
 					const string MESSAGE = "There are critical updates available. You need to update the app now to get the latest features and bug fixes.";
 					RunOnUiThread (() => {
@@ -469,7 +471,7 @@ namespace Busidex.Presentation.Droid.v2
 						});
 					});
 				} else {
-					UpdateAppVersion ();
+					await UpdateAppVersion ();
 				}
 			});
 		}
@@ -544,8 +546,15 @@ namespace Busidex.Presentation.Droid.v2
 			var quickShareLink = Utils.GetQuickShareLink ();
 			if (quickShareLink != null) {
 				var userCard = LoadQuickShareCardData (quickShareLink);
-				var fragment = new QuickShareFragment (userCard, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
-				ShowQuickShare (fragment);
+				//var fragment = new QuickShareFragment (userCard, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
+				//ShowQuickShare (fragment);
+				var intent = new Intent (this, typeof (QuickShareActivity));
+				intent.PutExtra ("SelectedCard", JsonConvert.SerializeObject (userCard));
+				intent.PutExtra ("DisplayName", quickShareLink.DisplayName);
+				intent.PutExtra ("PersonalMessage", quickShareLink.PersonalMessage);
+
+				StartActivity (intent);
+				Finish ();
 			}
 		}
 
@@ -694,18 +703,14 @@ namespace Busidex.Presentation.Droid.v2
 
 		}
 
-		public void ShowQuickShare (QuickShareFragment fragment)
-		{
-			var holder = FindViewById (Resource.Id.fragment_holder);
-			holder.Visibility = ViewStates.Visible;
-			//			var progressBar1 = holder.FindViewById<RelativeLayout> (Resource.Id.homeProgressContainer);
-			//			if (progressBar1 != null) {
-			//				progressBar1.Visibility = ViewStates.Visible;	
-			//			}
-
-			LoadFragment (fragment);
-			ActionBar.Hide ();
-		}
+		//public void ShowQuickShare (QuickShareFragment fragment)
+		//{
+		//	var holder = FindViewById (Resource.Id.fragment_holder);
+		//	holder.Visibility = ViewStates.Visible;
+	
+		//	LoadFragment (fragment);
+		//	ActionBar.Hide ();
+		//}
 
 		public void ShareCard (ShareCardFragment fragment)
 		{

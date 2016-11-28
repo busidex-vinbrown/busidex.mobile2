@@ -65,7 +65,7 @@ namespace Busidex.Presentation.iOS
 				AppDelegate.PurchaseManager.RequeryInventory ();
 
 			};
-
+			/*
 			AppDelegate.PurchaseManager.InAppProductPurchased += (transaction, product) => {
 				using (var alert = new UIAlertView ("Busidex", string.Format ("Successfully purchased {0}", product.Title), null, "OK", null)) {
 					//alert.Show ();
@@ -74,9 +74,9 @@ namespace Busidex.Presentation.iOS
 			};
 
 			var productPurchased = checkProductPurchased (AppDelegate.IN_APP_PUCHASE_CARD_EDIT);
-
+			*/
 			// TESTING
-			productPurchased = true;
+			var	productPurchased = true;
 
 			btnAppStore.Hidden = imgAppStore.Hidden = btnLockLayer.Hidden = productPurchased;
 		}

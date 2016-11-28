@@ -70,7 +70,7 @@ namespace Busidex.Presentation.iOS
 
 			CheckAppVersion ();
 
-			SetUpPurchases ();
+			//SetUpPurchases ();
 
 			return true;
 		}

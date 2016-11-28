@@ -40,7 +40,6 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -109,15 +108,6 @@
     <Reference Include="Plugin.CurrentActivity">
       <HintPath>..\packages\Plugin.CurrentActivity.1.0.1\lib\MonoAndroid10\Plugin.CurrentActivity.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-Lib.Droid">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
-    </Reference>
-    <Reference Include="Branch-Xamarin-SDK.Droid">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.1\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Permissions.Abstractions">
       <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
     </Reference>
@@ -150,6 +140,15 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-Lib.Droid">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.2\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.2\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="Branch-Xamarin-SDK.Droid">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.3.0.2\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

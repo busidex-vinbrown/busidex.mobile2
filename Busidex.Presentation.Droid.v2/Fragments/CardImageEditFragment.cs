@@ -10,6 +10,7 @@ using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Android.Graphics;
 using Android.Provider;
+using Android.Support.V4.Content;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -343,18 +344,18 @@ namespace Busidex.Presentation.Droid.v2
 			switch (mode) {
 			case MobileCardImage.DisplayMode.Front: {
 					btnCardFront.SetBackgroundResource (Resource.Color.buttonFontColor);
-					btnCardFront.SetTextColor (Resources.GetColor (Resource.Color.buttonWhite));
+					btnCardFront.SetTextColor (new Color (ContextCompat.GetColor (Activity, Resource.Color.buttonWhite)));
 					btnCardBack.SetBackgroundResource (Resource.Color.buttonWhite);
-					btnCardBack.SetTextColor (Resources.GetColor (Resource.Color.buttonFontColor));
+					btnCardBack.SetTextColor (new Color (ContextCompat.GetColor (Activity, Resource.Color.buttonFontColor)));
 					SelectedDisplayMode = MobileCardImage.DisplayMode.Front;
 
 					break;
 				}
 			case MobileCardImage.DisplayMode.Back: {
 					btnCardFront.SetBackgroundResource (Resource.Color.buttonWhite);
-					btnCardFront.SetTextColor (Resources.GetColor (Resource.Color.buttonFontColor));
+					btnCardFront.SetTextColor (new Color(ContextCompat.GetColor(Activity, Resource.Color.buttonFontColor)));
 					btnCardBack.SetBackgroundResource (Resource.Color.buttonFontColor);
-					btnCardBack.SetTextColor (Resources.GetColor (Resource.Color.buttonWhite));
+					btnCardBack.SetTextColor (new Color (ContextCompat.GetColor (Activity, Resource.Color.buttonWhite)));
 					SelectedDisplayMode = MobileCardImage.DisplayMode.Back;
 
 					break;
@@ -371,4 +372,3 @@ namespace Busidex.Presentation.Droid.v2
 		}
 	}
 }
-

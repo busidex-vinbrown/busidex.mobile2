@@ -112,37 +112,37 @@ namespace Busidex.Presentation.Droid.v2
 			switch (position) {
 			case 0:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_HOME);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_HOME);
 					break;
 				}
 			case 1:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_SEARCH);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_SEARCH);
 					break;
 				}
 			case 2:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_MY_BUSIDEX);
 					break;
 				}
 			case 3:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_ORGANIZATIONS);
 					break;
 				}
 			case 4:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_EVENTS);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_EVENTS);
 					break;
 				}
 			case 5:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_REFERRALS);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_REFERRALS);
 					break;
 				}
 			case 6:
 				{
-					BaseApplicationResource.TrackScreenView (Busidex.Mobile.Resources.GA_SCREEN_PROFILE);
+					BaseApplicationResource.TrackScreenView (Mobile.Resources.GA_SCREEN_PROFILE);
 					break;
 				}
 			}

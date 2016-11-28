@@ -270,8 +270,8 @@ namespace Busidex.Presentation.iOS
 			user.SetString (string.Empty, Resources.USER_SETTING_PASSWORD);
 			user.SetString (string.Empty, Resources.USER_SETTING_EMAIL);
 			user.SetBool (false, Resources.USER_SETTING_DEVICE_TYPE_SET);
-			AppDelegate.PurchaseManager.Reset ();
-			AppDelegate.PurchaseManager.PurgeProducts ();
+			// AppDelegate.PurchaseManager.Reset ();
+			// AppDelegate.PurchaseManager.PurgeProducts ();
 			user.Synchronize ();
 		}
 
@@ -286,7 +286,7 @@ namespace Busidex.Presentation.iOS
 						UISubscriptionService.Clear ();
 						Application.RemoveAuthCookie ();
 
-						AppDelegate.PurchaseManager.ApplicationUserName = string.Empty;
+						// AppDelegate.PurchaseManager.ApplicationUserName = string.Empty;
 						
 						BaseNavigationController.Reset ();
 
