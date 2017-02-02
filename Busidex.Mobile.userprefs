@@ -1,16 +1,11 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{7EDC59CE-339D-46FD-94A6-E6DEF5955413}|Default" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile Status">
     <Files>
-      <File FileName="Busidex.Mobile/UISubscriptionService.cs" Line="9" Column="1" />
-      <File FileName="Busidex.Presentation.iOS/AppDelegate.cs" Line="282" Column="3" />
-      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="6" Column="13" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardMenuController.cs" Line="56" Column="6" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/HomeController.cs" Line="274" Column="7" />
-      <File FileName="Busidex.Presentation.iOS/Controllers/BaseNavigationController.cs" Line="108" Column="71" />
-      <File FileName="Busidex.Presentation.iOS/Info.plist" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="335" Column="47" />
+      <File FileName="Busidex.Mobile Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="224" column="27" />
@@ -18,7 +13,7 @@
       <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="159" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.bf42d65889e831be48a84d49caa8fe8894822f73" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <DisabledProjects>
     <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>

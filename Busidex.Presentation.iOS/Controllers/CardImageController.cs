@@ -227,6 +227,9 @@ namespace Busidex.Presentation.iOS
 		static UIImage cropImage (UIImage srcImage, RectangleF rect)
 		{
 			using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
+				if(cr == null){
+					return srcImage;
+				}
 				UIImage cropped = UIImage.FromImage (cr);
 				return cropped;
 			}
@@ -343,6 +346,7 @@ namespace Busidex.Presentation.iOS
 
 				if (file != null) {
 					setImage (file);
+					setImageSelectionUI (UIVisibility.Hidden);
 				}
 			};
 
@@ -362,6 +366,7 @@ namespace Busidex.Presentation.iOS
 
 				if (file != null) {
 					setImage (file);
+					setImageSelectionUI (UIVisibility.Hidden);
 				}
 			};
 
