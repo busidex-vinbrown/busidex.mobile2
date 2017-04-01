@@ -351,12 +351,26 @@ namespace Busidex.Presentation.iOS
 			};
 
 			btnTakeImage.TouchUpInside += async (sender, e) => {
-				var options = new StoreCameraMediaOptions {
-					Directory = "Sample",
-					Name = "test.jpg"
+				//var options = new StoreCameraMediaOptions {
+				//	Directory = "Sample",
+				//	Name = "test.jpg",
+				//	AllowCropping = true
+				//};
+
+				Func<object> func = () => {
+					var imageView = new UIImageView (UIImage.FromBundle ("cropoverlay2.png"));
+					imageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+
+					var screen = UIScreen.MainScreen.Bounds;
+					imageView.Frame = screen;
+
+					return imageView;
 				};
 
-				var file = await CrossMedia.Current.TakePhotoAsync (options);
+				var file = await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions{
+					AllowCropping = true,
+					OverlayViewProvider = func
+				});
 
 				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 					CardModel.FrontFileId = Guid.NewGuid ();

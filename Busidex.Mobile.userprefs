@@ -1,20 +1,31 @@
-﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{7EDC59CE-339D-46FD-94A6-E6DEF5955413}|Default" GitUserInfo="UsingGIT" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Mobile Status">
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{7EDC59CE-339D-46FD-94A6-E6DEF5955413}|Default" GitUserInfo="UsingGIT">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Busidex.Presentation.iOS/Main.cs">
     <Files>
-      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="335" Column="47" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/CardImageController.cs" Line="353" Column="36" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/UIBarButtonItemWithImageViewController.cs" Line="71" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Info.plist" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/MyBusidexController.cs" Line="48" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/HomeController.cs" Line="95" Column="15" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/EventCardsController.cs" Line="142" Column="3" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/EventListController.cs" Line="54" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/OrganizationsController.cs" Line="76" Column="27" />
+      <File FileName="Busidex.Presentation.iOS/Controllers/NotesController.cs" Line="64" Column="26" />
       <File FileName="Busidex.Mobile Status" />
+      <File FileName="Busidex.Presentation.iOS/Main.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="224" column="27" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/AppDelegate.cs" line="187" column="1" />
-      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="159" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" relfile="Busidex.Presentation.iOS/Controllers/ContactInfoController.cs" line="224" column="27" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/AppDelegate.cs" relfile="Busidex.Presentation.iOS/AppDelegate.cs" line="187" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.iOS/Controllers/SharedCardController.cs" relfile="Busidex.Presentation.iOS/Controllers/SharedCardController.cs" line="159" column="1" />
+      <Breakpoint file="/Users/vinbrown2/Projects/Busidex.Mobile/Busidex.Presentation.Droid.v2/Fragments/ButtonPanelFragment.cs" relfile="Busidex.Presentation.Droid.v2/Fragments/ButtonPanelFragment.cs" line="127" column="138" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.bf42d65889e831be48a84d49caa8fe8894822f73" />
+  <MonoDevelop.Ide.ItemProperties.Busidex.Presentation.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.6574FDDF-BE4A-4B16-A72E-6EDB140E7B86" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
   <DisabledProjects>
     <String>Busidex.Presentation.Android/Busidex.Presentation.Android.csproj</String>
   </DisabledProjects>

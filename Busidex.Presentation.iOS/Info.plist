@@ -7,11 +7,11 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.30</string>
+	<string>1.2.31</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>8.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -36,8 +36,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIStatusBarHidden</key>
-	<true/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>CFBundleIconFiles</key>
@@ -64,10 +62,8 @@
 	<array>
 		<string>Lato-Black.ttf</string>
 	</array>
-	<key>UIRequiresFullScreen</key>
-	<string>YES</string>
 	<key>CFBundleVersion</key>
-	<string>553</string>
+	<string>554</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -96,5 +92,7 @@
 	<string>Allow users to take a photo to use for their card</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>UIStatusBarHidden</key>
+	<true/>
 </dict>
 </plist>

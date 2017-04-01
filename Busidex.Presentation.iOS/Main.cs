@@ -13,7 +13,7 @@ namespace Busidex.Presentation.iOS
 		public static bool LoadingSharedCard { get; set; }
 		public static LoadingOverlay Overlay;
 
-		public const int APP_VERSION = 548;
+		public const int APP_VERSION = 554;
 
 		// This is the main entry point of the application.
 		static void Main (string[] args)

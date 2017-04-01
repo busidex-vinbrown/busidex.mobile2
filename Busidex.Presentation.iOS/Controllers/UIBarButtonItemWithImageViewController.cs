@@ -4,6 +4,8 @@ using UIKit;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.iOS
 {
@@ -94,11 +96,8 @@ namespace Busidex.Presentation.iOS
 			NavigationItem.SetHidesBackButton (true, true);
 		}
 
-		protected void Sync ()
+		protected async Task<bool> Sync ()
 		{
-
-			UISubscriptionService.Sync ();
-
 			var overlay = new MyBusidexLoadingOverlay (View.Bounds);
 			const int TOTAL_TASKS = 4;
 			var completedTasks = 0;
@@ -114,28 +113,32 @@ namespace Busidex.Presentation.iOS
 			});
 
 			OnMyBusidexLoadedEventHandler callback1 = list => InvokeOnMainThread (() => {
-				overlay.UpdateProgress (completedTasks++);
+				Interlocked.Increment (ref completedTasks);
+				overlay.UpdateProgress (completedTasks);
 				if (completedTasks == TOTAL_TASKS) {
 					overlay.Hide ();
 				}
 			});
 
 			OnEventListLoadedEventHandler callback2 = list => InvokeOnMainThread (() => {
-				overlay.UpdateProgress (completedTasks++);
+				Interlocked.Increment (ref completedTasks);
+				overlay.UpdateProgress (completedTasks);
 				if (completedTasks == TOTAL_TASKS) {
 					overlay.Hide ();
 				}
 			});
 
 			OnMyOrganizationsLoadedEventHandler callback3 = list => InvokeOnMainThread (() => {
-				overlay.UpdateProgress (completedTasks++);
+				Interlocked.Increment (ref completedTasks);
+				overlay.UpdateProgress (completedTasks);
 				if (completedTasks == TOTAL_TASKS) {
 					overlay.Hide ();
 				}
 			});
 
 			OnNotificationsLoadedEventHandler callback4 = list => InvokeOnMainThread (() => {
-				overlay.UpdateProgress (completedTasks++);
+				Interlocked.Increment (ref completedTasks);
+				overlay.UpdateProgress (completedTasks);
 				if (completedTasks == TOTAL_TASKS) {
 					overlay.Hide ();
 				}
@@ -147,6 +150,8 @@ namespace Busidex.Presentation.iOS
 			UISubscriptionService.OnMyOrganizationsLoaded += callback3;
 			UISubscriptionService.OnNotificationsLoaded += callback4;
 
+			await UISubscriptionService.Sync ();
+			return true;
 		}
 
 		public void GoToMyBusidex (BaseNavigationController.NavigationDirection direction)

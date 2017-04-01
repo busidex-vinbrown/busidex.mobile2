@@ -83,8 +83,9 @@ namespace Busidex.Presentation.iOS
 								var cardDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
 								myCard = new UserCard (cardDetail.Model);
 								if (!string.IsNullOrEmpty (myCard.Card.Name) && myCard.Card.FrontFileId != Guid.Empty) {
-									UISubscriptionService.AddCardToMyBusidex (myCard);
-									InvokeOnMainThread (() => ShareCard (myCard));
+									UISubscriptionService.AddCardToMyBusidex (myCard).ContinueWith( (arg) => {
+										InvokeOnMainThread (() => ShareCard (myCard));
+									});
 								} else {
 									showNoCardMessage ();
 								}
