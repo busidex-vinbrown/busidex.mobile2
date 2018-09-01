@@ -12,6 +12,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile;
+using Busidex.Presentation.Droid.v2.Fragments;
 
 namespace Busidex.Presentation.Droid.v2
 {

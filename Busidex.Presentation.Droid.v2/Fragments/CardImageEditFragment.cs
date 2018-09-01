@@ -1,18 +1,19 @@
 ﻿using System;
 using System.IO;
-using Android.Content;
+using System.Threading.Tasks;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Support.V4.Content;
 using Android.Views;
-//using Android.Views.Animations;
 using Android.Widget;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using Android.Graphics;
-using Android.Provider;
-using Android.Support.V4.Content;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Xamarians.CropImage;
 
-namespace Busidex.Presentation.Droid.v2
+namespace Busidex.Presentation.Droid.v2.Fragments
 {
 	public class CardImageEditFragment : BaseCardEditFragment, RadioGroup.IOnCheckedChangeListener
 	{
@@ -50,13 +51,6 @@ namespace Busidex.Presentation.Droid.v2
 
 		MobileCardImage CardModel { get; set; }
 
-		const int PICTURE_SELECT = 0;
-		const int CAMERA_CAPTURE = 1;
-		const int PIC_CROP = 2;
-		const int RESULT_OK = -1;
-		const string ORIENTATION_HORIZONTAL = "H";
-		const string ORIENTATION_VERTICAL = "V";
-
 		public override void OnDetach ()
 		{
 			btnBack = null;
@@ -67,16 +61,12 @@ namespace Busidex.Presentation.Droid.v2
 
 			if (btnCardImageHor != null) {
 				var bd = (BitmapDrawable)btnCardImageHor.Drawable;
-				if (bd != null) {
-					bd.Bitmap.Recycle ();
-				}
+				bd?.Bitmap.Recycle ();
 				btnCardImageHor.SetImageURI (null);
 			}
 			if (btnCardImageVer != null) {
 				var bd = (BitmapDrawable)btnCardImageVer.Drawable;
-				if (bd != null) {
-					bd.Bitmap.Recycle ();
-				}
+				bd?.Bitmap.Recycle ();
 				btnCardImageVer.SetImageURI (null);
 			}
 			btnCardFront = null;
@@ -152,101 +142,77 @@ namespace Busidex.Presentation.Droid.v2
 				Xamarin.Insights.Report (ex);
 			}
 		}
-
-		private void cropImage ()
+		
+		async Task<bool> setImageFromFile(MediaFile file)
 		{
-			// assume front
-			double aspectX = 1.5;
-			double aspectY = 1;
+			bool ok = true;
+			try
+			{
+				var selectedOrientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front
+					? SelectedFrontOrientation
+					: SelectedBackOrientation;
 
-			var cropIntent = new Intent ("com.android.camera.action.CROP");
-			//indicate image type and Uri
-			cropIntent.SetDataAndType (picUri, "image/*");
-			//set crop properties
-			cropIntent.PutExtra ("crop", "true");
-			//indicate aspect of desired crop
-			cropIntent.PutExtra ("aspectX", aspectX);
-			cropIntent.PutExtra ("aspectY", aspectY);
-			//indicate output X and Y
-			cropIntent.PutExtra ("outputX", 512);
-			cropIntent.PutExtra ("outputY", 512);
-			//retrieve data on return
-			cropIntent.PutExtra ("return-data", true);
-			//start the activity - we handle returning in onActivityResult
-			StartActivityForResult (cropIntent, PIC_CROP);
-		}
+				var str = file.GetStream();
 
-		public override void OnActivityResult (int requestCode, int resultCode, Intent data)
-		{
-			base.OnActivityResult (requestCode, resultCode, data);
+				var cropResult = await CropImageService.Instance.CropImage(file.Path, CropRatioType.None);
+				var bmp = BitmapFactory.DecodeFile(cropResult.FilePath);
 
-			var selectedOrientation = SelectedDisplayMode == MobileCardImage.DisplayMode.Front ? SelectedFrontOrientation : SelectedBackOrientation;
-
-			Bitmap thePic;
-			if (resultCode == RESULT_OK) {
-				switch(requestCode){
-					case PICTURE_SELECT:{
-						picUri = data.Data;
-						cropImage ();
-						break;
-					}
-					case CAMERA_CAPTURE: {
-						picUri = data.Data;
-						cropImage ();
-						break;
-					}
-					case PIC_CROP:{
-						if (data != null) {
-							Bundle extras = data.Extras;
-							//get the cropped bitmap
-							thePic = (Bitmap)extras.GetParcelable ("data");
-
-							btnCardImageHor.SetImageBitmap (thePic);
-							btnCardImageVer.SetImageBitmap (thePic);
-
-							byte [] b;
-							using (var stream = new MemoryStream ()) {
-								thePic.Compress (Bitmap.CompressFormat.Png, 0, stream);
-								b = stream.ToArray ();
-
-								var s = Convert.ToBase64String (b);
-
-								if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
-									CardModel.FrontFileId = Guid.NewGuid ();
-								} else {
-									CardModel.BackFileId = Guid.NewGuid ();
-								}
-								CardModel.EncodedCardImage = s;
-								CardModel.Side = SelectedDisplayMode;
-								CardModel.Orientation = selectedOrientation;
-							}
-						}
-						break;
-					}
+				byte[] b = { };
+				using (MemoryStream ms = new MemoryStream())
+				{
+					str.CopyTo(ms);
+					b = ms.ToArray();
 				}
-				setCardImageOptionsDisplay (ViewStates.Gone);
 
-				GC.Collect ();
-			} 
+				btnCardImageHor.SetImageBitmap(bmp);
+				btnCardImageVer.SetImageBitmap(bmp);
+
+				var s = Convert.ToBase64String(b);
+
+				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front)
+				{
+					CardModel.FrontFileId = Guid.NewGuid();
+				}
+				else
+				{
+					CardModel.BackFileId = Guid.NewGuid();
+				}
+
+				CardModel.EncodedCardImage = s;
+				CardModel.Side = SelectedDisplayMode;
+				CardModel.Orientation = selectedOrientation;
+				setCardImageOptionsDisplay(ViewStates.Gone);
+			}
+			catch (Exception ex)
+			{
+				ok = false;
+			}
+
+			return await Task.FromResult(ok);
 		}
 
 		void setCardImageOptionsDisplay(ViewStates visibility){
 			imageSelectOptions.Visibility = visibility;
 		}
 
-		void takePicture(){
-			imageSelectOptions.Visibility = ViewStates.Gone;
-			var captureIntent = new Intent (MediaStore.ActionImageCapture);
-			//we will handle the returned data in onActivityResult
-			StartActivityForResult (captureIntent, CAMERA_CAPTURE);
+		async void takePicture(){
+			try
+			{
+				var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+				{
+					AllowCropping = true
+				});
+				await setImageFromFile(file);
+			}
+			catch (Exception ex)
+			{
+				var x = ex.Message;
+			}
 		}
 
-		void selectPicture(){
-			var imageIntent = new Intent ();
-			imageIntent.SetType ("image/*");
-			imageIntent.SetAction (Intent.ActionGetContent);
-			StartActivityForResult (
-				Intent.CreateChooser (imageIntent, "Select photo"), 0);
+		async void selectPicture(){
+			var file = await CrossMedia.Current.PickPhotoAsync();
+			await setImageFromFile(file);
 		}
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

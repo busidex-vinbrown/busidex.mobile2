@@ -17,6 +17,8 @@ using Android.Net;
 using Plugin.Permissions;
 using Android.Content.PM;
 using Newtonsoft.Json;
+using Plugin.CurrentActivity;
+using Plugin.Media;
 
 namespace Busidex.Presentation.Droid.v2
 {
@@ -221,6 +223,8 @@ namespace Busidex.Presentation.Droid.v2
 			}
 
 			BranchAndroid.Init (this, Mobile.Resources.BRANCH_KEY, this);
+			Xamarians.CropImage.Droid.CropImageServiceAndroid.Initialize(this);
+			CrossMedia.Current.Initialize();
 
 		}
 
@@ -282,6 +286,7 @@ namespace Busidex.Presentation.Droid.v2
 
 			Init ();
 
+			CrossCurrentActivity.Current.Init(this, savedInstanceState);
 			setUpPager ();
 		}
 
