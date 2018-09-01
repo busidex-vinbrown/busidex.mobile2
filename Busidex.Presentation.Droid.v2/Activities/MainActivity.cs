@@ -38,63 +38,16 @@ namespace Busidex.Presentation.Droid.v2
 		ViewPager pager;
 		GenericFragmentPagerAdaptor tabAdapter;
 
-		// QuickShareFragment quickShareDelayedFragment;
-
 		public static List<Xamarin.Contacts.Contact> Contacts { get; set; }
 
 		public async Task<bool> OpenShare ()
 		{
-			var userId = Utils.DecodeUserId (UISubscriptionService.AuthToken);
 			var myCard = new UserCard(UISubscriptionService.OwnedCard);
-			if(myCard == null ){
-				myCard = UISubscriptionService.UserCards.FirstOrDefault (c => c.Card != null && c.Card.OwnerId == userId);	
-			}
-
-			if (myCard == null) {
-				await CardController.GetMyCard ().ContinueWith (r => {
-					if (!string.IsNullOrEmpty (r.Result) && !r.Result.Contains ("\"Success\": false")) {
-						try {
-							var cardDetail = JsonConvert.DeserializeObject<CardDetailResponse> (r.Result);
-							myCard = new UserCard (cardDetail.Model);
-							if (!string.IsNullOrEmpty (myCard.Card.Name) && myCard.Card.FrontFileId != System.Guid.Empty) {
-								UISubscriptionService.AddCardToMyBusidex (myCard).ContinueWith (c => {
-									var fragment = new ShareCardFragment (myCard);
-									ShareCard (fragment);
-								});
-							} else {
-								showNoCardMessage ();
-							}
-						} catch (System.Exception ex) {
-							Xamarin.Insights.Report (ex);
-						}
-					} else {
-						showNoCardMessage ();
-					}
-				});
-			} else {
-				var fragment = new ShareCardFragment (myCard);
-				ShareCard (fragment);
-			}
+			
+			var fragment = new ShareCardFragment (myCard);
+			ShareCard (fragment);
+			
 			return await Task.FromResult (true);
-		}
-
-		void showNoCardMessage ()
-		{
-			RunOnUiThread (() => ShowAlert ("Share My Card", "You have not added your card to Busidex. Would you like to do this now?", new string [] {
-				"Ok",
-				"Not Now"
-			}, new System.EventHandler<DialogClickEventArgs> ((o, e) => {
-
-				var dialog = o as AlertDialog;
-				Button btnClicked = dialog.GetButton (e.Which);
-				if (btnClicked.Text == "Ok") {
-					RunOnUiThread (() => {
-						FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-						LoadFragment (new ProfileFragment (UISubscriptionService.CurrentUser));
-					});
-				}
-			})
-			));
 		}
 
 		public void SetTab (int page)
@@ -459,20 +412,23 @@ namespace Busidex.Presentation.Droid.v2
 		void CheckAppVersion ()
 		{
 			UserDeviceController.GetCurrentAppInfo (UISubscriptionService.AuthToken).ContinueWith (async (device) => {
-				if (device == null || device.Result == null || device.Result.iOS > APP_VERSION) {
+				if (device?.Result == null || device.Result.iOS > APP_VERSION) {
 					const string MESSAGE = "There are critical updates available. You need to update the app now to get the latest features and bug fixes.";
 					RunOnUiThread (() => {
 						ShowAlert ("Critical Updates", MESSAGE, new [] { GetString (Resource.String.button_update_now), GetString (Resource.String.button_update_later) }, (o, e) => {
-							var dialog = o as AlertDialog;
-							var btnClicked = dialog.GetButton (e.Which);
-							if (btnClicked.Text == GetString (Resource.String.Global_ButtonText_Ok)) {
-								RunOnUiThread (() => {
-									var OpenBrowserIntent = new Intent (Intent.ActionView);
-									var uri = Uri.Parse (Mobile.Resources.ANDROID_UPDATE_URL);
-									OpenBrowserIntent.SetData (uri);
-									OpenBrowser (OpenBrowserIntent);
-								});
+							if (o is AlertDialog dialog)
+							{
+								var btnClicked = dialog.GetButton (e.Which);
+								if (btnClicked.Text == GetString (Resource.String.Global_ButtonText_Ok)) {
+									RunOnUiThread (() => {
+										var OpenBrowserIntent = new Intent (Intent.ActionView);
+										var uri = Uri.Parse (Mobile.Resources.ANDROID_UPDATE_URL);
+										OpenBrowserIntent.SetData (uri);
+										OpenBrowser (OpenBrowserIntent);
+									});
+								}
 							}
+							
 						});
 					});
 				} else {
@@ -534,14 +490,14 @@ namespace Busidex.Presentation.Droid.v2
 			ActionBar.Hide ();
 		}
 
-		public void LoginComplete ()
+		public async void LoginComplete ()
 		{
 
 			UnloadFragment (showActionBar: false);
 
 			UISubscriptionService.AuthToken = BaseApplicationResource.GetAuthCookie ();
 
-			UISubscriptionService.Sync ();
+			await UISubscriptionService.Sync ();
 
 			DoingLogin = false;
 			if (DoingRegistration) {
@@ -551,8 +507,6 @@ namespace Busidex.Presentation.Droid.v2
 			var quickShareLink = Utils.GetQuickShareLink ();
 			if (quickShareLink != null) {
 				var userCard = LoadQuickShareCardData (quickShareLink);
-				//var fragment = new QuickShareFragment (userCard, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
-				//ShowQuickShare (fragment);
 				var intent = new Intent (this, typeof (QuickShareActivity));
 				intent.PutExtra ("SelectedCard", JsonConvert.SerializeObject (userCard));
 				intent.PutExtra ("DisplayName", quickShareLink.DisplayName);
@@ -592,7 +546,7 @@ namespace Busidex.Presentation.Droid.v2
 					progressBar1.Visibility = myBusidexProgressStatus.Visibility = ViewStates.Visible;
 					progressBar1.Max = status.Total;
 					progressBar1.Progress = status.Count;
-					myBusidexProgressStatus.Text = string.Format ("Loading {0} of {1}", status.Count, status.Total);
+					myBusidexProgressStatus.Text = $"Loading {status.Count} of {status.Total}";
 				});
 
 				UISubscriptionService.OnEventCardsUpdated -= update;
@@ -623,7 +577,7 @@ namespace Busidex.Presentation.Droid.v2
 		public void ShowOrganizationDetail (Android.Support.V4.App.Fragment panel)
 		{
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (panel, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
+			LoadFragment (panel);
 			ActionBar.Hide ();
 		}
 
@@ -645,7 +599,7 @@ namespace Busidex.Presentation.Droid.v2
 			var fragment = new OrganizationCardsFragment (orgMembers, logoPath);
 
 			FindViewById (Resource.Id.fragment_holder).Visibility = ViewStates.Visible;
-			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
+			LoadFragment (fragment);
 			ActionBar.Hide ();
 		}
 
@@ -654,16 +608,16 @@ namespace Busidex.Presentation.Droid.v2
 
 			var logoPath = System.IO.Path.Combine (Mobile.Resources.DocumentsPath, organization.LogoFileName + "." + organization.LogoType);
 			var fragment = new OrganizationCardsFragment (UISubscriptionService.OrganizationReferrals [organization.OrganizationId], logoPath);
-			LoadFragment (fragment, Resource.Animation.SlideAnimation, Resource.Animation.SlideOutAnimation);
+			LoadFragment (fragment);
 		}
 
 		#endregion
 
 		#region Card Actions
 
-		public void SaveNotes (long userCardId, string notes)
+		public async void SaveNotes (long userCardId, string notes)
 		{
-			UISubscriptionService.SaveNotes (userCardId, notes);
+			await UISubscriptionService.SaveNotes (userCardId, notes);
 		}
 
 		public void ShowCard (CardDetailFragment fragment)
@@ -707,15 +661,6 @@ namespace Busidex.Presentation.Droid.v2
 			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_NOTES, 0);
 
 		}
-
-		//public void ShowQuickShare (QuickShareFragment fragment)
-		//{
-		//	var holder = FindViewById (Resource.Id.fragment_holder);
-		//	holder.Visibility = ViewStates.Visible;
-	
-		//	LoadFragment (fragment);
-		//	ActionBar.Hide ();
-		//}
 
 		public void ShareCard (ShareCardFragment fragment)
 		{
@@ -766,12 +711,12 @@ namespace Busidex.Presentation.Droid.v2
 		{
 
 			var data = intent.GetStringExtra ("Card");
-			return !string.IsNullOrEmpty (data) ? Newtonsoft.Json.JsonConvert.DeserializeObject<UserCard> (data) : null;
+			return !string.IsNullOrEmpty (data) ? JsonConvert.DeserializeObject<UserCard> (data) : null;
 		}
 
-		public void AddToMyBusidex (UserCard userCard)
+		public async void AddToMyBusidex (UserCard userCard)
 		{
-			UISubscriptionService.AddCardToMyBusidex (userCard);
+			await UISubscriptionService.AddCardToMyBusidex (userCard);
 			BaseApplicationResource.TrackAnalyticsEvent (Mobile.Resources.GA_CATEGORY_ACTIVITY, Mobile.Resources.GA_MY_BUSIDEX_LABEL, Mobile.Resources.GA_LABEL_ADD, 0);
 		}
 
@@ -799,10 +744,6 @@ namespace Busidex.Presentation.Droid.v2
 		)
 		{
 
-			//			if (fragment.IsVisible) {
-			//				return;
-			//			}
-
 			pager.Visibility = ViewStates.Visible;
 
 			using (var transaction = SupportFragmentManager.BeginTransaction ()) {
@@ -821,19 +762,9 @@ namespace Busidex.Presentation.Droid.v2
 
 				transaction
 					.Replace (container, fragment, name)
-					//.AddToBackStack (name)
-					.Commit();//AllowingStateLoss ();
+					.Commit();
 			}
 		}
-
-		//		public override bool OnKeyDown (Keycode keyCode, KeyEvent e)
-		//		{
-		////			if(keyCode == Keycode.Back){
-		////				return false;
-		////			}else{
-		//			return base.OnKeyDown (keyCode, e);
-		////			}
-		//		}
 
 		public override void OnBackPressed ()
 		{
@@ -886,7 +817,7 @@ namespace Busidex.Presentation.Droid.v2
 
 		protected void ShowAlert (string title, string message, string buttonText, System.EventHandler<DialogClickEventArgs> callback)
 		{
-			ShowAlert (title, message, new string [] { buttonText }, callback);
+			ShowAlert (title, message, new[] { buttonText }, callback);
 		}
 
 		protected void ShowAlert (string title, string message, string [] buttons, System.EventHandler<DialogClickEventArgs> callback)
@@ -895,13 +826,9 @@ namespace Busidex.Presentation.Droid.v2
 			builder.SetTitle (title);
 			builder.SetMessage (message);
 			if (buttons.Length > 1) {
-				builder.SetNegativeButton (buttons [1], new System.EventHandler<DialogClickEventArgs> ((o, e) => {
-					return;
-				}));
+				builder.SetNegativeButton (buttons [1], (o, e) => { });
 			} else {
-				builder.SetNegativeButton (GetString (Resource.String.Global_ButtonText_Cancel), new System.EventHandler<DialogClickEventArgs> ((o, e) => {
-					return;
-				}));
+				builder.SetNegativeButton (GetString (Resource.String.Global_ButtonText_Cancel), (o, e) => { });
 			}
 			builder.SetCancelable (true);
 			builder.SetPositiveButton (buttons [0], callback);
@@ -921,7 +848,7 @@ namespace Busidex.Presentation.Droid.v2
 			var result = CardController.GetCardById (UISubscriptionService.AuthToken, quickShareLink.CardId);
 			if (!string.IsNullOrEmpty (result)) {
 
-				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
+				var cardResponse = JsonConvert.DeserializeObject<CardDetailResponse> (result);
 				var card = new Card (cardResponse.Model);
 
 				userCard = new UserCard {
@@ -938,7 +865,7 @@ namespace Busidex.Presentation.Droid.v2
 			return userCard;
 		}
 
-		static void SaveFromUrl (UserCard uc, QuickShareLink link)
+		static async void SaveFromUrl (UserCard uc, QuickShareLink link)
 		{
 
 			var sharedCardController = new SharedCardController ();
@@ -946,13 +873,10 @@ namespace Busidex.Presentation.Droid.v2
 			var result = CardController.GetCardById (UISubscriptionService.AuthToken, uc.CardId);
 			if (!string.IsNullOrEmpty (result)) {
 
-				var cardResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CardDetailResponse> (result);
+				var cardResponse = JsonConvert.DeserializeObject<CardDetailResponse> (result);
 				var card = new Card (cardResponse.Model);
 
-				UISubscriptionService.AddCardToMyBusidex (uc);
-
-				//var myBusidexController = new MyBusidexController ();
-				//myBusidexController.AddToMyBusidex (uc.CardId, token);
+				await UISubscriptionService.AddCardToMyBusidex (uc);
 
 				sharedCardController.AcceptQuickShare (card, UISubscriptionService.CurrentUser.Email, link.From, UISubscriptionService.AuthToken, link.PersonalMessage);
 				Utils.RemoveQuickShareLink ();

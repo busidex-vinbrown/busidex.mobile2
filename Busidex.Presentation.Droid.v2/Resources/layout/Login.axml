@@ -10,7 +10,7 @@
         p1:text="@string/Login_lblUserName"
         p1:textAppearance="?android:attr/textAppearanceSmall"
         p1:layout_width="wrap_content"
-        p1:layout_height="22.0dp"
+        p1:layout_height="25.9dp"
         p1:id="@+id/lblUserName"
         p1:textColor="@color/labelFontColor"
         p1:layout_marginTop="40dp"
@@ -46,6 +46,7 @@
         p1:id="@+id/txtPassword"
         p1:background="@android:drawable/editbox_background"
         p1:textColor="@color/labelFontColor"
+		p1:gravity="center_horizontal"
         p1:layout_centerHorizontal="true"
         p1:textSize="@dimen/font_size_label_medium" />
     <TextView
