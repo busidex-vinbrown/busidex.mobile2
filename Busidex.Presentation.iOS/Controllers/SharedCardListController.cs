@@ -1,13 +1,12 @@
-﻿
-using System;
-using Foundation;
-using UIKit;
+﻿using System;
 using System.Collections.Generic;
-using Busidex.Mobile.Models;
 using Busidex.Mobile;
-using GoogleAnalytics.iOS;
+using Busidex.Mobile.Models;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class SharedCardListController : BaseCardViewController
 	{
@@ -29,7 +28,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Shared Card List");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Shared Card List");
 
 			base.ViewDidAppear (animated);
 		}

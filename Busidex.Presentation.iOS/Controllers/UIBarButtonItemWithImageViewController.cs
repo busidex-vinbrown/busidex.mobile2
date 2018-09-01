@@ -6,6 +6,10 @@ using Busidex.Mobile.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Busidex.Presentation.iOS.Controllers;
+using BaseController = Busidex.Presentation.iOS.Controllers.BaseController;
+using MyBusidexController = Busidex.Presentation.iOS.Controllers.MyBusidexController;
+using SearchController = Busidex.Presentation.iOS.Controllers.SearchController;
 
 namespace Busidex.Presentation.iOS
 {

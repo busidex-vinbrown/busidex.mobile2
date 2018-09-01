@@ -5,6 +5,7 @@ using Foundation;
 using UIKit;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
+using MyBusidexController = Busidex.Presentation.iOS.Controllers.MyBusidexController;
 
 namespace Busidex.Presentation.iOS
 {

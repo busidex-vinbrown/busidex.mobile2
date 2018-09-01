@@ -1,13 +1,13 @@
 ﻿using System;
-using GoogleAnalytics.iOS;
-using UIKit;
-using Busidex.Mobile.Models;
+using System.Drawing;
 using System.IO;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
 using Foundation;
-using System.Drawing;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class QuickShareController : BaseCardViewController
 	{
@@ -79,7 +79,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "QuickShare");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "QuickShare");
 
 			base.ViewDidAppear (animated);
 

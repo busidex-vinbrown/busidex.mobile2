@@ -1,10 +1,9 @@
-﻿
-using System;
-using Foundation;
-using GoogleAnalytics.iOS;
+﻿using System;
 using System.Linq;
+using Foundation;
+using Google.Analytics;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class TermsController : BaseController
 	{
@@ -22,7 +21,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "View Terms");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "View Terms");
 
 			base.ViewDidAppear (animated);
 		}

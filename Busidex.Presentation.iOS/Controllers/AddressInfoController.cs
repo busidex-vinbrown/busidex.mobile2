@@ -1,10 +1,10 @@
 ﻿using System;
-using GoogleAnalytics.iOS;
-using Busidex.Mobile.Models;
-using UIKit;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class AddressInfoController : BaseCardEditController
 	{
@@ -120,7 +120,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Address Info");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Address Info");
 
 			base.ViewDidAppear (animated);
 		}

@@ -7,6 +7,7 @@ using Foundation;
 using UIKit;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using Busidex.Presentation.iOS.Controllers;
 
 namespace Busidex.Presentation.iOS
 {

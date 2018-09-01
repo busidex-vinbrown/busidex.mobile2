@@ -1,17 +1,16 @@
 ﻿using System;
-
-using UIKit;
+using System.Drawing;
 using System.IO;
 using Busidex.Mobile;
-using Foundation;
-using CoreGraphics;
-using GoogleAnalytics.iOS;
-using Plugin.Media.Abstractions;
-using Plugin.Media;
-using System.Drawing;
 using Busidex.Mobile.Models;
+using CoreGraphics;
+using Foundation;
+using Google.Analytics;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class CardImageController : BaseCardEditController
 	{
@@ -70,7 +69,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Image");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Card Image");
 
 			base.ViewDidAppear (animated);
 		}

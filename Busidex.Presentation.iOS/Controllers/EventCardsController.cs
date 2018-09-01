@@ -1,12 +1,12 @@
 ﻿using System;
-using UIKit;
-using Busidex.Mobile.Models;
-using System.Linq;
 using System.Collections.Generic;
-using GoogleAnalytics.iOS;
+using System.Linq;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class EventCardsController : BaseCardViewController
 	{
@@ -143,7 +143,7 @@ namespace Busidex.Presentation.iOS
 		public override void ViewDidAppear (bool animated)
 		{
 			if (SelectedTag != null) {
-				GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Event - " + SelectedTag.Description);
+				Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Event - " + SelectedTag.Description);
 			}
 			base.ViewDidAppear (animated);
 		}

@@ -1,10 +1,10 @@
 ﻿using System;
-using UIKit;
-using GoogleAnalytics.iOS;
-using Busidex.Mobile.Models;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class VisibilityController : BaseCardEditController
 	{
@@ -72,7 +72,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Visibility");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Card Visibility");
 
 			base.ViewDidAppear (animated);
 		}

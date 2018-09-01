@@ -5,6 +5,11 @@ using UIKit;
 using CoreAnimation;
 using System.Linq;
 using Busidex.Mobile;
+using Busidex.Presentation.iOS.Controllers;
+using LoginController = Busidex.Presentation.iOS.Controllers.LoginController;
+using MyBusidexController = Busidex.Presentation.iOS.Controllers.MyBusidexController;
+using SearchController = Busidex.Presentation.iOS.Controllers.SearchController;
+using SharedCardController = Busidex.Presentation.iOS.Controllers.SharedCardController;
 
 namespace Busidex.Presentation.iOS
 {

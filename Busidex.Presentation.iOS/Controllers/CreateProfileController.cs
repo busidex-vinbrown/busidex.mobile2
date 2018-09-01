@@ -4,7 +4,8 @@ using Foundation;
 using Busidex.Mobile.Models;
 using UIKit;
 using System.Threading.Tasks;
-using GoogleAnalytics.iOS;
+using Google.Analytics;
+using BaseController = Busidex.Presentation.iOS.Controllers.BaseController;
 
 namespace Busidex.Presentation.iOS
 {
@@ -34,7 +35,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "CreateProfile");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "CreateProfile");
 			HideStatusIndicators ();
 			base.ViewDidAppear (animated);
 		}

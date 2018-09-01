@@ -2,11 +2,11 @@
 using Foundation;
 using UIKit;
 using System;
-using GoogleAnalytics.iOS;
 using Busidex.Mobile;
 using BranchXamarinSDK;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Analytics;
 using Xamarin.InAppPurchase;
 
 namespace Busidex.Presentation.iOS
@@ -30,7 +30,7 @@ namespace Busidex.Presentation.iOS
 
 		public override UIWindow Window { get; set; }
 
-		public IGAITracker Tracker;
+		public ITracker Tracker;
 
 		public static InAppPurchaseManager PurchaseManager;
 
@@ -51,13 +51,13 @@ namespace Busidex.Presentation.iOS
 			}
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-			GAI.SharedInstance.DispatchInterval = 5;
+			Google.Analytics.Gai.SharedInstance.DispatchInterval = 5;
 
 			// Optional: automatically send uncaught exceptions to Google Analytics.
-			GAI.SharedInstance.TrackUncaughtExceptions = true;
+			Google.Analytics.Gai.SharedInstance.TrackUncaughtExceptions = true;
 
 			// Initialize tracker.
-			Tracker = GAI.SharedInstance.GetTracker (Resources.GOOGLE_ANALYTICS_KEY_IOS);
+			Tracker = Google.Analytics.Gai.SharedInstance.GetTracker (Resources.GOOGLE_ANALYTICS_KEY_IOS);
 
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
@@ -79,10 +79,9 @@ namespace Busidex.Presentation.iOS
 
 		public static void TrackAnalyticsEvent (string category, string action, string label, NSNumber value)
 		{
+			var builder = DictionaryBuilder.CreateEvent (category, action, label, value);
 
-			var builder = GAIDictionaryBuilder.CreateEvent (category, action, label, value);
-
-			GAI.SharedInstance.DefaultTracker.Send (builder.Build ());
+			Gai.SharedInstance.DefaultTracker.Send (builder.Build ());
 		}
 
 		#endregion

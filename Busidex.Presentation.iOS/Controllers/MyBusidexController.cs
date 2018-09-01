@@ -1,14 +1,14 @@
 ﻿using System;
-using Foundation;
-using UIKit;
+using System.Collections.Generic;
+using System.Linq;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using System.Linq;
-using System.Collections.Generic;
-using GoogleAnalytics.iOS;
 using CoreGraphics;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class MyBusidexController : BaseCardViewController
 	{
@@ -145,7 +145,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "My Busidex");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "My Busidex");
 
 			base.ViewDidAppear (animated);
 		}

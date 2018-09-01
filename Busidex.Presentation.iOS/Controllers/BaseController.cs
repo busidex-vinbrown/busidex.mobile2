@@ -1,15 +1,14 @@
 ﻿using System;
-using UIKit;
 using System.IO;
 using System.Linq;
-using Busidex.Mobile.Models;
 using Busidex.Mobile;
-using System.Threading.Tasks;
-using GoogleAnalytics.iOS;
+using Busidex.Mobile.Models;
 using CoreAnimation;
 using CoreGraphics;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class BaseController : UIViewController
 	{
@@ -75,7 +74,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Send (GAIDictionaryBuilder.CreateScreenView ().Build ());
+			Gai.SharedInstance.DefaultTracker.Send (DictionaryBuilder.CreateScreenView ().Build ());
 
 			base.ViewDidAppear (animated);
 		}

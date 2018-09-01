@@ -1,13 +1,13 @@
 ﻿using System;
-using Foundation;
-using UIKit;
-using Busidex.Mobile.Models;
 using System.IO;
-using GoogleAnalytics.iOS;
-using Busidex.Mobile;
 using System.Linq;
+using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class OrganizationDetailController : UIBarButtonItemWithImageViewController
 	{
@@ -28,7 +28,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Organization Detail - " + OrganizationId);
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Organization Detail - " + OrganizationId);
 
 			base.ViewDidAppear (animated);
 

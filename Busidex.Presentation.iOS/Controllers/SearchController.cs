@@ -1,15 +1,15 @@
-﻿namespace Busidex.Presentation.iOS
-{
-	using System;
-	using Foundation;
-	using UIKit;
-	using Mobile;
-	using Mobile.Models;
-	using System.IO;
-	using System.Linq;
-	using System.Collections.Generic;
-	using GoogleAnalytics.iOS;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
+namespace Busidex.Presentation.iOS.Controllers
+{
 	public partial class SearchController : BaseCardViewController
 	{
 		public static NSString cellID = new NSString ("cellId");
@@ -21,7 +21,7 @@
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Search");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Search");
 
 			base.ViewDidAppear (animated);
 		}

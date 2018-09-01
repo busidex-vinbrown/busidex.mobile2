@@ -1,14 +1,14 @@
 ﻿using System;
-using Foundation;
-using UIKit;
-using Busidex.Mobile;
 using System.Collections.Generic;
-using Busidex.Mobile.Models;
 using System.IO;
 using System.Linq;
-using GoogleAnalytics.iOS;
+using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class OrgMembersController : BaseCardViewController
 	{
@@ -239,7 +239,7 @@ namespace Busidex.Presentation.iOS
 		{
 			string name = OrganizationMemberMode == MemberMode.Members ? "Organization Members" : "Organization Referrals";
 
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, name + " - " + OrganizationId);
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, name + " - " + OrganizationId);
 
 			base.ViewDidAppear (animated);
 

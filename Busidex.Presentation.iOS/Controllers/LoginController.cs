@@ -1,13 +1,13 @@
 ﻿using System;
-using Foundation;
-using UIKit;
-using Busidex.Mobile.Models;
-using GoogleAnalytics.iOS;
 using System.Threading.Tasks;
-using CoreGraphics;
 using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using CoreGraphics;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class LoginController : BaseController
 	{
@@ -34,7 +34,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Login");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Login");
 
 			base.ViewDidAppear (animated);
 		}

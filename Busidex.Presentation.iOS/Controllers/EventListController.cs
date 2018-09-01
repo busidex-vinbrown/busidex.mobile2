@@ -1,13 +1,13 @@
 ﻿using System;
-using Foundation;
-using UIKit;
-using Busidex.Mobile.Models;
 using System.Collections.Generic;
-using Busidex.Mobile;
-using GoogleAnalytics.iOS;
 using System.Linq;
+using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Foundation;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class EventListController : UIBarButtonItemWithImageViewController
 	{
@@ -62,7 +62,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "EventList");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "EventList");
 
 			base.ViewDidAppear (animated);
 		}

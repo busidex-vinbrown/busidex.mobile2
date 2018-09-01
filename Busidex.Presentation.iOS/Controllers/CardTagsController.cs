@@ -1,10 +1,10 @@
 ﻿using System;
-using GoogleAnalytics.iOS;
+using System.Collections.Generic;
 using System.Linq;
 using Busidex.Mobile;
-using System.Collections.Generic;
+using Google.Analytics;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class CardTagsController : BaseCardEditController
 	{
@@ -56,7 +56,7 @@ namespace Busidex.Presentation.iOS
 		{
 			base.ViewDidAppear (animated);
 
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Card Tags");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Card Tags");
 		}
 
 		public override void ViewWillAppear (bool animated)

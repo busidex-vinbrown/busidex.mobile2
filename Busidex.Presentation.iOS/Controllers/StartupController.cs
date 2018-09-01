@@ -1,9 +1,9 @@
 ﻿using System;
-using UIKit;
 using System.Linq;
-using GoogleAnalytics.iOS;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class StartupController : BaseController
 	{
@@ -45,7 +45,7 @@ namespace Busidex.Presentation.iOS
 
 			NavigationController.SetToolbarHidden (true, true);
 
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Startup");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Startup");
 
 			base.ViewDidAppear (animated);
 

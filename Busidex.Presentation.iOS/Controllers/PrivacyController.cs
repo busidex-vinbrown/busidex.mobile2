@@ -1,8 +1,8 @@
 ﻿using System;
 using Foundation;
-using GoogleAnalytics.iOS;
+using Google.Analytics;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class PrivacyController : BaseController
 	{
@@ -12,7 +12,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "View Terms");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "View Terms");
 
 			base.ViewDidAppear (animated);
 		}

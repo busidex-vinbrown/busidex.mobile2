@@ -5,8 +5,9 @@ using System.IO;
 using System.Drawing;
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
-using GoogleAnalytics.iOS;
 using System.Linq;
+using Google.Analytics;
+using BaseController = Busidex.Presentation.iOS.Controllers.BaseController;
 
 namespace Busidex.Presentation.iOS
 {
@@ -66,7 +67,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Notes");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Notes");
 
 			base.ViewDidAppear (animated);
 		}

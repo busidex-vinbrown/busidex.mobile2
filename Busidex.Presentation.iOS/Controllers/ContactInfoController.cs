@@ -1,12 +1,11 @@
 ﻿using System;
-
-using UIKit;
-using GoogleAnalytics.iOS;
-using Busidex.Mobile.Models;
-using Busidex.Mobile;
 using System.Linq;
+using Busidex.Mobile;
+using Busidex.Mobile.Models;
+using Google.Analytics;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class ContactInfoController : BaseCardEditController
 	{
@@ -27,7 +26,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Contact Info");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Contact Info");
 
 			base.ViewDidAppear (animated);
 		}

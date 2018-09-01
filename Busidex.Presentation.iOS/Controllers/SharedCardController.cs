@@ -1,18 +1,17 @@
-﻿
-using System;
-using Foundation;
-using UIKit;
+﻿using System;
+using System.IO;
+using System.Linq;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
-using System.IO;
-using GoogleAnalytics.iOS;
-using CoreGraphics;
-using Plugin.Messaging;
-using ContactsUI;
 using Contacts;
-using System.Linq;
+using ContactsUI;
+using CoreGraphics;
+using Foundation;
+using Google.Analytics;
+using Plugin.Messaging;
+using UIKit;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class SharedCardController : BaseController
 	{
@@ -28,11 +27,9 @@ namespace Busidex.Presentation.iOS
 
 		void LoadCard ()
 		{
-			if (NavigationController != null) {
-				NavigationController.SetNavigationBarHidden (false, true);
-			}
+			NavigationController?.SetNavigationBarHidden (false, true);
 
-			if (SelectedCard != null && SelectedCard.Card != null) {
+			if (SelectedCard?.Card != null) {
 
 				BusinessCardDimensions dimensions = GetCardDimensions (SelectedCard.Card.FrontOrientation);
 				imgCard.Frame = new CGRect (dimensions.MarginLeft, 340f, dimensions.Width, dimensions.Height);
@@ -41,8 +38,8 @@ namespace Busidex.Presentation.iOS
 				if (File.Exists (FrontFileName)) {
 					imgCard.Image = UIImage.FromFile (FrontFileName);
 
-					if (imgCard.Layer.Sublayers != null && imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border") != null) {
-						imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border").RemoveFromSuperLayer ();
+					if (imgCard.Layer.Sublayers?.SingleOrDefault (layer => layer.Name == "Border") != null) {
+						imgCard.Layer.Sublayers.SingleOrDefault (layer => layer.Name == "Border")?.RemoveFromSuperLayer ();
 					}
 
 					imgCard.Layer.AddSublayer (GetBorder (imgCard.Frame, UIColor.Gray.CGColor));
@@ -113,7 +110,6 @@ namespace Busidex.Presentation.iOS
 
 			var controller = new Mobile.SharedCardController ();
 
-			string response;
 			const string MESSAGE_SUCCESS_SMS = "Preparing Your Text Msg";
 			const string MESSAGE_SUCCESS_EMAIL = "Delivered";
 
@@ -122,7 +118,7 @@ namespace Busidex.Presentation.iOS
 				lblSuccess.Text = MESSAGE_SUCCESS_EMAIL;
 
 				// send the shared card the 'traditional' way
-				response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, token);
+				var response = controller.ShareCard (SelectedCard.Card, email, phoneNumber, token);
 				if (!string.IsNullOrEmpty (response) && response.Contains ("true")) {
 					lblSuccess.Hidden = false;
 					resetFields ();
@@ -134,8 +130,8 @@ namespace Busidex.Presentation.iOS
 				// send text message with quick share link
 
 				lblSuccess.Text = MESSAGE_SUCCESS_SMS;
-
-				var smsTask = MessagingPlugin.SmsMessenger;
+				
+				var smsTask = CrossMessaging.Current.SmsMessenger;
 				if (smsTask.CanSendSms) {
 					EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, token).ContinueWith (async r => {
 
@@ -169,9 +165,7 @@ namespace Busidex.Presentation.iOS
 									resetFields ();
 								});
 							} else {
-								InvokeOnMainThread (() => Application.ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", new [] {
-									"Ok"
-								}));
+								InvokeOnMainThread (() => Application.ShowAlert ("Application Error", "There was a problem contacting the service that creates the text message. Please try again when you have a better internet connection.", "Ok"));
 							}
 						}
 					});
@@ -182,12 +176,12 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Share Card");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Share Card");
 
 			base.ViewDidAppear (animated);
 		}
 
-		void resetFields ()
+		private void resetFields ()
 		{
 			txtPersonalMessage.Text = string.Empty;
 			txtPhoneNumber.Text = string.Empty;

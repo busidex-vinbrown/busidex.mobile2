@@ -8,6 +8,7 @@ using System.IO;
 using Busidex.Mobile;
 using MessageUI;
 using System.Linq;
+using BaseController = Busidex.Presentation.iOS.Controllers.BaseController;
 
 namespace Busidex.Presentation.iOS
 {

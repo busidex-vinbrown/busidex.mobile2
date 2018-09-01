@@ -3,6 +3,7 @@
 using Busidex.Mobile.Models;
 using Busidex.Mobile;
 using UIKit;
+using BaseController = Busidex.Presentation.iOS.Controllers.BaseController;
 
 namespace Busidex.Presentation.iOS
 {

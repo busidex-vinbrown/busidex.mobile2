@@ -1,8 +1,8 @@
 ﻿using System;
 using Busidex.Mobile;
-using GoogleAnalytics.iOS;
+using Google.Analytics;
 
-namespace Busidex.Presentation.iOS
+namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class SearchInfoController : BaseCardEditController
 	{
@@ -13,7 +13,7 @@ namespace Busidex.Presentation.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			GAI.SharedInstance.DefaultTracker.Set (GAIConstants.ScreenName, "Search Info");
+			Gai.SharedInstance.DefaultTracker.Set (GaiConstants.ScreenName, "Search Info");
 
 			base.ViewDidAppear (animated);
 		}
