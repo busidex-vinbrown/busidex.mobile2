@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using CoreGraphics;
 using Foundation;
 using Google.Analytics;
+using Plugin.ImageCropper.Abstractions;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Busidex.Presentation.iOS.Controllers
 {
@@ -223,16 +224,16 @@ namespace Busidex.Presentation.iOS.Controllers
 			}
 		}
 
-		static UIImage cropImage (UIImage srcImage, RectangleF rect)
-		{
-			using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
-				if(cr == null){
-					return srcImage;
-				}
-				UIImage cropped = UIImage.FromImage (cr);
-				return cropped;
-			}
-		}
+		//static UIImage cropImage (UIImage srcImage, RectangleF rect)
+		//{
+		//	using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
+		//		if(cr == null){
+		//			return srcImage;
+		//		}
+		//		UIImage cropped = UIImage.FromImage (cr);
+		//		return cropped;
+		//	}
+		//}
 
 		public override void ViewWillDisappear (bool animated)
 		{
@@ -241,11 +242,11 @@ namespace Busidex.Presentation.iOS.Controllers
 			UISubscriptionService.OnCardInfoSaved -= CardUpdated;
 		}
 
-		void setImage (MediaFile picture)
+		void setImage (string picturePath)
 		{
-			if (picture != null) {
+			if (picturePath != null) {
 
-				var img = UIImage.FromFile (picture.Path);
+				var img = UIImage.FromFile (picturePath);
 
 				InvokeOnMainThread (() => {
 
@@ -268,17 +269,19 @@ namespace Busidex.Presentation.iOS.Controllers
 					//						w = float.Parse (txtW.Text);
 					//						h = float.Parse (txtH.Text);
 					//					}
-					var rect = new RectangleF (x, y, w, h);
+					//var rect = new RectangleF (x, y, w, h);
 
-					var croppedImage = cropImage (img, rect);// img.CGImage.WithImageInRect (rect);
+					//var croppedImage = cropImage (img, rect);// img.CGImage.WithImageInRect (rect);
 
-					img = SelectedOrientation == "H"
-						? new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_WIDTH * 2, HORIZONTAL_HEIGHT * 2))
-						: new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_HEIGHT * 2, HORIZONTAL_WIDTH * 2));
+					//img = SelectedOrientation == "H"
+					//	? new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_WIDTH * 2, HORIZONTAL_HEIGHT * 2))
+					//	: new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_HEIGHT * 2, HORIZONTAL_WIDTH * 2));
 
-					if (SelectedOrientation == "V") {
-						img = new UIImage (img.CGImage, 1f, UIImageOrientation.Right);
-					}
+					//if (SelectedOrientation == "V") {
+					//	img = new UIImage (img.CGImage, 1f, UIImageOrientation.Right);
+					//}
+					;
+					img = UIImage.FromFile(picturePath);
 
 					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
 
@@ -344,7 +347,7 @@ namespace Busidex.Presentation.iOS.Controllers
 				}
 
 				if (file != null) {
-					setImage (file);
+					setImage (file.Path);
 					setImageSelectionUI (UIVisibility.Hidden);
 				}
 			};
@@ -355,30 +358,44 @@ namespace Busidex.Presentation.iOS.Controllers
 				//	Name = "test.jpg",
 				//	AllowCropping = true
 				//};
+				
+				//Func<object> func = () => {
+				//	var imageView = new UIImageView (UIImage.FromBundle ("cropoverlay2.png"));
+				//	imageView.ContentMode = UIViewContentMode.ScaleAspectFit;
 
-				Func<object> func = () => {
-					var imageView = new UIImageView (UIImage.FromBundle ("cropoverlay2.png"));
-					imageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+				//	var screen = UIScreen.MainScreen.Bounds;
+				//	imageView.Frame = screen;
 
-					var screen = UIScreen.MainScreen.Bounds;
-					imageView.Frame = screen;
+				//	return imageView;
+				//};
 
-					return imageView;
-				};
-
+				
 				var file = await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions{
-					AllowCropping = true,
-					OverlayViewProvider = func
+					//AllowCropping = true,
+					//PhotoSize = PhotoSize.Small,
+					//CompressionQuality = 50
 				});
+				
+				//var str = file.GetStream();
+				
+				await CrossMedia.Current.Initialize();
+				var cropResult = await Plugin.ImageCropper.CrossCropImageService.Current.CropImageFromOriginalToBytes(file.Path,
+					CropAspect.Custom);
+
+				File.WriteAllBytes(file.Path, cropResult);
+				//var cropResult = await CropImageService.Instance.CropImage(file.Path, CropRatioType.None);
+				//var bmp = Bitmap.FromStream(str);
+			
+				
 
 				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 					CardModel.FrontFileId = Guid.NewGuid ();
 				} else {
 					CardModel.BackFileId = Guid.NewGuid ();
 				}
-
+				
 				if (file != null) {
-					setImage (file);
+					setImage (file.Path);
 					setImageSelectionUI (UIVisibility.Hidden);
 				}
 			};
@@ -448,6 +465,8 @@ namespace Busidex.Presentation.iOS.Controllers
 				CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
 			};
 		}
+
+		
 
 		void setOrientation (string orientation)
 		{

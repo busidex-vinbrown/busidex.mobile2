@@ -16,6 +16,7 @@ using BranchXamarinSDK;
 using Android.Net;
 using Plugin.Permissions;
 using Android.Content.PM;
+using Busidex.Presentation.Droid.v2.Fragments;
 using Newtonsoft.Json;
 using Plugin.CurrentActivity;
 using Plugin.Media;

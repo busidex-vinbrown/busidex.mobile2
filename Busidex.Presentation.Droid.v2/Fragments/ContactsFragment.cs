@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Busidex.Mobile.Models;
+using Busidex.Presentation.Droid.v2.Fragments;
 
 namespace Busidex.Presentation.Droid.v2
 {

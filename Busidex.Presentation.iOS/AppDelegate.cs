@@ -7,6 +7,7 @@ using BranchXamarinSDK;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Analytics;
+using Plugin.Media;
 using Xamarin.InAppPurchase;
 
 namespace Busidex.Presentation.iOS
@@ -51,13 +52,13 @@ namespace Busidex.Presentation.iOS
 			}
 
 			// Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-			Google.Analytics.Gai.SharedInstance.DispatchInterval = 5;
+			Gai.SharedInstance.DispatchInterval = 5;
 
 			// Optional: automatically send uncaught exceptions to Google Analytics.
-			Google.Analytics.Gai.SharedInstance.TrackUncaughtExceptions = true;
+			Gai.SharedInstance.TrackUncaughtExceptions = true;
 
 			// Initialize tracker.
-			Tracker = Google.Analytics.Gai.SharedInstance.GetTracker (Resources.GOOGLE_ANALYTICS_KEY_IOS);
+			Tracker = Gai.SharedInstance.GetTracker (Resources.GOOGLE_ANALYTICS_KEY_IOS);
 
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 			var storyBoard = UIStoryboard.FromName ("MainStoryboard_iPhone", null);
@@ -67,6 +68,8 @@ namespace Busidex.Presentation.iOS
 			window.MakeKeyAndVisible ();
 
 			BranchIOS.Init (Resources.BRANCH_KEY, launchOptions, this);
+			Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
+			CrossMedia.Current.Initialize();
 
 			CheckAppVersion ();
 

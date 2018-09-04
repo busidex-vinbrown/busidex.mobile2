@@ -7,6 +7,7 @@ using Android.Widget;
 using Busidex.Mobile.Models;
 using Android.Net;
 using System.IO;
+using Busidex.Presentation.Droid.v2.Fragments;
 
 namespace Busidex.Presentation.Droid.v2
 {

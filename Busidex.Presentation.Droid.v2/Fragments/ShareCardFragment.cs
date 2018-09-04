@@ -1,13 +1,13 @@
-﻿using Android.OS;
+﻿using System.IO;
+using Android.Net;
+using Android.OS;
 using Android.Views;
 using Android.Widget;
-using System.IO;
-using Android.Net;
 using Busidex.Mobile;
 using Busidex.Mobile.Models;
 using Plugin.Messaging;
 
-namespace Busidex.Presentation.Droid.v2
+namespace Busidex.Presentation.Droid.v2.Fragments
 {
 	public class ShareCardFragment : GenericViewPagerFragment
 	{
@@ -126,7 +126,7 @@ namespace Busidex.Presentation.Droid.v2
 			// normalize the phone number if there is one
 			if (!string.IsNullOrEmpty (phoneNumber)) {
 				phoneNumber = phoneNumber.Replace ("(", "").Replace (")", "").Replace (".", "").Replace ("-", "").Replace (" ", "");
-				var smsTask = MessagingPlugin.SmsMessenger;
+				var smsTask = CrossMessaging.Current.SmsMessenger;
 				EmailTemplateController.GetTemplate (EmailTemplateCode.SharedCardSMS, UISubscriptionService.AuthToken).ContinueWith (async r => {
 
 					var template = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailTemplateResponse> (r.Result);
