@@ -15,37 +15,16 @@ namespace Busidex.Presentation.iOS.Controllers
 {
 	public partial class CardImageController : BaseCardEditController
 	{
-		enum DisplayMode
-		{
-			Front = 0,
-			Back = 1
-		}
-
 		enum UIVisibility
 		{
 			Hidden = 0,
 			Visible = 1
 		}
 
-		enum CamaraViewMode
-		{
-			TakingPicture = 1,
-			ReviewingPicture = 2,
-			Done = 3
-		}
-
 		bool frontImageChanged;
 		bool backImageChanged;
 
 		MobileCardImage.DisplayMode SelectedDisplayMode { get; set; }
-
-		const float HEIGHT_RATIO = .583f;
-		const int HORIZONTAL_WIDTH = 300;
-		const int HORIZONTAL_HEIGHT = 176;
-		const int VERTICAL_WIDTH = 176;
-		const int VERTICAL_HEIGHT = 300;
-		const string ORIENTATION_HORIZONTAL = "H";
-		const string ORIENTATION_VERTICAL = "V";
 
 		string SelectedOrientation;
 		struct TempCardInfo
@@ -83,7 +62,6 @@ namespace Busidex.Presentation.iOS.Controllers
 			backImageChanged = frontImageChanged = false;
 
 			InvokeOnMainThread (() => {
-				//setDisplay (fileName);
 				initUI (false);
 			});
 		}
@@ -224,17 +202,6 @@ namespace Busidex.Presentation.iOS.Controllers
 			}
 		}
 
-		//static UIImage cropImage (UIImage srcImage, RectangleF rect)
-		//{
-		//	using (CGImage cr = srcImage.CGImage.WithImageInRect (rect)) {
-		//		if(cr == null){
-		//			return srcImage;
-		//		}
-		//		UIImage cropped = UIImage.FromImage (cr);
-		//		return cropped;
-		//	}
-		//}
-
 		public override void ViewWillDisappear (bool animated)
 		{
 			base.ViewWillDisappear (animated);
@@ -245,59 +212,25 @@ namespace Busidex.Presentation.iOS.Controllers
 		void setImage (string picturePath)
 		{
 			if (picturePath != null) {
+                InvokeOnMainThread(() =>
+                {
+                    var img = UIImage.FromFile(picturePath);
+                    img = UIImage.FromFile(picturePath);
 
-				var img = UIImage.FromFile (picturePath);
+                    CardModel.EncodedCardImage = img.AsJPEG(0.5f).GetBase64EncodedData(NSDataBase64EncodingOptions.None).ToString();
 
-				InvokeOnMainThread (() => {
+                    btnHCardImage.SetImage(null, UIControlState.Normal);
+                    btnHCardImage.SetBackgroundImage(img, UIControlState.Normal);
 
-					//var data = UIImage.FromFile (picture.Path).AsJPEG (.4f);
-					//var img = UIImage.LoadFromData (data);
-					float x, y, w, h;
-					x = 50;
-					y = 350;
-					w = 3200;
-					h = 1800;
+                    btnVCardImage.SetImage(null, UIControlState.Normal);
+                    btnVCardImage.SetBackgroundImage(img, UIControlState.Normal);
 
-					//					if (txtH.Text == "") {
-					//						txtX.Text = x.ToString ();
-					//						txtY.Text = y.ToString ();
-					//						txtW.Text = w.ToString ();
-					//						txtH.Text = h.ToString ();
-					//					} else {
-					//						x = float.Parse (txtX.Text);
-					//						y = float.Parse (txtY.Text);
-					//						w = float.Parse (txtW.Text);
-					//						h = float.Parse (txtH.Text);
-					//					}
-					//var rect = new RectangleF (x, y, w, h);
+                    frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
+                    backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
 
-					//var croppedImage = cropImage (img, rect);// img.CGImage.WithImageInRect (rect);
-
-					//img = SelectedOrientation == "H"
-					//	? new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_WIDTH * 2, HORIZONTAL_HEIGHT * 2))
-					//	: new UIImage (croppedImage.CGImage).Scale (new CGSize (HORIZONTAL_HEIGHT * 2, HORIZONTAL_WIDTH * 2));
-
-					//if (SelectedOrientation == "V") {
-					//	img = new UIImage (img.CGImage, 1f, UIImageOrientation.Right);
-					//}
-					;
-					img = UIImage.FromFile(picturePath);
-
-					CardModel.EncodedCardImage = img.AsJPEG (0.5f).GetBase64EncodedData (NSDataBase64EncodingOptions.None).ToString ();
-
-					btnHCardImage.SetImage (null, UIControlState.Normal);
-					btnHCardImage.SetBackgroundImage (img, UIControlState.Normal);
-
-					btnVCardImage.SetImage (null, UIControlState.Normal);
-					btnVCardImage.SetBackgroundImage (img, UIControlState.Normal);
-
-					frontImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Front;
-					backImageChanged = SelectedDisplayMode == MobileCardImage.DisplayMode.Back;
-
-					CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
-
-				});
-			}
+                    CardInfoChanged = CardInfoChanged || frontImageChanged || backImageChanged;
+                });
+            }
 		}
 
 		public override void SaveCard ()
@@ -320,7 +253,6 @@ namespace Busidex.Presentation.iOS.Controllers
 		{
 			base.ViewDidLoad ();
 
-			//txtH.Hidden = txtW.Hidden = txtX.Hidden = txtY.Hidden = true;
 			NavigationItem.SetRightBarButtonItem (
 					new UIBarButtonItem (UIBarButtonSystemItem.Save, (sender, args) => SaveCard ())
 					, true);
@@ -353,40 +285,17 @@ namespace Busidex.Presentation.iOS.Controllers
 			};
 
 			btnTakeImage.TouchUpInside += async (sender, e) => {
-				//var options = new StoreCameraMediaOptions {
-				//	Directory = "Sample",
-				//	Name = "test.jpg",
-				//	AllowCropping = true
-				//};
 				
-				//Func<object> func = () => {
-				//	var imageView = new UIImageView (UIImage.FromBundle ("cropoverlay2.png"));
-				//	imageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-
-				//	var screen = UIScreen.MainScreen.Bounds;
-				//	imageView.Frame = screen;
-
-				//	return imageView;
-				//};
-
 				
 				var file = await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions{
-					//AllowCropping = true,
-					//PhotoSize = PhotoSize.Small,
-					//CompressionQuality = 50
+					
 				});
-				
-				//var str = file.GetStream();
 				
 				await CrossMedia.Current.Initialize();
 				var cropResult = await Plugin.ImageCropper.CrossCropImageService.Current.CropImageFromOriginalToBytes(file.Path,
 					CropAspect.Custom);
 
 				File.WriteAllBytes(file.Path, cropResult);
-				//var cropResult = await CropImageService.Instance.CropImage(file.Path, CropRatioType.None);
-				//var bmp = Bitmap.FromStream(str);
-			
-				
 
 				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 					CardModel.FrontFileId = Guid.NewGuid ();
