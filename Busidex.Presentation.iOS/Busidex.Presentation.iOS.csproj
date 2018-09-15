@@ -62,7 +62,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>
     </CodesignEntitlements>
     <CodesignKey>iPhone Developer: Vinny Brown (6WLT8DCEEV)</CodesignKey>
@@ -70,7 +70,7 @@
     <BuildIpa>true</BuildIpa>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>Busidex Development 2018</CodesignProvision>
+    <CodesignProvision>VS: com.busidex.mobile Development</CodesignProvision>
     <PlatformTarget>x64</PlatformTarget>
     <MtouchFastDev>true</MtouchFastDev>
     <CodesignExtraArgs />
@@ -93,13 +93,16 @@
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer: Vinny Brown (6WLT8DCEEV)</CodesignKey>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>VS: com.busidex.mobile Development</CodesignProvision>
+    <CodesignProvision>Busidex Distribution 2018</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <OptimizePNGs>true</OptimizePNGs>
+    <IpaPackageName>com.busidex.mobile</IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
@@ -112,8 +115,8 @@
     <CodesignEntitlements>
     </CodesignEntitlements>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>Busidex Distribution 2018</CodesignProvision>
+    <CodesignKey>iPhone Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
     <CodesignExtraArgs />
     <CodesignResourceRules />
   </PropertyGroup>
@@ -128,14 +131,15 @@
     <CodesignEntitlements>
     </CodesignEntitlements>
     <CodesignKey>iPhone Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
-    <IpaPackageName>
-    </IpaPackageName>
+    <IpaPackageName>com.busidex.mobile</IpaPackageName>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <CodesignProvision>Busidex Distribution 2018</CodesignProvision>
+    <OptimizePNGs>true</OptimizePNGs>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -144,14 +148,14 @@
     <StartupObject>Busidex.Presentation.iOS.Application</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Branch-Xamarin-Lib.iOS, Version=1.0.6795.33308, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.6\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
+    <Reference Include="Branch-Xamarin-Lib.iOS, Version=1.0.6830.3103, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\Xamarin.iOS10\Branch-Xamarin-Lib.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-SDK, Version=1.0.6795.33310, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.6\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
+    <Reference Include="Branch-Xamarin-SDK, Version=1.0.6830.3111, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\Xamarin.iOS10\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-SDK.iOS, Version=1.0.6795.33317, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.6\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
+    <Reference Include="Branch-Xamarin-SDK.iOS, Version=1.0.6830.3119, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\Xamarin.iOS10\Branch-Xamarin-SDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Carbon.Forms, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Carbon.Forms.1.8.0\lib\netstandard2.0\Carbon.Forms.dll</HintPath>
@@ -307,10 +311,20 @@
     <None Include="app.config" />
     <None Include="Busidex_Distribution_2017.mobileprovision" />
     <None Include="CertificateSigningRequest.certSigningRequest" />
-    <None Include="Info.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Entitlements.plist">
       <DeployService-Deploy>True</DeployService-Deploy>
     </None>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <None Include="RELEASE-NOTES.txt" />
     <None Include="icons\.DS_Store" />
     <None Include="packages.config" />
@@ -493,7 +507,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
+    <InterfaceDefinition Include="MainStoryboard_iPad.storyboard">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
     <InterfaceDefinition Include="Controllers\LoginController.xib" />
     <InterfaceDefinition Include="Controllers\MyBusidexController.xib" />
     <InterfaceDefinition Include="Controllers\NotesController.xib" />
@@ -516,7 +532,9 @@
     <InterfaceDefinition Include="Controllers\UIBarButtonItemWithImageViewController.xib" />
     <InterfaceDefinition Include="Controllers\QuickShareController.xib" />
     <InterfaceDefinition Include="Controllers\CardDetailController.xib" />
-    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
+    <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard">
+      <SubType>Designer</SubType>
+    </InterfaceDefinition>
     <InterfaceDefinition Include="Controllers\PrivacyController.xib" />
     <InterfaceDefinition Include="Controllers\CreateProfileController.xib" />
     <InterfaceDefinition Include="Controllers\CardImageController.xib" />
@@ -531,8 +549,7 @@
     <InterfaceDefinition Include="CardEdit_iPhone.storyboard" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />  
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <ItemGroup>
     <BundleResource Include="Resources\rotate_button.png" />
@@ -573,7 +590,9 @@
     <BundleResource Include="icons\busidex_artwork_512x512.png" />
     <BundleResource Include="icons\busidex_splash_320x480.png" />
     <BundleResource Include="icons\busidex_splash_640x1136.png" />
-    <BundleResource Include="icons\busidex_splash_640x960.png" />
+    <BundleResource Include="icons\busidex_splash_640x960.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
     <BundleResource Include="icons\ipad_launch_1024x768px.png" />
     <BundleResource Include="icons\ipad_launch_1536x2048px.png" />
     <BundleResource Include="icons\ipad_launch_2048x1536px.png" />
@@ -644,6 +663,271 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_1024x1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_120x120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_120x1201.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_152x152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_167x167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_180x180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_20x20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_29x29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x401.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x402.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_58x58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_58x581.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_60x60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_76x76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_80x80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_80x801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_87x87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\busidex_splash_640x1136.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\busidex_splash_640x960.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_1024x768px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_1536x2048px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_2048x1536px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_768x1024px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_100x100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_114x114.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_120x120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_144x144.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_152x152.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_29x29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_40x40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_50x50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_57x57.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_58x58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_72x72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_76x76.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_80x80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_167x167.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_180x180.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_60x60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="icons\busidex_icon_87x87.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\settings2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_artwork_1024x1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_1024x1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_120x120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_120x1201.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_152x152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_167x167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_180x180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_20x20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_29x29.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x401.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_40x402.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_58x58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_58x581.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_60x60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_76x76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_80x80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_80x801.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\AppIcons.appiconset\busidex_icon_87x87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\busidex_splash_640x1136.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\busidex_splash_640x960.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_1024x768px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_1536x2048px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_2048x1536px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Media.xcassets\LaunchImages.launchimage\ipad_launch_768x1024px.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Notification2.png" />
   </ItemGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

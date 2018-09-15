@@ -19,7 +19,7 @@ namespace Busidex.Presentation.iOS
 
 		void SetBackground ()
 		{
-			SetBackgroundImage (UIImage.FromBundle ("Notification.png"), UIControlState.Normal);
+			SetBackgroundImage (UIImage.FromBundle ("Notification2.png"), UIControlState.Normal);
 		}
 
 		public void Update (int count)
@@ -31,7 +31,7 @@ namespace Busidex.Presentation.iOS
 		void SetCountLabel ()
 		{
 
-			float x = 32f;
+		    float x = 28f;//32f;
 			float y = -4f;
 			float width = 25f;
 			float height = 25f;

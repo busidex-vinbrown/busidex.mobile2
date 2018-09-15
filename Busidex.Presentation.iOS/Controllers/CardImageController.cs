@@ -9,7 +9,6 @@ using Plugin.ImageCropper.Abstractions;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using UIKit;
-using Xamarin.Forms;
 
 namespace Busidex.Presentation.iOS.Controllers
 {
@@ -215,7 +214,6 @@ namespace Busidex.Presentation.iOS.Controllers
                 InvokeOnMainThread(() =>
                 {
                     var img = UIImage.FromFile(picturePath);
-                    img = UIImage.FromFile(picturePath);
 
                     CardModel.EncodedCardImage = img.AsJPEG(0.5f).GetBase64EncodedData(NSDataBase64EncodingOptions.None).ToString();
 
@@ -271,6 +269,22 @@ namespace Busidex.Presentation.iOS.Controllers
 
 			btnSelectImage.TouchUpInside += async (sender, e) => {
 				var file = await CrossMedia.Current.PickPhotoAsync ();
+                
+			    if (file == null)
+			    {
+			        return;
+			    }
+
+			    await CrossMedia.Current.Initialize();
+			    var cropResult = await Plugin.ImageCropper.CrossCropImageService.Current.CropImageFromOriginalToBytes(file.Path,
+			        CropAspect.Custom);
+
+			    if (cropResult == null)
+			    {
+			        return;
+			    }
+
+			    File.WriteAllBytes(file.Path, cropResult);
 
 				if (SelectedDisplayMode == MobileCardImage.DisplayMode.Front) {
 					CardModel.FrontFileId = Guid.NewGuid ();
@@ -290,10 +304,20 @@ namespace Busidex.Presentation.iOS.Controllers
 				var file = await CrossMedia.Current.TakePhotoAsync (new StoreCameraMediaOptions{
 					
 				});
-				
+
+			    if (file == null)
+			    {
+			        return;
+			    }
+
 				await CrossMedia.Current.Initialize();
 				var cropResult = await Plugin.ImageCropper.CrossCropImageService.Current.CropImageFromOriginalToBytes(file.Path,
 					CropAspect.Custom);
+
+			    if (cropResult == null)
+			    {
+			        return;
+			    }
 
 				File.WriteAllBytes(file.Path, cropResult);
 

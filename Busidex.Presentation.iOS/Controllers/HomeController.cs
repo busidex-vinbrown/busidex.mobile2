@@ -145,55 +145,65 @@ namespace Busidex.Presentation.iOS
 
 		void ConfigureToolbarItems ()
 		{
-			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
+			var imgFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 20f, 20f);
 
 			// Sync button
-			var syncImage = new UIButton (imgFrame);
+			var syncImage = UIButton.FromType (UIButtonType.System);
+		    syncImage.Frame = imgFrame;
 			syncImage.SetBackgroundImage (UIImage.FromBundle ("sync.png"), UIControlState.Normal);
 
-			syncImage.TouchUpInside -= ((s, e) => Sync ());
-			syncImage.TouchUpInside += ((s, e) => Sync ());
-			var syncButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
-			syncButton.CustomView = syncImage;
+			syncImage.TouchUpInside -= (async (s, e) => await Sync ());
+			syncImage.TouchUpInside += (async (s, e) => await Sync ());
+		    var syncButton = new UIBarButtonItem(UIBarButtonSystemItem.Compose)
+		    {
+		        CustomView = syncImage
+		    };
 
-			// Logout button
+		    // Logout button
 			var logOutButton = UIButton.FromType (UIButtonType.System);
 			logOutButton.Frame = imgFrame;
 			logOutButton.SetBackgroundImage (UIImage.FromBundle ("Exit.png"), UIControlState.Normal);
 			logOutButton.TouchUpInside += ((s, e) => LogOut ());
-			var logOutSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
-			logOutSystemButton.CustomView = logOutButton;
+		    var logOutSystemButton = new UIBarButtonItem(UIBarButtonSystemItem.Compose)
+		    {
+		        CustomView = logOutButton
+		    };
 
-			// Notifications
-			var notificationFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 3f, 45f, 45f);
+		    // Settings button
+		    var settingsButton = UIButton.FromType (UIButtonType.System);
+		    settingsButton.Frame = imgFrame;
+		    settingsButton.SetBackgroundImage (UIImage.FromBundle ("settings2.png"), UIControlState.Normal);
+		    settingsButton.TouchUpInside += ((s, e) => GoToSettings ());
+		    var settingsSystemButton = new UIBarButtonItem(UIBarButtonSystemItem.Compose)
+		    {
+		        CustomView = settingsButton
+		    };
+
+		    // Notifications
+			//var notificationFrame = new CoreGraphics.CGRect (UIScreen.MainScreen.Bounds.Width * .70f, 5f, 25f, 25f);
 			var notificationCount = UISubscriptionService.Notifications.Count;
 			var notificationButton = new NotificationButton (notificationCount);
 			notificationButton.TouchUpInside += ((s, e) => GoToSharedCards ());
-			notificationButton.Frame = notificationFrame;
-			var notificationSystemButton = new UIBarButtonItem (UIBarButtonSystemItem.Compose);
-			notificationSystemButton.CustomView = notificationButton;
-			notificationSystemButton.Tag = 1;
+		    notificationButton.Frame = imgFrame;//notificationFrame;
+		    var notificationSystemButton = new UIBarButtonItem(UIBarButtonSystemItem.Compose)
+		    {
+		        CustomView = notificationButton, Tag = 1
+		    };
 
-			SetToolbarItems (new[] {
+		    SetToolbarItems (new[] {
 				logOutSystemButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace) {
 					Width = 100
 				},
 				notificationSystemButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
-					Width = 10
+					Width = 20
 				},
 				syncButton,
 				new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace) {
-					Width = 10
+					Width = 20
 				},
-				new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
-					try {
-						GoToSettings ();
-					} catch (Exception ex) {
-						Xamarin.Insights.Report (ex);
-					}
-				})
+		        settingsSystemButton
 			}, true);
 		}
 
