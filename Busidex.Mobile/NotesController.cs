@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
 	public class NotesController : BaseController
 	{
-		public NotesController ()
-		{
-		}
-
 		public async Task<string> SaveNotes(long id, string notes, string userToken){
 
 			string encodedNotes = System.Net.WebUtility.HtmlEncode (notes);

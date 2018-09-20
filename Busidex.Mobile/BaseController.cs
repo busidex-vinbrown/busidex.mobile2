@@ -13,7 +13,7 @@ namespace Busidex.Mobile
 
 		protected static async Task<string> MakeRequestAsync (string url, string method, string token, object data = null, HttpMessageHandler handler = null)
 		{
-
+            
 			string response = string.Empty;
 
 			try {
@@ -21,7 +21,7 @@ namespace Busidex.Mobile
 				var httpClient = handler == null ? new HttpClient () : new HttpClient (handler);
 				httpClient.DefaultRequestHeaders.Accept.Add (new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue ("application/json"));
 
-				ServicePointManager.ServerCertificateValidationCallback += (sender, ICertificatePolicy, chain, sslPolicyErrors) => true;
+				ServicePointManager.ServerCertificateValidationCallback += (sender, certificatePolicy, chain, sslPolicyErrors) => true;
 				request.Method = new HttpMethod (method);
 				HttpContent content;
 
@@ -32,8 +32,10 @@ namespace Busidex.Mobile
 					content.Headers.Add ("x-authorization-token", token);
 					await httpClient.PostAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
-							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync ();
+						    using (var resp = await r)
+						    {
+						        response = await resp.Content.ReadAsStringAsync ();
+						    }
 						}
 					});
 					break;
@@ -42,8 +44,10 @@ namespace Busidex.Mobile
 					content.Headers.Add ("x-authorization-token", token);
 					await httpClient.PutAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
-							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync ();
+						    using (var resp = await r)
+						    {
+						        response = await resp.Content.ReadAsStringAsync ();
+						    }
 						}
 					});
 					break;
@@ -51,16 +55,20 @@ namespace Busidex.Mobile
 					httpClient.DefaultRequestHeaders.Add ("x-authorization-token", token);
 					await httpClient.DeleteAsync (url).ContinueWith (async r => {
 						if (!r.IsFaulted) {
-							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync ();
+						    using (var resp = await r)
+						    {
+						        response = await resp.Content.ReadAsStringAsync ();
+						    }
 						}
 					});
 					break;
 				default:
 					await httpClient.SendAsync (request).ContinueWith (async r => {
 						if (!r.IsFaulted) {
-							var _response = await r;
-							response = await _response.Content.ReadAsStringAsync ();
+						    using (var resp = await r)
+						    {
+						        response = await resp.Content.ReadAsStringAsync ();
+						    }
 						}
 					});
 					break;
@@ -69,7 +77,7 @@ namespace Busidex.Mobile
 				response = Newtonsoft.Json.JsonConvert.SerializeObject (new CheckAccountResult {
 					Success = false,
 					UserId = -1,
-					ReasonPhrase = e.InnerException.Message
+					ReasonPhrase = e.InnerException?.Message
 				});
 				Insights.Report (e);
 			} catch (Exception e) {

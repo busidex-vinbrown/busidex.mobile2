@@ -91,7 +91,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AppVersionInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
-  </ItemGroup>
 </Project>
