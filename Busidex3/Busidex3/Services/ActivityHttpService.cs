@@ -1,5 +1,5 @@
 ﻿using System.Net.Http;
-using Busidex3.Models;
+using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 
 namespace Busidex3.Services

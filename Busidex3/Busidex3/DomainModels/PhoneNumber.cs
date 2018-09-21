@@ -1,0 +1,27 @@
+﻿using System;
+
+namespace Busidex3.DomainModels
+{
+	public class PhoneNumber
+	{
+		public PhoneNumber ()
+		{
+		}
+
+		public PhoneNumber (string number)
+		{
+			this.Number = number;
+		}
+
+		public int PhoneNumberId{ get; set; }
+		public PhoneNumberType PhoneNumberType{ get; set;}
+		public int PhoneNumberTypeId{ get; set; }
+		public long CardId{ get; set; }
+		public string Number{ get; set; }
+		public string Extension{ get; set; }
+		public DateTime Created{ get; set; }
+		public DateTime Updated{ get; set; }
+		public bool Deleted{ get; set; }
+	}
+}
+
