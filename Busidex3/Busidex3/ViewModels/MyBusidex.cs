@@ -10,11 +10,11 @@ using Busidex3.Services.Utils;
 
 namespace Busidex3.ViewModels
 {
+    public delegate void OnMyBusidexLoadedEventHandler (List<UserCard> cards);
+    public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
+
     public class MyBusidex : BaseViewModel
     {
-        public delegate void OnMyBusidexLoadedEventHandler (List<UserCard> cards);
-        public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
-
         public static event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
         public static event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
 

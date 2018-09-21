@@ -7,10 +7,10 @@ namespace Busidex3.Services
 {
     public class OrganizationsHttpService : BaseHttpService
     {
-        public async Task<List<Organization>> GetMyOrganizations(string userToken)
+        public async Task<OrganizationResponse> GetMyOrganizations(string userToken)
         {
             var url = ServiceUrls.OrganizationListUrl;
-            return await MakeRequestAsync<List<Organization>> (url, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<OrganizationResponse> (url, HttpVerb.Get, userToken);
         }
 
         public async Task<Organization> GetOrganizationById(string userToken, long id){
@@ -19,16 +19,16 @@ namespace Busidex3.Services
             return await MakeRequestAsync<Organization> (url, HttpVerb.Get, userToken);
         }
 
-        public async Task<List<CardDetailModel>> GetOrganizationMembers(string userToken, long id){
+        public async Task<OrgMemberResponse> GetOrganizationMembers(string userToken, long id){
 
             var url = string.Format(ServiceUrls.OrganizationMembersUrl, id);
-            return await MakeRequestAsync<List<CardDetailModel>> (url, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<OrgMemberResponse> (url, HttpVerb.Get, userToken);
         }
 
-        public async Task<List<OrgReferralResponse>> GetOrganizationReferrals(string userToken, long id){
+        public async Task<OrgReferralResponse> GetOrganizationReferrals(string userToken, long id){
 
             var url = string.Format(ServiceUrls.OrganizationReferralsUrl, id);
-            return await MakeRequestAsync<List<OrgReferralResponse>> (url, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<OrgReferralResponse> (url, HttpVerb.Get, userToken);
         }
     }
 }
