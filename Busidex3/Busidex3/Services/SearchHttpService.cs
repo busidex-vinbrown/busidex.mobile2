@@ -29,16 +29,16 @@ namespace Busidex3.Services
             return await MakeRequestAsync<SearchResultModel> (url, HttpVerb.Post, userToken, model);
         }
 
-        public async Task<SearchResultModel> SearchBySystemTag(string tag, string userToken)
+        public async Task<SearchResponse> SearchBySystemTag(string tag, string userToken)
         {
             var url = string.Format(ServiceUrls.SearchBySystemTagUrl, tag);
-            return await MakeRequestAsync<SearchResultModel> (url, HttpVerb.Post, userToken);
+            return await MakeRequestAsync<SearchResponse> (url, HttpVerb.Post, userToken);
         }
 
-        public async Task<List<EventTag>> GetEventTags(string userToken)
+        public async Task<EventListResponse> GetEventTags(string userToken)
         {
             var url = ServiceUrls.GetEventTagsUrl;
-            return await MakeRequestAsync<List<EventTag>> (url, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<EventListResponse> (url, HttpVerb.Get, userToken);
         }
     }
 }
