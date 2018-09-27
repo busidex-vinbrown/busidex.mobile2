@@ -19,49 +19,104 @@ namespace Busidex3.ViewModels
 
     public class Organizations : BaseViewModel
     {
-        
-        public static event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
-        public static event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
-        public static event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
-        public static event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
-        public static Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
-        public static Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
+        public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
+        public event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
+        public event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
+        public event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
+        public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
+        public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
 
-        public static List<Organization> OrganizationList { get; set; }
-        public static Dictionary<long, List<Card>> OrganizationMembers { get; set; }
-        public static Dictionary<long, List<UserCard>> OrganizationReferrals { get; set; }
+        public List<Organization> OrganizationList { get; private set; } = new List<Organization>();
+        public Dictionary<long, List<Card>> OrganizationMembers { get;  private set; }= new Dictionary<long, List<Card>>();
+        public Dictionary<long, List<UserCard>> OrganizationReferrals { get; private set; } = new Dictionary<long, List<UserCard>>();
 
-        private readonly string _authToken;
         private readonly OrganizationsHttpService _organizationsHttpService;
-        public Organizations(string token)
+
+        public Organizations(string token) :
+            base(token)
         {
-            _authToken = token;
-            _organizationsHttpService = new OrganizationsHttpService();;
+            _organizationsHttpService = new OrganizationsHttpService();
         }
 
-        async Task<bool> LoadOrganizations()
+        public override async Task<bool> Init()
+        {
+            OrganizationList = LoadData<List<Organization>> (Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+            if (OrganizationList == null || OrganizationList.Count == 0) {
+                OrganizationList = new List<Organization> ();
+                await LoadOrganizations ();
+            }
+
+            OnMyOrganizationsLoaded?.Invoke (OrganizationList);
+
+            OrganizationMembersLoadedEventTable = new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> ();
+            OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
+
+            foreach (Organization org in OrganizationList) {
+                if(!OrganizationMembersLoadedEventTable.ContainsKey(org.OrganizationId)){
+                    OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);	
+                }
+                if (!OrganizationReferralsLoadedEventTable.ContainsKey (org.OrganizationId)) { 
+                    OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
+                }
+            }
+
+            foreach (var org in OrganizationList) {
+                if (!OrganizationMembers.ContainsKey (org.OrganizationId)) {
+                    OrganizationMembers.Add (org.OrganizationId, new List<Card> ());
+                }
+                if (!OrganizationReferrals.ContainsKey (org.OrganizationId)) {
+                    OrganizationReferrals.Add (org.OrganizationId, new List<UserCard> ());
+                }
+                OrganizationMembers [org.OrganizationId] = LoadData<List<Card>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
+                if (OrganizationMembers[org.OrganizationId] == null ||
+                    OrganizationMembers[org.OrganizationId].Count == 0)
+                {
+                    await LoadOrganizationMembers(org.OrganizationId);
+                }
+                else
+                {
+                    OrganizationMembersLoadedEventTable[org.OrganizationId].Invoke(OrganizationMembers [org.OrganizationId]);
+                }
+
+                OrganizationReferrals [org.OrganizationId] = LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
+                if (OrganizationReferrals[org.OrganizationId] == null ||
+                    OrganizationReferrals[org.OrganizationId].Count == 0)
+                {
+                    await LoadOrganizationReferrals(org.OrganizationId);
+                }
+                else
+                {
+                    OrganizationReferralsLoadedEventTable[org.OrganizationId].Invoke(OrganizationReferrals [org.OrganizationId]);
+                }
+            }
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> LoadOrganizations()
         {
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
 
             try
             {
-                var organizationResult = await _organizationsHttpService.GetMyOrganizations(_authToken);
+                var organizationResult = await _organizationsHttpService.GetMyOrganizations(AuthToken);
                 if (organizationResult != null)
                 {
 
                     if (organizationResult.Model != null)
                     {
 
-                        // Buid the Organization List
+                        // Build the Organization List
                         OrganizationList.Clear();
                         OrganizationList.AddRange(organizationResult.Model);
 
                         var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
                         SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
 
-                        var status = new ProgressStatus();
-                        status.Total = organizationResult.Model.Count;
+                        var status = new ProgressStatus
+                        {
+                            Total = organizationResult.Model.Count
+                        };
 
                         OrganizationMembersLoadedEventTable =
                             new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler>();
@@ -81,7 +136,7 @@ namespace Busidex3.ViewModels
                             }
                         }
 
-                        // Get Organization members and referals
+                        // Get Organization members and referrals
                         foreach (Organization org in organizationResult.Model)
                         {
 
@@ -98,9 +153,9 @@ namespace Busidex3.ViewModels
                                             OnMyOrganizationsUpdated?.Invoke(status);
                                         });
                                 }
-                                catch (Exception)
+                                catch 
                                 {
-
+                                    // ignored
                                 }
                             }
                             else
@@ -148,14 +203,12 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> LoadOrganizationReferrals(long organizationId)
         {
-            var fileName = string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organizationId);
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
 
             try
             {
-                var result = await _organizationsHttpService.GetOrganizationReferrals(_authToken, organizationId);
-                //.ContinueWith (async cards => {
+                var result = await _organizationsHttpService.GetOrganizationReferrals(AuthToken, organizationId);
 
                 if (result != null)
                 {
@@ -193,9 +246,9 @@ namespace Busidex3.ViewModels
                                 await DownloadImage(fImageUrl, Resources.DocumentsPath, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
                         else
@@ -210,9 +263,9 @@ namespace Busidex3.ViewModels
                             {
                                 await DownloadImage(bImageUrl, Resources.DocumentsPath, bName);
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
 
@@ -229,11 +282,10 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
-
-                if (OrganizationReferralsLoadedEventTable != null &&
-                    OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
-                    OrganizationReferralsLoadedEventTable[organizationId] != null &&
-                    OrganizationReferrals.ContainsKey(organizationId))
+                if (OrganizationReferrals != null && (OrganizationReferralsLoadedEventTable != null &&
+                                                      OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
+                                                      OrganizationReferralsLoadedEventTable[organizationId] != null &&
+                                                      OrganizationReferrals.ContainsKey(organizationId)))
                 {
                     OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
                 }
@@ -255,7 +307,7 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _organizationsHttpService.GetOrganizationMembers(_authToken, organizationId);
+                var result = await _organizationsHttpService.GetOrganizationMembers(AuthToken, organizationId);
                 //.ContinueWith (async cards => {
 
                 if (result == null)
@@ -302,9 +354,9 @@ namespace Busidex3.ViewModels
                                 await DownloadImage(fImageUrl, Resources.DocumentsPath, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
                         else
@@ -319,9 +371,9 @@ namespace Busidex3.ViewModels
                             {
                                 await DownloadImage(bImageUrl, Resources.DocumentsPath, bName);
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
 
@@ -341,7 +393,7 @@ namespace Busidex3.ViewModels
                     OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
                     OrganizationMembersLoadedEventTable[organizationId] != null)
                 {
-                    OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
+                    if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
                 }
 
                 Xamarin.Insights.Report(new Exception("Error Loading Organization Members", ex));

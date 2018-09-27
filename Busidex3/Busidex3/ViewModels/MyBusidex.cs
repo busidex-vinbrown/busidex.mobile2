@@ -15,24 +15,33 @@ namespace Busidex3.ViewModels
 
     public class MyBusidex : BaseViewModel
     {
-        public static event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
-        public static event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
+        public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
+        public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
 
-        private static MyBusidexHttpService _myBusidexHttpService;
+        private readonly MyBusidexHttpService _myBusidexHttpService;
 
-        private readonly string _authToken;
+        public List<UserCard> UserCards { get; private set; }
+        public Card OwnedCard => null;
 
         public MyBusidex(string token)
+            : base(token)
         {
-            _authToken = token;
             _myBusidexHttpService = new MyBusidexHttpService();
         }
 
-        private static List<UserCard> _userCards;
-        public static List<UserCard> UserCards => _userCards;
-        public static Card OwnedCard => null;
+        public override async Task<bool> Init()
+        {
+            UserCards = LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+            if (UserCards == null || UserCards.Count == 0) {
+                UserCards = new List<UserCard> ();
+                return await LoadUserCards ();
+            }
 
-        async Task<bool> loadUserCards()
+            OnMyBusidexLoaded?.Invoke(UserCards);
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> LoadUserCards()
         {
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
@@ -42,7 +51,7 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _myBusidexHttpService.GetMyBusidex(_authToken);
+                var result = await _myBusidexHttpService.GetMyBusidex(AuthToken);
 
                 if (result == null)
                 {
@@ -77,9 +86,9 @@ namespace Busidex3.ViewModels
                                     OnMyBusidexUpdated?.Invoke(status);
                                 });
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
                         else
@@ -95,9 +104,9 @@ namespace Busidex3.ViewModels
                             {
                                 await DownloadImage(bImageUrl, Resources.DocumentsPath, bName);
                             }
-                            catch (Exception)
+                            catch
                             {
-
+                                // ignored
                             }
                         }
                     }
@@ -140,7 +149,7 @@ namespace Busidex3.ViewModels
 
                 try
                 {
-                    _userCards =
+                    UserCards =
                         Serialization.LoadData<List<UserCard>>(Path.Combine(Resources.DocumentsPath,
                             Resources.MY_BUSIDEX_FILE));
                 }

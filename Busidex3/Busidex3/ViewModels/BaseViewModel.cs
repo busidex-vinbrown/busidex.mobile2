@@ -8,6 +8,52 @@ namespace Busidex3.ViewModels
 {
     public class BaseViewModel
     {
+        protected readonly string AuthToken;
+
+        public BaseViewModel(string authToken)
+        {
+            AuthToken = authToken;
+        }
+
+        public virtual async Task<bool> Init()
+        {
+            return await Task.FromResult(true);
+        }
+
+        protected T LoadData<T> (string path) where T : new()
+        {
+            return LoadDataFromFile<T> (path);
+        }
+
+        private T LoadDataFromFile<T> (string path) where T : new()
+        {
+            var jsonData = string.Empty;
+            try {
+                jsonData = loadFromFile (path);
+                if(string.IsNullOrEmpty(jsonData)){
+                    return default(T);
+                }
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
+                return result;
+            } catch (Exception ex) {
+                Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
+                return default(T);
+            }
+        }
+
+        private string loadFromFile (string fullFilePath)
+        {
+
+            string fileJson = string.Empty;
+            if (File.Exists (fullFilePath)) {
+                using (var file = File.OpenText (fullFilePath)) {
+                    fileJson = file.ReadToEnd ();
+                    file.Close ();
+                }
+            }
+            return fileJson;
+        }
+
         protected async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
         {
             ServicePointManager.Expect100Continue = false;

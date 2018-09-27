@@ -2,5 +2,9 @@
 {
     public class Events : BaseViewModel
     {
+        public Events(string authToken)
+            : base(authToken){
+
+        }
     }
 }
