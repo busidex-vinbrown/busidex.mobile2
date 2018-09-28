@@ -8,52 +8,12 @@ namespace Busidex3.ViewModels
 {
     public class BaseViewModel
     {
-        protected readonly string AuthToken;
-
-        public BaseViewModel(string authToken)
-        {
-            AuthToken = authToken;
-        }
 
         public virtual async Task<bool> Init()
         {
             return await Task.FromResult(true);
         }
-
-        protected T LoadData<T> (string path) where T : new()
-        {
-            return LoadDataFromFile<T> (path);
-        }
-
-        private T LoadDataFromFile<T> (string path) where T : new()
-        {
-            var jsonData = string.Empty;
-            try {
-                jsonData = loadFromFile (path);
-                if(string.IsNullOrEmpty(jsonData)){
-                    return default(T);
-                }
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
-                return result;
-            } catch (Exception ex) {
-                Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
-                return default(T);
-            }
-        }
-
-        private string loadFromFile (string fullFilePath)
-        {
-
-            string fileJson = string.Empty;
-            if (File.Exists (fullFilePath)) {
-                using (var file = File.OpenText (fullFilePath)) {
-                    fileJson = file.ReadToEnd ();
-                    file.Close ();
-                }
-            }
-            return fileJson;
-        }
-
+        
         protected async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
         {
             ServicePointManager.Expect100Continue = false;
@@ -85,65 +45,8 @@ namespace Busidex3.ViewModels
 
             return jpgFilename;
         }
-
-        protected void SaveResponse (string response, string fileName)
-        {
-            var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
-            try {
-                if (File.Exists (fullFilePath)) {
-                    if (!IsFileInUse (new FileInfo (fullFilePath))) {
-                        File.WriteAllText (fullFilePath, response);
-                    }
-                } else {
-                    File.WriteAllText (fullFilePath, response);
-                }
-            } catch (Exception ex) {
-                Xamarin.Insights.Report (new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
-            }
-        }
-
-        protected T GetCachedResult<T> (string fileName) where T : new()
-        {
-            try {
-                if (!File.Exists (fileName)) {
-                    return new T ();
-                }
-
-                using (var file = File.OpenText (fileName)) {
-                    var fileJson = file.ReadToEnd ();
-                    file.Close ();
-                    return Newtonsoft.Json.JsonConvert.DeserializeObject<T> (fileJson);
-                }
-            } catch (IOException) {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return new T ();
-            }
-        }
-
-        private static bool IsFileInUse (FileInfo file)
-        {
-            FileStream stream = null;
-
-            try {
-                if (!File.Exists (file.FullName)) {
-                    return false;
-                }
-
-                stream = file.Open (FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            } catch (IOException) {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            } finally {
-                if (stream != null)
-                    stream.Close ();
-            }
-            return false;
-        }
+        
+        
+        
     }
 }

@@ -7,7 +7,7 @@ namespace Busidex3.Services
 {
     public class UserDeviceHttpService : BaseHttpService
     {
-        public static async Task<bool> UpdateDeviceDetails (DeviceType deviceType, int version, string token)
+        public static async Task<bool> UpdateDeviceDetails (DeviceType deviceType, int version)
         {
             var data = new UserDevice {
                 UserId = 0,
@@ -15,21 +15,21 @@ namespace Busidex3.Services
                 Version = version
             };
 
-            var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.UpdateUserDeviceUrl, HttpVerb.Put, token, data);
+            var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.UpdateUserDeviceUrl, HttpVerb.Put, data);
 
             return resp.IsSuccessStatusCode;
         }
 
-        public static async Task<UserDevice> GetUserDevice (DeviceType deviceType, string token)
+        public static async Task<UserDevice> GetUserDevice (DeviceType deviceType)
         {
             var url = string.Format(ServiceUrls.DeviceDetailsUrl, deviceType);
 
-            return await MakeRequestAsync<UserDevice>(url, HttpVerb.Get, token);
+            return await MakeRequestAsync<UserDevice>(url, HttpVerb.Get);
         }
 
-        public static async Task<AppVersionInfo> GetCurrentAppInfo (string token)
+        public static async Task<AppVersionInfo> GetCurrentAppInfo ()
         {
-            return await MakeRequestAsync<AppVersionInfo> (ServiceUrls.AppInfoUrl, HttpVerb.Get, token);
+            return await MakeRequestAsync<AppVersionInfo> (ServiceUrls.AppInfoUrl, HttpVerb.Get);
         }
     }
 }

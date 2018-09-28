@@ -9,7 +9,7 @@ namespace Busidex3.Services
 {
     public class SharedCardHttpService : BaseHttpService
     {
-        public static async Task<bool> ShareCard(Card card, string email, string phoneNumber, string userToken)
+        public static async Task<bool> ShareCard(Card card, string email, string phoneNumber)
         {
             var url = ServiceUrls.ShareCardUrl;
 			var model = new List<SharedCard> () {
@@ -29,16 +29,16 @@ namespace Busidex3.Services
 				}
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-			var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, userToken, data);
+			var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, data);
             return resp.IsSuccessStatusCode;
         }
 
-        public static async Task<List<SharedCard>> GetSharedCards(string userToken)
+        public static async Task<List<SharedCard>> GetSharedCards()
         {
-            return await MakeRequestAsync<List<SharedCard>>(ServiceUrls.GetSharedCardUrl, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<List<SharedCard>>(ServiceUrls.GetSharedCardUrl, HttpVerb.Get);
         }
 
-        public static async Task<bool> UpdateSharedCards(long? acceptedCardId, long? declinedCardId, string userToken){
+        public static async Task<bool> UpdateSharedCards(long? acceptedCardId, long? declinedCardId){
 
 			var model = new SharedCardModel {
 				AcceptedCardIdList = acceptedCardId.HasValue ? new[]{ acceptedCardId.Value } : new long[]{},
@@ -51,11 +51,11 @@ namespace Busidex3.Services
 				PersonalMessage = string.Empty
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-			var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.UpdateSharedCardUrl, HttpVerb.Put, userToken, data);
+			var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.UpdateSharedCardUrl, HttpVerb.Put, data);
             return resp.IsSuccessStatusCode;
         }
 
-		public async Task<bool> AcceptQuickShare(Card card, string email, long sendFrom, string userToken, string message){
+		public async Task<bool> AcceptQuickShare(Card card, string email, long sendFrom, string message){
 
 			var model = new SharedCard {
 				SharedCardId = 0,
@@ -64,7 +64,7 @@ namespace Busidex3.Services
 				SendFromEmail = string.Empty,
 				Email = email,
 				PhoneNumber = string.Empty,
-				ShareWith = Security.DecodeUserId (userToken), // share with the current user
+				ShareWith = Security.DecodeUserId (), // share with the current user
 				SharedDate = DateTime.Now,
 				Accepted = true,
 				Declined = false,
@@ -73,7 +73,7 @@ namespace Busidex3.Services
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 
-			var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.AcceptQuickShareUrl, HttpVerb.Post, userToken, data);
+			var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.AcceptQuickShareUrl, HttpVerb.Post, data);
 		    return resp.IsSuccessStatusCode;
 		}
     }

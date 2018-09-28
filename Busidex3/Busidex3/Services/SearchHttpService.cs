@@ -7,7 +7,7 @@ namespace Busidex3.Services
 {
     public class SearchHttpService : BaseHttpService
     {
-        public async Task<SearchResultModel> DoSearch(string criteria, string userToken){
+        public async Task<SearchResultModel> DoSearch(string criteria){
 
             var url = ServiceUrls.SearchUrl;
 
@@ -26,19 +26,19 @@ namespace Busidex3.Services
                 UserId = null
             };
 
-            return await MakeRequestAsync<SearchResultModel> (url, HttpVerb.Post, userToken, model);
+            return await MakeRequestAsync<SearchResultModel> (url, HttpVerb.Post, model);
         }
 
-        public async Task<SearchResponse> SearchBySystemTag(string tag, string userToken)
+        public async Task<SearchResponse> SearchBySystemTag(string tag)
         {
             var url = string.Format(ServiceUrls.SearchBySystemTagUrl, tag);
-            return await MakeRequestAsync<SearchResponse> (url, HttpVerb.Post, userToken);
+            return await MakeRequestAsync<SearchResponse> (url, HttpVerb.Post);
         }
 
-        public async Task<EventListResponse> GetEventTags(string userToken)
+        public async Task<EventListResponse> GetEventTags()
         {
             var url = ServiceUrls.GetEventTagsUrl;
-            return await MakeRequestAsync<EventListResponse> (url, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<EventListResponse> (url, HttpVerb.Get);
         }
     }
 }

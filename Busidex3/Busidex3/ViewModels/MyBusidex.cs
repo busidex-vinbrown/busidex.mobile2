@@ -12,26 +12,24 @@ namespace Busidex3.ViewModels
 {
     public delegate void OnMyBusidexLoadedEventHandler (List<UserCard> cards);
     public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
+    public delegate void OnNotesUpdatedEventHandler ();
 
     public class MyBusidex : BaseViewModel
     {
         public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
         public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
+        public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 
-        private readonly MyBusidexHttpService _myBusidexHttpService;
+        private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
+        private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
+        private readonly NotesHttpService _notesHttpService = new NotesHttpService();
 
         public List<UserCard> UserCards { get; private set; }
         public Card OwnedCard => null;
 
-        public MyBusidex(string token)
-            : base(token)
-        {
-            _myBusidexHttpService = new MyBusidexHttpService();
-        }
-
         public override async Task<bool> Init()
         {
-            UserCards = LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+            UserCards = Serialization.LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
             if (UserCards == null || UserCards.Count == 0) {
                 UserCards = new List<UserCard> ();
                 return await LoadUserCards ();
@@ -51,12 +49,12 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _myBusidexHttpService.GetMyBusidex(AuthToken);
+                var result = await _myBusidexHttpService.GetMyBusidex();
 
                 if (result == null)
                 {
                     var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
-                    cards.AddRange(GetCachedResult<List<UserCard>>(fullFileName));
+                    cards.AddRange(Serialization.GetCachedResult<List<UserCard>>(fullFileName));
                 }
                 else
                 {
@@ -128,7 +126,6 @@ namespace Busidex3.ViewModels
 
                     UserCards.AddRange(cards.Distinct(new UserCardEqualityComparer())
                         .Where(c => c.Card.CardId != OwnedCard.CardId));
-
                 }
                 else
                 {
@@ -137,7 +134,7 @@ namespace Busidex3.ViewModels
 
                 var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
 
-                SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
+                Serialization.SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
 
                 // Fire event handler
                 OnMyBusidexLoaded?.Invoke(UserCards);
@@ -167,5 +164,105 @@ namespace Busidex3.ViewModels
 
             return true;
         }
+
+        private List<UserCard> SortUserCards ()
+        {
+            var list = new List<UserCard> ();
+
+            UserCards.RemoveAll (c => c.Card == null);
+
+            if(OwnedCard != null){
+                var ownersCard = UserCards.SingleOrDefault (uc => uc.Card.CardId == OwnedCard.CardId);
+                if(ownersCard != null){
+                    list.Add (ownersCard);	
+                }
+                list.AddRange (
+                    UserCards.Where(c => c.Card.CardId != OwnedCard.CardId)
+                        .OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+                        .ThenBy (c => c.Card != null ? c.Card.Name : "")
+                        .ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+                        .ToList ()
+                );
+            }else{
+                list.AddRange (
+                    UserCards.OrderByDescending (c => c.Card != null && c.Card.OwnerId.GetValueOrDefault () > 0 ? 1 : 0)
+                        .ThenBy (c => c.Card != null ? c.Card.Name : "")
+                        .ThenBy (c => c.Card != null ? c.Card.CompanyName : "")
+                        .ToList ()
+                );
+            }
+			
+            return list;
+        }
+
+        public async Task<bool> AddCardToMyBusidex (UserCard userCard)
+		{
+			try {
+			    if (userCard == null) return false;
+
+			    userCard.Card.ExistsInMyBusidex = true;
+
+			    if (!UserCards.Any (c => c.CardId.Equals (userCard.CardId))) {
+			        UserCards.Add (userCard);
+			    }
+
+			    await _myBusidexHttpService.AddToMyBusidex (userCard.Card.CardId);
+
+			    UserCards = SortUserCards ();
+
+			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
+			    Serialization.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+			    return await _activityHttpService.SaveActivity ((long)EventSources.Add, userCard.CardId);
+
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
+			    return false;
+			}
+		}
+
+		public async Task<bool> RemoveCardFromMyBusidex (UserCard userCard)
+		{
+			try {
+			    if (userCard == null) return false;
+
+			    UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
+
+			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
+			    Serialization.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+
+			    return await _myBusidexHttpService.RemoveFromMyBusidex (userCard.Card.CardId);
+			} catch (Exception ex) {
+				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
+			    return false;
+			}
+		}
+
+		public bool ExistsInMyBusidex (UserCard card)
+		{
+			return UserCards.Any (uc => uc.CardId == card.CardId);
+		}
+
+		public async Task<bool> SaveNotes (long userCardId, string notes)
+		{
+			try
+			{
+			    var result = await _notesHttpService.SaveNotes(userCardId, notes);
+			    if (result != null && result.Success)
+			    {
+			        UserCards.Single(uc =>uc.UserCardId == userCardId).Notes = notes;
+			            
+			        Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(UserCards),
+			            Resources.MY_BUSIDEX_FILE);
+			    }
+
+                OnNotesUpdated?.Invoke();
+
+            } catch (Exception ex) {
+				Xamarin.Insights.Report (ex);
+			    return false;
+			}
+			return true;
+		}
     }
 }

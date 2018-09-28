@@ -2,8 +2,7 @@
 {
     public class Search : BaseViewModel
     {
-        public Search(string authToken)
-            : base(authToken){
+        public Search(){
 
         }
     }

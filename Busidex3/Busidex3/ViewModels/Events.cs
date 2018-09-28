@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
+using Busidex3.Services.Utils;
 
 namespace Busidex3.ViewModels
 {
@@ -26,9 +27,8 @@ namespace Busidex3.ViewModels
 
         private readonly SearchHttpService _searchHttpService;
 
-        public Events(string authToken)
-            : base(authToken){
-
+        public Events()
+        {
             _searchHttpService = new SearchHttpService();
         }
 
@@ -36,7 +36,7 @@ namespace Busidex3.ViewModels
         {
             var loaded = false;
 
-            EventList = LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+            EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
             if (EventList == null || EventList.Count == 0)
             {
                 EventList = new List<EventTag>();
@@ -59,7 +59,7 @@ namespace Busidex3.ViewModels
                     EventCards.Add(ev.Text, new List<UserCard>());
                 }
 
-                EventCards[ev.Text] = LoadData<List<UserCard>>(Path.Combine(Resources.DocumentsPath,
+                EventCards[ev.Text] = Serialization.LoadData<List<UserCard>>(Path.Combine(Resources.DocumentsPath,
                     string.Format(Resources.EVENT_CARDS_FILE, ev.EventTagId)));
                 if (EventCards[ev.Text] == null)
                 {
@@ -80,7 +80,7 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _searchHttpService.SearchBySystemTag(tag.Text, AuthToken);
+                var result = await _searchHttpService.SearchBySystemTag(tag.Text);
 
                 var cards = new List<UserCard>();
 
@@ -154,7 +154,7 @@ namespace Busidex3.ViewModels
 
                 var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(EventCards[tag.Text]);
 
-                SaveResponse(savedResult, fileName);
+                Serialization.SaveResponse(savedResult, fileName);
 
                 EventCardsLoadedEventTable[tag.Text]?.Invoke(tag, EventCards[tag.Text]);
 
@@ -184,13 +184,13 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _searchHttpService.GetEventTags(AuthToken);
+                var result = await _searchHttpService.GetEventTags();
 
                 EventList.Clear();
                 if (result == null)
                 {
                     var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE);
-                    EventList.AddRange(GetCachedResult<List<EventTag>>(fullFileName));
+                    EventList.AddRange(Serialization.GetCachedResult<List<EventTag>>(fullFileName));
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace Busidex3.ViewModels
 
                 var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
-                SaveResponse(savedEvents, Resources.EVENT_LIST_FILE);
+                Serialization.SaveResponse(savedEvents, Resources.EVENT_LIST_FILE);
 
                 OnEventListLoaded?.Invoke(EventList);
             }
@@ -221,7 +221,7 @@ namespace Busidex3.ViewModels
                 {
                     if (EventList.Count == 0)
                     {
-                        EventList = LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath,
+                        EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath,
                             Resources.EVENT_LIST_FILE));
                     }
                 }

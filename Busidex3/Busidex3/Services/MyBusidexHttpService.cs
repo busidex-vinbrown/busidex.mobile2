@@ -7,22 +7,22 @@ namespace Busidex3.Services
 {
     public class MyBusidexHttpService : BaseHttpService
     {
-        public async Task<MyBusidexResponse> GetMyBusidex(string userToken)
+        public async Task<MyBusidexResponse> GetMyBusidex()
         {
-            return await MakeRequestAsync<MyBusidexResponse>(ServiceUrls.MyBusidexUrl, HttpVerb.Get, userToken);
+            return await MakeRequestAsync<MyBusidexResponse>(ServiceUrls.MyBusidexUrl, HttpVerb.Get);
         }
 
-        public async Task<bool> AddToMyBusidex(long cardId, string userToken){
+        public async Task<bool> AddToMyBusidex(long cardId){
             var url = string.Format(ServiceUrls.AddToMyBusidexUrl, cardId);
 
-            var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, userToken);
+            var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post);
             return resp.IsSuccessStatusCode;
         }
 
-        public async Task<bool> RemoveFromMyBusidex(long cardId, string userToken){
+        public async Task<bool> RemoveFromMyBusidex(long cardId){
             var url = string.Format(ServiceUrls.RemoveFromMyBusidexUrl, cardId);
 
-            var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Delete, userToken);
+            var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Delete);
             return resp.IsSuccessStatusCode;
         }
     }

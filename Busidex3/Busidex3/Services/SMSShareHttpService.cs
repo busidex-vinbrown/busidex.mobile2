@@ -7,7 +7,7 @@ namespace Busidex3.Services
 {
     public class SMSShareHttpService : BaseHttpService
     {
-        public static async Task<bool> SaveSmsShare (long fromId, long cardId, string phoneNumber, string message, string token)
+        public static async Task<bool> SaveSmsShare (long fromId, long cardId, string phoneNumber, string message)
         {
 
             var data = new SMSShare {
@@ -17,7 +17,7 @@ namespace Busidex3.Services
                 Message = message
             };
 
-            var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.SmsShareUrl, HttpVerb.Post, token, data);
+            var resp = await MakeRequestAsync<HttpResponseMessage> (ServiceUrls.SmsShareUrl, HttpVerb.Post, data);
 
             return resp.IsSuccessStatusCode;
         }

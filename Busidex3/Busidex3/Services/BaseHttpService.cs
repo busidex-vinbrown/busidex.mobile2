@@ -12,7 +12,7 @@ namespace Busidex3.Services
 {
     public class BaseHttpService
     {
-        public static async Task<T> MakeRequestAsync<T>(string url, string method, string token, object data = null) where T : new()
+        public static async Task<T> MakeRequestAsync<T>(string url, string method, object data = null) where T : new()
         {
             var response = new T();
 
@@ -31,11 +31,11 @@ namespace Busidex3.Services
 				request.Method = new HttpMethod (method);
 				HttpContent content;
 
-				request.Headers.Add ("x-authorization-token", token);
+				request.Headers.Add ("x-authorization-token", Security.AuthToken);
 				switch (method) {
 				case HttpVerb.Post:
 					content = new JsonContent (data);
-					content.Headers.Add ("x-authorization-token", token);
+					content.Headers.Add ("x-authorization-token", Security.AuthToken);
 					await httpClient.PostAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 						    using (var resp = await r)
@@ -52,7 +52,7 @@ namespace Busidex3.Services
 					break;
 				case HttpVerb.Put:
 					content = new JsonContent (data);
-					content.Headers.Add ("x-authorization-token", token);
+					content.Headers.Add ("x-authorization-token", Security.AuthToken);
 					await httpClient.PutAsync (url, content).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 						    using (var resp = await r)
@@ -68,7 +68,7 @@ namespace Busidex3.Services
 					});
 					break;
 				case HttpVerb.Delete:
-					httpClient.DefaultRequestHeaders.Add ("x-authorization-token", token);
+					httpClient.DefaultRequestHeaders.Add ("x-authorization-token", Security.AuthToken);
 					await httpClient.DeleteAsync (url).ContinueWith (async r => {
 						if (!r.IsFaulted) {
 						    using (var resp = await r)

@@ -32,15 +32,14 @@ namespace Busidex3.ViewModels
 
         private readonly OrganizationsHttpService _organizationsHttpService;
 
-        public Organizations(string token) :
-            base(token)
+        public Organizations()
         {
             _organizationsHttpService = new OrganizationsHttpService();
         }
 
         public override async Task<bool> Init()
         {
-            OrganizationList = LoadData<List<Organization>> (Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
+            OrganizationList = Serialization.LoadData<List<Organization>> (Path.Combine (Resources.DocumentsPath, Resources.MY_ORGANIZATIONS_FILE));
             if (OrganizationList == null || OrganizationList.Count == 0) {
                 OrganizationList = new List<Organization> ();
                 await LoadOrganizations ();
@@ -67,7 +66,7 @@ namespace Busidex3.ViewModels
                 if (!OrganizationReferrals.ContainsKey (org.OrganizationId)) {
                     OrganizationReferrals.Add (org.OrganizationId, new List<UserCard> ());
                 }
-                OrganizationMembers [org.OrganizationId] = LoadData<List<Card>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
+                OrganizationMembers [org.OrganizationId] = Serialization.LoadData<List<Card>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
                 if (OrganizationMembers[org.OrganizationId] == null ||
                     OrganizationMembers[org.OrganizationId].Count == 0)
                 {
@@ -78,7 +77,7 @@ namespace Busidex3.ViewModels
                     OrganizationMembersLoadedEventTable[org.OrganizationId].Invoke(OrganizationMembers [org.OrganizationId]);
                 }
 
-                OrganizationReferrals [org.OrganizationId] = LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
+                OrganizationReferrals [org.OrganizationId] = Serialization.LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, string.Format (Resources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
                 if (OrganizationReferrals[org.OrganizationId] == null ||
                     OrganizationReferrals[org.OrganizationId].Count == 0)
                 {
@@ -99,7 +98,7 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var organizationResult = await _organizationsHttpService.GetMyOrganizations(AuthToken);
+                var organizationResult = await _organizationsHttpService.GetMyOrganizations();
                 if (organizationResult != null)
                 {
 
@@ -111,7 +110,7 @@ namespace Busidex3.ViewModels
                         OrganizationList.AddRange(organizationResult.Model);
 
                         var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
-                        SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
+                        Serialization.SaveResponse(savedResult, Resources.MY_ORGANIZATIONS_FILE);
 
                         var status = new ProgressStatus
                         {
@@ -208,11 +207,11 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _organizationsHttpService.GetOrganizationReferrals(AuthToken, organizationId);
+                var result = await _organizationsHttpService.GetOrganizationReferrals(organizationId);
 
                 if (result != null)
                 {
-                    SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
+                    Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
                         string.Format(Resources.ORGANIZATION_REFERRALS_FILE, organizationId));
 
                     OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
@@ -307,7 +306,7 @@ namespace Busidex3.ViewModels
 
             try
             {
-                var result = await _organizationsHttpService.GetOrganizationMembers(AuthToken, organizationId);
+                var result = await _organizationsHttpService.GetOrganizationMembers(organizationId);
                 //.ContinueWith (async cards => {
 
                 if (result == null)
@@ -322,7 +321,7 @@ namespace Busidex3.ViewModels
                 else
                 {
 
-                    SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
+                    Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
                         string.Format(Resources.ORGANIZATION_MEMBERS_FILE, organizationId));
 
                     OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 
@@ -6,7 +7,7 @@ namespace Busidex3.Services
 {
     public class ActivityHttpService : BaseHttpService
     {
-        public static async void SaveActivity(long eventSourceId, long cardId, string userToken){
+        public async Task<bool> SaveActivity(long eventSourceId, long cardId){
 		
             var data = Newtonsoft.Json.JsonConvert.SerializeObject (new ActivityDTO {
                 CardId = cardId,
@@ -14,7 +15,8 @@ namespace Busidex3.Services
                 UserId = null
             });
 
-            await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.ActivityUrl, HttpVerb.Post, userToken, data);
+            var response = await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.ActivityUrl, HttpVerb.Post, data);
+            return response.IsSuccessStatusCode;
         }
     }
 }

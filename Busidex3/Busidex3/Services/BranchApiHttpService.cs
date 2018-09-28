@@ -8,9 +8,7 @@ namespace Busidex3.Services
     public class BranchApiHttpService : BaseHttpService
     {
         public static async Task<string> GetBranchUrl (QuickShareLink link)
-        {
-            const string URL = "https://api.branch.io/v1/url";
-
+        {            
             var model = new BranchApiLinkParameters () {
                 branch_key = ServiceResources.BRANCH_KEY,
                 sdk = "api",
@@ -22,8 +20,7 @@ namespace Busidex3.Services
             };
 
             var data = Newtonsoft.Json.JsonConvert.SerializeObject (model);
-            var authToken = ""; // UISubscriptionService.AuthToken
-            var response = await MakeRequestAsync<HttpResponseMessage>(URL, HttpVerb.Post, authToken, data);
+            var response = await MakeRequestAsync<HttpResponseMessage>(Resources.BRANCH_API_URL, HttpVerb.Post, data);
 
             return response.Content.ToString();
         }

@@ -16,7 +16,7 @@ namespace Busidex3.Services
                 EventTag = string.Empty
             };
             string url = ServiceUrls.LoginUrl;
-            return await MakeRequestAsync<User> (url, HttpVerb.Post, string.Empty, model);
+            return await MakeRequestAsync<User> (url, HttpVerb.Post, model);
         }
     }
 }
