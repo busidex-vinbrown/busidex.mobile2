@@ -14,7 +14,7 @@ namespace Busidex3.ViewModels
     public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
     public delegate void OnNotesUpdatedEventHandler ();
 
-    public class MyBusidex : BaseViewModel
+    public class MyBusidexVM : BaseViewModel
     {
         public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
         public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;

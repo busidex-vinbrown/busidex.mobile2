@@ -17,7 +17,7 @@ namespace Busidex3.ViewModels
     public delegate void OnMyOrganizationReferralsUpdatedEventHandler (ProgressStatus status);
     public delegate void OnMyOrganizationReferralsLoadedEventHandler (List<UserCard> cards);
 
-    public class Organizations : BaseViewModel
+    public class OrganizationsVM : BaseViewModel
     {
         public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
         public event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
@@ -32,7 +32,7 @@ namespace Busidex3.ViewModels
 
         private readonly OrganizationsHttpService _organizationsHttpService;
 
-        public Organizations()
+        public OrganizationsVM()
         {
             _organizationsHttpService = new OrganizationsHttpService();
         }

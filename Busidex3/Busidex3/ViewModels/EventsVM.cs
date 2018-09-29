@@ -15,7 +15,7 @@ namespace Busidex3.ViewModels
     public delegate void OnEventCardsLoadedEventHandler (EventTag tag, List<UserCard> cards);
     public delegate void OnEventCardsUpdatedEventHandler (ProgressStatus status);
     
-    public class Events : BaseViewModel
+    public class EventsVM : BaseViewModel
     {
         public event OnEventListLoadedEventHandler OnEventListLoaded;
         //public event OnEventListUpdatedEventHandler OnEventListUpdated;
@@ -27,7 +27,7 @@ namespace Busidex3.ViewModels
 
         private readonly SearchHttpService _searchHttpService;
 
-        public Events()
+        public EventsVM()
         {
             _searchHttpService = new SearchHttpService();
         }
