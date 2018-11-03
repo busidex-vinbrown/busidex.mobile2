@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Busidex.Mobile.Models;
 
 namespace Busidex3.DomainModels
 {

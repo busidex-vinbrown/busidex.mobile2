@@ -1,6 +1,4 @@
 ﻿
-using Busidex.Mobile.Models;
-
 namespace Busidex3.DomainModels
 {
 	public class Address

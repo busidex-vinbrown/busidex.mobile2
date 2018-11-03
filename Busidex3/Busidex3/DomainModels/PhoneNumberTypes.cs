@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace Busidex.Mobile.Models
+﻿
+namespace Busidex3.DomainModels
 {
     public enum PhoneNumberTypes
     {

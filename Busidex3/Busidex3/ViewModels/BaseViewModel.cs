@@ -8,6 +8,7 @@ namespace Busidex3.ViewModels
 {
     public class BaseViewModel
     {
+        public static string AuthToken { get; set; } = string.Empty;
 
         public virtual async Task<bool> Init()
         {
@@ -38,7 +39,7 @@ namespace Busidex3.ViewModels
                     }
                 }
             } catch (Exception ex) {
-                Xamarin.Insights.Report (new Exception ("Error loading " + imagePath, ex));
+                //Xamarin.Insights.Report (new Exception ("Error loading " + imagePath, ex));
             } finally {
                 semaphore.Release ();
             }

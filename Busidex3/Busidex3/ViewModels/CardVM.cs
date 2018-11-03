@@ -93,7 +93,7 @@ namespace Busidex3.ViewModels
                 return await Task.FromResult(card);
 
             } catch (Exception ex) {
-                Xamarin.Insights.Report (ex);
+                //Xamarin.Insights.Report (ex);
             }
             return null;
         }

@@ -60,13 +60,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Branch-Xamarin-Lib.Droid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.8\lib\MonoAndroid\Branch-Xamarin-Lib.Droid.dll</HintPath>
     </Reference>
-    <Reference Include="Branch-Xamarin-SDK, Version=1.0.6830.3111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
+    <Reference Include="Branch-Xamarin-SDK, Version=1.0.6862.35483, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.8\lib\MonoAndroid\Branch-Xamarin-SDK.dll</HintPath>
     </Reference>
     <Reference Include="Branch-Xamarin-SDK.Droid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.7\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
+      <HintPath>..\packages\Branch-Xamarin-Linking-SDK.4.0.8\lib\MonoAndroid\Branch-Xamarin-SDK.Droid.dll</HintPath>
     </Reference>
     <Reference Include="Java.Interop" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

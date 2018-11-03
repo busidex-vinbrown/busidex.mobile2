@@ -33,7 +33,7 @@
 	<key>CFBundleName</key>
 	<string>Busidex3</string>
 	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<string>Assets.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.2.35</string>
 	<key>UIMainStoryboardFile</key>
@@ -56,7 +56,5 @@
 			<string>CFBundleTypeName</string>
 		</dict>
 	</array>
-	<key>XSLaunchImageAssets</key>
-	<string>Assets.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

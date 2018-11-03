@@ -174,7 +174,7 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
-                Xamarin.Insights.Report(new Exception("Error loading organization list", ex));
+                //Xamarin.Insights.Report(new Exception("Error loading organization list", ex));
 
                 if (OrganizationList.Count == 0)
                 {
@@ -186,7 +186,7 @@ namespace Busidex3.ViewModels
                     }
                     catch (Exception innerEx)
                     {
-                        Xamarin.Insights.Report(new Exception("Error loading organization list from file", innerEx));
+                        //Xamarin.Insights.Report(new Exception("Error loading organization list from file", innerEx));
                     }
 
                     OnMyOrganizationsLoaded?.Invoke(OrganizationList);
@@ -289,7 +289,7 @@ namespace Busidex3.ViewModels
                     OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
                 }
 
-                Xamarin.Insights.Report(new Exception("Error Loading Organization Referrals", ex));
+                //Xamarin.Insights.Report(new Exception("Error Loading Organization Referrals", ex));
             }
             finally
             {
@@ -395,7 +395,7 @@ namespace Busidex3.ViewModels
                     if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
                 }
 
-                Xamarin.Insights.Report(new Exception("Error Loading Organization Members", ex));
+                //Xamarin.Insights.Report(new Exception("Error Loading Organization Members", ex));
             }
             finally
             {

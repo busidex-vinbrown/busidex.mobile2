@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Busidex3.Views.Login">
+   
+        <StackLayout Margin="50">
+            <Label x:Name="lblOne" Text="User Name"
+                HorizontalOptions="CenterAndExpand" />
+            <Entry x:Name="txtUserName" Text="{Binding UserName}" />
+            <Label x:Name="lblTwo" Text="Password"
+                   HorizontalOptions="CenterAndExpand" />
+            <Entry x:Name="txtPassword" Text="{Binding Password}" />
+            <Button Text="Login" x:Name="btnLogin" Clicked="BtnLogin_OnClicked"></Button>
+        </StackLayout>
+   
+</ContentPage>

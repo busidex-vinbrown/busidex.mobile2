@@ -1,4 +1,5 @@
 ﻿using System;
+using Busidex3.Views;
 using Plugin.Connectivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,7 +15,8 @@ namespace Busidex3
         public App()
         {
             InitializeComponent();
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
+            
         }
 
         

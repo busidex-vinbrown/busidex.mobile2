@@ -1,5 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using StandardStorage;
+//using CreationCollisionOption = PCLStorage.CreationCollisionOption;
+//using ExistenceCheckResult = PCLStorage.ExistenceCheckResult;
+using File = System.IO.File;
+using FileAccess = StandardStorage.FileAccess;
+
+//using FileAccess = System.IO.FileAccess;
 
 namespace Busidex3.Services.Utils
 {
@@ -8,6 +17,63 @@ namespace Busidex3.Services.Utils
         public static T LoadData<T> (string path) where T : class, new()
         {
             return LoadDataFromFile<T> (path);
+        }
+
+        public static string GetAppLocalStorageFolder()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        }
+
+        public static async Task<string> CopyIcon(string fileName)
+        {
+            if (String.IsNullOrEmpty(fileName)) return "";
+            try
+            {
+                var iconFolder = Path.Combine(GetAppLocalStorageFolder(), "icons");
+                if (!Directory.Exists(iconFolder))
+                {
+                    Directory.CreateDirectory(iconFolder);
+                }
+                // Create (or open if already exists) subfolder "icons" in application local storage
+                
+                /*
+                var fld =  await FileSystem.Current.LocalStorage.CreateFolderAsync("icons", CreationCollisionOption.OpenIfExists);
+                if (fld == null) return ""; // Failed to create folder
+
+                // Check if the file has not been copied earlier
+                if (await fld.CheckExistsAsync(fileName) == ExistenceCheckResult.FileExists)
+                    return (await fld.GetFileAsync(fileName))?.Path; // Image copy already exists
+                */
+                var fullFilePath = Path.Combine(iconFolder, fileName);
+                if (File.Exists(fullFilePath))
+                {
+                    return fullFilePath;
+                }
+
+                // Source assembly and embedded resource path
+                var imageSrcPath = $"Busidex.Resources.Images.{fileName}"; // Full resource name
+                var assembly = typeof(Serialization).GetTypeInfo().Assembly;
+                
+                // Copy image from resources to the file in application local storage
+                //var file = await fld.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+                
+                //using (var target = await file.OpenAsync(FileAccess.ReadAndWrite))
+                using (var source = assembly.GetManifestResourceStream(imageSrcPath))
+                {
+                    using (var fileStream = File.Create(fullFilePath))
+                    {
+                        source?.Seek(0, SeekOrigin.Begin);
+                        source?.CopyTo(fileStream);
+                    }
+                    //await source?.CopyToAsync(target); // Copy file stream
+                }
+
+                return fileName; // Result is the path to the new file
+            }
+            catch(Exception ex)
+            {
+                return string.Empty; // No image displayed when error
+            }
         }
 
         static T LoadDataFromFile<T> (string path) where T : class, new()
@@ -21,7 +87,7 @@ namespace Busidex3.Services.Utils
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
                 return result;
             } catch (Exception ex) {
-                Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
+                //Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
                 return default(T);
             }
         }
@@ -50,7 +116,7 @@ namespace Busidex3.Services.Utils
                     File.WriteAllText (fullFilePath, response);
                 }
             } catch (Exception ex) {
-                Xamarin.Insights.Report (new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
+                //Xamarin.Insights.Report (new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
             }
         }
 
@@ -63,7 +129,7 @@ namespace Busidex3.Services.Utils
                     return false;
                 }
 
-                stream = file.Open (FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                stream = file.Open (FileMode.Open, System.IO.FileAccess.ReadWrite, FileShare.None);
             } catch (IOException) {
                 //the file is unavailable because it is:
                 //still being written to

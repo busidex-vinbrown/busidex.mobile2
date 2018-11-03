@@ -142,7 +142,7 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
-                Xamarin.Insights.Report(new Exception("Error Loading My Busidex", ex));
+                //Xamarin.Insights.Report(new Exception("Error Loading My Busidex", ex));
 
                 try
                 {
@@ -152,7 +152,7 @@ namespace Busidex3.ViewModels
                 }
                 catch (Exception innerEx)
                 {
-                    Xamarin.Insights.Report(new Exception("Error Loading My Busidex From File", innerEx));
+                    //Xamarin.Insights.Report(new Exception("Error Loading My Busidex From File", innerEx));
                 }
 
                 OnMyBusidexLoaded?.Invoke(UserCards);
@@ -216,7 +216,7 @@ namespace Busidex3.ViewModels
 			    return await _activityHttpService.SaveActivity ((long)EventSources.Add, userCard.CardId);
 
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
+				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
 		}
@@ -233,7 +233,7 @@ namespace Busidex3.ViewModels
 
 			    return await _myBusidexHttpService.RemoveFromMyBusidex (userCard.Card.CardId);
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
+				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
 		}
@@ -259,7 +259,7 @@ namespace Busidex3.ViewModels
                 OnNotesUpdated?.Invoke();
 
             } catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
+				//Xamarin.Insights.Report (ex);
 			    return false;
 			}
 			return true;

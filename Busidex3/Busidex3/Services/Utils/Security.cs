@@ -18,23 +18,28 @@ namespace Busidex3.Services.Utils
         public static string AuthToken { get; set; }
         public static BusidexUser CurrentUser { get; set; }
 
-        public static async Task<BusidexUser> LoadUser ()
+        public static async Task<BusidexUser> LoadUser()
         {
-            try {
-                if (!string.IsNullOrEmpty (AuthToken)) {
-                    var account = await _accountHttpService.GetAccount ();
+            try
+            {
+                if (!string.IsNullOrEmpty(AuthToken))
+                {
+                    var account = await _accountHttpService.GetAccount();
                     var accountJson = Newtonsoft.Json.JsonConvert.SerializeObject(account);
                     Serialization.SaveResponse(accountJson, Resources.BUSIDEX_USER_FILE);
 
-                    if (!string.IsNullOrEmpty (accountJson)) {
-                        CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser> (accountJson);
+                    if (!string.IsNullOrEmpty(accountJson))
+                    {
+                        CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser>(accountJson);
 
-                        OnBusidexUserLoaded?.Invoke (CurrentUser);
+                        OnBusidexUserLoaded?.Invoke(CurrentUser);
                     }
                 }
                 return CurrentUser;
-            } catch (Exception ex) {
-                Xamarin.Insights.Report (ex);
+            }
+            catch (Exception ex)
+            {
+                //Xamarin.Insights.Report(ex);
             }
             return null;
         }
@@ -43,14 +48,14 @@ namespace Busidex3.Services.Utils
         {
             AuthToken = string.Empty;
 
-            Serialization.SaveResponse (null, Resources.OWNED_CARD_FILE);
-            Serialization.SaveResponse (null, Resources.MY_BUSIDEX_FILE);
-            Serialization.SaveResponse (null, Resources.EVENT_LIST_FILE);
-            Serialization.SaveResponse (null, Resources.EVENT_CARDS_FILE);
-            Serialization.SaveResponse (null, Resources.SHARED_CARDS_FILE);
-            Serialization.SaveResponse (null, Resources.MY_ORGANIZATIONS_FILE);
-            Serialization.SaveResponse (null, Resources.THUMBNAIL_FILE_NAME_PREFIX);
-            Serialization.SaveResponse (null, Resources.ORGANIZATION_REFERRALS_FILE);
+            Serialization.SaveResponse(null, Resources.OWNED_CARD_FILE);
+            Serialization.SaveResponse(null, Resources.MY_BUSIDEX_FILE);
+            Serialization.SaveResponse(null, Resources.EVENT_LIST_FILE);
+            Serialization.SaveResponse(null, Resources.EVENT_CARDS_FILE);
+            Serialization.SaveResponse(null, Resources.SHARED_CARDS_FILE);
+            Serialization.SaveResponse(null, Resources.MY_ORGANIZATIONS_FILE);
+            Serialization.SaveResponse(null, Resources.THUMBNAIL_FILE_NAME_PREFIX);
+            Serialization.SaveResponse(null, Resources.ORGANIZATION_REFERRALS_FILE);
         }
 
         public static long DecodeUserId()
@@ -69,7 +74,7 @@ namespace Busidex3.Services.Utils
                 Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (CurrentUser), Resources.BUSIDEX_USER_FILE);
                 OnBusidexUserLoaded?.Invoke (CurrentUser);
             } catch (Exception ex) {
-                Xamarin.Insights.Report (ex);
+                //Xamarin.Insights.Report (ex);
             }
         }
 

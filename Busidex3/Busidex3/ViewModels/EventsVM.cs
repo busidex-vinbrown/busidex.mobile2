@@ -166,7 +166,7 @@ namespace Busidex3.ViewModels
                     EventCardsLoadedEventTable[tag.Text](tag, EventCards[tag.Text]);
                 }
 
-                Xamarin.Insights.Report(new Exception("Error loading event cards", ex));
+                //Xamarin.Insights.Report(new Exception("Error loading event cards", ex));
             }
             finally
             {
@@ -215,7 +215,7 @@ namespace Busidex3.ViewModels
             catch (Exception ex)
             {
 
-                Xamarin.Insights.Report(new Exception("Error loading event list", ex));
+                //Xamarin.Insights.Report(new Exception("Error loading event list", ex));
 
                 try
                 {
@@ -227,7 +227,7 @@ namespace Busidex3.ViewModels
                 }
                 catch (Exception innerEx)
                 {
-                    Xamarin.Insights.Report(new Exception("Error loading event list from file", innerEx));
+                    //Xamarin.Insights.Report(new Exception("Error loading event list from file", innerEx));
                 }
 
                 OnEventListLoaded?.Invoke(EventList);
