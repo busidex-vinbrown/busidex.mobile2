@@ -15,7 +15,7 @@ namespace Busidex3
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new MainMenu();// new NavigationPage(new MainMenu());
             
         }
 

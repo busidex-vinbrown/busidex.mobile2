@@ -37,7 +37,7 @@ namespace Busidex3.ViewModels
             
             File.WriteAllText(localPath, cookieString); // writes to local storage  
             
-            return user != null;
+            return user != null && user.UserId > 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

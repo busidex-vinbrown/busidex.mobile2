@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Busidex3.Views.MainMenuMaster"
+             Title="Master">
+  <StackLayout>
+      <ListView x:Name="MenuItemsListView"
+              SeparatorVisibility="None"
+              HasUnevenRows="true"
+              ItemsSource="{Binding MenuItems}">
+      <ListView.Header>
+        <Grid BackgroundColor="#03A9F4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+          </Grid.RowDefinitions>
+            <!--
+            If user is a card owner, show their card in an avatar-style
+            icon. That will bring them to the page to edit their card.
+            Also show a button to Share My Card and for Settings.
+            If they're not a card owner, just show the Settings button.
+            Show logout button at the bottom.
+            -->
+            
+          <!--<Label
+              Grid.Column="1"
+              Grid.Row="2"
+              Text="AppName"
+              Style="{DynamicResource SubtitleStyle}"/>-->
+        </Grid>
+      </ListView.Header>          
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                <Image IsVisible="True" Aspect="AspectFit" 
+                       HeightRequest="40" WidthRequest="40"
+                       HorizontalOptions="Start"
+                       Source="{Binding Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="{Binding Title}" 
+                    FontSize="24"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+      <StackLayout VerticalOptions="CenterAndExpand">
+          <!-- middle controls -->
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal" VerticalOptions="End">
+          <Button
+              x:Name="btnLogout"
+              BackgroundColor="#03A9F4"
+              TextColor="White"
+              Clicked="BtnLogout_OnClicked"
+              Text="Logout"
+              HorizontalOptions="FillAndExpand"
+              Style="{DynamicResource SubtitleStyle}"/>
+      </StackLayout>
+      
+  </StackLayout>
+
+</ContentPage>

@@ -27,14 +27,22 @@ namespace Busidex3.Views
                 typeof(Resources).GetTypeInfo().Assembly);
 
             var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
-            var cookieText = File.ReadAllText(localPath);
+            if (File.Exists(localPath))
+            {
+                var cookieText = File.ReadAllText(localPath);
 
-            var cookie = JsonConvert.DeserializeObject<System.Net.Cookie>(cookieText);
+                var cookie = JsonConvert.DeserializeObject<System.Net.Cookie>(cookieText);
 
-            if (string.IsNullOrEmpty(cookie?.Value))
+                if (string.IsNullOrEmpty(cookie?.Value))
+                {
+                    Navigation.PushAsync(new Login());
+                }
+            }
+            else
             {
                 Navigation.PushAsync(new Login());
             }
+            
             //btnSearch.Image = Serialization.CopyIcon("searchicon.png").Result;
             //btnMyBusidex.Image = Serialization.CopyIcon("mybusidexicon.png").Result;
             //btnOrganization.Image = Serialization.CopyIcon("organizationsicon.png").Result;
