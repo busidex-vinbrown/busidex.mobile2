@@ -26,7 +26,20 @@
                    HorizontalOptions="CenterAndExpand"
                    IsVisible="False"/>
             <Button Text="Login" 
+                    Margin="0,10"
+                    TextColor="White"
+                    BackgroundColor="#03A9F4"
                     x:Name="btnLogin" 
                     Clicked="BtnLogin_OnClicked"></Button>
+            <Button Text="Forgot My Password" 
+                    TextColor="White"
+                    Margin="0,10"
+                    BackgroundColor="#03A9F4"
+                    x:Name="btnForgotPassword" 
+                    Clicked="BtnForgotPassword_OnClicked"></Button>
+            <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                               Color="#03A9F4" 
+                               IsVisible="False"
+                               IsRunning="True"/>
         </StackLayout>   
 </ContentPage>

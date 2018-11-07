@@ -24,15 +24,21 @@ namespace Busidex3.Views
 
 	    private async void BtnLogin_OnClicked(object sender, EventArgs e)
 	    {
+	        btnLogin.IsVisible = false;
+	        btnForgotPassword.IsVisible = false;
+	        prgSpinner.IsVisible = true;
+
 	        var loggedIn = await _viewModel.DoLogin();
 	        if (loggedIn)
 	        {
 	            lblLoginError.IsVisible = false;
-	            await Navigation.PushAsync(new MainPage());
-	            
+	            App.LoadMainMenuPage();
 	        }
 	        else
 	        {
+	            btnLogin.IsVisible = true;
+	            btnForgotPassword.IsVisible = true;
+	            prgSpinner.IsVisible = false;
 	            lblLoginError.IsVisible = true;
 	        }
 	    }
@@ -50,6 +56,12 @@ namespace Busidex3.Views
 	    private void TxtPassword_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {
 	        Reset();
+	    }
+
+	    private void BtnForgotPassword_OnClicked(object sender, EventArgs e)
+	    {
+	        var uri = new Uri(Busidex3.Resources.FORGOT_PASSWORD_URL);
+	        Device.OpenUri(uri);
 	    }
 	}
 }

@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
+using Busidex3.Services.Utils;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
+    public delegate void LogoutResult();
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainMenuMaster : ContentPage
+    public partial class MainMenuMaster
     {
         public ListView ListView;
+        public event LogoutResult OnLogout;
 
         public MainMenuMaster()
         {
@@ -49,17 +49,21 @@ namespace Busidex3.Views
             public event PropertyChangedEventHandler PropertyChanged;
             void OnPropertyChanged([CallerMemberName] string propertyName = "")
             {
-                if (PropertyChanged == null)
-                    return;
-
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
             #endregion
         }
 
-        private void BtnLogout_OnClicked(object sender, EventArgs e)
+        private async void BtnLogout_OnClicked(object sender, EventArgs e)
         {
-            // Logout here
+            if (!await DisplayAlert("Logout", "Are you sure you want to log out?", "Yes", "Cancel")) return;
+
+            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            if (!File.Exists(localPath)) return;
+
+            File.Delete(localPath);
+
+            OnLogout?.Invoke();
         }
     }
 }
