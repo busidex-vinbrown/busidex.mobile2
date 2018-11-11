@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
+             xmlns:domainModels="clr-namespace:Busidex3.DomainModels;assembly=Busidex3"
              x:Class="Busidex3.Views.MyBusidexView">
     <ContentPage.Resources>
         <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
@@ -30,7 +31,16 @@
                       BackgroundColor="LightGray"
                       CachingStrategy="RecycleElement"
                       IsRefreshing="{Binding IsRefreshing}"
-                      ItemsSource="{Binding UserCards}">
+                      ItemsSource="{Binding FilteredUserCards}">
+                <ListView.Header>
+                    <StackLayout>
+                        <SearchBar x:Name="txtSearch"
+                                   Text="{Binding SearchValue}"
+                                   SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
+                                   Placeholder="Filter"
+                                   TextChanged="TxtSearch_OnTextChanged"/>
+                    </StackLayout>
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -56,13 +66,24 @@
                                        WidthRequest="220"
                                        Aspect="Fill"  
                                        HorizontalOptions="Start"
-                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}"/>
+                                       
+                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                                              CommandParameter="{Binding UserCardId}" NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                                 <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
                                        HeightRequest="200"
                                        WidthRequest="130"
                                        Aspect="Fill"
                                        HorizontalOptions="Start"
-                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}"/>
+                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                                              CommandParameter="{Binding UserCardId}" NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

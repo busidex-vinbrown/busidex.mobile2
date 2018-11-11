@@ -4,10 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Busidex3.Annotations;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
@@ -18,7 +16,7 @@ namespace Busidex3.ViewModels
     public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
     public delegate void OnNotesUpdatedEventHandler ();
 
-    public class MyBusidexVM :  BaseViewModel, INotifyPropertyChanged
+    public class MyBusidexVM :  BaseViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
@@ -30,7 +28,18 @@ namespace Busidex3.ViewModels
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private decimal _loadingProgress = 0;
 
-        private ObservableRangeCollection<UserCard> _userCards;
+        private ObservableRangeCollection<UserCard> _filteredUserCards = new ObservableRangeCollection<UserCard>();
+        public ObservableRangeCollection<UserCard> FilteredUserCards
+        {
+            get => _filteredUserCards;
+            set
+            {
+                _filteredUserCards = value;
+                OnPropertyChanged(nameof(FilteredUserCards));
+            }
+        } 
+
+        private ObservableRangeCollection<UserCard> _userCards = new ObservableRangeCollection<UserCard>();
         public ObservableRangeCollection<UserCard> UserCards
         {
             get => _userCards;
@@ -54,6 +63,12 @@ namespace Busidex3.ViewModels
 
         private int totalCards { get;set; }
 
+        public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
+        {
+            FilteredUserCards.Clear();
+            FilteredUserCards.AddRange(subset);
+        }
+
         public decimal LoadingProgress
         {
             get => _loadingProgress;
@@ -66,11 +81,7 @@ namespace Busidex3.ViewModels
             }
         }
     
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
         public override async Task<bool> Init()
         {
@@ -78,9 +89,9 @@ namespace Busidex3.ViewModels
 
             UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
             if (UserCards == null || UserCards.Count == 0) {
-                UserCards = new ObservableRangeCollection<UserCard> ();
                 return await LoadUserCards ();
             }
+            SetFilteredList(UserCards);
 
             //OnMyBusidexLoaded?.Invoke(UserCards);
             IsRefreshing = false;
@@ -193,6 +204,8 @@ namespace Busidex3.ViewModels
                 var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
 
                 Serialization.SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
+
+                SetFilteredList(UserCards);
 
                 // Fire event handler
                 //OnMyBusidexLoaded?.Invoke(UserCards);

@@ -1,19 +1,29 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Busidex3.Annotations;
 
 namespace Busidex3.ViewModels
 {
-    public class BaseViewModel
+    public class BaseViewModel : INotifyPropertyChanged
     {
+        private string _searchValue;
 
         public virtual async Task<bool> Init()
         {
             return await Task.FromResult(true);
         }
-        
+
+        public string SearchValue        
+        {
+            get => _searchValue;
+            set => _searchValue = value;
+        }
+
         protected async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
         {
             ServicePointManager.Expect100Continue = false;
@@ -45,8 +55,14 @@ namespace Busidex3.ViewModels
 
             return jpgFilename;
         }
-        
-        
-        
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));          
+        }
     }
 }
