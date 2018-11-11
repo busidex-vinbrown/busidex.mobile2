@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -32,7 +28,7 @@ namespace Busidex3.Views
 	        if (loggedIn)
 	        {
 	            lblLoginError.IsVisible = false;
-	            App.LoadMainMenuPage();
+	            App.LoadMainMenuPage("My Busidex");
 	        }
 	        else
 	        {

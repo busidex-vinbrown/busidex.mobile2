@@ -1,20 +1,18 @@
 ﻿using System.IO;
 using System.Reflection;
 using Busidex3.Services.Utils;
-using Busidex3.ViewModels;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Busidex3.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
 
         public MainPage()
         {
             InitializeComponent();
 
-           
             imgSearchIcon.Source = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
                 typeof(Resources).GetTypeInfo().Assembly);
             imgMyBusidexIcon.Source = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
@@ -26,22 +24,26 @@ namespace Busidex3.Views
             imgShareIcon.Source = ImageSource.FromResource("Busidex3.Resources.shareicon.png",
                 typeof(Resources).GetTypeInfo().Assembly);
 
-            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
-            if (File.Exists(localPath))
-            {
-                var cookieText = File.ReadAllText(localPath);
+            //var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            //if (File.Exists(localPath))
+            //{
+            //    var cookieText = File.ReadAllText(localPath);
 
-                var cookie = JsonConvert.DeserializeObject<System.Net.Cookie>(cookieText);
+            //    var cookie = JsonConvert.DeserializeObject<System.Net.Cookie>(cookieText);
 
-                if (string.IsNullOrEmpty(cookie?.Value))
-                {
-                    Navigation.PushAsync(new Login());
-                }
-            }
-            else
-            {
-                Navigation.PushAsync(new Login());
-            }
+            //    if (string.IsNullOrEmpty(cookie?.Value))
+            //    {
+            //        Navigation.PushAsync(new Login());
+            //    }
+            //    else
+            //    {
+            //        Security.AuthToken = cookie.Value;
+            //    }
+            //}
+            //else
+            //{
+            //    Navigation.PushAsync(new Login());
+            //}
             
             //btnSearch.Image = Serialization.CopyIcon("searchicon.png").Result;
             //btnMyBusidex.Image = Serialization.CopyIcon("mybusidexicon.png").Result;

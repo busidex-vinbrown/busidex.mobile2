@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Busidex3.Annotations;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
 
 namespace Busidex3.ViewModels
 {
-    public delegate void OnMyBusidexLoadedEventHandler (List<UserCard> cards);
+    public delegate void OnMyBusidexLoadedEventHandler (ObservableRangeCollection<UserCard> cards);
     public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
     public delegate void OnNotesUpdatedEventHandler ();
 
-    public class MyBusidexVM : BaseViewModel
+    public class MyBusidexVM :  BaseViewModel, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
         public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
         public static event OnNotesUpdatedEventHandler OnNotesUpdated;
@@ -23,29 +28,80 @@ namespace Busidex3.ViewModels
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
+        private decimal _loadingProgress = 0;
 
-        public List<UserCard> UserCards { get; private set; }
+        private ObservableRangeCollection<UserCard> _userCards;
+        public ObservableRangeCollection<UserCard> UserCards
+        {
+            get => _userCards;
+            set
+            {
+                _userCards = value;
+                OnPropertyChanged(nameof(UserCards));
+            }
+        }
+
         public Card OwnedCard => null;
+
+        private bool _isRefreshing;
+        public bool IsRefreshing { 
+            get => _isRefreshing;
+            set {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        private int totalCards { get;set; }
+
+        public decimal LoadingProgress
+        {
+            get => _loadingProgress;
+            set
+            {
+                if (_loadingProgress.Equals(value)) return;
+
+                _loadingProgress = value;
+                OnPropertyChanged(nameof(LoadingProgress));
+            }
+        }
+    
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public override async Task<bool> Init()
         {
-            UserCards = Serialization.LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+            IsRefreshing = true;
+
+            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
             if (UserCards == null || UserCards.Count == 0) {
-                UserCards = new List<UserCard> ();
+                UserCards = new ObservableRangeCollection<UserCard> ();
                 return await LoadUserCards ();
             }
 
-            OnMyBusidexLoaded?.Invoke(UserCards);
+            //OnMyBusidexLoaded?.Invoke(UserCards);
+            IsRefreshing = false;
             return await Task.FromResult(true);
         }
 
-        private async Task<bool> LoadUserCards()
+        private decimal getLoadingProgress(decimal progress)
         {
+            return Math.Round(totalCards == 0 ? 0 : (progress / totalCards) * 100, 1);                      
+        }
+
+        public async Task<bool> LoadUserCards()
+        {
+            IsRefreshing = true;
+            LoadingProgress = 0;
+
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
 
             var cards = new List<UserCard>();
-            var status = new ProgressStatus();
+            var status = new ProgressStatus {Count = 0};
 
             try
             {
@@ -62,13 +118,12 @@ namespace Busidex3.ViewModels
                     cards.ForEach(c => c.ExistsInMyBusidex = true);
                 }
 
-                status.Total = cards.Count;
-
+                status.Total = totalCards = cards.Count;
+                
                 foreach (var item in cards)
-                {
+                {                
                     if (item.Card != null)
                     {
-
                         var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
                         var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
                         var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
@@ -78,11 +133,12 @@ namespace Busidex3.ViewModels
                         {
                             try
                             {
-                                await DownloadImage(fImageUrl, Resources.DocumentsPath, fName).ContinueWith(t =>
-                                {
-                                    status.Count++;
-                                    OnMyBusidexUpdated?.Invoke(status);
-                                });
+                                status.Count++;
+                                await Task.Factory.StartNew(() => { LoadingProgress = getLoadingProgress(status.Count); });
+                      
+                                await DownloadImage(fImageUrl, Resources.DocumentsPath, fName).ConfigureAwait(false);
+                                
+                                //OnMyBusidexUpdated?.Invoke(status);
                             }
                             catch
                             {
@@ -92,7 +148,8 @@ namespace Busidex3.ViewModels
                         else
                         {
                             status.Count++;
-                            OnMyBusidexUpdated?.Invoke(status);
+                            await Task.Factory.StartNew(() => { LoadingProgress = getLoadingProgress(status.Count); });
+                            //OnMyBusidexUpdated?.Invoke(status);
                         }
 
                         if ((!File.Exists(Resources.DocumentsPath + "/" + bName)) &&
@@ -108,6 +165,7 @@ namespace Busidex3.ViewModels
                             }
                         }
                     }
+                    
                 }
 
                 UserCards.Clear();
@@ -137,7 +195,7 @@ namespace Busidex3.ViewModels
                 Serialization.SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
 
                 // Fire event handler
-                OnMyBusidexLoaded?.Invoke(UserCards);
+                //OnMyBusidexLoaded?.Invoke(UserCards);
 
             }
             catch (Exception ex)
@@ -147,7 +205,7 @@ namespace Busidex3.ViewModels
                 try
                 {
                     UserCards =
-                        Serialization.LoadData<List<UserCard>>(Path.Combine(Resources.DocumentsPath,
+                        Serialization.LoadData<ObservableRangeCollection<UserCard>>(Path.Combine(Resources.DocumentsPath,
                             Resources.MY_BUSIDEX_FILE));
                 }
                 catch (Exception innerEx)
@@ -155,19 +213,20 @@ namespace Busidex3.ViewModels
                     //Xamarin.Insights.Report(new Exception("Error Loading My Busidex From File", innerEx));
                 }
 
-                OnMyBusidexLoaded?.Invoke(UserCards);
+                //OnMyBusidexLoaded?.Invoke(UserCards);
             }
             finally
             {
                 semaphore.Release();
+                IsRefreshing = false;
             }
 
             return true;
         }
 
-        private List<UserCard> SortUserCards ()
+        private ObservableRangeCollection<UserCard> SortUserCards ()
         {
-            var list = new List<UserCard> ();
+            var list = new ObservableRangeCollection<UserCard> ();
 
             UserCards.RemoveAll (c => c.Card == null);
 
@@ -263,6 +322,6 @@ namespace Busidex3.ViewModels
 			    return false;
 			}
 			return true;
-		}
+		}        
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Busidex3.Services.Utils;
+using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -34,13 +35,13 @@ namespace Busidex3.Views
             {
                 MenuItems = new ObservableCollection<MainMenuMenuItem>(new[]
                 {
-                    new MainMenuMenuItem { Id = 0, Title = "My Busidex", TargetType = typeof(MyBusidexView), Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
+                    new MainMenuMenuItem { Id = 0, Title = ViewNames.MyBusidex, TargetType = typeof(MyBusidexView), Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
                         typeof(Resources).GetTypeInfo().Assembly)},
-                    new MainMenuMenuItem { Id = 1, Title = "Search", TargetType = typeof(SearchView), Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
+                    new MainMenuMenuItem { Id = 1, Title = ViewNames.Search, TargetType = typeof(SearchView), Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
                         typeof(Resources).GetTypeInfo().Assembly)},
-                    new MainMenuMenuItem { Id = 2, Title = "Events", TargetType = typeof(EventsView), Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
+                    new MainMenuMenuItem { Id = 2, Title = ViewNames.Events, TargetType = typeof(EventsView), Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
                         typeof(Resources).GetTypeInfo().Assembly)},
-                    new MainMenuMenuItem { Id = 3, Title = "Organizations", TargetType = typeof(OrganizationsView), Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
+                    new MainMenuMenuItem { Id = 3, Title = ViewNames.Organizations, TargetType = typeof(OrganizationsView), Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
                         typeof(Resources).GetTypeInfo().Assembly)},
                 });
             }

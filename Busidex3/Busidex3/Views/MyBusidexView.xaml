@@ -1,12 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
              x:Class="Busidex3.Views.MyBusidexView">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+    <ContentPage.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+        <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
+        <converters:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>        
+        <StackLayout Padding="10" BackgroundColor="LightGray">
+            <ProgressBar x:Name="prgLoadStatus"
+                         Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
+                         HeightRequest="8"
+                         IsVisible="{Binding IsRefreshing}"
+                         ProgressColor="DodgerBlue"
+                         BackgroundColor="White"
+                         HorizontalOptions="FillAndExpand"
+                         />
+            
+            <ListView x:Name="lstMyBusidex"
+                      SeparatorVisibility="Default"
+                      VerticalOptions="FillAndExpand"
+                      IsPullToRefreshEnabled="True"
+                      HasUnevenRows="True"
+                      SelectionMode="None"
+                      BackgroundColor="LightGray"
+                      CachingStrategy="RecycleElement"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemsSource="{Binding UserCards}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout 
+                                Padding="5,10,0,10" 
+                                BackgroundColor="LightGray"
+                                HorizontalOptions="StartAndExpand" 
+                                Orientation="Vertical">
+                                
+                                <Label VerticalOptions="FillAndExpand" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="{Binding Card.Name}" 
+                                       IsVisible="{Binding Card.Name, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.Name}"
+                                       FontSize="Medium"/>
+                                <Label VerticalOptions="FillAndExpand" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="{Binding Card.CompanyName}" 
+                                       IsVisible="{Binding Card.CompanyName, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.CompanyName}" 
+                                       FontSize="Small"/>
+
+                                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                                       HeightRequest="135"
+                                       WidthRequest="220"
+                                       Aspect="Fill"  
+                                       HorizontalOptions="Start"
+                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}"/>
+                                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                                       HeightRequest="200"
+                                       WidthRequest="130"
+                                       Aspect="Fill"
+                                       HorizontalOptions="Start"
+                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

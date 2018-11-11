@@ -8,7 +8,6 @@ namespace Busidex3.ViewModels
 {
     public class BaseViewModel
     {
-        public static string AuthToken { get; set; } = string.Empty;
 
         public virtual async Task<bool> Init()
         {

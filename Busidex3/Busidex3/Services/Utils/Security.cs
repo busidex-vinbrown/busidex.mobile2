@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
+using Newtonsoft.Json;
 
 namespace Busidex3.Services.Utils
 {    
     public delegate void OnBusidexUserLoadedEventHandler (BusidexUser user);
 
-    public class Security
+    public static class Security
     {
         public static event OnBusidexUserLoadedEventHandler OnBusidexUserLoaded;
 
@@ -22,19 +25,17 @@ namespace Busidex3.Services.Utils
         {
             try
             {
-                if (!string.IsNullOrEmpty(AuthToken))
-                {
-                    var account = await _accountHttpService.GetAccount();
-                    var accountJson = Newtonsoft.Json.JsonConvert.SerializeObject(account);
-                    Serialization.SaveResponse(accountJson, Resources.BUSIDEX_USER_FILE);
+                if (string.IsNullOrEmpty(AuthToken)) return CurrentUser;
 
-                    if (!string.IsNullOrEmpty(accountJson))
-                    {
-                        CurrentUser = Newtonsoft.Json.JsonConvert.DeserializeObject<BusidexUser>(accountJson);
+                var account = await _accountHttpService.GetAccount();
+                var accountJson = JsonConvert.SerializeObject(account);
+                Serialization.SaveResponse(accountJson, Resources.BUSIDEX_USER_FILE);
 
-                        OnBusidexUserLoaded?.Invoke(CurrentUser);
-                    }
-                }
+                if (string.IsNullOrEmpty(accountJson)) return CurrentUser;
+
+                CurrentUser = JsonConvert.DeserializeObject<BusidexUser>(accountJson);
+
+                OnBusidexUserLoaded?.Invoke(CurrentUser);
                 return CurrentUser;
             }
             catch (Exception ex)
@@ -42,6 +43,39 @@ namespace Busidex3.Services.Utils
                 //Xamarin.Insights.Report(ex);
             }
             return null;
+        }
+
+        public static async void SaveAuthCookie(long userId)
+        {
+            var nCookie = new Cookie
+            {
+                Name = Resources.AUTHENTICATION_COOKIE_NAME
+            };
+            var expiration = DateTime.Now.AddYears (1);
+            nCookie.Expires = expiration;
+            nCookie.Value = EncodeUserId (userId);
+            
+            var cookieString = JsonConvert.SerializeObject(nCookie);
+            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            
+            File.WriteAllText(localPath, cookieString); // writes to local storage  
+
+            await LoadUser();
+            AuthToken = nCookie.Value;
+        }
+
+        public static Cookie ReadAuthCookie()
+        {
+            var cookieFile = Path.Combine (Serialization.GetAppLocalStorageFolder(), Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+
+            if (!File.Exists(cookieFile)) return null;
+
+            var file = File.ReadAllText(cookieFile);
+            var cookie = JsonConvert.DeserializeObject<Cookie>(file);
+            
+            AuthToken = cookie.Value;
+
+            return cookie;
         }
 
         public static void LogOut()
@@ -71,7 +105,7 @@ namespace Busidex3.Services.Utils
         {
             try {
                 CurrentUser.Email = email;
-                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (CurrentUser), Resources.BUSIDEX_USER_FILE);
+                Serialization.SaveResponse (JsonConvert.SerializeObject (CurrentUser), Resources.BUSIDEX_USER_FILE);
                 OnBusidexUserLoaded?.Invoke (CurrentUser);
             } catch (Exception ex) {
                 //Xamarin.Insights.Report (ex);

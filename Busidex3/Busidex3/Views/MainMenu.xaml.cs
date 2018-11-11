@@ -1,7 +1,6 @@
 ﻿using System;
-using System.IO;
 using Busidex3.Services.Utils;
-using Newtonsoft.Json;
+using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,26 +14,14 @@ namespace Busidex3.Views
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
             MasterPage.OnLogout += Logout;
+            
+            var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
+            page.Title = ViewNames.MyBusidex;
 
-            var needsLogin = false;
-            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
-            if (File.Exists(localPath))
-            {
-                var cookieText = File.ReadAllText(localPath);
+            Detail = new NavigationPage(page);
+            IsPresented = false;
 
-                var cookie = JsonConvert.DeserializeObject<System.Net.Cookie>(cookieText);
-
-                if (string.IsNullOrEmpty(cookie?.Value))
-                {
-                    needsLogin = true;
-                }
-            }
-            else
-            {
-                needsLogin = true;
-            }
-
-            if (needsLogin)
+            if (string.IsNullOrEmpty(Security.AuthToken))
             {
                 Logout();
             }
@@ -47,6 +34,7 @@ namespace Busidex3.Views
             IsPresented = false;
             NavigationPage.SetHasNavigationBar (Detail, false);
             IsGestureEnabled = false;
+            Security.LogOut();
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

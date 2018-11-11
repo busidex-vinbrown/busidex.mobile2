@@ -1,14 +1,10 @@
-﻿using System;
-using System.IO;
-using Busidex3.Services.Utils;
+﻿using Busidex3.Services.Utils;
 using Busidex3.Views;
-using Plugin.Connectivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Newtonsoft.Json;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
@@ -19,14 +15,19 @@ namespace Busidex3
         {
             InitializeComponent();
 
+            Security.ReadAuthCookie();
+
             MainPage = new MainMenu();// new NavigationPage(new MainMenu());            
         }
 
-        public static void LoadMainMenuPage()
+        public static void LoadMainMenuPage(string title)
         {
             var initialPage = new MyBusidexView();
             var masterDetailRootPage = (MainMenu)Application.Current.MainPage;
-            masterDetailRootPage.Detail = new NavigationPage(initialPage);
+            masterDetailRootPage.Detail = new NavigationPage(initialPage)
+            {
+                Title = title
+            };
             masterDetailRootPage.IsPresented = false;
             masterDetailRootPage.IsGestureEnabled = true;
         }
