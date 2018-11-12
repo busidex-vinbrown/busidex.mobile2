@@ -29,7 +29,7 @@ namespace Busidex3.Services.Utils
 
                 var account = await _accountHttpService.GetAccount();
                 var accountJson = JsonConvert.SerializeObject(account);
-                Serialization.SaveResponse(accountJson, Resources.BUSIDEX_USER_FILE);
+                Serialization.SaveResponse(accountJson, StringResources.BUSIDEX_USER_FILE);
 
                 if (string.IsNullOrEmpty(accountJson)) return CurrentUser;
 
@@ -49,14 +49,14 @@ namespace Busidex3.Services.Utils
         {
             var nCookie = new Cookie
             {
-                Name = Resources.AUTHENTICATION_COOKIE_NAME
+                Name = StringResources.AUTHENTICATION_COOKIE_NAME
             };
             var expiration = DateTime.Now.AddYears (1);
             nCookie.Expires = expiration;
             nCookie.Value = EncodeUserId (userId);
             
             var cookieString = JsonConvert.SerializeObject(nCookie);
-            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), StringResources.AUTHENTICATION_COOKIE_NAME + ".txt");
             
             File.WriteAllText(localPath, cookieString); // writes to local storage  
 
@@ -66,7 +66,7 @@ namespace Busidex3.Services.Utils
 
         public static Cookie ReadAuthCookie()
         {
-            var cookieFile = Path.Combine (Serialization.GetAppLocalStorageFolder(), Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            var cookieFile = Path.Combine (Serialization.GetAppLocalStorageFolder(), StringResources.AUTHENTICATION_COOKIE_NAME + ".txt");
 
             if (!File.Exists(cookieFile)) return null;
 
@@ -82,14 +82,14 @@ namespace Busidex3.Services.Utils
         {
             AuthToken = string.Empty;
 
-            Serialization.SaveResponse(null, Resources.OWNED_CARD_FILE);
-            Serialization.SaveResponse(null, Resources.MY_BUSIDEX_FILE);
-            Serialization.SaveResponse(null, Resources.EVENT_LIST_FILE);
-            Serialization.SaveResponse(null, Resources.EVENT_CARDS_FILE);
-            Serialization.SaveResponse(null, Resources.SHARED_CARDS_FILE);
-            Serialization.SaveResponse(null, Resources.MY_ORGANIZATIONS_FILE);
-            Serialization.SaveResponse(null, Resources.THUMBNAIL_FILE_NAME_PREFIX);
-            Serialization.SaveResponse(null, Resources.ORGANIZATION_REFERRALS_FILE);
+            Serialization.SaveResponse(null, StringResources.OWNED_CARD_FILE);
+            Serialization.SaveResponse(null, StringResources.MY_BUSIDEX_FILE);
+            Serialization.SaveResponse(null, StringResources.EVENT_LIST_FILE);
+            Serialization.SaveResponse(null, StringResources.EVENT_CARDS_FILE);
+            Serialization.SaveResponse(null, StringResources.SHARED_CARDS_FILE);
+            Serialization.SaveResponse(null, StringResources.MY_ORGANIZATIONS_FILE);
+            Serialization.SaveResponse(null, StringResources.THUMBNAIL_FILE_NAME_PREFIX);
+            Serialization.SaveResponse(null, StringResources.ORGANIZATION_REFERRALS_FILE);
         }
 
         public static long DecodeUserId()
@@ -105,7 +105,7 @@ namespace Busidex3.Services.Utils
         {
             try {
                 CurrentUser.Email = email;
-                Serialization.SaveResponse (JsonConvert.SerializeObject (CurrentUser), Resources.BUSIDEX_USER_FILE);
+                Serialization.SaveResponse (JsonConvert.SerializeObject (CurrentUser), StringResources.BUSIDEX_USER_FILE);
                 OnBusidexUserLoaded?.Invoke (CurrentUser);
             } catch (Exception ex) {
                 //Xamarin.Insights.Report (ex);

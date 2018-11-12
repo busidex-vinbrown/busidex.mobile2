@@ -28,7 +28,7 @@ namespace Busidex3.ViewModels
         {
             ServicePointManager.Expect100Continue = false;
 
-            if (imagePath.Contains (Resources.NULL_CARD_ID)) {
+            if (imagePath.Contains (StringResources.NULL_CARD_ID)) {
                 return string.Empty;
             }
 

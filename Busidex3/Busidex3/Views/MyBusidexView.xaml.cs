@@ -63,7 +63,7 @@ namespace Busidex3.Views
 	    {
 	        int.TryParse(e.Parameter.ToString(), out int id);
 	        var card = _viewModel.UserCards.SingleOrDefault(uc => uc.UserCardId == id);
-	        await Navigation.PushAsync(new CardDetailView(card));
+	        await Navigation.PushAsync(new CardDetailView(new CardVM(card)));
 	    }
 	}
 }

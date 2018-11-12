@@ -20,7 +20,7 @@ namespace Busidex3.Services
             };
 
             var data = Newtonsoft.Json.JsonConvert.SerializeObject (model);
-            var response = await MakeRequestAsync<HttpResponseMessage>(Resources.BRANCH_API_URL, HttpVerb.Post, data);
+            var response = await MakeRequestAsync<HttpResponseMessage>(StringResources.BRANCH_API_URL, HttpVerb.Post, data);
 
             return response.Content.ToString();
         }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -18,13 +20,59 @@ namespace Busidex3.ViewModels
 
         private readonly CardHttpService _cardHttpService = new CardHttpService();
 
-        public Card SelectedCard { get; }
+        public UserCard SelectedCard { get; }
 
-        public CardVM(Card card)
+        public CardVM(UserCard uc)
         {
-            SelectedCard = card;
+            SelectedCard = uc;
         }
 
+        public void LaunchMapApp() {
+            // Windows Phone doesn't like ampersands in the names and the normal URI escaping doesn't help
+            var addr = SelectedCard.Card.Addresses.FirstOrDefault()?.ToString();
+            var request = string.Empty;
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                {
+                    request = $"geo:0,0?q={addr}";
+                    break;
+                }
+                case Device.iOS:
+                {
+                    addr = Uri.EscapeUriString(addr);
+                    request = $"http://maps.apple.com/maps?q={addr}";
+                    break;
+                }
+                case Device.UWP:
+                {
+                    request = $"bingmaps:?cp={addr}";
+                    break;
+                }
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Device.OpenUri(new Uri(request));
+        }
+
+        public void LaunchEmail()
+        {
+            Device.OpenUri(new Uri($"mailto:{SelectedCard.Card.Email}"));
+        }
+
+        public void LaunchBrowser()
+        {
+            var url = string.Empty;
+            if (string.IsNullOrEmpty(SelectedCard.Card.Url)) return;
+
+            url = !SelectedCard.Card.Url.StartsWith ("http", StringComparison.Ordinal) 
+                ? "http://" + SelectedCard.Card.Url 
+                : SelectedCard.Card.Url;
+            Device.OpenUri(new Uri(url));
+        }
+        
         public async Task<bool> SaveCardImage(MobileCardImage card)
         {
             OnCardInfoUpdating?.Invoke();
@@ -70,9 +118,9 @@ namespace Busidex3.ViewModels
                     ? new Card(myCardResponse.Model)
                     : null;
 
-                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), Resources.OWNED_CARD_FILE);
+                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), StringResources.OWNED_CARD_FILE);
 
-                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
 
                 if(myBusidex != null){
                     foreach(var uc in myBusidex){
@@ -85,7 +133,7 @@ namespace Busidex3.ViewModels
                     
                     var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
 
-                    Serialization.SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
+                    Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
                 }
 
                 OnCardInfoSaved?.Invoke();

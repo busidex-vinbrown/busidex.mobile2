@@ -13,18 +13,18 @@ namespace Busidex3.Views
         {
             InitializeComponent();
 
-            imgSearchIcon.Source = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
-                typeof(Resources).GetTypeInfo().Assembly);
-            imgMyBusidexIcon.Source = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
-                typeof(Resources).GetTypeInfo().Assembly);
-            imgOrganizationsIcon.Source = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
-                typeof(Resources).GetTypeInfo().Assembly);
-            imgEventIcon.Source = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
-                typeof(Resources).GetTypeInfo().Assembly);
-            imgShareIcon.Source = ImageSource.FromResource("Busidex3.Resources.shareicon.png",
-                typeof(Resources).GetTypeInfo().Assembly);
+            imgSearchIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
+                typeof(StringResources).GetTypeInfo().Assembly);
+            imgMyBusidexIcon.Source = ImageSource.FromResource("Busidex3.StringResources.mybusidexicon.png",
+                typeof(StringResources).GetTypeInfo().Assembly);
+            imgOrganizationsIcon.Source = ImageSource.FromResource("Busidex3.StringResources.eventicon.png",
+                typeof(StringResources).GetTypeInfo().Assembly);
+            imgEventIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
+                typeof(StringResources).GetTypeInfo().Assembly);
+            imgShareIcon.Source = ImageSource.FromResource("Busidex3.StringResources.shareicon.png",
+                typeof(StringResources).GetTypeInfo().Assembly);
 
-            //var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            //var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.StringResources.AUTHENTICATION_COOKIE_NAME + ".txt");
             //if (File.Exists(localPath))
             //{
             //    var cookieText = File.ReadAllText(localPath);

@@ -51,7 +51,7 @@ namespace Busidex3.Services.Utils
                 }
 
                 // Source assembly and embedded resource path
-                var imageSrcPath = $"Busidex.Resources.Images.{fileName}"; // Full resource name
+                var imageSrcPath = $"Busidex3.Resources.{fileName}"; // Full resource name
                 var assembly = typeof(Serialization).GetTypeInfo().Assembly;
                 
                 // Copy image from resources to the file in application local storage
@@ -106,7 +106,7 @@ namespace Busidex3.Services.Utils
         
         public static void SaveResponse (string response, string fileName)
         {
-            var fullFilePath = Path.Combine (Resources.DocumentsPath, fileName);
+            var fullFilePath = Path.Combine (StringResources.DocumentsPath, fileName);
             try {
                 if (File.Exists (fullFilePath)) {
                     if (!IsFileInUse (new FileInfo (fullFilePath))) {

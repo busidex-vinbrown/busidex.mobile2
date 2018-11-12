@@ -36,7 +36,7 @@ namespace Busidex3.ViewModels
         {
             var loaded = false;
 
-            EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE));
+            EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(StringResources.DocumentsPath, StringResources.EVENT_LIST_FILE));
             if (EventList == null || EventList.Count == 0)
             {
                 EventList = new List<EventTag>();
@@ -59,8 +59,8 @@ namespace Busidex3.ViewModels
                     EventCards.Add(ev.Text, new List<UserCard>());
                 }
 
-                EventCards[ev.Text] = Serialization.LoadData<List<UserCard>>(Path.Combine(Resources.DocumentsPath,
-                    string.Format(Resources.EVENT_CARDS_FILE, ev.EventTagId)));
+                EventCards[ev.Text] = Serialization.LoadData<List<UserCard>>(Path.Combine(StringResources.DocumentsPath,
+                    string.Format(StringResources.EVENT_CARDS_FILE, ev.EventTagId)));
                 if (EventCards[ev.Text] == null)
                 {
                     await LoadEventCards(ev);
@@ -74,7 +74,7 @@ namespace Busidex3.ViewModels
         private async Task<bool> LoadEventCards(EventTag tag)
         {
 
-            var fileName = string.Format(Resources.EVENT_CARDS_FILE, tag.EventTagId);
+            var fileName = string.Format(StringResources.EVENT_CARDS_FILE, tag.EventTagId);
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
 
@@ -111,15 +111,15 @@ namespace Busidex3.ViewModels
 
                     cards.Add(userCard);
 
-                    var fImageUrl = Resources.THUMBNAIL_PATH + card.FrontFileName;
-                    var bImageUrl = Resources.THUMBNAIL_PATH + card.BackFileName;
-                    var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-                    var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-                    if (!File.Exists(Resources.DocumentsPath + "/" + fName))
+                    var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileName;
+                    var bImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileName;
+                    var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+                    var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+                    if (!File.Exists(StringResources.DocumentsPath + "/" + fName))
                     {
                         try
                         {
-                            await DownloadImage(fImageUrl, Resources.DocumentsPath, fName).ContinueWith(r =>
+                            await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName).ContinueWith(r =>
                             {
                                 status.Count++;
                                 OnEventCardsUpdated?.Invoke(status);
@@ -136,12 +136,12 @@ namespace Busidex3.ViewModels
                         OnEventCardsUpdated?.Invoke(status);
                     }
 
-                    if (!File.Exists(Resources.DocumentsPath + "/" + bName) &&
-                        card.BackFileId.ToString().ToLowerInvariant() != Resources.EMPTY_CARD_ID)
+                    if (!File.Exists(StringResources.DocumentsPath + "/" + bName) &&
+                        card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
                     {
                         try
                         {
-                            await DownloadImage(bImageUrl, Resources.DocumentsPath, bName);
+                            await DownloadImage(bImageUrl, StringResources.DocumentsPath, bName);
                         }
                         catch
                         {
@@ -189,7 +189,7 @@ namespace Busidex3.ViewModels
                 EventList.Clear();
                 if (result == null)
                 {
-                    var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.EVENT_LIST_FILE);
+                    var fullFileName = Path.Combine(StringResources.DocumentsPath, StringResources.EVENT_LIST_FILE);
                     EventList.AddRange(Serialization.GetCachedResult<List<EventTag>>(fullFileName));
                 }
                 else
@@ -208,7 +208,7 @@ namespace Busidex3.ViewModels
 
                 var savedEvents = Newtonsoft.Json.JsonConvert.SerializeObject(EventList);
 
-                Serialization.SaveResponse(savedEvents, Resources.EVENT_LIST_FILE);
+                Serialization.SaveResponse(savedEvents, StringResources.EVENT_LIST_FILE);
 
                 OnEventListLoaded?.Invoke(EventList);
             }
@@ -221,8 +221,8 @@ namespace Busidex3.ViewModels
                 {
                     if (EventList.Count == 0)
                     {
-                        EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Resources.DocumentsPath,
-                            Resources.EVENT_LIST_FILE));
+                        EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(StringResources.DocumentsPath,
+                            StringResources.EVENT_LIST_FILE));
                     }
                 }
                 catch (Exception innerEx)

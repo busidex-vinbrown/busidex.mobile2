@@ -40,6 +40,7 @@
     <None Remove="Resources\shareicon.png" />
     <None Remove="Resources\spotlight-icon2.png" />
     <None Remove="Resources\sync.png" />
+    <None Remove="Resources\tags.png" />
     <None Remove="Resources\twitter.png" />
   </ItemGroup>
 
@@ -91,6 +92,7 @@
     <EmbeddedResource Include="Resources\shareicon.png" />
     <EmbeddedResource Include="Resources\spotlight-icon2.png" />
     <EmbeddedResource Include="Resources\sync.png" />
+    <EmbeddedResource Include="Resources\tags.png" />
     <EmbeddedResource Include="Resources\twitter.png" />
   </ItemGroup>
 
@@ -111,6 +113,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Views\CardDetailView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CardImageView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EventsView.xaml">

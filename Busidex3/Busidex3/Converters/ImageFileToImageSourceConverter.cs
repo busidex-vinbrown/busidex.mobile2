@@ -9,7 +9,7 @@ namespace Busidex3.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var fileName = Path.Combine (Resources.DocumentsPath, Resources.THUMBNAIL_FILE_NAME_PREFIX + value);
+            var fileName = Path.Combine (StringResources.DocumentsPath, StringResources.THUMBNAIL_FILE_NAME_PREFIX + value);
             return ImageSource.FromFile(fileName);
         }
 

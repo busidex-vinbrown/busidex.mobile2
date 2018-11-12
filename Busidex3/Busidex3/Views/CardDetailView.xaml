@@ -1,12 +1,154 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
+             xmlns:local="clr-namespace:Busidex3.Views;assembly=Busidex3"
+             xmlns:busidex3="clr-namespace:Busidex3;assembly=Busidex3"
              x:Class="Busidex3.Views.CardDetailView">
+    <ContentPage.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Card.Name}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" Padding="20, 10">
+            <Frame BorderColor="DarkGray"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Center"
+                   Padding="1"
+                   HeightRequest="300"
+                   WidthRequest="183"
+                   IsVisible="{Binding SelectedCard.Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=SelectedCard.Card.FrontOrientation}">
+                <Image Source="{Binding SelectedCard.Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=SelectedCard.Card.FrontFileName}" 
+                       Aspect="Fill"
+                       HeightRequest="250"
+                       WidthRequest="152">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                              CommandParameter="{Binding SelectedCard.UserCardId}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+            <Frame BorderColor="DarkGray"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Center"
+                   Padding="1"
+                   HeightRequest="152"
+                   WidthRequest="250"
+                   IsVisible="{Binding SelectedCard.Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=SelectedCard.Card.FrontOrientation}">
+                <Image Source="{Binding SelectedCard.Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=SelectedCard.Card.FrontFileName}" 
+                       Aspect="Fill"
+                       HeightRequest="183"
+                       WidthRequest="300">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                              CommandParameter="{Binding SelectedCard.UserCardId}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+            <Grid RowSpacing="29" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image
+                    x:Name="btnMap"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Maps}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnNotes"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Notes}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnEmail"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Email}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnWeb"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Web}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnPhone"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Phone}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnShare"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Share}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnTag"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Tags}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnAdd"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Add}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnRemove"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static busidex3:CardActionButton.Remove}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

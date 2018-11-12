@@ -2,7 +2,7 @@
 
 namespace Busidex3
 {
-	public static class Resources   
+	public static class StringResources   
 	{
 		public const string APPLICATION_NAME = "Busidex";
 		public const string AUTHENTICATION_COOKIE_NAME = "UserId";

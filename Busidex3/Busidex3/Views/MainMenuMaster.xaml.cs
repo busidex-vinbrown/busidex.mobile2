@@ -36,13 +36,13 @@ namespace Busidex3.Views
                 MenuItems = new ObservableCollection<MainMenuMenuItem>(new[]
                 {
                     new MainMenuMenuItem { Id = 0, Title = ViewNames.MyBusidex, TargetType = typeof(MyBusidexView), Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
-                        typeof(Resources).GetTypeInfo().Assembly)},
+                        typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
                     new MainMenuMenuItem { Id = 1, Title = ViewNames.Search, TargetType = typeof(SearchView), Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
-                        typeof(Resources).GetTypeInfo().Assembly)},
+                        typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
                     new MainMenuMenuItem { Id = 2, Title = ViewNames.Events, TargetType = typeof(EventsView), Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
-                        typeof(Resources).GetTypeInfo().Assembly)},
+                        typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
                     new MainMenuMenuItem { Id = 3, Title = ViewNames.Organizations, TargetType = typeof(OrganizationsView), Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
-                        typeof(Resources).GetTypeInfo().Assembly)},
+                        typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
                 });
             }
             
@@ -59,7 +59,7 @@ namespace Busidex3.Views
         {
             if (!await DisplayAlert("Logout", "Are you sure you want to log out?", "Yes", "Cancel")) return;
 
-            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.Resources.AUTHENTICATION_COOKIE_NAME + ".txt");
+            var localPath = Path.Combine (Serialization.GetAppLocalStorageFolder(), Busidex3.StringResources.AUTHENTICATION_COOKIE_NAME + ".txt");
             if (!File.Exists(localPath)) return;
 
             File.Delete(localPath);

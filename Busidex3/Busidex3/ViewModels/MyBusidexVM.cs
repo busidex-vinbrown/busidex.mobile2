@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,15 +12,15 @@ using Busidex3.Services.Utils;
 
 namespace Busidex3.ViewModels
 {
-    public delegate void OnMyBusidexLoadedEventHandler (ObservableRangeCollection<UserCard> cards);
-    public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
+    //public delegate void OnMyBusidexLoadedEventHandler (ObservableRangeCollection<UserCard> cards);
+    //public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
     public delegate void OnNotesUpdatedEventHandler ();
 
     public class MyBusidexVM :  BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
-        public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
+        //public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
         public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
@@ -87,7 +87,7 @@ namespace Busidex3.ViewModels
         {
             IsRefreshing = true;
 
-            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE));
+            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
             if (UserCards == null || UserCards.Count == 0) {
                 return await LoadUserCards ();
             }
@@ -120,7 +120,7 @@ namespace Busidex3.ViewModels
 
                 if (result == null)
                 {
-                    var fullFileName = Path.Combine(Resources.DocumentsPath, Resources.MY_BUSIDEX_FILE);
+                    var fullFileName = Path.Combine(StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE);
                     cards.AddRange(Serialization.GetCachedResult<List<UserCard>>(fullFileName));
                 }
                 else
@@ -135,19 +135,19 @@ namespace Busidex3.ViewModels
                 {                
                     if (item.Card != null)
                     {
-                        var fImageUrl = Resources.THUMBNAIL_PATH + item.Card.FrontFileName;
-                        var bImageUrl = Resources.THUMBNAIL_PATH + item.Card.BackFileName;
-                        var fName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
-                        var bName = Resources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
+                        var fImageUrl = StringResources.THUMBNAIL_PATH + item.Card.FrontFileName;
+                        var bImageUrl = StringResources.THUMBNAIL_PATH + item.Card.BackFileName;
+                        var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
+                        var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
 
-                        if (!File.Exists(Resources.DocumentsPath + "/" + fName))
+                        if (!File.Exists(StringResources.DocumentsPath + "/" + fName))
                         {
                             try
                             {
                                 status.Count++;
                                 await Task.Factory.StartNew(() => { LoadingProgress = getLoadingProgress(status.Count); });
                       
-                                await DownloadImage(fImageUrl, Resources.DocumentsPath, fName).ConfigureAwait(false);
+                                await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName).ConfigureAwait(false);
                                 
                                 //OnMyBusidexUpdated?.Invoke(status);
                             }
@@ -163,12 +163,12 @@ namespace Busidex3.ViewModels
                             //OnMyBusidexUpdated?.Invoke(status);
                         }
 
-                        if ((!File.Exists(Resources.DocumentsPath + "/" + bName)) &&
-                            item.Card.BackFileId.ToString() != Resources.EMPTY_CARD_ID)
+                        if ((!File.Exists(StringResources.DocumentsPath + "/" + bName)) &&
+                            item.Card.BackFileId.ToString() != StringResources.EMPTY_CARD_ID)
                         {
                             try
                             {
-                                await DownloadImage(bImageUrl, Resources.DocumentsPath, bName);
+                                await DownloadImage(bImageUrl, StringResources.DocumentsPath, bName);
                             }
                             catch
                             {
@@ -203,7 +203,7 @@ namespace Busidex3.ViewModels
 
                 var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
 
-                Serialization.SaveResponse(savedResult, Resources.MY_BUSIDEX_FILE);
+                Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
 
                 SetFilteredList(UserCards);
 
@@ -218,8 +218,8 @@ namespace Busidex3.ViewModels
                 try
                 {
                     UserCards =
-                        Serialization.LoadData<ObservableRangeCollection<UserCard>>(Path.Combine(Resources.DocumentsPath,
-                            Resources.MY_BUSIDEX_FILE));
+                        Serialization.LoadData<ObservableRangeCollection<UserCard>>(Path.Combine(StringResources.DocumentsPath,
+                            StringResources.MY_BUSIDEX_FILE));
                 }
                 catch (Exception innerEx)
                 {
@@ -283,7 +283,7 @@ namespace Busidex3.ViewModels
 			    UserCards = SortUserCards ();
 
 			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
-			    Serialization.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+			    Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
 
 			    return await _activityHttpService.SaveActivity ((long)EventSources.Add, userCard.CardId);
 
@@ -301,7 +301,7 @@ namespace Busidex3.ViewModels
 			    UserCards.RemoveAll (uc => uc.CardId == userCard.CardId);
 
 			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
-			    Serialization.SaveResponse (file, Resources.MY_BUSIDEX_FILE);
+			    Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
 
 			    return await _myBusidexHttpService.RemoveFromMyBusidex (userCard.Card.CardId);
 			} catch (Exception ex) {
@@ -325,7 +325,7 @@ namespace Busidex3.ViewModels
 			        UserCards.Single(uc =>uc.UserCardId == userCardId).Notes = notes;
 			            
 			        Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(UserCards),
-			            Resources.MY_BUSIDEX_FILE);
+			            StringResources.MY_BUSIDEX_FILE);
 			    }
 
                 OnNotesUpdated?.Invoke();

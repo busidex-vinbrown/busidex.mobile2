@@ -56,7 +56,7 @@ namespace Busidex3.Views
 
 	    private void BtnForgotPassword_OnClicked(object sender, EventArgs e)
 	    {
-	        var uri = new Uri(Busidex3.Resources.FORGOT_PASSWORD_URL);
+	        var uri = new Uri(Busidex3.StringResources.FORGOT_PASSWORD_URL);
 	        Device.OpenUri(uri);
 	    }
 	}

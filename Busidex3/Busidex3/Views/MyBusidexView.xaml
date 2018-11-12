@@ -12,7 +12,7 @@
         <converters:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>        
-        <StackLayout Padding="10" BackgroundColor="LightGray">
+        <StackLayout Padding="10" BackgroundColor="#ffd3d3d3">
             <ProgressBar x:Name="prgLoadStatus"
                          Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
                          HeightRequest="8"
@@ -66,7 +66,6 @@
                                        WidthRequest="220"
                                        Aspect="Fill"  
                                        HorizontalOptions="Start"
-                                       
                                        IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
@@ -74,8 +73,8 @@
                                     </Image.GestureRecognizers>
                                 </Image>
                                 <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                                       HeightRequest="200"
-                                       WidthRequest="130"
+                                       HeightRequest="220"
+                                       WidthRequest="135"
                                        Aspect="Fill"
                                        HorizontalOptions="Start"
                                        IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
