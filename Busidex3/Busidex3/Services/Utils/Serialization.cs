@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
-using StandardStorage;
+using Microsoft.AppCenter.Crashes;
 //using CreationCollisionOption = PCLStorage.CreationCollisionOption;
 //using ExistenceCheckResult = PCLStorage.ExistenceCheckResult;
 using File = System.IO.File;
-using FileAccess = StandardStorage.FileAccess;
 
 //using FileAccess = System.IO.FileAccess;
 
@@ -24,9 +22,9 @@ namespace Busidex3.Services.Utils
             return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
-        public static async Task<string> CopyIcon(string fileName)
+        public static string CopyIcon(string fileName)
         {
-            if (String.IsNullOrEmpty(fileName)) return "";
+            if (String.IsNullOrEmpty(fileName)) return string.Empty;
             try
             {
                 var iconFolder = Path.Combine(GetAppLocalStorageFolder(), "icons");
@@ -70,7 +68,7 @@ namespace Busidex3.Services.Utils
 
                 return fileName; // Result is the path to the new file
             }
-            catch(Exception ex)
+            catch
             {
                 return string.Empty; // No image displayed when error
             }
@@ -78,7 +76,7 @@ namespace Busidex3.Services.Utils
 
         static T LoadDataFromFile<T> (string path) where T : class, new()
         {
-            var jsonData = string.Empty;
+            string jsonData;
             try {
                 jsonData = LoadFromFile (path);
                 if(string.IsNullOrEmpty(jsonData)){
@@ -87,6 +85,7 @@ namespace Busidex3.Services.Utils
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T> (jsonData);
                 return result;
             } catch (Exception ex) {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report (new Exception("Error loading jsonData from " + path + ". DATA: " + jsonData, ex));
                 return default(T);
             }
@@ -116,6 +115,7 @@ namespace Busidex3.Services.Utils
                     File.WriteAllText (fullFilePath, response);
                 }
             } catch (Exception ex) {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report (new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
             }
         }
@@ -129,7 +129,7 @@ namespace Busidex3.Services.Utils
                     return false;
                 }
 
-                stream = file.Open (FileMode.Open, System.IO.FileAccess.ReadWrite, FileShare.None);
+                stream = file.Open (FileMode.Open, FileAccess.ReadWrite, FileShare.None);
             } catch (IOException) {
                 //the file is unavailable because it is:
                 //still being written to

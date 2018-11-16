@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
@@ -18,6 +19,10 @@ namespace Busidex3.Views
 		public MyBusidexView ()
 		{
 			InitializeComponent ();
+
+		    var analyticsManager = DependencyService.Get<IAnalyticsManager>();
+		    analyticsManager.InitWithId();
+		    analyticsManager.TrackScreen(ScreenName.MyBusidex);
 
 		    Task.Factory.StartNew(async () => { await LoadData(); });
 		   

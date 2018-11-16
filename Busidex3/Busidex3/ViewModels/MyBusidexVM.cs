@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Microsoft.AppCenter.Crashes;
 
 namespace Busidex3.ViewModels
 {
@@ -61,7 +62,7 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private int totalCards { get;set; }
+        private int TotalCards { get;set; }
 
         public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
         {
@@ -98,9 +99,9 @@ namespace Busidex3.ViewModels
             return await Task.FromResult(true);
         }
 
-        private decimal getLoadingProgress(decimal progress)
+        private decimal GetLoadingProgress(decimal progress)
         {
-            return Math.Round(totalCards == 0 ? 0 : (progress / totalCards) * 100, 1);                      
+            return Math.Round(TotalCards == 0 ? 0 : (progress / TotalCards) * 100, 1);                      
         }
 
         public async Task<bool> LoadUserCards()
@@ -129,7 +130,7 @@ namespace Busidex3.ViewModels
                     cards.ForEach(c => c.ExistsInMyBusidex = true);
                 }
 
-                status.Total = totalCards = cards.Count;
+                status.Total = TotalCards = cards.Count;
                 
                 foreach (var item in cards)
                 {                
@@ -145,7 +146,7 @@ namespace Busidex3.ViewModels
                             try
                             {
                                 status.Count++;
-                                await Task.Factory.StartNew(() => { LoadingProgress = getLoadingProgress(status.Count); });
+                                await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
                       
                                 await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName).ConfigureAwait(false);
                                 
@@ -159,7 +160,7 @@ namespace Busidex3.ViewModels
                         else
                         {
                             status.Count++;
-                            await Task.Factory.StartNew(() => { LoadingProgress = getLoadingProgress(status.Count); });
+                            await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
                             //OnMyBusidexUpdated?.Invoke(status);
                         }
 
@@ -213,6 +214,7 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error Loading My Busidex", ex));
 
                 try
@@ -223,6 +225,7 @@ namespace Busidex3.ViewModels
                 }
                 catch (Exception innerEx)
                 {
+                    Crashes.TrackError(innerEx);
                     //Xamarin.Insights.Report(new Exception("Error Loading My Busidex From File", innerEx));
                 }
 
@@ -288,6 +291,7 @@ namespace Busidex3.ViewModels
 			    return await _activityHttpService.SaveActivity ((long)EventSources.Add, userCard.CardId);
 
 			} catch (Exception ex) {
+			    Crashes.TrackError(ex);
 				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
@@ -305,6 +309,7 @@ namespace Busidex3.ViewModels
 
 			    return await _myBusidexHttpService.RemoveFromMyBusidex (userCard.Card.CardId);
 			} catch (Exception ex) {
+			    Crashes.TrackError(ex);
 				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
@@ -331,6 +336,7 @@ namespace Busidex3.ViewModels
                 OnNotesUpdated?.Invoke();
 
             } catch (Exception ex) {
+			    Crashes.TrackError(ex);
 				//Xamarin.Insights.Report (ex);
 			    return false;
 			}

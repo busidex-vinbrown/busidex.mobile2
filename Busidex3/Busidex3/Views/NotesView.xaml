@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             x:Class="Busidex3.Views.NotesView">
+    <ContentPage.Content>
+        <StackLayout Padding="20, 10">
+            <controls:CardImageHeader 
+                BindingContext="{Binding SelectedCard}"/>
+            <TableView HorizontalOptions="FillAndExpand">
+                <TableSection>
+                    <ViewCell>
+                        <Editor Text="{Binding SelectedCard.Card.Notes}" 
+                                HeightRequest="100"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"/>                        
+                    </ViewCell>
+                </TableSection>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

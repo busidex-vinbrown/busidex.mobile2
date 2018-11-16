@@ -1,5 +1,6 @@
 ﻿using System;
 using Busidex3.ViewModels;
+using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,9 +19,11 @@ namespace Busidex3.Views
 		    BindingContext = _viewModel;
 
 		    LoadButtons();
+		    
+            
 		}
 
-	    private async void LoadButtons()
+	    private void LoadButtons()
 	    {
 	        btnMap.Source = ImageSource.FromResource("Busidex3.Resources.maps.png");
             btnNotes.Source = ImageSource.FromResource("Busidex3.Resources.notes.png");
@@ -38,7 +41,7 @@ namespace Busidex3.Views
 	        await Navigation.PushAsync(new CardImageView(_viewModel.SelectedCard));
 	    }
 
-	    private void ButtonTapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+	    private async void ButtonTapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
 	    {
 	        var option = (CardActionButton) e.Parameter;
             
@@ -48,6 +51,7 @@ namespace Busidex3.Views
                     _viewModel.LaunchMapApp();
 	                break;
 	            case CardActionButton.Notes:
+	                await Navigation.PushAsync(new NotesView(_viewModel));
 	                break;
 	            case CardActionButton.Email:
                     _viewModel.LaunchEmail();
@@ -56,14 +60,19 @@ namespace Busidex3.Views
                     _viewModel.LaunchBrowser();
 	                break;
 	            case CardActionButton.Phone:
+	                await Navigation.PushAsync(new PhoneView(_viewModel));
 	                break;
 	            case CardActionButton.Share:
+	                await Navigation.PushAsync(new ShareView(_viewModel));
 	                break;
 	            case CardActionButton.Tags:
 	                break;
 	            case CardActionButton.Add:
+                    _viewModel.AddToMyBusidex();
 	                break;
 	            case CardActionButton.Remove:
+	                if (!await DisplayAlert("Remove", "Are you sure you want to remove this card from your collection?", "Yes", "Cancel")) return;
+                    _viewModel.RemoveFromMyBusidex();
 	                break;
 	            default:
 	                throw new ArgumentOutOfRangeException();

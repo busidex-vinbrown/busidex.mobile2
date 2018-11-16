@@ -41,6 +41,7 @@
     <None Remove="Resources\spotlight-icon2.png" />
     <None Remove="Resources\sync.png" />
     <None Remove="Resources\tags.png" />
+    <None Remove="Resources\textmessage.png" />
     <None Remove="Resources\twitter.png" />
   </ItemGroup>
 
@@ -93,6 +94,7 @@
     <EmbeddedResource Include="Resources\spotlight-icon2.png" />
     <EmbeddedResource Include="Resources\sync.png" />
     <EmbeddedResource Include="Resources\tags.png" />
+    <EmbeddedResource Include="Resources\textmessage.png" />
     <EmbeddedResource Include="Resources\twitter.png" />
   </ItemGroup>
 
@@ -102,7 +104,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="StandardStorage" Version="0.1.1" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.3.0.967583" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
   </ItemGroup>
 
   <ItemGroup>
@@ -112,6 +114,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\CardImageHeader.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\CardDetailView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -136,10 +141,19 @@
     <EmbeddedResource Update="Views\MyBusidexView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\NotesView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\OrganizationsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\PhoneView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SearchView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShareView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Busidex3.Controls.CardImageHeader"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3">
+    <ContentView.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout >
+            <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="300"
+                WidthRequest="183"
+                IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                             Aspect="Fill"
+                             HeightRequest="250"
+                             WidthRequest="152">
+                </Image>
+            </Frame>
+            <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="152"
+                WidthRequest="250"
+                IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                             Aspect="Fill"
+                             HeightRequest="183"
+                             WidthRequest="300">
+                </Image>
+            </Frame>
+        </StackLayout>
+    </ContentView.Content>
+    
+</ContentView>

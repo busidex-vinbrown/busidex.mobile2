@@ -34,10 +34,10 @@ namespace Busidex3
 
         protected override void OnStart()
         {
-            AppCenter.Start("ios=8cfa4c49-d367-4822-967b-50ea4036a284;" +
-                            "uwp=9aafac90-a3df-432e-89b6-4ada484f8695;" +
-                            "android=88a70679-47bd-4f95-ad7c-2ea9b53e0d1c",
-                typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("ios=ff027836-a4f4-4fdf-9f20-b26c77fd11d9;" +
+                            "uwp=6de54bfa-df57-4a05-81ef-36425c119c36;" +
+                            "android=52a88625-8a62-48bd-9538-54ddf4f6ab47;",
+                typeof(Microsoft.AppCenter.Analytics.Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()
