@@ -14,7 +14,7 @@ namespace Busidex3.Droid
         public IAnalyticsManager InitWithId()
         {
             gaInstance = GoogleAnalytics.GetInstance(Android.App.Application.Context);
-            gaInstance.SetLocalDispatchPeriod(10);
+            gaInstance.SetLocalDispatchPeriod(3);
             tracker = gaInstance.NewTracker(StringResources.GOOGLE_ANALYTICS_KEY_ANDROID);
             return this;
         }

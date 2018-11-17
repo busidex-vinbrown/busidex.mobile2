@@ -24,8 +24,12 @@ namespace Busidex3.ViewModels
 
         private readonly CardHttpService _cardHttpService = new CardHttpService();
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
+        private readonly NotesHttpService _notesHttpService = new NotesHttpService();
+        private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
 
-        
+        private bool _isSaving;
+
+
         public UserCard SelectedCard { get; }
 
         public List<PhoneNumberVM> PhoneNumbers { get; set; }
@@ -33,26 +37,14 @@ namespace Busidex3.ViewModels
         public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex;
         public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex;
 
-        public ICommand SendSMS
+        public bool IsSaving
         {
-            get { return new Command((number) =>
+            get => _isSaving;
+            set
             {
-                Device.OpenUri(new Uri($"sms:{number.ToString()}"));
-                var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-                analyticsManager.InitWithId();
-                analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
-            }); }
-        }
-
-        public ICommand DialPhoneNumber
-        {
-            get { return new Command((number) =>
-            {
-                Device.OpenUri(new Uri($"tel:{number.ToString()}"));
-                var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-                analyticsManager.InitWithId();
-                analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.PhoneDialed, number.ToString());
-            }); }
+                _isSaving = value;
+                OnPropertyChanged(nameof(IsSaving));
+            }
         }
 
         public CardVM(UserCard uc)
@@ -61,7 +53,28 @@ namespace Busidex3.ViewModels
             PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
         }
 
-        public void LaunchMapApp() {
+        #region UserCard Actions 
+        public ICommand SendSMS
+        {
+            get { return new Command(async (number) =>
+            {
+                Device.OpenUri(new Uri($"sms:{number.ToString()}"));
+                await _activityHttpService.SaveActivity ((long)EventSources.Text, SelectedCard.CardId);
+                App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
+            }); }
+        }
+
+        public ICommand DialPhoneNumber
+        {
+            get { return new Command(async (number) =>
+            {
+                Device.OpenUri(new Uri($"tel:{number.ToString()}"));
+                await _activityHttpService.SaveActivity ((long)EventSources.Call, SelectedCard.CardId);
+                App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.PhoneDialed, number.ToString());
+            }); }
+        }
+
+        public async void LaunchMapApp() {
             // Windows Phone doesn't like ampersands in the names and the normal URI escaping doesn't help
             var addr = SelectedCard.Card.Addresses.FirstOrDefault()?.ToString();
             string request;
@@ -90,21 +103,19 @@ namespace Busidex3.ViewModels
 
             Device.OpenUri(new Uri(request));
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.MapViewed, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            await _activityHttpService.SaveActivity ((long)EventSources.Map, SelectedCard.CardId);
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.MapViewed, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
         }
 
-        public void LaunchEmail()
+        public async void LaunchEmail()
         {
             Device.OpenUri(new Uri($"mailto:{SelectedCard.Card.Email}"));
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.EmailSent, SelectedCard.Card.Email);
+            await _activityHttpService.SaveActivity ((long)EventSources.Email, SelectedCard.CardId);
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.EmailSent, SelectedCard.Card.Email);
         }
 
-        public void LaunchBrowser()
+        public async void LaunchBrowser()
         {
             string url;
             if (string.IsNullOrEmpty(SelectedCard.Card.Url)) return;
@@ -114,9 +125,8 @@ namespace Busidex3.ViewModels
                 : SelectedCard.Card.Url;
             Device.OpenUri(new Uri(url));
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.WebPageViewed, SelectedCard.Card.Url);
+            await _activityHttpService.SaveActivity ((long)EventSources.Website, SelectedCard.CardId);
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.WebPageViewed, SelectedCard.Card.Url);
         }
 
         public async void RemoveFromMyBusidex()
@@ -132,9 +142,7 @@ namespace Busidex3.ViewModels
 
             await _myBusidexHttpService.RemoveFromMyBusidex(SelectedCard.CardId);
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardRemoved, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardRemoved, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
         }
 
         public async void AddToMyBusidex()
@@ -151,16 +159,18 @@ namespace Busidex3.ViewModels
                     .ToList());
                 var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(newList);
 
+                await _activityHttpService.SaveActivity ((long)EventSources.Add, SelectedCard.CardId);
                 Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
             }
 
             await _myBusidexHttpService.RemoveFromMyBusidex(SelectedCard.CardId);
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardAdded, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardAdded, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
         }
 
+        #endregion
+
+        #region Card Saving
         public async Task<bool> SaveCardImage(MobileCardImage card)
         {
             OnCardInfoUpdating?.Invoke();
@@ -169,9 +179,9 @@ namespace Busidex3.ViewModels
 
             await LoadOwnedCard();
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+
+            SaveToFile();
 
             return result;
         }
@@ -183,11 +193,23 @@ namespace Busidex3.ViewModels
             var result = await _cardHttpService.UpdateCardVisibility(visibility);
             await LoadOwnedCard();
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardVisibilityUpdated, SelectedCard.Card.Visibility.ToString());
+            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardVisibilityUpdated, SelectedCard.Card.Visibility.ToString());
+
+            SaveToFile();
 
             return result;
+        }
+
+        public async Task SaveNotes(string notes)
+        {
+            IsSaving = true;
+            await _notesHttpService.SaveNotes(SelectedCard.UserCardId, notes);
+
+            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.UserCardNotesUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+
+            SaveToFile();
+
+            IsSaving = false;
         }
 
         public async Task<bool> SaveCardInfo(CardDetailModel card)
@@ -195,13 +217,27 @@ namespace Busidex3.ViewModels
             OnCardInfoUpdating?.Invoke();
 
             var result = await _cardHttpService.UpdateCardContactInfo(card);
+
+            SaveToFile();
+
             await LoadOwnedCard();
 
-            var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-            analyticsManager.InitWithId();
-            analyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
             return result;
+        }
+
+        private void SaveToFile()
+        {
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
+            var existingCard = myBusidex.SingleOrDefault(b => b.CardId == SelectedCard.CardId);
+            
+            if (existingCard == null) return;
+
+            var idx = myBusidex.IndexOf(existingCard);
+            myBusidex[idx] = SelectedCard;
+            var file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
+            Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
         }
 
         private async Task<Card> LoadOwnedCard ()
@@ -242,9 +278,10 @@ namespace Busidex3.ViewModels
 
             } catch (Exception ex) {
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report (ex);
             }
             return null;
         }
+
+        #endregion
     }
 }

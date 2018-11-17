@@ -10,7 +10,8 @@
 		Search = 6,
 		Website = 7,
 		Group = 8,
-		Details = 9
+		Details = 9,
+        Text = 10
 	}
 
 }

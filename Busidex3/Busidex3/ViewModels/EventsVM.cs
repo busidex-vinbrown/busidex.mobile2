@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Microsoft.AppCenter.Crashes;
 
 namespace Busidex3.ViewModels
 {
@@ -165,7 +166,7 @@ namespace Busidex3.ViewModels
                 {
                     EventCardsLoadedEventTable[tag.Text](tag, EventCards[tag.Text]);
                 }
-
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error loading event cards", ex));
             }
             finally
@@ -214,7 +215,7 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
-
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error loading event list", ex));
 
                 try
@@ -227,6 +228,7 @@ namespace Busidex3.ViewModels
                 }
                 catch (Exception innerEx)
                 {
+                    Crashes.TrackError(innerEx);
                     //Xamarin.Insights.Report(new Exception("Error loading event list from file", innerEx));
                 }
 

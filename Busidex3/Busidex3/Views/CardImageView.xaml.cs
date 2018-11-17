@@ -19,10 +19,7 @@ namespace Busidex3.Views
 
 		    BindingContext = uc;
 
-		    var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-		    analyticsManager.InitWithId();
-		    analyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardImageViewed, uc.Card.Name ?? uc.Card.CompanyName);
-
+		    App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardImageViewed, uc.Card.Name ?? uc.Card.CompanyName);
 		}
 
 	    private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)

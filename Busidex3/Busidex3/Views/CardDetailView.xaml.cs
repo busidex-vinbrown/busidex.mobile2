@@ -1,4 +1,5 @@
 ﻿using System;
+using Busidex3.Analytics;
 using Busidex3.ViewModels;
 using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
@@ -20,7 +21,7 @@ namespace Busidex3.Views
 
 		    LoadButtons();
 		    
-            
+		    App.AnalyticsManager.TrackScreen(ScreenName.CardDetail);
 		}
 
 	    private void LoadButtons()

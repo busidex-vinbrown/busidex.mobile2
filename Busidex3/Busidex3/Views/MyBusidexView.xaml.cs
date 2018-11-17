@@ -20,9 +20,7 @@ namespace Busidex3.Views
 		{
 			InitializeComponent ();
 
-		    var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-		    analyticsManager.InitWithId();
-		    analyticsManager.TrackScreen(ScreenName.MyBusidex);
+		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 
 		    Task.Factory.StartNew(async () => { await LoadData(); });
 		   

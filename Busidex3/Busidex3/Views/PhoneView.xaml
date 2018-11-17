@@ -6,14 +6,27 @@
              x:Class="Busidex3.Views.PhoneView">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="20, 10">
-            <controls:CardImageHeader 
-                BindingContext="{Binding SelectedCard}"/>
-            <ListView x:Name="lstPhoneNumbers"
+            
+            <Grid RowSpacing="29" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="0"
+                    Grid.Column="0"/>
+                <ListView x:Name="lstPhoneNumbers"
                       SeparatorVisibility="None"
                       SelectionMode="None"
                       CachingStrategy="RecycleElement"
-                      VerticalOptions="StartAndExpand"
-                      ItemsSource="{Binding PhoneNumbers}">
+                      VerticalOptions="FillAndExpand"
+                      ItemsSource="{Binding PhoneNumbers}"
+                      Grid.Row="1"
+                      Grid.Column="0">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -23,15 +36,20 @@
                                 Text="{Binding PhoneNumberType.Name}"
                                 FontSize="Small"
                                 WidthRequest="100"
+                                VerticalTextAlignment="Center"
+                                HeightRequest="30"
                                 Margin="0,0,10,0"/>
                             <Label 
                                 Text="{Binding Number}"
                                 FontSize="Small"
-                                WidthRequest="200"/>
+                                HeightRequest="30"
+                                WidthRequest="200"
+                                VerticalTextAlignment="Center"/>
                             <Image
                                 x:Name="btnSMS"
                                 Source="{Binding SmsImageSource}"
                                 HeightRequest="30"
+                                Margin="0,0,10,0"
                                 WidthRequest="30">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Path=BindingContext.SendSMS, Source={x:Reference PhoneViewInstance}}"
@@ -55,6 +73,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            </Grid>      
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

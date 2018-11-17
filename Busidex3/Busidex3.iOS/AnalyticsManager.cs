@@ -16,7 +16,7 @@ namespace Busidex3.iOS
         public IAnalyticsManager InitWithId()
         {
             gaInstance = Gai.SharedInstance;
-            gaInstance.DispatchInterval = 10;
+            gaInstance.DispatchInterval = 3;
             gaInstance.TrackUncaughtExceptions = true;
             tracker = gaInstance.GetTracker(StringResources.GOOGLE_ANALYTICS_KEY_IOS);
 

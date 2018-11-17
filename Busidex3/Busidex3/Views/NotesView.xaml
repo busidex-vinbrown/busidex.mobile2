@@ -5,18 +5,44 @@
              x:Class="Busidex3.Views.NotesView">
     <ContentPage.Content>
         <StackLayout Padding="20, 10">
-            <controls:CardImageHeader 
-                BindingContext="{Binding SelectedCard}"/>
-            <TableView HorizontalOptions="FillAndExpand">
-                <TableSection>
-                    <ViewCell>
-                        <Editor Text="{Binding SelectedCard.Card.Notes}" 
-                                HeightRequest="100"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="FillAndExpand"/>                        
-                    </ViewCell>
-                </TableSection>
-            </TableView>
+            <Grid RowSpacing="29" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="0"
+                    Grid.Column="0"/>                
+                    <Editor
+                        x:Name="txtNotes"    
+                        Text="{Binding SelectedCard.Notes}" 
+                        HeightRequest="300"
+                        BackgroundColor="LightGray"
+                        Placeholder="Enter notes here"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1"
+                        Grid.Column="0">
+                        <Editor.Keyboard>
+                            <Keyboard x:FactoryMethod="Create">
+                                <x:Arguments>
+                                    <KeyboardFlags>Suggestions,Spellcheck</KeyboardFlags>
+                                </x:Arguments>
+                            </Keyboard>
+                        </Editor.Keyboard>
+                    </Editor> 
+                <Button 
+                    x:Name="btnSave" 
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Save"
+                    Clicked="BtnSave_OnClicked"></Button>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

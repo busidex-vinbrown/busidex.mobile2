@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 
 namespace Busidex3.Services.Utils
@@ -40,6 +41,7 @@ namespace Busidex3.Services.Utils
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(ex);
             }
             return null;
@@ -108,6 +110,7 @@ namespace Busidex3.Services.Utils
                 Serialization.SaveResponse (JsonConvert.SerializeObject (CurrentUser), StringResources.BUSIDEX_USER_FILE);
                 OnBusidexUserLoaded?.Invoke (CurrentUser);
             } catch (Exception ex) {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report (ex);
             }
         }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-//using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
@@ -13,20 +13,11 @@ using Microsoft.AppCenter.Crashes;
 
 namespace Busidex3.ViewModels
 {
-    //public delegate void OnMyBusidexLoadedEventHandler (ObservableRangeCollection<UserCard> cards);
-    //public delegate void OnMyBusidexUpdatedEventHandler (ProgressStatus status);
-    public delegate void OnNotesUpdatedEventHandler ();
-
     public class MyBusidexVM :  BaseViewModel
     {
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //public event OnMyBusidexLoadedEventHandler OnMyBusidexLoaded;
-        //public event OnMyBusidexUpdatedEventHandler OnMyBusidexUpdated;
-        public static event OnNotesUpdatedEventHandler OnNotesUpdated;
 
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
-        private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private decimal _loadingProgress = 0;
 
         private ObservableRangeCollection<UserCard> _filteredUserCards = new ObservableRangeCollection<UserCard>();
@@ -81,9 +72,7 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(LoadingProgress));
             }
         }
-    
         
-
         public override async Task<bool> Init()
         {
             IsRefreshing = true;
@@ -94,7 +83,6 @@ namespace Busidex3.ViewModels
             }
             SetFilteredList(UserCards);
 
-            //OnMyBusidexLoaded?.Invoke(UserCards);
             IsRefreshing = false;
             return await Task.FromResult(true);
         }
@@ -149,8 +137,6 @@ namespace Busidex3.ViewModels
                                 await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
                       
                                 await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName).ConfigureAwait(false);
-                                
-                                //OnMyBusidexUpdated?.Invoke(status);
                             }
                             catch
                             {
@@ -161,7 +147,6 @@ namespace Busidex3.ViewModels
                         {
                             status.Count++;
                             await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
-                            //OnMyBusidexUpdated?.Invoke(status);
                         }
 
                         if ((!File.Exists(StringResources.DocumentsPath + "/" + bName)) &&
@@ -207,15 +192,10 @@ namespace Busidex3.ViewModels
                 Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
 
                 SetFilteredList(UserCards);
-
-                // Fire event handler
-                //OnMyBusidexLoaded?.Invoke(UserCards);
-
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report(new Exception("Error Loading My Busidex", ex));
 
                 try
                 {
@@ -226,10 +206,7 @@ namespace Busidex3.ViewModels
                 catch (Exception innerEx)
                 {
                     Crashes.TrackError(innerEx);
-                    //Xamarin.Insights.Report(new Exception("Error Loading My Busidex From File", innerEx));
                 }
-
-                //OnMyBusidexLoaded?.Invoke(UserCards);
             }
             finally
             {
@@ -288,11 +265,12 @@ namespace Busidex3.ViewModels
 			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
 			    Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
 
+			    App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardAdded, userCard.Card.Name ?? userCard.Card.CompanyName);
+
 			    return await _activityHttpService.SaveActivity ((long)EventSources.Add, userCard.CardId);
 
 			} catch (Exception ex) {
 			    Crashes.TrackError(ex);
-				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
 		}
@@ -307,10 +285,11 @@ namespace Busidex3.ViewModels
 			    var file = Newtonsoft.Json.JsonConvert.SerializeObject (UserCards);
 			    Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
 
+			    App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardRemoved, userCard.Card.Name ?? userCard.Card.CompanyName);
+
 			    return await _myBusidexHttpService.RemoveFromMyBusidex (userCard.Card.CardId);
 			} catch (Exception ex) {
 			    Crashes.TrackError(ex);
-				//Xamarin.Insights.Report (ex, Xamarin.Insights.Severity.Error);
 			    return false;
 			}
 		}
@@ -318,29 +297,6 @@ namespace Busidex3.ViewModels
 		public bool ExistsInMyBusidex (UserCard card)
 		{
 			return UserCards.Any (uc => uc.CardId == card.CardId);
-		}
-
-		public async Task<bool> SaveNotes (long userCardId, string notes)
-		{
-			try
-			{
-			    var result = await _notesHttpService.SaveNotes(userCardId, notes);
-			    if (result != null && result.Success)
-			    {
-			        UserCards.Single(uc =>uc.UserCardId == userCardId).Notes = notes;
-			            
-			        Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(UserCards),
-			            StringResources.MY_BUSIDEX_FILE);
-			    }
-
-                OnNotesUpdated?.Invoke();
-
-            } catch (Exception ex) {
-			    Crashes.TrackError(ex);
-				//Xamarin.Insights.Report (ex);
-			    return false;
-			}
-			return true;
 		}        
     }
 }

@@ -13,9 +13,7 @@ namespace Busidex3.Views
 	    public ShareView(CardVM vm)
 	    {
 	        InitializeComponent();
-	        var analyticsManager = DependencyService.Get<IAnalyticsManager>();
-	        analyticsManager.InitWithId();
-	        analyticsManager.TrackScreen(ScreenName.Share);
+	        App.AnalyticsManager.TrackScreen(ScreenName.Share);
 
 	        _viewModel = vm;
 	        BindingContext = _viewModel;

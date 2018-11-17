@@ -1,9 +1,9 @@
-﻿using Busidex3.Services.Utils;
+﻿using Busidex3.Analytics;
+using Busidex3.Services.Utils;
 using Busidex3.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -18,6 +18,20 @@ namespace Busidex3
             Security.ReadAuthCookie();
 
             MainPage = new MainMenu();// new NavigationPage(new MainMenu());            
+        }
+
+        private static IAnalyticsManager analyticsManager;
+        public static IAnalyticsManager AnalyticsManager
+        {
+            get
+            {
+                if (analyticsManager == null)
+                {
+                    analyticsManager = DependencyService.Get<IAnalyticsManager>();
+                    analyticsManager.InitWithId();
+                }
+                return analyticsManager;
+            }
         }
 
         public static void LoadMainMenuPage(string title)

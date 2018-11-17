@@ -1,4 +1,6 @@
-﻿using Busidex3.ViewModels;
+﻿using System;
+using Busidex3.Analytics;
+using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,14 +9,20 @@ namespace Busidex3.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NotesView : ContentPage
 	{
-	    public CardVM _viewModel { get; set; }
-
+	    public CardVM ViewModel { get; set; }
+        
 	    public NotesView(CardVM vm)
 	    {
 	        InitializeComponent();
 
-	        _viewModel = vm;
-	        BindingContext = _viewModel;
+	        ViewModel = vm;
+	        BindingContext = ViewModel;
+	        App.AnalyticsManager.TrackScreen(ScreenName.Notes);
+	    }
+
+	    private async void BtnSave_OnClicked(object sender, EventArgs e)
+	    {
+	        await ViewModel.SaveNotes(txtNotes.Text);
 	    }
 	}
 }

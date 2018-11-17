@@ -5,7 +5,10 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Busidex3.Analytics;
 using Busidex3.Annotations;
+using Microsoft.AppCenter.Crashes;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -23,6 +26,8 @@ namespace Busidex3.ViewModels
             get => _searchValue;
             set => _searchValue = value;
         }
+
+        
 
         protected async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
         {
@@ -48,6 +53,7 @@ namespace Busidex3.ViewModels
                     }
                 }
             } catch (Exception ex) {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report (new Exception ("Error loading " + imagePath, ex));
             } finally {
                 semaphore.Release ();

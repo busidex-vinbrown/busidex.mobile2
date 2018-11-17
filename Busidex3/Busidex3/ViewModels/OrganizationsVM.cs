@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Microsoft.AppCenter.Crashes;
 
 namespace Busidex3.ViewModels
 {
@@ -174,6 +175,7 @@ namespace Busidex3.ViewModels
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error loading organization list", ex));
 
                 if (OrganizationList.Count == 0)
@@ -186,6 +188,7 @@ namespace Busidex3.ViewModels
                     }
                     catch (Exception innerEx)
                     {
+                        Crashes.TrackError(innerEx); 
                         //Xamarin.Insights.Report(new Exception("Error loading organization list from file", innerEx));
                     }
 
@@ -288,7 +291,7 @@ namespace Busidex3.ViewModels
                 {
                     OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
                 }
-
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error Loading Organization Referrals", ex));
             }
             finally
@@ -394,7 +397,7 @@ namespace Busidex3.ViewModels
                 {
                     if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
                 }
-
+                Crashes.TrackError(ex);
                 //Xamarin.Insights.Report(new Exception("Error Loading Organization Members", ex));
             }
             finally
