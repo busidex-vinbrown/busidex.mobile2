@@ -40,7 +40,7 @@ namespace Busidex3.ViewModels
 
         public override async Task<bool> Init()
         {
-            OrganizationList = Serialization.LoadData<List<Organization>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_ORGANIZATIONS_FILE));
+            OrganizationList = Serialization.LoadData<List<Organization>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
             if (OrganizationList == null || OrganizationList.Count == 0) {
                 OrganizationList = new List<Organization> ();
                 await LoadOrganizations ();
@@ -67,7 +67,7 @@ namespace Busidex3.ViewModels
                 if (!OrganizationReferrals.ContainsKey (org.OrganizationId)) {
                     OrganizationReferrals.Add (org.OrganizationId, new List<UserCard> ());
                 }
-                OrganizationMembers [org.OrganizationId] = Serialization.LoadData<List<Card>> (Path.Combine (StringResources.DocumentsPath, string.Format (StringResources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
+                OrganizationMembers [org.OrganizationId] = Serialization.LoadData<List<Card>> (Path.Combine (Serialization.LocalStorageFolder, string.Format (StringResources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
                 if (OrganizationMembers[org.OrganizationId] == null ||
                     OrganizationMembers[org.OrganizationId].Count == 0)
                 {
@@ -78,7 +78,7 @@ namespace Busidex3.ViewModels
                     OrganizationMembersLoadedEventTable[org.OrganizationId].Invoke(OrganizationMembers [org.OrganizationId]);
                 }
 
-                OrganizationReferrals [org.OrganizationId] = Serialization.LoadData<List<UserCard>> (Path.Combine (StringResources.DocumentsPath, string.Format (StringResources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
+                OrganizationReferrals [org.OrganizationId] = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, string.Format (StringResources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
                 if (OrganizationReferrals[org.OrganizationId] == null ||
                     OrganizationReferrals[org.OrganizationId].Count == 0)
                 {
@@ -142,11 +142,11 @@ namespace Busidex3.ViewModels
 
                             var fileName = org.LogoFileName + "." + org.LogoType;
                             var fImagePath = StringResources.CARD_PATH + fileName;
-                            if (!File.Exists(StringResources.DocumentsPath + "/" + fileName))
+                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + fileName))
                             {
                                 try
                                 {
-                                    await DownloadImage(fImagePath, StringResources.DocumentsPath, fileName).ContinueWith(
+                                    await DownloadImage(fImagePath, Serialization.LocalStorageFolder, fileName).ContinueWith(
                                         result =>
                                         {
                                             status.Count++;
@@ -183,7 +183,7 @@ namespace Busidex3.ViewModels
                     try
                     {
                         OrganizationList =
-                            Serialization.LoadData<List<Organization>>(Path.Combine(StringResources.DocumentsPath,
+                            Serialization.LoadData<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder,
                                 StringResources.MY_ORGANIZATIONS_FILE));
                     }
                     catch (Exception innerEx)
@@ -241,11 +241,11 @@ namespace Busidex3.ViewModels
                         var bImageUrl = StringResources.THUMBNAIL_PATH + card.Card.BackFileName;
                         var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
                         var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-                        if (!File.Exists(StringResources.DocumentsPath + "/" + fName))
+                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
                         {
                             try
                             {
-                                await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName)
+                                await DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
                             catch
@@ -258,12 +258,12 @@ namespace Busidex3.ViewModels
                             status.Count++;
                         }
 
-                        if (!File.Exists(StringResources.DocumentsPath + "/" + bName) &&
+                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
                             card.Card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
                         {
                             try
                             {
-                                await DownloadImage(bImageUrl, StringResources.DocumentsPath, bName);
+                                await DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
                             }
                             catch
                             {
@@ -349,11 +349,11 @@ namespace Busidex3.ViewModels
                         var bImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileName;
                         var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
                         var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-                        if (!File.Exists(StringResources.DocumentsPath + "/" + fName))
+                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
                         {
                             try
                             {
-                                await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName)
+                                await DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
                             catch
@@ -366,12 +366,12 @@ namespace Busidex3.ViewModels
                             status.Count++;
                         }
 
-                        if (!File.Exists(StringResources.DocumentsPath + "/" + bName) &&
+                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
                             card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
                         {
                             try
                             {
-                                await DownloadImage(bImageUrl, StringResources.DocumentsPath, bName);
+                                await DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
                             }
                             catch
                             {

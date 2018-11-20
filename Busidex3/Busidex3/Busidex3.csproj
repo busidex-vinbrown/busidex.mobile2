@@ -108,7 +108,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\MainMenuMenuItem.cs">
+    <Compile Update="ViewModels\MainMenuMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

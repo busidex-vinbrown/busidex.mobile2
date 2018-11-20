@@ -19,34 +19,31 @@ namespace Busidex3.Views
 		public MyBusidexView ()
 		{
 			InitializeComponent ();
+		    BindingContext = _viewModel;
+		    Task.Factory.StartNew(async () => { await _viewModel.Init(); });
+		    
+		    lstMyBusidex.RefreshCommand = RefreshCommand;
 
 		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
-
-		    Task.Factory.StartNew(async () => { await LoadData(); });
-		   
-		    lstMyBusidex.RefreshCommand = RefreshCommand;
 		}
 
+        
 	    public ICommand RefreshCommand
 	    {
 	        get { return new Command(async () => { await _viewModel.LoadUserCards(); }); }
 	    }
 
-	    private async Task LoadData()
-	    {
-	        await _viewModel.Init();
-	        BindingContext = _viewModel;
-	    }
-
 	    private void TxtSearch_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
+	        if (string.IsNullOrEmpty(_viewModel.SearchValue)) return;
+
 	        var subset = from uc in _viewModel.UserCards
 	            where (uc.Card.Name?.Contains(_viewModel.SearchValue) ?? false) ||
 	                  (uc.Card.CompanyName?.Contains(_viewModel.SearchValue) ?? false) ||
 	                  (uc.Card.Email?.Contains(_viewModel.SearchValue) ?? false) ||
 	                  (uc.Card.Url?.Contains(_viewModel.SearchValue) ?? false) ||
-	                  (uc.Card.PhoneNumbers?.Any(pn => pn.Number.Contains(_viewModel.SearchValue)) ?? false) ||
-	                  (uc.Card.Tags?.Any(t => t.Text.Contains(_viewModel.SearchValue)) ?? false)
+	                  (uc.Card.PhoneNumbers?.Any(pn => !string.IsNullOrEmpty(pn.Number) && pn.Number.Contains(_viewModel.SearchValue)) ?? false) ||
+	                  (uc.Card.Tags?.Any(t => !String.IsNullOrEmpty(t.Text) && t.Text.Contains(_viewModel.SearchValue)) ?? false)
 	            select uc;
 
 	        var filter = new ObservableRangeCollection<UserCard>();
@@ -66,7 +63,8 @@ namespace Busidex3.Views
 	    {
 	        int.TryParse(e.Parameter.ToString(), out int id);
 	        var card = _viewModel.UserCards.SingleOrDefault(uc => uc.UserCardId == id);
-	        await Navigation.PushAsync(new CardDetailView(new CardVM(card)));
+            var newViewModel = new CardVM(ref card);
+	        await Navigation.PushAsync(new CardDetailView(ref newViewModel));
 	    }
 	}
 }

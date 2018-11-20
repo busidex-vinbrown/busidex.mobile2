@@ -1,7 +1,8 @@
 ﻿using System;
+using Busidex3.Views;
 using Xamarin.Forms;
 
-namespace Busidex3.Views
+namespace Busidex3.ViewModels
 {
 
     public class MainMenuMenuItem

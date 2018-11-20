@@ -21,7 +21,14 @@
                          BackgroundColor="White"
                          HorizontalOptions="FillAndExpand"
                          />
-            
+            <Label x:Name="lblProgress"
+                   IsVisible="{Binding IsRefreshing}"
+                   Text="{Binding ProgressMessage}"
+                   FontSize="Small"
+                   TextColor="DarkGray"
+                   HorizontalOptions="FillAndExpand"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"></Label>
             <ListView x:Name="lstMyBusidex"
                       SeparatorVisibility="Default"
                       VerticalOptions="FillAndExpand"
@@ -29,13 +36,14 @@
                       HasUnevenRows="True"
                       SelectionMode="None"
                       BackgroundColor="LightGray"
-                      CachingStrategy="RecycleElement"
+                      CachingStrategy="RecycleElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
                       ItemsSource="{Binding FilteredUserCards}">
                 <ListView.Header>
                     <StackLayout>
                         <SearchBar x:Name="txtSearch"
                                    Text="{Binding SearchValue}"
+                                   IsVisible="{Binding ShowFilter}"
                                    SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
                                    Placeholder="Filter"
                                    TextChanged="TxtSearch_OnTextChanged"/>

@@ -6,6 +6,7 @@ namespace Busidex3
 	{
 		public const string APPLICATION_NAME = "Busidex";
 		public const string AUTHENTICATION_COOKIE_NAME = "UserId";
+	    public const string AUTHENTICATION_COOKIE_FILE = "UserId.txt";
 		public const string BUSIDEX_REFRESH_COOKIE_NAME = "BusidexRefresh";
 		public const string ORGANIZATION_REFRESH_COOKIE_NAME = "OrganizationRefresh";
 		public const string EVENT_LIST_REFRESH_COOKIE_NAME = "EventListRefresh";
@@ -108,7 +109,7 @@ namespace Busidex3
 		//public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
 		//public const string BITLY_LOGIN = "busidexapp";
 
-		public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+		//public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 
 	}
 }

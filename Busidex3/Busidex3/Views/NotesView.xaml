@@ -21,7 +21,7 @@
                     <Editor
                         x:Name="txtNotes"    
                         Text="{Binding SelectedCard.Notes}" 
-                        HeightRequest="300"
+                        HeightRequest="250"
                         BackgroundColor="LightGray"
                         Placeholder="Enter notes here"
                         HorizontalOptions="FillAndExpand"
@@ -36,10 +36,16 @@
                             </Keyboard>
                         </Editor.Keyboard>
                     </Editor> 
+                <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                                   Color="#03A9F4" 
+                                   IsVisible="False"
+                                   IsRunning="True"/>
                 <Button 
                     x:Name="btnSave" 
                     Grid.Column="0"
                     Grid.Row="2"
+                    TextColor="White"
+                    BackgroundColor="#03A9F4"
                     Text="Save"
                     Clicked="BtnSave_OnClicked"></Button>
             </Grid>

@@ -47,7 +47,7 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public CardVM(UserCard uc)
+        public CardVM(ref UserCard uc)
         {
             SelectedCard = uc;
             PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
@@ -131,7 +131,7 @@ namespace Busidex3.ViewModels
 
         public async void RemoveFromMyBusidex()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
             if (myBusidex.Any(b => b.CardId == SelectedCard.CardId))
             {
                 myBusidex.RemoveAll(b => b.CardId == SelectedCard.CardId);
@@ -147,7 +147,7 @@ namespace Busidex3.ViewModels
 
         public async void AddToMyBusidex()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
             if (myBusidex.All(b => b.CardId != SelectedCard.CardId))
             {
                 myBusidex.Add(SelectedCard);
@@ -229,7 +229,7 @@ namespace Busidex3.ViewModels
 
         private void SaveToFile()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
             var existingCard = myBusidex.SingleOrDefault(b => b.CardId == SelectedCard.CardId);
             
             if (existingCard == null) return;
@@ -256,7 +256,7 @@ namespace Busidex3.ViewModels
 
                 Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), StringResources.OWNED_CARD_FILE);
 
-                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
+                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
 
                 if(myBusidex != null){
                     foreach(var uc in myBusidex){

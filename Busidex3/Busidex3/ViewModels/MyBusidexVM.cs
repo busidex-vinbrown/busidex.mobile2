@@ -18,7 +18,7 @@ namespace Busidex3.ViewModels
 
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
-        private decimal _loadingProgress = 0;
+        
 
         private ObservableRangeCollection<UserCard> _filteredUserCards = new ObservableRangeCollection<UserCard>();
         public ObservableRangeCollection<UserCard> FilteredUserCards
@@ -32,6 +32,7 @@ namespace Busidex3.ViewModels
         } 
 
         private ObservableRangeCollection<UserCard> _userCards = new ObservableRangeCollection<UserCard>();
+
         public ObservableRangeCollection<UserCard> UserCards
         {
             get => _userCards;
@@ -44,6 +45,15 @@ namespace Busidex3.ViewModels
 
         public Card OwnedCard => null;
 
+        private bool _showFilter;
+        public bool ShowFilter { 
+            get => _showFilter;
+            set {
+                _showFilter = value;
+                OnPropertyChanged(nameof(ShowFilter));
+            }
+        }
+
         private bool _isRefreshing;
         public bool IsRefreshing { 
             get => _isRefreshing;
@@ -53,48 +63,117 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private decimal _loadingProgress;
+        public decimal LoadingProgress
+        {
+            get => _loadingProgress;
+            set
+            {
+                _loadingProgress = value;
+                OnPropertyChanged(nameof(LoadingProgress));
+            }
+        }
+
+        private string _progressMessage;
+        public string ProgressMessage
+        {
+            get => _progressMessage;
+            set
+            {
+                _progressMessage = value;
+                OnPropertyChanged(nameof(ProgressMessage));
+            }
+        }
+        
         private int TotalCards { get;set; }
 
         public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
         {
             FilteredUserCards.Clear();
             FilteredUserCards.AddRange(subset);
-        }
-
-        public decimal LoadingProgress
-        {
-            get => _loadingProgress;
-            set
-            {
-                if (_loadingProgress.Equals(value)) return;
-
-                _loadingProgress = value;
-                OnPropertyChanged(nameof(LoadingProgress));
-            }
+            OnPropertyChanged(nameof(FilteredUserCards));
         }
         
         public override async Task<bool> Init()
         {
-            IsRefreshing = true;
+            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
+                Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            //    ?? new ObservableRangeCollection<UserCard>();
 
-            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE));
             if (UserCards == null || UserCards.Count == 0) {
                 return await LoadUserCards ();
             }
+
             SetFilteredList(UserCards);
 
-            IsRefreshing = false;
-            return await Task.FromResult(true);
+            return true;
         }
 
         private decimal GetLoadingProgress(decimal progress)
         {
-            return Math.Round(TotalCards == 0 ? 0 : (progress / TotalCards) * 100, 1);                      
+            var loadProgress = Math.Round(TotalCards == 0 ? 0 : (progress / TotalCards) * 100, 1);
+            ProgressMessage = $"Loading {progress} of {TotalCards}";
+
+            return loadProgress;
+        }
+
+        private async Task DownloadImages(List<UserCard> cards, ProgressStatus status)
+        {
+            var storagePath = Serialization.LocalStorageFolder;
+
+            foreach (var item in cards)
+            {
+                if (item.Card == null) continue;
+
+                var fImageUrl = StringResources.THUMBNAIL_PATH + item.Card.FrontFileName;
+                var bImageUrl = StringResources.THUMBNAIL_PATH + item.Card.BackFileName;
+                var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
+                var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
+
+                if (!File.Exists(storagePath + "/" + fName))
+                {
+                    try
+                    {
+                        status.Count++;
+                        await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
+
+                        if(!string.IsNullOrEmpty(item.Card.FrontFileName) && item.Card.FrontFileName != StringResources.EMPTY_CARD_ID)
+                        {
+                            await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+                else
+                {
+                    status.Count++;
+                    await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
+                }
+
+                if ((File.Exists(storagePath + "/" + bName)) ||
+                    item.Card.BackFileId == null ||
+                    item.Card.BackFileId == Guid.Empty ||
+                    item.Card.BackFileId.ToString() == StringResources.EMPTY_CARD_ID) continue;
+
+                try
+                {
+                    await DownloadImage(bImageUrl, storagePath, bName);
+                }
+                catch
+                {
+                    // ignored
+                }
+
+            }
         }
 
         public async Task<bool> LoadUserCards()
         {
             IsRefreshing = true;
+            ShowFilter = false;
             LoadingProgress = 0;
 
             var semaphore = new SemaphoreSlim(1, 1);
@@ -106,63 +185,20 @@ namespace Busidex3.ViewModels
             try
             {
                 var result = await _myBusidexHttpService.GetMyBusidex();
-
-                if (result == null)
-                {
-                    var fullFileName = Path.Combine(StringResources.DocumentsPath, StringResources.MY_BUSIDEX_FILE);
-                    cards.AddRange(Serialization.GetCachedResult<List<UserCard>>(fullFileName));
-                }
-                else
+                
+                if (result != null)
                 {
                     cards.AddRange(result.MyBusidex.Busidex);
                     cards.ForEach(c => c.ExistsInMyBusidex = true);
                 }
 
                 status.Total = TotalCards = cards.Count;
-                
-                foreach (var item in cards)
-                {                
-                    if (item.Card != null)
-                    {
-                        var fImageUrl = StringResources.THUMBNAIL_PATH + item.Card.FrontFileName;
-                        var bImageUrl = StringResources.THUMBNAIL_PATH + item.Card.BackFileName;
-                        var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
-                        var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
 
-                        if (!File.Exists(StringResources.DocumentsPath + "/" + fName))
-                        {
-                            try
-                            {
-                                status.Count++;
-                                await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
-                      
-                                await DownloadImage(fImageUrl, StringResources.DocumentsPath, fName).ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                        else
-                        {
-                            status.Count++;
-                            await Task.Factory.StartNew(() => { LoadingProgress = GetLoadingProgress(status.Count); });
-                        }
+                await DownloadImages(cards, status);
 
-                        if ((!File.Exists(StringResources.DocumentsPath + "/" + bName)) &&
-                            item.Card.BackFileId.ToString() != StringResources.EMPTY_CARD_ID)
-                        {
-                            try
-                            {
-                                await DownloadImage(bImageUrl, StringResources.DocumentsPath, bName);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                    }
-                    
+                if (UserCards == null)
+                {
+                    UserCards = new ObservableRangeCollection<UserCard>();
                 }
 
                 UserCards.Clear();
@@ -191,27 +227,17 @@ namespace Busidex3.ViewModels
 
                 Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
 
-                SetFilteredList(UserCards);
+                await Task.Factory.StartNew(() => { SetFilteredList(UserCards); });
             }
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-
-                try
-                {
-                    UserCards =
-                        Serialization.LoadData<ObservableRangeCollection<UserCard>>(Path.Combine(StringResources.DocumentsPath,
-                            StringResources.MY_BUSIDEX_FILE));
-                }
-                catch (Exception innerEx)
-                {
-                    Crashes.TrackError(innerEx);
-                }
             }
             finally
             {
                 semaphore.Release();
                 IsRefreshing = false;
+                ShowFilter = true;
             }
 
             return true;

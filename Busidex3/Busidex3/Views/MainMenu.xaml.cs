@@ -13,28 +13,29 @@ namespace Busidex3.Views
         {
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
-            MasterPage.OnLogout += Logout;
+            MasterPage.OnLogout += RedirectToLogin;
             
-            var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
-            page.Title = ViewNames.MyBusidex;
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                Logout();
+                RedirectToLogin();
+            }
+            else
+            {
+                var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
+                page.Title = ViewNames.MyBusidex;
+
+                Detail = new NavigationPage(page);
+                IsPresented = false;
             }
         }
 
-        private void Logout()
+        private void RedirectToLogin()
         {
             var page = (Page)Activator.CreateInstance(typeof(Login));
             Detail = page;// new NavigationPage(page);
             IsPresented = false;
             NavigationPage.SetHasNavigationBar (Detail, false);
             IsGestureEnabled = false;
-            Security.LogOut();
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

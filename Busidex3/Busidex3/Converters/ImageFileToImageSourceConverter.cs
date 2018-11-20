@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Busidex3.Services.Utils;
 using Xamarin.Forms;
 
 namespace Busidex3.Converters
@@ -9,7 +10,7 @@ namespace Busidex3.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var fileName = Path.Combine (StringResources.DocumentsPath, StringResources.THUMBNAIL_FILE_NAME_PREFIX + value);
+            var fileName = Path.Combine (Serialization.LocalStorageFolder, StringResources.THUMBNAIL_FILE_NAME_PREFIX + value);
             return ImageSource.FromFile(fileName);
         }
 

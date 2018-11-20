@@ -12,7 +12,7 @@ namespace Busidex3.Views
 	{
         protected CardVM _viewModel { get; set; }
         
-		public CardDetailView (CardVM vm)
+		public CardDetailView (ref CardVM vm)
 		{
 		    InitializeComponent ();
 

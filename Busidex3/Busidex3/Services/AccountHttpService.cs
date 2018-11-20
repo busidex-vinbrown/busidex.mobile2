@@ -29,10 +29,10 @@ namespace Busidex3.Services
             return await MakeRequestAsync<UserAccount>(ServiceUrls.CheckAccountUrl, HttpVerb.Post, data);
         }
 
-        public async Task<UserAccount> GetAccount()
+        public async Task<BusidexUser> GetAccount()
         {
 
-            return await MakeRequestAsync<UserAccount>(ServiceUrls.GetAccountUrl, HttpVerb.Get);
+            return await MakeRequestAsync<BusidexUser>(ServiceUrls.GetAccountUrl, HttpVerb.Get);
         }
 
         public async Task<UserAccount> UpdateDeviceType(string token, DeviceType deviceType)

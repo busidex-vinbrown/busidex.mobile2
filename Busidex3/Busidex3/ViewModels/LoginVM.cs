@@ -15,9 +15,11 @@ namespace Busidex3.ViewModels
         {
             var user = await _loginHttpService.DoLogin(UserName, Password);
 
-            Security.SaveAuthCookie(user.UserId);
+            if (user == null || user.UserId <= 0) return false;
 
-            return user.UserId > 0;
+            Security.SaveAuthCookie(user.UserId);
+            return true;
+
         }
     }
 }

@@ -5,10 +5,8 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Busidex3.Analytics;
 using Busidex3.Annotations;
 using Microsoft.AppCenter.Crashes;
-using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -33,28 +31,27 @@ namespace Busidex3.ViewModels
         {
             ServicePointManager.Expect100Continue = false;
 
-            if (imagePath.Contains (StringResources.NULL_CARD_ID)) {
+            if (string.IsNullOrEmpty(imagePath) || imagePath.Contains (StringResources.NULL_CARD_ID)) {
                 return string.Empty;
             }
 
             var semaphore = new SemaphoreSlim (1, 1);
             await semaphore.WaitAsync ();
 
-            string jpgFilename = Path.Combine (documentsPath, fileName);
+            var jpgFilename = Path.Combine (documentsPath, fileName);
 
             try {
                 using (var webClient = new WebClient ()) {
 
-                    var imageData = webClient.DownloadDataTaskAsync (new Uri (imagePath));
+                    var imageData = await webClient.DownloadDataTaskAsync (new Uri (imagePath));
 
-                    string localPath = Path.Combine (documentsPath, fileName);
-                    if (await imageData != null) {
-                        File.WriteAllBytes (localPath, imageData.Result); // writes to local storage  
+                    var localPath = Path.Combine (documentsPath, fileName);
+                    if (imageData != null) {
+                        File.WriteAllBytes (localPath, imageData); // writes to local storage  
                     }
                 }
             } catch (Exception ex) {
-                Crashes.TrackError(ex);
-                //Xamarin.Insights.Report (new Exception ("Error loading " + imagePath, ex));
+                Crashes.TrackError(new Exception ("Error loading " + imagePath, ex));
             } finally {
                 semaphore.Release ();
             }
