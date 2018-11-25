@@ -26,17 +26,16 @@ namespace Busidex3.ViewModels
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
-
-        private bool _isSaving;
-
+        private readonly ObservableRangeCollection<UserCard> _myBusidex;
 
         public UserCard SelectedCard { get; }
-
+         
         public List<PhoneNumberVM> PhoneNumbers { get; set; }
 
         public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex;
         public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex;
 
+        private bool _isSaving;
         public bool IsSaving
         {
             get => _isSaving;
@@ -47,10 +46,11 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public CardVM(ref UserCard uc)
+        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex)
         {
             SelectedCard = uc;
             PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
+            _myBusidex = myBusidex;
         }
 
         #region UserCard Actions 
@@ -131,41 +131,55 @@ namespace Busidex3.ViewModels
 
         public async void RemoveFromMyBusidex()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            if (myBusidex.Any(b => b.CardId == SelectedCard.CardId))
-            {
-                myBusidex.RemoveAll(b => b.CardId == SelectedCard.CardId);
-                var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+            //var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
+            //        Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
 
-                Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
-            }
+            if (_myBusidex.All(b => b.CardId != SelectedCard.CardId)) return;
 
-            await _myBusidexHttpService.RemoveFromMyBusidex(SelectedCard.CardId);
+            _myBusidex.RemoveAll(b => b.CardId == SelectedCard.CardId);
+            var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(_myBusidex);
 
-            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardRemoved, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
+
+            var cardId = SelectedCard.CardId;
+            SelectedCard.ExistsInMyBusidex = false;
+            
+            OnPropertyChanged(nameof(ShowAddButton));
+            OnPropertyChanged(nameof(ShowRemoveButton));
+
+            await _myBusidexHttpService.RemoveFromMyBusidex(cardId);
+
+            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardRemoved,
+                SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
         }
 
         public async void AddToMyBusidex()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            if (myBusidex.All(b => b.CardId != SelectedCard.CardId))
-            {
-                myBusidex.Add(SelectedCard);
-                var newList = new ObservableRangeCollection<UserCard>(); 
-                newList.AddRange(myBusidex
-                    .OrderByDescending(c => c.Card != null && c.Card.OwnerId.GetValueOrDefault() > 0 ? 1 : 0)
-                    .ThenBy(c => c.Card != null ? c.Card.Name : "")
-                    .ThenBy(c => c.Card != null ? c.Card.CompanyName : "")
-                    .ToList());
-                var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(newList);
+            //var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            if (_myBusidex.Any(b => b.CardId == SelectedCard.CardId)) return;
 
-                await _activityHttpService.SaveActivity ((long)EventSources.Add, SelectedCard.CardId);
-                Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
-            }
+            SelectedCard.ExistsInMyBusidex = true;
 
-            await _myBusidexHttpService.RemoveFromMyBusidex(SelectedCard.CardId);
+            _myBusidex.Add(SelectedCard);
+            var newList = new ObservableRangeCollection<UserCard>(); 
+            newList.AddRange(_myBusidex
+                .OrderByDescending(c => c.Card != null && c.Card.OwnerId.GetValueOrDefault() > 0 ? 1 : 0)
+                .ThenBy(c => c.Card != null ? c.Card.Name : "")
+                .ThenBy(c => c.Card != null ? c.Card.CompanyName : "")
+                .ToList());
+            var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(newList);
+                
+            Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
+
+            var cardId = SelectedCard.CardId;
+            await _myBusidexHttpService.AddToMyBusidex(cardId);
+
+            OnPropertyChanged(nameof(ShowAddButton));
+            OnPropertyChanged(nameof(ShowRemoveButton));
 
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardAdded, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+
+            await _activityHttpService.SaveActivity ((long)EventSources.Add, cardId);
         }
 
         #endregion

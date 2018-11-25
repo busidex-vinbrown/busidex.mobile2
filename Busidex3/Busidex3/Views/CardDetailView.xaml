@@ -31,6 +31,7 @@
                 </Image>
                 <Image
                     x:Name="btnNotes"
+                    IsEnabled="{Binding SelectedCard.ExistsInMyBusidex}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="0" Grid.Column="1">

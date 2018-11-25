@@ -11,6 +11,12 @@ namespace Busidex3.ViewModels
         public string UserName { get; set; }
         public string Password { get; set; }
 
+        public LoginVM()
+        {
+            UserName = "vinbrown2";
+            Password = "ride9736";
+        }
+
         public async Task<bool> DoLogin()
         {
             var user = await _loginHttpService.DoLogin(UserName, Password);

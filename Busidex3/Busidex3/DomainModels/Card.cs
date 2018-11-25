@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Busidex3.Services.Utils;
+using Newtonsoft.Json;
 
 namespace Busidex3.DomainModels
 {
@@ -46,6 +48,7 @@ namespace Busidex3.DomainModels
 			if (model.PhoneNumbers != null) {
 				PhoneNumbers.AddRange (model.PhoneNumbers);
 			}
+            
 		}
 
 		public Card (CardDetailModel model)
@@ -172,6 +175,9 @@ namespace Busidex3.DomainModels
 		public string FrontFileName { get { return string.Format (fileName, FrontFileId, FrontType); } }
 
 		public string BackFileName { get { return string.Format (fileName, BackFileId, BackType); } }
+
+        [JsonIgnore]
+	    public UserCard Parent { get; set; }
 	}
 }
 

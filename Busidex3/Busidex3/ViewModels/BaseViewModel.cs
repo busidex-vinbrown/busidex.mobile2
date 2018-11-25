@@ -25,8 +25,6 @@ namespace Busidex3.ViewModels
             set => _searchValue = value;
         }
 
-        
-
         protected async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
         {
             ServicePointManager.Expect100Continue = false;

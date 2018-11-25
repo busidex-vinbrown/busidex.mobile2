@@ -7,7 +7,7 @@ namespace Busidex3.Services
 {
     public class SearchHttpService : BaseHttpService
     {
-        public async Task<SearchResultModel> DoSearch(string criteria){
+        public async Task<SearchResponse> DoSearch(string criteria){
 
             var url = ServiceUrls.SearchUrl;
 
@@ -26,7 +26,7 @@ namespace Busidex3.Services
                 UserId = null
             };
 
-            return await MakeRequestAsync<SearchResultModel> (url, HttpVerb.Post, model);
+            return await MakeRequestAsync<SearchResponse> (url, HttpVerb.Post, model);
         }
 
         public async Task<SearchResponse> SearchBySystemTag(string tag)

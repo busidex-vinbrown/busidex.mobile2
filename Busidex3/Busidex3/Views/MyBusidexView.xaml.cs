@@ -24,6 +24,8 @@ namespace Busidex3.Views
 		    
 		    lstMyBusidex.RefreshCommand = RefreshCommand;
 
+		    _viewModel.ShowFilter = true;
+
 		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 		}
 
@@ -61,9 +63,10 @@ namespace Busidex3.Views
 
 	    private async void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
 	    {
-	        int.TryParse(e.Parameter.ToString(), out int id);
-	        var card = _viewModel.UserCards.SingleOrDefault(uc => uc.UserCardId == id);
-            var newViewModel = new CardVM(ref card);
+	        var uc = e.Parameter as UserCard;
+	        var myBusidex = _viewModel.UserCards;
+	        var newViewModel = new CardVM(ref uc, ref myBusidex);
+
 	        await Navigation.PushAsync(new CardDetailView(ref newViewModel));
 	    }
 	}

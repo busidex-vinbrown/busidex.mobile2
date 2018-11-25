@@ -2,14 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
-             xmlns:domainModels="clr-namespace:Busidex3.DomainModels;assembly=Busidex3"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:busidex3="clr-namespace:Busidex3;assembly=Busidex3"
              x:Class="Busidex3.Views.MyBusidexView">
     <ContentPage.Resources>
-        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
-        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
-        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
         <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
-        <converters:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>        
         <StackLayout Padding="10" BackgroundColor="#ffd3d3d3">
@@ -34,7 +31,7 @@
                       VerticalOptions="FillAndExpand"
                       IsPullToRefreshEnabled="True"
                       HasUnevenRows="True"
-                      SelectionMode="None"
+                      SelectionMode="None"      
                       BackgroundColor="LightGray"
                       CachingStrategy="RecycleElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
@@ -52,46 +49,21 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout 
-                                Padding="5,10,0,10" 
+                            <Frame
                                 BackgroundColor="LightGray"
-                                HorizontalOptions="StartAndExpand" 
-                                Orientation="Vertical">
-                                
-                                <Label VerticalOptions="FillAndExpand" 
-                                       VerticalTextAlignment="Center" 
-                                       Text="{Binding Card.Name}" 
-                                       IsVisible="{Binding Card.Name, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.Name}"
-                                       FontSize="Medium"/>
-                                <Label VerticalOptions="FillAndExpand" 
-                                       VerticalTextAlignment="Center" 
-                                       Text="{Binding Card.CompanyName}" 
-                                       IsVisible="{Binding Card.CompanyName, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.CompanyName}" 
-                                       FontSize="Small"/>
-
-                                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                                       HeightRequest="135"
-                                       WidthRequest="220"
-                                       Aspect="Fill"  
-                                       HorizontalOptions="Start"
-                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
-                                                              CommandParameter="{Binding UserCardId}" NumberOfTapsRequired="1" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                                       HeightRequest="220"
-                                       WidthRequest="135"
-                                       Aspect="Fill"
-                                       HorizontalOptions="Start"
-                                       IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
-                                                              CommandParameter="{Binding UserCardId}" NumberOfTapsRequired="1" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </StackLayout>
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
+                                Padding="0"
+                                Margin="0">
+                                <controls:CardListViewDisplay
+                                    BackgroundColor="LightGray"
+                                    HorizontalOptions="FillAndExpand"
+                                    SelectedCard="{Binding Card.Parent}"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                                          CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

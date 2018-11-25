@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
+             x:Class="Busidex3.Controls.CardListViewDisplay">
+    <ContentView.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+        <converters:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
+    </ContentView.Resources>
+    <ContentView.Content>
+      <StackLayout 
+            Padding="5,10,0,10" 
+            BackgroundColor="LightGray"
+            HorizontalOptions="FillAndExpand" 
+            Orientation="Vertical">
+            
+            <Label VerticalOptions="FillAndExpand" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalTextAlignment="Center" 
+                   Text="{Binding Card.Name}" 
+                   IsVisible="{Binding Card.Name, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.Name}"
+                   FontSize="Medium"/>
+            <Label VerticalOptions="FillAndExpand" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="FillAndExpand"
+                   Text="{Binding Card.CompanyName}" 
+                   IsVisible="{Binding Card.CompanyName, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.CompanyName}" 
+                   FontSize="Small"/>
+
+            <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                   HeightRequest="135"
+                   WidthRequest="220"
+                   Aspect="Fill"  
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+            </Image>
+            <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                   HeightRequest="220"
+                   WidthRequest="135"
+                   Aspect="Fill"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
+            </Image>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

@@ -40,12 +40,14 @@ namespace Busidex3.Services
                         content.Headers.Add("x-authorization-token", Security.AuthToken);
                         await httpClient.PostAsync(url, content).ContinueWith(async r =>
                         {
-                            if (!r.IsFaulted)
+                            if (!r.IsFaulted) 
                             {
                                 using (var resp = await r)
                                 {
                                     var responseContent = await resp.Content.ReadAsStringAsync();
-                                    response = JsonConvert.DeserializeObject<T>(responseContent);
+                                    response = string.IsNullOrEmpty(responseContent) 
+                                        ? new T() 
+                                        : JsonConvert.DeserializeObject<T>(responseContent);
                                 }
                             }
                             else
@@ -82,7 +84,9 @@ namespace Busidex3.Services
                                 using (var resp = await r)
                                 {
                                     var responseContent = await resp.Content.ReadAsStringAsync();
-                                    response = JsonConvert.DeserializeObject<T>(responseContent);
+                                    response = string.IsNullOrEmpty(responseContent) 
+                                        ? new T()
+                                        : JsonConvert.DeserializeObject<T>(responseContent);
                                 }
                             }
                             else
@@ -112,11 +116,10 @@ namespace Busidex3.Services
             }
             catch (Exception e)
             {
-
-                //Insights.Report(e);
                 throw new HttpRequestException("Request Failed. See inner exception for details.", e);
             }
-            return await Task.FromResult(response);
+
+            return response;
         }
 
         private static bool IsConnected()

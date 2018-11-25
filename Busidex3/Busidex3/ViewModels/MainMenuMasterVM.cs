@@ -15,14 +15,34 @@ namespace Busidex3.ViewModels
         {
             MenuItems = new ObservableCollection<MainMenuMenuItem>(new[]
             {
-                new MainMenuMenuItem { Id = 0, Title = ViewNames.MyBusidex, TargetType = typeof(MyBusidexView), Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
-                new MainMenuMenuItem { Id = 1, Title = ViewNames.Search, TargetType = typeof(SearchView), Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
-                new MainMenuMenuItem { Id = 2, Title = ViewNames.Events, TargetType = typeof(EventsView), Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
-                new MainMenuMenuItem { Id = 3, Title = ViewNames.Organizations, TargetType = typeof(OrganizationsView), Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)},
+                new MainMenuMenuItem { 
+                    Id = 0, 
+                    Title = ViewNames.MyBusidex, 
+                    TargetType = typeof(MyBusidexView), 
+                    Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                },
+                new MainMenuMenuItem { 
+                    Id = 1, 
+                    Title = ViewNames.Search, 
+                    TargetType = typeof(SearchView), 
+                    Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                },
+                new MainMenuMenuItem { 
+                    Id = 2, 
+                    Title = ViewNames.Events, 
+                    TargetType = typeof(EventsView), 
+                    Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                },
+                new MainMenuMenuItem {
+                    Id = 3, 
+                    Title = ViewNames.Organizations, 
+                    TargetType = typeof(OrganizationsView), 
+                    Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                },
             });
         }
             

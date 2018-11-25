@@ -1,7 +1,6 @@
 ﻿using System;
 using Busidex3.Analytics;
 using Busidex3.ViewModels;
-using Microsoft.AppCenter.Analytics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -52,7 +51,10 @@ namespace Busidex3.Views
                     _viewModel.LaunchMapApp();
 	                break;
 	            case CardActionButton.Notes:
-	                await Navigation.PushAsync(new NotesView(_viewModel));
+	                if (_viewModel.SelectedCard.ExistsInMyBusidex)
+	                {
+	                    await Navigation.PushAsync(new NotesView(_viewModel));
+	                }
 	                break;
 	            case CardActionButton.Email:
                     _viewModel.LaunchEmail();
