@@ -15,5 +15,7 @@ namespace Busidex3.ViewModels
         public string Title { get; set; }
         public ImageSource Image { get; set; }
         public Type TargetType { get; set; }
+        public bool IsSeparator { get; set; }
+        public bool IsClickable { get; set; }
     }
 }

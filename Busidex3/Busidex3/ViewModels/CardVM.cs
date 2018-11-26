@@ -20,13 +20,15 @@ namespace Busidex3.ViewModels
     public class CardVM : BaseViewModel
     {
         public static event OnCardInfoUpdatingHandler OnCardInfoUpdating;
-        public static event OnCardInfoSavedHandler OnCardInfoSaved;
+        //public static event OnCardInfoSavedHandler OnCardInfoSaved;
 
         private readonly CardHttpService _cardHttpService = new CardHttpService();
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
         private readonly ObservableRangeCollection<UserCard> _myBusidex;
+
+        
 
         public UserCard SelectedCard { get; }
          
@@ -46,13 +48,16 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex)
+        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Thumbnail)
         {
             SelectedCard = uc;
+            SelectedCard.SetDisplay(setting);
             PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
             _myBusidex = myBusidex;
-        }
 
+            Task.Factory.StartNew(async () => await App.LoadOwnedCard());        
+        }
+       
         #region UserCard Actions 
         public ICommand SendSMS
         {
@@ -191,7 +196,7 @@ namespace Busidex3.ViewModels
 
             var result = await _cardHttpService.UpdateCardImage(card);
 
-            await LoadOwnedCard();
+            await App.LoadOwnedCard();
 
             App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
@@ -205,7 +210,7 @@ namespace Busidex3.ViewModels
             OnCardInfoUpdating?.Invoke();
 
             var result = await _cardHttpService.UpdateCardVisibility(visibility);
-            await LoadOwnedCard();
+            await App.LoadOwnedCard();
 
             App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardVisibilityUpdated, SelectedCard.Card.Visibility.ToString());
 
@@ -234,7 +239,7 @@ namespace Busidex3.ViewModels
 
             SaveToFile();
 
-            await LoadOwnedCard();
+            await App.LoadOwnedCard();
 
             App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
@@ -254,47 +259,7 @@ namespace Busidex3.ViewModels
             Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
         }
 
-        private async Task<Card> LoadOwnedCard ()
-        {
-            try {
-
-                var myCardResponse = await _cardHttpService.GetMyCard ();
-                if(myCardResponse == null){
-                    OnCardInfoSaved?.Invoke ();
-                    return null;
-                }
-
-                var card = myCardResponse.Success && myCardResponse.Model != null
-                    ? new Card(myCardResponse.Model)
-                    : null;
-
-                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), StringResources.OWNED_CARD_FILE);
-
-                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-
-                if(myBusidex != null){
-                    foreach(var uc in myBusidex){
-                        if (card == null || uc.Card == null || uc.Card.CardId != card.CardId) continue;
-                        
-                        card.ExistsInMyBusidex = true;
-                        uc.Card = new Card (card);
-                        break;
-                    }
-                    
-                    var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
-
-                    Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
-                }
-
-                OnCardInfoSaved?.Invoke();
-
-                return await Task.FromResult(card);
-
-            } catch (Exception ex) {
-                Crashes.TrackError(ex);
-            }
-            return null;
-        }
+        
 
         #endregion
     }

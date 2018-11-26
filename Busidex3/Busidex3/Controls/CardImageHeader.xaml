@@ -15,13 +15,13 @@
                 VerticalOptions="Start"
                 HorizontalOptions="Center"
                 Padding="1"
-                HeightRequest="300"
-                WidthRequest="183"
+                HeightRequest="{Binding DisplaySettings.VFrameHeight}"
+                WidthRequest="{Binding DisplaySettings.VFrameWidth}"
                 IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
                 <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                             Aspect="Fill"
-                             HeightRequest="250"
-                             WidthRequest="152">
+                       Aspect="Fill"
+                       HeightRequest="{Binding DisplaySettings.VImageHeight}"
+                       WidthRequest="{Binding DisplaySettings.VImageWidth}">
                 </Image>
             </Frame>
             <Frame 
@@ -29,13 +29,13 @@
                 VerticalOptions="Start"
                 HorizontalOptions="Center"
                 Padding="1"
-                HeightRequest="152"
-                WidthRequest="250"
+                HeightRequest="{Binding DisplaySettings.HFrameHeight}"
+                WidthRequest="{Binding DisplaySettings.HFrameWidth}"
                 IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
                 <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                             Aspect="Fill"
-                             HeightRequest="183"
-                             WidthRequest="300">
+                       Aspect="Fill"
+                       HeightRequest="{Binding DisplaySettings.HImageHeight}"
+                       WidthRequest="{Binding DisplaySettings.HImageWidth}">
                 </Image>
             </Frame>
         </StackLayout>

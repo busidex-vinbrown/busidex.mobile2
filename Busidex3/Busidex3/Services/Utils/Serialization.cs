@@ -2,11 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Microsoft.AppCenter.Crashes;
-//using CreationCollisionOption = PCLStorage.CreationCollisionOption;
-//using ExistenceCheckResult = PCLStorage.ExistenceCheckResult;
 using File = System.IO.File;
-
-//using FileAccess = System.IO.FileAccess;
 
 namespace Busidex3.Services.Utils
 {
@@ -98,14 +94,13 @@ namespace Busidex3.Services.Utils
 
         static string LoadFromFile(string fullFilePath)
         {
-            string fileJson = string.Empty;
-            if (File.Exists(fullFilePath))
+            var fileJson = string.Empty;
+            if (!File.Exists(fullFilePath)) return fileJson;
+
+            using (var file = File.OpenText(fullFilePath))
             {
-                using (var file = File.OpenText(fullFilePath))
-                {
-                    fileJson = file.ReadToEnd();
-                    file.Close();
-                }
+                fileJson = file.ReadToEnd();
+                file.Close();
             }
 
             return fileJson;

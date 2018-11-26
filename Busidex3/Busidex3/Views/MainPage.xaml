@@ -4,7 +4,7 @@
              x:Class="Busidex3.Views.MainPage">
 
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Padding="20">
+        <!--<StackLayout Orientation="Vertical" Padding="20">
             <StackLayout Orientation="Horizontal">
                 <Image x:Name="imgSearchIcon" IsVisible="True" Aspect="AspectFit" HeightRequest="60" WidthRequest="60" />
                 <Button x:Name="btnSearch" Text="Search" FontSize="Medium"></Button>
@@ -25,6 +25,6 @@
                 <Image x:Name="imgShareIcon" IsVisible="True" Aspect="AspectFit" HeightRequest="60" WidthRequest="60" />
                 <Button x:Name="btnShare" Text="Share My Card" FontSize="Medium"></Button>
             </StackLayout>
-        </StackLayout>
+        </StackLayout>-->
     </ContentPage.Content>
 </ContentPage>

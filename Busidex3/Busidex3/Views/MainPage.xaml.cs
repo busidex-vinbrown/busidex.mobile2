@@ -10,16 +10,16 @@ namespace Busidex3.Views
         {
             InitializeComponent();
 
-            imgSearchIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
-                typeof(StringResources).GetTypeInfo().Assembly);
-            imgMyBusidexIcon.Source = ImageSource.FromResource("Busidex3.StringResources.mybusidexicon.png",
-                typeof(StringResources).GetTypeInfo().Assembly);
-            imgOrganizationsIcon.Source = ImageSource.FromResource("Busidex3.StringResources.eventicon.png",
-                typeof(StringResources).GetTypeInfo().Assembly);
-            imgEventIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
-                typeof(StringResources).GetTypeInfo().Assembly);
-            imgShareIcon.Source = ImageSource.FromResource("Busidex3.StringResources.shareicon.png",
-                typeof(StringResources).GetTypeInfo().Assembly);
+            //imgSearchIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
+            //    typeof(StringResources).GetTypeInfo().Assembly);
+            //imgMyBusidexIcon.Source = ImageSource.FromResource("Busidex3.StringResources.mybusidexicon.png",
+            //    typeof(StringResources).GetTypeInfo().Assembly);
+            //imgOrganizationsIcon.Source = ImageSource.FromResource("Busidex3.StringResources.eventicon.png",
+            //    typeof(StringResources).GetTypeInfo().Assembly);
+            //imgEventIcon.Source = ImageSource.FromResource("Busidex3.StringResources.searchicon.png",
+            //    typeof(StringResources).GetTypeInfo().Assembly);
+            //imgShareIcon.Source = ImageSource.FromResource("Busidex3.StringResources.shareicon.png",
+            //    typeof(StringResources).GetTypeInfo().Assembly);
 
             //btnSearch.Image = Serialization.CopyIcon("searchicon.png").Result;
             //btnMyBusidex.Image = Serialization.CopyIcon("mybusidexicon.png").Result;

@@ -1,4 +1,10 @@
-﻿using Busidex3.Analytics;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Busidex3.Analytics;
+using Busidex3.DomainModels;
+using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Busidex3.Views;
 using Xamarin.Forms;
@@ -11,11 +17,15 @@ namespace Busidex3
 {
     public partial class App : Application
     {
+        private static readonly CardHttpService _cardHttpService = new CardHttpService();
+
         public App()
         {
             InitializeComponent();
 
             Security.ReadAuthCookie();
+            
+            Task.Factory.StartNew(async () => await LoadOwnedCard());
 
             MainPage = new MainMenu();// new NavigationPage(new MainMenu());            
         }
@@ -44,6 +54,45 @@ namespace Busidex3
             };
             masterDetailRootPage.IsPresented = false;
             masterDetailRootPage.IsGestureEnabled = true;
+        }
+
+        public static async Task<Card> LoadOwnedCard ()
+        {
+            try {
+
+                var myCardResponse = await _cardHttpService.GetMyCard ();
+                if(myCardResponse == null){
+                    return null;
+                }
+
+                var card = myCardResponse.Success && myCardResponse.Model != null
+                    ? new Card(myCardResponse.Model)
+                    : null;
+                var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
+                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), path);
+
+                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+
+                if(myBusidex != null){
+                    foreach(var uc in myBusidex){
+                        if (card == null || uc.Card == null || uc.Card.CardId != card.CardId) continue;
+                        
+                        card.ExistsInMyBusidex = true;
+                        uc.Card = new Card (card);
+                        break;
+                    }
+                    
+                    var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+
+                    Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
+                }
+
+                return await Task.FromResult(card);
+
+            } catch (Exception ex) {
+                Crashes.TrackError(ex);
+            }
+            return null;
         }
 
         protected override void OnStart()

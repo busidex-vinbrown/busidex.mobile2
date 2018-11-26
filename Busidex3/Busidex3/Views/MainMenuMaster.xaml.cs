@@ -8,18 +8,32 @@ namespace Busidex3.Views
 {
     public delegate void LogoutResult();
 
+    public delegate void OnShareClickedResult();
+    public delegate void OnCardEditClickedResult();
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuMaster
     {
         public ListView ListView;
         public event LogoutResult OnLogout;
+        public event OnShareClickedResult OnShareClicked;
+        public event OnCardEditClickedResult OnCardEditClicked;
+
+        protected MainMenuMasterVM _viewModel { get; set; }
 
         public MainMenuMaster()
         {
             InitializeComponent();
 
-            BindingContext = new MainMenuMasterVM();
+            _viewModel = new MainMenuMasterVM();
+            BindingContext = _viewModel;
             ListView = MenuItemsListView;
+
+        }
+
+        public void RefreshProfile()
+        {
+            _viewModel.RefreshProfile();
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
@@ -29,6 +43,16 @@ namespace Busidex3.Views
             Security.LogOut();
 
             OnLogout?.Invoke();
+        }
+
+        private void CardEditTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            OnCardEditClicked?.Invoke();
+        }
+
+        private void ShareCardTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            OnShareClicked?.Invoke();
         }
     }
 }

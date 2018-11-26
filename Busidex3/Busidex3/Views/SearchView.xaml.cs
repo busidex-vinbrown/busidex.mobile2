@@ -20,7 +20,7 @@ namespace Busidex3.Views
 		public SearchView ()
 		{
 			InitializeComponent ();
-		    BindingContext = _viewModel;
+		    BindingContext = _viewModel;		    
 
 		    Task.Factory.StartNew(async () => { await _myBusidex.Init(); });
 

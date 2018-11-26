@@ -4,69 +4,72 @@
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              x:Class="Busidex3.Views.SearchView">
     <ContentPage.Content>
-        <RelativeLayout             
-            VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand">
-            <Grid RowSpacing="5" Padding="10" BackgroundColor="#ffd3d3d3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <SearchBar x:Name="txtSearch"
-                           Text="{Binding SearchValue}"
-                           SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
-                           TextChanged="TxtSearch_OnTextChanged"
-                           Placeholder="Search"
-                           Grid.Column="0"
-                           Grid.Row="0"/>
-                <ListView x:Name="lstSearchResults"
-                          SeparatorVisibility="Default"
-                          VerticalOptions="FillAndExpand"
-                          IsPullToRefreshEnabled="False"
-                          HasUnevenRows="True"
-                          SelectionMode="None"                      
-                          BackgroundColor="LightGray"
-                          CachingStrategy="RecycleElement"                      
-                          ItemsSource="{Binding SearchResults}"
-                          Grid.Column="0"
-                          Grid.Row="1">                                  
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Frame
-                                    BackgroundColor="LightGray"
-                                    VerticalOptions="Fill"
-                                    HorizontalOptions="Fill"
-                                    Padding="0"
-                                    Margin="0">
-                                    <controls:CardListViewDisplay
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Image Source="{Binding BackgroundImage}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill"/>
+            <RelativeLayout             
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand">
+                <Grid RowSpacing="5" Padding="10" BackgroundColor="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <SearchBar x:Name="txtSearch"
+                               Text="{Binding SearchValue}"
+                               SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
+                               TextChanged="TxtSearch_OnTextChanged"
+                               Placeholder="Search"
+                               Grid.Column="0"
+                               Grid.Row="0"/>
+                    <ListView x:Name="lstSearchResults"
+                              SeparatorVisibility="Default"
+                              VerticalOptions="FillAndExpand"
+                              IsPullToRefreshEnabled="False"
+                              HasUnevenRows="True"
+                              SelectionMode="None"                      
+                              BackgroundColor="Transparent"
+                              CachingStrategy="RecycleElement"                      
+                              ItemsSource="{Binding SearchResults}"
+                              Grid.Column="0"
+                              Grid.Row="1">                                  
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame
                                         BackgroundColor="LightGray"
-                                        HorizontalOptions="FillAndExpand"
-                                        SelectedCard="{Binding Card.Parent}"/>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
-                                                              CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-            <ActivityIndicator 
-                x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
-                Color="#03A9F4" 
-                IsRunning="True"
-                IsVisible="{Binding IsSearching}" 
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,
-                        Factor=0.45}"
-                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,
-                        Factor=0.33}" />
+                                        VerticalOptions="Fill"
+                                        HorizontalOptions="Fill"
+                                        Padding="0"
+                                        Margin="0">
+                                        <controls:CardListViewDisplay
+                                            BackgroundColor="LightGray"
+                                            HorizontalOptions="FillAndExpand"
+                                            SelectedCard="{Binding Card.Parent}"/>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                                                  CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+                <ActivityIndicator 
+                    x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                    Color="#03A9F4" 
+                    IsRunning="True"
+                    IsVisible="{Binding IsSearching}" 
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Width,
+                            Factor=0.45}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Height,
+                            Factor=0.33}" />
             </RelativeLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -24,6 +24,9 @@ namespace Busidex3.ViewModels
             if (user == null || user.UserId <= 0) return false;
 
             Security.SaveAuthCookie(user.UserId);
+            
+            await Task.Factory.StartNew(async ()=> await App.LoadOwnedCard());
+
             return true;
 
         }

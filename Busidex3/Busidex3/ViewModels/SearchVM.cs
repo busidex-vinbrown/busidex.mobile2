@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace Busidex3.ViewModels
@@ -10,6 +11,16 @@ namespace Busidex3.ViewModels
     public class SearchVM : BaseCardListViewModel
     {
         private SearchHttpService _searchHttpService = new SearchHttpService();
+
+        public ImageSource BackgroundImage  
+        {
+            get => _backgroundImage;
+            set
+            {
+                _backgroundImage = value;
+                OnPropertyChanged(nameof(BackgroundImage));
+            }
+        }
 
         private ObservableRangeCollection<UserCard> _searchResults;
         public ObservableRangeCollection<UserCard> SearchResults
@@ -23,6 +34,8 @@ namespace Busidex3.ViewModels
         } 
 
         private bool _isSearching;
+        private ImageSource _backgroundImage;
+
         public bool IsSearching { 
             get => _isSearching;
             set {
@@ -51,6 +64,8 @@ namespace Busidex3.ViewModels
             SearchResults.ForEach(uc => uc.Card.Parent = uc);
 
             IsSearching = false;
+
+            BackgroundImage = ImageSource.FromResource("Busidex3.Resources.card_back2.png");
 
             return true;
         }

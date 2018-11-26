@@ -14,7 +14,9 @@ namespace Busidex3.Views
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
             MasterPage.OnLogout += RedirectToLogin;
-            
+            MasterPage.OnShareClicked += MasterPage_OnShareClicked;
+            MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
+
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
                 RedirectToLogin();
@@ -26,13 +28,45 @@ namespace Busidex3.Views
 
                 Detail = new NavigationPage(page);
                 IsPresented = false;
+
+                this.IsPresentedChanged += MainMenu_IsPresentedChanged;
+            }            
+        }
+
+        private void MasterPage_OnCardEditClicked()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView));
+            page.Title = "Edit My Card";
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+
+            MasterPage.ListView.SelectedItem = null;
+        }
+
+        private void MasterPage_OnShareClicked()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(ShareView));
+            page.Title = "Share My Card";
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+
+            MasterPage.ListView.SelectedItem = null;
+        }
+
+        private void MainMenu_IsPresentedChanged(object sender, EventArgs e)
+        {
+            if (IsPresented)
+            {
+                MasterPage.RefreshProfile();
             }
         }
 
         private void RedirectToLogin()
         {
             var page = (Page)Activator.CreateInstance(typeof(Login));
-            Detail = page;// new NavigationPage(page);
+            Detail = page;
             IsPresented = false;
             NavigationPage.SetHasNavigationBar (Detail, false);
             IsGestureEnabled = false;

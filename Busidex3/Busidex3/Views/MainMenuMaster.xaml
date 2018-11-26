@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              x:Class="Busidex3.Views.MainMenuMaster"
-             Title="Master">
+             Title="Busidex">
   <StackLayout>
       <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
+        <Grid>
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
+            <!--<RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="5"/>-->
           </Grid.RowDefinitions>
             <!--
             If user is a card owner, show their card in an avatar-style
@@ -28,26 +29,71 @@
             If they're not a card owner, just show the Settings button.
             Show logout button at the bottom.
             -->
-            
-          <!--<Label
-              Grid.Column="1"
-              Grid.Row="2"
-              Text="AppName"
-              Style="{DynamicResource SubtitleStyle}"/>-->
+            <StackLayout
+                Padding="20, 10"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="0"
+                Orientation="Horizontal">
+                <controls:CardImageHeader
+                    BackgroundColor="{Binding ThumbnailBackground}"
+                    HorizontalOptions="Start"
+                    BindingContext="{Binding MyCard}">
+                </controls:CardImageHeader>
+                <StackLayout
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShareCardTapGestureRecognizer_OnTapped"
+                                              NumberOfTapsRequired="1" />
+                    </StackLayout.GestureRecognizers>
+                    <StackLayout Padding="5" 
+                                 HorizontalOptions="FillAndExpand" 
+                                 Orientation="Horizontal">
+                        <Image IsVisible="True" Aspect="AspectFit" 
+                               HeightRequest="30" WidthRequest="30"
+                               HorizontalOptions="Start"
+                               Source="{Binding ShareImage.Image}"/>
+                        <Label VerticalOptions="FillAndExpand" 
+                               VerticalTextAlignment="Center" 
+                               Text="{Binding ShareImage.Title}" 
+                               FontSize="Small"/>
+                    </StackLayout>
+                    <StackLayout Padding="5" 
+                                 HorizontalOptions="FillAndExpand" 
+                                 Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CardEditTapGestureRecognizer_OnTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image IsVisible="True" Aspect="AspectFit" 
+                               HeightRequest="30" WidthRequest="30"
+                               HorizontalOptions="Start"
+                               Source="{Binding EditImage.Image}"/>
+                        <Label VerticalOptions="FillAndExpand" 
+                               VerticalTextAlignment="Center" 
+                               Text="{Binding EditImage.Title}" 
+                               FontSize="Small"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
         </Grid>
       </ListView.Header>          
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>
             <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                <Image IsVisible="True" Aspect="AspectFit" 
+                <BoxView HeightRequest="2" HorizontalOptions="FillAndExpand" Color="DarkGray" IsVisible="{Binding IsSeparator}"/>
+                <Image Aspect="AspectFit" 
                        HeightRequest="40" WidthRequest="40"
                        HorizontalOptions="Start"
-                       Source="{Binding Image}"/>
+                       Source="{Binding Image}"
+                       IsVisible="{Binding IsClickable}"/>
                 <Label VerticalOptions="FillAndExpand" 
-                    VerticalTextAlignment="Center" 
-                    Text="{Binding Title}" 
-                    FontSize="24"/>
+                       VerticalTextAlignment="Center" 
+                       Text="{Binding Title}" 
+                       FontSize="24"
+                       IsVisible="{Binding IsClickable}"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>

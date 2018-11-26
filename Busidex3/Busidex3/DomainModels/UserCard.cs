@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Busidex3.Annotations;
+using Busidex3.ViewModels;
 
 namespace Busidex3.DomainModels
 {
-	public class UserCard
+	public class UserCard : INotifyPropertyChanged
 	{
 
 		public UserCard ()
@@ -60,6 +64,14 @@ namespace Busidex3.DomainModels
 			ExistsInMyBusidex = card.ExistsInMyBusidex;
 		}
 
+        public UserCardDisplay DisplaySettings { get;set; }
+
+	    public void SetDisplay(UserCardDisplay.DisplaySetting setting)
+	    {
+            this.DisplaySettings = new UserCardDisplay(setting);
+	        OnPropertyChanged(nameof(DisplaySettings));
+	    }
+
 		public long UserCardId{ get; set; }
 
 		public long CardId{ get; set; }
@@ -85,6 +97,13 @@ namespace Busidex3.DomainModels
 		public List<Card> RelatedCards{ get; set; }
 
 		public bool ExistsInMyBusidex{ get; set; }
+	    public event PropertyChangedEventHandler PropertyChanged;
+
+	    [NotifyPropertyChangedInvocator]
+	    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+	    {
+	        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	    }
 	}
 }
 

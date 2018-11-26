@@ -7,7 +7,8 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="20, 10">
             <controls:CardImageHeader 
-                BindingContext="{Binding SelectedCard}"/>
+                BindingContext="{Binding SelectedCard}">
+            </controls:CardImageHeader>
             <Grid RowSpacing="29" Padding="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>

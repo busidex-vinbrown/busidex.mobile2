@@ -18,7 +18,8 @@
                 <controls:CardImageHeader 
                     BindingContext="{Binding SelectedCard}"
                     Grid.Row="0"
-                    Grid.Column="0"/>
+                    Grid.Column="0">
+                </controls:CardImageHeader>
                 <ListView x:Name="lstPhoneNumbers"
                       SeparatorVisibility="None"
                       SelectionMode="None"
