@@ -1,5 +1,5 @@
 ﻿using Busidex3.Analytics;
-using Busidex3.ViewModels;
+using Busidex3.DomainModels;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
@@ -7,9 +7,9 @@ namespace Busidex3.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ShareView
 	{
-	    public CardVM _viewModel { get; set; }
+	    public UserCard _viewModel { get; set; }
 
-	    public ShareView(ref CardVM vm)
+	    public ShareView(ref UserCard vm)
 	    {
 	        InitializeComponent();
 	        App.AnalyticsManager.TrackScreen(ScreenName.Share);

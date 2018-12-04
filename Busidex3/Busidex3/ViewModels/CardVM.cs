@@ -9,7 +9,6 @@ using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
-using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -48,10 +47,14 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Thumbnail)
+        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
             SelectedCard = uc;
-            SelectedCard.SetDisplay(setting);
+            SelectedCard.SetDisplay(
+                setting, 
+                UserCardDisplay.CardSide.Front, 
+                StringResources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName
+                );
             PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
             _myBusidex = myBusidex;
 

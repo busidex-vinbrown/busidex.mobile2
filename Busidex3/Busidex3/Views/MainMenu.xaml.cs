@@ -1,4 +1,5 @@
 ﻿using System;
+using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
@@ -44,7 +45,7 @@ namespace Busidex3.Views
             MasterPage.ListView.SelectedItem = null;
         }
 
-        private void MasterPage_OnShareClicked()
+        private void MasterPage_OnShareClicked(ref UserCard card)
         {
             var page = (Page)Activator.CreateInstance(typeof(ShareView));
             page.Title = "Share My Card";

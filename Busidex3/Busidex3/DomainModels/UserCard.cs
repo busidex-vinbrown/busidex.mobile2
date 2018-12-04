@@ -66,9 +66,20 @@ namespace Busidex3.DomainModels
 
         public UserCardDisplay DisplaySettings { get;set; }
 
-	    public void SetDisplay(UserCardDisplay.DisplaySetting setting)
+	    public void SetDisplay(
+	        UserCardDisplay.DisplaySetting setting, 
+	        UserCardDisplay.CardSide side = UserCardDisplay.CardSide.Front,
+	        string fileName = "")
 	    {
-            this.DisplaySettings = new UserCardDisplay(setting);
+	        var currentOrientation = side == UserCardDisplay.CardSide.Front
+	            ? Card.FrontOrientation
+	            : Card.BackOrientation;
+
+	        var orientation = currentOrientation == "H"
+	            ? UserCardDisplay.CardOrientation.Horizontal
+	            : UserCardDisplay.CardOrientation.Vertical;
+
+            DisplaySettings = new UserCardDisplay(setting, orientation, fileName);
 	        OnPropertyChanged(nameof(DisplaySettings));
 	    }
 

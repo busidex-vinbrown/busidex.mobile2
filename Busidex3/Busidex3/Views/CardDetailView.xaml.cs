@@ -1,5 +1,6 @@
 ﻿using System;
 using Busidex3.Analytics;
+using Busidex3.DomainModels;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,11 +20,18 @@ namespace Busidex3.Views
 		    BindingContext = _viewModel;
 
 		    LoadButtons();
-		    
+
+            Header.OnCardImageClicked += Header_OnCardImageClicked;
 		    App.AnalyticsManager.TrackScreen(ScreenName.CardDetail);
 		}
 
-	    private void LoadButtons()
+        private async void Header_OnCardImageClicked(DomainModels.UserCard uc)
+        {
+            
+            await Navigation.PushAsync(new CardImageView(ref uc));
+        }
+
+        private void LoadButtons()
 	    {
 	        btnMap.Source = ImageSource.FromResource("Busidex3.Resources.maps.png");
             btnNotes.Source = ImageSource.FromResource("Busidex3.Resources.notes.png");
@@ -38,7 +46,8 @@ namespace Busidex3.Views
 
 	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
-	        await Navigation.PushAsync(new CardImageView(_viewModel.SelectedCard));
+	        var uc = _viewModel.SelectedCard;
+	        await Navigation.PushAsync(new CardImageView(ref uc));
 	    }
 
 	    private async void ButtonTapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
@@ -66,7 +75,8 @@ namespace Busidex3.Views
 	                await Navigation.PushAsync(new PhoneView(_viewModel));
 	                break;
 	            case CardActionButton.Share:
-	                await Navigation.PushAsync(new ShareView(_viewModel));
+	                var uc = _viewModel.SelectedCard;
+	                await Navigation.PushAsync(new ShareView(ref uc));
 	                break;
 	            case CardActionButton.Tags:
 	                break;
@@ -80,6 +90,12 @@ namespace Busidex3.Views
 	            default:
 	                throw new ArgumentOutOfRangeException();
 	        }
+	    }
+
+	    private async void CardImageHeader_OnTapped(object sender, TappedEventArgs e)
+	    {
+            var uc = e.Parameter as UserCard;;
+	        await Navigation.PushAsync(new CardImageView(ref uc));
 	    }
 	}
 }

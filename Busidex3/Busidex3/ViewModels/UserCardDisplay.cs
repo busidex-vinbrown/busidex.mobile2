@@ -1,6 +1,10 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Busidex3.Annotations;
+using Busidex3.Services.Utils;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -12,6 +16,18 @@ namespace Busidex3.ViewModels
             Detail,
             Thumbnail,
             FullScreen
+        }
+
+        public enum CardOrientation
+        {
+            Horizontal,
+            Vertical
+        }
+
+        public enum CardSide
+        {
+            Front,
+            Back
         }
 
         public double VFrameHeight { get; set; }
@@ -28,26 +44,59 @@ namespace Busidex3.ViewModels
         public Color ThumbnailBackground { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public UserCardDisplay(DisplaySetting display = DisplaySetting.Detail)
-        {
+        private readonly DisplaySetting _currentDisplaySetting;
+        private readonly CardOrientation _currentOrientation;
+        public string CurrentFileName { get; set; }
 
-            var scale = display == DisplaySetting.Thumbnail 
-                ? .5 
+        public UserCardDisplay(
+            DisplaySetting display = DisplaySetting.Detail, 
+            CardOrientation orientation = CardOrientation.Horizontal,
+            string fileName = ""
+            )
+        {
+            _currentDisplaySetting = display;
+            _currentOrientation = orientation;
+            CurrentFileName = fileName;
+
+            var filePath = Path.Combine(Serialization.LocalStorageFolder, CurrentFileName);
+            if(!File.Exists(filePath))
+            {
+                var imageUrl = (display == DisplaySetting.FullScreen
+                                   ? StringResources.CARD_PATH
+                                   : StringResources.THUMBNAIL_PATH) + CurrentFileName;
+
+                App.DownloadImage(imageUrl, Serialization.LocalStorageFolder, filePath)
+                    .ContinueWith(result => { OnPropertyChanged(nameof(CurrentFileName)); });
+            }
+            var scale = display == DisplaySetting.Thumbnail
+                ? .5
                 : 1;
             Init(scale);
         }
 
         private void Init(double scale)
         {
-            VFrameHeight = 300 * scale;
-            VFrameWidth = 183 * scale;
-            VImageHeight = 250 * scale;
-            VImageWidth = 152 * scale;
+            if (_currentDisplaySetting == DisplaySetting.FullScreen)
+            {
+                VFrameHeight = HFrameHeight = DeviceDisplay.ScreenMetrics.Height;
+                VImageHeight = HImageHeight = VFrameHeight - 10;
+                VFrameWidth = HFrameWidth = DeviceDisplay.ScreenMetrics.Width;
 
-            HFrameHeight = 183 * scale;
-            HFrameWidth = 300 * scale;
-            HImageHeight = 152 * scale;
-            HImageWidth = 250 * scale;
+                App.DisplayManager.SetOrientation(_currentOrientation);
+            }
+            else
+            {
+                VFrameHeight = 300 * scale;
+                VFrameWidth = 183 * scale;
+                VImageHeight = 250 * scale;
+                VImageWidth = 152 * scale;
+
+                HFrameHeight = 183 * scale;
+                HFrameWidth = 300 * scale;
+                HImageHeight = 152 * scale;
+                HImageWidth = 250 * scale;
+            }
+            
 
             OnPropertyChanged(nameof(VFrameHeight));
             OnPropertyChanged(nameof(VFrameWidth));

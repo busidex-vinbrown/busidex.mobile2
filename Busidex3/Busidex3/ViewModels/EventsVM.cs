@@ -120,7 +120,7 @@ namespace Busidex3.ViewModels
                     {
                         try
                         {
-                            await DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName).ContinueWith(r =>
+                            await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName).ContinueWith(r =>
                             {
                                 status.Count++;
                                 OnEventCardsUpdated?.Invoke(status);
@@ -142,7 +142,7 @@ namespace Busidex3.ViewModels
                     {
                         try
                         {
-                            await DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                            await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
                         }
                         catch
                         {

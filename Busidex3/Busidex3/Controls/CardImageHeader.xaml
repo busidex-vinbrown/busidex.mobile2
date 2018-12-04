@@ -10,6 +10,10 @@
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout >
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                      CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
             <Frame 
                 BorderColor="DarkGray"
                 VerticalOptions="Start"
@@ -18,10 +22,10 @@
                 HeightRequest="{Binding DisplaySettings.VFrameHeight}"
                 WidthRequest="{Binding DisplaySettings.VFrameWidth}"
                 IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                <Image Source="{Binding DisplaySettings.CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=DisplaySettings.CurrentFileName}" 
                        Aspect="Fill"
                        HeightRequest="{Binding DisplaySettings.VImageHeight}"
-                       WidthRequest="{Binding DisplaySettings.VImageWidth}">
+                       WidthRequest="{Binding DisplaySettings.VImageWidth}">                    
                 </Image>
             </Frame>
             <Frame 
@@ -32,10 +36,11 @@
                 HeightRequest="{Binding DisplaySettings.HFrameHeight}"
                 WidthRequest="{Binding DisplaySettings.HFrameWidth}"
                 IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+                <Image Source="{Binding DisplaySettings.CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=DisplaySettings.CurrentFileName}" 
                        Aspect="Fill"
                        HeightRequest="{Binding DisplaySettings.HImageHeight}"
                        WidthRequest="{Binding DisplaySettings.HImageWidth}">
+                    
                 </Image>
             </Frame>
         </StackLayout>

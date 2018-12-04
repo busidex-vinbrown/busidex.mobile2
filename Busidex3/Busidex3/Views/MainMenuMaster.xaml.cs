@@ -1,4 +1,5 @@
 ﻿using System;
+using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
@@ -8,7 +9,7 @@ namespace Busidex3.Views
 {
     public delegate void LogoutResult();
 
-    public delegate void OnShareClickedResult();
+    public delegate void OnShareClickedResult(ref UserCard card);
     public delegate void OnCardEditClickedResult();
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -52,7 +53,9 @@ namespace Busidex3.Views
 
         private void ShareCardTapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
-            OnShareClicked?.Invoke();
+            var mc = _viewModel.MyCard;
+
+            OnShareClicked?.Invoke(ref mc);
         }
     }
 }

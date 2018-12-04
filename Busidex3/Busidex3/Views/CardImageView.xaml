@@ -1,19 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              x:Class="Busidex3.Views.CardImageView">
     <ContentPage.Content>
-        <StackLayout>
-            <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
-                   WidthRequest="{Binding Application.Current.MainPage.Width}"
-                   Aspect="AspectFit"
-                   HorizontalOptions="Start"
-                   IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
-                                          CommandParameter="{Binding UserCardId}" NumberOfTapsRequired="1" />
-                </Image.GestureRecognizers>
-            </Image>
-        </StackLayout>
+        <controls:CardImageHeader 
+            x:Name="CardImage"
+            BindingContext="{Binding Path=.}">
+        </controls:CardImageHeader>
     </ContentPage.Content>
 </ContentPage>

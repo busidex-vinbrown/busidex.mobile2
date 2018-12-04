@@ -173,8 +173,20 @@ namespace Busidex3.DomainModels
 		const string fileName = "{0}.{1}";
 
 		public string FrontFileName { get { return string.Format (fileName, FrontFileId, FrontType); } }
+	    public string FrontThumbnailName { get { return string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, FrontFileId, FrontType); } }
 
 		public string BackFileName { get { return string.Format (fileName, BackFileId, BackType); } }
+	    public string BackThumbnailName { get { return string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, BackFileId, BackType); } }
+
+	    public bool HasBackImage
+	    {
+	        get
+	        {
+	            return this.BackFileId != Guid.Empty &&
+	                   this.BackFileId != null &&
+	                   this.BackFileId.ToString() != StringResources.EMPTY_CARD_ID;
+	        }
+	    }
 
         [JsonIgnore]
 	    public UserCard Parent { get; set; }

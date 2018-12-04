@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
@@ -35,13 +37,57 @@ namespace Busidex3
         {
             get
             {
-                if (analyticsManager == null)
-                {
-                    analyticsManager = DependencyService.Get<IAnalyticsManager>();
-                    analyticsManager.InitWithId();
-                }
+                if (analyticsManager != null) return analyticsManager;
+
+                analyticsManager = DependencyService.Get<IAnalyticsManager>();
+                analyticsManager.InitWithId();
                 return analyticsManager;
             }
+        }
+
+        private static IDisplayManager displayManager;
+        public static IDisplayManager DisplayManager
+        {
+            get
+            {
+                if (displayManager != null) return displayManager;
+
+                displayManager = DependencyService.Get<IDisplayManager>();
+              
+                return displayManager;
+            }
+        }
+
+        public static async Task<string> DownloadImage (string imagePath, string documentsPath, string fileName)
+        {
+            ServicePointManager.Expect100Continue = false;
+
+            if (string.IsNullOrEmpty(imagePath) || imagePath.Contains (StringResources.NULL_CARD_ID)) {
+                return string.Empty;
+            }
+
+            var semaphore = new SemaphoreSlim (1, 1);
+            await semaphore.WaitAsync ();
+
+            var jpgFilename = Path.Combine (documentsPath, fileName);
+
+            try {
+                using (var webClient = new WebClient ()) {
+
+                    var imageData = await webClient.DownloadDataTaskAsync (new Uri (imagePath));
+
+                    var localPath = Path.Combine (documentsPath, fileName);
+                    if (imageData != null) {
+                        File.WriteAllBytes (localPath, imageData); // writes to local storage  
+                    }
+                }
+            } catch (Exception ex) {
+                Crashes.TrackError(new Exception ("Error loading " + imagePath, ex));
+            } finally {
+                semaphore.Release ();
+            }
+
+            return jpgFilename;
         }
 
         public static void LoadMainMenuPage(string title)

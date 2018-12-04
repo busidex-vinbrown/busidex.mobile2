@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Busidex3.ViewModels;
 
 namespace Busidex3.Droid
 {
@@ -15,6 +16,13 @@ namespace Busidex3.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+        }
+
+        public void SetOrientation(UserCardDisplay.CardOrientation orientation)
+        {
+            RequestedOrientation = orientation == UserCardDisplay.CardOrientation.Horizontal
+                ? ScreenOrientation.Landscape
+                : ScreenOrientation.Portrait;
         }
     }
 }

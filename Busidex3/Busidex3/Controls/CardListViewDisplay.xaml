@@ -29,14 +29,14 @@
                    IsVisible="{Binding Card.CompanyName, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Card.CompanyName}" 
                    FontSize="Small"/>
 
-            <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+            <Image Source="{Binding Card.FrontThumbnailName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontThumbnailName}" 
                    HeightRequest="135"
                    WidthRequest="220"
                    Aspect="Fill"  
                    HorizontalOptions="Start"
                    IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
             </Image>
-            <Image Source="{Binding Card.FrontFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontFileName}" 
+            <Image Source="{Binding Card.FrontThumbnailName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Card.FrontThumbnailName}" 
                    HeightRequest="220"
                    WidthRequest="135"
                    Aspect="Fill"

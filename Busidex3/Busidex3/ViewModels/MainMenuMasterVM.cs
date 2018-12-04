@@ -93,7 +93,7 @@ namespace Busidex3.ViewModels
             if (ownedCard != null)
             {
                 MyCard = new UserCard(ownedCard);
-                MyCard?.SetDisplay(UserCardDisplay.DisplaySetting.Thumbnail);
+                MyCard?.SetDisplay(UserCardDisplay.DisplaySetting.Thumbnail, UserCardDisplay.CardSide.Front, MyCard.Card.FrontFileName);
                 OnPropertyChanged(nameof(MyCard));
             }
         }

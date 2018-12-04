@@ -10,7 +10,7 @@ namespace Busidex3.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var fileName = Path.Combine (Serialization.LocalStorageFolder, StringResources.THUMBNAIL_FILE_NAME_PREFIX + value);
+            var fileName = Path.Combine (Serialization.LocalStorageFolder, value.ToString());
             return ImageSource.FromFile(fileName);
         }
 

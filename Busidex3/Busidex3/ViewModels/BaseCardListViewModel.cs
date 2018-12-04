@@ -107,7 +107,7 @@ namespace Busidex3.ViewModels
 
                         if(item.Card.FrontFileId != Guid.Empty && !string.IsNullOrEmpty(item.Card.FrontFileName) && item.Card.FrontFileName != StringResources.EMPTY_CARD_ID)
                         {
-                            await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                            await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
                         }
                     }
                     catch
@@ -128,7 +128,7 @@ namespace Busidex3.ViewModels
 
                 try
                 {
-                    await DownloadImage(bImageUrl, storagePath, bName);
+                    await App.DownloadImage(bImageUrl, storagePath, bName);
                 }
                 catch
                 {

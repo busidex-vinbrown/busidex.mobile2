@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="AnalyticsManager.cs" />
+    <Compile Include="DisplayManager.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

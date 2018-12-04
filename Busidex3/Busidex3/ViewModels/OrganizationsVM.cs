@@ -146,7 +146,7 @@ namespace Busidex3.ViewModels
                             {
                                 try
                                 {
-                                    await DownloadImage(fImagePath, Serialization.LocalStorageFolder, fileName).ContinueWith(
+                                    await App.DownloadImage(fImagePath, Serialization.LocalStorageFolder, fileName).ContinueWith(
                                         result =>
                                         {
                                             status.Count++;
@@ -245,7 +245,7 @@ namespace Busidex3.ViewModels
                         {
                             try
                             {
-                                await DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
+                                await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
                             catch
@@ -263,7 +263,7 @@ namespace Busidex3.ViewModels
                         {
                             try
                             {
-                                await DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
                             }
                             catch
                             {
@@ -353,7 +353,7 @@ namespace Busidex3.ViewModels
                         {
                             try
                             {
-                                await DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
+                                await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
                                     .ContinueWith(r => { status.Count++; });
                             }
                             catch
@@ -371,7 +371,7 @@ namespace Busidex3.ViewModels
                         {
                             try
                             {
-                                await DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
                             }
                             catch
                             {
