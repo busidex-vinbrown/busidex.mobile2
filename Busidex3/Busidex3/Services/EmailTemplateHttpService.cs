@@ -7,11 +7,11 @@ namespace Busidex3.Services
 {
     public class EmailTemplateHttpService : BaseHttpService
     {
-        public static async Task<EmailTemplate> GetTemplate(EmailTemplateCode code)
+        public static async Task<EmailTemplateResponse> GetTemplate(EmailTemplateCode code)
         {
             string url = string.Format(ServiceUrls.EmailTemplateUrl, code);
 
-            return await MakeRequestAsync<EmailTemplate> (url, WebRequestMethods.Http.Get, code);
+            return await MakeRequestAsync<EmailTemplateResponse> (url, WebRequestMethods.Http.Get, code);
         }
     }
 }

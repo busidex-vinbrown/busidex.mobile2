@@ -19,15 +19,12 @@ namespace Busidex3.ViewModels
     public class CardVM : BaseViewModel
     {
         public static event OnCardInfoUpdatingHandler OnCardInfoUpdating;
-        //public static event OnCardInfoSavedHandler OnCardInfoSaved;
 
         private readonly CardHttpService _cardHttpService = new CardHttpService();
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
         private readonly ObservableRangeCollection<UserCard> _myBusidex;
-
-        
 
         public UserCard SelectedCard { get; }
          
@@ -84,24 +81,26 @@ namespace Busidex3.ViewModels
 
         public async void LaunchMapApp() {
             // Windows Phone doesn't like ampersands in the names and the normal URI escaping doesn't help
-            var addr = SelectedCard.Card.Addresses.FirstOrDefault()?.ToString();
+            var address = SelectedCard.Card.Addresses.FirstOrDefault()?.ToString() 
+                          ?? string.Empty;
+
             string request;
             switch (Device.RuntimePlatform)
             {
                 case Device.Android:
                 {
-                    request = $"geo:0,0?q={addr}";
+                    request = $"geo:0,0?q={address}";
                     break;
                 }
                 case Device.iOS:
                 {
-                    addr = Uri.EscapeUriString(addr);
-                    request = $"http://maps.apple.com/maps?q={addr}";
+                    address = Uri.EscapeUriString(address);
+                    request = $"http://maps.apple.com/maps?q={address}";
                     break;
                 }
                 case Device.UWP:
                 {
-                    request = $"bingmaps:?cp={addr}";
+                    request = $"bingmaps:?cp={address}";
                     break;
                 }
 
@@ -139,9 +138,6 @@ namespace Busidex3.ViewModels
 
         public async void RemoveFromMyBusidex()
         {
-            //var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
-            //        Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-
             if (_myBusidex.All(b => b.CardId != SelectedCard.CardId)) return;
 
             _myBusidex.RemoveAll(b => b.CardId == SelectedCard.CardId);
@@ -163,7 +159,6 @@ namespace Busidex3.ViewModels
 
         public async void AddToMyBusidex()
         {
-            //var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
             if (_myBusidex.Any(b => b.CardId == SelectedCard.CardId)) return;
 
             SelectedCard.ExistsInMyBusidex = true;
@@ -261,9 +256,6 @@ namespace Busidex3.ViewModels
             var file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
             Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
         }
-
-        
-
         #endregion
     }
 }

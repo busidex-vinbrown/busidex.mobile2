@@ -44,7 +44,7 @@ namespace Busidex3.Services
                             {
                                 using (var resp = await r)
                                 {
-                                    var responseContent = await resp.Content.ReadAsStringAsync();
+                                    var responseContent = await resp.Content?.ReadAsStringAsync();
                                     response = string.IsNullOrEmpty(responseContent) 
                                         ? new T() 
                                         : JsonConvert.DeserializeObject<T>(responseContent);

@@ -47,8 +47,7 @@ namespace Busidex3.Views
 
         private void MasterPage_OnShareClicked(ref UserCard card)
         {
-            var page = (Page)Activator.CreateInstance(typeof(ShareView));
-            page.Title = "Share My Card";
+            var page = new ShareView(ref card) {Title = "Share My Card"};
 
             Detail = new NavigationPage(page);
             IsPresented = false;

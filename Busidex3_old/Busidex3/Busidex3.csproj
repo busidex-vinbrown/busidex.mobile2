@@ -1,0 +1,228 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.12.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.12.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="StandardStorage" Version="0.1.1" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\add.png" />
+    <None Remove="Resources\browser.png" />
+    <None Remove="Resources\cards_back2.png" />
+    <None Remove="Resources\checkmark.png" />
+    <None Remove="Resources\defaultUserImage.png" />
+    <None Remove="Resources\delete.jpeg" />
+    <None Remove="Resources\editicon.png" />
+    <None Remove="Resources\email.png" />
+    <None Remove="Resources\event.png" />
+    <None Remove="Resources\eventicon.png" />
+    <None Remove="Resources\exit.png" />
+    <None Remove="Resources\fb.png" />
+    <None Remove="Resources\maps.png" />
+    <None Remove="Resources\mybusidexicon.png" />
+    <None Remove="Resources\notes.png" />
+    <None Remove="Resources\organizationsicon.png" />
+    <None Remove="Resources\people.jpg" />
+    <None Remove="Resources\phone.png" />
+    <None Remove="Resources\red_minus.png" />
+    <None Remove="Resources\remove.png" />
+    <None Remove="Resources\searchicon.png" />
+    <None Remove="Resources\share.png" />
+    <None Remove="Resources\shareicon.png" />
+    <None Remove="Resources\spotlight-icon2.png" />
+    <None Remove="Resources\sync.png" />
+    <None Remove="Resources\tags.png" />
+    <None Remove="Resources\textmessage.png" />
+    <None Remove="Resources\twitter.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Services\AccountHttpService.cs" />
+    <Compile Include="Services\ActivityHttpService.cs" />
+    <Compile Include="Services\BaseHttpService.cs" />
+    <Compile Include="Services\BranchApiHttpService.cs" />
+    <Compile Include="Services\CardHttpService.cs" />
+    <Compile Include="Services\EmailTemplateHttpService.cs" />
+    <Compile Include="Services\LoginHttpService.cs" />
+    <Compile Include="Services\MyBusidexHttpService.cs" />
+    <Compile Include="Services\NotesHttpService.cs" />
+    <Compile Include="Services\OrganizationsHttpService.cs" />
+    <Compile Include="Services\SearchHttpService.cs" />
+    <Compile Include="Services\SettingsHttpService.cs" />
+    <Compile Include="Services\SharedCardHttpService.cs" />
+    <Compile Include="Services\SMSShareHttpService.cs" />
+    <Compile Include="Services\UserDeviceHttpService.cs" />
+    <Compile Include="Services\Utils\HttpVerbs.cs" />
+    <Compile Include="Services\Utils\Security.cs" />
+    <Compile Include="Services\Utils\Serialization.cs" />
+    <Compile Include="Services\Utils\ServiceResources.cs" />
+    <Compile Include="Services\Utils\ServiceUrls.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\add.png" />
+    <EmbeddedResource Include="Resources\browser.png" />
+    <EmbeddedResource Include="Resources\cards_back2.png" />
+    <EmbeddedResource Include="Resources\checkmark.png" />
+    <EmbeddedResource Include="Resources\defaultUserImage.png" />
+    <EmbeddedResource Include="Resources\delete.jpeg" />
+    <EmbeddedResource Include="Resources\editicon.png" />
+    <EmbeddedResource Include="Resources\email.png" />
+    <EmbeddedResource Include="Resources\event.png" />
+    <EmbeddedResource Include="Resources\eventicon.png" />
+    <EmbeddedResource Include="Resources\exit.png" />
+    <EmbeddedResource Include="Resources\fb.png" />
+    <EmbeddedResource Include="Resources\maps.png" />
+    <EmbeddedResource Include="Resources\mybusidexicon.png" />
+    <EmbeddedResource Include="Resources\notes.png" />
+    <EmbeddedResource Include="Resources\organizationsicon.png" />
+    <EmbeddedResource Include="Resources\people.jpg" />
+    <EmbeddedResource Include="Resources\phone.png" />
+    <EmbeddedResource Include="Resources\red_minus.png" />
+    <EmbeddedResource Include="Resources\remove.png" />
+    <EmbeddedResource Include="Resources\searchicon.png" />
+    <EmbeddedResource Include="Resources\share.png" />
+    <EmbeddedResource Include="Resources\shareicon.png" />
+    <EmbeddedResource Include="Resources\spotlight-icon2.png" />
+    <EmbeddedResource Include="Resources\sync.png" />
+    <EmbeddedResource Include="Resources\tags.png" />
+    <EmbeddedResource Include="Resources\textmessage.png" />
+    <EmbeddedResource Include="Resources\twitter.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ViewModels\MainMenuMenuItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\CardImageHeader.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CardListViewDisplay.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CardDetailView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CardImageView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCardMenuView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EventsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Login.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainMenuDetail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainMenuMaster.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MyBusidexView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\NotesView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OrganizationsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PhoneView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SearchView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShareView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Controls\CardImageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Controls\CardListViewDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\CardDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\CardImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\EditCardMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\EventsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\Login.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MainMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MainMenuDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MainMenuMaster.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MyBusidexView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\NotesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\OrganizationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\PhoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\SearchView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\ShareView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+</Project>

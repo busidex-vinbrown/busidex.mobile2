@@ -9,7 +9,7 @@ namespace Busidex3.Services
 {
     public class SharedCardHttpService : BaseHttpService
     {
-        public static async Task<bool> ShareCard(Card card, string email, string phoneNumber)
+        public static async Task<bool> ShareCard(Card card, string email, string message)
         {
             var url = ServiceUrls.ShareCardUrl;
 			var model = new List<SharedCard> () {
@@ -19,17 +19,17 @@ namespace Busidex3.Services
 					SendFrom = 0,
 					SendFromEmail = string.Empty,
 					Email = email,
-					PhoneNumber = phoneNumber,
+					PhoneNumber = string.Empty,
 					ShareWith = 0,
 					SharedDate = DateTime.Now,
 					Accepted = false,
 					Declined = false,
-					Recommendation = string.Empty,
+					Recommendation = message,
 					UseQuickShare = false
 				}
 			};
 			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-			var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, data);
+			var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, model);
             return resp.IsSuccessStatusCode;
         }
 

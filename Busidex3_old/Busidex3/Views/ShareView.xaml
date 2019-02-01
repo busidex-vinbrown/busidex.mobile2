@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             x:Class="Busidex3.Views.ShareView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid RowSpacing="10" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="0">
+                    <Label VerticalOptions="FillAndExpand" 
+                           VerticalTextAlignment="Center" 
+                           Text="Send Using: " 
+                           FontSize="Small"/>
+                    
+                </StackLayout>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="1">
+                    <Entry x:Name="txtSendTo"
+                           WidthRequest="175" 
+                           Placeholder="Phone Number" 
+                           Keyboard="Telephone"/>
+                </StackLayout>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="2">
+                    <Label VerticalOptions="FillAndExpand" 
+                           VerticalTextAlignment="Center" 
+                           Text="From" 
+                           FontSize="Small"/>
+                    <Entry WidthRequest="175" />
+                </StackLayout>
+                <Editor
+                    x:Name="txtMessage"    
+                    Text="{Binding Message}" 
+                    HeightRequest="150"
+                    BackgroundColor="LightGray"
+                    Placeholder="Include a personal message"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Grid.Row="3"
+                    Grid.Column="0" />
+                    
+                <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                                   Color="#03A9F4" 
+                                   IsVisible="False"
+                                   IsRunning="True"/>
+                <Button
+                    x:Name="btnShare"
+                    BackgroundColor="#03A9F4"
+                    TextColor="White"
+                    Text="Logout"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{DynamicResource SubtitleStyle}"
+                    Grid.Row="4"
+                    Grid.Column="0"/>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="5"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

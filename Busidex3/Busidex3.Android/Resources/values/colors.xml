@@ -5,5 +5,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="buttonWhite">#FFFFFF</color>
+  <color name="buttonFontColor">#FF4081</color>
     <color name="layoutBackground">#fffdfdfd</color>
 </resources>

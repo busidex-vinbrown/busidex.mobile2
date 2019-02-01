@@ -76,7 +76,11 @@ namespace Busidex3.Views
 	                break;
 	            case CardActionButton.Share:
 	                var uc = _viewModel.SelectedCard;
-	                await Navigation.PushAsync(new ShareView(ref uc));
+	                var page = new ShareView(ref uc)
+	                {
+	                    Title = $"Share {uc.Card.Name ?? uc.Card.CompanyName}"
+	                };
+	                await Navigation.PushAsync(page);
 	                break;
 	            case CardActionButton.Tags:
 	                break;

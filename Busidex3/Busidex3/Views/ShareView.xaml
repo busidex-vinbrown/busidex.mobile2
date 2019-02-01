@@ -2,12 +2,110 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="Busidex3.Views.ShareView">
     <ContentPage.Content>
         <StackLayout>
-            <controls:CardImageHeader 
-                BindingContext="{Binding SelectedCard}">
-            </controls:CardImageHeader>
+            <Grid RowSpacing="5" Padding="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="0">
+                    <Label VerticalOptions="FillAndExpand" 
+                           VerticalTextAlignment="Center" 
+                           Text="Send As: " 
+                           FontSize="Small"/>
+                    <controls1:RadioButtonGroupView 
+                        x:Name="rdoSendUsing" 
+                        Orientation="Horizontal">
+                        <controls1:RadioButton Text="Text" 
+                                               Clicked="RadioButton_OnClicked" 
+                                               TextFontSize="15"
+                                               Color="#03A9F4" />
+                        <controls1:RadioButton Text="Email" 
+                                               Clicked="RadioButton_OnClicked" 
+                                               TextFontSize="15"
+                                               Color="#03A9F4" />
+                     </controls1:RadioButtonGroupView>
+                    <Image IsVisible="{Binding MessageSent}" Aspect="AspectFit" 
+                           HeightRequest="25" WidthRequest="25"
+                           HorizontalOptions="Start"
+                           Source="{Binding SuccessImage}"/>
+                </StackLayout>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="1">
+                    <Label VerticalOptions="FillAndExpand" 
+                           VerticalTextAlignment="Center" 
+                           HorizontalTextAlignment="End"
+                           WidthRequest="90" 
+                           Text="To" 
+                           FontSize="Small"/>
+                    <Entry x:Name="txtSendTo"
+                           WidthRequest="280" 
+                           Placeholder="Phone Number" 
+                           Keyboard="Telephone"
+                           Text="{Binding SendTo}"
+                           TextChanged="TxtSendTo_OnTextChanged"/>
+                </StackLayout>
+                <StackLayout Padding="5" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="2">
+                    <Label VerticalOptions="FillAndExpand" 
+                           VerticalTextAlignment="Center" 
+                           HorizontalTextAlignment="End"
+                           WidthRequest="90" 
+                           Text="From" 
+                           FontSize="Small"/>
+                    <Entry WidthRequest="280" Text="{Binding SentFrom}" />
+                </StackLayout>
+                <Editor
+                    x:Name="txtMessage"    
+                    Text="{Binding Message}" 
+                    HeightRequest="150"
+                    BackgroundColor="LightGray"
+                    Placeholder="Include a personal message"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Grid.Row="3"
+                    Grid.Column="0" />
+                    
+                <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                                   Color="#03A9F4" 
+                                   IsVisible="False"
+                                   IsRunning="True"/>
+                <Button
+                    x:Name="btnShare"
+                    BackgroundColor="#03A9F4"
+                    TextColor="White"
+                    Text="Share"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{DynamicResource SubtitleStyle}"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Clicked="BtnShare_OnClicked"/>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="5"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

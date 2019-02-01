@@ -184,8 +184,8 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OCS.MvvmCross.Plugins.MvxAnalytics, Version=1.0.5501.16149, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\OCS.MvvmCross.Plugins.MvxAnalytics.1.1.0\lib\portable-win+net45+sl50+wp8+MonoAndroid+MonoTouch\OCS.MvvmCross.Plugins.MvxAnalytics.dll</HintPath>
@@ -928,12 +928,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Notification2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Busidex3\Busidex3\Busidex3.csproj">
-      <Project>{08CC131B-17D8-4A56-A31B-9B793E6950AC}</Project>
-      <Name>Busidex3</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

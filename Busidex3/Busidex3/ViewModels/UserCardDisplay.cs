@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Busidex3.Annotations;
 using Busidex3.Services.Utils;
 using Xamarin.Essentials;
@@ -78,9 +77,9 @@ namespace Busidex3.ViewModels
         {
             if (_currentDisplaySetting == DisplaySetting.FullScreen)
             {
-                VFrameHeight = HFrameHeight = DeviceDisplay.ScreenMetrics.Height;
+                VFrameHeight = HFrameHeight = DeviceDisplay.MainDisplayInfo.Height;
                 VImageHeight = HImageHeight = VFrameHeight - 10;
-                VFrameWidth = HFrameWidth = DeviceDisplay.ScreenMetrics.Width;
+                VFrameWidth = HFrameWidth = DeviceDisplay.MainDisplayInfo.Width;
 
                 App.DisplayManager.SetOrientation(_currentOrientation);
             }

@@ -10,14 +10,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
+    <Compile Remove="ViewModels\AboutViewModel.cs" />
+    <Compile Remove="ViewModels\ItemDetailViewModel.cs" />
+    <Compile Remove="ViewModels\ItemsViewModel.cs" />
+    <Compile Remove="Views\AboutPage.xaml.cs" />
+    <Compile Remove="Views\ItemDetailPage.xaml.cs" />
+    <Compile Remove="Views\ItemsPage.xaml.cs" />
+    <Compile Remove="Views\MenuPage.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\AboutPage.xaml" />
+    <EmbeddedResource Remove="Views\ItemDetailPage.xaml" />
+    <EmbeddedResource Remove="Views\ItemsPage.xaml" />
+    <EmbeddedResource Remove="Views\MenuPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\add.png" />
     <None Remove="Resources\browser.png" />
+    <None Remove="Resources\busidex_logo_hor.png" />
     <None Remove="Resources\cards_back2.png" />
     <None Remove="Resources\checkmark.png" />
     <None Remove="Resources\defaultUserImage.png" />
@@ -47,37 +59,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Services\AccountHttpService.cs" />
-    <Compile Include="Services\ActivityHttpService.cs" />
-    <Compile Include="Services\BaseHttpService.cs" />
-    <Compile Include="Services\BranchApiHttpService.cs" />
-    <Compile Include="Services\CardHttpService.cs" />
-    <Compile Include="Services\EmailTemplateHttpService.cs" />
-    <Compile Include="Services\LoginHttpService.cs" />
-    <Compile Include="Services\MyBusidexHttpService.cs" />
-    <Compile Include="Services\NotesHttpService.cs" />
-    <Compile Include="Services\OrganizationsHttpService.cs" />
-    <Compile Include="Services\SearchHttpService.cs" />
-    <Compile Include="Services\SettingsHttpService.cs" />
-    <Compile Include="Services\SharedCardHttpService.cs" />
-    <Compile Include="Services\SMSShareHttpService.cs" />
-    <Compile Include="Services\UserDeviceHttpService.cs" />
-    <Compile Include="Services\Utils\HttpVerbs.cs" />
-    <Compile Include="Services\Utils\Security.cs" />
-    <Compile Include="Services\Utils\Serialization.cs" />
-    <Compile Include="Services\Utils\ServiceResources.cs" />
-    <Compile Include="Services\Utils\ServiceUrls.cs" />
+    <EmbeddedResource Include="Resources\email.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\add.png" />
     <EmbeddedResource Include="Resources\browser.png" />
+    <EmbeddedResource Include="Resources\busidex_logo_hor.png" />
     <EmbeddedResource Include="Resources\cards_back2.png" />
     <EmbeddedResource Include="Resources\checkmark.png" />
     <EmbeddedResource Include="Resources\defaultUserImage.png" />
     <EmbeddedResource Include="Resources\delete.jpeg" />
     <EmbeddedResource Include="Resources\editicon.png" />
-    <EmbeddedResource Include="Resources\email.png" />
     <EmbeddedResource Include="Resources\event.png" />
     <EmbeddedResource Include="Resources\eventicon.png" />
     <EmbeddedResource Include="Resources\exit.png" />
@@ -101,69 +94,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.10.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.10.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StandardStorage" Version="0.1.1" />
+    <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AppCenter" Version="1.12.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.12.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.12.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
-    <PackageReference Include="Xamarin.Essentials" Version="0.11.0-preview" />
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="ViewModels\MainMenuMenuItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Controls\CardImageHeader.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CardListViewDisplay.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\CardDetailView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\CardImageView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCardMenuView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EventsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Login.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainMenu.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainMenuDetail.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainMenuMaster.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MyBusidexView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\NotesView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\OrganizationsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\PhoneView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\SearchView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\ShareView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="2.3.5" />  
   </ItemGroup>
 </Project>

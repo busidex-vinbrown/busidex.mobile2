@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{C384304B-DD22-40A5-AB48-BEFBD84B8B0C}</ProjectGuid>
+    <ProjectGuid>{938A720D-0F93-4220-9ECD-296825355192}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Busidex3.UWP</RootNamespace>
@@ -147,19 +147,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>1.10.0</Version>
+      <Version>1.12.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>1.10.0</Version>
+      <Version>1.12.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="PSC.Xamarin.Controls.BindableRadioButton">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Busidex3\Busidex3.csproj">
-      <Project>{9C92DA8F-CA12-408F-9356-2ACD063C1F9B}</Project>
-      <Name>Busidex3</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Busidex3.UWP_TemporaryKey.pfx" />
