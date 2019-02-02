@@ -72,8 +72,11 @@
                            HorizontalTextAlignment="End"
                            WidthRequest="90" 
                            Text="From" 
-                           FontSize="Small"/>
-                    <Entry WidthRequest="280" Text="{Binding SentFrom}" />
+                           FontSize="Small"/>                   
+                    <Entry
+                        x:Name="txtSentFrom"
+                        WidthRequest="280" 
+                        Text="{Binding SentFrom}"/>
                 </StackLayout>
                 <Editor
                     x:Name="txtMessage"    

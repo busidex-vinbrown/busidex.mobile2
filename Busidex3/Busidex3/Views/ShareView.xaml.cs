@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Busidex3.Analytics;
@@ -66,12 +67,20 @@ namespace Busidex3.Views
 
             if (string.IsNullOrEmpty(_viewModel.SentFrom))
             {
-
+                await DisplayAlert(
+                    "Required", 
+                    StringResources.MESSAGE_SEND_FROM_REQUIRED, 
+                    "Ok");
+                txtSentFrom.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(_viewModel.SendTo))
             {
-
+                await DisplayAlert(
+                    "Required", 
+                    StringResources.MESSAGE_SEND_TO_REQUIRED, 
+                    "Ok");
+                txtSendTo.Focus();
                 return;
             }
 

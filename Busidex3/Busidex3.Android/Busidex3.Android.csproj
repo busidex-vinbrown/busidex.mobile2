@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="AnalyticsManager.cs" />
+    <Compile Include="Controls\ValidatedEntryRenderer.cs" />
     <Compile Include="DisplayManager.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

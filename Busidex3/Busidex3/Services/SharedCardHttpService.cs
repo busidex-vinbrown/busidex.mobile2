@@ -28,7 +28,6 @@ namespace Busidex3.Services
 					UseQuickShare = false
 				}
 			};
-			var data = Newtonsoft.Json.JsonConvert.SerializeObject(model);
 			var resp = await MakeRequestAsync<HttpResponseMessage> (url, HttpVerb.Post, model);
             return resp.IsSuccessStatusCode;
         }

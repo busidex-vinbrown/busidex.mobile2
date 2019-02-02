@@ -106,11 +106,16 @@ namespace Busidex3
 		public const string IOS_UPDATE_URL = "https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#";
 		public const string ANDROID_UPDATE_URL = "https://play.google.com/store/apps/details?id=com.busidex";
 
-		//public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
-		//public const string BITLY_LOGIN = "busidexapp";
+        public const string CLASS_INVALID_INPUT = "invalid";
 
-		//public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+        public const string MESSAGE_SEND_TO_REQUIRED = "Send To is required";
+        public const string MESSAGE_SEND_FROM_REQUIRED = "Sent From is required";
 
-	}
+        //public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
+        //public const string BITLY_LOGIN = "busidexapp";
+
+        //public static string DocumentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+
+    }
 }
 
