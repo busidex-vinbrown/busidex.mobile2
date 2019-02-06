@@ -34,9 +34,9 @@ namespace Busidex3.Views
             }            
         }
 
-        private void MasterPage_OnCardEditClicked()
+        private void MasterPage_OnCardEditClicked(ref UserCard card)
         {
-            var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView));
+            var page = new EditCardMenuView(ref card) {Title = "Edit My Card"};
             page.Title = "Edit My Card";
 
             Detail = new NavigationPage(page);
