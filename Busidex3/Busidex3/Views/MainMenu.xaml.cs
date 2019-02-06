@@ -2,6 +2,7 @@
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
+using Busidex3.Views.EditCard;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
