@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
+using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms.Xaml;
 
@@ -35,7 +38,9 @@ namespace Busidex3.Views.EditCard
         private async void VisibilityTapped(object sender, EventArgs e)
         {
             var sc = _viewModel.SelectedCard;
-            await Navigation.PushAsync(new EditVisibilityView(ref sc));
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            var newViewModel = new CardVM(ref sc, ref myBusidex);
+            await Navigation.PushAsync(new EditVisibilityView(ref newViewModel));
         }
 
         private async void EditContactInfoTapped(object sender, EventArgs e)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Busidex3.Services.Utils;
 using Newtonsoft.Json;
 
 namespace Busidex3.DomainModels
@@ -140,7 +139,7 @@ namespace Busidex3.DomainModels
 
 		public string Markup { get; set; }
 
-		public byte Visibility { get; set; }
+		public CardVisibility Visibility { get; set; }
 
 		public int Display { get; set; }
 

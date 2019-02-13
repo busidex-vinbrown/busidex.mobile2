@@ -93,21 +93,19 @@
                                    Color="#03A9F4" 
                                    IsVisible="False"
                                    IsRunning="True"/>
-                <Button
-                    x:Name="btnShare"
-                    BackgroundColor="#03A9F4"
-                    TextColor="White"
-                    Text="Share"
-                    HorizontalOptions="FillAndExpand"
-                    Style="{DynamicResource SubtitleStyle}"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Clicked="BtnShare_OnClicked"/>
+                
                 <controls:CardImageHeader 
                     BindingContext="{Binding SelectedCard}"
                     Grid.Row="5"
                     Grid.Column="0">
                 </controls:CardImageHeader>
+                <Button
+                    x:Name="btnShare"
+                    Text="Share"
+                    Style="{StaticResource buttonStyle}"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Clicked="BtnShare_OnClicked"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

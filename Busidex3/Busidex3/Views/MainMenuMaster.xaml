@@ -106,12 +106,9 @@
       <StackLayout Orientation="Horizontal" VerticalOptions="End">
           <Button
               x:Name="btnLogout"
-              BackgroundColor="#03A9F4"
-              TextColor="White"
               Clicked="BtnLogout_OnClicked"
               Text="Logout"
-              HorizontalOptions="FillAndExpand"
-              Style="{DynamicResource SubtitleStyle}"/>
+              Style="{StaticResource buttonStyle}"/>
       </StackLayout>
       
   </StackLayout>

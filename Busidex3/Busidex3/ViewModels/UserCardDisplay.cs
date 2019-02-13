@@ -55,7 +55,7 @@ namespace Busidex3.ViewModels
         {
             _currentDisplaySetting = display;
             _currentOrientation = orientation;
-            CurrentFileName = fileName;
+            CurrentFileName = fileName ?? string.Empty;
 
             var filePath = Path.Combine(Serialization.LocalStorageFolder, CurrentFileName);
             if(!File.Exists(filePath))

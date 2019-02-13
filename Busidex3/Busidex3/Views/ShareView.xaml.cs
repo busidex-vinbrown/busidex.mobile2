@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Busidex3.Analytics;
@@ -136,8 +135,6 @@ namespace Busidex3.Views
                 var error = ex.Message;
                 return false;
             }
-
-            return false;
         }
 
         private void TxtSendTo_OnTextChanged(object sender, TextChangedEventArgs e)

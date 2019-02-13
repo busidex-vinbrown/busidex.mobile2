@@ -112,7 +112,7 @@ namespace Busidex3.DomainModels
 
 		public long? CreatedBy { get; set; }
 
-		public byte Visibility { get; set; }
+		public CardVisibility Visibility { get; set; }
 
 		public CardType CardType { get; set; }
 

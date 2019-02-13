@@ -1,13 +1,12 @@
 ﻿using System;
 using Busidex3.Analytics;
 using Busidex3.ViewModels;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NotesView : ContentPage
+	public partial class NotesView
 	{
 	    public CardVM ViewModel { get; set; }
         

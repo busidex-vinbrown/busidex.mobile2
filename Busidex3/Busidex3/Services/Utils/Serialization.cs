@@ -111,12 +111,9 @@ namespace Busidex3.Services.Utils
             var fullFilePath = Path.Combine(path ?? LocalStorageFolder, fileName);
             try
             {
-                if (File.Exists(fullFilePath))
+                if (File.Exists(fullFilePath) && !IsFileInUse(new FileInfo(fullFilePath)))
                 {
-                    if (!IsFileInUse(new FileInfo(fullFilePath)))
-                    {
-                        File.WriteAllText(fullFilePath, response);
-                    }
+                    File.WriteAllText(fullFilePath, response);
                 }
                 else
                 {

@@ -44,6 +44,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private CardVisibility _visibility { get; set; }
+        public CardVisibility Visibility { get => _visibility;
+            set
+            {
+                _visibility = value;
+                OnPropertyChanged(nameof(Visibility));
+            }
+        }
+
         public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
             SelectedCard = uc;
@@ -203,11 +212,11 @@ namespace Busidex3.ViewModels
             return result;
         }
 
-        public async Task<bool> SaveCardVisibility(byte visibility)
+        public async Task<bool> SaveCardVisibility()
         {
             OnCardInfoUpdating?.Invoke();
-
-            var result = await _cardHttpService.UpdateCardVisibility(visibility);
+            var v = (byte) SelectedCard.Card.Visibility;
+            var result = await _cardHttpService.UpdateCardVisibility(v);
             await App.LoadOwnedCard();
 
             App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardVisibilityUpdated, SelectedCard.Card.Visibility.ToString());
