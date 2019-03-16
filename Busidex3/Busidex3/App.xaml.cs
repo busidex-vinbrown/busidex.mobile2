@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
+using Plugin.InputKit.Shared.Configuration;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
@@ -29,7 +30,8 @@ namespace Busidex3
             
             Task.Factory.StartNew(async () => await LoadOwnedCard());
 
-            MainPage = new MainMenu();// new NavigationPage(new MainMenu());            
+            MainPage = new MainMenu();// new NavigationPage(new MainMenu());   
+
         }
 
         private static IAnalyticsManager analyticsManager;

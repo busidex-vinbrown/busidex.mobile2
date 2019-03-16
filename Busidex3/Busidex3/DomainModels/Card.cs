@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Busidex3.Annotations;
 using Newtonsoft.Json;
 
 namespace Busidex3.DomainModels
 {
-	public class Card
+	public class Card : INotifyPropertyChanged
 	{
 		public Card (Card model)
 		{
 			Tags = new List<Tag> ();
 			Addresses = new List<Address> ();
-			PhoneNumbers = new List<PhoneNumber> ();
+			PhoneNumbers = new ObservableRangeCollection<PhoneNumber>();
 
 			if (model == null) {
 				return;
@@ -54,7 +58,7 @@ namespace Busidex3.DomainModels
 		{
 			Tags = new List<Tag> ();// model.Tags;
 			Addresses = new List<Address> ();// model.Addresses;
-			PhoneNumbers = new List<PhoneNumber> ();
+			PhoneNumbers = new ObservableRangeCollection<PhoneNumber> ();
 
 			if (model == null) {
 				return;
@@ -94,7 +98,7 @@ namespace Busidex3.DomainModels
 
 		public Card ()
 		{
-			PhoneNumbers = PhoneNumbers ?? new List<PhoneNumber> ();
+			PhoneNumbers = PhoneNumbers ?? new ObservableRangeCollection<PhoneNumber> ();
 			Tags = Tags ?? new List<Tag> ();
 			Addresses = Addresses ?? new List<Address> ();
 		}
@@ -111,9 +115,36 @@ namespace Busidex3.DomainModels
 
 		public bool Searchable { get; set; }
 
-		public string Email { get; set; }
+        private string _email;
+		public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
 
-		public string Url { get; set; }
+        private string _url;
+        public string Url
+        {
+            get => _url;
+            set
+            {
+                _url = value;
+                OnPropertyChanged(nameof(Url));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
+        }
+   
 
 		public PhoneNumber PhoneNumber1 { get; set; }
 
@@ -139,7 +170,14 @@ namespace Busidex3.DomainModels
 
 		public string Markup { get; set; }
 
-		public CardVisibility Visibility { get; set; }
+        private CardVisibility _visibility { get; set; }
+        public CardVisibility Visibility { get => _visibility;
+            set
+            {
+                _visibility = value;
+                OnPropertyChanged(nameof(Visibility));
+            }
+        }
 
 		public int Display { get; set; }
 
@@ -155,9 +193,19 @@ namespace Busidex3.DomainModels
 
 		public int CardType { get; set; }
 
-		public List<PhoneNumber> PhoneNumbers { get; set; }
+        private ObservableRangeCollection<PhoneNumber> _phoneNumbers;
 
-		public List<Tag> Tags { get; set; }
+        public ObservableRangeCollection<PhoneNumber> PhoneNumbers
+        {
+            get => _phoneNumbers;
+            set
+            {
+                _phoneNumbers = value;
+                OnPropertyChanged(nameof(PhoneNumbers));
+            }
+        }
+
+        public List<Tag> Tags { get; set; }
 
 		public List<Address> Addresses { get; set; }
 
@@ -171,21 +219,16 @@ namespace Busidex3.DomainModels
 
 		const string fileName = "{0}.{1}";
 
-		public string FrontFileName { get { return string.Format (fileName, FrontFileId, FrontType); } }
-	    public string FrontThumbnailName { get { return string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, FrontFileId, FrontType); } }
+		public string FrontFileName => string.Format (fileName, FrontFileId, FrontType);
+        public string FrontThumbnailName => string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, FrontFileId, FrontType);
 
-		public string BackFileName { get { return string.Format (fileName, BackFileId, BackType); } }
-	    public string BackThumbnailName { get { return string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, BackFileId, BackType); } }
+        public string BackFileName => string.Format (fileName, BackFileId, BackType);
+        public string BackThumbnailName => string.Format (StringResources.THUMBNAIL_FILE_NAME_PREFIX + fileName, BackFileId, BackType);
 
-	    public bool HasBackImage
-	    {
-	        get
-	        {
-	            return this.BackFileId != Guid.Empty &&
-	                   this.BackFileId != null &&
-	                   this.BackFileId.ToString() != StringResources.EMPTY_CARD_ID;
-	        }
-	    }
+        public bool HasBackImage =>
+            BackFileId != Guid.Empty &&
+            BackFileId != null &&
+            BackFileId.ToString() != StringResources.EMPTY_CARD_ID;
 
         [JsonIgnore]
 	    public UserCard Parent { get; set; }

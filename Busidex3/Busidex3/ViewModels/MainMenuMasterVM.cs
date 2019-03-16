@@ -79,6 +79,7 @@ namespace Busidex3.ViewModels
                     IsClickable = true
                 },
             });
+            RefreshProfile();
         }
 
         public async void RefreshProfile()

@@ -22,12 +22,10 @@ namespace Busidex3.Views
 	    private async void BtnSave_OnClicked(object sender, EventArgs e)
 	    {
 	        prgSpinner.IsVisible = false;
-	        txtNotes.IsEnabled = false;
 
 	        await ViewModel.SaveNotes(txtNotes.Text);
 	        
 	        prgSpinner.IsVisible = true;
-	        txtNotes.IsEnabled = true;
 	    }
 	}
 }

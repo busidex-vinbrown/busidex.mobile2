@@ -21,6 +21,7 @@
                 </controls:CardImageHeader>              
                     <Editor
                         x:Name="txtNotes"    
+                        IsEnabled="{Binding AllowSave}"
                         Text="{Binding SelectedCard.Notes}" 
                         HeightRequest="250"
                         BackgroundColor="LightGray"
@@ -47,6 +48,7 @@
                     Grid.Row="2"
                     TextColor="White"
                     BackgroundColor="#03A9F4"
+                    IsEnabled="{Binding AllowSave}"
                     Text="Save"
                     Clicked="BtnSave_OnClicked"></Button>
             </Grid>

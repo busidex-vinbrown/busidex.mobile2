@@ -1,4 +1,4 @@
-﻿using Busidex3.DomainModels;
+﻿using System;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,19 +6,41 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views.EditCard
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditContactInfoView : ContentPage
+	public partial class EditContactInfoView
 	{
-        protected readonly EditCardVM _viewModel = new EditCardVM();
+        protected CardVM ViewModel { get; set; }
+         
 
-		public EditContactInfoView (ref UserCard card)
+		public EditContactInfoView (ref CardVM vm)
 		{
 			InitializeComponent ();
 
-            var fileName = card.DisplaySettings.CurrentFileName;
+            var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
 
-            card.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            _viewModel.SelectedCard = card;
-            BindingContext = _viewModel;
+            vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
+            
+            Title = "How Will They Contact You?";
+            ViewModel = vm;
+            
+            BindingContext = ViewModel;
+            
 		}
-	}
+
+        
+        private async void BtnSave_OnClicked(object sender, EventArgs e)
+        {
+            await ViewModel.SaveCardInfo();
+        }
+
+        private void AddPhoneNumberImage_OnTapped(object sender, EventArgs e)
+        {
+            ViewModel.AddNewPhoneNumber();
+        }
+
+        private void RemovePhoneNumberImage_OnTapped(object sender, EventArgs e)
+        {
+            var idx = ViewModel.PhoneNumbers.IndexOf(((TappedEventArgs)e).Parameter as PhoneNumberVM);
+            ViewModel.RemovePhoneNumber(idx);
+        }
+    }
 }

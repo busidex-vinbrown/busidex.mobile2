@@ -1,4 +1,5 @@
-﻿using Busidex3.DomainModels;
+﻿using System;
+using Busidex3.DomainModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,9 +18,9 @@ namespace Busidex3.Controls
 			InitializeComponent ();
 	    }
 
-	    private void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+	    private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
-	        var uc = e.Parameter as UserCard;
+	        var uc = ((TappedEventArgs)e).Parameter as UserCard;
 	        OnCardImageClicked?.Invoke(uc);
 	    }
 	}

@@ -22,12 +22,27 @@ namespace Busidex3.Views.EditCard
                 SelectedCard = card, 
                 ImageSize = 65
             };
-            var fileName = card.DisplaySettings.CurrentFileName;
-            card.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            BindingContext = _viewModel;
+            if (card != null)
+            {
+                var fileName = card.DisplaySettings.CurrentFileName;
+                card.DisplaySettings = new UserCardDisplay(fileName: fileName);
+                BindingContext = _viewModel;
 
-		    App.AnalyticsManager.TrackScreen(ScreenName.MyCard);
+                App.AnalyticsManager.TrackScreen(ScreenName.MyCard);
+            }
+            else
+            {
+                Navigation.PopAsync();
+            }
+            
 		}
+
+        private CardVM GetViewModel()
+        {
+            var sc = _viewModel.SelectedCard;
+            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            return new CardVM(ref sc, ref myBusidex);
+        }
 
         private async void EditCardImageTapped(object sender, EventArgs e)
         {
@@ -37,16 +52,14 @@ namespace Busidex3.Views.EditCard
 
         private async void VisibilityTapped(object sender, EventArgs e)
         {
-            var sc = _viewModel.SelectedCard;
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            var newViewModel = new CardVM(ref sc, ref myBusidex);
-            await Navigation.PushAsync(new EditVisibilityView(ref newViewModel));
+            var vm = GetViewModel();
+            await Navigation.PushAsync(new EditVisibilityView(ref vm));
         }
 
         private async void EditContactInfoTapped(object sender, EventArgs e)
         {
-            var sc = _viewModel.SelectedCard;
-            await Navigation.PushAsync(new EditContactInfoView(ref sc));
+            var vm = GetViewModel();
+            await Navigation.PushAsync(new EditContactInfoView(ref vm));
         }
 
         private async void SearchInfoTapped(object sender, EventArgs e)

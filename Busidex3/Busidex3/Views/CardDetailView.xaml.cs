@@ -50,9 +50,9 @@ namespace Busidex3.Views
 	        await Navigation.PushAsync(new CardImageView(ref uc));
 	    }
 
-	    private async void ButtonTapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+	    private async void ButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
-	        var option = (CardActionButton) e.Parameter;
+	        var option = (CardActionButton) ((TappedEventArgs)e).Parameter;
             
 	        switch (option)
 	        {
@@ -100,6 +100,6 @@ namespace Busidex3.Views
 	    {
             var uc = e.Parameter as UserCard;;
 	        await Navigation.PushAsync(new CardImageView(ref uc));
-	    }
-	}
+	    }        
+    }
 }

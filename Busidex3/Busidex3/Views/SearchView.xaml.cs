@@ -40,9 +40,9 @@ namespace Busidex3.Views
 	        await _viewModel.DoSearch();
 	    }
 
-	    private async void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
-	        var uc = e.Parameter as UserCard;
+	        var uc = ((TappedEventArgs)e).Parameter as UserCard;
 	        var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
 	            Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
 	        var newViewModel = new CardVM(ref uc, ref myBusidex);

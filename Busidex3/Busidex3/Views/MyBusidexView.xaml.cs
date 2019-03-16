@@ -61,9 +61,9 @@ namespace Busidex3.Views
 	        }
 	    }
 
-	    private async void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
+	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
-	        var uc = e.Parameter as UserCard;
+	        var uc = ((TappedEventArgs)e).Parameter as UserCard;
 	        var myBusidex = _viewModel.UserCards;
 	        var newViewModel = new CardVM(ref uc, ref myBusidex);
 

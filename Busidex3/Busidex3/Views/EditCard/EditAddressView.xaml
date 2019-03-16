@@ -19,6 +19,14 @@
                         Grid.Row="0"
                         Grid.Column="0">
                     </controls:CardImageHeader>
+
+                    <Button
+                        x:Name="btnSave"
+                        Text="Save"
+                        Style="{StaticResource buttonStyle}"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Clicked="BtnSave_OnClicked"/>
                 </Grid>
             </StackLayout>
         </StackLayout>

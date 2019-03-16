@@ -7,9 +7,9 @@ namespace Busidex3.Services
 {
     public class CardHttpService : BaseHttpService
     {
-        public async Task<UserCard> GetCardById(long cardId)
+        public async Task<CardDetailResponse> GetCardById(long cardId)
         {
-            return await MakeRequestAsync<UserCard>(string.Format(ServiceUrls.CardDetailUrl, cardId), HttpVerb.Get);
+             return await MakeRequestAsync<CardDetailResponse>(string.Format(ServiceUrls.CardDetailUrl, cardId), HttpVerb.Get);
         }
 
         public async Task<CardDetailResponse> GetMyCard()

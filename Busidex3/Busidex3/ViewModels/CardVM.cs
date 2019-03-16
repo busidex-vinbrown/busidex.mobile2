@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Busidex3.Analytics;
@@ -27,20 +28,38 @@ namespace Busidex3.ViewModels
         private readonly ObservableRangeCollection<UserCard> _myBusidex;
 
         public UserCard SelectedCard { get; }
-         
-        public List<PhoneNumberVM> PhoneNumbers { get; set; }
+
+        private ObservableRangeCollection<PhoneNumberVM> _phoneNumbers;
+        public ObservableRangeCollection<PhoneNumberVM> PhoneNumbers { get => _phoneNumbers;
+            set
+            {
+                _phoneNumbers = value;
+                OnPropertyChanged(nameof(PhoneNumbers));
+            }
+        }
+
+        private ObservableRangeCollection<PhoneNumberVM> _deletedPhoneNumbers;
+
+        private ImageSource _addPhoneImage { get; set; }
+        public ImageSource AddPhoneImage { get => _addPhoneImage;
+            set
+            {
+                _addPhoneImage = value;
+                OnPropertyChanged(nameof(AddPhoneImage));
+            }
+        }
 
         public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex;
         public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex;
 
-        private bool _isSaving;
-        public bool IsSaving
+        private bool _allowSave;
+        public bool AllowSave
         {
-            get => _isSaving;
+            get => _allowSave;
             set
             {
-                _isSaving = value;
-                OnPropertyChanged(nameof(IsSaving));
+                _allowSave = value;
+                OnPropertyChanged(nameof(AllowSave));
             }
         }
 
@@ -53,6 +72,26 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private ImageSource _emailImage { get; set; }
+        public ImageSource EmailImage { get => _emailImage;
+            set
+            {
+                _emailImage = value;
+                OnPropertyChanged(nameof(EmailImage));
+            }
+        }
+
+        private ImageSource _urlImage { get; set; }
+        public ImageSource UrlImage { get => _urlImage;
+            set
+            {
+                _urlImage = value;
+                OnPropertyChanged(nameof(UrlImage));
+            }
+        }
+
+        
+
         public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
             SelectedCard = uc;
@@ -61,12 +100,25 @@ namespace Busidex3.ViewModels
                 UserCardDisplay.CardSide.Front, 
                 StringResources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName
                 );
-            PhoneNumbers = uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)).ToList();
+
+            var pn = new ObservableRangeCollection<PhoneNumberVM>();
+            pn.AddRange(uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)));
+            PhoneNumbers = pn;
+            UpdatePhoneNumberDisplayList();
             _myBusidex = myBusidex;
+            
+            AllowSave = true;
+
+            EmailImage = ImageSource.FromResource("Busidex3.Resources.email.png",
+                typeof(ShareVM).GetTypeInfo().Assembly);
+            UrlImage = ImageSource.FromResource("Busidex3.Resources.browser.png",
+                typeof(ShareVM).GetTypeInfo().Assembly);
+            AddPhoneImage = ImageSource.FromResource("Busidex3.Resources.add-plus.png",
+                typeof(ShareVM).GetTypeInfo().Assembly);
 
             Task.Factory.StartNew(async () => await App.LoadOwnedCard());        
         }
-       
+        
         #region UserCard Actions 
         public ICommand SendSMS
         {
@@ -86,6 +138,29 @@ namespace Busidex3.ViewModels
                 await _activityHttpService.SaveActivity ((long)EventSources.Call, SelectedCard.CardId);
                 App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.PhoneDialed, number.ToString());
             }); }
+        }
+
+        public void AddNewPhoneNumber()
+        {
+            PhoneNumbers.Add(new PhoneNumberVM(new PhoneNumber()));
+            UpdatePhoneNumberDisplayList();
+        }
+
+        public void RemovePhoneNumber(int idx)
+        {
+            if (idx >= 0)
+            {
+                PhoneNumbers[idx].Deleted = true;
+                UpdatePhoneNumberDisplayList();
+            }
+        }
+
+        private void UpdatePhoneNumberDisplayList()
+        {
+            _deletedPhoneNumbers = new ObservableRangeCollection<PhoneNumberVM>(
+                PhoneNumbers.Where(p => p.Deleted && p.PhoneNumberId > 0)
+            );
+            PhoneNumbers.RemoveAll(p => p.Deleted);
         }
 
         public async void LaunchMapApp() {
@@ -228,27 +303,56 @@ namespace Busidex3.ViewModels
 
         public async Task SaveNotes(string notes)
         {
-            IsSaving = true;
+            AllowSave = false;
             await _notesHttpService.SaveNotes(SelectedCard.UserCardId, notes);
 
             App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.UserCardNotesUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
             SaveToFile();
 
-            IsSaving = false;
+            AllowSave = true;
         }
 
-        public async Task<bool> SaveCardInfo(CardDetailModel card)
+        public async Task<bool> SaveCardInfo()
         {
+            AllowSave = false;
+
             OnCardInfoUpdating?.Invoke();
 
+            var card = new CardDetailModel(SelectedCard.Card)
+            {
+                PhoneNumbers = new List<PhoneNumber>(
+                    PhoneNumbers.Select(p => new PhoneNumber
+                    {
+                        PhoneNumberId = p.PhoneNumberId,
+                        Number = p.Number, 
+                        PhoneNumberType = p.GetSelectedPhoneNumberType(), 
+                        PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
+                        Deleted = p.Deleted
+                    })
+                )
+            };
+            
+            
             var result = await _cardHttpService.UpdateCardContactInfo(card);
+            if (result)
+            {
+                var resp = await _cardHttpService.GetCardById(card.CardId);
+                SelectedCard.Card.PhoneNumbers.Clear();
+                SelectedCard.Card.PhoneNumbers.AddRange(resp.Model.PhoneNumbers);
 
-            SaveToFile();
+                SaveToFile();
 
-            await App.LoadOwnedCard();
+                await App.LoadOwnedCard();
 
-            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+                PhoneNumbers.Clear();
+                PhoneNumbers.AddRange(
+                    new List<PhoneNumberVM>(SelectedCard.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p))));
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            }
+            
+            AllowSave = true;
 
             return result;
         }

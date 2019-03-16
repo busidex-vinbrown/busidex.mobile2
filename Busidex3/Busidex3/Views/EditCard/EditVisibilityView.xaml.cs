@@ -16,7 +16,7 @@ namespace Busidex3.Views.EditCard
 
             ViewModel = vm;
             BindingContext = ViewModel;
-            Title = "Edit Card Visibility";
+            Title = "Who Can See Your Card?";
             UpdatePage(ViewModel.SelectedCard.Card.Visibility);
         }
 

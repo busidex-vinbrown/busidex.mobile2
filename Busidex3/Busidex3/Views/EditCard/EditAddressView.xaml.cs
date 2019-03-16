@@ -1,4 +1,5 @@
-﻿using Busidex3.DomainModels;
+﻿using System;
+using Busidex3.DomainModels;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,5 +21,10 @@ namespace Busidex3.Views.EditCard
             _viewModel.SelectedCard = card;
             BindingContext = _viewModel;
 		}
-	}
+
+        private void BtnSave_OnClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
