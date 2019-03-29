@@ -5,12 +5,16 @@
              x:Class="Busidex3.Views.EditCard.EditSearchInfoView">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Vertical" Padding="20, 10">
-                <Grid RowSpacing="29" Padding="20">
+            <StackLayout Orientation="Vertical" Padding="5, 10">
+                <Grid RowSpacing="10" Padding="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -19,6 +23,43 @@
                         Grid.Row="0"
                         Grid.Column="0">
                     </controls:CardImageHeader>
+                    <Label Text="Keeping your card information up to date is very important. Add your Name, Company Name and Title to your card so people searching for those terms will find you." 
+                           FontSize="16" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           x:Name="lblInfo"/>
+                    <Entry 
+                        x:Name="txtCompanyName"
+                        Text="{Binding CompanyName}"
+                        Placeholder="Company Name"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="2"
+                        Grid.Column="0"/>
+                    <Entry 
+                        x:Name="txtName"
+                        Text="{Binding Name}"
+                        Placeholder="Name"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="3"
+                        Grid.Column="0"/>
+                    <Entry 
+                        x:Name="txtTitle"
+                        Text="{Binding Title}"
+                        Placeholder="Title"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="4"
+                        Grid.Column="0"/>
+                    <Button
+                        x:Name="btnSave"
+                        Text="Save"
+                        Style="{StaticResource buttonStyle}"
+                        IsEnabled="{Binding AllowSave}"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Clicked="BtnSave_OnClicked"/>
                 </Grid>
             </StackLayout>
         </StackLayout>

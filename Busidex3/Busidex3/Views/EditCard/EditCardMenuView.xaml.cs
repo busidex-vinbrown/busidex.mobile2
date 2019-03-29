@@ -64,8 +64,8 @@ namespace Busidex3.Views.EditCard
 
         private async void SearchInfoTapped(object sender, EventArgs e)
         {
-            var sc = _viewModel.SelectedCard;
-            await Navigation.PushAsync(new EditSearchInfoView(ref sc));
+            var vm = GetViewModel();
+            await Navigation.PushAsync(new EditSearchInfoView(ref vm));
         }
 
         private async void TagsTapped(object sender, EventArgs e)

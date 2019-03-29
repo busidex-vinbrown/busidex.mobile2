@@ -29,6 +29,39 @@ namespace Busidex3.ViewModels
 
         public UserCard SelectedCard { get; }
 
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        private string _companyName;
+        public string CompanyName
+        {
+            get => _companyName;
+            set
+            {
+                _companyName = value;
+                OnPropertyChanged(nameof(CompanyName));
+            }
+        }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
         private string _selectedStateName;
         public string SelectedStateName
         {
@@ -159,6 +192,9 @@ namespace Busidex3.ViewModels
             StateNames = States.Select(s => s.Name).ToList();
             SelectedStateName = SelectedCard.Card.Addresses[0].State?.Name;
             Address = SelectedCard.Card.Addresses[0];
+            Title = SelectedCard.Card.Title;
+            Name = SelectedCard.Card.Name;
+            CompanyName = SelectedCard.Card.CompanyName;
         }
         
         #region UserCard Actions 
@@ -399,11 +435,40 @@ namespace Busidex3.ViewModels
             return result;
         }
 
-        public async Task<bool> SaveContactInfo()
+        public async Task<bool> SaveSearchInfo()
         {
             AllowSave = false;
 
-            OnCardInfoUpdating?.Invoke();
+            var card = new CardDetailModel(SelectedCard.Card)
+            {
+                CompanyName = CompanyName,
+                Name = Name,
+                Title = Title
+            };
+
+            var result = await _cardHttpService.UpdateCardContactInfo(card);
+            if (result)
+            {
+                var resp = await _cardHttpService.GetCardById(card.CardId);
+                SelectedCard.Card.CompanyName = resp.Model.CompanyName;
+                SelectedCard.Card.Name = resp.Model.Name;
+                SelectedCard.Card.Title = resp.Model.Title;
+
+                SaveToFile();
+
+                await App.LoadOwnedCard();
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            }
+            
+            AllowSave = true;
+
+            return result;
+        }
+
+        public async Task<bool> SaveContactInfo()
+        {
+            AllowSave = false;
 
             var card = new CardDetailModel(SelectedCard.Card)
             {
