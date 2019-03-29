@@ -76,8 +76,8 @@ namespace Busidex3.Views.EditCard
 
         private async void AddressInfoTapped(object sender, EventArgs e)
         {
-            var sc = _viewModel.SelectedCard;
-            await Navigation.PushAsync(new EditAddressView(ref sc));
+            var vm = GetViewModel();
+            await Navigation.PushAsync(new EditAddressView(ref vm));
         }
     }
 }

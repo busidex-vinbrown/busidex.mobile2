@@ -1,30 +1,30 @@
 ﻿using System;
-using Busidex3.DomainModels;
 using Busidex3.ViewModels;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views.EditCard
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditAddressView : ContentPage
+	public partial class EditAddressView
 	{
-        protected readonly EditCardVM _viewModel = new EditCardVM();
+        protected CardVM ViewModel { get; set; }
 
-		public EditAddressView (ref UserCard card)
+		public EditAddressView (ref CardVM vm)
 		{
 			InitializeComponent ();
 
-            var fileName = card.DisplaySettings.CurrentFileName;
+            var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
 
-            card.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            _viewModel.SelectedCard = card;
-            BindingContext = _viewModel;
+            Title = "What is your office address?";
+
+            vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
+            ViewModel = vm;
+            BindingContext = ViewModel;
 		}
 
-        private void BtnSave_OnClicked(object sender, EventArgs e)
+        private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            await ViewModel.SaveAddress();
         }
     }
 }

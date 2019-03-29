@@ -2,15 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="Busidex3.Views.EditCard.EditAddressView">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Vertical" Padding="20, 10">
-                <Grid RowSpacing="29" Padding="20">
+            <StackLayout Orientation="Vertical" Padding="5, 10">
+                <Grid RowSpacing="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -19,12 +24,56 @@
                         Grid.Row="0"
                         Grid.Column="0">
                     </controls:CardImageHeader>
-
+                    <Entry 
+                        x:Name="txtAddress1"
+                        Text="{Binding Address.Address1}"
+                        Placeholder="Address 1"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="1"
+                        Grid.Column="0"/>
+                    <Entry 
+                        x:Name="txtAddress2"
+                        Text="{Binding Address.Address2}"
+                        Placeholder="Address 2"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="2"
+                        Grid.Column="0"/>
+                    <Entry 
+                        x:Name="txtCity"
+                        Text="{Binding Address.City}"
+                        Placeholder="City"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="3"
+                        Grid.Column="0"/>
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Grid.Row="4"
+                        Grid.Column="0">
+                        <controls1:Dropdown 
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            IconImage=""
+                            WidthRequest="250"
+                            Color="Black"
+                            Placeholder="State" 
+                            ItemsSource="{Binding StateNames}" 
+                            SelectedItem="{Binding SelectedStateName}" />
+                        <Entry 
+                            x:Name="txtZip"
+                            Text="{Binding Address.ZipCode}"
+                            Placeholder="Zip"
+                            HorizontalOptions="EndAndExpand"
+                            HorizontalTextAlignment="Center"/>
+                    </StackLayout>
                     <Button
                         x:Name="btnSave"
                         Text="Save"
                         Style="{StaticResource buttonStyle}"
-                        Grid.Row="2"
+                        IsEnabled="{Binding AllowSave}"
+                        Grid.Row="5"
                         Grid.Column="0"
                         Clicked="BtnSave_OnClicked"/>
                 </Grid>

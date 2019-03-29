@@ -15,7 +15,7 @@ using Xamarin.Forms;
 namespace Busidex3.ViewModels
 {
     public delegate void OnCardInfoUpdatingHandler ();
-    public delegate void OnCardInfoSavedHandler ();
+    //public delegate void OnCardInfoSavedHandler ();
 
     public class CardVM : BaseViewModel
     {
@@ -29,12 +29,34 @@ namespace Busidex3.ViewModels
 
         public UserCard SelectedCard { get; }
 
+        private string _selectedStateName;
+        public string SelectedStateName
+        {
+            get => _selectedStateName;
+            set
+            {
+                _selectedStateName = value;
+                OnPropertyChanged(nameof(SelectedStateName));
+            }
+        }
+
         private ObservableRangeCollection<PhoneNumberVM> _phoneNumbers;
         public ObservableRangeCollection<PhoneNumberVM> PhoneNumbers { get => _phoneNumbers;
             set
             {
                 _phoneNumbers = value;
                 OnPropertyChanged(nameof(PhoneNumbers));
+            }
+        }
+
+        private List<string> _stateNames;
+        public List<string> StateNames
+        {
+            get => _stateNames;
+            set
+            {
+                _stateNames = value;
+                OnPropertyChanged(nameof(StateNames));
             }
         }
 
@@ -90,7 +112,23 @@ namespace Busidex3.ViewModels
             }
         }
 
-        
+        private List<State> _states { get; set; }
+        public List<State> States { get => _states;
+            set
+            {
+                _states = value;
+                OnPropertyChanged(nameof(States));
+            }
+        }
+
+        private Address _address { get; set; }
+        public Address Address { get => _address;
+            set
+            {
+                _address = value;
+                OnPropertyChanged(nameof(Address));
+            }
+        }
 
         public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
@@ -116,19 +154,23 @@ namespace Busidex3.ViewModels
             AddPhoneImage = ImageSource.FromResource("Busidex3.Resources.add-plus.png",
                 typeof(ShareVM).GetTypeInfo().Assembly);
 
-            Task.Factory.StartNew(async () => await App.LoadOwnedCard());        
+            Task.Factory.StartNew(async () => await App.LoadOwnedCard());
+            States = GetStates();
+            StateNames = States.Select(s => s.Name).ToList();
+            SelectedStateName = SelectedCard.Card.Addresses[0].State?.Name;
+            Address = SelectedCard.Card.Addresses[0];
         }
         
         #region UserCard Actions 
-        public ICommand SendSMS
-        {
-            get { return new Command(async (number) =>
-            {
-                Device.OpenUri(new Uri($"sms:{number.ToString()}"));
-                await _activityHttpService.SaveActivity ((long)EventSources.Text, SelectedCard.CardId);
-                App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
-            }); }
-        }
+        //public ICommand SendSMS
+        //{
+        //    get { return new Command(async (number) =>
+        //    {
+        //        Device.OpenUri(new Uri($"sms:{number.ToString()}"));
+        //        await _activityHttpService.SaveActivity ((long)EventSources.Text, SelectedCard.CardId);
+        //        App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
+        //    }); }
+        //}
 
         public ICommand DialPhoneNumber
         {
@@ -313,7 +355,51 @@ namespace Busidex3.ViewModels
             AllowSave = true;
         }
 
-        public async Task<bool> SaveCardInfo()
+        public async Task<bool> SaveAddress()
+        {
+            AllowSave = false;
+
+            OnCardInfoUpdating?.Invoke();
+
+            var card = new CardDetailModel(SelectedCard.Card)
+            {
+                Addresses = new List<Address>()
+            };
+
+            var state = GetStates().SingleOrDefault(s => s.Name == SelectedStateName);
+
+            card.Addresses.Add(new Address
+            {
+                CardAddressId = Address.CardAddressId,
+                Address1 = Address.Address1,
+                Address2 = Address.Address2,
+                ZipCode = Address.ZipCode,
+                State = state,
+                City = Address.City
+            });
+
+            var result = await _cardHttpService.UpdateCardContactInfo(card);
+            if (result)
+            {
+                var resp = await _cardHttpService.GetCardById(card.CardId);
+                SelectedCard.Card.Addresses.Clear();
+                SelectedCard.Card.Addresses.Add(resp.Model.Addresses[0]);
+
+                SaveToFile();
+
+                Address = resp.Model.Addresses[0];
+
+                await App.LoadOwnedCard();
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            }
+            
+            AllowSave = true;
+
+            return result;
+        }
+
+        public async Task<bool> SaveContactInfo()
         {
             AllowSave = false;
 
@@ -332,7 +418,14 @@ namespace Busidex3.ViewModels
                     })
                 )
             };
-            
+            card.PhoneNumbers.AddRange(_deletedPhoneNumbers.Select(p => new PhoneNumber
+            {
+                PhoneNumberId = p.PhoneNumberId,
+                Number = p.Number, 
+                PhoneNumberType = p.GetSelectedPhoneNumberType(), 
+                PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
+                Deleted = p.Deleted
+            }));
             
             var result = await _cardHttpService.UpdateCardContactInfo(card);
             if (result)
@@ -370,5 +463,64 @@ namespace Busidex3.ViewModels
             Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
         }
         #endregion
+
+        private static List<State> GetStates ()
+		{
+            var states = new List<State>
+            {
+                new State {StateCodeId = 1, Code = "AL", Name = "Alabama"},
+                new State {StateCodeId = 2, Code = "AK", Name = "Alaska"},
+                new State {StateCodeId = 3, Code = "AZ", Name = "Arizona"},
+                new State {StateCodeId = 4, Code = "AR", Name = "Arkansas"},
+                new State {StateCodeId = 5, Code = "CA", Name = "California"},
+                new State {StateCodeId = 6, Code = "CO", Name = "Colorado"},
+                new State {StateCodeId = 7, Code = "CT", Name = "Connecticut"},
+                new State {StateCodeId = 8, Code = "DE", Name = "Delaware"},
+                new State {StateCodeId = 9, Code = "DC", Name = "District Of Columbia"},
+                new State {StateCodeId = 10, Code = "FL", Name = "Florida"},
+                new State {StateCodeId = 11, Code = "GA", Name = "Georgia"},
+                new State {StateCodeId = 12, Code = "HI", Name = "Hawaii"},
+                new State {StateCodeId = 13, Code = "ID", Name = "Idaho"},
+                new State {StateCodeId = 14, Code = "IL", Name = "Illinois"},
+                new State {StateCodeId = 15, Code = "IN", Name = "Indiana"},
+                new State {StateCodeId = 16, Code = "IA", Name = "Iowa"},
+                new State {StateCodeId = 17, Code = "KS", Name = "Kansas"},
+                new State {StateCodeId = 18, Code = "KY", Name = "Kentucky"},
+                new State {StateCodeId = 19, Code = "LA", Name = "Louisiana"},
+                new State {StateCodeId = 20, Code = "ME", Name = "Maine"},
+                new State {StateCodeId = 21, Code = "MD", Name = "Maryland"},
+                new State {StateCodeId = 22, Code = "MA", Name = "Massachusetts"},
+                new State {StateCodeId = 23, Code = "MI", Name = "Michigan"},
+                new State {StateCodeId = 24, Code = "MN", Name = "Minnesota"},
+                new State {StateCodeId = 25, Code = "MS", Name = "Mississippi"},
+                new State {StateCodeId = 26, Code = "MO", Name = "Missouri"},
+                new State {StateCodeId = 27, Code = "MT", Name = "Montana"},
+                new State {StateCodeId = 28, Code = "NE", Name = "Nebraska"},
+                new State {StateCodeId = 29, Code = "NV", Name = "Nevada"},
+                new State {StateCodeId = 30, Code = "NH", Name = "New Hampshire"},
+                new State {StateCodeId = 31, Code = "NJ", Name = "New Jersey"},
+                new State {StateCodeId = 32, Code = "NM", Name = "New Mexico"},
+                new State {StateCodeId = 33, Code = "NY", Name = "New York"},
+                new State {StateCodeId = 34, Code = "NC", Name = "North Carolina"},
+                new State {StateCodeId = 35, Code = "ND", Name = "North Dakota"},
+                new State {StateCodeId = 36, Code = "OH", Name = "Ohio"},
+                new State {StateCodeId = 37, Code = "OK", Name = "Oklahoma"},
+                new State {StateCodeId = 38, Code = "OR", Name = "Oregon"},
+                new State {StateCodeId = 39, Code = "PA", Name = "Pennsylvania"},
+                new State {StateCodeId = 40, Code = "RI", Name = "Rhode Island"},
+                new State {StateCodeId = 41, Code = "SC", Name = "South Carolina"},
+                new State {StateCodeId = 42, Code = "SD", Name = "South Dakota"},
+                new State {StateCodeId = 43, Code = "TN", Name = "Tennessee"},
+                new State {StateCodeId = 44, Code = "TX", Name = "Texas"},
+                new State {StateCodeId = 45, Code = "UT", Name = "Utah"},
+                new State {StateCodeId = 46, Code = "VT", Name = "Vermont"},
+                new State {StateCodeId = 47, Code = "VA", Name = "Virginia"},
+                new State {StateCodeId = 48, Code = "WA", Name = "Washington"},
+                new State {StateCodeId = 49, Code = "WV", Name = "West Virginia"},
+                new State {StateCodeId = 50, Code = "WI", Name = "Wisconsin"},
+                new State {StateCodeId = 51, Code = "WY", Name = "Wyoming"}
+            };
+            return states;
+		}
     }
 }

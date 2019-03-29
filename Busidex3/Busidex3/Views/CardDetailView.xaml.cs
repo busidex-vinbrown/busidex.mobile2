@@ -20,6 +20,7 @@ namespace Busidex3.Views
 		    BindingContext = _viewModel;
 
 		    LoadButtons();
+            Title = vm.SelectedCard.Card.Name ?? vm.SelectedCard.Card.CompanyName;
 
             Header.OnCardImageClicked += Header_OnCardImageClicked;
 		    App.AnalyticsManager.TrackScreen(ScreenName.CardDetail);
