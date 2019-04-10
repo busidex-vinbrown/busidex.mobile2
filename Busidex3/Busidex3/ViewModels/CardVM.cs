@@ -29,6 +29,17 @@ namespace Busidex3.ViewModels
 
         public UserCard SelectedCard { get; }
 
+        private List<Tag> _tags;
+        public List<Tag> Tags
+        {
+            get => _tags;
+            set
+            {
+                _tags = value;
+                OnPropertyChanged(nameof(Tags));
+            }
+        }
+
         private string _name;
         public string Name
         {
@@ -195,6 +206,7 @@ namespace Busidex3.ViewModels
             Title = SelectedCard.Card.Title;
             Name = SelectedCard.Card.Name;
             CompanyName = SelectedCard.Card.CompanyName;
+            Tags = new List<Tag>(SelectedCard.Card.Tags.Where(t => t.TagType == 1));
         }
         
         #region UserCard Actions 
@@ -216,8 +228,8 @@ namespace Busidex3.ViewModels
                 await _activityHttpService.SaveActivity ((long)EventSources.Call, SelectedCard.CardId);
                 App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.PhoneDialed, number.ToString());
             }); }
-        }
-
+        }        
+        
         public void AddNewPhoneNumber()
         {
             PhoneNumbers.Add(new PhoneNumberVM(new PhoneNumber()));
@@ -350,6 +362,23 @@ namespace Busidex3.ViewModels
         #endregion
 
         #region Card Saving
+
+        private void initTagDisplay()
+        {
+            const int MAX_TAGS = 7;
+            var tmpList = new List<Tag>(SelectedCard.Card.Tags);
+            for (var i = 0; i < MAX_TAGS - SelectedCard.Card.Tags.Count; i++)
+            {
+                tmpList.Add(new Tag
+                {
+                    TagTypeId = 1,
+                    TagType = 1,
+                    Text = string.Empty
+                });
+            }
+            Tags = new List<Tag>(tmpList);
+        }
+
         public async Task<bool> SaveCardImage(MobileCardImage card)
         {
             OnCardInfoUpdating?.Invoke();
@@ -424,6 +453,38 @@ namespace Busidex3.ViewModels
                 SaveToFile();
 
                 Address = resp.Model.Addresses[0];
+
+                await App.LoadOwnedCard();
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            }
+            
+            AllowSave = true;
+
+            return result;
+        }
+
+        public async Task<bool> SaveTags()
+        {
+            AllowSave = false;
+
+            Tags.RemoveAll(t => string.IsNullOrEmpty(t.Text));
+            Tags.RemoveAll(t => string.IsNullOrWhiteSpace(t.Text));
+
+            var card = new CardDetailModel(SelectedCard.Card)
+            {
+                Tags = new List<Tag>(Tags)
+            };
+
+            var result = await _cardHttpService.UpdateCardContactInfo(card);
+            if (result)
+            {
+                var resp = await _cardHttpService.GetCardById(card.CardId);
+                SelectedCard.Card.Tags = new List<Tag>(resp.Model.Tags);
+
+                initTagDisplay();
+
+                SaveToFile();
 
                 await App.LoadOwnedCard();
 
