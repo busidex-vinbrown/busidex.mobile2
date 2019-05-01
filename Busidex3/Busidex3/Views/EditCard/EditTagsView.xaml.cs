@@ -1,6 +1,5 @@
 ﻿using System;
 using Busidex3.ViewModels;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views.EditCard

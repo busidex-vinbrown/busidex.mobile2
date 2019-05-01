@@ -1,26 +1,114 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:converters="clr-namespace:Busidex3.Converters"
              x:Class="Busidex3.Views.EditCard.EditCardImageView">
+    <ContentPage.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Vertical" Padding="20, 10">
-                <Grid RowSpacing="29" Padding="20">
+        <Grid RowSpacing="5" ColumnSpacing="0" Padding="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame 
+                x:Name="frmSelectedCardImage"
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Grid.Column="0"
+                BorderColor="DarkGray"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Padding="1">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <controls:CardImageHeader 
-                        BindingContext="{Binding SelectedCard}"
+                    <Image 
                         Grid.Row="0"
-                        Grid.Column="0">
-                    </controls:CardImageHeader>
+                        Grid.Column="0"
+                        x:Name="imgSelectedCardImage"
+                        IsVisible="True" 
+                        Aspect="Fill"
+                        Source="{Binding SelectedCard.DisplaySettings.CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=DisplaySettings.CurrentFileName}" />
+                    <Image 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Opacity=".6"
+                        IsVisible="True" Aspect="AspectFit" 
+                        HeightRequest="80" WidthRequest="80"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Source="{Binding CameraImage}">
+                    </Image>
+                    <Button 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        x:Name="btnChooseImage"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray"
+                        Opacity=".6"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Clicked="BtnChooseImage_OnClicked"/>     
                 </Grid>
-            </StackLayout>
-        </StackLayout>
+            </Frame>
+            
+            <controls1:RadioButtonGroupView 
+                x:Name="rdoOrientation" 
+                Orientation="Horizontal"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="CenterAndExpand">
+                <controls1:RadioButton Text="Horizontal" 
+                                       Clicked="RadioButton_OnClicked" 
+                                       TextFontSize="15"
+                                       Value="H"
+                                       Color="#03A9F4" />
+                <controls1:RadioButton Text="Vertical" 
+                                       Clicked="RadioButton_OnClicked" 
+                                       TextFontSize="15"
+                                       Value="V"
+                                       Color="#03A9F4" />
+            </controls1:RadioButtonGroupView>
+            <Button
+                x:Name="btnFront"
+                Text="Front"
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalOptions="End"
+                Style="{StaticResource toggleButtonOn}"
+                Clicked="BtnFront_OnClicked"/>
+            <Button
+                x:Name="btnBack"
+                Text="Back"
+                Grid.Row="2"
+                Grid.Column="1"
+                VerticalOptions="End"
+                Style="{StaticResource toggleButtonOff}"
+                Clicked="BtnBack_OnClicked"/>
+
+            <Button
+                x:Name="btnSave"
+                Text="Save"
+                Style="{StaticResource buttonStyle}"
+                IsEnabled="{Binding AllowSave}"
+                Grid.ColumnSpan="2"
+                Grid.Row="3"
+                Grid.Column="0"
+                Clicked="BtnSave_OnClicked"/>     
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

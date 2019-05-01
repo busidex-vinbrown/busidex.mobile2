@@ -9,17 +9,17 @@ namespace Busidex3.ViewModels
         public CardMenuVM()
         {
             EditCardImage = ImageSource.FromResource("Busidex3.Resources.editimage.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
             VisibilityImage = ImageSource.FromResource("Busidex3.Resources.visibility_64x64.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
             ContactInfoImage = ImageSource.FromResource("Busidex3.Resources.contacts_64x64.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
             SearchInfoImage = ImageSource.FromResource("Busidex3.Resources.search_64x64.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
             TagsImage = ImageSource.FromResource("Busidex3.Resources.tags_64x64.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
             AddressInfoImage = ImageSource.FromResource("Busidex3.Resources.maps.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardMenuVM).GetTypeInfo().Assembly);
         }
 
         public UserCard SelectedCard { get; set; }

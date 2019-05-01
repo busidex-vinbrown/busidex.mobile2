@@ -115,8 +115,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex;
-        public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex;
+        public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex && SelectedCard.Card.OwnerId != Security.DecodeUserId();
+        public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex && SelectedCard.Card.OwnerId != Security.DecodeUserId();
 
         private bool _allowSave;
         public bool AllowSave
@@ -138,6 +138,33 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private string _frontOrientation { get; set; }
+        public string FrontOrientation { get => _frontOrientation;
+            set
+            {
+                _frontOrientation = value;
+                OnPropertyChanged(nameof(FrontOrientation));
+            }
+        }
+
+        private string _backOrientation { get; set; }
+        public string BackOrientation { get => _backOrientation;
+            set
+            {
+                _backOrientation = value;
+                OnPropertyChanged(nameof(BackOrientation));
+            }
+        }
+
+        private string _orientationDisplay { get; set; }
+        public string OrientationDisplay { get => _orientationDisplay;
+            set
+            {
+                _orientationDisplay = value;
+                OnPropertyChanged(nameof(OrientationDisplay));
+            }
+        }
+
         private ImageSource _emailImage { get; set; }
         public ImageSource EmailImage { get => _emailImage;
             set
@@ -153,6 +180,24 @@ namespace Busidex3.ViewModels
             {
                 _urlImage = value;
                 OnPropertyChanged(nameof(UrlImage));
+            }
+        }
+
+        private ImageSource _cameraImage { get; set; }
+        public ImageSource CameraImage { get => _cameraImage;
+            set
+            {
+                _cameraImage = value;
+                OnPropertyChanged(nameof(CameraImage));
+            }
+        }
+        
+        private ImageSource _selectedCardImage { get; set; }
+        public ImageSource SelectedCardImage { get => _selectedCardImage;
+            set
+            {
+                _selectedCardImage = value;
+                OnPropertyChanged(nameof(SelectedCardImage));
             }
         }
 
@@ -174,6 +219,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private UserCardDisplay.CardSide _selectedSide { get; set; }
+        public UserCardDisplay.CardSide SelectedSide { get => _selectedSide;
+            set
+            {
+                _selectedSide = value;
+                OnPropertyChanged(nameof(SelectedSide));
+            }
+        }
+
         public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
             SelectedCard = uc;
@@ -192,11 +246,16 @@ namespace Busidex3.ViewModels
             AllowSave = true;
 
             EmailImage = ImageSource.FromResource("Busidex3.Resources.email.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardVM).GetTypeInfo().Assembly);
             UrlImage = ImageSource.FromResource("Busidex3.Resources.browser.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardVM).GetTypeInfo().Assembly);
             AddPhoneImage = ImageSource.FromResource("Busidex3.Resources.add-plus.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+                typeof(CardVM).GetTypeInfo().Assembly);
+
+            CameraImage = ImageSource.FromResource("Busidex3.Resources.editimage.png",
+                typeof(CardVM).GetTypeInfo().Assembly);
+            
+            SelectedCardImage = ImageSource.FromFile(SelectedCard.Card.FrontFileName);
 
             Task.Factory.StartNew(async () => await App.LoadOwnedCard());
             States = GetStates();
@@ -207,6 +266,9 @@ namespace Busidex3.ViewModels
             Name = SelectedCard.Card.Name;
             CompanyName = SelectedCard.Card.CompanyName;
             Tags = new List<Tag>(SelectedCard.Card.Tags.Where(t => t.TagType == 1));
+            FrontOrientation = SelectedCard.Card.FrontOrientation;
+            BackOrientation = SelectedCard.Card.BackOrientation;
+            SelectedSide = UserCardDisplay.CardSide.Front;
         }
         
         #region UserCard Actions 
@@ -381,8 +443,6 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> SaveCardImage(MobileCardImage card)
         {
-            OnCardInfoUpdating?.Invoke();
-
             var result = await _cardHttpService.UpdateCardImage(card);
 
             await App.LoadOwnedCard();
