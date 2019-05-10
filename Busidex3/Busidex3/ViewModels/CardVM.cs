@@ -165,6 +165,9 @@ namespace Busidex3.ViewModels
             }
         }
 
+        public string EncodedFrontCardImage { get; set; }
+        public string EncodedBackCardImage { get; set; }
+
         private ImageSource _emailImage { get; set; }
         public ImageSource EmailImage { get => _emailImage;
             set
@@ -192,12 +195,21 @@ namespace Busidex3.ViewModels
             }
         }
         
-        private ImageSource _selectedCardImage { get; set; }
-        public ImageSource SelectedCardImage { get => _selectedCardImage;
+        private string _selectedCardFrontImage { get; set; }
+        public string SelectedCardFrontImage { get => _selectedCardFrontImage;
             set
             {
-                _selectedCardImage = value;
-                OnPropertyChanged(nameof(SelectedCardImage));
+                _selectedCardFrontImage = value;
+                OnPropertyChanged(nameof(SelectedCardFrontImage));
+            }
+        }
+
+        private string _selectedCardBackImage { get; set; }
+        public string SelectedCardBackImage { get => _selectedCardBackImage;
+            set
+            {
+                _selectedCardBackImage = value;
+                OnPropertyChanged(nameof(SelectedCardBackImage));
             }
         }
 
@@ -254,8 +266,9 @@ namespace Busidex3.ViewModels
 
             CameraImage = ImageSource.FromResource("Busidex3.Resources.editimage.png",
                 typeof(CardVM).GetTypeInfo().Assembly);
-            
-            SelectedCardImage = ImageSource.FromFile(SelectedCard.Card.FrontFileName);
+
+            SelectedCardFrontImage = SelectedCard.Card.FrontFileName;
+            SelectedCardBackImage = SelectedCard.Card.BackFileName;
 
             Task.Factory.StartNew(async () => await App.LoadOwnedCard());
             States = GetStates();

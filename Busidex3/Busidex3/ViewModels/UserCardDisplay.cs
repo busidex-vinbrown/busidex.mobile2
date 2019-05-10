@@ -45,7 +45,15 @@ namespace Busidex3.ViewModels
 
         private readonly DisplaySetting _currentDisplaySetting;
         private readonly CardOrientation _currentOrientation;
-        public string CurrentFileName { get; set; }
+
+        private string _currentFileName { get; set; }
+        public string CurrentFileName { get => _currentFileName;
+            set
+            {
+                _currentFileName = value;
+                OnPropertyChanged(nameof(CurrentFileName));
+            }
+        }
 
         public UserCardDisplay(
             DisplaySetting display = DisplaySetting.Detail, 
