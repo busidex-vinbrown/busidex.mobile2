@@ -84,6 +84,9 @@ namespace Busidex3.ViewModels
             }
         }
 
+        public bool FrontImageChanged { get;set; }
+        public bool BackImageChanged { get; set; }
+
         private ObservableRangeCollection<PhoneNumberVM> _phoneNumbers;
         public ObservableRangeCollection<PhoneNumberVM> PhoneNumbers { get => _phoneNumbers;
             set
@@ -155,6 +158,9 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(BackOrientation));
             }
         }
+
+        public Guid FrontFileId { get; set; }
+        public Guid BackFileId { get; set; }
 
         private string _orientationDisplay { get; set; }
         public string OrientationDisplay { get => _orientationDisplay;
@@ -454,17 +460,67 @@ namespace Busidex3.ViewModels
             Tags = new List<Tag>(tmpList);
         }
 
-        public async Task<bool> SaveCardImage(MobileCardImage card)
+        public async Task<bool> SaveCardImage()
         {
-            var result = await _cardHttpService.UpdateCardImage(card);
+            var storagePath = Serialization.LocalStorageFolder;
 
-            await App.LoadOwnedCard();
+            if (FrontImageChanged)
+            {
+                var cardFront = new MobileCardImage
+                {
+                    BackFileId = BackFileId,
+                    FrontFileId = FrontFileId,
+                    EncodedCardImage = EncodedFrontCardImage,
+                    Orientation = FrontOrientation,
+                    Side = MobileCardImage.DisplayMode.Front
+                };
 
-            App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+                var frontResult = await _cardHttpService.UpdateCardImage(cardFront);
+                if (frontResult)
+                {
+                    SelectedCard.Card.FrontFileId = FrontFileId;
+                    SelectedCard.Card.FrontOrientation = FrontOrientation;
 
-            SaveToFile();
+                    var fImageUrl = StringResources.THUMBNAIL_PATH + FrontFileId + ".jpg";
+                    var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + FrontFileId + ".jpg";
+                    await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                }
+            }
 
-            return result;
+            if (BackImageChanged)
+            {
+                var cardBack = new MobileCardImage
+                {
+                    BackFileId = BackFileId,
+                    FrontFileId = FrontFileId,
+                    EncodedCardImage = EncodedBackCardImage,
+                    Orientation = FrontOrientation,
+                    Side = MobileCardImage.DisplayMode.Back
+                };
+
+                var backResult = await _cardHttpService.UpdateCardImage(cardBack);
+                if (backResult)
+                {
+                    SelectedCard.Card.BackFileId = BackFileId;
+                    SelectedCard.Card.BackOrientation = BackOrientation;
+                    
+                    var bImageUrl = StringResources.THUMBNAIL_PATH + BackFileId + ".jpg";
+                    var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + BackFileId + ".jpg";
+
+                    await App.DownloadImage(bImageUrl, storagePath, bName).ConfigureAwait(false);
+                }
+            }
+
+            if (BackImageChanged || FrontImageChanged)
+            {
+                await App.LoadOwnedCard();
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+
+                SaveToFile();
+            }
+
+            return true;
         }
 
         public async Task<bool> SaveCardVisibility()

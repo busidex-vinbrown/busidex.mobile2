@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Busidex3.DomainModels;
 using Busidex3.ViewModels;
 using Plugin.InputKit.Shared.Controls;
 using Plugin.Media;
@@ -40,8 +41,8 @@ namespace Busidex3.Views.EditCard
 		}
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
-        {
-            await ViewModel.SaveCardImage(null);
+        {            
+            await ViewModel.SaveCardImage();
         }
 
         private void BtnFront_OnClicked(object sender, EventArgs e)
@@ -64,6 +65,43 @@ namespace Busidex3.Views.EditCard
 
         private async void BtnChooseImage_OnClicked(object sender, EventArgs e)
         {
+            const string OPT_CANCEL = "Cancel";
+            const string OPT_CAMERA = "Camera";
+            const string OPT_GALLERY = "Gallery";
+            const string OPT_CLEAR = "Clear Image";
+
+            var action = await DisplayActionSheet("Image Source", OPT_CANCEL, null, OPT_CAMERA, OPT_GALLERY, OPT_CLEAR);
+            switch (action)
+            {
+                case OPT_CANCEL:
+                {
+                    break;
+                }
+                case OPT_CAMERA:
+                {
+                    takePicture();
+                    break;
+                }
+                case OPT_GALLERY:
+                {
+                    choosePicture();
+                    break;
+                }
+                case OPT_CLEAR:
+                {
+                    var forReals = await DisplayAlert("Clear Image", "Clear your card image?", "Yes", "Cancel");
+                    if (forReals)
+                    {
+                        clearPicture();
+                    }
+                    
+                    break;
+                }
+            }
+        }
+
+        async Task<PermissionStatus> checkPermissions()
+        {
             var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
             if (status != PermissionStatus.Granted)
             {
@@ -75,6 +113,49 @@ namespace Busidex3.Views.EditCard
                 var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
                 status = results[Permission.Camera];
             }
+
+            return status;
+        }
+
+        async void clearPicture()
+        {
+            await setImageFromFile(null);
+        }
+
+        async void choosePicture()
+        {
+            var status = await checkPermissions();
+
+            if (status == PermissionStatus.Granted)
+            {
+                await CrossMedia.Current.Initialize();
+
+                if (!CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    await DisplayAlert("Choose Picture", ":( Gallery is not available.", "OK");
+                    return;
+                }
+
+                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                {
+                    PhotoSize = PhotoSize.Small,
+                    CompressionQuality = 70
+                });
+
+                if (file == null)
+                    return;
+
+                await setImageFromFile(file);
+            }
+            else if (status != PermissionStatus.Unknown)
+            {
+                await DisplayAlert("Gallery Denied", "Can not continue. This app needs to access your photo gallery. Please check your permissions and try again.", "OK");
+            }
+        }
+
+        async void takePicture()
+        {
+            var status = await checkPermissions();
 
             if (status == PermissionStatus.Granted)
             {
@@ -96,7 +177,7 @@ namespace Busidex3.Views.EditCard
                 if (file == null)
                     return;
 
-               await setImageFromFile(file);
+                await setImageFromFile(file);
                 
             }
             else if (status != PermissionStatus.Unknown)
@@ -110,35 +191,44 @@ namespace Busidex3.Views.EditCard
             bool ok = true;
             try
             {
-                var str = file.GetStream();
+                var str = file?.GetStream();
 
-                var cropResult = await CropImageService.Instance.CropImage(file.Path, CropRatioType.None);
+                var cropResult = file != null
+                    ? await CropImageService.Instance.CropImage(file.Path, CropRatioType.None)
+                    : null;
+
                 if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Front)
                 {
-                    imgSelectedFrontImage.Source = ImageSource.FromFile(cropResult.FilePath);
+                    imgSelectedFrontImage.Source = ImageSource.FromFile(cropResult?.FilePath);
                 }
                 else
                 {
-                    imgSelectedBackImage.Source = ImageSource.FromFile(cropResult.FilePath);
+                    imgSelectedBackImage.Source = ImageSource.FromFile(cropResult?.FilePath);
                 }
 
                 byte[] b = { };
-                using (MemoryStream ms = new MemoryStream())
+                if (str != null)
                 {
-                    str.CopyTo(ms);
-                    b = ms.ToArray();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        str.CopyTo(ms);
+                        b = ms.ToArray();
+                    }
                 }
 
                 var s = Convert.ToBase64String(b);
                 if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Front)
                 {
-                    ViewModel.EncodedFrontCardImage = s;
+                    ViewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
+                    ViewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                    ViewModel.FrontImageChanged = true;
                 }
                 else
                 {
-                    ViewModel.EncodedBackCardImage = s;
+                    ViewModel.EncodedBackCardImage = s != string.Empty ? s : null;
+                    ViewModel.BackFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                    ViewModel.BackImageChanged = true;
                 }
-                
             }
             catch (Exception ex)
             {
