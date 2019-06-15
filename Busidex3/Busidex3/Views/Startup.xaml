@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Busidex3.Views.Startup">
+    <ContentPage.Content>
+        <Grid BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Source="background_blur5.png" 
+                   Grid.Row="0"
+                   Grid.RowSpan="4"
+                   Grid.Column="0"
+                   VerticalOptions="FillAndExpand" 
+                   Aspect="AspectFill" 
+                   Opacity="0.8" />
+            <Label Text="Thanks for downloading the Busidex App! Choose one of the following to begin..."
+                Grid.Row="0"
+                Grid.Column="0"
+                   Margin="10,20"
+                TextColor="White"
+                FontSize="Large"
+                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Already a Busidex User?"
+                Grid.Row="1"
+                Grid.Column="0"
+                TextColor="Black"
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand" />
+            <Button
+                x:Name="btnLogin"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10,30"
+                Style="{StaticResource homeButton}"
+                Clicked="BtnLogin_Clicked"
+                Text="Connect to Your Account"/>
+            <Label Text="New to Busidex?"
+                Grid.Row="2"
+                Grid.Column="0"
+                TextColor="Black"
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand" />
+            <Button
+                x:Name="btnStart"
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="10,30"
+                Style="{StaticResource homeButton}"
+                Clicked="BtnStart_Clicked"
+                Text="Start Using the App!"/>
+            <Image Source="logo3.png" 
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

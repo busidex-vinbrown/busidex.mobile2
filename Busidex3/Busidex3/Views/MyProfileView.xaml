@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Busidex3"
+             xmlns:controls="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="Busidex3.Views.MyProfileView">
+    <ContentPage.Content>
+        <Frame Padding="5" 
+               HasShadow="False" 
+               HorizontalOptions="FillAndExpand" 
+               OutlineColor="#03A9F4" 
+               BackgroundColor="#03A9F4" >
+            <Frame
+                Padding="5" 
+                HasShadow="False" 
+                HorizontalOptions="FillAndExpand" 
+                OutlineColor="#03A9F4" 
+                BackgroundColor="White"
+                BorderColor="#03A9F4"            
+                CornerRadius="10">
+                <Frame.Content>
+                    <Grid Margin="18">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Text="Choose an email address and password here so you can access your cards on the web or another mobile device."
+                            Grid.Row="0"
+                            Margin="0, 15"
+                            Grid.Column="0"
+                            TextColor="#03A9F4"
+                            FontSize="Medium"
+                            HorizontalOptions="CenterAndExpand" />
+                        <Label x:Name="lblUserName"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           Text="User Name"
+                           HorizontalOptions="CenterAndExpand"/>
+                        <Entry x:Name="txtUserName" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           Text="{Binding UserName}" 
+                           HorizontalTextAlignment="Center" 
+                           TextChanged="TxtUserName_TextChanged"/>
+                        <Label x:Name="lblPassword" 
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           Text="Password"
+                           HorizontalOptions="CenterAndExpand" />
+                        <Entry IsPassword="True"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           x:Name="txtPassword" 
+                           Text="{Binding Password}" 
+                           HorizontalTextAlignment="Center" 
+                           TextChanged="TxtPassword_TextChanged"/>
+                        <Label x:Name="lblLoginError" 
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           Text="Incorrect UserName or Password" 
+                           TextColor="Red" 
+                           FontSize="Small"
+                           HorizontalOptions="CenterAndExpand"
+                           IsVisible="False"/>
+                        <controls:CheckBox 
+                            x:Name="chkAccept"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            CheckChanged="ChkAccept_CheckChanged"
+                            Text="I accept the Terms and Conditions"/>
+                        <Label
+                            x:Name="lnkTerms"
+                            FontSize="Medium"
+                            TextColor="#03A9F4"
+                            TextDecorations="Underline"
+                            Margin="0, 10"
+                            HorizontalTextAlignment="Center"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="Terms and Conditions">    
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding TermsAndConditionsCommand}" 
+                                    CommandParameter="{x:Static local:StringResources.TERMS_AND_CONDITIONS_URL}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lnkPolicy"
+                            FontSize="Medium"
+                            TextColor="#03A9F4"
+                            TextDecorations="Underline"
+                            Margin="0, 10"
+                            HorizontalTextAlignment="Center"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="Privacy Policy">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding PrivacyPolicyCommand}" 
+                                    CommandParameter="{x:Static local:StringResources.PRIVACY_URL}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Button
+                            x:Name="btnSave"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Margin="10,30"
+                            IsEnabled="{Binding SaveButtonEnabled}"
+                            Style="{StaticResource homeButton}"
+                            Clicked="BtnSave_Clicked"
+                            Text="{Binding SaveButtonText}"/>
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            IsVisible="{Binding ProfileError}"
+                            Text="There was a problem updating your profile"
+                            TextColor="Red"
+                            HorizontalTextAlignment="Center"
+                            FontSize="Small"
+                            FontAttributes="Italic"/>
+                    </Grid>
+                </Frame.Content>
+            </Frame>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

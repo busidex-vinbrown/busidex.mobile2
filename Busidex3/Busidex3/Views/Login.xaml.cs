@@ -16,9 +16,13 @@ namespace Busidex3.Views
 
 		    BindingContext = _viewModel;
 		}
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadStartupPage();
+            return true;
+        }
 
-
-	    private async void BtnLogin_OnClicked(object sender, EventArgs e)
+        private async void BtnLogin_OnClicked(object sender, EventArgs e)
 	    {
 	        btnLogin.IsVisible = false;
 	        btnForgotPassword.IsVisible = false;
@@ -28,7 +32,7 @@ namespace Busidex3.Views
 	        if (loggedIn)
 	        {
 	            lblLoginError.IsVisible = false;
-	            App.LoadMainMenuPage("My Busidex");
+	            App.LoadMainMenuPage();
 	        }
 	        else
 	        {

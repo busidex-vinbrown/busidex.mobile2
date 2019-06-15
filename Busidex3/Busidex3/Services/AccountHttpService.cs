@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 
@@ -21,7 +22,7 @@ namespace Busidex3.Services
 
             var data = new AutoResponseForm
             {
-                uidId = Security.AuthToken,
+                uidId = Security.AuthToken ?? Guid.NewGuid().ToString(),
                 email = email,
                 pswd = password
             };

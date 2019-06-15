@@ -11,6 +11,7 @@ namespace Busidex3.Views
 
     public delegate void OnShareClickedResult(ref UserCard card);
     public delegate void OnCardEditClickedResult(ref UserCard card);
+    public delegate void OnProfileClickedResult();
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuMaster
@@ -19,6 +20,7 @@ namespace Busidex3.Views
         public event LogoutResult OnLogout;
         public event OnShareClickedResult OnShareClicked;
         public event OnCardEditClickedResult OnCardEditClicked;
+        public event OnProfileClickedResult OnProfileClicked;
 
         protected MainMenuMasterVM _viewModel { get; set; }
 
@@ -29,7 +31,12 @@ namespace Busidex3.Views
             _viewModel = new MainMenuMasterVM();
             BindingContext = _viewModel;
             ListView = MenuItemsListView;
+            ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
+        }
 
+        private void CtrlProfileImage_OnCardImageClicked(UserCard uc)
+        {
+            OnProfileClicked?.Invoke();
         }
 
         public void RefreshProfile()

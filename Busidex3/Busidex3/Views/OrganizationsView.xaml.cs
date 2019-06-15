@@ -12,5 +12,12 @@ namespace Busidex3.Views
 			InitializeComponent ();
 		    App.AnalyticsManager.TrackScreen(ScreenName.Organizations);
 		}
-	}
+
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadMainMenuPage();
+            return true;
+        }
+
+    }
 }

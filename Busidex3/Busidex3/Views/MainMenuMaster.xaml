@@ -35,11 +35,14 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="0"
                 Orientation="Horizontal">
+                        
                 <controls:CardImageHeader
-                    BackgroundColor="{Binding ThumbnailBackground}"
-                    HorizontalOptions="Start"
-                    BindingContext="{Binding MyCard}">
+                        x:Name="ctrlProfileImage"
+                        BackgroundColor="{Binding ThumbnailBackground}"
+                        HorizontalOptions="Start"
+                        BindingContext="{Binding MyCard}">
                 </controls:CardImageHeader>
+                              
                 <StackLayout
                     HorizontalOptions="End"
                     VerticalOptions="Center">
@@ -103,11 +106,12 @@
           <!-- middle controls -->
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal" VerticalOptions="End">
+      <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
           <Button
               x:Name="btnLogout"
               Clicked="BtnLogout_OnClicked"
               Text="Logout"
+              HorizontalOptions="CenterAndExpand"
               Style="{StaticResource buttonStyle}"/>
       </StackLayout>
       

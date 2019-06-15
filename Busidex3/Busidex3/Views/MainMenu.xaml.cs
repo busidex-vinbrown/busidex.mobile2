@@ -18,10 +18,12 @@ namespace Busidex3.Views
             MasterPage.OnLogout += RedirectToLogin;
             MasterPage.OnShareClicked += MasterPage_OnShareClicked;
             MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
+            MasterPage.OnProfileClicked += MasterPage_OnProfileClicked;
+            this.IsPresentedChanged += MainMenu_IsPresentedChanged;
 
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                RedirectToLogin();
+                RedirectToStartup();
             }
             else
             {
@@ -30,9 +32,12 @@ namespace Busidex3.Views
 
                 Detail = new NavigationPage(page);
                 IsPresented = false;
-
-                this.IsPresentedChanged += MainMenu_IsPresentedChanged;
             }            
+        }
+
+        private void MasterPage_OnProfileClicked()
+        {
+            App.LoadProfilePage();
         }
 
         private void MasterPage_OnCardEditClicked(ref UserCard card)
@@ -64,12 +69,21 @@ namespace Busidex3.Views
             }
         }
 
+        private void RedirectToStartup()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(Startup));
+            Detail = page;
+            IsPresented = false;
+            NavigationPage.SetHasNavigationBar (Detail, false);
+            IsGestureEnabled = false;
+        }
+
         private void RedirectToLogin()
         {
             var page = (Page)Activator.CreateInstance(typeof(Login));
             Detail = page;
             IsPresented = false;
-            NavigationPage.SetHasNavigationBar (Detail, false);
+            NavigationPage.SetHasNavigationBar(Detail, false);
             IsGestureEnabled = false;
         }
 

@@ -27,7 +27,13 @@ namespace Busidex3.Views
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}
 
-	    private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadMainMenuPage();
+            return true;
+        }
+
+        private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {
 	        if (string.IsNullOrEmpty(e.NewTextValue))
 	        {

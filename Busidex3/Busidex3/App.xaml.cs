@@ -14,6 +14,7 @@ using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using Plugin.InputKit.Shared.Configuration;
+using Busidex3.ViewModels;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
@@ -92,14 +93,49 @@ namespace Busidex3
             return jpgFilename;
         }
 
-        public static void LoadMainMenuPage(string title)
+        public static void LoadProfilePage()
         {
-            var initialPage = new MyBusidexView();
-            var masterDetailRootPage = (MainMenu)Application.Current.MainPage;
-            masterDetailRootPage.Detail = new NavigationPage(initialPage)
-            {
-                Title = title
-            };
+            var needsSetup = string.IsNullOrEmpty(Security.AuthToken);
+            var page = (Page)Activator.CreateInstance(typeof(MyProfileView));
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = needsSetup 
+                ? page
+                : new NavigationPage(page);
+            masterDetailRootPage.IsPresented = false;
+            masterDetailRootPage.IsGestureEnabled = !needsSetup;
+            NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, !needsSetup);
+        }
+
+        public static void LoadStartupPage()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(Startup));
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = page;
+            masterDetailRootPage.IsPresented = false;
+            masterDetailRootPage.IsGestureEnabled = false;
+            NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
+        }
+
+        public static void LoadLoginPage()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(Login));
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = page;
+            masterDetailRootPage.IsPresented = false;
+            masterDetailRootPage.IsGestureEnabled = false;
+            NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
+        }
+
+        public static void LoadMainMenuPage()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
+            page.Title = ViewNames.MyBusidex;
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = new NavigationPage(page);
             masterDetailRootPage.IsPresented = false;
             masterDetailRootPage.IsGestureEnabled = true;
         }
