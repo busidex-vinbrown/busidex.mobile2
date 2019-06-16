@@ -45,6 +45,28 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private string _confirmPassword;
+        public string ConfirmPassword
+        {
+            get { return _confirmPassword; }
+            set
+            {
+                _confirmPassword = value;
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
+
+        private bool _newUser;
+        public bool NewUser
+        {
+            get { return _newUser; }
+            set
+            {
+                _newUser = value;
+                OnPropertyChanged(nameof(NewUser));
+            }
+        }
+
         private bool _profileError;
         public bool ProfileError
         {

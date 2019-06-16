@@ -30,6 +30,7 @@ namespace Busidex3
             Security.ReadAuthCookie();
             
             Task.Factory.StartNew(async () => await LoadOwnedCard());
+            Task.Factory.StartNew(async () => await Security.LoadUser());
 
             MainPage = new MainMenu();// new NavigationPage(new MainMenu());   
 

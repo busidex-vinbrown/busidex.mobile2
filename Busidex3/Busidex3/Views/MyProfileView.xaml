@@ -19,7 +19,7 @@
                 BorderColor="#03A9F4"            
                 CornerRadius="10">
                 <Frame.Content>
-                    <Grid Margin="18">
+                    <Grid Margin="18,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
@@ -30,7 +30,11 @@
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label Text="Choose an email address and password here so you can access your cards on the web or another mobile device."
@@ -38,7 +42,7 @@
                             Margin="0, 15"
                             Grid.Column="0"
                             TextColor="#03A9F4"
-                            FontSize="Medium"
+                            FontSize="Small"
                             HorizontalOptions="CenterAndExpand" />
                         <Label x:Name="lblUserName"
                            Grid.Row="1"
@@ -46,35 +50,40 @@
                            Text="User Name"
                            HorizontalOptions="CenterAndExpand"/>
                         <Entry x:Name="txtUserName" 
-                           Grid.Row="1"
+                           Grid.Row="2"
                            Grid.Column="0"
                            Text="{Binding UserName}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtUserName_TextChanged"/>
                         <Label x:Name="lblPassword" 
-                           Grid.Row="2"
+                           Grid.Row="3"
                            Grid.Column="0"
                            Text="Password"
                            HorizontalOptions="CenterAndExpand" />
                         <Entry IsPassword="True"
-                           Grid.Row="2"
+                           Grid.Row="4"
                            Grid.Column="0"
                            x:Name="txtPassword" 
                            Text="{Binding Password}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtPassword_TextChanged"/>
-                        <Label x:Name="lblLoginError" 
-                           Grid.Row="2"
+                        <Label x:Name="lblConfirmPassword" 
+                           Grid.Row="5"
                            Grid.Column="0"
-                           Text="Incorrect UserName or Password" 
-                           TextColor="Red" 
-                           FontSize="Small"
-                           HorizontalOptions="CenterAndExpand"
-                           IsVisible="False"/>
+                           Text="Confirm Password"
+                           HorizontalOptions="CenterAndExpand" />
+                        <Entry IsPassword="True"
+                           Grid.Row="6"
+                           Grid.Column="0"
+                           x:Name="txtConfirmPassword" 
+                           Text="{Binding ConfirmPassword}" 
+                           HorizontalTextAlignment="Center" 
+                           TextChanged="TxtConfirmPassword_TextChanged"/>
                         <controls:CheckBox 
                             x:Name="chkAccept"
-                            Grid.Row="3"
+                            Grid.Row="7"
                             Grid.Column="0"
+                            IsVisible="{Binding NewUser}"
                             CheckChanged="ChkAccept_CheckChanged"
                             Text="I accept the Terms and Conditions"/>
                         <Label
@@ -82,9 +91,9 @@
                             FontSize="Medium"
                             TextColor="#03A9F4"
                             TextDecorations="Underline"
-                            Margin="0, 10"
+                            Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="4"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Text="Terms and Conditions">    
                             <Label.GestureRecognizers>
@@ -98,9 +107,9 @@
                             FontSize="Medium"
                             TextColor="#03A9F4"
                             TextDecorations="Underline"
-                            Margin="0, 10"
+                            Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="5"
+                            Grid.Row="9"
                             Grid.Column="0"
                             Text="Privacy Policy">
                             <Label.GestureRecognizers>
@@ -111,15 +120,15 @@
                         </Label>
                         <Button
                             x:Name="btnSave"
-                            Grid.Row="6"
+                            Grid.Row="10"
                             Grid.Column="0"
-                            Margin="10,30"
+                            Margin="10,15"
                             IsEnabled="{Binding SaveButtonEnabled}"
                             Style="{StaticResource homeButton}"
                             Clicked="BtnSave_Clicked"
                             Text="{Binding SaveButtonText}"/>
                         <Label
-                            Grid.Row="7"
+                            Grid.Row="11"
                             Grid.Column="0"
                             IsVisible="{Binding ProfileError}"
                             Text="There was a problem updating your profile"

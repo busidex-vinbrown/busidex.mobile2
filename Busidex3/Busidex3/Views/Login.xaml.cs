@@ -16,6 +16,7 @@ namespace Busidex3.Views
 
 		    BindingContext = _viewModel;
 		}
+
         protected override bool OnBackButtonPressed()
         {
             App.LoadStartupPage();

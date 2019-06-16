@@ -26,6 +26,12 @@
                    HorizontalOptions="FillAndExpand"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"></Label>
+            <SearchBar x:Name="txtSearch"
+                        Text="{Binding SearchValue}"
+                        IsVisible="{Binding ShowFilter}"
+                        SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
+                        Placeholder="Filter"
+                        TextChanged="TxtSearch_OnTextChanged"/>
             <ListView x:Name="lstMyBusidex"
                       SeparatorVisibility="Default"
                       VerticalOptions="FillAndExpand"
@@ -36,16 +42,7 @@
                       CachingStrategy="RecycleElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
                       ItemsSource="{Binding FilteredUserCards}">
-                <ListView.Header>
-                    <StackLayout>
-                        <SearchBar x:Name="txtSearch"
-                                   Text="{Binding SearchValue}"
-                                   IsVisible="{Binding ShowFilter}"
-                                   SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
-                                   Placeholder="Filter"
-                                   TextChanged="TxtSearch_OnTextChanged"/>
-                    </StackLayout>
-                </ListView.Header>
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

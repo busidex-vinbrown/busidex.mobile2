@@ -26,7 +26,7 @@ namespace Busidex3.Views
                 RedirectToStartup();
             }
             else
-            {
+            {                
                 var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
                 page.Title = ViewNames.MyBusidex;
 
