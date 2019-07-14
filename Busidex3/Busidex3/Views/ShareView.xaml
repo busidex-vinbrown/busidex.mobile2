@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             x:Class="Busidex3.Views.ShareView">
+             x:Class="Busidex3.Views.ShareView"
+             Visual="Material">
     <ContentPage.Content>
         <StackLayout>
             <Grid RowSpacing="5" Padding="5">
@@ -11,12 +12,12 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"></RowDefinition>
-                    <RowDefinition Height="50"></RowDefinition>
-                    <RowDefinition Height="50"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackLayout Padding="5" 
                              HorizontalOptions="FillAndExpand" 
@@ -87,18 +88,11 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
                     Grid.Row="3"
-                    Grid.Column="0" />
-                    
+                    Grid.Column="0" />                    
                 <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
                                    Color="#03A9F4" 
                                    IsVisible="False"
-                                   IsRunning="True"/>
-                
-                <controls:CardImageHeader 
-                    BindingContext="{Binding SelectedCard}"
-                    Grid.Row="5"
-                    Grid.Column="0">
-                </controls:CardImageHeader>
+                                   IsRunning="True"/>         
                 <Button
                     x:Name="btnShare"
                     Text="Share"
@@ -106,6 +100,11 @@
                     Grid.Row="4"
                     Grid.Column="0"
                     Clicked="BtnShare_OnClicked"/>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="5"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

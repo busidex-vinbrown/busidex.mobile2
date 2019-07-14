@@ -12,13 +12,12 @@ namespace Busidex3.ViewModels
     {
         private SearchHttpService _searchHttpService = new SearchHttpService();
 
-        public ImageSource BackgroundImage  
+        public ImageSource BackgroundImage
         {
-            get => _backgroundImage;
-            set
+            get
             {
-                _backgroundImage = value;
-                OnPropertyChanged(nameof(BackgroundImage));
+                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                    typeof(SearchVM).Assembly);
             }
         }
 
@@ -63,9 +62,7 @@ namespace Busidex3.ViewModels
 
             SearchResults.ForEach(uc => uc.Card.Parent = uc);
 
-            IsSearching = false;
-
-            BackgroundImage = ImageSource.FromResource("Busidex3.Resources.card_back2.png");
+            IsSearching = false;         
 
             return true;
         }

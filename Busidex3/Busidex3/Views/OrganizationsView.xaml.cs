@@ -15,7 +15,7 @@ namespace Busidex3.Views
 
         protected override bool OnBackButtonPressed()
         {
-            App.LoadMainMenuPage();
+            App.LoadMyBusidexPage();
             return true;
         }
 

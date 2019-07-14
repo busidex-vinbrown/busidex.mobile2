@@ -106,6 +106,15 @@ namespace Busidex3.Services.Utils
             return fileJson;
         }
 
+        public static void RemoveQuickShareLink()
+        {
+            var quickShareFile = Path.Combine(LocalStorageFolder, StringResources.QUICKSHARE_LINK);
+            if (File.Exists(quickShareFile))
+            {
+                File.Delete(quickShareFile);
+            }
+        }
+
         public static void SaveResponse(string response, string fileName, string path = null)
         {
             var fullFilePath = Path.Combine(path ?? LocalStorageFolder, fileName);

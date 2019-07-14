@@ -33,8 +33,7 @@ namespace Busidex3.Views.EditCard
             else
             {
                 Navigation.PopAsync();
-            }
-            
+            }            
 		}
 
         private CardVM GetViewModel()

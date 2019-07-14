@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using BranchXamarinSDK;
 using Foundation;
 using UIKit;
 
@@ -23,9 +23,29 @@ namespace Busidex3.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            BranchIOS.Debug = true;
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            return BranchIOS.getInstance().OpenUrl(url);
+        }
+
+        // Called when the app is opened from a Universal Link
+        public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+        {
+            return BranchIOS.getInstance().ContinueUserActivity(userActivity);
+        }
+
+        // Called when the app receives a push notification
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            BranchIOS.getInstance().HandlePushNotification(userInfo);
         }
     }
 }

@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls"
              x:Class="Busidex3.Views.MainMenuMaster"
-             Title="Busidex">
-  <StackLayout>
+             Title="Busidex"
+             Visual="Material">
+    <StackLayout>
       <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
@@ -35,14 +36,30 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="0"
                 Orientation="Horizontal">
-                        
-                <controls:CardImageHeader
+
+                <StackLayout
+                    Padding="0"
+                    IsVisible="{Binding HasCard}">
+                    <controls:CardImageHeader
                         x:Name="ctrlProfileImage"
                         BackgroundColor="{Binding ThumbnailBackground}"
                         HorizontalOptions="Start"
                         BindingContext="{Binding MyCard}">
-                </controls:CardImageHeader>
-                              
+                    </controls:CardImageHeader>
+                </StackLayout>
+                <Image IsVisible="{Binding ShowProfileImage}" 
+                       x:Name="imgProfile"
+                       Aspect="Fill" 
+                       HeightRequest="85"
+                       WidthRequest="130"
+                       HorizontalOptions="Start"
+                       Source="{Binding ProfileImage}">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Tapped="TapGestureRecognizer_Tapped"
+                                    NumberOfTapsRequired="1"/>
+                            </Image.GestureRecognizers>                       
+                </Image>
                 <StackLayout
                     HorizontalOptions="End"
                     VerticalOptions="Center">
@@ -52,6 +69,7 @@
                     </StackLayout.GestureRecognizers>
                     <StackLayout Padding="5" 
                                  HorizontalOptions="FillAndExpand" 
+                                 IsVisible="{Binding HasCard}"
                                  Orientation="Horizontal">
                         <Image IsVisible="True" Aspect="AspectFit" 
                                HeightRequest="30" WidthRequest="30"
@@ -75,7 +93,7 @@
                                Source="{Binding EditImage.Image}"/>
                         <Label VerticalOptions="FillAndExpand" 
                                VerticalTextAlignment="Center" 
-                               Text="{Binding EditImage.Title}" 
+                               Text="{Binding EditTitle}" 
                                FontSize="Small"/>
                     </StackLayout>
                 </StackLayout>

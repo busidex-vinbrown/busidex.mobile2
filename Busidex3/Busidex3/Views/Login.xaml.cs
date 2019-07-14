@@ -33,7 +33,7 @@ namespace Busidex3.Views
 	        if (loggedIn)
 	        {
 	            lblLoginError.IsVisible = false;
-	            App.LoadMainMenuPage();
+	            App.Reload();
 	        }
 	        else
 	        {

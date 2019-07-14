@@ -13,13 +13,13 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
-using Plugin.InputKit.Shared.Configuration;
 using Busidex3.ViewModels;
+using BranchXamarinSDK;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
 {
-    public partial class App : Application
+    public partial class App : Application, IBranchSessionInterface
     {
         private static readonly CardHttpService _cardHttpService = new CardHttpService();
 
@@ -31,9 +31,7 @@ namespace Busidex3
             
             Task.Factory.StartNew(async () => await LoadOwnedCard());
             Task.Factory.StartNew(async () => await Security.LoadUser());
-
-            MainPage = new MainMenu();// new NavigationPage(new MainMenu());   
-
+            MainPage = new MainMenu();// new NavigationPage(new MainMenu());  
         }
 
         private static IAnalyticsManager analyticsManager;
@@ -119,6 +117,11 @@ namespace Busidex3
             NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
         }
 
+        public static void Reload()
+        {
+            Current.MainPage = new MainMenu();
+        }
+
         public static void LoadLoginPage()
         {
             var page = (Page)Activator.CreateInstance(typeof(Login));
@@ -130,7 +133,7 @@ namespace Busidex3
             NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
         }
 
-        public static void LoadMainMenuPage()
+        public static void LoadMyBusidexPage()
         {
             var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
             page.Title = ViewNames.MyBusidex;
@@ -197,5 +200,65 @@ namespace Busidex3
         {
             // Handle when your app resumes
         }
+
+        #region IBranchSessionInterface implementation
+        public void InitSessionComplete(Dictionary<string, object> data)
+        {
+            if (data == null)
+            {                
+                return;
+            }
+
+            var cardId = string.Empty;
+
+            var sentFrom = string.Empty;
+            string displayName = string.Empty;
+            string personalMessage = string.Empty;
+            const string KEY_FROM = "_f";
+            const string KEY_DISPLAY = "_d";
+            const string KEY_MESSAGE = "_m";
+            const string KEY_CARD_ID = "cardId";
+
+            if (data.ContainsKey(KEY_FROM))
+            {
+                sentFrom = System.Web.HttpUtility.UrlDecode(data[KEY_FROM].ToString());
+            }
+            if (data.ContainsKey(KEY_DISPLAY))
+            {
+                displayName = System.Web.HttpUtility.UrlDecode(data[KEY_DISPLAY].ToString());
+            }
+            if (data.ContainsKey(KEY_MESSAGE))
+            {
+                personalMessage = System.Web.HttpUtility.UrlDecode(data[KEY_MESSAGE].ToString());
+            }
+
+            if (data.ContainsKey(KEY_CARD_ID))
+            {
+                cardId = data[KEY_CARD_ID].ToString();
+            }
+
+            if (!string.IsNullOrEmpty(cardId))
+            {
+                var quickShareLink = new QuickShareLink
+                {
+                    CardId = long.Parse(cardId),
+                    DisplayName = displayName,
+                    From = long.Parse(sentFrom),
+                    PersonalMessage = personalMessage
+                };
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(quickShareLink);
+                Serialization.SaveResponse(json, StringResources.QUICKSHARE_LINK);
+                MainPage = new MainMenu();
+            }
+        }
+
+        public void CloseSessionComplete()
+        {
+        }
+
+        public void SessionRequestError(BranchError error)
+        {
+        }
+        #endregion        
     }
 }

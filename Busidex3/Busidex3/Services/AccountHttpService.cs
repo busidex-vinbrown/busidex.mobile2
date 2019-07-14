@@ -36,6 +36,12 @@ namespace Busidex3.Services
             return await MakeRequestAsync<BusidexUser>(ServiceUrls.GetAccountUrl, HttpVerb.Get);
         }
 
+        public async Task<bool> IsEmailAvailabile(string email)
+        {
+            var result = await MakeRequestAsync<bool>(string.Format(ServiceUrls.CheckUserNameUrl, email), HttpVerb.Get);
+            return result;
+        }
+
         public async Task<UserAccount> UpdateDeviceType(string token, DeviceType deviceType)
         {
 

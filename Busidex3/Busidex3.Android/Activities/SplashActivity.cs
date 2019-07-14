@@ -21,17 +21,21 @@ namespace Busidex3.Droid.Activities
 		{
 			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.Splash);
-			
-			var imgSplashLogo = FindViewById<ImageView> (Resource.Id.imgSplashLogo);
-			var splashAnimation = AnimationUtils.LoadAnimation (this, Resource.Animation.Spin);
-			splashAnimation.AnimationEnd += delegate {
-
-				var mainActivityIntent = new Intent (this, typeof (MainActivity));
-				StartActivity (mainActivityIntent);
-				Finish ();
-			};
-	
-			imgSplashLogo.StartAnimation (splashAnimation);
 		}
-	}
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            var imgSplashLogo = FindViewById<ImageView>(Resource.Id.imgSplashLogo);
+            var splashAnimation = AnimationUtils.LoadAnimation(this, Resource.Animation.Spin);
+            splashAnimation.AnimationEnd += delegate {
+
+                var mainActivityIntent = new Intent(this, typeof(MainActivity));
+                StartActivity(mainActivityIntent);
+                Finish();
+            };
+
+            imgSplashLogo.StartAnimation(splashAnimation);
+        }
+    }
 }

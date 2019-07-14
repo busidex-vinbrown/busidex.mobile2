@@ -88,6 +88,8 @@ namespace Busidex3.Services.Utils
 
             RemoveAuthCookie();
 
+            CurrentUser = null;
+
             Serialization.SaveResponse(null, StringResources.OWNED_CARD_FILE);
             Serialization.SaveResponse(null, StringResources.MY_BUSIDEX_FILE);
             Serialization.SaveResponse(null, StringResources.EVENT_LIST_FILE);

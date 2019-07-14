@@ -15,8 +15,14 @@ namespace Busidex3.Views
 	public partial class MyBusidexView
 	{
 	    private readonly MyBusidexVM _viewModel = new MyBusidexVM();
-	   
-		public MyBusidexView ()
+
+        protected override async void OnAppearing()
+        {
+            await _viewModel.Init();
+            base.OnAppearing();
+        }
+
+        public MyBusidexView ()
 		{
 			InitializeComponent ();
 		    BindingContext = _viewModel;
@@ -69,5 +75,10 @@ namespace Busidex3.Views
 
 	        await Navigation.PushAsync(new CardDetailView(ref newViewModel));
 	    }
-	}
+
+        private async void BtnGoToSearch_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SearchView());
+        }
+    }
 }

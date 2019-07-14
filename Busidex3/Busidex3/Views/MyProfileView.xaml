@@ -3,15 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Busidex3"
              xmlns:controls="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             x:Class="Busidex3.Views.MyProfileView">
+             x:Class="Busidex3.Views.MyProfileView"
+             Visual="Material">
     <ContentPage.Content>
-        <Frame Padding="5" 
+        <Frame Padding="4" 
                HasShadow="False" 
                HorizontalOptions="FillAndExpand" 
                OutlineColor="#03A9F4" 
                BackgroundColor="#03A9F4" >
             <Frame
-                Padding="5" 
+                Padding="4" 
                 HasShadow="False" 
                 HorizontalOptions="FillAndExpand" 
                 OutlineColor="#03A9F4" 
@@ -34,54 +35,48 @@
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label Text="Choose an email address and password here so you can access your cards on the web or another mobile device."
                             Grid.Row="0"
                             Margin="0, 15"
                             Grid.Column="0"
+                            FontSize="Medium"
                             TextColor="#03A9F4"
-                            FontSize="Small"
                             HorizontalOptions="CenterAndExpand" />
-                        <Label x:Name="lblUserName"
+                        <Entry x:Name="txtUserName" 
                            Grid.Row="1"
                            Grid.Column="0"
-                           Text="User Name"
-                           HorizontalOptions="CenterAndExpand"/>
-                        <Entry x:Name="txtUserName" 
+                           Placeholder="User Name"
+                           Text="{Binding UserName}" 
+                           HorizontalTextAlignment="Center"
+                           IsReadOnly="True"/>
+                        <Entry x:Name="txtEmail" 
                            Grid.Row="2"
                            Grid.Column="0"
-                           Text="{Binding UserName}" 
+                           Placeholder="Email"
+                           Text="{Binding Email}" 
+                           Keyboard="Email"
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtUserName_TextChanged"/>
-                        <Label x:Name="lblPassword" 
+                        <Entry IsPassword="True"
                            Grid.Row="3"
                            Grid.Column="0"
-                           Text="Password"
-                           HorizontalOptions="CenterAndExpand" />
-                        <Entry IsPassword="True"
-                           Grid.Row="4"
-                           Grid.Column="0"
                            x:Name="txtPassword" 
+                           Placeholder="Password"
                            Text="{Binding Password}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtPassword_TextChanged"/>
-                        <Label x:Name="lblConfirmPassword" 
-                           Grid.Row="5"
-                           Grid.Column="0"
-                           Text="Confirm Password"
-                           HorizontalOptions="CenterAndExpand" />
                         <Entry IsPassword="True"
-                           Grid.Row="6"
+                           Grid.Row="4"
                            Grid.Column="0"
                            x:Name="txtConfirmPassword" 
+                           Placeholder="Confirm Password"
                            Text="{Binding ConfirmPassword}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtConfirmPassword_TextChanged"/>
                         <controls:CheckBox 
                             x:Name="chkAccept"
-                            Grid.Row="7"
+                            Grid.Row="5"
                             Grid.Column="0"
                             IsVisible="{Binding NewUser}"
                             CheckChanged="ChkAccept_CheckChanged"
@@ -93,7 +88,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="8"
+                            Grid.Row="6"
                             Grid.Column="0"
                             Text="Terms and Conditions">    
                             <Label.GestureRecognizers>
@@ -109,7 +104,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="9"
+                            Grid.Row="7"
                             Grid.Column="0"
                             Text="Privacy Policy">
                             <Label.GestureRecognizers>
@@ -120,18 +115,43 @@
                         </Label>
                         <Button
                             x:Name="btnSave"
-                            Grid.Row="10"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Margin="10,15"
                             IsEnabled="{Binding SaveButtonEnabled}"
                             Style="{StaticResource homeButton}"
                             Clicked="BtnSave_Clicked"
                             Text="{Binding SaveButtonText}"/>
-                        <Label
-                            Grid.Row="11"
+                        <ActivityIndicator 
+                            Grid.Row="8"
                             Grid.Column="0"
+                            Color="#03A9F4" 
+                            IsRunning="{Binding IsSaving}" />
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            IsVisible="{Binding ConfirmPasswordError}"
+                            Text="Passwords must match"
+                            TextColor="Red"
+                            HorizontalTextAlignment="Center"
+                            FontSize="Small"
+                            FontAttributes="Italic"/>
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Margin="0,20"
                             IsVisible="{Binding ProfileError}"
                             Text="There was a problem updating your profile"
+                            TextColor="Red"
+                            HorizontalTextAlignment="Center"
+                            FontSize="Small"
+                            FontAttributes="Italic"/>
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Margin="0,20"
+                            IsVisible="{Binding UserNameInUse}"
+                            Text="Username not available"
                             TextColor="Red"
                             HorizontalTextAlignment="Center"
                             FontSize="Small"

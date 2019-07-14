@@ -20,7 +20,7 @@ namespace Busidex3.Views
             _viewModel.SaveButtonText = string.IsNullOrEmpty(Security.AuthToken)
                 ? "Continue"
                 : "Save";
-            _viewModel.UserName = Security.CurrentUser?.UserName;
+            _viewModel.Email = Security.CurrentUser?.Email;
             
             if (!string.IsNullOrEmpty(Security.AuthToken))
             {
@@ -37,42 +37,55 @@ namespace Busidex3.Views
             }
             else
             {
-                App.LoadMainMenuPage();
+                App.LoadMyBusidexPage();
             }
             return true;
         }
 
         private void TxtUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
+            _viewModel.UserNameInUse = false;
             _viewModel.SaveButtonEnabled = isValid();
         }
 
         private void TxtPassword_TextChanged(object sender, TextChangedEventArgs e)
         {
+            _viewModel.ConfirmPasswordError = _viewModel.Password != _viewModel.ConfirmPassword;
             _viewModel.SaveButtonEnabled = isValid();
         }
 
         private void TxtConfirmPassword_TextChanged(object sender, TextChangedEventArgs e)
         {
+            _viewModel.ConfirmPasswordError = _viewModel.Password != _viewModel.ConfirmPassword;
             _viewModel.SaveButtonEnabled = isValid();
         }
 
         private bool isValid()
         {
             return (chkAccept.IsChecked || !_viewModel.NewUser)&&
-                !string.IsNullOrEmpty(txtUserName.Text) &&
+                !string.IsNullOrEmpty(txtEmail.Text) &&
                 !string.IsNullOrEmpty(txtPassword.Text) &&
+                !_viewModel.IsSaving &&
+                !_viewModel.UserNameInUse && 
                 !string.IsNullOrEmpty(txtConfirmPassword.Text) && 
                 txtPassword.Text.Equals(txtConfirmPassword.Text);
         }
 
         private async void BtnSave_Clicked(object sender, EventArgs e)
         {
-            var ok = await _viewModel.CheckAccount();
-            if(ok && _viewModel.NewUser)
+            _viewModel.IsSaving = true;
+
+            var userNameOk = await _viewModel.IsEmailAvailabile();
+            if (userNameOk)
             {
-                App.LoadMainMenuPage();
+                var ok = await _viewModel.CheckAccount();
+
+                if (ok && _viewModel.NewUser)
+                {
+                    App.LoadMyBusidexPage();
+                }
             }
+            _viewModel.IsSaving = false;
         }
 
         private void ChkAccept_CheckChanged(object sender, EventArgs e)

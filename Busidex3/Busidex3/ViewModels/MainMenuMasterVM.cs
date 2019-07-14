@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
@@ -15,7 +16,57 @@ namespace Busidex3.ViewModels
         public ObservableCollection<MainMenuMenuItem> MenuItems { get; set; }
         public UserCard MyCard { get; set; }
         public MainMenuMenuItem ShareImage { get; set; }
-        public MainMenuMenuItem EditImage {get; set; }
+
+        private MainMenuMenuItem _editImage;
+        public MainMenuMenuItem EditImage {
+            get{
+                return _editImage;
+            } 
+            set{
+                _editImage = value; 
+                OnPropertyChanged(nameof(EditImage));
+                }
+        }
+
+        public ImageSource ProfileImage {
+            get {
+                return ImageSource.FromResource("Busidex3.Resources.defaultprofile.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly);
+            }
+        }
+        
+        private bool _hasCard;
+        public bool HasCard
+        {
+            get { return _hasCard; }
+            set
+            {
+                _hasCard = value;
+                OnPropertyChanged(nameof(HasCard));
+            }
+        }
+
+        private string _editTitle;
+        public string EditTitle
+        {
+            get { return _editTitle; }
+            set
+            {
+                _editTitle = value;
+                OnPropertyChanged(nameof(EditTitle));
+            }
+        }
+
+        private bool _showProfileImage;
+        public bool ShowProfileImage
+        {
+            get { return _showProfileImage; }
+            set
+            {
+                _showProfileImage = value;
+                OnPropertyChanged(nameof(ShowProfileImage));
+            }
+        }
 
         public MainMenuMasterVM()
         {
@@ -31,11 +82,13 @@ namespace Busidex3.ViewModels
             EditImage = new MainMenuMenuItem
             {
                 Id = 0,
-                Title = ViewNames.Edit,
+                Title = HasCard ? ViewNames.Edit : ViewNames.Add,
                 TargetType = typeof(ShareView),
                 Image = ImageSource.FromResource("Busidex3.Resources.editicon.png",
                     typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
             };
+
+            EditTitle = HasCard ? ViewNames.Edit : ViewNames.Add;
 
             MenuItems = new ObservableCollection<MainMenuMenuItem>(new[]
             {
@@ -95,6 +148,8 @@ namespace Busidex3.ViewModels
             {
                 MyCard = new UserCard(ownedCard);
                 MyCard?.SetDisplay(UserCardDisplay.DisplaySetting.Thumbnail, UserCardDisplay.CardSide.Front, MyCard.Card.FrontFileName);
+                HasCard = MyCard.Card.FrontFileId != Guid.Empty && MyCard.Card.FrontFileId != null;
+                ShowProfileImage = !HasCard;
                 OnPropertyChanged(nameof(MyCard));
             }
         }

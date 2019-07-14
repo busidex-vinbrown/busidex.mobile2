@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
-             x:Class="Busidex3.Views.CardImageView">
+             x:Class="Busidex3.Views.CardImageView"
+             Visual="Material">
     <ContentPage.Content>
         <controls:CardImageHeader 
             x:Name="CardImage"

@@ -8,5 +8,6 @@
         public const string Search = "Search";
         public const string Share = "Share";
         public const string Edit = "Edit";
+        public const string Add = "Add Card";
     }
 }

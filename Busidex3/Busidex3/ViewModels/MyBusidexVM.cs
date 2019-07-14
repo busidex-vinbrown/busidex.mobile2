@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Microsoft.AppCenter.Crashes;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -22,7 +23,16 @@ namespace Busidex3.ViewModels
                 _filteredUserCards = value;
                 OnPropertyChanged(nameof(FilteredUserCards));
             }
-        }         
+        }
+
+        public ImageSource BackgroundImage
+        {
+            get
+            {
+                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                    typeof(SearchVM).Assembly);
+            }
+        }
 
         private bool _showFilter;
         public bool ShowFilter { 
@@ -32,7 +42,29 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(ShowFilter));
             }
         }
-       
+
+        private bool _hasCards;
+        public bool HasCards
+        {
+            get => _hasCards;
+            set
+            {
+                _hasCards = value;
+                OnPropertyChanged(nameof(HasCards));
+            }
+        }
+
+        private bool _isEmpty;
+        public bool IsEmpty
+        {
+            get => _isEmpty;
+            set
+            {
+                _isEmpty = value;
+                OnPropertyChanged(nameof(IsEmpty));
+            }
+        }
+
         public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
         {
             FilteredUserCards.Clear();
@@ -47,6 +79,11 @@ namespace Busidex3.ViewModels
             
             if (UserCards == null || UserCards.Count == 0) {
                 return await LoadUserCards ();
+            }
+            else
+            {
+                HasCards = true;
+                IsEmpty = false;
             }
 
             SetFilteredList(UserCards);
@@ -111,6 +148,9 @@ namespace Busidex3.ViewModels
 
                 Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
 
+                HasCards = UserCards.Count > 0;
+                IsEmpty = !HasCards;
+
                 await Task.Factory.StartNew(() => { SetFilteredList(UserCards); });
             }
             catch (Exception ex)
@@ -121,7 +161,7 @@ namespace Busidex3.ViewModels
             {
                 semaphore.Release();
                 IsRefreshing = false;
-                ShowFilter = true;
+                ShowFilter = HasCards;
             }
 
             return true;

@@ -32,11 +32,13 @@
     <None Remove="Resources\add.png" />
     <None Remove="Resources\background_blur5.png" />
     <None Remove="Resources\browser.png" />
+    <None Remove="Resources\busidex_icon_180x180.png" />
     <None Remove="Resources\busidex_logo_hor.png" />
     <None Remove="Resources\camera.png" />
     <None Remove="Resources\cards_back2.png" />
     <None Remove="Resources\checkmark.png" />
     <None Remove="Resources\contacts_64x64.png" />
+    <None Remove="Resources\defaultprofile.png" />
     <None Remove="Resources\defaultUserImage.png" />
     <None Remove="Resources\delete.jpeg" />
     <None Remove="Resources\editicon.png" />
@@ -80,8 +82,10 @@
     <EmbeddedResource Include="Resources\background_blur5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\busidex_icon_180x180.png" />
     <EmbeddedResource Include="Resources\camera.png" />
     <EmbeddedResource Include="Resources\contacts_64x64.png" />
+    <EmbeddedResource Include="Resources\defaultprofile.png" />
     <EmbeddedResource Include="Resources\editimage.png" />
     <EmbeddedResource Include="Resources\email.png" />
   </ItemGroup>
@@ -128,18 +132,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="5.0.4" />
-    <PackageReference Include="Microsoft.AppCenter" Version="1.14.0" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.14.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.14.0" />
+    <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="5.0.6" />
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AppCenter" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
     <PackageReference Include="Xamarians.CropImage" Version="1.0.6" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.11" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.12" />  
   </ItemGroup>
 
   <ItemGroup>
@@ -162,6 +169,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MyProfileView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QuickShareView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Startup.xaml">

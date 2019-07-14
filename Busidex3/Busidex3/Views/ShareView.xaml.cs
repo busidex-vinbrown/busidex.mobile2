@@ -19,11 +19,6 @@ namespace Busidex3.Views
         protected readonly ShareVM _viewModel = new ShareVM();
         private readonly BusidexUser _currentUser;
 
-	    public ShareView()
-	    {
-            InitializeComponent();
-	    }
-
 	    public ShareView(ref UserCard card)
 	    {
 	        InitializeComponent();

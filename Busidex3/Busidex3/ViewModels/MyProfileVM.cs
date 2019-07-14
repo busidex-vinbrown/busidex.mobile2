@@ -23,14 +23,19 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private string _userName;
         public string UserName
         {
-            get { return _userName; }
+            get { return Security.CurrentUser.UserName; }
+        }
+
+        private string _email;
+        public string Email
+        {
+            get { return _email; }
             set
             {
-                _userName = value;
-                OnPropertyChanged(nameof(UserName));
+                _email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
 
@@ -67,6 +72,28 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _isSaving;
+        public bool IsSaving
+        {
+            get { return _isSaving; }
+            set
+            {
+                _isSaving = value;
+                OnPropertyChanged(nameof(IsSaving));
+            }
+        }
+
+        private bool _userNameInUse;
+        public bool UserNameInUse
+        {
+            get { return _userNameInUse; }
+            set
+            {
+                _userNameInUse = value;
+                OnPropertyChanged(nameof(UserNameInUse));
+            }
+        }
+
         private bool _profileError;
         public bool ProfileError
         {
@@ -78,6 +105,17 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _confirmPasswordError;
+        public bool ConfirmPasswordError
+        {
+            get { return _confirmPasswordError; }
+            set
+            {
+                _confirmPasswordError = value;
+                OnPropertyChanged(nameof(ConfirmPasswordError));
+            }
+        }
+        
         private bool _saveButtonEnabled;
         public bool SaveButtonEnabled
         {
@@ -99,11 +137,19 @@ namespace Busidex3.ViewModels
             Device.OpenUri(new Uri(url));
         }
 
+        public async Task<bool> IsEmailAvailabile()
+        {
+            var accountService = new AccountHttpService();
+            var isAvailable = await accountService.IsEmailAvailabile(Email);
+            UserNameInUse = !isAvailable;
+            return isAvailable;
+        }
+
         public async Task<bool> CheckAccount()
         {
             ProfileError = false;
             var accountService = new AccountHttpService();
-            var result = await accountService.CheckAccount(_userName, _password);
+            var result = await accountService.CheckAccount(Email, Password);
             if(result.UserId > 0)
             {
                 Security.SaveAuthCookie(result.UserId);

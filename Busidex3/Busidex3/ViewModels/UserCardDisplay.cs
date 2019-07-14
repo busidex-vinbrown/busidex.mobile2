@@ -55,6 +55,17 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _showCard { get; set; }
+        public bool ShowCard
+        {
+            get => _showCard;
+            set
+            {
+                _showCard = value;
+                OnPropertyChanged(nameof(ShowCard));
+            }
+        }
+
         public UserCardDisplay(
             DisplaySetting display = DisplaySetting.Detail, 
             CardOrientation orientation = CardOrientation.Horizontal,
@@ -64,6 +75,8 @@ namespace Busidex3.ViewModels
             _currentDisplaySetting = display;
             _currentOrientation = orientation;
             CurrentFileName = fileName ?? string.Empty;
+
+            ShowCard = !string.IsNullOrEmpty(CurrentFileName);
 
             var filePath = Path.Combine(Serialization.LocalStorageFolder, CurrentFileName);
             if(!File.Exists(filePath))

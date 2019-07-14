@@ -1,21 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Busidex3.Views.Login">   
-        <StackLayout Margin="50">
-            <Label x:Name="lblOne" 
-                   Text="User Name"
-                   HorizontalOptions="CenterAndExpand"
-                   />
-            <Entry x:Name="txtUserName" 
+             x:Class="Busidex3.Views.Login"
+             Visual="Material">
+    <StackLayout Margin="50">
+        <Entry x:Name="txtUserName" 
                    Text="{Binding UserName}" 
+                   Placeholder="User Name"
                    HorizontalTextAlignment="Center" 
                    TextChanged="TxtUserName_OnTextChanged"/>
-            <Label x:Name="lblTwo" 
-                   Text="Password"
-                   HorizontalOptions="CenterAndExpand" />
             <Entry IsPassword="True" 
                    x:Name="txtPassword" 
+                   Placeholder="Password"
                    Text="{Binding Password}" 
                    HorizontalTextAlignment="Center" 
                    TextChanged="TxtPassword_OnTextChanged"/>

@@ -32,6 +32,7 @@ namespace Busidex3.Views
             BindingContext = _viewModel;
             ListView = MenuItemsListView;
             ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
+            
         }
 
         private void CtrlProfileImage_OnCardImageClicked(UserCard uc)
@@ -42,6 +43,7 @@ namespace Busidex3.Views
         public void RefreshProfile()
         {
             _viewModel.RefreshProfile();
+            _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
@@ -63,6 +65,11 @@ namespace Busidex3.Views
         {
             var mc = _viewModel.MyCard;
             OnShareClicked?.Invoke(ref mc);
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            OnProfileClicked?.Invoke();
         }
     }
 }

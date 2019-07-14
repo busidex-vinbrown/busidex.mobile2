@@ -21,6 +21,7 @@ namespace Busidex3.Views
 		{
 			InitializeComponent ();
 		    BindingContext = _viewModel;		    
+            Title = "Search";
 
 		    Task.Factory.StartNew(async () => { await _myBusidex.Init(); });
 
@@ -29,7 +30,7 @@ namespace Busidex3.Views
 
         protected override bool OnBackButtonPressed()
         {
-            App.LoadMainMenuPage();
+            App.LoadMyBusidexPage();
             return true;
         }
 
