@@ -61,6 +61,17 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+            }
+        }
+
         private bool _newUser;
         public bool NewUser
         {

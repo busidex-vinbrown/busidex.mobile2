@@ -16,10 +16,7 @@ namespace Busidex3.Views
             InitializeComponent();
             BindingContext = _viewModel;
             Title = "My Profile";
-
-            _viewModel.SaveButtonText = string.IsNullOrEmpty(Security.AuthToken)
-                ? "Continue"
-                : "Save";
+            
             _viewModel.Email = Security.CurrentUser?.Email;
             
             if (!string.IsNullOrEmpty(Security.AuthToken))
@@ -27,6 +24,12 @@ namespace Busidex3.Views
                 _viewModel.SaveButtonEnabled = true;
             }
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
+            _viewModel.Message = _viewModel.NewUser
+                ? "Choose an email address and password here so you can access your cards on the web or another mobile device."
+                : "Update your account email address here.";
+            _viewModel.SaveButtonText = _viewModel.NewUser
+                ? "Continue"
+                : "Save";
         }
 
         protected override bool OnBackButtonPressed()

@@ -36,7 +36,7 @@
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Label Text="Choose an email address and password here so you can access your cards on the web or another mobile device."
+                        <Label Text="{Binding Message}"
                             Grid.Row="0"
                             Margin="0, 15"
                             Grid.Column="0"
@@ -63,6 +63,7 @@
                            Grid.Column="0"
                            x:Name="txtPassword" 
                            Placeholder="Password"
+                           IsVisible="{Binding NewUser}"
                            Text="{Binding Password}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtPassword_TextChanged"/>
@@ -71,6 +72,7 @@
                            Grid.Column="0"
                            x:Name="txtConfirmPassword" 
                            Placeholder="Confirm Password"
+                           IsVisible="{Binding NewUser}"
                            Text="{Binding ConfirmPassword}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtConfirmPassword_TextChanged"/>
