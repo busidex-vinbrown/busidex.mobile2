@@ -30,6 +30,7 @@ namespace Busidex3.Views
             _viewModel.SaveButtonText = _viewModel.NewUser
                 ? "Continue"
                 : "Save";
+            _viewModel.SaveButtonEnabled = isValid();
         }
 
         protected override bool OnBackButtonPressed()
@@ -65,13 +66,20 @@ namespace Busidex3.Views
 
         private bool isValid()
         {
-            return (chkAccept.IsChecked || !_viewModel.NewUser)&&
+            if (!_viewModel.NewUser)
+            {
+                return !string.IsNullOrEmpty(txtEmail.Text);
+            }
+            else
+            {
+                return chkAccept.IsChecked &&
                 !string.IsNullOrEmpty(txtEmail.Text) &&
                 !string.IsNullOrEmpty(txtPassword.Text) &&
                 !_viewModel.IsSaving &&
-                !_viewModel.UserNameInUse && 
-                !string.IsNullOrEmpty(txtConfirmPassword.Text) && 
+                !_viewModel.UserNameInUse &&
+                !string.IsNullOrEmpty(txtConfirmPassword.Text) &&
                 txtPassword.Text.Equals(txtConfirmPassword.Text);
+            }
         }
 
         private async void BtnSave_Clicked(object sender, EventArgs e)
