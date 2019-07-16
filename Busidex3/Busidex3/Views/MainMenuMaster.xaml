@@ -6,11 +6,6 @@
              Title="Busidex"
              Visual="Material">
     <StackLayout>
-      <ListView x:Name="MenuItemsListView"
-              SeparatorVisibility="None"
-              HasUnevenRows="true"
-              ItemsSource="{Binding MenuItems}">
-      <ListView.Header>
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,11 +13,13 @@
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <!--<RowDefinition Height="*"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="5"/>-->
-          </Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <!--
             If user is a card owner, show their card in an avatar-style
             icon. That will bring them to the page to edit their card.
@@ -98,28 +95,80 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-        </Grid>
-      </ListView.Header>          
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                <BoxView HeightRequest="2" HorizontalOptions="FillAndExpand" Color="DarkGray" IsVisible="{Binding IsSeparator}"/>
+            <BoxView
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="1"
+                BackgroundColor="Gray" HeightRequest="2" HorizontalOptions="FillAndExpand"/>
+            <StackLayout x:Name="stkMyBusidex" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                         Margin="0,20,0,0"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Grid.Row="2">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
+                </StackLayout.GestureRecognizers>
                 <Image Aspect="AspectFit" 
                        HeightRequest="40" WidthRequest="40"
                        HorizontalOptions="Start"
-                       Source="{Binding Image}"
-                       IsVisible="{Binding IsClickable}"/>
+                       Source="{Binding MyBusidexItem.Image}"/>
                 <Label VerticalOptions="FillAndExpand" 
                        VerticalTextAlignment="Center" 
-                       Text="{Binding Title}" 
-                       FontSize="24"
-                       IsVisible="{Binding IsClickable}"/>
+                       Text="{Binding MyBusidexItem.Title}" 
+                       FontSize="24"/>
             </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+            <StackLayout x:Name="stkSearch" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Grid.Row="3">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkSearch_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                       HeightRequest="40" WidthRequest="40"
+                       HorizontalOptions="Start"
+                       Source="{Binding SearchItem.Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                       VerticalTextAlignment="Center" 
+                       Text="{Binding SearchItem.Title}" 
+                       FontSize="24"/>
+            </StackLayout>
+            <StackLayout x:Name="stkEvents" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Grid.Row="4"
+                         IsVisible="{Binding ShowEvents}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkEvents_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                       HeightRequest="40" WidthRequest="40"
+                       HorizontalOptions="Start"
+                       Source="{Binding EventsItem.Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                       VerticalTextAlignment="Center" 
+                       Text="{Binding EventsItem.Title}" 
+                       FontSize="24"/>
+            </StackLayout>
+            <StackLayout x:Name="stkOrganizations" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Grid.Row="5"
+                         IsVisible="{Binding ShowOrganizations}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkOrganizations_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                       HeightRequest="40" WidthRequest="40"
+                       HorizontalOptions="Start"
+                       Source="{Binding OrganizationsItem.Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                       VerticalTextAlignment="Center" 
+                       Text="{Binding OrganizationsItem.Title}" 
+                       FontSize="24"/>
+            </StackLayout>
+        </Grid>
+    
       <StackLayout VerticalOptions="CenterAndExpand">
           <!-- middle controls -->
       </StackLayout>

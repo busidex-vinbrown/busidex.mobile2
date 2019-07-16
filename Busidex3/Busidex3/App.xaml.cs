@@ -27,11 +27,18 @@ namespace Busidex3
         {
             InitializeComponent();
 
+            InitSession();
+
+            MainPage = new MainMenu(); 
+        }
+
+        private static void InitSession()
+        {
             Security.ReadAuthCookie();
-            
+
             Task.Factory.StartNew(async () => await LoadOwnedCard());
             Task.Factory.StartNew(async () => await Security.LoadUser());
-            MainPage = new MainMenu();// new NavigationPage(new MainMenu());  
+            Task.Factory.StartNew(async () => await LoadEvents());
         }
 
         private static IAnalyticsManager analyticsManager;
@@ -119,6 +126,7 @@ namespace Busidex3
 
         public static void Reload()
         {
+            InitSession();
             Current.MainPage = new MainMenu();
         }
 
@@ -181,6 +189,15 @@ namespace Busidex3
                 Crashes.TrackError(ex);
             }
             return null;
+        }
+
+        public static async Task<bool> LoadEvents()
+        {
+            var searchService = new SearchHttpService();
+            var response = await searchService.GetUserEventTags();
+            var list = Newtonsoft.Json.JsonConvert.SerializeObject(response.Model);
+            Serialization.SaveResponse(list, Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
+            return true;
         }
 
         protected override void OnStart()

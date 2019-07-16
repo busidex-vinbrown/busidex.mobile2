@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Busidex3.DomainModels;
+using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
@@ -12,6 +16,10 @@ namespace Busidex3.Views
     public delegate void OnShareClickedResult(ref UserCard card);
     public delegate void OnCardEditClickedResult(ref UserCard card);
     public delegate void OnProfileClickedResult();
+    public delegate void OnMyBusidexClickedResult();
+    public delegate void OnSearchClickedResult();
+    public delegate void OnEventsClickedResult();
+    public delegate void OnOrganizationsClickedResult();
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuMaster
@@ -21,6 +29,10 @@ namespace Busidex3.Views
         public event OnShareClickedResult OnShareClicked;
         public event OnCardEditClickedResult OnCardEditClicked;
         public event OnProfileClickedResult OnProfileClicked;
+        public event OnMyBusidexClickedResult OnMyBusidexClicked;
+        public event OnSearchClickedResult OnSearchClicked;
+        public event OnEventsClickedResult OnEventsClicked;
+        public event OnOrganizationsClickedResult OnOrganizationsClicked;
 
         protected MainMenuMasterVM _viewModel { get; set; }
 
@@ -30,9 +42,7 @@ namespace Busidex3.Views
 
             _viewModel = new MainMenuMasterVM();
             BindingContext = _viewModel;
-            ListView = MenuItemsListView;
             ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
-            
         }
 
         private void CtrlProfileImage_OnCardImageClicked(UserCard uc)
@@ -44,6 +54,11 @@ namespace Busidex3.Views
         {
             _viewModel.RefreshProfile();
             _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
+            var events = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
+            if (events.Any())
+            {
+                _viewModel.ShowEvents = true;
+            }
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
@@ -70,6 +85,26 @@ namespace Busidex3.Views
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             OnProfileClicked?.Invoke();
+        }
+
+        private void stkMyBusidex_Tapped(object sender, EventArgs e)
+        {
+            OnMyBusidexClicked?.Invoke();
+        }
+
+        private void stkSearch_Tapped(object sender, EventArgs e)
+        {
+            OnSearchClicked?.Invoke();
+        }
+
+        private void stkEvents_Tapped(object sender, EventArgs e)
+        {
+            OnEventsClicked?.Invoke();
+        }
+
+        private void stkOrganizations_Tapped(object sender, EventArgs e)
+        {
+            OnOrganizationsClicked?.Invoke();
         }
     }
 }

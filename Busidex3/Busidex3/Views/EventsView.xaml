@@ -1,13 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
              x:Class="Busidex3.Views.EventsView"
              Visual="Material">
+    <ContentPage.Resources>
+        <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Events"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid RowSpacing="5" Padding="0" BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ProgressBar x:Name="prgLoadStatus"
+                         Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
+                         HeightRequest="8"
+                         IsVisible="{Binding IsRefreshing}"
+                         ProgressColor="DodgerBlue"
+                         BackgroundColor="White"
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Column="0"
+                         Grid.Row="0"/>
+            <Label x:Name="lblProgress"
+                   IsVisible="{Binding IsRefreshing}"
+                   Text="{Binding ProgressMessage}"
+                   FontSize="Small"
+                   TextColor="DarkGray"
+                   HorizontalOptions="FillAndExpand"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   Grid.Column="0"
+                   Grid.Row="0"/>
+            <Image Source="{Binding BackgroundImage}" 
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   Aspect="AspectFill"/>
+            <ListView x:Name="lstEvents"
+                      SeparatorVisibility="None"
+                      VerticalOptions="FillAndExpand"
+                      IsPullToRefreshEnabled="True"
+                      HasUnevenRows="True"
+                      SelectionMode="None"      
+                      BackgroundColor="Transparent"
+                      CachingStrategy="RecycleElement"                      
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemsSource="{Binding EventList}"
+                      Grid.Column="0"
+                      Grid.Row="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                BackgroundColor="LightGray"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
+                                Padding="10"
+                                Opacity=".8"
+                                Margin="10">
+                                <Label Text="{Binding Text}" 
+                                       FontSize="Medium" 
+                                       TextColor="#03A9F4" 
+                                       HorizontalTextAlignment="Center"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
+                                                          CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

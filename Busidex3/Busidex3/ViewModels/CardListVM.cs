@@ -1,0 +1,155 @@
+﻿using Busidex3.DomainModels;
+using Microsoft.AppCenter.Crashes;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace Busidex3.ViewModels
+{
+    public abstract class CardListVM : BaseCardListViewModel
+    {
+        private ObservableRangeCollection<UserCard> _filteredUserCards = new ObservableRangeCollection<UserCard>();
+        public ObservableRangeCollection<UserCard> FilteredUserCards
+        {
+            get => _filteredUserCards;
+            set
+            {
+                _filteredUserCards = value;
+                OnPropertyChanged(nameof(FilteredUserCards));
+            }
+        }
+
+        public ImageSource BackgroundImage
+        {
+            get
+            {
+                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                    typeof(SearchVM).Assembly);
+            }
+        }
+
+        private bool _showFilter;
+        public bool ShowFilter
+        {
+            get => _showFilter;
+            set
+            {
+                _showFilter = value;
+                OnPropertyChanged(nameof(ShowFilter));
+            }
+        }
+
+        private bool _hasCards;
+        public bool HasCards
+        {
+            get => _hasCards;
+            set
+            {
+                _hasCards = value;
+                OnPropertyChanged(nameof(HasCards));
+            }
+        }
+
+        private bool _isEmpty;
+        public bool IsEmpty
+        {
+            get => _isEmpty;
+            set
+            {
+                _isEmpty = value;
+                OnPropertyChanged(nameof(IsEmpty));
+            }
+        }
+
+        public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
+        {
+            FilteredUserCards.Clear();
+            FilteredUserCards.AddRange(subset);
+            OnPropertyChanged(nameof(FilteredUserCards));
+        }
+
+        public async Task<bool> LoadUserCards()
+        {
+            IsRefreshing = true;
+            ShowFilter = false;
+            LoadingProgress = 0;
+
+            var semaphore = new SemaphoreSlim(1, 1);
+            await semaphore.WaitAsync();
+
+            var cards = new List<UserCard>();
+            var status = new ProgressStatus { Count = 0 };
+
+            try
+            {
+                var result = await GetCards();
+
+                if (result != null)
+                {
+                    cards.AddRange(result);
+                    cards.ForEach(c => c.ExistsInMyBusidex = true);
+                }
+
+                status.Total = TotalCards = cards.Count;
+
+                await DownloadImages(cards, status);
+
+                if (UserCards == null)
+                {
+                    UserCards = new ObservableRangeCollection<UserCard>();
+                }
+
+                UserCards.Clear();
+
+                // If the user has a card, make sure it's always at the top of the list
+                if (OwnedCard != null)
+                {
+                    var ownersCard = cards.FirstOrDefault(uc => uc.Card.CardId == OwnedCard.CardId &&
+                                                                (!string.IsNullOrEmpty(OwnedCard.Name) ||
+                                                                 !string.IsNullOrEmpty(OwnedCard.CompanyName) ||
+                                                                 OwnedCard.FrontFileId.HasValue));
+                    if (ownersCard != null)
+                    {
+                        UserCards.Add(ownersCard);
+                    }
+
+                    UserCards.AddRange(cards.Distinct(new UserCardEqualityComparer())
+                        .Where(c => c.Card.CardId != OwnedCard.CardId));
+                }
+                else
+                {
+                    UserCards.AddRange(cards.Distinct(new UserCardEqualityComparer()));
+                }
+
+                var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(UserCards);
+
+                SaveCardsToFile(savedResult);
+
+                HasCards = UserCards.Count > 0;
+                IsEmpty = !HasCards;
+
+                await Task.Factory.StartNew(() => { SetFilteredList(UserCards); });
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
+            finally
+            {
+                semaphore.Release();
+                IsRefreshing = false;
+                ShowFilter = HasCards;
+            }
+
+            return true;
+        }
+
+        public async virtual Task<List<UserCard>> GetCards() { return await Task.FromResult(new List<UserCard>()); }
+
+        public virtual void SaveCardsToFile(string json) { }
+    }
+}

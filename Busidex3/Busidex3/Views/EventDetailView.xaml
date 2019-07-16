@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
-             x:Class="Busidex3.Views.MyBusidexView"
-             Visual="Material">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Busidex3.Views.EventDetailView">
     <ContentPage.Resources>
         <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
     </ContentPage.Resources>
@@ -17,7 +19,7 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>            
+            </Grid.RowDefinitions>
             <ProgressBar x:Name="prgLoadStatus"
                          Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
                          HeightRequest="8"
@@ -50,29 +52,24 @@
                    Grid.Row="2"
                    Aspect="AspectFill"/>
             <StackLayout
-                Padding="0"
+                Padding="0,20"
                 HorizontalOptions="Center"
                 VerticalOptions="StartAndExpand"
                 IsVisible="{Binding IsEmpty}"
                 Grid.Column="0"
                 Grid.Row="2">
-                <Frame
-                    BackgroundColor="#fcfcfc"
-                    Opacity=".8"
-                    Margin="5"
-                    CornerRadius="10">
-                    <Label 
-                        Text="You don't have any cards in your collection. To get started, search for some and add them."
-                        HorizontalTextAlignment="Center"
-                        FontSize="Medium"/>
-                </Frame>
+                <Label 
+                    Text="You don't have any cards in your collection. To get started, you can search for some and add them."
+                    HorizontalTextAlignment="Center"
+                    Margin="0,20"
+                    FontSize="Medium"/>
                 <Button 
                     x:Name="btnGoToSearch"
                     Text="Go To Search"
                     Style="{StaticResource buttonStyle}"
                     Clicked="BtnGoToSearch_Clicked"/>
             </StackLayout>
-            <ListView x:Name="lstMyBusidex"
+            <ListView x:Name="lstCards"
                       IsVisible="{Binding HasCards}"
                       SeparatorVisibility="None"
                       VerticalOptions="FillAndExpand"
@@ -85,7 +82,6 @@
                       ItemsSource="{Binding FilteredUserCards}"
                       Grid.Column="0"
                       Grid.Row="2">
-                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

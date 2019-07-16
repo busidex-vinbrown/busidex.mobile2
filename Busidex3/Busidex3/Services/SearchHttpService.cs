@@ -40,5 +40,11 @@ namespace Busidex3.Services
             var url = ServiceUrls.GetEventTagsUrl;
             return await MakeRequestAsync<EventListResponse> (url, HttpVerb.Get);
         }
+
+        public async Task<EventListResponse> GetUserEventTags()
+        {
+            var url = ServiceUrls.GetUserEventTagsUrl;
+            return await MakeRequestAsync<EventListResponse>(url, HttpVerb.Get);
+        }
     }
 }

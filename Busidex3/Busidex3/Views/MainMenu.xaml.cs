@@ -14,14 +14,18 @@ namespace Busidex3.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenu
     {
-        public MainMenu(bool quickShare = false)
+        public MainMenu()
         {
             InitializeComponent();
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
             MasterPage.OnLogout += RedirectToLogin;
             MasterPage.OnShareClicked += MasterPage_OnShareClicked;
             MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
             MasterPage.OnProfileClicked += MasterPage_OnProfileClicked;
+            MasterPage.OnMyBusidexClicked += MasterPage_OnMyBusidexClicked;
+            MasterPage.OnSearchClicked += MasterPage_OnSearchClicked;
+            MasterPage.OnEventsClicked += MasterPage_OnEventsClicked;
+            MasterPage.OnOrganizationsClicked += MasterPage_OnOrganizationsClicked;
+
             this.IsPresentedChanged += MainMenu_IsPresentedChanged;
 
             var quickSharePath = Path.Combine(Serialization.LocalStorageFolder, StringResources.QUICKSHARE_LINK);
@@ -100,8 +104,6 @@ namespace Busidex3.Views
 
             Detail = new NavigationPage(page);
             IsPresented = false;
-
-            MasterPage.ListView.SelectedItem = null;
         }
 
         private void MasterPage_OnShareClicked(ref UserCard card)
@@ -110,8 +112,38 @@ namespace Busidex3.Views
 
             Detail = new NavigationPage(page);
             IsPresented = false;
+        }
 
-            MasterPage.ListView.SelectedItem = null;
+        private void MasterPage_OnMyBusidexClicked()
+        {
+            var page = new MyBusidexView() { Title = "My Busidex" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+        }
+
+        private void MasterPage_OnSearchClicked()
+        {
+            var page = new SearchView() { Title = "Search" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+        }
+
+        private void MasterPage_OnEventsClicked()
+        {
+            var page = new EventsView() { Title = "Events" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+        }
+
+        private void MasterPage_OnOrganizationsClicked()
+        {
+            var page = new OrganizationsView() { Title = "Organizations" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
         }
 
         private void MainMenu_IsPresentedChanged(object sender, EventArgs e)
@@ -138,20 +170,6 @@ namespace Busidex3.Views
             IsPresented = false;
             NavigationPage.SetHasNavigationBar(Detail, false);
             IsGestureEnabled = false;
-        }
-
-        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (!(e.SelectedItem is MainMenuMenuItem item))
-                return;
-
-            var page = (Page)Activator.CreateInstance(item.TargetType);
-            page.Title = item.Title;
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-
-            MasterPage.ListView.SelectedItem = null;
         }
     }
 }

@@ -37,7 +37,7 @@
         public static string SearchBySystemTagUrl => BASE_API_URL + "search/SystemTagSearch?systag={0}&ownedOnly=true";
         
         public static string GetEventTagsUrl => BASE_API_URL + "search/GetEventTags";
-
+        public static string GetUserEventTagsUrl => BASE_API_URL + "search/GetUserEventTags";
         public static string ChangeUserNameUrl => BASE_API_URL + "User/ChangeUserName?userId=0&name={0}";
         public static string ChangePasswordUrl => BASE_API_URL + "Password";
         public static string ChangeEmailUrl => BASE_API_URL + "User/ChangeEmail?email={0}";
