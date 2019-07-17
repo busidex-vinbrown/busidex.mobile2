@@ -36,20 +36,7 @@ namespace Busidex3.Views
 
         private void TxtSearch_OnSearchButtonPressed(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_viewModel.SearchValue)) return;
-
-            var subset = from uc in _viewModel.UserCards
-                         where (uc.Card.Name?.Contains(_viewModel.SearchValue) ?? false) ||
-                               (uc.Card.CompanyName?.Contains(_viewModel.SearchValue) ?? false) ||
-                               (uc.Card.Email?.Contains(_viewModel.SearchValue) ?? false) ||
-                               (uc.Card.Url?.Contains(_viewModel.SearchValue) ?? false) ||
-                               (uc.Card.PhoneNumbers?.Any(pn => !string.IsNullOrEmpty(pn.Number) && pn.Number.Contains(_viewModel.SearchValue)) ?? false) ||
-                               (uc.Card.Tags?.Any(t => !String.IsNullOrEmpty(t.Text) && t.Text.Contains(_viewModel.SearchValue)) ?? false)
-                         select uc;
-
-            var filter = new ObservableRangeCollection<UserCard>();
-            filter.AddRange(subset);
-            _viewModel.SetFilteredList(filter);
+            _viewModel.DoSearch();
         }
 
         private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)

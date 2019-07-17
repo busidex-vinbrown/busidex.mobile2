@@ -45,6 +45,17 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _showProgress;
+        public bool ShowProgress
+        {
+            get => _showProgress;
+            set
+            {
+                _showProgress = value;
+                OnPropertyChanged(nameof(ShowProgress));
+            }
+        }
+
         private bool _hasCards;
         public bool HasCards
         {
@@ -91,6 +102,24 @@ namespace Busidex3.ViewModels
             OnPropertyChanged(nameof(FilteredUserCards));
         }
 
+        public void DoSearch()
+        {
+            if (string.IsNullOrEmpty(SearchValue)) return;
+
+            var subset = from uc in UserCards
+                         where (uc.Card.Name?.Contains(SearchValue) ?? false) ||
+                               (uc.Card.CompanyName?.Contains(SearchValue) ?? false) ||
+                               (uc.Card.Email?.Contains(SearchValue) ?? false) ||
+                               (uc.Card.Url?.Contains(SearchValue) ?? false) ||
+                               (uc.Card.PhoneNumbers?.Any(pn => !string.IsNullOrEmpty(pn.Number) && pn.Number.Contains(SearchValue)) ?? false) ||
+                               (uc.Card.Tags?.Any(t => !String.IsNullOrEmpty(t.Text) && t.Text.Contains(SearchValue)) ?? false)
+                         select uc;
+
+            var filter = new ObservableRangeCollection<UserCard>();
+            filter.AddRange(subset);
+            SetFilteredList(filter);
+        }
+
         public async Task<bool> LoadUserCards(string cachedPath)
         {
             ShowFilter = false;
@@ -103,6 +132,8 @@ namespace Busidex3.ViewModels
 
             try
             {
+                ShowProgress = true;
+
                 if (UserCards == null)
                 {
                     UserCards = new ObservableRangeCollection<UserCard>();
@@ -119,15 +150,15 @@ namespace Busidex3.ViewModels
                     cards.ForEach(c => c.ExistsInMyBusidex = true);
                 }
 
-                if (!IsRefreshing)
-                {
-                    UserCards.AddRange(cards);
-                    SetFilteredList(UserCards);
-                    IsRefreshing = false;
-                    HasCards = UserCards.Count > 0;
-                    IsEmpty = !HasCards;
-                    return true;
-                }
+                //if (!IsRefreshing)
+                //{
+                //    UserCards.AddRange(cards);
+                //    SetFilteredList(UserCards);
+                //    IsRefreshing = false;
+                //    HasCards = UserCards.Count > 0;
+                //    IsEmpty = !HasCards;
+                //    return true;
+                //}
 
                 status.Total = TotalCards = cards.Count;
 
@@ -170,6 +201,7 @@ namespace Busidex3.ViewModels
             {
                 semaphore.Release();
                 IsRefreshing = false;
+                ShowProgress = false;
                 ShowFilter = HasCards;
             }
 

@@ -3,10 +3,7 @@ using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -24,8 +21,8 @@ namespace Busidex3.Views
             InitializeComponent();
             Title = org.Name;
 
-            _viewModel = new OrganizationMembersVM();
-            var cachedPath = Path.Combine(Serialization.LocalStorageFolder, _viewModel.OrganizationFile);
+            _viewModel = new OrganizationMembersVM(org);
+            var cachedPath = Path.Combine(Serialization.LocalStorageFolder, _viewModel.OrganizationMembersFile);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 
             BindingContext = _viewModel;
@@ -38,17 +35,24 @@ namespace Busidex3.Views
 
         private void TxtSearch_SearchButtonPressed(object sender, EventArgs e)
         {
-
+            _viewModel.DoSearch();
         }
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                _viewModel.SetFilteredList(_viewModel.UserCards);
+            }
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
+            var uc = ((TappedEventArgs)e).Parameter as UserCard;
+            var myBusidex = _viewModel.UserCards;
+            var newViewModel = new CardVM(ref uc, ref myBusidex);
 
+            await Navigation.PushAsync(new CardDetailView(ref newViewModel));
         }
 
         public ICommand RefreshCommand
@@ -57,7 +61,7 @@ namespace Busidex3.Views
             {
                 return new Command(async () => {
                     _viewModel.IsRefreshing = true;
-                    await _viewModel.LoadUserCards(_viewModel.OrganizationFile);
+                    await _viewModel.LoadUserCards(_viewModel.OrganizationMembersFile);
                 });
             }
         }

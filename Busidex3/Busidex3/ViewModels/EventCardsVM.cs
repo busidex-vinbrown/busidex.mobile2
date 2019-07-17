@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
-using Microsoft.AppCenter.Crashes;
 
 namespace Busidex3.ViewModels
 {
@@ -18,7 +13,6 @@ namespace Busidex3.ViewModels
     public class EventCardsVM : CardListVM
     {
         public event OnEventListLoadedEventHandler OnEventListLoaded;
-        public Dictionary<string, OnEventCardsLoadedEventHandler> EventCardsLoadedEventTable;
         public event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
 
         public List<EventTag> EventList { get; set; }
@@ -45,22 +39,6 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(EventTag));
             }
         }                
-
-        //public override async Task<bool> Init()
-        //{
-        //    var loaded = false;
-            
-        //    EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
-        //    if (EventList == null || EventList.Count == 0)
-        //    {
-        //        EventList = new List<EventTag>();
-        //        loaded = await LoadUserCards(EventCardsFile);
-        //    }
-
-        //    OnEventListLoaded?.Invoke(EventList);
-
-        //    return await Task.FromResult(loaded);
-        //}
 
         public override void SaveCardsToFile(string json)
         {
