@@ -22,16 +22,6 @@ namespace Busidex3.Views
             BindingContext = _viewModel;
         }
 
-        private void TxtSearch_SearchButtonPressed(object sender, System.EventArgs e)
-        {
-
-        }
-
-        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
             var eventTag = ((TappedEventArgs)e).Parameter as EventTag;

@@ -8,6 +8,7 @@ using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Microsoft.AppCenter.Crashes;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -18,7 +19,7 @@ namespace Busidex3.ViewModels
     public delegate void OnMyOrganizationReferralsUpdatedEventHandler (ProgressStatus status);
     public delegate void OnMyOrganizationReferralsLoadedEventHandler (List<UserCard> cards);
 
-    public class OrganizationsVM : BaseViewModel
+    public class OrganizationListVM : BaseViewModel
     {
         public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
         public event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
@@ -27,13 +28,32 @@ namespace Busidex3.ViewModels
         public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
         public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
 
-        public List<Organization> OrganizationList { get; private set; } = new List<Organization>();
+        private List<Organization> _organizationList;
+        public List<Organization> OrganizationList
+        {
+            get => _organizationList;
+            set
+            {
+                _organizationList = value;
+                OnPropertyChanged(nameof(OrganizationList));
+            }
+        }
+
+        public ImageSource BackgroundImage
+        {
+            get
+            {
+                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                    typeof(SearchVM).Assembly);
+            }
+        }
+
         public Dictionary<long, List<Card>> OrganizationMembers { get;  private set; }= new Dictionary<long, List<Card>>();
         public Dictionary<long, List<UserCard>> OrganizationReferrals { get; private set; } = new Dictionary<long, List<UserCard>>();
 
         private readonly OrganizationsHttpService _organizationsHttpService;
 
-        public OrganizationsVM()
+        public OrganizationListVM()
         {
             _organizationsHttpService = new OrganizationsHttpService();
         }
@@ -46,49 +66,6 @@ namespace Busidex3.ViewModels
                 await LoadOrganizations ();
             }
 
-            OnMyOrganizationsLoaded?.Invoke (OrganizationList);
-
-            OrganizationMembersLoadedEventTable = new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> ();
-            OrganizationReferralsLoadedEventTable = new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> ();
-
-            foreach (Organization org in OrganizationList) {
-                if(!OrganizationMembersLoadedEventTable.ContainsKey(org.OrganizationId)){
-                    OrganizationMembersLoadedEventTable.Add (org.OrganizationId, null);	
-                }
-                if (!OrganizationReferralsLoadedEventTable.ContainsKey (org.OrganizationId)) { 
-                    OrganizationReferralsLoadedEventTable.Add (org.OrganizationId, null);
-                }
-            }
-
-            foreach (var org in OrganizationList) {
-                if (!OrganizationMembers.ContainsKey (org.OrganizationId)) {
-                    OrganizationMembers.Add (org.OrganizationId, new List<Card> ());
-                }
-                if (!OrganizationReferrals.ContainsKey (org.OrganizationId)) {
-                    OrganizationReferrals.Add (org.OrganizationId, new List<UserCard> ());
-                }
-                OrganizationMembers [org.OrganizationId] = Serialization.LoadData<List<Card>> (Path.Combine (Serialization.LocalStorageFolder, string.Format (StringResources.ORGANIZATION_MEMBERS_FILE, org.OrganizationId)));
-                if (OrganizationMembers[org.OrganizationId] == null ||
-                    OrganizationMembers[org.OrganizationId].Count == 0)
-                {
-                    await LoadOrganizationMembers(org.OrganizationId);
-                }
-                else
-                {
-                    OrganizationMembersLoadedEventTable[org.OrganizationId].Invoke(OrganizationMembers [org.OrganizationId]);
-                }
-
-                OrganizationReferrals [org.OrganizationId] = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, string.Format (StringResources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId)));
-                if (OrganizationReferrals[org.OrganizationId] == null ||
-                    OrganizationReferrals[org.OrganizationId].Count == 0)
-                {
-                    await LoadOrganizationReferrals(org.OrganizationId);
-                }
-                else
-                {
-                    OrganizationReferralsLoadedEventTable[org.OrganizationId].Invoke(OrganizationReferrals [org.OrganizationId]);
-                }
-            }
             return await Task.FromResult(true);
         }
 
@@ -117,57 +94,6 @@ namespace Busidex3.ViewModels
                         {
                             Total = organizationResult.Model.Count
                         };
-
-                        OrganizationMembersLoadedEventTable =
-                            new Dictionary<long, OnMyOrganizationMembersLoadedEventHandler>();
-                        OrganizationReferralsLoadedEventTable =
-                            new Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler>();
-
-                        foreach (Organization org in organizationResult.Model)
-                        {
-                            if (!OrganizationMembersLoadedEventTable.ContainsKey(org.OrganizationId))
-                            {
-                                OrganizationMembersLoadedEventTable.Add(org.OrganizationId, null);
-                            }
-
-                            if (!OrganizationReferralsLoadedEventTable.ContainsKey(org.OrganizationId))
-                            {
-                                OrganizationReferralsLoadedEventTable.Add(org.OrganizationId, null);
-                            }
-                        }
-
-                        // Get Organization members and referrals
-                        foreach (Organization org in organizationResult.Model)
-                        {
-
-                            var fileName = org.LogoFileName + "." + org.LogoType;
-                            var fImagePath = StringResources.CARD_PATH + fileName;
-                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + fileName))
-                            {
-                                try
-                                {
-                                    await App.DownloadImage(fImagePath, Serialization.LocalStorageFolder, fileName).ContinueWith(
-                                        result =>
-                                        {
-                                            status.Count++;
-                                            OnMyOrganizationsUpdated?.Invoke(status);
-                                        });
-                                }
-                                catch 
-                                {
-                                    // ignored
-                                }
-                            }
-                            else
-                            {
-                                status.Count++;
-                                OnMyOrganizationsUpdated?.Invoke(status);
-                            }
-
-                            // load organization members and referrals
-                            await LoadOrganizationMembers(org.OrganizationId);
-                            await LoadOrganizationReferrals(org.OrganizationId);
-                        }
                     }
 
                     OnMyOrganizationsLoaded?.Invoke(OrganizationList);
@@ -176,7 +102,6 @@ namespace Busidex3.ViewModels
             catch (Exception ex)
             {
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report(new Exception("Error loading organization list", ex));
 
                 if (OrganizationList.Count == 0)
                 {
@@ -189,7 +114,6 @@ namespace Busidex3.ViewModels
                     catch (Exception innerEx)
                     {
                         Crashes.TrackError(innerEx); 
-                        //Xamarin.Insights.Report(new Exception("Error loading organization list from file", innerEx));
                     }
 
                     OnMyOrganizationsLoaded?.Invoke(OrganizationList);
@@ -292,7 +216,6 @@ namespace Busidex3.ViewModels
                     OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
                 }
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report(new Exception("Error Loading Organization Referrals", ex));
             }
             finally
             {
@@ -310,7 +233,6 @@ namespace Busidex3.ViewModels
             try
             {
                 var result = await _organizationsHttpService.GetOrganizationMembers(organizationId);
-                //.ContinueWith (async cards => {
 
                 if (result == null)
                 {
@@ -398,7 +320,6 @@ namespace Busidex3.ViewModels
                     if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
                 }
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report(new Exception("Error Loading Organization Members", ex));
             }
             finally
             {

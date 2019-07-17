@@ -22,6 +22,7 @@ namespace Busidex3
     public partial class App : Application, IBranchSessionInterface
     {
         private static readonly CardHttpService _cardHttpService = new CardHttpService();
+        private static readonly OrganizationsHttpService _organizationsHttpService = new OrganizationsHttpService();
 
         public App()
         {
@@ -39,6 +40,7 @@ namespace Busidex3
             Task.Factory.StartNew(async () => await LoadOwnedCard());
             Task.Factory.StartNew(async () => await Security.LoadUser());
             Task.Factory.StartNew(async () => await LoadEvents());
+            Task.Factory.StartNew(async () => await LoadOrganizations());
         }
 
         private static IAnalyticsManager analyticsManager;
@@ -197,6 +199,15 @@ namespace Busidex3
             var response = await searchService.GetUserEventTags();
             var list = Newtonsoft.Json.JsonConvert.SerializeObject(response.Model);
             Serialization.SaveResponse(list, Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
+            return true;
+        }
+
+        public static async Task<bool> LoadOrganizations()
+        {
+            var response = await _organizationsHttpService.GetMyOrganizations();
+            var list = Newtonsoft.Json.JsonConvert.SerializeObject(response.Model);
+            Serialization.SaveResponse(list, StringResources.MY_ORGANIZATIONS_FILE);
+
             return true;
         }
 

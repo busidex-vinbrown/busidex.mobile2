@@ -10,6 +10,8 @@ namespace Busidex3.Analytics
         Notes,
         Organizations, 
         OrganizationDetail, 
+        OrganizationMembers,
+        OrganizationReferrals,
         Events, 
         EventDetail,
         Settings, 

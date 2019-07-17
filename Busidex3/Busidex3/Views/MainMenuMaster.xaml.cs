@@ -59,6 +59,12 @@ namespace Busidex3.Views
             {
                 _viewModel.ShowEvents = true;
             }
+
+            var organizations = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
+            if (organizations.Any())
+            {
+                _viewModel.ShowOrganizations = true;
+            }
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
