@@ -1,8 +1,10 @@
 ﻿using Busidex3.DomainModels;
+using Busidex3.Services.Utils;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,6 +67,23 @@ namespace Busidex3.ViewModels
             }
         }
 
+        public override async Task<bool> Init(string cachedPath)
+        {
+            ShowFilter = true;
+
+            if (UserCards == null || UserCards.Count == 0)
+            {
+                return await LoadUserCards(cachedPath);
+            }
+            else
+            {
+                HasCards = true;
+                IsEmpty = false;
+            }
+
+            return true;
+        }
+
         public void SetFilteredList(ObservableRangeCollection<UserCard> subset)
         {
             FilteredUserCards.Clear();
@@ -72,38 +91,47 @@ namespace Busidex3.ViewModels
             OnPropertyChanged(nameof(FilteredUserCards));
         }
 
-        public async Task<bool> LoadUserCards()
+        public async Task<bool> LoadUserCards(string cachedPath)
         {
-            IsRefreshing = true;
             ShowFilter = false;
             LoadingProgress = 0;
 
             var semaphore = new SemaphoreSlim(1, 1);
             await semaphore.WaitAsync();
 
-            var cards = new List<UserCard>();
             var status = new ProgressStatus { Count = 0 };
 
             try
             {
-                var result = await GetCards();
-
-                if (result != null)
-                {
-                    cards.AddRange(result);
-                    cards.ForEach(c => c.ExistsInMyBusidex = true);
-                }
-
-                status.Total = TotalCards = cards.Count;
-
-                await DownloadImages(cards, status);
-
                 if (UserCards == null)
                 {
                     UserCards = new ObservableRangeCollection<UserCard>();
                 }
 
                 UserCards.Clear();
+
+                var cards = Serialization.GetCachedResult<List<UserCard>>(cachedPath);
+
+                if (IsRefreshing || !cards.Any()) cards = await GetCards();
+
+                if (IsRefreshing && cards != null)
+                {
+                    cards.ForEach(c => c.ExistsInMyBusidex = true);
+                }
+
+                if (!IsRefreshing)
+                {
+                    UserCards.AddRange(cards);
+                    SetFilteredList(UserCards);
+                    IsRefreshing = false;
+                    HasCards = UserCards.Count > 0;
+                    IsEmpty = !HasCards;
+                    return true;
+                }
+
+                status.Total = TotalCards = cards.Count;
+
+                await DownloadImages(cards, status);
 
                 // If the user has a card, make sure it's always at the top of the list
                 if (OwnedCard != null)

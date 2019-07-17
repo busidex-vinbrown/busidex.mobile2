@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
+using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,29 +18,24 @@ namespace Busidex3.Views
 	{
 	    private readonly MyBusidexVM _viewModel = new MyBusidexVM();
 
-        protected override async void OnAppearing()
-        {
-            await _viewModel.Init();
-            base.OnAppearing();
-        }
-
         public MyBusidexView ()
 		{
 			InitializeComponent ();
 		    BindingContext = _viewModel;
-		    Task.Factory.StartNew(async () => { await _viewModel.Init(); });
+            var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
+            Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 		    
-		    lstMyBusidex.RefreshCommand = RefreshCommand;
-
-		    _viewModel.ShowFilter = true;
+		    lstMyBusidex.RefreshCommand = RefreshCommand;		    
 
 		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 		}
-
         
 	    public ICommand RefreshCommand
 	    {
-	        get { return new Command(async () => { await _viewModel.LoadUserCards(); }); }
+	        get { return new Command(async () => {
+                _viewModel.IsRefreshing = true;
+                await _viewModel.LoadUserCards(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            }); }
 	    }
 
 	    private void TxtSearch_OnSearchButtonPressed(object sender, EventArgs e)

@@ -14,7 +14,7 @@ namespace Busidex3.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SearchView : ContentPage
 	{
-	    private readonly MyBusidexVM _myBusidex = new MyBusidexVM();
+	    // private readonly MyBusidexVM _myBusidex = new MyBusidexVM();
         private readonly SearchVM _viewModel = new SearchVM();
 
 		public SearchView ()
@@ -23,7 +23,7 @@ namespace Busidex3.Views
 		    BindingContext = _viewModel;		    
             Title = "Search";
 
-		    Task.Factory.StartNew(async () => { await _myBusidex.Init(); });
+		    // Task.Factory.StartNew(async () => { await _myBusidex.Init(); });
 
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}

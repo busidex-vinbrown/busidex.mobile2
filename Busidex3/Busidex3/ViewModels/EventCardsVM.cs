@@ -26,7 +26,7 @@ namespace Busidex3.ViewModels
 
         private readonly SearchHttpService _searchHttpService;
 
-        private string EventCardsFile { get; set; }
+        public string EventCardsFile { get; set; }
 
         public EventCardsVM(EventTag e)
         {
@@ -44,23 +44,23 @@ namespace Busidex3.ViewModels
                 _eventTag = value;
                 OnPropertyChanged(nameof(EventTag));
             }
-        }
+        }                
+
+        //public override async Task<bool> Init()
+        //{
+        //    var loaded = false;
             
-        public override async Task<bool> Init()
-        {
-            var loaded = false;
+        //    EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
+        //    if (EventList == null || EventList.Count == 0)
+        //    {
+        //        EventList = new List<EventTag>();
+        //        loaded = await LoadUserCards(EventCardsFile);
+        //    }
 
-            EventList = Serialization.LoadData<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
-            if (EventList == null || EventList.Count == 0)
-            {
-                EventList = new List<EventTag>();
-                loaded = await LoadUserCards();
-            }
+        //    OnEventListLoaded?.Invoke(EventList);
 
-            OnEventListLoaded?.Invoke(EventList);
-
-            return await Task.FromResult(loaded);
-        }
+        //    return await Task.FromResult(loaded);
+        //}
 
         public override void SaveCardsToFile(string json)
         {

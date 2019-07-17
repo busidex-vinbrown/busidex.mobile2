@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
@@ -8,26 +6,7 @@ using Busidex3.Services.Utils;
 namespace Busidex3.ViewModels
 {
     public class MyBusidexVM : CardListVM
-    {
-        public override async Task<bool> Init()
-        {
-            UserCards = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
-                Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            
-            if (UserCards == null || UserCards.Count == 0) {
-                return await LoadUserCards ();
-            }
-            else
-            {
-                HasCards = true;
-                IsEmpty = false;
-            }
-
-            SetFilteredList(UserCards);
-
-            return true;
-        }
-
+    {       
         public override async Task<List<UserCard>> GetCards()
         {
             var result = await _myBusidexHttpService.GetMyBusidex();

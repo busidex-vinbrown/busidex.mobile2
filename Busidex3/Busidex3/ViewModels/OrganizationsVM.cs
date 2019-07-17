@@ -38,7 +38,7 @@ namespace Busidex3.ViewModels
             _organizationsHttpService = new OrganizationsHttpService();
         }
 
-        public override async Task<bool> Init()
+        public override async Task<bool> Init(string cachedFile)
         {
             OrganizationList = Serialization.LoadData<List<Organization>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
             if (OrganizationList == null || OrganizationList.Count == 0) {

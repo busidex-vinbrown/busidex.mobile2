@@ -51,24 +51,14 @@
                    Grid.Column="0"
                    Grid.Row="2"
                    Aspect="AspectFill"/>
-            <StackLayout
-                Padding="0,20"
-                HorizontalOptions="Center"
-                VerticalOptions="StartAndExpand"
-                IsVisible="{Binding IsEmpty}"
+            <ActivityIndicator
+                IsVisible="{Binding IsRefreshing}"
+                Color="DodgerBlue"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" 
+                IsRunning="True"
                 Grid.Column="0"
-                Grid.Row="2">
-                <Label 
-                    Text="You don't have any cards in your collection. To get started, you can search for some and add them."
-                    HorizontalTextAlignment="Center"
-                    Margin="0,20"
-                    FontSize="Medium"/>
-                <Button 
-                    x:Name="btnGoToSearch"
-                    Text="Go To Search"
-                    Style="{StaticResource buttonStyle}"
-                    Clicked="BtnGoToSearch_Clicked"/>
-            </StackLayout>
+                Grid.Row="2"/>
             <ListView x:Name="lstCards"
                       IsVisible="{Binding HasCards}"
                       SeparatorVisibility="None"

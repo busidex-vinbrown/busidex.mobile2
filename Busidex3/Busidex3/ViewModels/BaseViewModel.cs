@@ -9,7 +9,7 @@ namespace Busidex3.ViewModels
     {
         private string _searchValue;
 
-        public virtual async Task<bool> Init()
+        public virtual async Task<bool> Init(string cachedPath)
         {
             return await Task.FromResult(true);
         }
