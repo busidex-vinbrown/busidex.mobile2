@@ -44,7 +44,9 @@ namespace Busidex3.Views
 
         private void OnReferrals_Tapped(object sender, System.EventArgs e)
         {
-
+            var organization = ((TappedEventArgs)e).Parameter as Organization;
+            var page = new OrganizationReferralsView(organization);
+            Navigation.PushAsync(page);
         }
     }
 }
