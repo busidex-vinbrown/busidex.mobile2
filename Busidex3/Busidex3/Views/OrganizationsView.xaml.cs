@@ -32,7 +32,9 @@ namespace Busidex3.Views
 
         private void OnDetail_Tapped(object sender, System.EventArgs e)
         {
-
+            var organization = ((TappedEventArgs)e).Parameter as Organization;
+            var page = new OrganizationDetailView(organization);
+            Navigation.PushAsync(page);
         }
 
         private void OnMembers_Tapped(object sender, System.EventArgs e)

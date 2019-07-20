@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Busidex3.Controls.CardImageHeader"
              xmlns:converters="clr-namespace:Busidex3.Converters"
-              IsVisible="{Binding DisplaySettings.ShowCard}">
+             IsVisible="{Binding DisplaySettings.ShowCard}">
     <ContentView.Resources>
         <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
         <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />

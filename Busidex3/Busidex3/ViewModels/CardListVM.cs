@@ -150,16 +150,6 @@ namespace Busidex3.ViewModels
                     cards.ForEach(c => c.ExistsInMyBusidex = true);
                 }
 
-                //if (!IsRefreshing)
-                //{
-                //    UserCards.AddRange(cards);
-                //    SetFilteredList(UserCards);
-                //    IsRefreshing = false;
-                //    HasCards = UserCards.Count > 0;
-                //    IsEmpty = !HasCards;
-                //    return true;
-                //}
-
                 status.Total = TotalCards = cards.Count;
 
                 await DownloadImages(cards, status);
@@ -200,8 +190,7 @@ namespace Busidex3.ViewModels
             finally
             {
                 semaphore.Release();
-                IsRefreshing = false;
-                ShowProgress = false;
+                IsRefreshing = ShowProgress = false;
                 ShowFilter = HasCards;
             }
 

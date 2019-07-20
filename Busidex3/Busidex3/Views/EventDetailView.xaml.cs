@@ -3,6 +3,7 @@ using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -50,7 +51,9 @@ namespace Busidex3.Views
         private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
             var uc = ((TappedEventArgs)e).Parameter as UserCard;
-            var myBusidex = _viewModel.UserCards;
+            var cards = Serialization.GetCachedResult<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            var myBusidex = new ObservableRangeCollection<UserCard>();
+            myBusidex.AddRange(cards);
             var newViewModel = new CardVM(ref uc, ref myBusidex);
 
             await Navigation.PushAsync(new CardDetailView(ref newViewModel));

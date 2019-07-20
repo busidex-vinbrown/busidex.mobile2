@@ -279,8 +279,8 @@ namespace Busidex3.ViewModels
             Task.Factory.StartNew(async () => await App.LoadOwnedCard());
             States = GetStates();
             StateNames = States.Select(s => s.Name).ToList();
-            SelectedStateName = SelectedCard.Card.Addresses[0].State?.Name;
-            Address = SelectedCard.Card.Addresses[0];
+            SelectedStateName = SelectedCard.Card.Addresses.Any() ? SelectedCard.Card.Addresses[0].State?.Name : string.Empty;
+            Address = SelectedCard.Card.Addresses.Any() ? SelectedCard.Card?.Addresses[0] : null;
             Title = SelectedCard.Card.Title;
             Name = SelectedCard.Card.Name;
             CompanyName = SelectedCard.Card.CompanyName;
