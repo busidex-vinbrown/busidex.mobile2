@@ -154,9 +154,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\UnownedCardImageHeader.xaml.cs">
-      <DependentUpon>UnownedCardImageHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\OrganizationMembersView.xaml.cs">
       <DependentUpon>OrganizationMembersView.xaml</DependentUpon>
     </Compile>
