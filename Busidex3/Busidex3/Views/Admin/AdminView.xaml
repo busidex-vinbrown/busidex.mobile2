@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
+             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Busidex3.Views.Admin.AdminView">
+    <ContentPage.Resources>
+        <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="5" Padding="0" BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ProgressBar x:Name="prgLoadStatus"
+                         Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
+                         HeightRequest="8"
+                         IsVisible="{Binding ShowProgress}"
+                         ProgressColor="DodgerBlue"
+                         BackgroundColor="White"
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Column="0"
+                         Grid.Row="0"/>
+            <Label x:Name="lblProgress"
+                   IsVisible="{Binding ShowProgress}"
+                   Text="{Binding ProgressMessage}"
+                   FontSize="Small"
+                   TextColor="DarkGray"
+                   HorizontalOptions="FillAndExpand"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   Grid.Column="0"
+                   Grid.Row="0"/>
+            <SearchBar x:Name="txtSearch"
+                        Text="{Binding SearchValue}"
+                        IsVisible="{Binding ShowFilter}"
+                        SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
+                        Placeholder="Filter"
+                        TextChanged="TxtSearch_OnTextChanged"
+                        Grid.Column="0"
+                        Grid.Row="1"/>
+            <Image Source="{Binding BackgroundImage}" 
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   Aspect="AspectFill"/>
+            
+            <ListView x:Name="lstUnownedCards"
+                      SeparatorVisibility="None"
+                      VerticalOptions="FillAndExpand"
+                      IsPullToRefreshEnabled="True"
+                      HasUnevenRows="True"
+                      SelectionMode="None"      
+                      BackgroundColor="Transparent"
+                      CachingStrategy="RecycleElement"                      
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemsSource="{Binding FilteredCards}"
+                      Grid.Column="0"
+                      Grid.Row="2">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                BackgroundColor="LightGray"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
+                                Padding="0"
+                                Opacity=".8"
+                                Margin="10">
+                                <StackLayout Orientation="Vertical">
+                                    <controls:UnownedCardListViewDisplay
+                                        BackgroundColor="LightGray"
+                                        HorizontalOptions="FillAndExpand"
+                                        SelectedCard="{Binding Path=.}"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Last Sent To: " FontSize="Small" FontAttributes="Bold" />
+                                        <Label Text="{Binding EmailSentTo}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Date Sent: " FontSize="Small" FontAttributes="Bold" />
+                                        <Label Text="{Binding LastContactDate}" />
+                                    </StackLayout>
+                                    <Button 
+                                        x:Name="btnSelect"
+                                        Text="Select" 
+                                        FontSize="Small" 
+                                        BackgroundColor="#03A9F4" 
+                                        TextColor="White"
+                                        Clicked="btnSelect_Clicked"
+                                        CommandParameter="{Binding Path=.}"/>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

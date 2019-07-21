@@ -141,7 +141,7 @@ namespace Busidex3.ViewModels
 
                 UserCards.Clear();
 
-                var cards = Serialization.GetCachedResult<List<UserCard>>(cachedPath);
+                var cards = Serialization.GetCachedResult<List<UserCard>>(cachedPath) ?? new List<UserCard>();
 
                 if (IsRefreshing || !cards.Any()) cards = await GetCards();
 

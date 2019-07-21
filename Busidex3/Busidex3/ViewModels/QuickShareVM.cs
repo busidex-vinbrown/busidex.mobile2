@@ -1,4 +1,6 @@
 ﻿using Busidex3.DomainModels;
+using Busidex3.Services;
+using System.Threading.Tasks;
 
 namespace Busidex3.ViewModels
 {
@@ -26,6 +28,18 @@ namespace Busidex3.ViewModels
                 _personalMessage = value;
                 OnPropertyChanged(nameof(PersonalMessage));
             }
+        }
+
+        public async Task<bool> AddCardToMyBusidex(long cardId)
+        {
+            var service = new MyBusidexHttpService();
+            return await service.AddToMyBusidex(cardId);
+        }
+
+        public async Task<bool> UpdateOwner(long cardId, long ownerId)
+        {
+            var service = new CardHttpService();
+            return await service.UpdateCardOwner(cardId, ownerId);
         }
     }
 }

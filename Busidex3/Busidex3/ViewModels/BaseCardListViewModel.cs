@@ -66,12 +66,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        protected int TotalCards { get;set; }
+        protected int TotalCards { get; set; }
 
-        //protected bool ExistsInMyBusidex (UserCard card)
-        //{
-        //    return UserCards.Any (uc => uc.CardId == card.CardId);
-        //} 
 
         public Card OwnedCard => null;
 

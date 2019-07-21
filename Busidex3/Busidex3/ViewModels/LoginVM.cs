@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -23,8 +24,8 @@ namespace Busidex3.ViewModels
 
             if (user == null || user.UserId <= 0) return false;
 
-            Security.SaveAuthCookie(user.UserId);
-            
+            await Security.SaveAuthCookie(user.UserId);
+
             await Task.Factory.StartNew(async ()=> await App.LoadOwnedCard());
 
             return true;

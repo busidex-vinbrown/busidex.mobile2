@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Busidex3.DomainModels;
-using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
@@ -20,6 +19,7 @@ namespace Busidex3.Views
     public delegate void OnSearchClickedResult();
     public delegate void OnEventsClickedResult();
     public delegate void OnOrganizationsClickedResult();
+    public delegate void OnAdminClickedResult();
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuMaster
@@ -33,6 +33,7 @@ namespace Busidex3.Views
         public event OnSearchClickedResult OnSearchClicked;
         public event OnEventsClickedResult OnEventsClicked;
         public event OnOrganizationsClickedResult OnOrganizationsClicked;
+        public event OnAdminClickedResult OnAdminClicked;
 
         protected MainMenuMasterVM _viewModel { get; set; }
 
@@ -41,7 +42,8 @@ namespace Busidex3.Views
             InitializeComponent();
 
             _viewModel = new MainMenuMasterVM();
-            BindingContext = _viewModel;
+            BindingContext = _viewModel;            
+
             ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
         }
 
@@ -55,16 +57,12 @@ namespace Busidex3.Views
             _viewModel.RefreshProfile();
             _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
             var events = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
-            if (events.Any())
-            {
-                _viewModel.ShowEvents = true;
-            }
+            _viewModel.ShowEvents = events.Any();
+
+            _viewModel.IsAdmin = Security.CurrentUser.IsAdmin;
 
             var organizations = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
-            if (organizations.Any())
-            {
-                _viewModel.ShowOrganizations = true;
-            }
+            _viewModel.ShowOrganizations = organizations.Any();
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
@@ -111,6 +109,11 @@ namespace Busidex3.Views
         private void stkOrganizations_Tapped(object sender, EventArgs e)
         {
             OnOrganizationsClicked?.Invoke();
+        }
+
+        private void stkAdmin_Tapped(object sender, EventArgs e)
+        {
+            OnAdminClicked?.Invoke();
         }
     }
 }

@@ -15,6 +15,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using Busidex3.ViewModels;
 using BranchXamarinSDK;
+using Busidex3.Views.EditCard;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
@@ -146,6 +147,17 @@ namespace Busidex3
         public static void LoadMyBusidexPage()
         {
             var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
+            page.Title = ViewNames.MyBusidex;
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = new NavigationPage(page);
+            masterDetailRootPage.IsPresented = false;
+            masterDetailRootPage.IsGestureEnabled = true;
+        }
+
+        public static void LoadCardMenuPage(ref UserCard card)
+        {
+            var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView), new object[] { card });
             page.Title = ViewNames.MyBusidex;
 
             var masterDetailRootPage = (MainMenu)Current.MainPage;

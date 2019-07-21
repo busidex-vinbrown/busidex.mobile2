@@ -45,6 +45,8 @@ namespace Busidex3
 		public const string BUSIDEX_USER_FILE = "busidex_user.json";
 		public const string QUICKSHARE_LINK = "quickShare_Link.json";
 		public const string OWNED_CARD_FILE = "owned_card.json";
+        public const string ADMIN_FLAG_FILE = "admin.json";
+        public const string UNOWNED_CARDS_FILE = "unowned_cards.json";
 
 		public const string COOKIE_URI = "https://localhost";
 		public const int SECONDS_IN_A_YEAR = 60 * 60 * 24 * 365;

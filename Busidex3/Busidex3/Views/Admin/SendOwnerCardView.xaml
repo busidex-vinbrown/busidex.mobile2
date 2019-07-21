@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Busidex3.Converters"
+             xmlns:inputkit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             mc:Ignorable="d"
+             x:Class="Busidex3.Views.Admin.SendOwnerCardView"
+             Visual="Material">
+    <ContentPage.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid RowSpacing="5" Padding="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Column="0" Grid.Row="0">
+                    <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="{Binding VFrameHeight}"
+                WidthRequest="{Binding VFrameWidth}"
+                IsVisible="{Binding SelectedCard.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=SelectedCard.FrontOrientation}">
+                        <Image Source="{Binding FileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=FileName}" 
+                       Aspect="Fill"
+                       HeightRequest="{Binding VImageHeight}"
+                       WidthRequest="{Binding VImageWidth}">
+                        </Image>
+                    </Frame>
+                    <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="{Binding HFrameHeight}"
+                WidthRequest="{Binding HFrameWidth}"
+                IsVisible="{Binding SelectedCard.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=SelectedCard.FrontOrientation}">
+                        <Image Source="{Binding FileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=FileName}" 
+                       Aspect="Fill"
+                       HeightRequest="{Binding HImageHeight}"
+                       WidthRequest="{Binding HImageWidth}">
+                        </Image>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                    <Label Text="Last Sent To: " FontSize="Small" FontAttributes="Bold" />
+                    <Label Text="{Binding SelectedCard.EmailSentTo}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                    <Label Text="Date Sent: " FontSize="Small" FontAttributes="Bold" />
+                    <Label Text="{Binding SelectedCard.LastContactDate}" />
+                </StackLayout>
+                <inputkit:RadioButtonGroupView 
+                        Grid.Row="3" Grid.Column="0"
+                        x:Name="rdoSendUsing" 
+                        Orientation="Horizontal">
+                    <inputkit:RadioButton Text="Text" 
+                                               Clicked="RadioButton_OnClicked" 
+                                               TextFontSize="15"
+                                               Color="#03A9F4" />
+                    <inputkit:RadioButton Text="Email" 
+                                               Clicked="RadioButton_OnClicked" 
+                                               TextFontSize="15"
+                                               Color="#03A9F4" />
+                </inputkit:RadioButtonGroupView>
+                <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
+                    <Entry x:Name="txtSendTo"                    
+                    WidthRequest="280" 
+                    Placeholder="Send To" 
+                    Keyboard="Telephone"
+                    Text="{Binding SendTo}"
+                    TextChanged="TxtSendTo_OnTextChanged"/>
+                    <Image IsVisible="{Binding MessageSent}" Aspect="AspectFit" 
+                        HeightRequest="25" WidthRequest="25"
+                        HorizontalOptions="Start"
+                        Source="{Binding SuccessImage}"/>
+                </StackLayout>                
+            </Grid>
+            <Button 
+                VerticalOptions="End"
+                x:Name="btnSend"
+                Text="Send" 
+                FontSize="Small" 
+                BackgroundColor="#03A9F4" 
+                TextColor="White"
+                Clicked="BtnSend_Clicked"/>
+        </StackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>

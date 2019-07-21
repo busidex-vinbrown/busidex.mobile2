@@ -38,5 +38,12 @@ namespace Busidex3.Services
                 await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveContactInfoUrl, HttpVerb.Put, card);
             return result.IsSuccessStatusCode;
         }
+
+        public async Task<bool> UpdateCardOwner(long cardId, long ownerId)
+        {
+            var result =
+                await MakeRequestAsync<HttpResponseMessage>(string.Format(ServiceUrls.UpdateOwnerIdUrl, cardId, ownerId), HttpVerb.Put);
+            return result.IsSuccessStatusCode;
+        }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Busidex3.Annotations;
 using Busidex3.DomainModels;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace Busidex3.Services.Utils
 {    
@@ -28,8 +31,9 @@ namespace Busidex3.Services.Utils
                 if (string.IsNullOrEmpty(AuthToken)) return CurrentUser;
 
                 var account = await _accountHttpService.GetAccount();
+
                 var accountJson = JsonConvert.SerializeObject(account);
-                Serialization.SaveResponse(accountJson, StringResources.BUSIDEX_USER_FILE);
+                Serialization.SaveResponse(accountJson, StringResources.BUSIDEX_USER_FILE);                
 
                 if (string.IsNullOrEmpty(accountJson)) return CurrentUser;
 
@@ -45,7 +49,7 @@ namespace Busidex3.Services.Utils
             return null;
         }
 
-        public static async void SaveAuthCookie(long userId)
+        public static async Task<bool> SaveAuthCookie(long userId)
         {
             var cookie = new BusidexAuthFile();
 
@@ -58,6 +62,7 @@ namespace Busidex3.Services.Utils
             Serialization.SaveResponse(cookieString, StringResources.AUTHENTICATION_COOKIE_FILE, Serialization.AppDataFolder);
             
             await LoadUser();
+            return true;
         }
 
         private static void RemoveAuthCookie()
@@ -117,7 +122,6 @@ namespace Busidex3.Services.Utils
                 OnBusidexUserLoaded?.Invoke (CurrentUser);
             } catch (Exception ex) {
                 Crashes.TrackError(ex);
-                //Xamarin.Insights.Report (ex);
             }
         }
 
@@ -131,6 +135,14 @@ namespace Busidex3.Services.Utils
         public static char [] GetDigits (string text)
         {
             return Regex.Replace (text, @"[^\d]", "").ToCharArray ();
+        }
+
+        public static event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        public static void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(typeof(Security), new PropertyChangedEventArgs(propertyName));
         }
     }
 }

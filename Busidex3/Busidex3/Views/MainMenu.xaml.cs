@@ -6,6 +6,7 @@ using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Busidex3.Views.EditCard;
+using Busidex3.Views.Admin;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,11 +26,11 @@ namespace Busidex3.Views
             MasterPage.OnSearchClicked += MasterPage_OnSearchClicked;
             MasterPage.OnEventsClicked += MasterPage_OnEventsClicked;
             MasterPage.OnOrganizationsClicked += MasterPage_OnOrganizationsClicked;
+            MasterPage.OnAdminClicked += MasterPage_OnAdminClicked;
 
-            this.IsPresentedChanged += MainMenu_IsPresentedChanged;
+            IsPresentedChanged += MainMenu_IsPresentedChanged;
 
             var quickSharePath = Path.Combine(Serialization.LocalStorageFolder, StringResources.QUICKSHARE_LINK);
-
 
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
@@ -38,11 +39,19 @@ namespace Busidex3.Views
             else if (File.Exists(quickSharePath))
             {
                 var quickShareLink =  Serialization.LoadData<QuickShareLink>(quickSharePath);
-                var uc = SaveFromUrl(quickShareLink).ContinueWith(response =>
+                SaveFromUrl(quickShareLink).ContinueWith(response =>
                 {
-                    var page = new QuickShareView(response.Result, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
+                    var uc = response.Result;                                     
 
-                    Detail = page;
+                    if (uc.Card.OwnerId.HasValue)
+                    {
+                        Detail = new QuickShareView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
+                    }
+                    else
+                    {
+                        Detail = new ConfirmCardOwnerView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
+                    }
+                    
                     IsPresented = false;
                     IsGestureEnabled = false;
                     NavigationPage.SetHasNavigationBar(Detail, false);
@@ -70,7 +79,11 @@ namespace Busidex3.Views
                 await myBusidexService.AddToMyBusidex(card.CardId);
 
                 var sharedCardService = new SharedCardHttpService();
-                await sharedCardService.AcceptQuickShare(card, Security.CurrentUser.Email, link.From, link.PersonalMessage);
+                if (card.OwnerId.HasValue)
+                {
+                    await sharedCardService.AcceptQuickShare(card, Security.CurrentUser.Email, link.From, link.PersonalMessage);
+                }
+                
                 Serialization.RemoveQuickShareLink();
 
                 var orientation = card.FrontOrientation == "H" ? UserCardDisplay.CardOrientation.Horizontal : UserCardDisplay.CardOrientation.Vertical;
@@ -80,7 +93,7 @@ namespace Busidex3.Views
                     CardId = card.CardId,
                     ExistsInMyBusidex = true,
                     OwnerId = card.OwnerId,
-                    UserId = card.OwnerId.GetValueOrDefault(),
+                    UserId = Security.CurrentUser.UserId,
                     Notes = string.Empty,
                     DisplaySettings = new UserCardDisplay(UserCardDisplay.DisplaySetting.Detail, orientation, card.FrontFileName)
                 };
@@ -141,6 +154,14 @@ namespace Busidex3.Views
         private void MasterPage_OnOrganizationsClicked()
         {
             var page = new OrganizationsView() { Title = "Organizations" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+        }
+
+        private void MasterPage_OnAdminClicked()
+        {
+            var page = new AdminView() { Title = "Admin" };
 
             Detail = new NavigationPage(page);
             IsPresented = false;

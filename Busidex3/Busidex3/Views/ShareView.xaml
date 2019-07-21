@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
-             xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:inputkit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="Busidex3.Views.ShareView"
              Visual="Material">
     <ContentPage.Content>
@@ -28,18 +28,18 @@
                            VerticalTextAlignment="Center" 
                            Text="Send As: " 
                            FontSize="Small"/>
-                    <controls1:RadioButtonGroupView 
+                    <inputkit:RadioButtonGroupView 
                         x:Name="rdoSendUsing" 
                         Orientation="Horizontal">
-                        <controls1:RadioButton Text="Text" 
+                        <inputkit:RadioButton Text="Text" 
                                                Clicked="RadioButton_OnClicked" 
                                                TextFontSize="15"
                                                Color="#03A9F4" />
-                        <controls1:RadioButton Text="Email" 
+                        <inputkit:RadioButton Text="Email" 
                                                Clicked="RadioButton_OnClicked" 
                                                TextFontSize="15"
                                                Color="#03A9F4" />
-                     </controls1:RadioButtonGroupView>
+                     </inputkit:RadioButtonGroupView>
                     <Image IsVisible="{Binding MessageSent}" Aspect="AspectFit" 
                            HeightRequest="25" WidthRequest="25"
                            HorizontalOptions="Start"

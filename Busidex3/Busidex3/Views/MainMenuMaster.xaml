@@ -19,6 +19,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <!--
             If user is a card owner, show their card in an avatar-style
@@ -165,6 +167,30 @@
                 <Label VerticalOptions="FillAndExpand" 
                        VerticalTextAlignment="Center" 
                        Text="{Binding OrganizationsItem.Title}" 
+                       FontSize="24"/>
+            </StackLayout>
+            <BoxView
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="6"
+                    Margin="0,20"
+                    BackgroundColor="Gray" HeightRequest="2" HorizontalOptions="FillAndExpand"/>
+            <StackLayout x:Name="stkAdmin" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Grid.Row="7"
+                         IsVisible="{Binding IsAdmin}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkAdmin_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                
+                <Image Aspect="AspectFit" 
+                       HeightRequest="40" WidthRequest="40"
+                       HorizontalOptions="Start"
+                       Source="{Binding AdminItem.Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                       VerticalTextAlignment="Center" 
+                       Text="{Binding AdminItem.Title}" 
                        FontSize="24"/>
             </StackLayout>
         </Grid>

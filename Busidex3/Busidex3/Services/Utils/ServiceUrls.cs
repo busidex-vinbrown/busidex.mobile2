@@ -4,6 +4,10 @@
     {
         private const string BASE_API_URL = "https://www.busidexapi.com/api/";
 
+        public static string GetUnownedCardsUrl => BASE_API_URL + "Admin/UnownedCards";
+        public static string SendOwnerEmailsUrl => BASE_API_URL + "Admin/SendOwnerEmails?cardId={0}&email={1}";
+
+
         public static string UpdateDisplayNameUrl => "Account/UpdateDisplayName?name=";
         public static string CheckAccountUrl => BASE_API_URL + "Registration/CheckAccount";
         public static string GetAccountUrl => BASE_API_URL + "Account/Get?id=0";
@@ -17,6 +21,7 @@
         public static string SaveMobileCardImageUrl => BASE_API_URL + "card/SaveMobileCardImage";
         public static string SaveCardVisibilityUrl => BASE_API_URL + "card/SaveCardVisibility?visibility={0}";
         public static string SaveContactInfoUrl => BASE_API_URL + "card/SaveContactInfo";
+        public static string UpdateOwnerIdUrl => BASE_API_URL + "card/ConfirmCardOwner?cardId={0}&ownerId={1}";
 
         public static string EmailTemplateUrl => BASE_API_URL + "EmailTemplate/Get?code={0}";
 

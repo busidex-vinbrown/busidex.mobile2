@@ -29,6 +29,7 @@ namespace Busidex3.DomainModels
 		public string CardFileType{ get; set; }
 
 		public UserAccount UserAccount{ get; set; }
+        public bool IsAdmin { get; set; }
 	}
 }
 

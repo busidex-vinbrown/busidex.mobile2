@@ -11,6 +11,10 @@ namespace Busidex3.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var fileName = Path.Combine (Serialization.LocalStorageFolder, value.ToString());
+            if (!File.Exists(fileName))
+            { 
+                return null;
+            }
             return ImageSource.FromFile(fileName);
         }
 

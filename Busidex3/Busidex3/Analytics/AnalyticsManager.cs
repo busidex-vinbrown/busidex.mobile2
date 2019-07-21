@@ -18,7 +18,8 @@ namespace Busidex3.Analytics
         MyCard,
         Share,
         Terms,
-        Privacy
+        Privacy,
+        ConfirmOwner
     }
 
     public enum EventCategory

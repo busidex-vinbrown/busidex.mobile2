@@ -163,7 +163,7 @@ namespace Busidex3.ViewModels
             var result = await accountService.CheckAccount(Email, Password);
             if(result.UserId > 0)
             {
-                Security.SaveAuthCookie(result.UserId);
+                await Security.SaveAuthCookie(result.UserId);
                 await accountService.UpdateDeviceType(Security.AuthToken, DomainModels.DeviceType.Android);
                 return true;
             }

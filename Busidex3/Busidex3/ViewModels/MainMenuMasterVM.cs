@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
@@ -7,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.Views;
+using Busidex3.Views.Admin;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -83,6 +83,20 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private MainMenuMenuItem _adminItem;
+        public MainMenuMenuItem AdminItem
+        {
+            get
+            {
+                return _adminItem;
+            }
+            set
+            {
+                _adminItem = value;
+                OnPropertyChanged(nameof(AdminItem));
+            }
+        }
+
         private bool _showEvents;
         public bool ShowEvents
         {
@@ -120,6 +134,17 @@ namespace Busidex3.ViewModels
             {
                 _hasCard = value;
                 OnPropertyChanged(nameof(HasCard));
+            }
+        }
+
+        private bool? _isAdmin;
+        public bool? IsAdmin
+        {
+            get { return _isAdmin; }
+            set
+            {
+                _isAdmin = value;
+                OnPropertyChanged(nameof(IsAdmin));
             }
         }
 
@@ -201,6 +226,16 @@ namespace Busidex3.ViewModels
                 Title = ViewNames.Organizations,
                 TargetType = typeof(OrganizationsView),
                 Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
+                IsClickable = true
+            };
+
+            AdminItem = new MainMenuMenuItem
+            {
+                Id = 4,
+                Title = ViewNames.Admin,
+                TargetType = typeof(AdminView),
+                Image = ImageSource.FromResource("Busidex3.Resources.admin.png",
                     typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
                 IsClickable = true
             };

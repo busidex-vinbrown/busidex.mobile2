@@ -22,15 +22,5 @@ namespace Busidex3.Controls
 		{
 			InitializeComponent ();
 		}
-
-	    //private async void TapGestureRecognizer_OnTapped(object sender, TappedEventArgs e)
-	    //{
-	    //    if (SelectedCard == null) return;
-
-	    //    var vm = SelectedCard;
-	    //    var cardViewModel = new CardVM(vm);
-            
-	    //    await Navigation.PushAsync(new CardDetailView(cardViewModel));
-	    //}
 	}
 }
