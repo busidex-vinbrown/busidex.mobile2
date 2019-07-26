@@ -2,25 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls"
-             x:Class="Busidex3.Views.EditCard.EditTagsView">
+             x:Class="Busidex3.Views.EditCard.EditTagsView"
+             Visual="Default">
     <ContentPage.Content>
-        <StackLayout>
+        
             <StackLayout Orientation="Vertical" Padding="5, 10">
-                <Grid RowSpacing="0" Padding="10">
+                <Grid RowSpacing="10" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="3*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="5*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <controls:CardImageHeader 
                         BindingContext="{Binding SelectedCard}"
@@ -32,93 +27,81 @@
                            Grid.Row="1"
                            Grid.Column="0"
                            x:Name="lblInfo"/>
-                    <Entry 
+                <ScrollView x:Name="scrContent" VerticalScrollBarVisibility="Always"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                            Padding="0,10"
+                            Grid.Row="2"
+                            Grid.Column="0">
+                    <StackLayout
+                        Padding="20"
+                        VerticalOptions="FillAndExpand">
+                        <Entry 
                         x:Name="txtTag0"
-                        Grid.Row="2"
-                        Grid.Column="0"
                         Text="{Binding Tags[0].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 1"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/> 
-                    <Entry 
+                        HorizontalTextAlignment="Center"/>
+                        <Entry 
                         x:Name="txtTag1"
-                        Grid.Row="3"
-                        Grid.Column="0"
                         Text="{Binding Tags[1].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 2"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtTag2"
-                        Grid.Row="4"
-                        Grid.Column="0"
                         Text="{Binding Tags[2].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 3"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtTag3"
-                        Grid.Row="5"
-                        Grid.Column="0"
                         Text="{Binding Tags[3].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 4"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtTag4"
-                        Grid.Row="6"
-                        Grid.Column="0"
                         Text="{Binding Tags[4].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 5"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtTag5"
-                        Grid.Row="7"
-                        Grid.Column="0"
                         Text="{Binding Tags[5].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 6"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtTag6"
-                        Grid.Row="8"
-                        Grid.Column="0"
                         Text="{Binding Tags[6].Text}"
-                        Placeholder="Tag"
+                        Placeholder="Tag 7"
                         MaxLength="35"
                         IsEnabled="True"
-                        HeightRequest="43"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"/>
-                    <Button
-                        x:Name="btnSave"
-                        Text="Save"
-                        Style="{StaticResource buttonStyle}"
-                        IsEnabled="{Binding AllowSave}"
-                        Grid.Row="9"
-                        Grid.Column="0"
-                        Clicked="BtnSave_OnClicked"/>
+                    </StackLayout>
+                </ScrollView>
+                <Button
+                    x:Name="btnSave"
+                    Text="Save"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding AllowSave}"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Clicked="BtnSave_OnClicked"/>
                 </Grid>
             </StackLayout>
-        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
