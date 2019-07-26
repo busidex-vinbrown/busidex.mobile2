@@ -22,11 +22,8 @@ namespace Busidex3.Views
             MasterPage.OnShareClicked += MasterPage_OnShareClicked;
             MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
             MasterPage.OnProfileClicked += MasterPage_OnProfileClicked;
-            MasterPage.OnMyBusidexClicked += MasterPage_OnMyBusidexClicked;
-            MasterPage.OnSearchClicked += MasterPage_OnSearchClicked;
-            MasterPage.OnEventsClicked += MasterPage_OnEventsClicked;
-            MasterPage.OnOrganizationsClicked += MasterPage_OnOrganizationsClicked;
             MasterPage.OnAdminClicked += MasterPage_OnAdminClicked;
+            MasterPage.OnHomeClicked += MasterPage_OnHomeClicked;
 
             IsPresentedChanged += MainMenu_IsPresentedChanged;
 
@@ -59,8 +56,8 @@ namespace Busidex3.Views
             }
             else
             {
-                var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
-                page.Title = ViewNames.MyBusidex;
+                var page = (Page)Activator.CreateInstance(typeof(HomeMenuView));
+                page.Title = ViewNames.Home;
 
                 Detail = new NavigationPage(page);
                 IsPresented = false;
@@ -125,43 +122,19 @@ namespace Busidex3.Views
 
             Detail = new NavigationPage(page);
             IsPresented = false;
-        }
-
-        private void MasterPage_OnMyBusidexClicked()
-        {
-            var page = new MyBusidexView() { Title = "My Busidex" };
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-        }
-
-        private void MasterPage_OnSearchClicked()
-        {
-            var page = new SearchView() { Title = "Search" };
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-        }
-
-        private void MasterPage_OnEventsClicked()
-        {
-            var page = new EventsView() { Title = "Events" };
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-        }
-
-        private void MasterPage_OnOrganizationsClicked()
-        {
-            var page = new OrganizationsView() { Title = "Organizations" };
-
-            Detail = new NavigationPage(page);
-            IsPresented = false;
-        }
+        }     
 
         private void MasterPage_OnAdminClicked()
         {
             var page = new AdminView() { Title = "Admin" };
+
+            Detail = new NavigationPage(page);
+            IsPresented = false;
+        }
+
+        private void MasterPage_OnHomeClicked()
+        {
+            var page = new HomeMenuView() { Title = "Home" };
 
             Detail = new NavigationPage(page);
             IsPresented = false;

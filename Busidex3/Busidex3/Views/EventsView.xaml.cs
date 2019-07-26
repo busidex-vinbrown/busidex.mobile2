@@ -20,6 +20,7 @@ namespace Busidex3.Views
 		    App.AnalyticsManager.TrackScreen(ScreenName.Events);
             _viewModel.EventList = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
             BindingContext = _viewModel;
+            Title = "Events";
         }
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)

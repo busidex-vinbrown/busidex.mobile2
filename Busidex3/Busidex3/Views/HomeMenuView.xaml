@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Busidex3.Views.HomeMenuView">
+    <ContentPage.Content>
+        <StackLayout Padding="50">
+            <StackLayout 
+                x:Name="stkMyBusidex" 
+                VerticalOptions="Start" 
+                HorizontalOptions="FillAndExpand" 
+                Margin="15"
+                Orientation="Horizontal">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image 
+                    Aspect="AspectFit" 
+                    HeightRequest="40" WidthRequest="40"
+                    HorizontalOptions="Start"
+                    Source="{Binding MyBusidexItem.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Start"
+                    Text="{Binding MyBusidexItem.Title}" 
+                    FontSize="24"/>
+            </StackLayout>
+            <StackLayout 
+                x:Name="stkShare" 
+                VerticalOptions="Start" 
+                HorizontalOptions="FillAndExpand" 
+                Margin="15"
+                IsVisible="{Binding HasCard}"
+                Orientation="Horizontal">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkShare_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image 
+                    Aspect="AspectFit" 
+                    HeightRequest="40" WidthRequest="40"
+                    HorizontalOptions="Start"
+                    Source="{Binding ShareItem.Image}"/>
+                <Label VerticalOptions="FillAndExpand" 
+                        VerticalTextAlignment="Center" 
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding ShareItem.Title}" 
+                        FontSize="24"/>
+            </StackLayout>        
+            <StackLayout 
+                x:Name="stkSearch" 
+                Margin="15"
+                VerticalOptions="Start" 
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkSearch_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                    HeightRequest="40" WidthRequest="40"
+                    HorizontalOptions="Start"
+                    Source="{Binding SearchItem.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding SearchItem.Title}" 
+                    FontSize="24"/>
+            </StackLayout>
+            <StackLayout 
+                x:Name="stkOrganizations" 
+                Margin="15"
+                VerticalOptions="Start" 
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal"
+                IsVisible="{Binding ShowOrganizations}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkOrganizations_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                    HeightRequest="40" WidthRequest="40"
+                    HorizontalOptions="Start"
+                    Source="{Binding OrganizationsItem.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding OrganizationsItem.Title}" 
+                    FontSize="24"/>
+            </StackLayout>
+            <StackLayout 
+                x:Name="stkEvents" 
+                Margin="15"
+                VerticalOptions="Start" 
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal"
+                IsVisible="{Binding ShowEvents}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="stkEvents_Tapped"/>
+                </StackLayout.GestureRecognizers>
+                <Image Aspect="AspectFit" 
+                    HeightRequest="40" WidthRequest="40"
+                    HorizontalOptions="Start"
+                    Source="{Binding EventsItem.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding EventsItem.Title}" 
+                    FontSize="24"/>
+            </StackLayout>
+        </StackLayout>               
+    </ContentPage.Content>
+</ContentPage>

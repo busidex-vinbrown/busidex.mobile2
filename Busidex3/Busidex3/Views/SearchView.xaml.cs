@@ -28,11 +28,11 @@ namespace Busidex3.Views
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}
 
-        protected override bool OnBackButtonPressed()
-        {
-            App.LoadMyBusidexPage();
-            return true;
-        }
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    App.LoadMyBusidexPage();
+        //    return true;
+        //}
 
         private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {

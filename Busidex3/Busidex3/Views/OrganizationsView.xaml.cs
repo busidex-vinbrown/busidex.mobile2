@@ -21,6 +21,7 @@ namespace Busidex3.Views
 
             _viewModel.OrganizationList = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
             BindingContext = _viewModel;
+            Title = "Organizations";
         }
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)

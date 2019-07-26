@@ -52,6 +52,7 @@
     <None Remove="Resources\exit.png" />
     <None Remove="Resources\fb.png" />
     <None Remove="Resources\flip.png" />
+    <None Remove="Resources\home.png" />
     <None Remove="Resources\logo3.png" />
     <None Remove="Resources\maps.png" />
     <None Remove="Resources\mybusidexicon.png" />
@@ -108,6 +109,7 @@
     <EmbeddedResource Include="Resources\exit.png" />
     <EmbeddedResource Include="Resources\fb.png" />
     <EmbeddedResource Include="Resources\flip.png" />
+    <EmbeddedResource Include="Resources\home.png" />
     <EmbeddedResource Include="Resources\logo3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -191,6 +193,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EventDetailView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\HomeMenuView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MyProfileView.xaml">

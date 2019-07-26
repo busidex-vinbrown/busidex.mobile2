@@ -155,6 +155,17 @@ namespace Busidex3
             masterDetailRootPage.IsGestureEnabled = true;
         }
 
+        public static void LoadHomePage()
+        {
+            var page = (Page)Activator.CreateInstance(typeof(HomeMenuView));
+            page.Title = ViewNames.Home;
+
+            var masterDetailRootPage = (MainMenu)Current.MainPage;
+            masterDetailRootPage.Detail = new NavigationPage(page);
+            masterDetailRootPage.IsPresented = false;
+            masterDetailRootPage.IsGestureEnabled = true;
+        }
+
         public static void LoadCardMenuPage(ref UserCard card)
         {
             var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView), new object[] { card });

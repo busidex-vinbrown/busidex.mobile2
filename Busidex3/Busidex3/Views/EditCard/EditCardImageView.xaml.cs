@@ -100,18 +100,18 @@ namespace Busidex3.Views.EditCard
             }
         }
 
-        async Task<PermissionStatus> checkPermissions()
+        async Task<PermissionStatus> checkPermissions(Permission permission)
         {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(permission);
             if (status != PermissionStatus.Granted)
             {
-                if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Camera))
+                var shouldShow = await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(permission);
+                if (shouldShow)
                 {
-                    await DisplayAlert("Camera Permission", "Allow SavR to access your camera", "OK");
+                    // await DisplayAlert("Permission", "Allow access your camera", "OK");
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { permission });
+                    status = results[permission];
                 }
-
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
-                status = results[Permission.Camera];
             }
 
             return status;
@@ -124,7 +124,7 @@ namespace Busidex3.Views.EditCard
 
         async void choosePicture()
         {
-            var status = await checkPermissions();
+            var status = await checkPermissions(Permission.Storage);
 
             if (status == PermissionStatus.Granted)
             {
@@ -155,7 +155,7 @@ namespace Busidex3.Views.EditCard
 
         async void takePicture()
         {
-            var status = await checkPermissions();
+            var status = await checkPermissions(Permission.Camera);
 
             if (status == PermissionStatus.Granted)
             {
@@ -171,12 +171,20 @@ namespace Busidex3.Views.EditCard
                 {
                     AllowCropping = true,
                     PhotoSize = PhotoSize.Small,
-                    CompressionQuality = 70
+                    CompressionQuality = 60
                 });
 
                 if (file == null)
                     return;
 
+                var MAX_IMAGE_SIZE = 1024 * 225;
+                var size = file.GetStream().Length;
+                file.GetStream().Seek(0, SeekOrigin.Begin);
+                if(size > MAX_IMAGE_SIZE)
+                {
+                    await DisplayAlert("Image Size", "Please choose an image smaller than 224KB", "Ok");
+                    return;
+                }
                 await setImageFromFile(file);
                 
             }

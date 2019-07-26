@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
@@ -15,11 +12,8 @@ namespace Busidex3.Views
     public delegate void OnShareClickedResult(ref UserCard card);
     public delegate void OnCardEditClickedResult(ref UserCard card);
     public delegate void OnProfileClickedResult();
-    public delegate void OnMyBusidexClickedResult();
-    public delegate void OnSearchClickedResult();
-    public delegate void OnEventsClickedResult();
-    public delegate void OnOrganizationsClickedResult();
     public delegate void OnAdminClickedResult();
+    public delegate void OnHomeClickedResult();
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuMaster
@@ -29,11 +23,8 @@ namespace Busidex3.Views
         public event OnShareClickedResult OnShareClicked;
         public event OnCardEditClickedResult OnCardEditClicked;
         public event OnProfileClickedResult OnProfileClicked;
-        public event OnMyBusidexClickedResult OnMyBusidexClicked;
-        public event OnSearchClickedResult OnSearchClicked;
-        public event OnEventsClickedResult OnEventsClicked;
-        public event OnOrganizationsClickedResult OnOrganizationsClicked;
         public event OnAdminClickedResult OnAdminClicked;
+        public event OnHomeClickedResult OnHomeClicked;
 
         protected MainMenuMasterVM _viewModel { get; set; }
 
@@ -56,13 +47,7 @@ namespace Busidex3.Views
         {
             _viewModel.RefreshProfile();
             _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
-            var events = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
-            _viewModel.ShowEvents = events.Any();
-
             _viewModel.IsAdmin = Security.CurrentUser.IsAdmin;
-
-            var organizations = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
-            _viewModel.ShowOrganizations = organizations.Any();
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
@@ -91,29 +76,14 @@ namespace Busidex3.Views
             OnProfileClicked?.Invoke();
         }
 
-        private void stkMyBusidex_Tapped(object sender, EventArgs e)
-        {
-            OnMyBusidexClicked?.Invoke();
-        }
-
-        private void stkSearch_Tapped(object sender, EventArgs e)
-        {
-            OnSearchClicked?.Invoke();
-        }
-
-        private void stkEvents_Tapped(object sender, EventArgs e)
-        {
-            OnEventsClicked?.Invoke();
-        }
-
-        private void stkOrganizations_Tapped(object sender, EventArgs e)
-        {
-            OnOrganizationsClicked?.Invoke();
-        }
-
         private void stkAdmin_Tapped(object sender, EventArgs e)
         {
             OnAdminClicked?.Invoke();
+        }
+
+        private void stkHome_Tapped(object sender, EventArgs e)
+        {
+            OnHomeClicked?.Invoke();
         }
     }
 }

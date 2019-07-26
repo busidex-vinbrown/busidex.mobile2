@@ -38,63 +38,34 @@
 
                 <StackLayout
                     Padding="0"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
                     IsVisible="{Binding HasCard}">
                     <controls:CardImageHeader
                         x:Name="ctrlProfileImage"
                         BackgroundColor="{Binding ThumbnailBackground}"
-                        HorizontalOptions="Start"
+                        HorizontalOptions="Center"
                         BindingContext="{Binding MyCard}">
                     </controls:CardImageHeader>
                 </StackLayout>
-                <Image IsVisible="{Binding ShowProfileImage}" 
-                       x:Name="imgProfile"
-                       Aspect="Fill" 
-                       HeightRequest="85"
-                       WidthRequest="130"
-                       HorizontalOptions="Start"
-                       Source="{Binding ProfileImage}">
+                <StackLayout
+                    Padding="0"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    IsVisible="{Binding ShowProfileImage}">
+                    <Image  
+                        x:Name="imgProfile"
+                        Aspect="Fill" 
+                        HeightRequest="85"
+                        WidthRequest="130"
+                        HorizontalOptions="Center"
+                        Source="{Binding ProfileImage}">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer 
                                     Tapped="TapGestureRecognizer_Tapped"
                                     NumberOfTapsRequired="1"/>
                             </Image.GestureRecognizers>                       
-                </Image>
-                <StackLayout
-                    HorizontalOptions="End"
-                    VerticalOptions="Center">
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ShareCardTapGestureRecognizer_OnTapped"
-                                              NumberOfTapsRequired="1" />
-                    </StackLayout.GestureRecognizers>
-                    <StackLayout Padding="5" 
-                                 HorizontalOptions="FillAndExpand" 
-                                 IsVisible="{Binding HasCard}"
-                                 Orientation="Horizontal">
-                        <Image IsVisible="True" Aspect="AspectFit" 
-                               HeightRequest="30" WidthRequest="30"
-                               HorizontalOptions="Start"
-                               Source="{Binding ShareImage.Image}"/>
-                        <Label VerticalOptions="FillAndExpand" 
-                               VerticalTextAlignment="Center" 
-                               Text="{Binding ShareImage.Title}" 
-                               FontSize="Small"/>
-                    </StackLayout>
-                    <StackLayout Padding="5" 
-                                 HorizontalOptions="FillAndExpand" 
-                                 Orientation="Horizontal">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="CardEditTapGestureRecognizer_OnTapped"
-                                                  NumberOfTapsRequired="1" />
-                        </StackLayout.GestureRecognizers>
-                        <Image IsVisible="True" Aspect="AspectFit" 
-                               HeightRequest="30" WidthRequest="30"
-                               HorizontalOptions="Start"
-                               Source="{Binding EditImage.Image}"/>
-                        <Label VerticalOptions="FillAndExpand" 
-                               VerticalTextAlignment="Center" 
-                               Text="{Binding EditTitle}" 
-                               FontSize="Small"/>
-                    </StackLayout>
+                    </Image>
                 </StackLayout>
             </StackLayout>
             <BoxView
@@ -102,84 +73,83 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="1"
                 BackgroundColor="Gray" HeightRequest="2" HorizontalOptions="FillAndExpand"/>
-            <StackLayout x:Name="stkMyBusidex" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
-                         Margin="0,20,0,0"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="3"
-                         Grid.Row="2">
+
+            <StackLayout 
+                x:Name="stkHome" 
+                Padding="15" 
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="2">
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
+                    <TapGestureRecognizer Tapped="stkHome_Tapped"/>
                 </StackLayout.GestureRecognizers>
+
                 <Image Aspect="AspectFit" 
                        HeightRequest="40" WidthRequest="40"
                        HorizontalOptions="Start"
-                       Source="{Binding MyBusidexItem.Image}"/>
+                       Source="{Binding HomeItem.Image}"/>
                 <Label VerticalOptions="FillAndExpand" 
                        VerticalTextAlignment="Center" 
-                       Text="{Binding MyBusidexItem.Title}" 
+                       Text="{Binding HomeItem.Title}" 
                        FontSize="24"/>
             </StackLayout>
-            <StackLayout x:Name="stkSearch" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="3"
-                         Grid.Row="3">
+            
+            <StackLayout
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="3"
+                IsVisible="{Binding HasCard}"
+                Padding="15"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal">
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="stkSearch_Tapped"/>
+                    <TapGestureRecognizer Tapped="ShareCardTapGestureRecognizer_OnTapped"
+                                                NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
-                <Image Aspect="AspectFit" 
-                       HeightRequest="40" WidthRequest="40"
-                       HorizontalOptions="Start"
-                       Source="{Binding SearchItem.Image}"/>
-                <Label VerticalOptions="FillAndExpand" 
-                       VerticalTextAlignment="Center" 
-                       Text="{Binding SearchItem.Title}" 
-                       FontSize="24"/>
+                <Image IsVisible="True" Aspect="AspectFit" 
+                            HeightRequest="40" WidthRequest="40"
+                            HorizontalOptions="Start"
+                            Source="{Binding ShareImage.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand"  
+                    VerticalTextAlignment="Center" 
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding ShareImage.Title}" 
+                    FontSize="24"/>
             </StackLayout>
-            <StackLayout x:Name="stkEvents" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="3"
-                         Grid.Row="4"
-                         IsVisible="{Binding ShowEvents}">
+            <StackLayout 
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="4"
+                Padding="15"
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal">
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="stkEvents_Tapped"/>
+                    <TapGestureRecognizer Tapped="CardEditTapGestureRecognizer_OnTapped"
+                                                NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
-                <Image Aspect="AspectFit" 
-                       HeightRequest="40" WidthRequest="40"
-                       HorizontalOptions="Start"
-                       Source="{Binding EventsItem.Image}"/>
-                <Label VerticalOptions="FillAndExpand" 
-                       VerticalTextAlignment="Center" 
-                       Text="{Binding EventsItem.Title}" 
-                       FontSize="24"/>
+                <Image IsVisible="True" Aspect="AspectFit" 
+                            HeightRequest="40" WidthRequest="40"
+                            HorizontalOptions="Start"
+                            Source="{Binding EditImage.Image}"/>
+                <Label 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalOptions="StartAndExpand"
+                    Text="{Binding EditTitle}" 
+                    FontSize="24"/>
             </StackLayout>
-            <StackLayout x:Name="stkOrganizations" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="3"
-                         Grid.Row="5"
-                         IsVisible="{Binding ShowOrganizations}">
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="stkOrganizations_Tapped"/>
-                </StackLayout.GestureRecognizers>
-                <Image Aspect="AspectFit" 
-                       HeightRequest="40" WidthRequest="40"
-                       HorizontalOptions="Start"
-                       Source="{Binding OrganizationsItem.Image}"/>
-                <Label VerticalOptions="FillAndExpand" 
-                       VerticalTextAlignment="Center" 
-                       Text="{Binding OrganizationsItem.Title}" 
-                       FontSize="24"/>
-            </StackLayout>
-            <BoxView
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Grid.Row="6"
-                    Margin="0,20"
-                    BackgroundColor="Gray" HeightRequest="2" HorizontalOptions="FillAndExpand"/>
-            <StackLayout x:Name="stkAdmin" Padding="15,3" HorizontalOptions="FillAndExpand" Orientation="Horizontal"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="3"
-                         Grid.Row="7"
-                         IsVisible="{Binding IsAdmin}">
+            <StackLayout 
+                x:Name="stkAdmin" 
+                Padding="15" 
+                HorizontalOptions="FillAndExpand" 
+                Orientation="Horizontal"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.Row="5"
+                IsVisible="{Binding IsAdmin}">
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="stkAdmin_Tapped"/>
                 </StackLayout.GestureRecognizers>

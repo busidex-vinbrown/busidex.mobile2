@@ -25,7 +25,9 @@ namespace Busidex3.Views
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 		    
-		    lstMyBusidex.RefreshCommand = RefreshCommand;		    
+		    lstMyBusidex.RefreshCommand = RefreshCommand;
+
+            Title = ViewNames.MyBusidex;
 
 		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 		}

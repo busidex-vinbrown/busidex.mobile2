@@ -27,62 +27,6 @@ namespace Busidex3.ViewModels
                 }
         }
 
-        private MainMenuMenuItem _myBusidexItem;
-        public MainMenuMenuItem MyBusidexItem
-        {
-            get
-            {
-                return _myBusidexItem;
-            }
-            set
-            {
-                _myBusidexItem = value;
-                OnPropertyChanged(nameof(MyBusidexItem));
-            }
-        }
-
-        private MainMenuMenuItem _searchItem;
-        public MainMenuMenuItem SearchItem
-        {
-            get
-            {
-                return _searchItem;
-            }
-            set
-            {
-                _searchItem = value;
-                OnPropertyChanged(nameof(SearchItem));
-            }
-        }
-
-        private MainMenuMenuItem _eventsItem;
-        public MainMenuMenuItem EventsItem
-        {
-            get
-            {
-                return _eventsItem;
-            }
-            set
-            {
-                _eventsItem = value;
-                OnPropertyChanged(nameof(EventsItem));
-            }
-        }
-
-        private MainMenuMenuItem _organizationsItem;
-        public MainMenuMenuItem OrganizationsItem
-        {
-            get
-            {
-                return _organizationsItem;
-            }
-            set
-            {
-                _organizationsItem = value;
-                OnPropertyChanged(nameof(OrganizationsItem));
-            }
-        }
-
         private MainMenuMenuItem _adminItem;
         public MainMenuMenuItem AdminItem
         {
@@ -97,25 +41,17 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private bool _showEvents;
-        public bool ShowEvents
+        private MainMenuMenuItem _homeItem;
+        public MainMenuMenuItem HomeItem
         {
-            get { return _showEvents; }
-            set
+            get
             {
-                _showEvents = value;
-                OnPropertyChanged(nameof(ShowEvents));
+                return _homeItem;
             }
-        }
-
-        private bool _showOrganizations;
-        public bool ShowOrganizations
-        {
-            get { return _showOrganizations; }
             set
             {
-                _showOrganizations = value;
-                OnPropertyChanged(nameof(ShowOrganizations));
+                _homeItem = value;
+                OnPropertyChanged(nameof(HomeItem));
             }
         }
 
@@ -175,7 +111,7 @@ namespace Busidex3.ViewModels
             ShareImage = new MainMenuMenuItem
             {
                 Id = 0,
-                Title = ViewNames.Share,
+                Title = ViewNames.Share + " My Card",
                 TargetType = typeof(ShareView),
                 Image = ImageSource.FromResource("Busidex3.Resources.share.png",
                     typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
@@ -190,52 +126,22 @@ namespace Busidex3.ViewModels
                     typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
             };
 
-            EventsItem = new MainMenuMenuItem
-            {
-                Id = 2,
-                Title = ViewNames.Events,
-                TargetType = typeof(EventsView),
-                Image = ImageSource.FromResource("Busidex3.Resources.eventicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
-                IsClickable = true
-            };
-
-            MyBusidexItem = new MainMenuMenuItem
-            {
-                Id = 0,
-                Title = ViewNames.MyBusidex,
-                TargetType = typeof(MyBusidexView),
-                Image = ImageSource.FromResource("Busidex3.Resources.mybusidexicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
-                IsClickable = true
-            };
-
-            SearchItem = new MainMenuMenuItem
-            {
-                Id = 1,
-                Title = ViewNames.Search,
-                TargetType = typeof(SearchView),
-                Image = ImageSource.FromResource("Busidex3.Resources.searchicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
-                IsClickable = true
-            };
-
-            OrganizationsItem = new MainMenuMenuItem
-            {
-                Id = 3,
-                Title = ViewNames.Organizations,
-                TargetType = typeof(OrganizationsView),
-                Image = ImageSource.FromResource("Busidex3.Resources.organizationsicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
-                IsClickable = true
-            };
-
             AdminItem = new MainMenuMenuItem
             {
                 Id = 4,
                 Title = ViewNames.Admin,
                 TargetType = typeof(AdminView),
                 Image = ImageSource.FromResource("Busidex3.Resources.admin.png",
+                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
+                IsClickable = true
+            };
+
+            HomeItem = new MainMenuMenuItem
+            {
+                Id = 5,
+                Title = ViewNames.Home,
+                TargetType = typeof(AdminView),
+                Image = ImageSource.FromResource("Busidex3.Resources.home.png",
                     typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
                 IsClickable = true
             };

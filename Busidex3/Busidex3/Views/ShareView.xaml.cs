@@ -19,17 +19,17 @@ namespace Busidex3.Views
         protected readonly ShareVM _viewModel = new ShareVM();
         private readonly BusidexUser _currentUser;
 
-	    public ShareView(ref UserCard card)
+	    public ShareView(ref UserCard uc)
 	    {
 	        InitializeComponent();
 	        App.AnalyticsManager.TrackScreen(ScreenName.Share);
 
             _viewModel.MessageSent = false;
             
-            var fileName = card.DisplaySettings.CurrentFileName;
+            var fileName = uc.DisplaySettings.CurrentFileName;
 
-            card.DisplaySettings = new UserCardDisplay(fileName: fileName);
-	        _viewModel.SelectedCard = card;
+            uc.DisplaySettings = new UserCardDisplay(fileName: fileName);
+	        _viewModel.SelectedCard = uc;
 	        rdoSendUsing.SelectedIndex = 0;
 	        BindingContext = _viewModel;
 
@@ -38,8 +38,13 @@ namespace Busidex3.Views
             _viewModel.SentFrom = ownedCard?.Name ?? ownedCard?.CompanyName ?? _currentUser?.UserAccount.DisplayName;
         }
 
-	
-	    private void RadioButton_OnClicked(object sender, EventArgs e)
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadHomePage();
+            return true;
+        }
+
+        private void RadioButton_OnClicked(object sender, EventArgs e)
 	    {
             if (!(sender is RadioButton radio))
             {

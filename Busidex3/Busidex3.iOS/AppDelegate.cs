@@ -27,7 +27,7 @@ namespace Busidex3.iOS
             BranchIOS.Debug = true;
 
             LoadApplication(new App());
-
+            Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
             return base.FinishedLaunching(app, options);
         }
 

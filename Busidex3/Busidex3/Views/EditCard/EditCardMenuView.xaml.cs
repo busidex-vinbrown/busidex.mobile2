@@ -78,5 +78,11 @@ namespace Busidex3.Views.EditCard
             var vm = GetViewModel();
             await Navigation.PushAsync(new EditAddressView(ref vm));
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadHomePage();
+            return true;
+        }
     }
 }
