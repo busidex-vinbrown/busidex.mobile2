@@ -17,14 +17,15 @@ namespace Busidex3.Services
             return await MakeRequestAsync<UserAccount>(url, HttpVerb.Put, data);
         }
 
-        public async Task<UserAccount> CheckAccount(string email, string password)
+        public async Task<UserAccount> CheckAccount(string email, string password, string displayName)
         {
 
             var data = new AutoResponseForm
             {
                 uidId = Security.AuthToken ?? Guid.NewGuid().ToString(),
                 email = email,
-                pswd = password
+                pswd = password,
+                dspname = displayName
             };
 
             return await MakeRequestAsync<UserAccount>(ServiceUrls.CheckAccountUrl, HttpVerb.Post, data);
@@ -36,17 +37,22 @@ namespace Busidex3.Services
             return await MakeRequestAsync<BusidexUser>(ServiceUrls.GetAccountUrl, HttpVerb.Get);
         }
 
-        public async Task<bool> IsEmailAvailabile(string email)
+        public async Task<bool> IsEmailAvailable(string email)
         {
             var result = await MakeRequestAsync<bool>(string.Format(ServiceUrls.CheckUserNameUrl, email), HttpVerb.Get);
             return result;
         }
 
-        public async Task<UserAccount> UpdateDeviceType(string token, DeviceType deviceType)
+        public async Task<UserAccount> UpdateDeviceType(DeviceType deviceType)
         {
-
             var url = ServiceUrls.UpdateDeviceTypeUrl + deviceType;
-            return await MakeRequestAsync<UserAccount>(url, HttpVerb.Put, token);
+            return await MakeRequestAsync<UserAccount>(url, HttpVerb.Put);
+        }
+
+        public async Task<UpdateUserResponse> UpdateUser(UserDTO userDto)
+        {
+            var url = ServiceUrls.UpdateUserUrl;
+            return await MakeRequestAsync<UpdateUserResponse>(url, HttpVerb.Put, userDto);
         }
     }
 }

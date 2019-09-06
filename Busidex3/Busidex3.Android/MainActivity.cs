@@ -5,6 +5,7 @@ using Android.OS;
 using BranchXamarinSDK;
 using Busidex3.Droid.Activities;
 using Busidex3.ViewModels;
+using FFImageLoading.Forms.Platform;
 using Xamarin.Forms;
 
 namespace Busidex3.Droid
@@ -19,6 +20,7 @@ namespace Busidex3.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -27,16 +29,20 @@ namespace Busidex3.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            CachedImageRenderer.Init(enableFastRenderer: true);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
+            CachedImageRenderer.InitImageViewHandler();
 
             var app = new App();
             BranchAndroid.GetAutoInstance(this.ApplicationContext);
             BranchAndroid.Init(this, GetString(Resource.String.branch_key), app);
-
+            
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarians.CropImage.Droid.CropImageServiceAndroid.Initialize(this);
+            Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             LoadApplication(app);
         }

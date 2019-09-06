@@ -33,6 +33,7 @@ namespace Busidex3.DomainModels
 		public object Groups { get; set; }
 		public short Visibility { get; set; }
 		public bool IsMember { get; set; }
+        public string ReferralLabel { get; set; }
 	}
 }
 

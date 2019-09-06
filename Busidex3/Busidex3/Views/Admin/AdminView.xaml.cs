@@ -45,5 +45,11 @@ namespace Busidex3.Views.Admin
             };
             await Navigation.PushAsync(page);
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            App.LoadHomePage();
+            return true;
+        }
     }
 }

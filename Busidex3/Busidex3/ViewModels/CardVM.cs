@@ -25,12 +25,16 @@ namespace Busidex3.ViewModels
         private readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         private readonly NotesHttpService _notesHttpService = new NotesHttpService();
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
-        private readonly ObservableRangeCollection<UserCard> _myBusidex;
+        private readonly List<UserCard> _myBusidex;
 
         public UserCard SelectedCard { get; }
 
-        private List<Tag> _tags;
-        public List<Tag> Tags
+        #region Observable Properties
+
+        const int MAX_TAGS = 7;
+
+        private ObservableCollection<Tag> _tags;
+        public ObservableCollection<Tag> Tags
         {
             get => _tags;
             set
@@ -87,6 +91,9 @@ namespace Busidex3.ViewModels
         public bool FrontImageChanged { get;set; }
         public bool BackImageChanged { get; set; }
 
+        public bool FrontOrientationChanged { get; set; }
+        public bool BackOrientationChanged { get; set; }
+
         private ObservableRangeCollection<PhoneNumberVM> _phoneNumbers;
         public ObservableRangeCollection<PhoneNumberVM> PhoneNumbers { get => _phoneNumbers;
             set
@@ -118,8 +125,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public bool ShowAddButton => !SelectedCard.ExistsInMyBusidex && SelectedCard.Card.OwnerId != Security.DecodeUserId();
-        public bool ShowRemoveButton => SelectedCard.ExistsInMyBusidex && SelectedCard.Card.OwnerId != Security.DecodeUserId();
+        public bool ShowAddButton => !SelectedCard.Card.ExistsInMyBusidex;
+        public bool ShowRemoveButton => SelectedCard.Card.ExistsInMyBusidex;
 
         private bool _allowSave;
         public bool AllowSave
@@ -141,6 +148,17 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private double _buttonOpacity;
+        public double ButtonOpacity
+        {
+            get => _buttonOpacity;
+            set
+            {
+                _buttonOpacity = value;
+                OnPropertyChanged(nameof(ButtonOpacity));
+            }
+        }
+
         private string _frontOrientation { get; set; }
         public string FrontOrientation { get => _frontOrientation;
             set
@@ -159,8 +177,32 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public Guid FrontFileId { get; set; }
-        public Guid BackFileId { get; set; }
+        private Guid _frontFileId;
+        public Guid FrontFileId
+        {
+            get {
+                return _frontFileId;
+                    }
+            set
+            {
+                _frontFileId = value;
+                OnPropertyChanged(nameof(FrontFileId));
+            }
+        }
+
+        private Guid _backFileId;
+        public Guid BackFileId
+        {
+            get
+            {
+                return _backFileId;
+            }
+            set
+            {
+                _backFileId = value;
+                OnPropertyChanged(nameof(BackFileId));
+            }
+        }
 
         private string _orientationDisplay { get; set; }
         public string OrientationDisplay { get => _orientationDisplay;
@@ -245,10 +287,12 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(SelectedSide));
             }
         }
+#endregion
 
-        public CardVM(ref UserCard uc, ref ObservableRangeCollection<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
+        public CardVM(ref UserCard uc, ref List<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
         {
             SelectedCard = uc;
+
             SelectedCard.SetDisplay(
                 setting, 
                 UserCardDisplay.CardSide.Front, 
@@ -259,7 +303,7 @@ namespace Busidex3.ViewModels
             pn.AddRange(uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)));
             PhoneNumbers = pn;
             UpdatePhoneNumberDisplayList();
-            _myBusidex = myBusidex;
+            _myBusidex = myBusidex ?? new List<UserCard>();
             
             AllowSave = true;
 
@@ -284,22 +328,27 @@ namespace Busidex3.ViewModels
             Title = SelectedCard.Card.Title;
             Name = SelectedCard.Card.Name;
             CompanyName = SelectedCard.Card.CompanyName;
-            Tags = new List<Tag>(SelectedCard.Card.Tags.Where(t => t.TagType == 1));
+            initTagDisplay();
             FrontOrientation = SelectedCard.Card.FrontOrientation;
             BackOrientation = SelectedCard.Card.BackOrientation;
             SelectedSide = UserCardDisplay.CardSide.Front;
+            FrontFileId = SelectedCard.Card.FrontFileId.GetValueOrDefault();
+            BackFileId = SelectedCard.Card.BackFileId.GetValueOrDefault();
         }
-        
+
         #region UserCard Actions 
-        //public ICommand SendSMS
-        //{
-        //    get { return new Command(async (number) =>
-        //    {
-        //        Device.OpenUri(new Uri($"sms:{number.ToString()}"));
-        //        await _activityHttpService.SaveActivity ((long)EventSources.Text, SelectedCard.CardId);
-        //        App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
-        //    }); }
-        //}
+        public ICommand SendSMS
+        {
+            get
+            {
+                return new Command(async (number) =>
+              {
+                  Device.OpenUri(new Uri($"sms:{number.ToString()}"));
+                  await _activityHttpService.SaveActivity((long)EventSources.Text, SelectedCard.CardId);
+                  App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
+              });
+            }
+        }
 
         public ICommand DialPhoneNumber
         {
@@ -331,7 +380,8 @@ namespace Busidex3.ViewModels
             _deletedPhoneNumbers = new ObservableRangeCollection<PhoneNumberVM>(
                 PhoneNumbers.Where(p => p.Deleted && p.PhoneNumberId > 0)
             );
-            PhoneNumbers.RemoveAll(p => p.Deleted);
+            var notDeleted = PhoneNumbers.Where(p => !p.Deleted).ToList();
+            PhoneNumbers = new ObservableRangeCollection<PhoneNumberVM>(notDeleted);
         }
 
         public async void LaunchMapApp() {
@@ -401,7 +451,7 @@ namespace Busidex3.ViewModels
             Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
 
             var cardId = SelectedCard.CardId;
-            SelectedCard.ExistsInMyBusidex = false;
+            SelectedCard.ExistsInMyBusidex = SelectedCard.Card.ExistsInMyBusidex = false;
             
             OnPropertyChanged(nameof(ShowAddButton));
             OnPropertyChanged(nameof(ShowRemoveButton));
@@ -416,10 +466,10 @@ namespace Busidex3.ViewModels
         {
             if (_myBusidex.Any(b => b.CardId == SelectedCard.CardId)) return;
 
-            SelectedCard.ExistsInMyBusidex = true;
+            SelectedCard.ExistsInMyBusidex = SelectedCard.Card.ExistsInMyBusidex = true;
 
             _myBusidex.Add(SelectedCard);
-            var newList = new ObservableRangeCollection<UserCard>(); 
+            var newList = new List<UserCard>(); 
             newList.AddRange(_myBusidex
                 .OrderByDescending(c => c.Card != null && c.Card.OwnerId.GetValueOrDefault() > 0 ? 1 : 0)
                 .ThenBy(c => c.Card != null ? c.Card.Name : "")
@@ -446,9 +496,9 @@ namespace Busidex3.ViewModels
 
         private void initTagDisplay()
         {
-            const int MAX_TAGS = 7;
+            
             var tmpList = new List<Tag>(SelectedCard.Card.Tags);
-            for (var i = 0; i < MAX_TAGS - SelectedCard.Card.Tags.Count; i++)
+            for (var i = tmpList.Count; i < MAX_TAGS; i++)
             {
                 tmpList.Add(new Tag
                 {
@@ -457,14 +507,16 @@ namespace Busidex3.ViewModels
                     Text = string.Empty
                 });
             }
-            Tags = new List<Tag>(tmpList);
+            Tags = new ObservableCollection<Tag>(tmpList);
         }
 
         public async Task<bool> SaveCardImage()
         {
+            AllowSave = false;
+
             var storagePath = Serialization.LocalStorageFolder;
 
-            if (FrontImageChanged)
+            if (FrontImageChanged || FrontOrientationChanged)
             {
                 var cardFront = new MobileCardImage
                 {
@@ -476,18 +528,22 @@ namespace Busidex3.ViewModels
                 };
 
                 var frontResult = await _cardHttpService.UpdateCardImage(cardFront);
-                if (frontResult)
+                if (FrontOrientationChanged)
+                {
+                    SelectedCard.Card.FrontOrientation = FrontOrientation;
+                }
+
+                if (FrontImageChanged && frontResult)
                 {
                     SelectedCard.Card.FrontFileId = FrontFileId;
-                    SelectedCard.Card.FrontOrientation = FrontOrientation;
-
+                    
                     var fImageUrl = StringResources.THUMBNAIL_PATH + FrontFileId + ".jpg";
                     var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + FrontFileId + ".jpg";
                     await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
                 }
             }
 
-            if (BackImageChanged)
+            if (BackImageChanged || BackOrientationChanged)
             {
                 var cardBack = new MobileCardImage
                 {
@@ -498,11 +554,15 @@ namespace Busidex3.ViewModels
                     Side = MobileCardImage.DisplayMode.Back
                 };
 
-                var backResult = await _cardHttpService.UpdateCardImage(cardBack);
-                if (backResult)
+                if (BackOrientationChanged)
                 {
-                    SelectedCard.Card.BackFileId = BackFileId;
                     SelectedCard.Card.BackOrientation = BackOrientation;
+                }
+
+                var backResult = await _cardHttpService.UpdateCardImage(cardBack);
+                if (BackImageChanged && backResult)
+                {
+                    SelectedCard.Card.BackFileId = BackFileId;                    
                     
                     var bImageUrl = StringResources.THUMBNAIL_PATH + BackFileId + ".jpg";
                     var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + BackFileId + ".jpg";
@@ -511,14 +571,16 @@ namespace Busidex3.ViewModels
                 }
             }
 
-            if (BackImageChanged || FrontImageChanged)
+            if (BackImageChanged || FrontImageChanged || FrontOrientationChanged || BackOrientationChanged)
             {
-                await App.LoadOwnedCard();
+                //  await App.LoadOwnedCard();
 
                 App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
                 SaveToFile();
             }
+
+            AllowSave = true;
 
             return true;
         }
@@ -597,12 +659,14 @@ namespace Busidex3.ViewModels
         {
             AllowSave = false;
 
-            Tags.RemoveAll(t => string.IsNullOrEmpty(t.Text));
-            Tags.RemoveAll(t => string.IsNullOrWhiteSpace(t.Text));
-
             var card = new CardDetailModel(SelectedCard.Card)
             {
-                Tags = new List<Tag>(Tags)
+                Tags = new List<Tag>(
+                    Tags.Where(
+                        t => !string.IsNullOrEmpty(t.Text) &&
+                        !string.IsNullOrEmpty(t.Text)
+                        )
+                    )
             };
 
             var result = await _cardHttpService.UpdateCardContactInfo(card);
@@ -662,7 +726,7 @@ namespace Busidex3.ViewModels
 
             var card = new CardDetailModel(SelectedCard.Card)
             {
-                PhoneNumbers = new List<PhoneNumber>(
+                PhoneNumbers = new ObservableCollection<PhoneNumber>(
                     PhoneNumbers.Select(p => new PhoneNumber
                     {
                         PhoneNumberId = p.PhoneNumberId,
@@ -673,14 +737,19 @@ namespace Busidex3.ViewModels
                     })
                 )
             };
-            card.PhoneNumbers.AddRange(_deletedPhoneNumbers.Select(p => new PhoneNumber
+            var deleted = _deletedPhoneNumbers.Select(p => new PhoneNumber
             {
                 PhoneNumberId = p.PhoneNumberId,
-                Number = p.Number, 
-                PhoneNumberType = p.GetSelectedPhoneNumberType(), 
+                Number = p.Number,
+                PhoneNumberType = p.GetSelectedPhoneNumberType(),
                 PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
                 Deleted = p.Deleted
-            }));
+            }).ToList();
+            deleted.ForEach(d =>
+           {
+               card.PhoneNumbers.Add(d);
+           });
+            
             
             var result = await _cardHttpService.UpdateCardContactInfo(card);
             if (result)
@@ -707,15 +776,25 @@ namespace Busidex3.ViewModels
 
         private void SaveToFile()
         {
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            var existingCard = myBusidex.SingleOrDefault(b => b.CardId == SelectedCard.CardId);
-            
-            if (existingCard == null) return;
+            var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            if(myBusidex != null)
+            {
+                var existingCard = myBusidex.SingleOrDefault(b => b.CardId == SelectedCard.CardId);
 
-            var idx = myBusidex.IndexOf(existingCard);
-            myBusidex[idx] = SelectedCard;
-            var file = Newtonsoft.Json.JsonConvert.SerializeObject (myBusidex);
-            Serialization.SaveResponse (file, StringResources.MY_BUSIDEX_FILE);
+                if (existingCard != null)
+                {
+                    var idx = myBusidex.IndexOf(existingCard);
+                    myBusidex[idx] = SelectedCard;
+                    var file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+                    Serialization.SaveResponse(file, Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+                }
+            }
+            
+            Serialization.SaveResponse(
+                Newtonsoft.Json.JsonConvert.SerializeObject(SelectedCard.Card),
+                Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE)
+                );
+
         }
         #endregion
 

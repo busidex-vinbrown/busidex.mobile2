@@ -9,15 +9,37 @@ namespace Busidex3.ViewModels
     {
         private string _searchValue;
 
+        private const int VIEW_HEIGHT_HORIZONTAL = 590;
+        private const int VIEW_HEIGHT_VERTICAL = 710;
+
         public virtual async Task<bool> Init(string cachedPath)
         {
             return await Task.FromResult(true);
         }
 
+        public void SetViewHeightForOrientation(string orientation)
+        {
+            ViewHeight = orientation == "H" ? VIEW_HEIGHT_HORIZONTAL : VIEW_HEIGHT_VERTICAL;
+        }
+
+        private int _viewHeight;
+        public int ViewHeight
+        {
+            get => _viewHeight;
+            set
+            {
+                _viewHeight = value;
+                OnPropertyChanged(nameof(ViewHeight));
+            }
+        }
+
         public string SearchValue        
         {
             get => _searchValue;
-            set => _searchValue = value;
+            set {
+                _searchValue = value;
+                OnPropertyChanged(nameof(SearchValue));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

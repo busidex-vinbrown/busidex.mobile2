@@ -5,82 +5,85 @@
              xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="Busidex3.Views.EditCard.EditVisibilityView">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Padding="10">
-            <Grid RowSpacing="15" Padding="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <controls:CardImageHeader 
-                    BindingContext="{Binding SelectedCard}"
-                    Grid.Row="0"
-                    Grid.Column="0">
-                </controls:CardImageHeader>
-                <controls1:RadioButtonGroupView 
-                    x:Name="rdoSendUsing" 
-                    Orientation="Vertical"
-                    Grid.Row="1"
-                    Grid.Column="0">
-                    <controls1:RadioButton Text="Public - Anyone can find your card, add it to their collection and share it." 
-                                           x:Name="rdoPublic"
-                                           Clicked="RdoPublic_OnClicked" 
-                                           TextFontSize="13"
-                                           Color="#03A9F4" />
-                    <Label Text="With this option your card will be completely searchable by your name, company, title, email, and any tag you have associated with your card. Anyone with a Busidex Account can search for your card." 
-                           FontSize="Small" 
-                           IsVisible="False"
-                           x:Name="lblPublic"/>
-                    <controls1:RadioButton Text="Semi-Public - Your card can be found only by those with whom it has been shared, and anyone can share your card." 
-                                           x:Name="rdoSemiPublic"
-                                           Clicked="RdoSemiPublic_OnClicked" 
-                                           TextFontSize="13"
-                                           Color="#03A9F4" />
-                    <StackLayout IsVisible="False" x:Name="lblSemiPublic">
-                        <StackLayout Orientation="Horizontal">
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="Searching: " FontSize="Small" FontAttributes="Bold,Italic"/>
-                                        <Span Text="Your card will not be searchable by anyone except by those with whom your card has been shared."
-                                              FontSize="Small"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Padding="10" HeightRequest="{Binding ViewHeight}">
+                <Grid RowSpacing="15" Padding="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <controls:CardImageHeader 
+                        BindingContext="{Binding SelectedCard}"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                    </controls:CardImageHeader>
+                    <controls1:RadioButtonGroupView 
+                        x:Name="rdoSendUsing" 
+                        Orientation="Vertical"
+                        Grid.Row="1"
+                        Grid.Column="0">
+                        <controls1:RadioButton Text="Public - Anyone can find your card, add it to their collection and share it." 
+                                               x:Name="rdoPublic"
+                                               Clicked="RdoPublic_OnClicked" 
+                                               TextFontSize="14"
+                                               Color="#03A9F4" />
+                        <Label Text="With this option your card will be completely searchable by your name, company, title, email, and any tag you have associated with your card. Anyone with a Busidex Account can search for your card." 
+                               FontSize="Small" 
+                               IsVisible="False"
+                               x:Name="lblPublic"/>
+                        <controls1:RadioButton Text="Semi-Public - Your card can be found only by those with whom it has been shared, and anyone can share your card." 
+                                               x:Name="rdoSemiPublic"
+                                               Clicked="RdoSemiPublic_OnClicked" 
+                                               TextFontSize="14"
+                                               Color="#03A9F4" />
+                        <StackLayout IsVisible="False" x:Name="lblSemiPublic">
+                            <StackLayout Orientation="Horizontal">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Searching: " FontSize="Small" FontAttributes="Bold,Italic"/>
+                                            <Span Text="Your card will not be searchable by anyone except by those with whom your card has been shared."
+                                                  FontSize="Small"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Sharing: " FontAttributes="Bold,Italic" FontSize="Small"/>
+                                            <Span Text="Once you have shared your card, you give those with whom you shared your card the authorization to then share your card with whomever they wish." FontSize="Small"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="Sharing: " FontAttributes="Bold,Italic" FontSize="Small"/>
-                                        <Span Text="Once you have shared your card, you give those with whom you shared your card the authorization to then share your card with whomever they wish." FontSize="Small"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </StackLayout>
-                    </StackLayout>
                     
-                    <controls1:RadioButton Text="Private - Your card can only be found by those with whom it has been shared, and only you can share your card." 
-                                           x:Name="rdoPrivate"
-                                           Clicked="RdoPrivate_OnClicked" 
-                                           TextFontSize="13"
-                                           Color="#03A9F4" />
-                    <Label Text="With this option your card can only be shared by you. Even those that have your card cannot share it. You are the only person that can give your card to others." 
-                           FontSize="Small"
-                           IsVisible="False"
-                           x:Name="lblPrivate"/>
-                </controls1:RadioButtonGroupView>
-                <Button
-                    x:Name="btnSave"
-                    Text="Save"
-                    Style="{StaticResource buttonStyle}"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Clicked="BtnSave_OnClicked"/>
-            </Grid>
-        </StackLayout>
+                        <controls1:RadioButton Text="Private - Your card can only be found by those with whom it has been shared, and only you can share your card." 
+                                               x:Name="rdoPrivate"
+                                               Clicked="RdoPrivate_OnClicked" 
+                                               TextFontSize="14"
+                                               Color="#03A9F4" />
+                        <Label Text="With this option your card can only be shared by you. Even those that have your card cannot share it. You are the only person that can give your card to others." 
+                               FontSize="Small"
+                               IsVisible="False"
+                               x:Name="lblPrivate"/>
+                    </controls1:RadioButtonGroupView>
+                    <Button
+                        x:Name="btnSave"
+                        Text="Save"
+                        IsEnabled="{Binding AllowSave}"
+                        Style="{StaticResource buttonStyle}"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Clicked="BtnSave_OnClicked"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

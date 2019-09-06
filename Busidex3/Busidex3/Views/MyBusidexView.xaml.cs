@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Busidex3.Analytics;
@@ -21,18 +19,21 @@ namespace Busidex3.Views
         public MyBusidexView ()
 		{
 			InitializeComponent ();
-		    BindingContext = _viewModel;
+		}
+
+        protected override void OnAppearing()
+        {
+            Title = ViewNames.MyBusidex;
+            BindingContext = _viewModel;
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
-		    
-		    lstMyBusidex.RefreshCommand = RefreshCommand;
+            lstMyBusidex.RefreshCommand = RefreshCommand;
+            
+            App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 
-            Title = ViewNames.MyBusidex;
-
-		    App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
-		}
-        
-	    public ICommand RefreshCommand
+            base.OnAppearing();
+        }
+        public ICommand RefreshCommand
 	    {
 	        get { return new Command(async () => {
                 _viewModel.IsRefreshing = true;

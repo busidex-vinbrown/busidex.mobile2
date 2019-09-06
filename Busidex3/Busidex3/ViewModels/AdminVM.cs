@@ -14,8 +14,8 @@ namespace Busidex3.ViewModels
 {
     public class AdminVM : BaseViewModel
     {
-        private ObservableRangeCollection<UnownedCard> _unownedCards = new ObservableRangeCollection<UnownedCard>();
-        public ObservableRangeCollection<UnownedCard> UnownedCards
+        private List<UnownedCard> _unownedCards = new List<UnownedCard>();
+        public List<UnownedCard> UnownedCards
         {
             get => _unownedCards;
             set
@@ -25,8 +25,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private ObservableRangeCollection<UnownedCard> _filteredCards = new ObservableRangeCollection<UnownedCard>();
-        public ObservableRangeCollection<UnownedCard> FilteredCards
+        private List<UnownedCard> _filteredCards = new List<UnownedCard>();
+        public List<UnownedCard> FilteredCards
         {
             get => _filteredCards;
             set
@@ -82,10 +82,9 @@ namespace Busidex3.ViewModels
 
         public int TotalCards { get; set; }
 
-        public void SetFilteredList(ObservableRangeCollection<UnownedCard> subset)
+        public void SetFilteredList(List<UnownedCard> subset)
         {
-            FilteredCards.Clear();
-            FilteredCards.AddRange(subset);
+            FilteredCards = new List<UnownedCard>(subset);
             OnPropertyChanged(nameof(FilteredCards));
         }
 
@@ -102,7 +101,7 @@ namespace Busidex3.ViewModels
                                (uc.Tags?.Any(t => !String.IsNullOrEmpty(t.Text) && t.Text.Contains(SearchValue)) ?? false)
                          select uc;
 
-            var filter = new ObservableRangeCollection<UnownedCard>();
+            var filter = new List<UnownedCard>();
             filter.AddRange(subset);
             SetFilteredList(filter);
         }
@@ -126,7 +125,7 @@ namespace Busidex3.ViewModels
 
                 if (UnownedCards == null)
                 {
-                    UnownedCards = new ObservableRangeCollection<UnownedCard>();
+                    UnownedCards = new List<UnownedCard>();
                 }
 
                 UnownedCards.Clear();

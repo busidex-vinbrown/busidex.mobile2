@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using Busidex3.Annotations;
 using Busidex3.DomainModels;
-using Plugin.InputKit.Shared.Controls;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
-    public class PhoneNumberVM : INotifyPropertyChanged
+    public class PhoneNumberVM : BaseViewModel
     {
         private string _selectedPhoneNumberType;
         public string SelectedPhoneNumberType { 
             get => _selectedPhoneNumberType;
             set
             {
-                _selectedPhoneNumberType = value;
-                OnPropertyChanged(nameof(SelectedPhoneNumberType));
+                if(value != null)
+                {
+                    _selectedPhoneNumberType = value;
+                    OnPropertyChanged(nameof(SelectedPhoneNumberType));
+                }
             }
         }
 
@@ -47,13 +47,13 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private List<string> _phoneNumberTypeNames;
-        public List<string> PhoneNumberTypeNames
+        private ObservableCollection<string> _phoneNumberTypeNames;
+        public ObservableCollection<string> PhoneNumberTypeNames
         {
             get => _phoneNumberTypeNames;
             set
             {
-                _phoneNumberTypeNames = value;
+                _phoneNumberTypeNames = value;                
                 OnPropertyChanged(nameof(PhoneNumberTypeNames));
             }
         }
@@ -65,19 +65,11 @@ namespace Busidex3.ViewModels
 
             PhoneNumberId = p.PhoneNumberId;
             Number = p.Number;
+            var typeNames = getPhoneNumberTypes().Select(t => t.Name).ToList();
+            PhoneNumberTypeNames = new ObservableCollection<string>(typeNames);
             SelectedPhoneNumberType = p.PhoneNumberType?.Name;
-            PhoneNumberTypeNames = getPhoneNumberTypes().Select(t => t.Name).ToList();
-            
             DeletePhoneImage = ImageSource.FromResource("Busidex3.Resources.red_minus.png",
                 typeof(ShareVM).GetTypeInfo().Assembly);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
         }
 
         public PhoneNumberType GetSelectedPhoneNumberType()

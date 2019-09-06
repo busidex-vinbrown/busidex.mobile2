@@ -2,97 +2,56 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls"
-             x:Class="Busidex3.Views.EditCard.EditTagsView"
-             Visual="Default">
+             x:Class="Busidex3.Views.EditCard.EditTagsView">
     <ContentPage.Content>
-        
-            <StackLayout Orientation="Vertical" Padding="5, 10">
-                <Grid RowSpacing="10" Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="5*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <controls:CardImageHeader 
-                        BindingContext="{Binding SelectedCard}"
-                        Grid.Row="0"
-                        Grid.Column="0">
-                    </controls:CardImageHeader>
-                    <Label Text="Tags are short keywords that describe your business." 
-                           FontSize="16" 
-                           Grid.Row="1"
-                           Grid.Column="0"
-                           x:Name="lblInfo"/>
-                <ScrollView x:Name="scrContent" VerticalScrollBarVisibility="Always"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                            Padding="0,10"
-                            Grid.Row="2"
-                            Grid.Column="0">
-                    <StackLayout
-                        Padding="20"
-                        VerticalOptions="FillAndExpand">
-                        <Entry 
-                        x:Name="txtTag0"
-                        Text="{Binding Tags[0].Text}"
-                        Placeholder="Tag 1"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag1"
-                        Text="{Binding Tags[1].Text}"
-                        Placeholder="Tag 2"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag2"
-                        Text="{Binding Tags[2].Text}"
-                        Placeholder="Tag 3"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag3"
-                        Text="{Binding Tags[3].Text}"
-                        Placeholder="Tag 4"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag4"
-                        Text="{Binding Tags[4].Text}"
-                        Placeholder="Tag 5"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag5"
-                        Text="{Binding Tags[5].Text}"
-                        Placeholder="Tag 6"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                        <Entry 
-                        x:Name="txtTag6"
-                        Text="{Binding Tags[6].Text}"
-                        Placeholder="Tag 7"
-                        MaxLength="35"
-                        IsEnabled="True"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </ScrollView>
+        <StackLayout Orientation="Vertical" Padding="5, 10">
+            <Grid RowSpacing="10" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
+                <Label Text="Tags are short keywords that describe your business." 
+                        FontSize="16" 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        x:Name="lblInfo"/>
+                <ListView 
+                    ItemsSource="{Binding Tags}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    SeparatorVisibility="None"
+                    BackgroundColor="Transparent"
+                    SelectionMode="None"
+                    HasUnevenRows="True"
+                    CachingStrategy="RecycleElement" 
+                    Margin="0,10"
+                    Grid.Row="2"
+                    Grid.Column="0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="45,5" BackgroundColor="Transparent">
+                                    <Entry 
+                                        Text="{Binding Text}"
+                                        Placeholder="Tag"
+                                        MaxLength="35"
+                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <Button
                     x:Name="btnSave"
                     Text="Save"
@@ -101,7 +60,7 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Clicked="BtnSave_OnClicked"/>
-                </Grid>
-            </StackLayout>
+            </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

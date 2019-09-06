@@ -52,7 +52,7 @@ namespace Busidex3.Views
         {
             var uc = ((TappedEventArgs)e).Parameter as UserCard;
             var cards = Serialization.GetCachedResult<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            var myBusidex = new ObservableRangeCollection<UserCard>();
+            var myBusidex = new List<UserCard>();
             myBusidex.AddRange(cards);
             var newViewModel = new CardVM(ref uc, ref myBusidex);
 

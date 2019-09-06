@@ -18,12 +18,16 @@ namespace Busidex3.Views
         public MainMenu()
         {
             InitializeComponent();
-            MasterPage.OnLogout += RedirectToLogin;
-            MasterPage.OnShareClicked += MasterPage_OnShareClicked;
-            MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
-            MasterPage.OnProfileClicked += MasterPage_OnProfileClicked;
-            MasterPage.OnAdminClicked += MasterPage_OnAdminClicked;
-            MasterPage.OnHomeClicked += MasterPage_OnHomeClicked;
+            if(MasterPage != null)
+            {
+                MasterPage.OnLogout += RedirectToLogin;
+                MasterPage.OnShareClicked += MasterPage_OnShareClicked;
+                MasterPage.OnCardEditClicked += MasterPage_OnCardEditClicked;
+                MasterPage.OnProfileClicked += MasterPage_OnProfileClicked;
+                MasterPage.OnAdminClicked += MasterPage_OnAdminClicked;
+                MasterPage.OnHomeClicked += MasterPage_OnHomeClicked;
+            }
+            
 
             IsPresentedChanged += MainMenu_IsPresentedChanged;
 
@@ -35,24 +39,21 @@ namespace Busidex3.Views
             }
             else if (File.Exists(quickSharePath))
             {
-                var quickShareLink =  Serialization.LoadData<QuickShareLink>(quickSharePath);
-                SaveFromUrl(quickShareLink).ContinueWith(response =>
+                var quickShareLink = Serialization.LoadData<QuickShareLink>(quickSharePath);
+                Task.Factory.StartNew(async () =>
                 {
-                    var uc = response.Result;                                     
+                    var uc = await SaveFromUrl(quickShareLink);
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Detail = uc.Card.OwnerId.HasValue
+                            ? new QuickShareView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page
+                            : new ConfirmCardOwnerView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page;
 
-                    if (uc.Card.OwnerId.HasValue)
-                    {
-                        Detail = new QuickShareView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
-                    }
-                    else
-                    {
-                        Detail = new ConfirmCardOwnerView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage);
-                    }
-                    
-                    IsPresented = false;
-                    IsGestureEnabled = false;
-                    NavigationPage.SetHasNavigationBar(Detail, false);
-                });                
+                        IsPresented = false;
+                        IsGestureEnabled = false;
+                        NavigationPage.SetHasNavigationBar(Detail, false);
+                    });
+                });
             }
             else
             {

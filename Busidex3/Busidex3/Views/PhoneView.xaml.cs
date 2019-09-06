@@ -1,5 +1,4 @@
-﻿using Busidex3.Analytics;
-using Busidex3.ViewModels;
+﻿using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +14,7 @@ namespace Busidex3.Views
             InitializeComponent();
 
             _viewModel = vm;
+            Title = vm.SelectedCard.Card.Name ?? vm.SelectedCard.Card.CompanyName;
             BindingContext = _viewModel;
         }
     }

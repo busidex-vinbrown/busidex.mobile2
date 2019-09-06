@@ -10,6 +10,8 @@ namespace Busidex3.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return null;
+
             var fileName = Path.Combine (Serialization.LocalStorageFolder, value.ToString());
             if (!File.Exists(fileName))
             { 

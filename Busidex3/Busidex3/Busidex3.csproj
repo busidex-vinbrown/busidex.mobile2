@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -39,6 +39,8 @@
     <None Remove="Resources\busidex_logo_hor.png" />
     <None Remove="Resources\camera.png" />
     <None Remove="Resources\cards_back2.png" />
+    <None Remove="Resources\caret1.png" />
+    <None Remove="Resources\caret2.png" />
     <None Remove="Resources\checkmark.png" />
     <None Remove="Resources\contacts_64x64.png" />
     <None Remove="Resources\defaultprofile.png" />
@@ -53,6 +55,15 @@
     <None Remove="Resources\fb.png" />
     <None Remove="Resources\flip.png" />
     <None Remove="Resources\home.png" />
+    <None Remove="Resources\home_background_1.jpg" />
+    <None Remove="Resources\home_background_2.jpg" />
+    <None Remove="Resources\home_background_3.jpg" />
+    <None Remove="Resources\home_background_4.jpg" />
+    <None Remove="Resources\home_background_5.jpg" />
+    <None Remove="Resources\home_background_6.png" />
+    <None Remove="Resources\home_background_7.png" />
+    <None Remove="Resources\home_consumer.png" />
+    <None Remove="Resources\home_professional.png" />
     <None Remove="Resources\logo3.png" />
     <None Remove="Resources\maps.png" />
     <None Remove="Resources\mybusidexicon.png" />
@@ -89,6 +100,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\busidex_icon_180x180.png" />
     <EmbeddedResource Include="Resources\camera.png" />
+    <EmbeddedResource Include="Resources\caret1.png" />
+    <EmbeddedResource Include="Resources\caret2.png" />
     <EmbeddedResource Include="Resources\contacts_64x64.png" />
     <EmbeddedResource Include="Resources\defaultprofile.png" />
     <EmbeddedResource Include="Resources\editimage.png" />
@@ -110,6 +123,10 @@
     <EmbeddedResource Include="Resources\fb.png" />
     <EmbeddedResource Include="Resources\flip.png" />
     <EmbeddedResource Include="Resources\home.png" />
+    <EmbeddedResource Include="Resources\home_consumer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\home_professional.png" />
     <EmbeddedResource Include="Resources\logo3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -144,15 +161,26 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
     <PackageReference Include="Xamarians.CropImage" Version="1.0.6" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.0" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.709249" />
+    <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />
     <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.12" />  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

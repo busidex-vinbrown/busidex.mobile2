@@ -34,12 +34,12 @@ namespace Busidex3.Views
 
         private void BtnContinue_Clicked(object sender, System.EventArgs e)
         {
-            App.LoadMyBusidexPage();
+            App.LoadHomePage();
         }
 
         protected override bool OnBackButtonPressed()
         {
-            App.LoadMyBusidexPage();
+            App.LoadHomePage();
             return true;
         }
     }

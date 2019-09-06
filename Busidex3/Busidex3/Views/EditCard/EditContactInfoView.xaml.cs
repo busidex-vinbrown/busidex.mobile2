@@ -8,7 +8,7 @@ namespace Busidex3.Views.EditCard
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditContactInfoView
 	{
-        protected CardVM ViewModel { get; set; }
+        protected CardVM _viewModel { get; set; }
          
 
 		public EditContactInfoView (ref CardVM vm)
@@ -20,27 +20,27 @@ namespace Busidex3.Views.EditCard
             vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
             
             Title = "How Will They Contact You?";
-            ViewModel = vm;
+            _viewModel = vm;
             
-            BindingContext = ViewModel;
-            
-		}
+            BindingContext = _viewModel;
+            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+        }
 
         
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            await ViewModel.SaveContactInfo();
+            await _viewModel.SaveContactInfo();
         }
 
         private void AddPhoneNumberImage_OnTapped(object sender, EventArgs e)
         {
-            ViewModel.AddNewPhoneNumber();
+            _viewModel.AddNewPhoneNumber();
         }
 
         private void RemovePhoneNumberImage_OnTapped(object sender, EventArgs e)
         {
-            var idx = ViewModel.PhoneNumbers.IndexOf(((TappedEventArgs)e).Parameter as PhoneNumberVM);
-            ViewModel.RemovePhoneNumber(idx);
+            var idx = _viewModel.PhoneNumbers.IndexOf(((TappedEventArgs)e).Parameter as PhoneNumberVM);
+            _viewModel.RemovePhoneNumber(idx);
         }
     }
 }

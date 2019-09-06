@@ -3,27 +3,189 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              xmlns:inputkit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             x:Class="Busidex3.Views.ShareView"
+             xmlns:converters="clr-namespace:Busidex3.Converters"
+             x:Class="Busidex3.Views.ShareView"             
              Visual="Material">
+    <ContentPage.Resources>
+        <converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Grid RowSpacing="5" Padding="5">
+        
+        <StackLayout Padding="20" Orientation="Vertical">
+            <!--CONTACT LIST VIEW-->
+            <SearchBar 
+                x:Name="txtSearch"
+                IsVisible="{Binding ShowContacts}"
+                Text="{Binding SearchValue}"     
+                HorizontalOptions="FillAndExpand"
+                SearchButtonPressed="TxtSearch_SearchButtonPressed"
+                Placeholder="Filter"
+                TextChanged="TxtSearch_TextChanged"/>
+            <ListView 
+                ItemsSource="{Binding ContactGroups}"
+                IsGroupingEnabled="true"
+                HasUnevenRows="true"
+                SelectionMode="Single"
+                CachingStrategy="RecycleElementAndDataTemplate"
+                SeparatorVisibility="Default"
+                IsVisible="{Binding ShowContacts}">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Heading}" FontSize="Medium" TextColor="#03A9F4" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="55">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                            Tapped="Contact_Tapped"
+                                            NumberOfTapsRequired="1" 
+                                            CommandParameter="{Binding Path=.}"/>
+                                </StackLayout.GestureRecognizers>
+                                 <Image 
+                                    x:Name="imgContact"
+                                    Aspect="AspectFit" 
+                                    HeightRequest="30" WidthRequest="30"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding PhotoUriThumbnail, Converter={StaticResource UriToImageSourceConverter}, ConverterParameter=PhotoUriThumbnail}"/>
+                                <Label  
+                                       Text="{Binding Name}" 
+                                       VerticalOptions="Center"
+                                       WidthRequest="500"
+                                       FontSize="Medium">
+                                </Label>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                x:Name="btnCancelContactList"
+                Text="Cancel"
+                IsVisible="{Binding ShowContacts}"
+                Style="{StaticResource buttonStyle}"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Clicked="BtnCancelContactList_Clicked"/>
+            <!--CONTACT VIEW-->
+            <Frame IsVisible="{Binding ShowContact}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Frame 
+                        x:Name="frmMyBusidexContact"
+                        BorderColor="DarkGray"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        Padding="1">
+                        <Image 
+                            x:Name="imgMyBusidexContact"
+                            Grid.Row="0" Grid.Column="0"
+                            Aspect="AspectFit" 
+                            HeightRequest="{Binding ContactImageHeight}" WidthRequest="{Binding ContactImageWidth}"
+                            HorizontalOptions="Center"
+                            Source="{Binding SelectedContactPhotoUri, Converter={StaticResource UriToImageSourceConverter}, ConverterParameter=SelectedContactPhotoUri}"/>
+                    </Frame>
+                    <Image 
+                        x:Name="imgDefaultContact"
+                        Grid.Row="0" Grid.Column="0"
+                        Aspect="AspectFit" 
+                        HeightRequest="{Binding ContactImageHeight}" WidthRequest="{Binding ContactImageWidth}"
+                        HorizontalOptions="Center"
+                        Source="{Binding SelectedContactPhotoUri}"/>
+                    <Image 
+                        x:Name="imgContact"
+                        Grid.Row="0" Grid.Column="0"
+                        Aspect="AspectFit" 
+                        HeightRequest="{Binding ContactImageHeight}" WidthRequest="{Binding ContactImageWidth}"
+                        HorizontalOptions="Center"
+                        Source="{Binding SelectedContactPhotoUri, Converter={StaticResource UriToImageSourceConverter}, ConverterParameter=SelectedContactPhotoUri}"/>
+                    <Label 
+                        Grid.Row="1" Grid.Column="0"
+                        Text="{Binding SelectedContact.Name}"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        TextColor="#03A9F4"
+                        FontSize="Medium" />
+                    <Label 
+                        Text="{Binding SelectedContact.Email}"
+                        TextDecorations="Underline"
+                        FontSize="Medium"
+                        Grid.Row="2" Grid.Column="0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ContactEmail_Tapped"
+                                                  NumberOfTapsRequired="1" 
+                                                  CommandParameter="{Binding Path=SelectedContact.Email}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <ListView
+                        ItemsSource="{Binding SelectedContact.Numbers}"
+                        SeparatorVisibility="Default"
+                        Grid.Row="3" Grid.Column="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label HeightRequest="40"
+                                           TextDecorations="Underline"
+                                           Text="{Binding .}" 
+                                           FontSize="Medium">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Tapped="ContactNumber_Tapped"
+                                                NumberOfTapsRequired="1" 
+                                                CommandParameter="{Binding Path=.}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button
+                        Grid.Row="4" Grid.Column="0"
+                        x:Name="btnCancelContact"
+                        Text="Cancel"
+                        Style="{StaticResource buttonStyle}"
+                        VerticalOptions="EndAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="BtnCancelContact_Clicked"/>
+                </Grid>
+            </Frame>
+            <!--SHARE VIEW-->
+            <Grid RowSpacing="5" Padding="5" IsVisible="{Binding HideContacts}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"></RowDefinition>
-                    <RowDefinition Height="10*"></RowDefinition>
-                    <RowDefinition Height="10*"></RowDefinition>
-                    <RowDefinition Height="10*"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="65"></RowDefinition>
+                    <RowDefinition Height="65"></RowDefinition>
+                    <RowDefinition Height="130"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>                    
                 </Grid.RowDefinitions>
-                <StackLayout Padding="5" 
+                <controls:CardImageHeader 
+                    BindingContext="{Binding SelectedCard}"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
+                <StackLayout Padding="5,0" 
                              HorizontalOptions="FillAndExpand" 
                              Orientation="Horizontal"
                              Grid.Column="0"
-                             Grid.Row="0">
+                             Grid.Row="1">
                     <Label VerticalOptions="FillAndExpand" 
                            VerticalTextAlignment="Center" 
                            Text="Send As: " 
@@ -45,66 +207,68 @@
                            HorizontalOptions="Start"
                            Source="{Binding SuccessImage}"/>
                 </StackLayout>
-                <StackLayout Padding="5" 
-                             HorizontalOptions="FillAndExpand" 
-                             Orientation="Horizontal"
-                             Grid.Column="0"
-                             Grid.Row="1">
-                    <Label VerticalOptions="FillAndExpand" 
-                           VerticalTextAlignment="Center" 
-                           HorizontalTextAlignment="End"
-                           WidthRequest="90" 
-                           Text="To" 
-                           FontSize="Small"/>
-                    <Entry x:Name="txtSendTo"
-                           WidthRequest="280" 
-                           Placeholder="Phone Number" 
-                           Keyboard="Telephone"
-                           Text="{Binding SendTo}"
-                           TextChanged="TxtSendTo_OnTextChanged"/>
-                </StackLayout>
-                <StackLayout Padding="5" 
+                <StackLayout Padding="5,0" 
                              HorizontalOptions="FillAndExpand" 
                              Orientation="Horizontal"
                              Grid.Column="0"
                              Grid.Row="2">
-                    <Label VerticalOptions="FillAndExpand" 
-                           VerticalTextAlignment="Center" 
-                           HorizontalTextAlignment="End"
-                           WidthRequest="90" 
-                           Text="From" 
-                           FontSize="Small"/>                   
+                    <Entry x:Name="txtSendTo"
+                           WidthRequest="245" 
+                           HeightRequest="55"
+                           Keyboard="Telephone"
+                           Text="{Binding SendTo}"
+                           TextChanged="TxtSendTo_OnTextChanged"/>
+                    <Image Aspect="AspectFit" 
+                           HeightRequest="55" 
+                           WidthRequest="55"
+                           IsVisible="{Binding ShowContactButton}"
+                           Source="{Binding ContactsImage}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Contacts_Tapped"
+                                                  NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+                <StackLayout Padding="5,0" 
+                             HorizontalOptions="FillAndExpand" 
+                             Orientation="Horizontal"
+                             Grid.Column="0"
+                             Grid.Row="3">
                     <Entry
                         x:Name="txtSentFrom"
-                        WidthRequest="280" 
+                        WidthRequest="245" 
+                        TextChanged="TxtSentFrom_OnTextChanged"
                         Text="{Binding SentFrom}"/>
                 </StackLayout>
                 <Editor
                     x:Name="txtMessage"    
                     Text="{Binding Message}" 
-                    HeightRequest="150"
+                    HeightRequest="200"
                     BackgroundColor="LightGray"
                     Placeholder="Include a personal message"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="0" />                    
                 <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
                                    Color="#03A9F4" 
                                    IsVisible="False"
-                                   IsRunning="True"/>         
-                <Button
-                    x:Name="btnShare"
-                    Text="Share"
-                    Style="{StaticResource buttonStyle}"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Clicked="BtnShare_OnClicked"/>
-                <controls:CardImageHeader 
-                    BindingContext="{Binding SelectedCard}"
+                                   IsRunning="True"/>
+                <StackLayout
                     Grid.Row="5"
-                    Grid.Column="0">
-                </controls:CardImageHeader>
+                    Grid.Column="0"
+                    HeightRequest="80"
+                    VerticalOptions="FillAndExpand"
+                    Orientation="Vertical">
+                    <Button
+                        x:Name="btnShare"
+                        Text="Share"
+                        IsEnabled="{Binding AllowSend}"
+                        Style="{StaticResource buttonStyle}"
+                        VerticalOptions="EndAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="BtnShare_OnClicked"/>
+                </StackLayout>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

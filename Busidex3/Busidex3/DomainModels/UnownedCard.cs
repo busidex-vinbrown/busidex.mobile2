@@ -4,7 +4,24 @@ namespace Busidex3.DomainModels
 {
     public class UnownedCard : Card
     {
-        public DateTime? LastContactDate { get; set; }
-        public string EmailSentTo { get; set; }
+        private DateTime? _lastContactDate;
+        public DateTime? LastContactDate {
+            get => _lastContactDate;
+            set {
+                _lastContactDate = value;
+                OnPropertyChanged(nameof(LastContactDate));
+            }
+        }
+
+        private string _emailSentTo;
+        public string EmailSentTo
+        {
+            get => _emailSentTo;
+            set
+            {
+                _emailSentTo = value;
+                OnPropertyChanged(nameof(EmailSentTo));
+            }
+        }
     }
 }

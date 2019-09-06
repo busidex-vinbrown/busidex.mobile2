@@ -8,16 +8,17 @@ namespace Busidex3.Views.EditCard
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditVisibilityView
 	{
-        protected CardVM ViewModel { get; set; }
+        protected CardVM _viewModel { get; set; }
 
 		public EditVisibilityView (ref CardVM vm)
 		{
 			InitializeComponent ();
 
-            ViewModel = vm;
-            BindingContext = ViewModel;
+            _viewModel = vm;
+            BindingContext = _viewModel;
             Title = "Who Can See Your Card?";
-            UpdatePage(ViewModel.SelectedCard.Card.Visibility);
+            UpdatePage(_viewModel.SelectedCard.Card.Visibility);
+            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
         }
 
         private void UpdatePage(CardVisibility value)
@@ -50,20 +51,20 @@ namespace Busidex3.Views.EditCard
 
         private void RdoPublic_OnClicked(object sender, EventArgs e)
         {
-            ViewModel.SelectedCard.Card.Visibility = CardVisibility.Public;
-            UpdatePage(ViewModel.SelectedCard.Card.Visibility);
+            _viewModel.SelectedCard.Card.Visibility = CardVisibility.Public;
+            UpdatePage(_viewModel.SelectedCard.Card.Visibility);
         }
 
         private void RdoSemiPublic_OnClicked(object sender, EventArgs e)
         {
-            ViewModel.SelectedCard.Card.Visibility = CardVisibility.SemiPublic;
-            UpdatePage(ViewModel.SelectedCard.Card.Visibility);
+            _viewModel.SelectedCard.Card.Visibility = CardVisibility.SemiPublic;
+            UpdatePage(_viewModel.SelectedCard.Card.Visibility);
         }
 
         private void RdoPrivate_OnClicked(object sender, EventArgs e)
         {
-            ViewModel.SelectedCard.Card.Visibility = CardVisibility.Private;
-            UpdatePage(ViewModel.SelectedCard.Card.Visibility);
+            _viewModel.SelectedCard.Card.Visibility = CardVisibility.Private;
+            UpdatePage(_viewModel.SelectedCard.Card.Visibility);
         }
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
@@ -73,7 +74,7 @@ namespace Busidex3.Views.EditCard
             bool error = false;
             try
             {
-                var result = await ViewModel.SaveCardVisibility();
+                var result = await _viewModel.SaveCardVisibility();
                 if (!result)
                 {
                     error = true;                
@@ -92,7 +93,6 @@ namespace Busidex3.Views.EditCard
                 btnSave.IsEnabled = true;
                 btnSave.Opacity = 1;
             }
-
         }
     }
 }

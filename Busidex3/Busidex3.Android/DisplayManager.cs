@@ -1,5 +1,6 @@
 ﻿using Busidex3.Droid;
 using Busidex3.ViewModels;
+using Plugin.CurrentActivity;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(DisplayManager))]
@@ -14,8 +15,9 @@ namespace Busidex3.Droid
 
         public void SetOrientation(UserCardDisplay.CardOrientation orientation)
         {
-            var main = Forms.Context as MainActivity;
-            main.SetOrientation(orientation);
+            var main = CrossCurrentActivity.Current.Activity as MainActivity;
+
+            main?.SetOrientation(orientation);
         }
     }
 }

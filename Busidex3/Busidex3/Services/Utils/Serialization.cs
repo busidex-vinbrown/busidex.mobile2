@@ -190,5 +190,15 @@ namespace Busidex3.Services.Utils
                 return new T();
             }
         }
+
+        public static bool IsImageNameGuid(string val)
+        {
+            if (string.IsNullOrEmpty(val)) return false;
+            if (val.Length != 40) return false;
+            var test = val.Substring(0, 36);
+
+            Guid.TryParse(test, out Guid result);
+            return result != null;
+        }
     }
 }

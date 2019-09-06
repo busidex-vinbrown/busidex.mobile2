@@ -22,6 +22,9 @@ namespace Busidex3.Views
             _viewModel.OrganizationList = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE));
             BindingContext = _viewModel;
             Title = "Organizations";
+            _viewModel.HeaderFont = Device.RuntimePlatform == Device.Android
+                ? NamedSize.Medium
+                : NamedSize.Header;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)

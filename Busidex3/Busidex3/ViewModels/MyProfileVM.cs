@@ -3,6 +3,8 @@ using Busidex3.Services.Utils;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Busidex3.DomainModels;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -15,7 +17,7 @@ namespace Busidex3.ViewModels
         private string _saveButtonText;
         public string SaveButtonText
         {
-            get { return _saveButtonText;}
+            get => _saveButtonText;
             set
             {
                 _saveButtonText = value;
@@ -23,15 +25,23 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public string UserName
+        public string UserName => Security.CurrentUser?.UserName;
+
+        private string _displayName;
+        public string DisplayName
         {
-            get { return Security.CurrentUser.UserName; }
+            get => _displayName;
+            set
+            {
+                _displayName = value;
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
 
         private string _email;
         public string Email
         {
-            get { return _email; }
+            get => _email;
             set
             {
                 _email = value;
@@ -42,7 +52,7 @@ namespace Busidex3.ViewModels
         private string _password;
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
                 _password = value;
@@ -53,7 +63,7 @@ namespace Busidex3.ViewModels
         private string _confirmPassword;
         public string ConfirmPassword
         {
-            get { return _confirmPassword; }
+            get => _confirmPassword;
             set
             {
                 _confirmPassword = value;
@@ -64,7 +74,7 @@ namespace Busidex3.ViewModels
         private string _message;
         public string Message
         {
-            get { return _message; }
+            get => _message;
             set
             {
                 _message = value;
@@ -75,7 +85,7 @@ namespace Busidex3.ViewModels
         private bool _newUser;
         public bool NewUser
         {
-            get { return _newUser; }
+            get => _newUser;
             set
             {
                 _newUser = value;
@@ -86,7 +96,7 @@ namespace Busidex3.ViewModels
         private bool _isSaving;
         public bool IsSaving
         {
-            get { return _isSaving; }
+            get => _isSaving;
             set
             {
                 _isSaving = value;
@@ -97,7 +107,7 @@ namespace Busidex3.ViewModels
         private bool _userNameInUse;
         public bool UserNameInUse
         {
-            get { return _userNameInUse; }
+            get => _userNameInUse;
             set
             {
                 _userNameInUse = value;
@@ -108,7 +118,7 @@ namespace Busidex3.ViewModels
         private bool _profileError;
         public bool ProfileError
         {
-            get { return _profileError; }
+            get => _profileError;
             set
             {
                 _profileError = value;
@@ -119,7 +129,7 @@ namespace Busidex3.ViewModels
         private bool _confirmPasswordError;
         public bool ConfirmPasswordError
         {
-            get { return _confirmPasswordError; }
+            get => _confirmPasswordError;
             set
             {
                 _confirmPasswordError = value;
@@ -130,7 +140,7 @@ namespace Busidex3.ViewModels
         private bool _saveButtonEnabled;
         public bool SaveButtonEnabled
         {
-            get { return _saveButtonEnabled; }
+            get => _saveButtonEnabled;
             set
             {
                 _saveButtonEnabled = value;
@@ -148,10 +158,10 @@ namespace Busidex3.ViewModels
             Device.OpenUri(new Uri(url));
         }
 
-        public async Task<bool> IsEmailAvailabile()
+        public async Task<bool> IsEmailAvailable()
         {
             var accountService = new AccountHttpService();
-            var isAvailable = await accountService.IsEmailAvailabile(Email);
+            var isAvailable = await accountService.IsEmailAvailable(Email);
             UserNameInUse = !isAvailable;
             return isAvailable;
         }
@@ -160,11 +170,17 @@ namespace Busidex3.ViewModels
         {
             ProfileError = false;
             var accountService = new AccountHttpService();
-            var result = await accountService.CheckAccount(Email, Password);
+            var result = await accountService.CheckAccount(Email, Password, DisplayName);
             if(result.UserId > 0)
             {
                 await Security.SaveAuthCookie(result.UserId);
-                await accountService.UpdateDeviceType(Security.AuthToken, DomainModels.DeviceType.Android);
+                var type = Device.RuntimePlatform == Device.Android
+                    ? DeviceType.Android
+                    : Device.Idiom == TargetIdiom.Tablet
+                        ? DeviceType.iPad
+                        : DeviceType.iPhone;
+
+                await accountService.UpdateDeviceType(type);
                 return true;
             }
             else
@@ -172,6 +188,28 @@ namespace Busidex3.ViewModels
                 ProfileError = true;
                 return false;
             }
+        }
+
+        public async Task<bool> UpdateUser()
+        {
+            var dto = new UserDTO
+            {
+                UserId = Security.CurrentUser.UserId,
+                DisplayName = DisplayName,
+                Email = Email
+            };
+            var accountService = new AccountHttpService();
+            var response = await accountService.UpdateUser(dto);
+            if (!response.Success) return false;
+
+            var user = Security.CurrentUser;
+
+            user.UserAccount.DisplayName = DisplayName;
+            user.Email = Email;
+            var accountJson = JsonConvert.SerializeObject(user);
+            Serialization.SaveResponse(accountJson, StringResources.BUSIDEX_USER_FILE);                
+
+            return true;
         }
     }
 }

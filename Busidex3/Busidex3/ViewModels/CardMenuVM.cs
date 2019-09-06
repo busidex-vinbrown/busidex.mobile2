@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Busidex3.DomainModels;
 using Xamarin.Forms;
 
@@ -21,11 +22,26 @@ namespace Busidex3.ViewModels
             AddressInfoImage = ImageSource.FromResource("Busidex3.Resources.maps.png",
                 typeof(CardMenuVM).GetTypeInfo().Assembly);
         }
+        
+        public void CheckHasCard()
+        {
+            ShowCardImage = SelectedCard?.Card?.FrontFileId != Guid.Empty && SelectedCard?.Card?.FrontFileId != null;            
+        }
 
         public UserCard SelectedCard { get; set; }
 
-        private int _imageSize { get; set; }
+        private bool _showCardImage;
+        public bool ShowCardImage
+        {
+            get => _showCardImage;
+            set
+            {
+                _showCardImage = value;
+                OnPropertyChanged(nameof(ShowCardImage));
+            }
+        }
 
+        private int _imageSize { get; set; }
         public int ImageSize
         {
             get { return _imageSize; }

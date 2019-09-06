@@ -25,10 +25,12 @@
                         IsEnabled="{Binding AllowSave}"
                         Text="{Binding SelectedCard.Notes}" 
                         HeightRequest="250"
-                        BackgroundColor="LightGray"
+                        AutoSize="TextChanges"
+                        Visual="Default"
+                        IsSpellCheckEnabled="True"
+                        BackgroundColor="WhiteSmoke"
                         Placeholder="Enter notes here"
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
                         Grid.Row="1"
                         Grid.Column="0">
                         <Editor.Keyboard>
@@ -49,6 +51,7 @@
                     Grid.Row="2"
                     TextColor="White"
                     BackgroundColor="#03A9F4"
+                    VerticalOptions="End"
                     IsEnabled="{Binding AllowSave}"
                     Text="Save"
                     Clicked="BtnSave_OnClicked"></Button>

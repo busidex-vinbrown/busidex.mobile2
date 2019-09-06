@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MyProfileView : ContentPage
+    public partial class MyProfileView 
     {
         protected MyProfileVM _viewModel = new MyProfileVM();
 
@@ -18,19 +18,21 @@ namespace Busidex3.Views
             Title = "My Profile";
             
             _viewModel.Email = Security.CurrentUser?.Email;
-            
+            _viewModel.DisplayName = Security.CurrentUser?.UserAccount.DisplayName;
+
             if (!string.IsNullOrEmpty(Security.AuthToken))
             {
                 _viewModel.SaveButtonEnabled = true;
             }
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
             _viewModel.Message = _viewModel.NewUser
-                ? "Choose an email address and password here so you can access your cards on the web or another mobile device."
-                : "Update your account email address here.";
+                ? "Choose an email address and password here so you can access your cards on any device."
+                : "Update your account information here.";
             _viewModel.SaveButtonText = _viewModel.NewUser
                 ? "Continue"
                 : "Save";
             _viewModel.SaveButtonEnabled = isValid();
+            txtUserName.IsReadOnly = !_viewModel.NewUser;
         }
 
         protected override bool OnBackButtonPressed()
@@ -41,7 +43,7 @@ namespace Busidex3.Views
             }
             else
             {
-                App.LoadMyBusidexPage();
+                App.LoadHomePage();
             }
             return true;
         }
@@ -49,6 +51,11 @@ namespace Busidex3.Views
         private void TxtUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             _viewModel.UserNameInUse = false;
+            _viewModel.SaveButtonEnabled = isValid();
+        }
+
+        private void TxtDisplayName_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
             _viewModel.SaveButtonEnabled = isValid();
         }
 
@@ -68,7 +75,8 @@ namespace Busidex3.Views
         {
             if (!_viewModel.NewUser)
             {
-                return !string.IsNullOrEmpty(txtEmail.Text);
+                return !string.IsNullOrEmpty(txtEmail.Text) &&
+                       !string.IsNullOrEmpty(txtDisplayName.Text);
             }
             else
             {
@@ -82,26 +90,42 @@ namespace Busidex3.Views
             }
         }
 
-        private async void BtnSave_Clicked(object sender, EventArgs e)
-        {
-            _viewModel.IsSaving = true;
-
-            var userNameOk = await _viewModel.IsEmailAvailabile();
-            if (userNameOk)
-            {
-                var ok = await _viewModel.CheckAccount();
-
-                if (ok && _viewModel.NewUser)
-                {
-                    App.LoadMyBusidexPage();
-                }
-            }
-            _viewModel.IsSaving = false;
-        }
-
         private void ChkAccept_CheckChanged(object sender, EventArgs e)
         {
             _viewModel.SaveButtonEnabled = isValid();
+        }
+
+        private async void BtnSave_OnClicked(object sender, EventArgs e)
+        {
+            _viewModel.IsSaving = true;
+
+            if (_viewModel.NewUser)
+            {
+                var userNameOk = await _viewModel.IsEmailAvailable();
+                if (userNameOk)
+                {
+                    var ok = await _viewModel.CheckAccount();
+
+                    if (ok)
+                    {
+                        App.LoadMyBusidexPage();
+                    }
+                }
+            }
+            else
+            {
+                var ok = await _viewModel.UpdateUser();
+            }
+            
+            _viewModel.IsSaving = false;
+        }
+
+        private void BtnCancel_OnTapped(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(Security.AuthToken))
+            {
+                App.LoadStartupPage();
+            }
         }
     }
 }

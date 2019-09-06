@@ -9,8 +9,7 @@ namespace Busidex3.Controls
 
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CardImageHeader : ContentView
-	{
-
+    {
 	    public event OnCardImageClickedResult OnCardImageClicked;
 
 	    public CardImageHeader()
@@ -21,7 +20,10 @@ namespace Busidex3.Controls
 	    private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
 	        var uc = ((TappedEventArgs)e).Parameter as UserCard;
-	        OnCardImageClicked?.Invoke(uc);
+            if(uc != null)
+            {
+                OnCardImageClicked?.Invoke(uc);
+            }
 	    }
 	}
 }

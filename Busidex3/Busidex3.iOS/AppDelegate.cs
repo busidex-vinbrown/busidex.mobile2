@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BranchXamarinSDK;
+using FFImageLoading.Forms.Platform;
 using Foundation;
 using UIKit;
 
@@ -11,7 +12,7 @@ namespace Busidex3.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IBranchBUOSessionInterface
     {
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -25,9 +26,15 @@ namespace Busidex3.iOS
             global::Xamarin.Forms.Forms.Init();
 
             BranchIOS.Debug = true;
+            var busidexApp = new App();
+            BranchIOS.Init(StringResources.BRANCH_KEY, options, busidexApp);
 
-            LoadApplication(new App());
             Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
+            Plugin.InputKit.Platforms.iOS.Config.Init();
+            CachedImageRenderer.Init();
+            CachedImageRenderer.InitImageSourceHandler();
+            LoadApplication(busidexApp);
+
             return base.FinishedLaunching(app, options);
         }
 
@@ -46,6 +53,16 @@ namespace Busidex3.iOS
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             BranchIOS.getInstance().HandlePushNotification(userInfo);
+        }
+
+        public void InitSessionComplete(BranchUniversalObject buo, BranchLinkProperties blp)
+        {
+            
+        }
+
+        public void SessionRequestError(BranchError error)
+        {
+            
         }
     }
 }

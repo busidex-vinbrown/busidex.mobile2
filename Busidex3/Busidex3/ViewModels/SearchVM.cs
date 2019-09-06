@@ -1,16 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Busidex3.ViewModels
 {
     public class SearchVM : BaseCardListViewModel
     {
-        private SearchHttpService _searchHttpService = new SearchHttpService();
+        private readonly SearchHttpService _searchHttpService = new SearchHttpService();
 
         public ImageSource BackgroundImage
         {
@@ -21,8 +21,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private ObservableRangeCollection<UserCard> _searchResults;
-        public ObservableRangeCollection<UserCard> SearchResults
+        private List<UserCard> _searchResults;
+        public List<UserCard> SearchResults
         {
             get => _searchResults;
             set
@@ -33,7 +33,6 @@ namespace Busidex3.ViewModels
         } 
 
         private bool _isSearching;
-        private ImageSource _backgroundImage;
 
         public bool IsSearching { 
             get => _isSearching;
@@ -45,7 +44,7 @@ namespace Busidex3.ViewModels
 
         public void ClearSearch()
         {
-            SearchResults = new ObservableRangeCollection<UserCard>();
+            SearchResults = new List<UserCard>();
         }
 
         public async Task<bool> DoSearch()
@@ -54,13 +53,14 @@ namespace Busidex3.ViewModels
 
             var response = await _searchHttpService.DoSearch(SearchValue);
 
-            SearchResults = new ObservableRangeCollection<UserCard>();
+            var results = new List<UserCard>();
             var resultList = response.SearchModel.Results.Select(r => new UserCard(r)).ToList();
             await DownloadImages(resultList, new ProgressStatus{Count = resultList.Count});
 
-            SearchResults.AddRange(resultList);
+            results.AddRange(resultList);
 
-            SearchResults.ForEach(uc => uc.Card.Parent = uc);
+            results.ForEach(uc => uc.Card.Parent = uc);
+            SearchResults = new List<UserCard>(results);
 
             IsSearching = false;         
 

@@ -34,7 +34,8 @@
                 </Image>
                 <Image
                     x:Name="btnNotes"
-                    IsEnabled="{Binding SelectedCard.ExistsInMyBusidex}"
+                    IsEnabled="{Binding SelectedCard.Card.ExistsInMyBusidex}"
+                    Opacity="{Binding ButtonOpacity}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="0" Grid.Column="1">
@@ -83,7 +84,7 @@
                                               CommandParameter="{x:Static busidex3:CardActionButton.Share}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image
+                <!--<Image
                     x:Name="btnTag"
                     HeightRequest="50"
                     WidthRequest="50"
@@ -92,13 +93,13 @@
                         <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
                                               CommandParameter="{x:Static busidex3:CardActionButton.Tags}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
-                </Image>
+                </Image>-->
                 <Image
                     x:Name="btnAdd"
                     IsVisible="{Binding ShowAddButton}"
                     HeightRequest="50"
                     WidthRequest="50"
-                    Grid.Row="2" Grid.Column="1">
+                    Grid.Row="2" Grid.Column="0">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
                                               CommandParameter="{x:Static busidex3:CardActionButton.Add}" NumberOfTapsRequired="1" />
@@ -109,7 +110,7 @@
                     IsVisible="{Binding ShowRemoveButton}"
                     HeightRequest="50"
                     WidthRequest="50"
-                    Grid.Row="2" Grid.Column="1">
+                    Grid.Row="2" Grid.Column="0">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
                                               CommandParameter="{x:Static busidex3:CardActionButton.Remove}" NumberOfTapsRequired="1" />

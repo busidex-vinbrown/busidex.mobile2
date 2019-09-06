@@ -14,8 +14,22 @@ namespace Busidex3.ViewModels
 
         public LoginVM()
         {
-            UserName = "vinbrown2";
-            Password = "ride9736";
+            UserName = string.Empty;
+            Password = string.Empty;
+
+            Logo = ImageSource.FromResource("Busidex3.Resources.busidex_icon_180x180.png",
+                typeof(LoginVM).GetType().Assembly);
+        }
+
+        private ImageSource _logo { get; set; }
+        public ImageSource Logo
+        {
+            get => _logo;
+            set
+            {
+                _logo = value;
+                OnPropertyChanged(nameof(Logo));
+            }
         }
 
         public async Task<bool> DoLogin()
@@ -26,10 +40,7 @@ namespace Busidex3.ViewModels
 
             await Security.SaveAuthCookie(user.UserId);
 
-            await Task.Factory.StartNew(async ()=> await App.LoadOwnedCard());
-
             return true;
-
         }
     }
 }

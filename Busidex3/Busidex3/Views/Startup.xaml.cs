@@ -12,7 +12,7 @@ namespace Busidex3.Views
             InitializeComponent();
         }
 
-        private async void BtnLogin_Clicked(object sender, EventArgs e)
+        private void BtnLogin_Clicked(object sender, EventArgs e)
         {
             App.LoadLoginPage();
         }

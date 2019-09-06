@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Busidex3.DomainModels
 {
@@ -21,10 +22,8 @@ namespace Busidex3.DomainModels
 			Url = card.Url;
 			CompanyName = card.CompanyName;
 
-			PhoneNumbers = new List<PhoneNumber> ();
-			if (card.PhoneNumbers != null) {
-				PhoneNumbers.AddRange (card.PhoneNumbers);
-			}
+			PhoneNumbers = new ObservableCollection<PhoneNumber> (card.PhoneNumbers ?? new List<PhoneNumber>());
+			
 			OwnerId = card.OwnerId;
 			IsMyCard = card.IsMyCard;
 			IsUserLoggedIn = true;
@@ -66,7 +65,7 @@ namespace Busidex3.DomainModels
 
 		public string CompanyName { get; set; }
 
-		public List<PhoneNumber> PhoneNumbers { get; set; }
+		public ObservableCollection<PhoneNumber> PhoneNumbers { get; set; }
 
 		public Dictionary<long, long> CardRelations { get; set; }
 

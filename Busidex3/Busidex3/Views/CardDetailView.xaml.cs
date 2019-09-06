@@ -24,7 +24,10 @@ namespace Busidex3.Views
 
             Header.OnCardImageClicked += Header_OnCardImageClicked;
 		    App.AnalyticsManager.TrackScreen(ScreenName.CardDetail);
-		}
+
+            _viewModel.ButtonOpacity = vm.SelectedCard.Card.ExistsInMyBusidex ? 1 : .3;
+
+        }
 
         private async void Header_OnCardImageClicked(DomainModels.UserCard uc)
         {
@@ -40,7 +43,7 @@ namespace Busidex3.Views
             btnWeb.Source = ImageSource.FromResource("Busidex3.Resources.browser.png");
             btnPhone.Source = ImageSource.FromResource("Busidex3.Resources.phone.png");
             btnShare.Source = ImageSource.FromResource("Busidex3.Resources.share.png");
-            btnTag.Source = ImageSource.FromResource("Busidex3.Resources.tags.png");
+            // btnTag.Source = ImageSource.FromResource("Busidex3.Resources.tags.png");
             btnAdd.Source = ImageSource.FromResource("Busidex3.Resources.add.png");
             btnRemove.Source = ImageSource.FromResource("Busidex3.Resources.remove.png");
         }
@@ -61,10 +64,7 @@ namespace Busidex3.Views
                     _viewModel.LaunchMapApp();
 	                break;
 	            case CardActionButton.Notes:
-	                if (_viewModel.SelectedCard.ExistsInMyBusidex)
-	                {
-	                    await Navigation.PushAsync(new NotesView(_viewModel));
-	                }
+	                await Navigation.PushAsync(new NotesView(_viewModel));
 	                break;
 	            case CardActionButton.Email:
                     _viewModel.LaunchEmail();

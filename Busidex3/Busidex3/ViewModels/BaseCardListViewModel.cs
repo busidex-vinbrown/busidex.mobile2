@@ -14,8 +14,8 @@ namespace Busidex3.ViewModels
         protected readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         //private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
 
-        private ObservableRangeCollection<UserCard> _userCards = new ObservableRangeCollection<UserCard>();
-        public ObservableRangeCollection<UserCard> UserCards
+        private List<UserCard> _userCards = new List<UserCard>();
+        public List<UserCard> UserCards
         {
             get => _userCards;
             set
@@ -181,9 +181,9 @@ namespace Busidex3.ViewModels
         //    }
         //}
 
-        //private ObservableRangeCollection<UserCard> SortUserCards ()
+        //private List<UserCard> SortUserCards ()
         //{
-        //    var list = new ObservableRangeCollection<UserCard> ();
+        //    var list = new List<UserCard> ();
 
         //    UserCards.RemoveAll (c => c.Card == null);
 

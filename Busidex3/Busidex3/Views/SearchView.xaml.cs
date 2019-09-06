@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -50,8 +51,9 @@ namespace Busidex3.Views
 	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
 	        var uc = ((TappedEventArgs)e).Parameter as UserCard;
-	        var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>>(
+	        var myBusidex = Serialization.LoadData<List<UserCard>>(
 	            Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+
 	        var newViewModel = new CardVM(ref uc, ref myBusidex);
 
 	        await Navigation.PushAsync(new CardDetailView(ref newViewModel));

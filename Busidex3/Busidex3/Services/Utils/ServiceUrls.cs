@@ -13,6 +13,7 @@
         public static string GetAccountUrl => BASE_API_URL + "Account/Get?id=0";
         public static string CheckUserNameUrl => BASE_API_URL + "UserName/IsEmailAvailabile?email={0}";
         public static string UpdateDeviceTypeUrl => BASE_API_URL + "User/UpdateDeviceType?deviceType=";
+        public static string UpdateUserUrl => BASE_API_URL + "User/UpdateUser";
 
         public static string ActivityUrl => BASE_API_URL + "Activity";
 

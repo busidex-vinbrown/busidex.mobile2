@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Busidex3.Annotations;
@@ -14,7 +13,7 @@ namespace Busidex3.DomainModels
 		{
 			Tags = new List<Tag> ();
 			Addresses = new List<Address> ();
-			PhoneNumbers = new ObservableRangeCollection<PhoneNumber>();
+			PhoneNumbers = new List<PhoneNumber>();
 
 			if (model == null) {
 				return;
@@ -58,7 +57,7 @@ namespace Busidex3.DomainModels
 		{
 			Tags = new List<Tag> ();// model.Tags;
 			Addresses = new List<Address> ();// model.Addresses;
-			PhoneNumbers = new ObservableRangeCollection<PhoneNumber> ();
+			PhoneNumbers = new List<PhoneNumber> ();
 
 			if (model == null) {
 				return;
@@ -98,7 +97,7 @@ namespace Busidex3.DomainModels
 
 		public Card ()
 		{
-			PhoneNumbers = PhoneNumbers ?? new ObservableRangeCollection<PhoneNumber> ();
+			PhoneNumbers = PhoneNumbers ?? new List<PhoneNumber> ();
 			Tags = Tags ?? new List<Tag> ();
 			Addresses = Addresses ?? new List<Address> ();
 		}
@@ -193,9 +192,9 @@ namespace Busidex3.DomainModels
 
 		public int CardType { get; set; }
 
-        private ObservableRangeCollection<PhoneNumber> _phoneNumbers;
+        private List<PhoneNumber> _phoneNumbers;
 
-        public ObservableRangeCollection<PhoneNumber> PhoneNumbers
+        public List<PhoneNumber> PhoneNumbers
         {
             get => _phoneNumbers;
             set

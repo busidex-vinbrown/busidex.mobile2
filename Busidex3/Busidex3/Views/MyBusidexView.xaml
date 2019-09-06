@@ -58,7 +58,7 @@
                 Grid.Row="2">
                 <Frame
                     BackgroundColor="#fcfcfc"
-                    Opacity=".8"
+                    Opacity=".9"
                     Margin="5"
                     CornerRadius="10">
                     <Label 
@@ -80,7 +80,7 @@
                       HasUnevenRows="True"
                       SelectionMode="None"      
                       BackgroundColor="Transparent"
-                      CachingStrategy="RecycleElement"                      
+                      CachingStrategy="RetainElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
                       ItemsSource="{Binding FilteredUserCards}"
                       Grid.Column="0"
@@ -94,8 +94,8 @@
                                 VerticalOptions="Fill"
                                 HorizontalOptions="Fill"
                                 Padding="0"
-                                Opacity=".8"
-                                Margin="10">
+                                Opacity=".9"
+                                Margin="5">
                                 <controls:CardListViewDisplay
                                     BackgroundColor="LightGray"
                                     HorizontalOptions="FillAndExpand"

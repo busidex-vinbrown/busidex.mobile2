@@ -7,7 +7,7 @@ namespace Busidex3.Views.EditCard
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditAddressView
 	{
-        protected CardVM ViewModel { get; set; }
+        protected CardVM _viewModel { get; set; }
 
 		public EditAddressView (ref CardVM vm)
 		{
@@ -18,13 +18,14 @@ namespace Busidex3.Views.EditCard
             Title = "What is your office address?";
 
             vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            ViewModel = vm;
-            BindingContext = ViewModel;
-		}
+            _viewModel = vm;
+            BindingContext = _viewModel;
+            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+        }
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            await ViewModel.SaveAddress();
+            await _viewModel.SaveAddress();
         }
     }
 }

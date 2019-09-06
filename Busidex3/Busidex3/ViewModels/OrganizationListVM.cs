@@ -22,12 +22,20 @@ namespace Busidex3.ViewModels
     public class OrganizationListVM : BaseViewModel
     {
         public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
-        public event OnMyOrganizationsUpdatedEventHandler OnMyOrganizationsUpdated;
         public event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
         public event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
         public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
         public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
 
+        private NamedSize _headerFont;
+        public NamedSize HeaderFont
+        {
+            get => _headerFont;
+            set {
+                _headerFont = value;
+                OnPropertyChanged(nameof(HeaderFont));
+            }
+        }
         private List<Organization> _organizationList;
         public List<Organization> OrganizationList
         {
@@ -71,261 +79,266 @@ namespace Busidex3.ViewModels
 
         private async Task<bool> LoadOrganizations()
         {
-            var semaphore = new SemaphoreSlim(1, 1);
-            await semaphore.WaitAsync();
-
-            try
+            using (var semaphore = new SemaphoreSlim(1, 1))
             {
-                var organizationResult = await _organizationsHttpService.GetMyOrganizations();
-                if (organizationResult != null)
-                {
+                await semaphore.WaitAsync();
 
-                    if (organizationResult.Model != null)
+                try
+                {
+                    var organizationResult = await _organizationsHttpService.GetMyOrganizations();
+                    if (organizationResult != null)
                     {
 
-                        // Build the Organization List
-                        OrganizationList.Clear();
-                        OrganizationList.AddRange(organizationResult.Model);
-
-                        var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
-                        Serialization.SaveResponse(savedResult, StringResources.MY_ORGANIZATIONS_FILE);
-
-                        var status = new ProgressStatus
+                        if (organizationResult.Model != null)
                         {
-                            Total = organizationResult.Model.Count
-                        };
+
+                            // Build the Organization List
+                            OrganizationList.Clear();
+                            OrganizationList.AddRange(organizationResult.Model);
+
+                            var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(OrganizationList);
+                            Serialization.SaveResponse(savedResult, StringResources.MY_ORGANIZATIONS_FILE);
+
+                            var status = new ProgressStatus
+                            {
+                                Total = organizationResult.Model.Count
+                            };
+                        }
+
+                        OnMyOrganizationsLoaded?.Invoke(OrganizationList);
                     }
-
-                    OnMyOrganizationsLoaded?.Invoke(OrganizationList);
                 }
-            }
-            catch (Exception ex)
-            {
-                Crashes.TrackError(ex);
-
-                if (OrganizationList.Count == 0)
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        OrganizationList =
-                            Serialization.LoadData<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder,
-                                StringResources.MY_ORGANIZATIONS_FILE));
-                    }
-                    catch (Exception innerEx)
-                    {
-                        Crashes.TrackError(innerEx); 
-                    }
+                    Crashes.TrackError(ex);
 
-                    OnMyOrganizationsLoaded?.Invoke(OrganizationList);
+                    if (OrganizationList.Count == 0)
+                    {
+                        try
+                        {
+                            OrganizationList =
+                                Serialization.LoadData<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder,
+                                    StringResources.MY_ORGANIZATIONS_FILE));
+                        }
+                        catch (Exception innerEx)
+                        {
+                            Crashes.TrackError(innerEx);
+                        }
+
+                        OnMyOrganizationsLoaded?.Invoke(OrganizationList);
+                    }
+                }
+                finally
+                {
+                    semaphore.Release();
                 }
             }
-            finally
-            {
-                semaphore.Release();
-            }
-
             return true;
         }
 
         public async Task<bool> LoadOrganizationReferrals(long organizationId)
         {
-            var semaphore = new SemaphoreSlim(1, 1);
-            await semaphore.WaitAsync();
-
-            try
+            using (var semaphore = new SemaphoreSlim(1, 1))
             {
-                var result = await _organizationsHttpService.GetOrganizationReferrals(organizationId);
 
-                if (result != null)
+
+                await semaphore.WaitAsync();
+
+                try
                 {
-                    Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
-                        string.Format(StringResources.ORGANIZATION_REFERRALS_FILE, organizationId));
+                    var result = await _organizationsHttpService.GetOrganizationReferrals(organizationId);
 
-                    OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
-                    if (!OrganizationReferrals.ContainsKey(organizationId))
+                    if (result != null)
                     {
-                        OrganizationReferrals.Add(organizationId,
-                            result.Model.Distinct(new UserCardEqualityComparer()).ToList());
-                    }
-                    else
-                    {
-                        OrganizationReferrals[organizationId] =
-                            result.Model.Distinct(new UserCardEqualityComparer()).ToList();
-                    }
+                        Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
+                            string.Format(StringResources.ORGANIZATION_REFERRALS_FILE, organizationId));
 
-                    var status = new ProgressStatus
-                    {
-                        Total = OrganizationReferrals[organizationId].Count
-                    };
-
-                    foreach (var card in result.Model)
-                    {
-
-                        var fImageUrl = StringResources.THUMBNAIL_PATH + card.Card.FrontFileName;
-                        var bImageUrl = StringResources.THUMBNAIL_PATH + card.Card.BackFileName;
-                        var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
-                        var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
-                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
+                        OrganizationReferrals = OrganizationReferrals ?? new Dictionary<long, List<UserCard>>();
+                        if (!OrganizationReferrals.ContainsKey(organizationId))
                         {
-                            try
-                            {
-                                await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
-                                    .ContinueWith(r => { status.Count++; });
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
+                            OrganizationReferrals.Add(organizationId,
+                                result.Model.Distinct(new UserCardEqualityComparer()).ToList());
                         }
                         else
                         {
-                            status.Count++;
+                            OrganizationReferrals[organizationId] =
+                                result.Model.Distinct(new UserCardEqualityComparer()).ToList();
                         }
 
-                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
-                            card.Card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
+                        var status = new ProgressStatus
                         {
-                            try
+                            Total = OrganizationReferrals[organizationId].Count
+                        };
+
+                        foreach (var card in result.Model)
+                        {
+
+                            var fImageUrl = StringResources.THUMBNAIL_PATH + card.Card.FrontFileName;
+                            var bImageUrl = StringResources.THUMBNAIL_PATH + card.Card.BackFileName;
+                            var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.FrontFileName;
+                            var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.Card.BackFileName;
+                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
                             {
-                                await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                try
+                                {
+                                    await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
+                                        .ContinueWith(r => { status.Count++; });
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
                             }
-                            catch
+                            else
                             {
-                                // ignored
+                                status.Count++;
                             }
+
+                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
+                                card.Card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
+                            {
+                                try
+                                {
+                                    await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
+                            }
+
+                            OnMyOrganizationReferralsUpdated?.Invoke(status);
                         }
-
-                        OnMyOrganizationReferralsUpdated?.Invoke(status);
                     }
-                }
 
-                if (OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
-                    OrganizationReferralsLoadedEventTable[organizationId] != null)
+                    if (OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
+                        OrganizationReferralsLoadedEventTable[organizationId] != null)
+                    {
+                        OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
+                    }
+
+                }
+                catch (Exception ex)
                 {
-                    OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
+                    if (OrganizationReferrals != null && (OrganizationReferralsLoadedEventTable != null &&
+                                                          OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
+                                                          OrganizationReferralsLoadedEventTable[organizationId] != null &&
+                                                          OrganizationReferrals.ContainsKey(organizationId)))
+                    {
+                        OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
+                    }
+                    Crashes.TrackError(ex);
                 }
-
-            }
-            catch (Exception ex)
-            {
-                if (OrganizationReferrals != null && (OrganizationReferralsLoadedEventTable != null &&
-                                                      OrganizationReferralsLoadedEventTable.ContainsKey(organizationId) &&
-                                                      OrganizationReferralsLoadedEventTable[organizationId] != null &&
-                                                      OrganizationReferrals.ContainsKey(organizationId)))
+                finally
                 {
-                    OrganizationReferralsLoadedEventTable[organizationId](OrganizationReferrals[organizationId]);
+                    semaphore.Release();
                 }
-                Crashes.TrackError(ex);
             }
-            finally
-            {
-                semaphore.Release();
-            }
-
             return true;
         }
 
         public async Task<bool> LoadOrganizationMembers(long organizationId)
         {
-            var semaphore = new SemaphoreSlim(1, 1);
-            await semaphore.WaitAsync();
-
-            try
+            using (var semaphore = new SemaphoreSlim(1, 1))
             {
-                var result = await _organizationsHttpService.GetOrganizationMembers(organizationId);
+                await semaphore.WaitAsync();
 
-                if (result == null)
+                try
                 {
+                    var result = await _organizationsHttpService.GetOrganizationMembers(organizationId);
 
-                    if (OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
-                        OrganizationMembersLoadedEventTable[organizationId] != null)
+                    if (result == null)
                     {
-                        OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
-                    }
-                }
-                else
-                {
 
-                    Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
-                        string.Format(StringResources.ORGANIZATION_MEMBERS_FILE, organizationId));
-
-                    OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
-                    if (!OrganizationMembers.ContainsKey(organizationId))
-                    {
-                        OrganizationMembers.Add(organizationId, result.Model);
+                        if (OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
+                            OrganizationMembersLoadedEventTable[organizationId] != null)
+                        {
+                            OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
+                        }
                     }
                     else
                     {
-                        OrganizationMembers[organizationId] = result.Model;
-                    }
 
-                    var status = new ProgressStatus
-                    {
-                        Total = OrganizationMembers[organizationId].Count
-                    };
+                        Serialization.SaveResponse(Newtonsoft.Json.JsonConvert.SerializeObject(result.Model),
+                            string.Format(StringResources.ORGANIZATION_MEMBERS_FILE, organizationId));
 
-                    foreach (var card in result.Model)
-                    {
-
-                        var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileName;
-                        var bImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileName;
-                        var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
-                        var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
-                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
+                        OrganizationMembers = OrganizationMembers ?? new Dictionary<long, List<Card>>();
+                        if (!OrganizationMembers.ContainsKey(organizationId))
                         {
-                            try
-                            {
-                                await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
-                                    .ContinueWith(r => { status.Count++; });
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
+                            OrganizationMembers.Add(organizationId, result.Model);
                         }
                         else
                         {
-                            status.Count++;
+                            OrganizationMembers[organizationId] = result.Model;
                         }
 
-                        if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
-                            card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
+                        var status = new ProgressStatus
                         {
-                            try
+                            Total = OrganizationMembers[organizationId].Count
+                        };
+
+                        foreach (var card in result.Model)
+                        {
+
+                            var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileName;
+                            var bImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileName;
+                            var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileName;
+                            var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileName;
+                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + fName))
                             {
-                                await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                try
+                                {
+                                    await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName)
+                                        .ContinueWith(r => { status.Count++; });
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
                             }
-                            catch
+                            else
                             {
-                                // ignored
+                                status.Count++;
                             }
+
+                            if (!File.Exists(Serialization.LocalStorageFolder + "/" + bName) &&
+                                card.BackFileId.ToString().ToLowerInvariant() != StringResources.EMPTY_CARD_ID)
+                            {
+                                try
+                                {
+                                    await App.DownloadImage(bImageUrl, Serialization.LocalStorageFolder, bName);
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
+                            }
+
+                            OnMyOrganizationMembersUpdated?.Invoke(status);
                         }
 
-                        OnMyOrganizationMembersUpdated?.Invoke(status);
+                        if (OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
+                            OrganizationMembersLoadedEventTable[organizationId] != null)
+                        {
+                            OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
+                        }
                     }
-
-                    if (OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
+                }
+                catch (Exception ex)
+                {
+                    if (OrganizationMembersLoadedEventTable != null &&
+                        OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
                         OrganizationMembersLoadedEventTable[organizationId] != null)
                     {
-                        OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
+                        if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
                     }
+                    Crashes.TrackError(ex);
                 }
-            }
-            catch (Exception ex)
-            {
-                if (OrganizationMembersLoadedEventTable != null &&
-                    OrganizationMembersLoadedEventTable.ContainsKey(organizationId) &&
-                    OrganizationMembersLoadedEventTable[organizationId] != null)
+                finally
                 {
-                    if (OrganizationMembers != null) OrganizationMembersLoadedEventTable[organizationId](OrganizationMembers[organizationId]);
+                    semaphore.Release();
                 }
-                Crashes.TrackError(ex);
             }
-            finally
-            {
-                semaphore.Release();
-            }
-
             return true;
         }
 

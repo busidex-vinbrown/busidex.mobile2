@@ -22,7 +22,7 @@
                 BorderColor="#03A9F4"            
                 CornerRadius="10">
                 <Frame.Content>
-                    <Grid Margin="18,0">
+                    <Grid Margin="18,0" Padding="0,40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>

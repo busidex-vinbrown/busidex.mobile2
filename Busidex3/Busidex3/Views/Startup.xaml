@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Busidex3.Views.Startup"
              Visual="Default">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
     <ContentPage.Content>
         <Grid BackgroundColor="Transparent">
             <Grid.ColumnDefinitions>

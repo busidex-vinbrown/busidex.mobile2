@@ -4,7 +4,8 @@
              xmlns:controls="clr-namespace:Busidex3.Controls"
              x:Class="Busidex3.Views.MainMenuMaster"
              Title="Busidex"
-             Visual="Material">
+             Visual="Material"
+             Opacity=".9">
     <StackLayout>
         <Grid>
           <Grid.ColumnDefinitions>
@@ -30,7 +31,7 @@
             Show logout button at the bottom.
             -->
             <StackLayout
-                Padding="20, 10"
+                Padding="20,50,20,10"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Grid.Row="0"
@@ -169,7 +170,11 @@
           <!-- middle controls -->
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+      <StackLayout 
+          Orientation="Horizontal" 
+          HorizontalOptions="CenterAndExpand" 
+          VerticalOptions="End"
+          Padding="0,10">
           <Button
               x:Name="btnLogout"
               Clicked="BtnLogout_OnClicked"

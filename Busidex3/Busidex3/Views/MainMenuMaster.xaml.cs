@@ -32,7 +32,8 @@ namespace Busidex3.Views
         {
             InitializeComponent();
 
-            _viewModel = new MainMenuMasterVM();
+            _viewModel = new MainMenuMasterVM {IsAdmin = false};
+
             BindingContext = _viewModel;            
 
             ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
@@ -47,7 +48,7 @@ namespace Busidex3.Views
         {
             _viewModel.RefreshProfile();
             _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
-            _viewModel.IsAdmin = Security.CurrentUser.IsAdmin;
+            _viewModel.IsAdmin = Security.CurrentUser?.IsAdmin;
         }
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)

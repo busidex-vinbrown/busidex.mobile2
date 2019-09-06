@@ -16,14 +16,32 @@ using Microsoft.AppCenter.Crashes;
 using Busidex3.ViewModels;
 using BranchXamarinSDK;
 using Busidex3.Views.EditCard;
+using Busidex3.Models;
+using System.Linq;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using Device = Xamarin.Forms.Device;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
 {
-    public partial class App : Application, IBranchSessionInterface
+    public delegate void OnEventsLoadedResult();
+    public delegate void OnOrganizationsLoadedResult();
+    public delegate void OnContactsLoadedResult();
+    public delegate void OnAppLoadedResult();
+
+    public partial class App : IBranchSessionInterface
     {
         private static readonly CardHttpService _cardHttpService = new CardHttpService();
         private static readonly OrganizationsHttpService _organizationsHttpService = new OrganizationsHttpService();
+
+        public static event OnEventsLoadedResult OnEventsLoaded;
+        public static event OnOrganizationsLoadedResult OnOrganizationsLoaded;
+        public static event OnContactsLoadedResult OnContactsLoaded;
+        public static event OnAppLoadedResult OnAppLoaded;
+        public static List<ContactList> ContactGroups { get; set; } = new List<ContactList>();
+
+        public static bool IsProfessional { get; set; }
 
         public App()
         {
@@ -34,14 +52,53 @@ namespace Busidex3
             MainPage = new MainMenu(); 
         }
 
-        private static void InitSession()
+        public static void InitSession()
         {
             Security.ReadAuthCookie();
 
-            Task.Factory.StartNew(async () => await LoadOwnedCard());
-            Task.Factory.StartNew(async () => await Security.LoadUser());
-            Task.Factory.StartNew(async () => await LoadEvents());
-            Task.Factory.StartNew(async () => await LoadOrganizations());
+            if (string.IsNullOrEmpty(Security.AuthToken)) return;
+
+            Task.Factory.StartNew(() => Security.LoadUser());
+            Task.Factory.StartNew(() => LoadOwnedCard());
+            Task.Factory.StartNew(  () => LoadEvents());
+            Task.Factory.StartNew(  () => LoadOrganizations());
+            Task.Factory.StartNew(  () => LoadMyBusidex());
+
+            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
+                .ContinueWith((status) =>
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        if (await status == PermissionStatus.Granted)
+                        {
+                            LoadContactList();
+                        }
+                    });
+                });
+        }
+
+        public static void LoadContactList()
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                var contacts = await Plugin.ContactService.CrossContactService.Current.GetContactListAsync();
+                ContactGroups = new List<ContactList>();
+                for (var i = 0; i < 26; i++)
+                {
+                    var letter = ((char)(65 + i)).ToString();
+                    var newGroup = new ContactList();
+                    var filteredList = contacts.Where(c => c.Name.StartsWith(letter)).ToList();
+
+                    newGroup.Heading = letter.ToUpper();
+                    newGroup.AddRange(filteredList);
+
+                    ContactGroups.Add(newGroup);
+                }
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    OnContactsLoaded?.Invoke();
+                });
+            });
         }
 
         private static IAnalyticsManager analyticsManager;
@@ -77,28 +134,38 @@ namespace Busidex3
             if (string.IsNullOrEmpty(imagePath) || imagePath.Contains (StringResources.NULL_CARD_ID)) {
                 return string.Empty;
             }
+            var jpgFilename = Path.Combine(documentsPath, fileName);
+            using (var semaphore = new SemaphoreSlim(1, 1))
+            {
+                await semaphore.WaitAsync();
 
-            var semaphore = new SemaphoreSlim (1, 1);
-            await semaphore.WaitAsync ();
+                try
+                {
+                    using (var webClient = new WebClient())
+                    {
+                        var imageData = await webClient.DownloadDataTaskAsync(new Uri(imagePath));
 
-            var jpgFilename = Path.Combine (documentsPath, fileName);
+                        var localPath = Path.Combine(documentsPath, fileName);
+                        if (imageData != null)
+                        {
+                            using (var fs = new FileStream(localPath, FileMode.Append, FileAccess.Write))
+                            {
+                                fs.Write(imageData, 0, imageData.Length);
+                            }
 
-            try {
-                using (var webClient = new WebClient ()) {
-
-                    var imageData = await webClient.DownloadDataTaskAsync (new Uri (imagePath));
-
-                    var localPath = Path.Combine (documentsPath, fileName);
-                    if (imageData != null) {
-                        File.WriteAllBytes (localPath, imageData); // writes to local storage  
+                            //File.WriteAllBytes(localPath, imageData); // writes to local storage  
+                        }
                     }
                 }
-            } catch (Exception ex) {
-                Crashes.TrackError(new Exception ("Error loading " + imagePath, ex));
-            } finally {
-                semaphore.Release ();
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(new Exception("Error loading " + imagePath, ex));
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
             }
-
             return jpgFilename;
         }
 
@@ -177,20 +244,42 @@ namespace Busidex3
             masterDetailRootPage.IsGestureEnabled = true;
         }
 
-        public static async Task<Card> LoadOwnedCard ()
+        public static async Task<Card> LoadOwnedCard (bool useThumbnail = true)
         {
             try {
 
                 var myCardResponse = await _cardHttpService.GetMyCard ();
-                if(myCardResponse == null){
+                if(myCardResponse == null || !myCardResponse.Success){
                     return null;
                 }
 
                 var card = myCardResponse.Success && myCardResponse.Model != null
                     ? new Card(myCardResponse.Model)
                     : null;
+
+                IsProfessional = card?.FrontFileId != Guid.Empty && card?.FrontFileId != null;
+
                 var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
                 Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), path);
+
+                var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileId + ".jpg";
+                var fName = useThumbnail 
+                    ? StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileId + ".jpg"
+                    : card.FrontFileId + ".jpg";
+
+                var storagePath = Serialization.LocalStorageFolder;
+                await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+
+                if(card.BackFileId != Guid.Empty)
+                {
+                    fImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileId + ".jpg";
+                    fName = useThumbnail 
+                        ? StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileId + ".jpg"
+                        : card.BackFileId + ".jpg";
+                    await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                    fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileId + ".jpg";
+                    await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                }
 
                 var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
 
@@ -220,17 +309,42 @@ namespace Busidex3
         {
             var searchService = new SearchHttpService();
             var response = await searchService.GetUserEventTags();
-            var list = Newtonsoft.Json.JsonConvert.SerializeObject(response.Model);
+            var list = response != null
+                ? Newtonsoft.Json.JsonConvert.SerializeObject(response.Model)
+                : string.Empty;
             Serialization.SaveResponse(list, Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE));
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OnEventsLoaded?.Invoke();
+            });
+
             return true;
         }
 
         public static async Task<bool> LoadOrganizations()
         {
             var response = await _organizationsHttpService.GetMyOrganizations();
-            var list = Newtonsoft.Json.JsonConvert.SerializeObject(response.Model);
+            var list = response != null
+                ? Newtonsoft.Json.JsonConvert.SerializeObject(response.Model)
+                : string.Empty;
+
             Serialization.SaveResponse(list, StringResources.MY_ORGANIZATIONS_FILE);
 
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OnOrganizationsLoaded?.Invoke();
+            });
+
+            return true;
+        }
+
+        public static async Task<bool> LoadMyBusidex()
+        {
+            var myBusidexHttpService = new MyBusidexHttpService();
+            var result = await myBusidexHttpService.GetMyBusidex();
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(result.MyBusidex.Busidex);
+            Serialization.SaveResponse(json, StringResources.MY_BUSIDEX_FILE);
             return true;
         }
 

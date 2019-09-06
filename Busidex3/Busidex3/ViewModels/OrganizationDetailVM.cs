@@ -182,7 +182,11 @@ namespace Busidex3.ViewModels
             if (!File.Exists(Logo))
             {
                 var remoteFile = StringResources.CARD_PATH + fileName;
-                Task.Factory.StartNew(async ()=> await App.DownloadImage(remoteFile, Serialization.LocalStorageFolder, fileName));
+                Task.Factory.StartNew(async ()=>
+                {
+                    await App.DownloadImage(remoteFile, Serialization.LocalStorageFolder, fileName);
+                    OnPropertyChanged(nameof(Logo));
+                });
             }
         }
 

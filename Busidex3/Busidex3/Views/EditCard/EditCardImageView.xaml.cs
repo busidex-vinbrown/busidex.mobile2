@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Busidex3.DomainModels;
+using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using Plugin.InputKit.Shared.Controls;
 using Plugin.Media;
@@ -17,7 +17,7 @@ namespace Busidex3.Views.EditCard
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditCardImageView
 	{
-        protected CardVM ViewModel { get; set; }
+        protected CardVM _viewModel { get; set; }
 
 		public EditCardImageView (ref CardVM vm)
 		{
@@ -28,28 +28,40 @@ namespace Busidex3.Views.EditCard
             Title = "Choose your card picture";
 
             vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            ViewModel = vm;
-            BindingContext = ViewModel;
+            _viewModel = vm;
+            BindingContext = _viewModel;
 
-            ViewModel.BackOrientation = vm.SelectedCard.Card.BackOrientation;
-            ViewModel.FrontOrientation = vm.SelectedCard.Card.FrontOrientation;
+            _viewModel.BackOrientation = vm.SelectedCard.Card.BackOrientation;
+            _viewModel.FrontOrientation = vm.SelectedCard.Card.FrontOrientation;
 
-            ViewModel.SelectedCardFrontImage = ViewModel.SelectedCard.Card.FrontFileName;
-            ViewModel.SelectedCardBackImage = ViewModel.SelectedCard.Card.BackFileName;
+            _viewModel.SelectedCardFrontImage = _viewModel.SelectedCard.Card.FrontFileName;
+            _viewModel.SelectedCardBackImage = _viewModel.SelectedCard.Card.BackFileName;
+
+            Task.Factory.StartNew(async () => await CheckImagesExist());
 
             setControls();
 		}
 
+        private async Task<bool> CheckImagesExist()
+        {
+            var fname = Path.Combine (Serialization.LocalStorageFolder, _viewModel.SelectedCardFrontImage);
+            var bname = Path.Combine (Serialization.LocalStorageFolder, _viewModel.SelectedCardBackImage);
+            if (File.Exists(fname) && File.Exists(bname)) return true;
+
+            var card = await App.LoadOwnedCard(useThumbnail: false);
+            return card != null;
+        }
+
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {            
-            await ViewModel.SaveCardImage();
+            await _viewModel.SaveCardImage();
         }
 
         private void BtnFront_OnClicked(object sender, EventArgs e)
         {
             btnFront.Style = (Style) Application.Current.Resources["toggleButtonOn"];
             btnBack.Style = (Style) Application.Current.Resources["toggleButtonOff"];
-            ViewModel.SelectedSide = UserCardDisplay.CardSide.Front;
+            _viewModel.SelectedSide = UserCardDisplay.CardSide.Front;
             
             setControls();
         }
@@ -58,7 +70,7 @@ namespace Busidex3.Views.EditCard
         {
             btnFront.Style = (Style) Application.Current.Resources["toggleButtonOff"];
             btnBack.Style = (Style) Application.Current.Resources["toggleButtonOn"];
-            ViewModel.SelectedSide = UserCardDisplay.CardSide.Back;
+            _viewModel.SelectedSide = UserCardDisplay.CardSide.Back;
                                     
             setControls();
         }
@@ -106,7 +118,7 @@ namespace Busidex3.Views.EditCard
             if (status != PermissionStatus.Granted)
             {
                 var shouldShow = await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(permission);
-                if (shouldShow)
+                if (shouldShow || true)
                 {
                     // await DisplayAlert("Permission", "Allow access your camera", "OK");
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { permission });
@@ -188,7 +200,7 @@ namespace Busidex3.Views.EditCard
                 await setImageFromFile(file);
                 
             }
-            else if (status != PermissionStatus.Unknown)
+            else //if (status != PermissionStatus.Unknown)
             {
                 await DisplayAlert("Camera Denied", "Can not continue. This app needs to access your camera. Please check your permissions and try again.", "OK");
             }
@@ -205,7 +217,7 @@ namespace Busidex3.Views.EditCard
                     ? await CropImageService.Instance.CropImage(file.Path, CropRatioType.None)
                     : null;
 
-                if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
                 {
                     imgSelectedFrontImage.Source = ImageSource.FromFile(cropResult?.FilePath);
                 }
@@ -225,17 +237,17 @@ namespace Busidex3.Views.EditCard
                 }
 
                 var s = Convert.ToBase64String(b);
-                if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
                 {
-                    ViewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
-                    ViewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
-                    ViewModel.FrontImageChanged = true;
+                    _viewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
+                    _viewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                    _viewModel.FrontImageChanged = true;
                 }
                 else
                 {
-                    ViewModel.EncodedBackCardImage = s != string.Empty ? s : null;
-                    ViewModel.BackFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
-                    ViewModel.BackImageChanged = true;
+                    _viewModel.EncodedBackCardImage = s != string.Empty ? s : null;
+                    _viewModel.BackFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                    _viewModel.BackImageChanged = true;
                 }
             }
             catch (Exception ex)
@@ -253,7 +265,8 @@ namespace Busidex3.Views.EditCard
                 return;
             }
 
-            ViewModel.FrontOrientation = radio.Value.ToString();
+            _viewModel.FrontOrientation = radio.Value.ToString();
+            _viewModel.FrontOrientationChanged = _viewModel.FrontOrientation != _viewModel.SelectedCard.Card.FrontOrientation;
             setControls();
         }
 
@@ -264,7 +277,8 @@ namespace Busidex3.Views.EditCard
                 return;
             }
 
-            ViewModel.BackOrientation = radio.Value.ToString();
+            _viewModel.BackOrientation = radio.Value.ToString();
+            _viewModel.BackOrientationChanged = _viewModel.BackOrientation != _viewModel.SelectedCard.Card.BackOrientation;
             setControls();
         }
 
@@ -279,13 +293,13 @@ namespace Busidex3.Views.EditCard
             double hImageHeight = 152;
             double hImageWidth = 250;
             
-            var frontOrientation = ViewModel.SelectedCard.Card.FrontOrientation;
-            var backOrientation = ViewModel.SelectedCard.Card.BackOrientation;
+            var frontOrientation = _viewModel.SelectedCard.Card.FrontOrientation;
+            var backOrientation = _viewModel.SelectedCard.Card.BackOrientation;
             var selectedOrientation = string.Empty;
 
-            if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
             {
-                selectedOrientation = ViewModel.FrontOrientation;
+                selectedOrientation = _viewModel.FrontOrientation;
                 frmSelectedCardImage.HeightRequest = selectedOrientation == "H"
                     ? hFrameHeight
                     : vFrameHeight;
@@ -299,9 +313,9 @@ namespace Busidex3.Views.EditCard
                     ? hImageWidth
                     : vImageWidth;
             }
-            if (ViewModel.SelectedSide == UserCardDisplay.CardSide.Back)
+            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Back)
             {
-                selectedOrientation = ViewModel.BackOrientation;
+                selectedOrientation = _viewModel.BackOrientation;
                 frmSelectedCardImage.HeightRequest = selectedOrientation == "H"
                     ? hFrameHeight
                     : vFrameHeight;
@@ -316,13 +330,13 @@ namespace Busidex3.Views.EditCard
                     : vImageWidth;
             }
 
-            rdoFrontBtnHorizontal.IsChecked = ViewModel.FrontOrientation == "H";
-            rdoBackBtnHorizontal.IsChecked = ViewModel.BackOrientation == "H";;
-            rdoFrontBtnVertical.IsChecked = ViewModel.FrontOrientation == "V";
-            rdoBackBtnVertical.IsChecked = ViewModel.BackOrientation == "V";;   
+            rdoFrontBtnHorizontal.IsChecked = _viewModel.FrontOrientation == "H";
+            rdoBackBtnHorizontal.IsChecked = _viewModel.BackOrientation == "H";;
+            rdoFrontBtnVertical.IsChecked = _viewModel.FrontOrientation == "V";
+            rdoBackBtnVertical.IsChecked = _viewModel.BackOrientation == "V";;   
             
-            ViewModel.SelectedCard.Card.FrontOrientation = frontOrientation;
-            ViewModel.SelectedCard.Card.BackOrientation = backOrientation;
+            _viewModel.SelectedCard.Card.FrontOrientation = frontOrientation;
+            _viewModel.SelectedCard.Card.BackOrientation = backOrientation;
         }
     }
 }

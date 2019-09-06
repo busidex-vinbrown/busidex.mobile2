@@ -12,9 +12,6 @@ namespace Busidex3.ViewModels
 
     public class EventCardsVM : CardListVM
     {
-        public event OnEventListLoadedEventHandler OnEventListLoaded;
-        public event OnEventCardsUpdatedEventHandler OnEventCardsUpdated;
-
         public List<EventTag> EventList { get; set; }
         public Dictionary<string, List<UserCard>> EventCards { get; set; }
 

@@ -2,38 +2,37 @@
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HomeMenuView : ContentPage
+    public partial class HomeMenuView
     {
         private readonly HomeMenuVM _viewModel = new HomeMenuVM();
 
         public HomeMenuView()
         {
             InitializeComponent();
-            _viewModel.RowWidth = 500;
-            _viewModel.RowHeight = 500;
 
-            var events = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.EVENT_LIST_FILE))
-                ?? new List<EventTag>();
-            _viewModel.ShowEvents = events.Any();
-
-            var organizations = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE))
-                ?? new List<Organization>();
-            _viewModel.ShowOrganizations = organizations.Any();
+            imgBackground.HeightRequest = imgBackgroundProf.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
+            imgBackground.WidthRequest = imgBackgroundProf.WidthRequest = DeviceDisplay.MainDisplayInfo.Width;
+            imgBackground.Margin = imgBackgroundProf.Margin = _viewModel.IsProfessional
+            ? new Thickness(0)
+                : new Thickness(-60, 0,0,0);
 
             BindingContext = _viewModel;
         }
+
+        //private void AppLoaded()
+        //{
+        //    stkMenu.IsVisible = imgBackground.IsVisible = true;
+        //    stkLoading.IsVisible = false;
+        //    App.OnAppLoaded -= AppLoaded;
+        //}
 
         private async void stkShare_Tapped(object sender, EventArgs e)
         {
@@ -76,6 +75,12 @@ namespace Busidex3.Views
         private async void stkEvents_Tapped(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new EventsView());
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            //App.LoadHomePage();
+            return true;
         }
     }
 }

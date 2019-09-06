@@ -148,6 +148,8 @@ namespace Busidex3.ViewModels
 
             EditTitle = HasCard ? ViewNames.Edit : ViewNames.Add;
 
+            ShowProfileImage = true;
+
             RefreshProfile();
         }
 
@@ -155,6 +157,7 @@ namespace Busidex3.ViewModels
         {
             var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
             var ownedCard = Serialization.LoadData<Card>(path);
+
             if(ownedCard == null)
             {
                 await App.LoadOwnedCard();

@@ -7,7 +7,7 @@ namespace Busidex3.Views.EditCard
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditTagsView
 	{
-        protected CardVM ViewModel { get; set; }
+        protected CardVM _viewModel { get; set; }
 
 		public EditTagsView (ref CardVM vm)
 		{
@@ -18,13 +18,23 @@ namespace Busidex3.Views.EditCard
             Title = "Tags";
 
             vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            ViewModel = vm;
-            BindingContext = ViewModel;
-		}
+            _viewModel = vm;
+            BindingContext = _viewModel;
+            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+        }
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            await ViewModel.SaveTags();
-        }        
+            await _viewModel.SaveTags();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (_viewModel.AllowSave)
+            {
+                return base.OnBackButtonPressed();
+            }
+            return true;       
+        }
     }
 }

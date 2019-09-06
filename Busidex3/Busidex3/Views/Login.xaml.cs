@@ -64,5 +64,10 @@ namespace Busidex3.Views
 	        var uri = new Uri(StringResources.FORGOT_PASSWORD_URL);
 	        Device.OpenUri(uri);
 	    }
-	}
+
+        private void BtnCancel_Clicked(object sender, EventArgs e)
+        {
+            App.LoadStartupPage();
+        }
+    }
 }

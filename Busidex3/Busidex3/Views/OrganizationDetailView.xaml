@@ -15,7 +15,7 @@
             <Image Source="{Binding Logo, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Logo}" 
                        HeightRequest="180"
                        HorizontalOptions="FillAndExpand"
-                       Aspect="AspectFill"/>
+                       Aspect="AspectFit"/>
             <ScrollView x:Name="scrContent" VerticalScrollBarVisibility="Always"
                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Grid x:Name="grdContent" RowSpacing="5" Padding="0" BackgroundColor="White" 

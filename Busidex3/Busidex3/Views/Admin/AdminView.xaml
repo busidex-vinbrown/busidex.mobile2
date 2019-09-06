@@ -79,15 +79,7 @@
                                     <controls:UnownedCardListViewDisplay
                                         BackgroundColor="LightGray"
                                         HorizontalOptions="FillAndExpand"
-                                        SelectedCard="{Binding Path=.}"/>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Last Sent To: " FontSize="Small" FontAttributes="Bold" />
-                                        <Label Text="{Binding EmailSentTo}" />
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Date Sent: " FontSize="Small" FontAttributes="Bold" />
-                                        <Label Text="{Binding LastContactDate}" />
-                                    </StackLayout>
+                                        SelectedCard="{Binding Path=.}"/>                                    
                                     <Button 
                                         x:Name="btnSelect"
                                         Text="Select" 

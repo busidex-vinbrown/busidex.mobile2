@@ -4,22 +4,19 @@ using Busidex3.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
     public class HomeMenuVM : BaseViewModel
-    {
+    {        
         private MainMenuMenuItem _myBusidexItem;
         public MainMenuMenuItem MyBusidexItem
         {
-            get
-            {
-                return _myBusidexItem;
-            }
+            get => _myBusidexItem;
             set
             {
                 _myBusidexItem = value;
@@ -30,10 +27,7 @@ namespace Busidex3.ViewModels
         private MainMenuMenuItem _searchItem;
         public MainMenuMenuItem SearchItem
         {
-            get
-            {
-                return _searchItem;
-            }
+            get => _searchItem;
             set
             {
                 _searchItem = value;
@@ -41,16 +35,10 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public double? RowHeight { get; set; }
-        public double? RowWidth { get; set; }
-
         private MainMenuMenuItem _shareItem;
         public MainMenuMenuItem ShareItem
         {
-            get
-            {
-                return _shareItem;
-            }
+            get => _shareItem;
             set
             {
                 _shareItem = value;
@@ -61,10 +49,7 @@ namespace Busidex3.ViewModels
         private MainMenuMenuItem _organizationsItem;
         public MainMenuMenuItem OrganizationsItem
         {
-            get
-            {
-                return _organizationsItem;
-            }
+            get => _organizationsItem;
             set
             {
                 _organizationsItem = value;
@@ -75,10 +60,7 @@ namespace Busidex3.ViewModels
         private MainMenuMenuItem _eventsItem;
         public MainMenuMenuItem EventsItem
         {
-            get
-            {
-                return _eventsItem;
-            }
+            get => _eventsItem;
             set
             {
                 _eventsItem = value;
@@ -89,7 +71,7 @@ namespace Busidex3.ViewModels
         private bool _showEvents;
         public bool ShowEvents
         {
-            get { return _showEvents; }
+            get => _showEvents;
             set
             {
                 _showEvents = value;
@@ -100,7 +82,7 @@ namespace Busidex3.ViewModels
         private bool _showOrganizations;
         public bool ShowOrganizations
         {
-            get { return _showOrganizations; }
+            get => _showOrganizations;
             set
             {
                 _showOrganizations = value;
@@ -108,19 +90,57 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private bool _hasCard;
-        public bool HasCard
+        private bool _isProfessional;
+        public bool IsProfessional
         {
-            get { return _hasCard; }
+            get => _isProfessional;
             set
             {
-                _hasCard = value;
-                OnPropertyChanged(nameof(HasCard));
+                _isProfessional = value;
+                OnPropertyChanged(nameof(IsProfessional));
+            }
+        }
+
+        private bool _isConsumer;
+        public bool IsConsumer
+        {
+            get => _isConsumer;
+            set
+            {
+                _isConsumer = value;
+                OnPropertyChanged(nameof(IsConsumer));
+            }
+        }
+
+        private ImageSource _backgroundImage;
+        public ImageSource BackgroundImage
+        {
+            get => _backgroundImage;
+            set
+            {
+                _backgroundImage = value;
+                OnPropertyChanged(nameof(BackgroundImage));
+            }
+        }
+
+        private ImageSource _backgroundImageProf;
+        public ImageSource BackgroundImageProf
+        {
+            get => _backgroundImageProf;
+            set
+            {
+                _backgroundImageProf = value;
+                OnPropertyChanged(nameof(BackgroundImageProf));
             }
         }
 
         public HomeMenuVM()
         {
+            App.OnOrganizationsLoaded += CheckShowOrganizations;
+
+            App.OnEventsLoaded += CheckShowEvents;
+
+            
             MyBusidexItem = new MainMenuMenuItem
             {
                 Id = 0,
@@ -173,7 +193,16 @@ namespace Busidex3.ViewModels
 
             var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
             var ownedCard = Serialization.LoadData<Card>(path);
-            HasCard = false;
+            
+            var src = "Busidex3.Resources.home_consumer.png";
+            var srcProf = "Busidex3.Resources.home_professional.png";
+
+            BackgroundImage = ImageSource.FromResource(src, typeof(HomeMenuVM).GetTypeInfo().Assembly);
+            BackgroundImageProf = ImageSource.FromResource(srcProf, typeof(HomeMenuVM).GetTypeInfo().Assembly);
+
+            IsProfessional = App.IsProfessional;
+            IsConsumer = !IsProfessional;
+
             if (ownedCard == null)
             {
                 Task.Factory.StartNew(async () =>
@@ -181,10 +210,40 @@ namespace Busidex3.ViewModels
                     ownedCard = await App.LoadOwnedCard();
                     if(ownedCard != null)
                     {
-                        HasCard = ownedCard.FrontFileId != Guid.Empty && ownedCard.FrontFileId != null;
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            CheckHasCard(ownedCard);
+                        });
                     }
                 });
             }
+            else
+            {
+                CheckHasCard(ownedCard);
+            }
+
+            CheckShowOrganizations();
+            CheckShowEvents();
+        }
+
+        private void CheckHasCard(Card ownedCard)
+        {
+            IsProfessional = ownedCard?.FrontFileId != Guid.Empty && ownedCard?.FrontFileId != null;
+            IsConsumer = !IsProfessional;
+        }
+
+        private void CheckShowOrganizations()
+        {
+            var organizations = Serialization.GetCachedResult<List<Organization>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE))
+                ?? new List<Organization>();
+            ShowOrganizations = organizations.Any();
+        }
+
+        private void CheckShowEvents()
+        {
+            var events = Serialization.GetCachedResult<List<EventTag>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_ORGANIZATIONS_FILE))
+                ?? new List<EventTag>();
+            ShowEvents = events.Any();
         }
     }
 }

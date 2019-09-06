@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
@@ -14,38 +14,68 @@ namespace Busidex3.Views.EditCard
 	{
 	    public CardMenuVM _viewModel { get; set; }
 
-		public EditCardMenuView (ref UserCard card)
+		public EditCardMenuView (ref UserCard uc)
 		{
 			InitializeComponent ();
-            _viewModel = new CardMenuVM
-            {
-                SelectedCard = card, 
-                ImageSize = 65
-            };
-            if (card != null)
-            {
-                var fileName = card.DisplaySettings.CurrentFileName;
-                card.DisplaySettings = new UserCardDisplay(fileName: fileName);
-                BindingContext = _viewModel;
+            Init(uc);
+        }
 
-                App.AnalyticsManager.TrackScreen(ScreenName.MyCard);
+        private async void Init(UserCard uc)
+        {
+            if (uc != null)
+            {
+                try
+                {
+                    _viewModel = new CardMenuVM
+                    {
+                        SelectedCard = uc,
+                        ImageSize = 65
+                    };
+                    uc.DisplaySettings = new UserCardDisplay(fileName: uc.Card.FrontFileName);
+                    _viewModel.CheckHasCard();
+                    BindingContext = _viewModel;
+                    _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+                }
+                catch(Exception ex)
+                {
+                    var err = ex;
+                }
+                this.ctrlCardImageHeader.IsVisible = _viewModel.ShowCardImage;
             }
             else
             {
-                Navigation.PopAsync();
-            }            
-		}
+                await Navigation.PopAsync();
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var card = Serialization.LoadData<Card>(Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
+            var uc = new UserCard
+            {
+                ExistsInMyBusidex = true,
+                UserId = card.OwnerId.Value,
+                Card = card,
+                CardId = card.CardId
+            };
+            Init(uc);
+
+            App.AnalyticsManager.TrackScreen(ScreenName.MyCard);
+        }
 
         private CardVM GetViewModel()
         {
             var sc = _viewModel.SelectedCard;
-            var myBusidex = Serialization.LoadData<ObservableRangeCollection<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+            var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
             return new CardVM(ref sc, ref myBusidex);
         }
 
         private async void EditCardImageTapped(object sender, EventArgs e)
         {
             var vm = GetViewModel();
+            
             await Navigation.PushAsync(new EditCardImageView(ref vm));
         }
 

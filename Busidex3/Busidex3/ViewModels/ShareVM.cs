@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using Busidex3.DomainModels;
+using Busidex3.Models;
+using Busidex3.Services.Utils;
+using Plugin.ContactService.Shared;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -13,9 +21,234 @@ namespace Busidex3.ViewModels
             SendMethod.Add(1, "Email");
             SuccessImage = ImageSource.FromResource("Busidex3.Resources.checkmark.png",
                 typeof(ShareVM).GetTypeInfo().Assembly);
+
+            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
+                .ContinueWith(async (status) =>
+                {
+                    if (await status != PermissionStatus.Granted)
+                    {
+                        var shouldShow =
+                            await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(
+                                Permission.Contacts);
+                        if (shouldShow)
+                        {
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await Application.Current.MainPage.DisplayAlert(
+                                    "Permission Required",
+                                    "Busidex requires permission to read your Contacts list. Please go to the Settings for Busidex to grant this permission so the app will function properly.",
+                                    "Ok");
+                            });
+                        }
+                    }
+                });
+
+            App.OnContactsLoaded += RefreshContacts;
+
+            mergeMyBusidexWithContacts();
+
+            if (App.ContactGroups.Count == 0)
+            {
+                App.LoadContactList();
+            }
+            
+            HideContacts = true;
+            ShowContacts = false;
+            ShowContact = false;
+
+            ContactsImage = ImageSource.FromResource("Busidex3.Resources.contacts_64x64.png",
+                typeof(CardVM).GetTypeInfo().Assembly);
+        }
+
+        private void mergeMyBusidexWithContacts()
+        {
+            var myBusidex =
+                Serialization.LoadData<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder,
+                    StringResources.MY_BUSIDEX_FILE)) ??
+                new List<UserCard>();
+
+                var subset = new List<ContactList>();
+                foreach (var group in App.ContactGroups)
+                {
+                    var myBusidexCards = myBusidex.Where(b =>
+                        (b.Card?.Name ?? b.Card?.CompanyName ?? string.Empty).ToLower()
+                        .StartsWith(group.Heading.ToLower())).ToList();
+                    var myBusidexContacts = myBusidexCards.Select(b => new Contact
+                    {
+                        Name = b.Card.Name ?? b.Card.CompanyName,
+                        Email = b.Card.Email,
+                        PhotoUri = b.Card.FrontOrientation, // ok. a hack. sue me.
+                        PhotoUriThumbnail = b.Card.FrontFileName,
+                        Numbers = b.Card.PhoneNumbers?.Select(p => p.Number).ToList()
+                    });
+                    var phoneContacts = group.Where(g => g.Name.ToLower().StartsWith(group.Heading.ToLower())).ToList();
+                    var mergedContacts = myBusidexContacts.Concat(phoneContacts).OrderBy(c => c.Name);
+                    var newGroup = new ContactList
+                    {
+                        Heading = group.Heading
+                    };
+                    newGroup.AddRange(mergedContacts);
+                    subset.Add(newGroup);
+                    ContactGroups = new ObservableCollection<ContactList>(subset);
+                }
+
+                ShowContactButton = ContactGroups.Count > 0;
+        }
+
+        public void RefreshContacts()
+        {
+            mergeMyBusidexWithContacts();
+        }
+
+        public void DoSearch()
+        {
+            var subset = new List<ContactList>();
+            foreach(var group in App.ContactGroups)
+            {
+                var filteredList = group.Where(g => g.Name.ToLower().StartsWith(group.Heading.ToLower()) && g.Name.ToLower().Contains(SearchValue.ToLower())).ToList();
+                var newGroup = new ContactList
+                {
+                    Heading = group.Heading
+                };
+                newGroup.AddRange(filteredList);
+                subset.Add(newGroup);
+            }
+            ContactGroups = new ObservableCollection<ContactList>(subset);
         }
 
         public UserCard SelectedCard { get; set; }
+
+        private ObservableCollection<ContactList> _contactGroups = new ObservableCollection<ContactList>();
+        public ObservableCollection<ContactList> ContactGroups {
+            get => _contactGroups;
+            set
+            {
+                _contactGroups = value;
+                OnPropertyChanged(nameof(ContactGroups));
+            }
+        }
+
+        
+        private int _contactImageHeight;
+        public int ContactImageHeight
+        {
+            get => _contactImageHeight;
+            set
+            {
+                _contactImageHeight = value;
+                OnPropertyChanged(nameof(ContactImageHeight));
+            }
+        }
+
+        private int _contactImageWidth;
+        public int ContactImageWidth
+        {
+            get => _contactImageWidth;
+            set
+            {
+                _contactImageWidth = value;
+                OnPropertyChanged(nameof(ContactImageWidth));
+            }
+        }
+
+        private int _contactFrameHeight;
+        public int ContactFrameHeight
+        {
+            get => _contactFrameHeight;
+            set
+            {
+                _contactFrameHeight = value;
+                OnPropertyChanged(nameof(ContactFrameHeight));
+            }
+        }
+
+        private int _contactFrameWidth;
+        public int ContactFrameWidth
+        {
+            get => _contactFrameWidth;
+            set
+            {
+                _contactFrameWidth = value;
+                OnPropertyChanged(nameof(ContactFrameWidth));
+            }
+        }
+
+        private string _selectedContactPhotoUri;
+        public string SelectedContactPhotoUri
+        {
+            get => _selectedContactPhotoUri;
+            set
+            {
+                _selectedContactPhotoUri = value;
+                OnPropertyChanged(nameof(SelectedContactPhotoUri));
+            }
+        }
+
+        private ImageSource _contactsImage { get; set; }
+        public ImageSource ContactsImage
+        {
+            get => _contactsImage;
+            set
+            {
+                _contactsImage = value;
+                OnPropertyChanged(nameof(ContactsImage));
+            }
+        }
+
+        private Contact _selectedContact;
+        public Contact SelectedContact
+        {
+            get => _selectedContact;
+            set
+            {
+                _selectedContact = value;
+                OnPropertyChanged(nameof(SelectedContact));
+            }
+        }
+
+        private bool _showContactButton;
+        public bool ShowContactButton
+        {
+            get => _showContactButton;
+            set
+            {
+                _showContactButton = value;
+                OnPropertyChanged(nameof(ShowContactButton));
+            }
+        }
+
+        private bool _showContact;
+        public bool ShowContact
+        {
+            get => _showContact;
+            set
+            {
+                _showContact = value;
+                OnPropertyChanged(nameof(ShowContact));
+            }
+        }
+
+        private bool _showContacts;
+        public bool ShowContacts
+        {
+            get => _showContacts;
+            set
+            {
+                _showContacts = value;
+                OnPropertyChanged(nameof(ShowContacts));
+            }
+        }
+
+        private bool _hideContacts;
+        public bool HideContacts
+        {
+            get => _hideContacts;
+            set
+            {
+                _hideContacts = value;
+                OnPropertyChanged(nameof(HideContacts));
+            }
+        }
 
         private string _sentFrom { get; set; }
         public string SentFrom { get => _sentFrom;
@@ -90,6 +323,17 @@ namespace Busidex3.ViewModels
                 if (value == selectedIndex) return;
                 selectedIndex = value;
                 OnPropertyChanged("SelectedIndex");
+            }
+        }
+
+        private bool _allowSend;
+        public bool AllowSend
+        {
+            get => _allowSend;
+            set
+            {
+                _allowSend = value;
+                OnPropertyChanged(nameof(AllowSend));
             }
         }
     }

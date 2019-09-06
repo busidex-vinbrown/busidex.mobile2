@@ -30,8 +30,8 @@
                 IsRunning="True"
                 IsVisible="{Binding IsSearching}" 
                 Margin="30,0"/>
-            <ListView x:Name="lstSearchResults"
-                            SeparatorVisibility="Default"
+            <ListView x:Name="lstSearchResults" 
+                            SeparatorVisibility="None"
                             VerticalOptions="FillAndExpand"
                             IsPullToRefreshEnabled="False"
                             HasUnevenRows="True"

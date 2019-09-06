@@ -6,25 +6,27 @@
              x:Class="Busidex3.Views.MyProfileView"
              Visual="Material">
     <ContentPage.Content>
-        <Frame Padding="4" 
+        <Frame Padding="2" 
                HasShadow="False" 
                HorizontalOptions="FillAndExpand" 
-               OutlineColor="#03A9F4" 
+               BorderColor="#03A9F4" 
                BackgroundColor="#03A9F4" >
             <Frame
-                Padding="4" 
+                Padding="2" 
                 HasShadow="False" 
                 HorizontalOptions="FillAndExpand" 
-                OutlineColor="#03A9F4" 
                 BackgroundColor="White"
                 BorderColor="#03A9F4"            
                 CornerRadius="10">
                 <Frame.Content>
-                    <Grid Margin="18,0">
+                    <ScrollView>
+                    <Grid Margin="18,0" RowSpacing="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
@@ -49,10 +51,16 @@
                            Grid.Column="0"
                            Placeholder="User Name"
                            Text="{Binding UserName}" 
-                           HorizontalTextAlignment="Center"
-                           IsReadOnly="True"/>
+                           HorizontalTextAlignment="Center"/>
+                        <Entry x:Name="txtDisplayName" 
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Placeholder="Display Name"
+                               Text="{Binding DisplayName}" 
+                               HorizontalTextAlignment="Center" 
+                               TextChanged="TxtDisplayName_OnTextChanged"/>
                         <Entry x:Name="txtEmail" 
-                           Grid.Row="2"
+                           Grid.Row="3"
                            Grid.Column="0"
                            Placeholder="Email"
                            Text="{Binding Email}" 
@@ -60,7 +68,7 @@
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtUserName_TextChanged"/>
                         <Entry IsPassword="True"
-                           Grid.Row="3"
+                           Grid.Row="4"
                            Grid.Column="0"
                            x:Name="txtPassword" 
                            Placeholder="Password"
@@ -69,7 +77,7 @@
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtPassword_TextChanged"/>
                         <Entry IsPassword="True"
-                           Grid.Row="4"
+                           Grid.Row="5"
                            Grid.Column="0"
                            x:Name="txtConfirmPassword" 
                            Placeholder="Confirm Password"
@@ -79,7 +87,7 @@
                            TextChanged="TxtConfirmPassword_TextChanged"/>
                         <controls:CheckBox 
                             x:Name="chkAccept"
-                            Grid.Row="5"
+                            Grid.Row="6"
                             Grid.Column="0"
                             IsVisible="{Binding NewUser}"
                             CheckChanged="ChkAccept_CheckChanged"
@@ -91,7 +99,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.Column="0"
                             Text="Terms and Conditions">    
                             <Label.GestureRecognizers>
@@ -107,7 +115,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="7"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Text="Privacy Policy">
                             <Label.GestureRecognizers>
@@ -118,20 +126,36 @@
                         </Label>
                         <Button
                             x:Name="btnSave"
-                            Grid.Row="8"
+                            Grid.Row="9"
                             Grid.Column="0"
                             Margin="10,15"
                             IsEnabled="{Binding SaveButtonEnabled}"
                             Style="{StaticResource buttonStyle}"
-                            Clicked="BtnSave_Clicked"
+                            Clicked="BtnSave_OnClicked"
                             Text="{Binding SaveButtonText}"/>
                         <ActivityIndicator 
-                            Grid.Row="8"
+                            Grid.Row="9"
                             Grid.Column="0"
                             Color="#03A9F4" 
+                            IsVisible="{Binding IsSaving}"
                             IsRunning="{Binding IsSaving}" />
+                        <Label Text="Cancel" 
+                               IsVisible="{Binding NewUser}"
+                               Grid.Row="10"
+                               Grid.Column="0"
+                               TextColor="#03A9F4"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="Center"
+                               Margin="0,10"
+                               VerticalOptions="End"
+                               x:Name="btnCancel">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BtnCancel_OnTapped"
+                                                      NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
                         <Label
-                            Grid.Row="9"
+                            Grid.Row="11"
                             Grid.Column="0"
                             IsVisible="{Binding ConfirmPasswordError}"
                             Text="Passwords must match"
@@ -140,7 +164,7 @@
                             FontSize="Small"
                             FontAttributes="Italic"/>
                         <Label
-                            Grid.Row="9"
+                            Grid.Row="11"
                             Grid.Column="0"
                             Margin="0,20"
                             IsVisible="{Binding ProfileError}"
@@ -150,7 +174,7 @@
                             FontSize="Small"
                             FontAttributes="Italic"/>
                         <Label
-                            Grid.Row="9"
+                            Grid.Row="11"
                             Grid.Column="0"
                             Margin="0,20"
                             IsVisible="{Binding UserNameInUse}"
@@ -160,6 +184,7 @@
                             FontSize="Small"
                             FontAttributes="Italic"/>
                     </Grid>
+                    </ScrollView>
                 </Frame.Content>
             </Frame>
         </Frame>

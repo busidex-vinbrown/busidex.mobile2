@@ -63,7 +63,7 @@
                                 Margin="10">
                                 <Label Text="{Binding Text}" 
                                        FontSize="Medium" 
-                                       TextColor="#03A9F4" 
+                                       TextColor="Black" 
                                        HorizontalTextAlignment="Center"/>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"

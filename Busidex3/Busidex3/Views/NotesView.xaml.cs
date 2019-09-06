@@ -16,7 +16,8 @@ namespace Busidex3.Views
 
 	        ViewModel = vm;
 	        BindingContext = ViewModel;
-	        App.AnalyticsManager.TrackScreen(ScreenName.Notes);
+            Title = vm.SelectedCard.Card.Name ?? vm.SelectedCard.Card.CompanyName;
+            App.AnalyticsManager.TrackScreen(ScreenName.Notes);
 	    }
 
 	    private async void BtnSave_OnClicked(object sender, EventArgs e)

@@ -1,30 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Busidex3.Controls"
-             xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:controls="clr-namespace:Busidex3.Controls"             
              x:Class="Busidex3.Views.EditCard.EditAddressView">
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Vertical" Padding="5, 10">
-                <Grid RowSpacing="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <controls:CardImageHeader 
+        <ScrollView>
+            <StackLayout HeightRequest="{Binding ViewHeight}">
+                <StackLayout Orientation="Vertical" Padding="5, 10">
+                    <Grid RowSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <controls:CardImageHeader 
                         BindingContext="{Binding SelectedCard}"
                         Grid.Row="0"
                         Grid.Column="0">
-                    </controls:CardImageHeader>
-                    <Entry 
+                        </controls:CardImageHeader>
+                        <Entry 
                         x:Name="txtAddress1"
                         Text="{Binding Address.Address1}"
                         Placeholder="Address 1"
@@ -32,7 +33,7 @@
                         HorizontalTextAlignment="Center"
                         Grid.Row="1"
                         Grid.Column="0"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtAddress2"
                         Text="{Binding Address.Address2}"
                         Placeholder="Address 2"
@@ -40,7 +41,7 @@
                         HorizontalTextAlignment="Center"
                         Grid.Row="2"
                         Grid.Column="0"/>
-                    <Entry 
+                        <Entry 
                         x:Name="txtCity"
                         Text="{Binding Address.City}"
                         Placeholder="City"
@@ -48,37 +49,37 @@
                         HorizontalTextAlignment="Center"
                         Grid.Row="3"
                         Grid.Column="0"/>
-                    <StackLayout
-                        Orientation="Horizontal"
-                        Grid.Row="4"
-                        Grid.Column="0">
-                        <controls1:Dropdown 
-                            BackgroundColor="Transparent"
-                            BorderColor="Transparent"
-                            IconImage=""
+
+                        <Picker 
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Visual="Default"
+                            Title="State"
                             WidthRequest="250"
-                            Color="Black"
-                            Placeholder="State" 
                             ItemsSource="{Binding StateNames}" 
-                            SelectedItem="{Binding SelectedStateName}" />
+                            SelectedItem="{Binding SelectedStateName}">
+                        </Picker>
+                        
                         <Entry 
-                            x:Name="txtZip"
-                            Text="{Binding Address.ZipCode}"
-                            Placeholder="Zip"
-                            HorizontalOptions="EndAndExpand"
-                            HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                    <Button
+                        x:Name="txtZip"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Text="{Binding Address.ZipCode}"
+                        Placeholder="Zip"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"/>
+                        <Button
                         x:Name="btnSave"
                         Text="Save"
                         Style="{StaticResource buttonStyle}"
                         IsEnabled="{Binding AllowSave}"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="0"
                         VerticalOptions="End"
                         Clicked="BtnSave_OnClicked"/>
-                </Grid>
+                    </Grid>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
