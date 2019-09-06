@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
@@ -12,14 +11,9 @@ namespace Busidex3.ViewModels
     {
         private readonly SearchHttpService _searchHttpService = new SearchHttpService();
 
-        public ImageSource BackgroundImage
-        {
-            get
-            {
-                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
-                    typeof(SearchVM).Assembly);
-            }
-        }
+        public ImageSource BackgroundImage =>
+            ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                typeof(SearchVM).Assembly);
 
         private List<UserCard> _searchResults;
         public List<UserCard> SearchResults
@@ -59,7 +53,7 @@ namespace Busidex3.ViewModels
 
             results.AddRange(resultList);
 
-            results.ForEach(uc => uc.Card.Parent = uc);
+            //results.ForEach(uc => uc.Card.Parent = uc);
             SearchResults = new List<UserCard>(results);
 
             IsSearching = false;         

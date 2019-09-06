@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,14 +22,24 @@ namespace Busidex3.Views
 			InitializeComponent ();
 		}
 
+        protected override void OnDisappearing()
+        {
+            lstMyBusidex.SelectedItem = null;
+            base.OnDisappearing();
+        }
+
         protected override void OnAppearing()
         {
             Title = ViewNames.MyBusidex;
             BindingContext = _viewModel;
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
-            Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
+            Task.Factory.StartNew(async () =>
+            {
+                await _viewModel.Init(cachedPath);
+            });
+           
             lstMyBusidex.RefreshCommand = RefreshCommand;
-            
+
             App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 
             base.OnAppearing();

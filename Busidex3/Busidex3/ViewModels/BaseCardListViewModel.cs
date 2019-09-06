@@ -87,7 +87,7 @@ namespace Busidex3.ViewModels
             {
                 if (item.Card == null) continue;
 
-                item.Card.Parent = item;
+                //item.Card.Parent = item;
 
                 var fImageUrl = StringResources.THUMBNAIL_PATH + item.Card.FrontFileName;
                 var bImageUrl = StringResources.THUMBNAIL_PATH + item.Card.BackFileName;

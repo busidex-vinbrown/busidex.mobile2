@@ -85,7 +85,7 @@
                                 <controls:CardListViewDisplay
                                     BackgroundColor="LightGray"
                                     HorizontalOptions="FillAndExpand"
-                                    SelectedCard="{Binding Card.Parent}"/>
+                                    SelectedCard="{Binding .}"/>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
                                                           CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />

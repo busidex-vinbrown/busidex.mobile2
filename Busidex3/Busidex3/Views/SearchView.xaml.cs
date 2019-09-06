@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
@@ -13,9 +11,8 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SearchView : ContentPage
+	public partial class SearchView
 	{
-	    // private readonly MyBusidexVM _myBusidex = new MyBusidexVM();
         private readonly SearchVM _viewModel = new SearchVM();
 
 		public SearchView ()
@@ -24,16 +21,8 @@ namespace Busidex3.Views
 		    BindingContext = _viewModel;		    
             Title = "Search";
 
-		    // Task.Factory.StartNew(async () => { await _myBusidex.Init(); });
-
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}
-
-        //protected override bool OnBackButtonPressed()
-        //{
-        //    App.LoadMyBusidexPage();
-        //    return true;
-        //}
 
         private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {

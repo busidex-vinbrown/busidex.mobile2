@@ -229,8 +229,8 @@ namespace Busidex3.DomainModels
             BackFileId != null &&
             BackFileId.ToString() != StringResources.EMPTY_CARD_ID;
 
-        [JsonIgnore]
-	    public UserCard Parent { get; set; }
+     //   [JsonIgnore]
+	    //public UserCard Parent { get; set; }
 	}
 }
 
