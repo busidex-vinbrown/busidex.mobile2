@@ -17,7 +17,7 @@ namespace Busidex3.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ShareView
 	{
-        protected readonly ShareVM _viewModel = new ShareVM();
+        protected readonly ShareVM _viewModel;
         private readonly BusidexUser _currentUser;
         private const string SEND_TO_EMAIL_LABEL = "Send To Email";
         private const string SEND_TO_PHONE_LABEL = "Send To Phone Number";
@@ -27,12 +27,15 @@ namespace Busidex3.Views
 	        InitializeComponent();
 	        App.AnalyticsManager.TrackScreen(ScreenName.Share);
 
-            _viewModel.MessageSent = false;
-            
             var fileName = uc.DisplaySettings.CurrentFileName;
-
             uc.DisplaySettings = new UserCardDisplay(fileName: fileName);
-	        _viewModel.SelectedCard = uc;
+
+            _viewModel = new ShareVM
+            {
+                MessageSent = false,
+                SelectedCard = uc
+            };
+            
 	        rdoSendUsing.SelectedIndex = 0;
 	        BindingContext = _viewModel;
 

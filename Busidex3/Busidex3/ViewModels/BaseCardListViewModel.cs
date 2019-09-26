@@ -94,7 +94,7 @@ namespace Busidex3.ViewModels
                 var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
                 var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
 
-                if (!File.Exists(storagePath + "/" + fName))
+                if (!File.Exists(Path.Combine(storagePath,fName)))
                 {
                     try
                     {

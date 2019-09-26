@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BranchXamarinSDK;
-using FFImageLoading.Forms.Platform;
+﻿using BranchXamarinSDK;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Busidex3.iOS
 {
@@ -24,6 +21,7 @@ namespace Busidex3.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            FormsMaterial.Init();
 
             BranchIOS.Debug = true;
             var busidexApp = new App();
@@ -31,8 +29,7 @@ namespace Busidex3.iOS
 
             Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
             Plugin.InputKit.Platforms.iOS.Config.Init();
-            CachedImageRenderer.Init();
-            CachedImageRenderer.InitImageSourceHandler();
+
             LoadApplication(busidexApp);
 
             return base.FinishedLaunching(app, options);

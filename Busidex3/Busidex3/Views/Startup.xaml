@@ -37,13 +37,14 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 TextColor="Black"
-                FontSize="Medium"
+                FontSize="Large"
                 HorizontalOptions="CenterAndExpand" />
             <Button
                 x:Name="btnLogin"
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="10,30"
+                FontSize="Large"
                 Style="{StaticResource homeButton}"
                 Clicked="BtnLogin_Clicked"
                 Text="Connect to Your Account"/>
@@ -51,13 +52,14 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 TextColor="Black"
-                FontSize="Medium"
+                FontSize="Large"
                 HorizontalOptions="CenterAndExpand" />
             <Button
                 x:Name="btnStart"
                 Grid.Row="2"
                 Grid.Column="0"
                 Margin="10,30"
+                FontSize="Large"
                 Style="{StaticResource homeButton}"
                 Clicked="BtnStart_Clicked"
                 Text="Start Using the App!"/>

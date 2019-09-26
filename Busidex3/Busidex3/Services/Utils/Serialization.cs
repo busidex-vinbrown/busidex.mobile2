@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using Busidex3.Models;
 using Microsoft.AppCenter.Crashes;
 using File = System.IO.File;
 
@@ -115,25 +117,62 @@ namespace Busidex3.Services.Utils
             }
         }
 
-        public static void SaveResponse(string response, string fileName, string path = null)
+        public static async void SaveResponse(string response, string fileName, string path = null)
         {
-            var fullFilePath = Path.Combine(path ?? LocalStorageFolder, fileName);
-            try
+            using (var semaphore = new SemaphoreSlim(1, 1))
             {
-                if (File.Exists(fullFilePath) && !IsFileInUse(new FileInfo(fullFilePath)))
+                await semaphore.WaitAsync();
+
+                var fullFilePath = Path.Combine(path ?? LocalStorageFolder, fileName);
+                try
                 {
-                    File.WriteAllText(fullFilePath, response);
+                    if (File.Exists(fullFilePath) && !IsFileInUse(new FileInfo(fullFilePath)))
+                    {
+                        File.WriteAllText(fullFilePath, response);
+                    }
+                    else
+                    {
+                        File.WriteAllText(fullFilePath, response);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    File.WriteAllText(fullFilePath, response);
+                    Crashes.TrackError(
+                        new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
+                }
+                finally
+                {
+                    semaphore.Release();
                 }
             }
-            catch (Exception ex)
+        }
+
+        public static void SetDataRefreshDate(RefreshItem refreshItem)
+        {
+            var refreshFileName = Path.Combine(LocalStorageFolder,
+                StringResources.BUSIDEX_REFRESH_COOKIE_NAME);
+            var lastRefreshFile = LoadData<BusidexRefreshInfo>(refreshFileName) ?? new BusidexRefreshInfo();
+            var date = DateTime.Now;
+
+            switch (refreshItem)
             {
-                Crashes.TrackError(
-                    new Exception("Error in SaveResponse saving " + fileName + " with response " + response, ex));
+                case RefreshItem.MyBusidex:
+                {
+                    lastRefreshFile.LastMyBusidexRefresh = date;
+                    break;
+                }
+                case RefreshItem.Events:
+                {
+                    lastRefreshFile.LastEventsRefresh = date;
+                    break;
+                }
+                case RefreshItem.OrganizationList:
+                {
+                    lastRefreshFile.LastOrganizationListRefresh = date;
+                    break;
+                }
             }
+            SaveResponse(refreshFileName, refreshFileName);
         }
 
         private static bool IsFileInUse(FileInfo file)

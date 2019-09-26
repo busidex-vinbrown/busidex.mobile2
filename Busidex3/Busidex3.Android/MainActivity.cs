@@ -3,9 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using BranchXamarinSDK;
-using Busidex3.Droid.Activities;
 using Busidex3.ViewModels;
-using FFImageLoading.Forms.Platform;
 using Xamarin.Forms;
 
 namespace Busidex3.Droid
@@ -29,11 +27,9 @@ namespace Busidex3.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            CachedImageRenderer.Init(enableFastRenderer: true);
 
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
-            CachedImageRenderer.InitImageViewHandler();
 
             var app = new App();
             BranchAndroid.GetAutoInstance(this.ApplicationContext);

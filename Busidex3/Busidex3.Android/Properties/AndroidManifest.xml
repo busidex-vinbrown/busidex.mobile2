@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="558" android:versionName="2.0.0" package="com.busidex" android:installLocation="preferExternal">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="559" android:versionName="2.0.1" package="com.busidex" android:installLocation="preferExternal">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

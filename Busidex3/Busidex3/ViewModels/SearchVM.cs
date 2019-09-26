@@ -41,6 +41,11 @@ namespace Busidex3.ViewModels
             SearchResults = new List<UserCard>();
         }
 
+        public void RefreshList()
+        {
+            SearchResults = new List<UserCard>(SearchResults);
+        }
+
         public async Task<bool> DoSearch()
         {
             IsSearching = true;

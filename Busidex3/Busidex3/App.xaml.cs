@@ -18,6 +18,7 @@ using BranchXamarinSDK;
 using Busidex3.Views.EditCard;
 using Busidex3.Models;
 using System.Linq;
+using Newtonsoft.Json;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Device = Xamarin.Forms.Device;
@@ -58,27 +59,73 @@ namespace Busidex3
 
             if (string.IsNullOrEmpty(Security.AuthToken)) return;
 
-            Task.Factory.StartNew(() => Security.LoadUser());
-            Task.Factory.StartNew(() => LoadOwnedCard());
-            Task.Factory.StartNew(  () => LoadEvents());
-            Task.Factory.StartNew(  () => LoadOrganizations());
-            Task.Factory.StartNew(  () => LoadMyBusidex());
+            Task.Factory.StartNew(async () => await Security.LoadUser());
+            Task.Factory.StartNew(async () =>
+            {
+                var card = await LoadOwnedCard();
+                //if (card != null)
+                //{
+                //    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts);
+                //    Device.BeginInvokeOnMainThread(() =>
+                //    {
+                //        if (status == PermissionStatus.Granted)
+                //        {
+                //            LoadContactList();
+                //        }
+                //    });
+                //}
+            });
+            refreshOldData();
+        }
 
-            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
-                .ContinueWith((status) =>
-                {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        if (await status == PermissionStatus.Granted)
-                        {
-                            LoadContactList();
-                        }
-                    });
-                });
+        private static void refreshOldData()
+        {
+            var refreshFileName = Path.Combine(Serialization.LocalStorageFolder,
+                StringResources.BUSIDEX_REFRESH_COOKIE_NAME);
+
+            var lastRefreshFile = Serialization.LoadData<BusidexRefreshInfo>(refreshFileName) ?? new BusidexRefreshInfo();
+            
+            const int DAYS_THRESHOLD = 5;
+
+            var today = DateTime.Now;
+            if (DateTimeUtils.DateDiffDays(today, lastRefreshFile.LastMyBusidexRefresh.GetValueOrDefault()) > DAYS_THRESHOLD)
+            {
+                Task.Factory.StartNew( async () =>await LoadMyBusidex());
+            }
+            if (DateTimeUtils.DateDiffDays(today, lastRefreshFile.LastEventsRefresh.GetValueOrDefault()) > DAYS_THRESHOLD)
+            {
+                Task.Factory.StartNew( async () =>await LoadEvents());
+            }
+            if (DateTimeUtils.DateDiffDays(today, lastRefreshFile.LastOrganizationListRefresh.GetValueOrDefault()) > DAYS_THRESHOLD)
+            {
+                Task.Factory.StartNew( async () =>await LoadOrganizations());
+            }
+            
         }
 
         public static void LoadContactList()
         {
+            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
+                .ContinueWith(async (status) =>
+                {
+                    if (await status != PermissionStatus.Granted)
+                    {
+                        var shouldShow =
+                            await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(
+                                Permission.Contacts);
+                        if (shouldShow || true)
+                        {
+                            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Contacts);
+                            //Device.BeginInvokeOnMainThread(async () =>
+                            //{
+                            //    await Application.Current.MainPage.DisplayAlert(
+                            //        "Permission Required",
+                            //        "Busidex requires permission to read your Contacts list. Please go to the Settings for Busidex to grant this permission so the app will function properly.",
+                            //        "Ok");
+                            //});
+                        }
+                    }
+                });
             Task.Factory.StartNew(async () =>
             {
                 var contacts = await Plugin.ContactService.CrossContactService.Current.GetContactListAsync();
@@ -318,7 +365,7 @@ namespace Busidex3
             {
                 OnEventsLoaded?.Invoke();
             });
-
+            Serialization.SetDataRefreshDate(RefreshItem.Events);
             return true;
         }
 
@@ -336,6 +383,7 @@ namespace Busidex3
                 OnOrganizationsLoaded?.Invoke();
             });
 
+            Serialization.SetDataRefreshDate(RefreshItem.OrganizationList);
             return true;
         }
 
@@ -343,8 +391,9 @@ namespace Busidex3
         {
             var myBusidexHttpService = new MyBusidexHttpService();
             var result = await myBusidexHttpService.GetMyBusidex();
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(result.MyBusidex.Busidex);
+            var json = JsonConvert.SerializeObject(result.MyBusidex.Busidex);
             Serialization.SaveResponse(json, StringResources.MY_BUSIDEX_FILE);
+            Serialization.SetDataRefreshDate(RefreshItem.MyBusidex);
             return true;
         }
 

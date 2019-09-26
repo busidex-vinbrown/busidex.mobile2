@@ -67,7 +67,7 @@
                       HasUnevenRows="True"
                       SelectionMode="None"      
                       BackgroundColor="Transparent"
-                      CachingStrategy="RecycleElement"                      
+                      CachingStrategy="RetainElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
                       ItemsSource="{Binding FilteredUserCards}"
                       Grid.Column="0"

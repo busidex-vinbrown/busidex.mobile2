@@ -4,7 +4,6 @@ using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,7 +13,7 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OrganizationMembersView : ContentPage
+    public partial class OrganizationMembersView
     {
         private readonly OrganizationMembersVM _viewModel;
 
@@ -24,6 +23,10 @@ namespace Busidex3.Views
             Title = org.Name;
 
             _viewModel = new OrganizationMembersVM(org);
+        }
+
+        protected override void OnAppearing()
+        {
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, _viewModel.OrganizationMembersFile);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 
@@ -33,6 +36,7 @@ namespace Busidex3.Views
 
             App.AnalyticsManager.TrackScreen(ScreenName.OrganizationMembers);
 
+            base.OnAppearing();
         }
 
         private void TxtSearch_SearchButtonPressed(object sender, EventArgs e)

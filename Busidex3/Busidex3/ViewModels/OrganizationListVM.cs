@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
@@ -19,13 +21,31 @@ namespace Busidex3.ViewModels
     public delegate void OnMyOrganizationReferralsUpdatedEventHandler (ProgressStatus status);
     public delegate void OnMyOrganizationReferralsLoadedEventHandler (List<UserCard> cards);
 
+    public delegate void OnDetailTappedEventHandler (Organization org);
+
+
     public class OrganizationListVM : BaseViewModel
     {
         public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
         public event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
         public event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
+        public event OnDetailTappedEventHandler OnDetailTapped;
+
         public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
         public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
+
+        public ICommand ShowOrgDetailCommand
+        {
+            get
+            {
+                return new Command( (org) =>
+                {
+                    var organization = org as Organization;
+                    OnDetailTapped?.Invoke(organization);
+                    OnPropertyChanged(nameof(ShowOrgDetailCommand));
+                });
+            }
+        }
 
         private NamedSize _headerFont;
         public NamedSize HeaderFont
@@ -36,6 +56,16 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(HeaderFont));
             }
         }
+
+        private bool _isRefreshing;
+        public bool IsRefreshing { 
+            get => _isRefreshing;
+            set {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
         private List<Organization> _organizationList;
         public List<Organization> OrganizationList
         {

@@ -47,7 +47,7 @@
                       HasUnevenRows="True"
                       SelectionMode="None"      
                       BackgroundColor="Transparent"
-                      CachingStrategy="RecycleElement"                      
+                      CachingStrategy="RetainElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
                       ItemsSource="{Binding OrganizationList}"
                       Grid.Column="0"
@@ -90,7 +90,7 @@
                                                 TextColor="White" 
                                                 HorizontalTextAlignment="Center"/>
                                             <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="OnDetail_Tapped"
+                                                <TapGestureRecognizer Command="{Binding ShowOrgDetailCommand, Mode=OneWay}"
                                                             CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
                                             </Frame.GestureRecognizers>
                                         </Frame>

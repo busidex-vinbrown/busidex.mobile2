@@ -17,6 +17,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing { 
+            get => _isRefreshing;
+            set {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
         public ImageSource BackgroundImage
         {
             get

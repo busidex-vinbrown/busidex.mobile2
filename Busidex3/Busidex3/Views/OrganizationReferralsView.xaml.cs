@@ -4,10 +4,7 @@ using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -16,7 +13,7 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OrganizationReferralsView : ContentPage
+    public partial class OrganizationReferralsView
     {
         private readonly OrganizationReferralsVM _viewModel;
 
@@ -26,6 +23,10 @@ namespace Busidex3.Views
             Title = org.Name;
 
             _viewModel = new OrganizationReferralsVM(org);
+        }
+
+        protected override void OnAppearing()
+        {
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, _viewModel.OrganizationReferralsFile);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 
@@ -34,6 +35,8 @@ namespace Busidex3.Views
             lstCards.RefreshCommand = RefreshCommand;
 
             App.AnalyticsManager.TrackScreen(ScreenName.OrganizationReferrals);
+
+            base.OnAppearing();
         }
 
         private void TxtSearch_SearchButtonPressed(object sender, EventArgs e)

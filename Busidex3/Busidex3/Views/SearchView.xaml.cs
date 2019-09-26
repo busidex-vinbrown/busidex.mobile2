@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services.Utils;
@@ -23,6 +24,12 @@ namespace Busidex3.Views
 
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}
+
+        protected override void OnDisappearing()
+        {
+            Task.Factory.StartNew(()=>_viewModel.RefreshList());
+            base.OnDisappearing();
+        }
 
         private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {

@@ -84,11 +84,10 @@ namespace Busidex3.ViewModels
             {
                 return await LoadUserCards(cachedPath);
             }
-            else
-            {
-                HasCards = true;
-                IsEmpty = false;
-            }
+
+            SetFilteredList(UserCards);
+            HasCards = true;
+            IsEmpty = false;
 
             return true;
         }
@@ -114,7 +113,7 @@ namespace Busidex3.ViewModels
             SetFilteredList(subset);
         }
 
-        public async Task<bool> LoadUserCards(string cachedPath)
+        public async Task<bool> LoadUserCards(string cachedPath, bool showProgress = true)
         {
             ShowFilter = false;
             LoadingProgress = 0;
@@ -127,7 +126,7 @@ namespace Busidex3.ViewModels
 
                 try
                 {
-                    ShowProgress = true;
+                    ShowProgress = showProgress;
 
                     if (UserCards == null)
                     {
@@ -177,6 +176,7 @@ namespace Busidex3.ViewModels
                     IsEmpty = !HasCards;
 
                     await Task.Factory.StartNew(() => { SetFilteredList(UserCards); });
+                    
                 }
                 catch (Exception ex)
                 {

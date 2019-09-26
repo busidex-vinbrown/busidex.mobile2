@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -6,9 +7,8 @@ using System.Reflection;
 using Busidex3.DomainModels;
 using Busidex3.Models;
 using Busidex3.Services.Utils;
+using Microsoft.AppCenter.Crashes;
 using Plugin.ContactService.Shared;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -22,36 +22,23 @@ namespace Busidex3.ViewModels
             SuccessImage = ImageSource.FromResource("Busidex3.Resources.checkmark.png",
                 typeof(ShareVM).GetTypeInfo().Assembly);
 
-            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
-                .ContinueWith(async (status) =>
-                {
-                    if (await status != PermissionStatus.Granted)
-                    {
-                        var shouldShow =
-                            await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(
-                                Permission.Contacts);
-                        if (shouldShow)
-                        {
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await Application.Current.MainPage.DisplayAlert(
-                                    "Permission Required",
-                                    "Busidex requires permission to read your Contacts list. Please go to the Settings for Busidex to grant this permission so the app will function properly.",
-                                    "Ok");
-                            });
-                        }
-                    }
-                });
-
-            App.OnContactsLoaded += RefreshContacts;
-
-            mergeMyBusidexWithContacts();
-
             if (App.ContactGroups.Count == 0)
             {
-                App.LoadContactList();
+                App.OnContactsLoaded += mergeMyBusidexWithContacts;
+                try
+                {
+                    App.LoadContactList();
+                }
+                catch (Exception ex)
+                {
+                    Crashes.TrackError(ex);
+                }
             }
-            
+            else
+            {
+                mergeMyBusidexWithContacts();
+            }
+
             HideContacts = true;
             ShowContacts = false;
             ShowContact = false;
@@ -60,12 +47,28 @@ namespace Busidex3.ViewModels
                 typeof(CardVM).GetTypeInfo().Assembly);
         }
 
-        private void mergeMyBusidexWithContacts()
+        private async void mergeMyBusidexWithContacts()
         {
-            var myBusidex =
-                Serialization.LoadData<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder,
-                    StringResources.MY_BUSIDEX_FILE)) ??
-                new List<UserCard>();
+            try
+            {
+                var myBusidex =
+                    Serialization.LoadData<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder,
+                        StringResources.MY_BUSIDEX_FILE)) ??
+                    new List<UserCard>();
+
+                foreach (var userCard in myBusidex)
+                {
+                    var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + userCard.Card.FrontFileId + ".jpg";
+
+                    var path = Path.Combine(Serialization.LocalStorageFolder, fName);
+                    if (!File.Exists(path))
+                    {
+                        var fImageUrl = StringResources.THUMBNAIL_PATH + userCard.Card.FrontFileId + ".jpg";
+
+                        var storagePath = Serialization.LocalStorageFolder;
+                        await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+                    }
+                }
 
                 var subset = new List<ContactList>();
                 foreach (var group in App.ContactGroups)
@@ -93,11 +96,18 @@ namespace Busidex3.ViewModels
                 }
 
                 ShowContactButton = ContactGroups.Count > 0;
+
+                App.OnContactsLoaded -= mergeMyBusidexWithContacts;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         public void RefreshContacts()
         {
-            mergeMyBusidexWithContacts();
+            // mergeMyBusidexWithContacts();
         }
 
         public void DoSearch()

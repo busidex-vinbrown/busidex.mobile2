@@ -12,14 +12,6 @@ namespace Busidex3
 		public const string EVENT_LIST_REFRESH_COOKIE_NAME = "EventListRefresh";
 		public const string EVENT_CARDS_REFRESH_COOKIE_NAME = "EventCards{0}";
 
-		public const string USER_SETTING_DEVICE_TYPE_SET = "DeviceTypeSet";
-		public const string USER_SETTING_DISPLAYNAME = "DisplayName";
-		public const string USER_SETTING_USERNAME = "UserName";
-		public const string USER_SETTING_PASSWORD = "Password";
-		public const string USER_SETTING_EMAIL = "Email";
-		public const string USER_SETTING_AUTOSYNC = "AutoSync";
-		public const string USER_SETTING_USE_STAR_82 = "UseStar82";
-
 		public const string PREFERENCE_FIRST_USE_POPUP_SEEN = "StarupPopupSeen";
 
 		public const string MY_CARD_ADD_URL = "https://start.busidex.com/#/front/{0}";

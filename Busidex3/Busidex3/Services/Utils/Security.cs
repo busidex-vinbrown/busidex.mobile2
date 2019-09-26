@@ -31,7 +31,7 @@ namespace Busidex3.Services.Utils
                 if (string.IsNullOrEmpty(AuthToken)) return CurrentUser;
 
                 var account = await _accountHttpService.GetAccount();
-
+                
                 var accountJson = JsonConvert.SerializeObject(account);
                 Serialization.SaveResponse(accountJson, StringResources.BUSIDEX_USER_FILE);                
 
@@ -103,6 +103,7 @@ namespace Busidex3.Services.Utils
             Serialization.SaveResponse(null, StringResources.MY_ORGANIZATIONS_FILE);
             Serialization.SaveResponse(null, StringResources.THUMBNAIL_FILE_NAME_PREFIX);
             Serialization.SaveResponse(null, StringResources.ORGANIZATION_REFERRALS_FILE);
+            Serialization.SaveResponse(null, StringResources.BUSIDEX_REFRESH_COOKIE_NAME);
         }
 
         public static long DecodeUserId()

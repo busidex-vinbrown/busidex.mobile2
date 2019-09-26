@@ -4,9 +4,7 @@ using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,7 +13,7 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class EventDetailView : ContentPage
+    public partial class EventDetailView
     {
 
         private readonly EventCardsVM _viewModel;
@@ -25,6 +23,10 @@ namespace Busidex3.Views
             Title = e.Text;
 
             _viewModel = new EventCardsVM(e);
+        }
+
+        protected override void OnAppearing()
+        {
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, _viewModel.EventCardsFile);
             Task.Factory.StartNew(async () => { await _viewModel.Init(cachedPath); });
 
@@ -33,6 +35,8 @@ namespace Busidex3.Views
             lstCards.RefreshCommand = RefreshCommand;
 
             App.AnalyticsManager.TrackScreen(ScreenName.EventDetail);
+
+            base.OnAppearing();
         }
 
         private void TxtSearch_OnSearchButtonPressed(object sender, EventArgs e)

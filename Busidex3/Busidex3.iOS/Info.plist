@@ -61,5 +61,7 @@
 	<string>Busidex needs to access your camera</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImages.launchimage</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Busidex needs to access your contacts</string>
 </dict>
 </plist>

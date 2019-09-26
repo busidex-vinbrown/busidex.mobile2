@@ -1,4 +1,4 @@
-﻿using Android.Content;
+﻿//using Android.Content;
 using Busidex3.Services.Utils;
 using System;
 using System.Globalization;
@@ -25,13 +25,13 @@ namespace Busidex3.Converters
                 return ImageSource.FromFile(fileName);
             }
             
-            if (Device.RuntimePlatform == Device.Android && image != DEFAULT_PROFILE)
-            {
-                var uri = Android.Net.Uri.Parse(image);
-                var stream = Android.App.Application.Context.ContentResolver.OpenInputStream(uri);
+            //if (Device.RuntimePlatform == Device.Android && image != DEFAULT_PROFILE)
+            //{
+            //    var uri = Android.Net.Uri.Parse(image);
+            //    var stream = Android.App.Application.Context.ContentResolver.OpenInputStream(uri);
 
-                return ImageSource.FromStream(() => stream);
-            }
+            //    return ImageSource.FromStream(() => stream);
+            //}
             if (Device.RuntimePlatform == Device.iOS && image != DEFAULT_PROFILE)
             {
                 return ImageSource.FromUri(new Uri(image));
