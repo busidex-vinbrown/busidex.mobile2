@@ -4,7 +4,7 @@
              xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              x:Class="Busidex3.Views.MyBusidexView"
-             Visual="Material">
+             Visual="Default">
     <ContentPage.Resources>
         <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
     </ContentPage.Resources>

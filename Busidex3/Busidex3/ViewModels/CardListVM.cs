@@ -79,6 +79,7 @@ namespace Busidex3.ViewModels
         public override async Task<bool> Init(string cachedPath)
         {
             ShowFilter = true;
+            IsEmpty = HasCards = false;
 
             if (UserCards == null || UserCards.Count == 0)
             {
@@ -86,8 +87,8 @@ namespace Busidex3.ViewModels
             }
 
             SetFilteredList(UserCards);
-            HasCards = true;
-            IsEmpty = false;
+            HasCards = UserCards.Count > 0;
+            IsEmpty = !HasCards;
 
             return true;
         }

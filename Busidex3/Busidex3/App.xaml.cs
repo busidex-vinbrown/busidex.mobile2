@@ -60,21 +60,7 @@ namespace Busidex3
             if (string.IsNullOrEmpty(Security.AuthToken)) return;
 
             Task.Factory.StartNew(async () => await Security.LoadUser());
-            Task.Factory.StartNew(async () =>
-            {
-                var card = await LoadOwnedCard();
-                //if (card != null)
-                //{
-                //    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts);
-                //    Device.BeginInvokeOnMainThread(() =>
-                //    {
-                //        if (status == PermissionStatus.Granted)
-                //        {
-                //            LoadContactList();
-                //        }
-                //    });
-                //}
-            });
+            Task.Factory.StartNew(async () => await LoadOwnedCard());
             refreshOldData();
         }
 
@@ -100,7 +86,6 @@ namespace Busidex3
             {
                 Task.Factory.StartNew( async () =>await LoadOrganizations());
             }
-            
         }
 
         public static void LoadContactList()
@@ -116,13 +101,6 @@ namespace Busidex3
                         if (shouldShow || true)
                         {
                             await CrossPermissions.Current.RequestPermissionsAsync(Permission.Contacts);
-                            //Device.BeginInvokeOnMainThread(async () =>
-                            //{
-                            //    await Application.Current.MainPage.DisplayAlert(
-                            //        "Permission Required",
-                            //        "Busidex requires permission to read your Contacts list. Please go to the Settings for Busidex to grant this permission so the app will function properly.",
-                            //        "Ok");
-                            //});
                         }
                     }
                 });
@@ -328,21 +306,21 @@ namespace Busidex3
                     await DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
                 }
 
-                var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+                //var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
 
-                if(myBusidex != null){
-                    foreach(var uc in myBusidex){
-                        if (card == null || uc.Card == null || uc.Card.CardId != card.CardId) continue;
+                //if(myBusidex != null){
+                //    foreach(var uc in myBusidex){
+                //        if (card == null || uc.Card == null || uc.Card.CardId != card.CardId) continue;
                         
-                        card.ExistsInMyBusidex = true;
-                        uc.Card = new Card (card);
-                        break;
-                    }
+                //        card.ExistsInMyBusidex = true;
+                //        uc.Card = new Card (card);
+                //        break;
+                //    }
                     
-                    var savedResult = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidex);
+                //    var savedResult = JsonConvert.SerializeObject(myBusidex);
 
-                    Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
-                }
+                //    Serialization.SaveResponse(savedResult, StringResources.MY_BUSIDEX_FILE);
+                //}
 
                 return await Task.FromResult(card);
 

@@ -25,19 +25,11 @@ namespace Busidex3.Views
             _viewModel.HeaderFont = Device.RuntimePlatform == Device.Android
                 ? NamedSize.Medium
                 : NamedSize.Header;
-            _viewModel.OnDetailTapped += OnDetail_Tapped;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        private void OnDetail_Tapped(object sender, System.EventArgs e)
         {
             var organization = ((TappedEventArgs)e).Parameter as Organization;
-            var page = new OrganizationMembersView(organization);
-            Navigation.PushAsync(page);
-        }
-
-        private void OnDetail_Tapped(Organization organization)
-        {
-            //var organization = ((TappedEventArgs)e).Parameter as Organization;
             var page = new OrganizationDetailView(organization);
             Navigation.PushAsync(page);
         }

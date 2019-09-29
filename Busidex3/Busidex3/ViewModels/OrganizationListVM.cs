@@ -34,19 +34,6 @@ namespace Busidex3.ViewModels
         public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
         public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;
 
-        public ICommand ShowOrgDetailCommand
-        {
-            get
-            {
-                return new Command( (org) =>
-                {
-                    var organization = org as Organization;
-                    OnDetailTapped?.Invoke(organization);
-                    OnPropertyChanged(nameof(ShowOrgDetailCommand));
-                });
-            }
-        }
-
         private NamedSize _headerFont;
         public NamedSize HeaderFont
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,14 +20,6 @@ namespace Busidex3.Views
 		{
 			InitializeComponent ();
 		}
-
-        //protected override void OnDisappearing()
-        //{
-        //    lstMyBusidex.SelectedItem = null;
-        //    var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
-        //    Task.Factory.StartNew(() => { _viewModel.SetFilteredList(_viewModel.UserCards);;});
-        //    base.OnDisappearing();
-        //}
 
         protected override void OnAppearing()
         {

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Busidex3.Converters;assembly=Busidex3"
              x:Class="Busidex3.Views.EventsView"
-             Visual="Material">
+             Visual="Default">
     <ContentPage.Resources>
         <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
     </ContentPage.Resources>
