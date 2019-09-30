@@ -110,6 +110,11 @@ namespace Busidex3.ViewModels
             // mergeMyBusidexWithContacts();
         }
 
+        public void ClearSearch()
+        {
+            ContactGroups = new ObservableCollection<ContactList>(App.ContactGroups);
+        }
+
         public void DoSearch()
         {
             var subset = new List<ContactList>();

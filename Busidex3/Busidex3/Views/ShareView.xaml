@@ -4,6 +4,8 @@
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              xmlns:inputkit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:converters="clr-namespace:Busidex3.Converters"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true"
              x:Class="Busidex3.Views.ShareView"             
              Visual="Material">
     <ContentPage.Resources>
@@ -133,7 +135,7 @@
                     </Label>
                     <ListView
                         ItemsSource="{Binding SelectedContact.Numbers}"
-                        SeparatorVisibility="Default"
+                        SeparatorVisibility="None"
                         Grid.Row="3" Grid.Column="0">
                         <ListView.ItemTemplate>
                             <DataTemplate>

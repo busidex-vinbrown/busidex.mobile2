@@ -31,8 +31,6 @@
     <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-    <MtouchSdkVersion>
-    </MtouchSdkVersion>
     <MtouchHttpClientHandler>CFNetworkHandler</MtouchHttpClientHandler>
     <MtouchFastDev>false</MtouchFastDev>
     <CodesignKey>iPhone Developer: Vinny Brown (6WLT8DCEEV)</CodesignKey>
@@ -332,5 +330,6 @@
     <EmbeddedResource Include="Resources\logo3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\defaultprofile.png" />
   </ItemGroup>
 </Project>

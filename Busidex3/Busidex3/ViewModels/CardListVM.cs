@@ -118,6 +118,7 @@ namespace Busidex3.ViewModels
         {
             ShowFilter = false;
             LoadingProgress = 0;
+            IsEmpty = HasCards = false;
 
             using (var semaphore = new SemaphoreSlim(1, 1))
             {

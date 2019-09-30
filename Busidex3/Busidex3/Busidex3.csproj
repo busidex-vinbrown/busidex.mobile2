@@ -103,7 +103,9 @@
     <EmbeddedResource Include="Resources\caret1.png" />
     <EmbeddedResource Include="Resources\caret2.png" />
     <EmbeddedResource Include="Resources\contacts_64x64.png" />
-    <EmbeddedResource Include="Resources\defaultprofile.png" />
+    <EmbeddedResource Include="Resources\defaultprofile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\editimage.png" />
     <EmbeddedResource Include="Resources\email.png" />
   </ItemGroup>

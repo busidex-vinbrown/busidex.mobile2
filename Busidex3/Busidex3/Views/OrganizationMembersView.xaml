@@ -6,7 +6,8 @@
              xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Busidex3.Views.OrganizationMembersView">
+             x:Class="Busidex3.Views.OrganizationMembersView"
+             Visual="Default">
     <ContentPage.Resources>
         <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
     </ContentPage.Resources>

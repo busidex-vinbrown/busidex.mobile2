@@ -107,12 +107,34 @@ namespace Busidex3
             Task.Factory.StartNew(async () =>
             {
                 var contacts = await Plugin.ContactService.CrossContactService.Current.GetContactListAsync();
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    foreach (var contact in contacts)
+                    {
+                        
+                        if (contact.Numbers != null)
+                        {
+                            for (var i = 0; i < contact.Numbers.Count; i++)
+                            {
+                                var number = contact.Numbers[i];
+                                if (number.ToLowerInvariant().Contains("stringvalue="))
+                                {
+                                    var start = number.IndexOf("=", StringComparison.Ordinal)+1;
+                                    var end = number.ToLower().IndexOf(", initialcountrycode", StringComparison.Ordinal);
+                                    var num = number.Substring(start, end - start);
+                                    contact.Numbers[i] = num;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 ContactGroups = new List<ContactList>();
                 for (var i = 0; i < 26; i++)
                 {
                     var letter = ((char)(65 + i)).ToString();
                     var newGroup = new ContactList();
-                    var filteredList = contacts.Where(c => c.Name.StartsWith(letter)).ToList();
+                    var filteredList = contacts.Where(c => c.Name.StartsWith(letter, StringComparison.Ordinal)).ToList();
 
                     newGroup.Heading = letter.ToUpper();
                     newGroup.AddRange(filteredList);

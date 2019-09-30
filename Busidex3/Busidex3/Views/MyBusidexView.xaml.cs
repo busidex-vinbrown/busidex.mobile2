@@ -14,7 +14,7 @@ namespace Busidex3.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MyBusidexView
 	{
-	    private readonly MyBusidexVM _viewModel = new MyBusidexVM();
+	    private MyBusidexVM _viewModel;
 
         public MyBusidexView ()
 		{
@@ -24,15 +24,26 @@ namespace Busidex3.Views
         protected override void OnAppearing()
         {
             Title = ViewNames.MyBusidex;
-            BindingContext = _viewModel;
-            var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
-            Task.Factory.StartNew(async () =>
+            if (_viewModel == null)
             {
-                await _viewModel.Init(cachedPath);
-            });
-           
-            lstMyBusidex.RefreshCommand = RefreshCommand;
+                _viewModel = new MyBusidexVM();
+                BindingContext = _viewModel;
+                var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
 
+                _viewModel.Init(cachedPath).ContinueWith((result) =>
+                {
+                    lstMyBusidex.RefreshCommand = RefreshCommand;
+
+                    if (!_viewModel.HasCards)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            lstMyBusidex.IsVisible = false;
+                            stkNoCards.IsVisible = true;
+                        });
+                    }
+                });
+            }
             App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 
             base.OnAppearing();

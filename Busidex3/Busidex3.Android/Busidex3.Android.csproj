@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <NuGetPackageImportStamp>
@@ -125,7 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Busidex3\Busidex3.csproj">
-      <Project>{3B45E209-3C90-45E8-B974-D06F3193167C}</Project>
+      <Project>{241052B0-C727-4DFC-8EBB-E3E02A914706}</Project>
       <Name>Busidex3</Name>
     </ProjectReference>
   </ItemGroup>

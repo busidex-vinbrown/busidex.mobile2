@@ -50,10 +50,11 @@
                    Grid.Row="2"
                    Aspect="AspectFill"/>
             <StackLayout
+                x:Name="stkNoCards"
                 Padding="0"
                 HorizontalOptions="Center"
                 VerticalOptions="StartAndExpand"
-                IsVisible="{Binding IsEmpty}"
+                IsVisible="False"
                 Grid.Column="0"
                 Grid.Row="2">
                 <Frame
@@ -78,7 +79,8 @@
                       VerticalOptions="FillAndExpand"
                       IsPullToRefreshEnabled="True"
                       HasUnevenRows="True"
-                      SelectionMode="None"      
+                      SelectionMode="Single"
+                      ItemTapped="TapGestureRecognizer_OnTapped"
                       BackgroundColor="Transparent"
                       CachingStrategy="RetainElement"                      
                       IsRefreshing="{Binding IsRefreshing}"
@@ -94,7 +96,6 @@
                                 VerticalOptions="Fill"
                                 HorizontalOptions="Fill"
                                 Padding="0"
-                                Opacity=".9"
                                 Margin="5">
                                 <controls:CardListViewDisplay
                                     BackgroundColor="LightGray"

@@ -282,7 +282,7 @@ namespace Busidex3.Views
         {
             if (string.IsNullOrEmpty(e.NewTextValue))
             {
-                _viewModel.RefreshContacts();
+                _viewModel.ClearSearch();
             }
         }
 
