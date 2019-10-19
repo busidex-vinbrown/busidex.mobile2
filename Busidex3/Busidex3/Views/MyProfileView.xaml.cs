@@ -7,23 +7,27 @@ using Xamarin.Forms.Xaml;
 namespace Busidex3.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MyProfileView 
+    public partial class MyProfileView
     {
-        protected MyProfileVM _viewModel = new MyProfileVM();
+        protected MyProfileVM _viewModel;
 
         public MyProfileView()
         {
             InitializeComponent();
             BindingContext = _viewModel;
             Title = "My Profile";
-            
-            _viewModel.Email = Security.CurrentUser?.Email;
-            _viewModel.DisplayName = Security.CurrentUser?.UserAccount.DisplayName;
+
+            _viewModel = new MyProfileVM
+            {
+                Email = Security.CurrentUser?.Email, 
+                DisplayName = Security.CurrentUser?.UserAccount.DisplayName
+            };
 
             if (!string.IsNullOrEmpty(Security.AuthToken))
             {
                 _viewModel.SaveButtonEnabled = true;
             }
+
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
             _viewModel.Message = _viewModel.NewUser
                 ? "Choose an email address and password here so you can access your cards on any device."
@@ -90,11 +94,6 @@ namespace Busidex3.Views
             }
         }
 
-        private void ChkAccept_CheckChanged(object sender, EventArgs e)
-        {
-            _viewModel.SaveButtonEnabled = isValid();
-        }
-
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
             _viewModel.IsSaving = true;
@@ -126,6 +125,11 @@ namespace Busidex3.Views
             {
                 App.LoadStartupPage();
             }
+        }
+
+        protected void ChkAccept_OnCheckChanged(object sender, EventArgs e)
+        {
+            _viewModel.SaveButtonEnabled = isValid();
         }
     }
 }

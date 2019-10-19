@@ -90,7 +90,7 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             IsVisible="{Binding NewUser}"
-                            CheckChanged="ChkAccept_CheckChanged"
+                            CheckChanged="ChkAccept_OnCheckChanged"
                             Text="I accept the Terms and Conditions"/>
                         <Label
                             x:Name="lnkTerms"

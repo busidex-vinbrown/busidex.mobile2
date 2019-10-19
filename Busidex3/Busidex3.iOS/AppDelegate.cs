@@ -23,15 +23,14 @@ namespace Busidex3.iOS
             global::Xamarin.Forms.Forms.Init();
             FormsMaterial.Init();
 
-            BranchIOS.Debug = true;
+            Branch.Debug = true;
             var busidexApp = new App();
             BranchIOS.Init(StringResources.BRANCH_KEY, options, busidexApp);
 
             Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
-            Plugin.InputKit.Platforms.iOS.Config.Init();
-
+            
             LoadApplication(busidexApp);
-
+            Plugin.InputKit.Platforms.iOS.Config.Init();
             return base.FinishedLaunching(app, options);
         }
 
