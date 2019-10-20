@@ -34,9 +34,9 @@
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label Text="{Binding Message}"
                             Grid.Row="0"
@@ -90,8 +90,10 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             IsVisible="{Binding NewUser}"
-                            CheckChanged="ChkAccept_OnCheckChanged"
-                            Text="I accept the Terms and Conditions"/>
+                            CheckChanged="ChkAccept_CheckChanged"
+                            Type="Check"
+                            Color="AliceBlue"
+                            Text="I accept the Terms and Conditions"></controls:CheckBox>
                         <Label
                             x:Name="lnkTerms"
                             FontSize="Medium"
@@ -129,6 +131,7 @@
                             Grid.Row="9"
                             Grid.Column="0"
                             Margin="10,15"
+                            Visual="Default"
                             IsEnabled="{Binding SaveButtonEnabled}"
                             Style="{StaticResource buttonStyle}"
                             Clicked="BtnSave_OnClicked"

@@ -127,7 +127,7 @@ namespace Busidex3.Views
             }
         }
 
-        protected void ChkAccept_OnCheckChanged(object sender, EventArgs e)
+        protected void ChkAccept_CheckChanged(object sender, EventArgs e)
         {
             _viewModel.SaveButtonEnabled = isValid();
         }
