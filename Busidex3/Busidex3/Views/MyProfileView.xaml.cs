@@ -14,7 +14,7 @@ namespace Busidex3.Views
         public MyProfileView()
         {
             InitializeComponent();
-            BindingContext = _viewModel;
+            
             Title = "My Profile";
 
             _viewModel = new MyProfileVM
@@ -37,6 +37,8 @@ namespace Busidex3.Views
                 : "Save";
             _viewModel.SaveButtonEnabled = isValid();
             txtUserName.IsReadOnly = !_viewModel.NewUser;
+
+            BindingContext = _viewModel;
         }
 
         protected override bool OnBackButtonPressed()

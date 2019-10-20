@@ -157,10 +157,11 @@ namespace Busidex3.Views
                 var smsTask = CrossMessaging.Current.SmsMessenger;
                 if (!smsTask.CanSendSms) return false;
 
-                await SMSShareHttpService.SaveSmsShare(_currentUser.UserId, _viewModel.SelectedCard.CardId,
-                    _viewModel.SendTo, _viewModel.Message);
-
                 smsTask.SendSms(_viewModel.SendTo, message);
+
+                await SMSShareHttpService.SaveSmsShare(_currentUser.UserId, _viewModel.SelectedCard.CardId,
+                    _viewModel.SendTo, message);
+                
                 return true;
             }
             catch (Exception ex)
