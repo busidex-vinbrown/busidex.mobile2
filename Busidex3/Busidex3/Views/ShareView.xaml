@@ -244,8 +244,9 @@
                 </StackLayout>
                 <Editor
                     x:Name="txtMessage"    
-                    Text="{Binding Message}" 
+                    Text="{Binding Message, Mode=TwoWay}" 
                     HeightRequest="200"
+                    Visual="Default"
                     BackgroundColor="LightGray"
                     Placeholder="Include a personal message"
                     HorizontalOptions="FillAndExpand"
