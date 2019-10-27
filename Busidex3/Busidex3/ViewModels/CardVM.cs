@@ -288,6 +288,18 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(SelectedSide));
             }
         }
+
+        private bool _showSpinner;
+
+        public bool ShowSpinner
+        {
+            get => _showSpinner;
+            set
+            {
+                _showSpinner = value;
+                OnPropertyChanged(nameof(ShowSpinner));
+            }
+        }
 #endregion
 
         public CardVM(ref UserCard uc, ref List<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
@@ -463,9 +475,9 @@ namespace Busidex3.ViewModels
                 SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
         }
 
-        public async void AddToMyBusidex()
+        public async Task<bool> AddToMyBusidex()
         {
-            if (_myBusidex.Any(b => b.CardId == SelectedCard.CardId)) return;
+            if (_myBusidex.Any(b => b.CardId == SelectedCard.CardId)) return false;
 
             SelectedCard.ExistsInMyBusidex = SelectedCard.Card.ExistsInMyBusidex = true;
 
@@ -489,6 +501,7 @@ namespace Busidex3.ViewModels
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.CardAdded, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
             await _activityHttpService.SaveActivity ((long)EventSources.Add, cardId);
+            return true;
         }
 
         #endregion

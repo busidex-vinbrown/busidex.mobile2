@@ -86,11 +86,15 @@ namespace Busidex3.Views
 	            case CardActionButton.Tags:
 	                break;
 	            case CardActionButton.Add:
-                    _viewModel.AddToMyBusidex();
+                    _viewModel.ShowSpinner = true;
+                    await _viewModel.AddToMyBusidex();
+                    _viewModel.ShowSpinner = false;
 	                break;
 	            case CardActionButton.Remove:
 	                if (!await DisplayAlert("Remove", "Are you sure you want to remove this card from your collection?", "Yes", "Cancel")) return;
+                    _viewModel.ShowSpinner = true;
                     _viewModel.RemoveFromMyBusidex();
+                    _viewModel.ShowSpinner = false;
 	                break;
 	            default:
 	                throw new ArgumentOutOfRangeException();

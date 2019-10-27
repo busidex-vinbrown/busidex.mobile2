@@ -32,6 +32,7 @@
                                               CommandParameter="{x:Static busidex3:CardActionButton.Maps}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
                 </Image>
+                
                 <Image
                     x:Name="btnNotes"
                     IsEnabled="{Binding SelectedCard.Card.ExistsInMyBusidex}"
@@ -116,6 +117,14 @@
                                               CommandParameter="{x:Static busidex3:CardActionButton.Remove}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
                 </Image>
+                <ActivityIndicator 
+                    Grid.Row="2" Grid.Column="0"
+                    x:Name="prgSpinner" 
+                    HeightRequest="40" WidthRequest="40" 
+                    Color="#03A9F4" 
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ShowSpinner}"
+                    IsRunning="True"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>
