@@ -38,7 +38,6 @@ namespace Busidex3.Droid
             BranchAndroid.Init(this, GetString(Resource.String.branch_key), app);
             
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
-            Xamarians.CropImage.Droid.CropImageServiceAndroid.Initialize(this);
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 

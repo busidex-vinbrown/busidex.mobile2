@@ -27,7 +27,6 @@ namespace Busidex3.iOS
             var busidexApp = new App();
             BranchIOS.Init(StringResources.BRANCH_KEY, options, busidexApp);
 
-            Xamarians.CropImage.iOS.CropImageServiceIOS.Initialize();
             Stormlion.ImageCropper.iOS.Platform.Init();
 
             LoadApplication(busidexApp);

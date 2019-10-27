@@ -9,7 +9,6 @@ using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Stormlion.ImageCropper;
-using Xamarians.CropImage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -152,7 +151,7 @@ namespace Busidex3.Views.EditCard
                 var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                 {
                     PhotoSize = PhotoSize.Small,
-                    CompressionQuality = 70
+                    CompressionQuality = 80
                 });
 
                 if (file == null)
