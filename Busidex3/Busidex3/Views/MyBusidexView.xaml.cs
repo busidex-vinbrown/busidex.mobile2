@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Busidex3.Analytics;
 using Busidex3.DomainModels;
@@ -24,12 +23,13 @@ namespace Busidex3.Views
         protected override void OnAppearing()
         {
             Title = ViewNames.MyBusidex;
+            var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
+
             if (_viewModel == null)
             {
                 _viewModel = new MyBusidexVM();
                 BindingContext = _viewModel;
-                var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
-
+                
                 _viewModel.Init(cachedPath).ContinueWith((result) =>
                 {
                     lstMyBusidex.RefreshCommand = RefreshCommand;
@@ -43,6 +43,10 @@ namespace Busidex3.Views
                         });
                     }
                 });
+            }
+            else
+            {
+                _viewModel.LoadFromCache(cachedPath);
             }
             App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 

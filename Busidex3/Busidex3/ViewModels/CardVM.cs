@@ -10,6 +10,7 @@ using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -343,7 +344,7 @@ namespace Busidex3.ViewModels
             {
                 return new Command(async (number) =>
               {
-                  Device.OpenUri(new Uri($"sms:{number.ToString()}"));
+                  await Launcher.OpenAsync(new Uri($"sms:{number.ToString()}"));
                   await _activityHttpService.SaveActivity((long)EventSources.Text, SelectedCard.CardId);
                   App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.SMSSent, number.ToString());
               });
@@ -354,7 +355,7 @@ namespace Busidex3.ViewModels
         {
             get { return new Command(async (number) =>
             {
-                Device.OpenUri(new Uri($"tel:{number.ToString()}"));
+                await Launcher.OpenAsync(new Uri($"tel:{number}"));
                 await _activityHttpService.SaveActivity ((long)EventSources.Call, SelectedCard.CardId);
                 App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.PhoneDialed, number.ToString());
             }); }

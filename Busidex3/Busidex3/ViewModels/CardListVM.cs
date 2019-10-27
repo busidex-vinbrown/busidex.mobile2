@@ -93,6 +93,12 @@ namespace Busidex3.ViewModels
             return true;
         }
 
+        public void LoadFromCache(string cachedPath)
+        {
+            UserCards = Serialization.GetCachedResult<List<UserCard>>(cachedPath) ?? new List<UserCard>();
+            SetFilteredList(UserCards);
+        }
+
         public void SetFilteredList(List<UserCard> subset)
         {
             FilteredUserCards = new List<UserCard>(subset);
