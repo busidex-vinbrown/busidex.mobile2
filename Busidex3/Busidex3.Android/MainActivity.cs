@@ -28,6 +28,8 @@ namespace Busidex3.Droid
 
             base.OnCreate(savedInstanceState);
 
+            Stormlion.ImageCropper.Droid.Platform.Init();
+
             Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
 
@@ -48,6 +50,13 @@ namespace Busidex3.Droid
             RequestedOrientation = orientation == UserCardDisplay.CardOrientation.Horizontal
                 ? ScreenOrientation.Landscape
                 : ScreenOrientation.Portrait;
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            Stormlion.ImageCropper.Droid.Platform.OnActivityResult(requestCode, resultCode, data);
         }
 
         protected override void OnNewIntent(Intent intent)

@@ -8,6 +8,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Stormlion.ImageCropper;
 using Xamarians.CropImage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -181,9 +182,9 @@ namespace Busidex3.Views.EditCard
 
                 var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
                 {
-                    AllowCropping = true,
+                    //AllowCropping = true,
                     PhotoSize = PhotoSize.Small,
-                    CompressionQuality = 60
+                    CompressionQuality = 80
                 });
 
                 if (file == null)
@@ -213,42 +214,57 @@ namespace Busidex3.Views.EditCard
             {
                 var str = file?.GetStream();
 
-                var cropResult = file != null
-                    ? await CropImageService.Instance.CropImage(file.Path, CropRatioType.None)
-                    : null;
+                var imageFile = string.Empty;
 
-                if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                new ImageCropper()
                 {
-                    imgSelectedFrontImage.Source = ImageSource.FromFile(cropResult?.FilePath);
-                }
-                else
-                {
-                    imgSelectedBackImage.Source = ImageSource.FromFile(cropResult?.FilePath);
-                }
-
-                byte[] b = { };
-                if (str != null)
-                {
-                    using (MemoryStream ms = new MemoryStream())
+                    Success = (img) =>
                     {
-                        str.CopyTo(ms);
-                        b = ms.ToArray();
-                    }
-                }
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            imageFile = img;
+                            //imageView.Source = ImageSource.FromFile(img);
+                            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                            {
+                                imgSelectedFrontImage.Source = ImageSource.FromFile(imageFile);
+                            }
+                            else
+                            {
+                                imgSelectedBackImage.Source = ImageSource.FromFile(imageFile);
+                            }
 
-                var s = Convert.ToBase64String(b);
-                if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
-                {
-                    _viewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
-                    _viewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
-                    _viewModel.FrontImageChanged = true;
-                }
-                else
-                {
-                    _viewModel.EncodedBackCardImage = s != string.Empty ? s : null;
-                    _viewModel.BackFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
-                    _viewModel.BackImageChanged = true;
-                }
+                            byte[] b = { };
+                            if (str != null)
+                            {
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    str.CopyTo(ms);
+                                    b = ms.ToArray();
+                                }
+                            }
+
+                            var s = Convert.ToBase64String(b);
+                            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                            {
+                                _viewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
+                                _viewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                                _viewModel.FrontImageChanged = true;
+                            }
+                            else
+                            {
+                                _viewModel.EncodedBackCardImage = s != string.Empty ? s : null;
+                                _viewModel.BackFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
+                                _viewModel.BackImageChanged = true;
+                            }
+                        });
+                    }
+                }.Show(this, file?.Path);
+
+                //var cropResult = file != null
+                //    ? await CropImageService.Instance.CropImage(file.Path, CropRatioType.None)
+                //    : null;
+
+                
             }
             catch (Exception ex)
             {
