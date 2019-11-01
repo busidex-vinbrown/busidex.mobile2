@@ -21,7 +21,8 @@
                             Grid.Column="0"
                             Grid.Row="0"/>
                 <Image Source="{Binding BackgroundImage}" 
-                   Grid.Column="0"
+                       x:Name="imgBackground"
+                       Grid.Column="0"
                    Grid.Row="1"
                    Aspect="AspectFill"/>
             <ActivityIndicator 

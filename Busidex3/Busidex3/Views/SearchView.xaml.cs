@@ -36,13 +36,15 @@ namespace Busidex3.Views
 	        if (string.IsNullOrEmpty(e.NewTextValue))
 	        {
 	            _viewModel.ClearSearch();
-	        }
+                imgBackground.IsVisible = true;
+            }
 	    }
 
 	    private async void TxtSearch_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
 	        await _viewModel.DoSearch();
-	    }
+            imgBackground.IsVisible = !_viewModel.HasCards;
+        }
 
 	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
