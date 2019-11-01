@@ -54,17 +54,6 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private bool _hasCards;
-        public bool HasCards
-        {
-            get => _hasCards;
-            set
-            {
-                _hasCards = value;
-                OnPropertyChanged(nameof(HasCards));
-            }
-        }
-
         private bool _isEmpty;
         public bool IsEmpty
         {

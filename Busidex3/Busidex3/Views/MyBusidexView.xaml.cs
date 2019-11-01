@@ -47,6 +47,13 @@ namespace Busidex3.Views
             else
             {
                 _viewModel.LoadFromCache(cachedPath);
+                lstMyBusidex.RefreshCommand = RefreshCommand;
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    lstMyBusidex.IsVisible = _viewModel.HasCards;
+                    stkNoCards.IsVisible = !_viewModel.HasCards;
+                });
             }
             App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using Busidex3.DomainModels;
@@ -14,6 +13,17 @@ namespace Busidex3.ViewModels
         protected readonly MyBusidexHttpService _myBusidexHttpService = new MyBusidexHttpService();
         //private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
 
+        private bool _hasCards;
+        public bool HasCards
+        {
+            get => _hasCards;
+            set
+            {
+                _hasCards = value;
+                OnPropertyChanged(nameof(HasCards));
+            }
+        }
+
         private List<UserCard> _userCards = new List<UserCard>();
         public List<UserCard> UserCards
         {
@@ -21,6 +31,7 @@ namespace Busidex3.ViewModels
             set
             {
                 _userCards = value;
+                HasCards = _userCards.Count > 0;
                 OnPropertyChanged(nameof(UserCards));
             }
         }
