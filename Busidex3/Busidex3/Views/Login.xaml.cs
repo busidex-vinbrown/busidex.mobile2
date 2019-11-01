@@ -1,12 +1,13 @@
 ﻿using System;
 using Busidex3.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Login : ContentPage
+	public partial class Login
 	{
         private readonly LoginVM _viewModel = new LoginVM();
 
@@ -59,15 +60,15 @@ namespace Busidex3.Views
 	        Reset();
 	    }
 
-	    private void BtnForgotPassword_OnClicked(object sender, EventArgs e)
+	    private async void BtnForgotPassword_OnClicked(object sender, EventArgs e)
 	    {
 	        var uri = new Uri(StringResources.FORGOT_PASSWORD_URL);
-	        Device.OpenUri(uri);
+	        await Launcher.OpenAsync(uri);
 	    }
 
-        private void BtnCancel_Clicked(object sender, EventArgs e)
+        private void BtnCreate_Clicked(object sender, EventArgs e)
         {
-            App.LoadStartupPage();
+            App.LoadProfilePage();
         }
     }
 }

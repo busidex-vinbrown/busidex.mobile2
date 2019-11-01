@@ -186,7 +186,7 @@
                             Text="Username not available"
                             TextColor="Red"
                             HorizontalTextAlignment="Center"
-                            FontSize="Small"
+                            FontSize="17"
                             FontAttributes="Italic"/>
                     </Grid>
                     </ScrollView>

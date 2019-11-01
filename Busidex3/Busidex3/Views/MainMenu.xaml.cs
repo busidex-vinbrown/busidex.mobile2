@@ -35,7 +35,7 @@ namespace Busidex3.Views
 
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                RedirectToStartup();
+                RedirectToLogin();
             }
             else if (File.Exists(quickSharePath))
             {
@@ -147,15 +147,6 @@ namespace Busidex3.Views
             {
                 MasterPage.RefreshProfile();
             }
-        }
-
-        private void RedirectToStartup()
-        {
-            var page = (Page)Activator.CreateInstance(typeof(Startup));
-            Detail = page;
-            IsPresented = false;
-            NavigationPage.SetHasNavigationBar (Detail, false);
-            IsGestureEnabled = false;
         }
 
         private void RedirectToLogin()

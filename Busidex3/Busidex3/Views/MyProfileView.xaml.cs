@@ -45,7 +45,7 @@ namespace Busidex3.Views
         {
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                App.LoadStartupPage();
+                App.LoadLoginPage();
             }
             else
             {
@@ -125,7 +125,7 @@ namespace Busidex3.Views
         {
             if(string.IsNullOrEmpty(Security.AuthToken))
             {
-                App.LoadStartupPage();
+                App.LoadLoginPage();
             }
         }
 
