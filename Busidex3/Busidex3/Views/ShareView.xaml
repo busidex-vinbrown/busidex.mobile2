@@ -12,7 +12,7 @@
         <converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        
+        <ScrollView>
         <StackLayout Padding="20" Orientation="Vertical">
             <!--CONTACT LIST VIEW-->
             <SearchBar 
@@ -175,7 +175,7 @@
                     <RowDefinition Height="70"></RowDefinition>
                     <RowDefinition Height="65"></RowDefinition>
                     <RowDefinition Height="65"></RowDefinition>
-                    <RowDefinition Height="130"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>                    
                 </Grid.RowDefinitions>
                 <controls:CardImageHeader 
@@ -253,10 +253,7 @@
                     VerticalOptions="FillAndExpand"
                     Grid.Row="4"
                     Grid.Column="0" />                    
-                <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
-                                   Color="#03A9F4" 
-                                   IsVisible="False"
-                                   IsRunning="True"/>
+                
                 <StackLayout
                     Grid.Row="5"
                     Grid.Column="0"
@@ -272,7 +269,14 @@
                         HorizontalOptions="FillAndExpand"
                         Clicked="BtnShare_OnClicked"/>
                 </StackLayout>
+                <ActivityIndicator x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                                   Color="#03A9F4" 
+                                   Grid.Row="5"
+                                   Grid.Column="0"
+                                   IsVisible="False"
+                                   IsRunning="True"/>
             </Grid>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
