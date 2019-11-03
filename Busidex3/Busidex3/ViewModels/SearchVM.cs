@@ -58,8 +58,8 @@ namespace Busidex3.ViewModels
 
             results.AddRange(resultList);
 
-            //results.ForEach(uc => uc.Card.Parent = uc);
             SearchResults = new List<UserCard>(results);
+            HasCards = SearchResults?.Count > 0;
 
             IsSearching = false;         
 
