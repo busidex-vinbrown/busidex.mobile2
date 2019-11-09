@@ -75,8 +75,15 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
+    <BuildIpa>true</BuildIpa>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+    <CodesignProvision>Busidex</CodesignProvision>
+    <MtouchLink>None</MtouchLink>
+    <MtouchExtraArgs>--interpreter</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>

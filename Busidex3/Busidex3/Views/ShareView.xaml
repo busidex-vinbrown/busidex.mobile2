@@ -215,7 +215,7 @@
                              Grid.Column="0"
                              Grid.Row="2">
                     <Entry x:Name="txtSendTo"
-                           WidthRequest="245" 
+                           WidthRequest="225" 
                            HeightRequest="55"
                            Keyboard="Telephone"
                            Text="{Binding SendTo}"
