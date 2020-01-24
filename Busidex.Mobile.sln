@@ -182,8 +182,6 @@ Global
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|ARM.Build.0 = Release|ARM
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|ARM.Deploy.0 = Release|ARM
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhone.ActiveCfg = Release|x86
-		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhone.Build.0 = Release|x86
-		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhone.Deploy.0 = Release|x86
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhoneSimulator.ActiveCfg = Release|x86
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhoneSimulator.Build.0 = Release|x86
 		{938A720D-0F93-4220-9ECD-296825355192}.AppStore|iPhoneSimulator.Deploy.0 = Release|x86

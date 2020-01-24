@@ -21,6 +21,16 @@ namespace Busidex3.Views
             BindingContext = _viewModel;
         }
 
+        private void OnMembers_Tapped(object sender, System.EventArgs e) {
+            var page = new OrganizationMembersView(_viewModel.Organization);
+            Navigation.PushAsync(page);
+        }
+
+        private void OnReferrals_Tapped(object sender, System.EventArgs e) {
+            var page = new OrganizationReferralsView(_viewModel.Organization);
+            Navigation.PushAsync(page);
+        }
+
         private void img_Tapped(object sender, System.EventArgs e)
         {
             var url = ((TappedEventArgs)e).Parameter.ToString();

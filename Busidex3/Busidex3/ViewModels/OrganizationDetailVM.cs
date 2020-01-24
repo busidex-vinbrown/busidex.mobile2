@@ -4,6 +4,7 @@ using Busidex3.Services.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -190,24 +191,24 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public void DialPhoneNumber(string number)
+        public async void DialPhoneNumber(string number)
         {
-            Device.OpenUri(new Uri($"tel:{number}"));
+            await Launcher.OpenAsync(new Uri($"tel:{number}"));
         }
 
-        public void SendEmail(string email)
+        public async void SendEmail(string email)
         {
-            Device.OpenUri(new Uri($"mailto:{email}"));
+            await Launcher.OpenAsync(new Uri($"mailto:{email}"));
         }
 
-        public void LaunchBrowser(string url)
+        public async void LaunchBrowser(string url)
         {
             if (string.IsNullOrEmpty(url)) return;
 
             url = !url.StartsWith("http", StringComparison.Ordinal)
                 ? "http://" + url
                 : url;
-            Device.OpenUri(new Uri(url));
+            await Launcher.OpenAsync(new Uri(url));
         }
     }
 }

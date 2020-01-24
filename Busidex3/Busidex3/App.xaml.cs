@@ -29,7 +29,7 @@ namespace Busidex3
     public delegate void OnEventsLoadedResult();
     public delegate void OnOrganizationsLoadedResult();
     public delegate void OnContactsLoadedResult();
-    public delegate void OnAppLoadedResult();
+    // public delegate void OnAppLoadedResult();
 
     public partial class App : IBranchSessionInterface
     {
@@ -39,7 +39,7 @@ namespace Busidex3
         public static event OnEventsLoadedResult OnEventsLoaded;
         public static event OnOrganizationsLoadedResult OnOrganizationsLoaded;
         public static event OnContactsLoadedResult OnContactsLoaded;
-        public static event OnAppLoadedResult OnAppLoaded;
+        // public static event OnAppLoadedResult OnAppLoaded;
         public static List<ContactList> ContactGroups { get; set; } = new List<ContactList>();
 
         public static bool IsProfessional { get; set; }
@@ -460,7 +460,7 @@ namespace Busidex3
                     From = long.Parse(sentFrom),
                     PersonalMessage = personalMessage
                 };
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(quickShareLink);
+                string json = JsonConvert.SerializeObject(quickShareLink);
                 Serialization.SaveResponse(json, StringResources.QUICKSHARE_LINK);
                 MainPage = new MainMenu();
             }

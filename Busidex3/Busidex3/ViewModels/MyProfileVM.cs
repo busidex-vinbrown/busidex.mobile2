@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Busidex3.DomainModels;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using DeviceType = Busidex3.DomainModels.DeviceType;
 
 namespace Busidex3.ViewModels
 {
@@ -153,9 +155,9 @@ namespace Busidex3.ViewModels
             TermsAndConditionsCommand = PrivacyPolicyCommand = new Command<string>(LaunchBrowser);
         }
         
-        void LaunchBrowser(string url)
+        async void LaunchBrowser(string url)
         {            
-            Device.OpenUri(new Uri(url));
+            await Launcher.OpenAsync(new Uri(url));
         }
 
         public async Task<bool> IsEmailAvailable()

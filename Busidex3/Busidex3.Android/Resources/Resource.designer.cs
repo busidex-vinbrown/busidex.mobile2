@@ -26,7 +26,1612 @@ namespace Busidex3.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::BranchXamarinSDK.Droid.Resource.String.library_name = global::Busidex3.Droid.Resource.String.library_name;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_fade_in = global::Busidex3.Droid.Resource.Animation.abc_fade_in;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_fade_out = global::Busidex3.Droid.Resource.Animation.abc_fade_out;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_grow_fade_in_from_bottom = global::Busidex3.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_popup_enter = global::Busidex3.Droid.Resource.Animation.abc_popup_enter;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_popup_exit = global::Busidex3.Droid.Resource.Animation.abc_popup_exit;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom = global::Busidex3.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_slide_in_bottom = global::Busidex3.Droid.Resource.Animation.abc_slide_in_bottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_slide_in_top = global::Busidex3.Droid.Resource.Animation.abc_slide_in_top;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_slide_out_bottom = global::Busidex3.Droid.Resource.Animation.abc_slide_out_bottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_slide_out_top = global::Busidex3.Droid.Resource.Animation.abc_slide_out_top;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_tooltip_enter = global::Busidex3.Droid.Resource.Animation.abc_tooltip_enter;
+			global::Branch_Xamarin_SDK.Droid.Resource.Animation.abc_tooltip_exit = global::Busidex3.Droid.Resource.Animation.abc_tooltip_exit;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarDivider = global::Busidex3.Droid.Resource.Attribute.actionBarDivider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarItemBackground = global::Busidex3.Droid.Resource.Attribute.actionBarItemBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarPopupTheme = global::Busidex3.Droid.Resource.Attribute.actionBarPopupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarSize = global::Busidex3.Droid.Resource.Attribute.actionBarSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarSplitStyle = global::Busidex3.Droid.Resource.Attribute.actionBarSplitStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarStyle = global::Busidex3.Droid.Resource.Attribute.actionBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarTabBarStyle = global::Busidex3.Droid.Resource.Attribute.actionBarTabBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarTabStyle = global::Busidex3.Droid.Resource.Attribute.actionBarTabStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarTabTextStyle = global::Busidex3.Droid.Resource.Attribute.actionBarTabTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarTheme = global::Busidex3.Droid.Resource.Attribute.actionBarTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionBarWidgetTheme = global::Busidex3.Droid.Resource.Attribute.actionBarWidgetTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionButtonStyle = global::Busidex3.Droid.Resource.Attribute.actionButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionDropDownStyle = global::Busidex3.Droid.Resource.Attribute.actionDropDownStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionLayout = global::Busidex3.Droid.Resource.Attribute.actionLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionMenuTextAppearance = global::Busidex3.Droid.Resource.Attribute.actionMenuTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionMenuTextColor = global::Busidex3.Droid.Resource.Attribute.actionMenuTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeBackground = global::Busidex3.Droid.Resource.Attribute.actionModeBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeCloseButtonStyle = global::Busidex3.Droid.Resource.Attribute.actionModeCloseButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeCloseDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeCloseDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeCopyDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeCopyDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeCutDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeCutDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeFindDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeFindDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModePasteDrawable = global::Busidex3.Droid.Resource.Attribute.actionModePasteDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModePopupWindowStyle = global::Busidex3.Droid.Resource.Attribute.actionModePopupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeSelectAllDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeSelectAllDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeShareDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeShareDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeSplitBackground = global::Busidex3.Droid.Resource.Attribute.actionModeSplitBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeStyle = global::Busidex3.Droid.Resource.Attribute.actionModeStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionModeWebSearchDrawable = global::Busidex3.Droid.Resource.Attribute.actionModeWebSearchDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionOverflowButtonStyle = global::Busidex3.Droid.Resource.Attribute.actionOverflowButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionOverflowMenuStyle = global::Busidex3.Droid.Resource.Attribute.actionOverflowMenuStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionProviderClass = global::Busidex3.Droid.Resource.Attribute.actionProviderClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.actionViewClass = global::Busidex3.Droid.Resource.Attribute.actionViewClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.activityChooserViewStyle = global::Busidex3.Droid.Resource.Attribute.activityChooserViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alertDialogButtonGroupStyle = global::Busidex3.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alertDialogCenterButtons = global::Busidex3.Droid.Resource.Attribute.alertDialogCenterButtons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alertDialogStyle = global::Busidex3.Droid.Resource.Attribute.alertDialogStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alertDialogTheme = global::Busidex3.Droid.Resource.Attribute.alertDialogTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.allowStacking = global::Busidex3.Droid.Resource.Attribute.allowStacking;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alpha = global::Busidex3.Droid.Resource.Attribute.alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.alphabeticModifiers = global::Busidex3.Droid.Resource.Attribute.alphabeticModifiers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.arrowHeadLength = global::Busidex3.Droid.Resource.Attribute.arrowHeadLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.arrowShaftLength = global::Busidex3.Droid.Resource.Attribute.arrowShaftLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoCompleteTextViewStyle = global::Busidex3.Droid.Resource.Attribute.autoCompleteTextViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoSizeMaxTextSize = global::Busidex3.Droid.Resource.Attribute.autoSizeMaxTextSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoSizeMinTextSize = global::Busidex3.Droid.Resource.Attribute.autoSizeMinTextSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoSizePresetSizes = global::Busidex3.Droid.Resource.Attribute.autoSizePresetSizes;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoSizeStepGranularity = global::Busidex3.Droid.Resource.Attribute.autoSizeStepGranularity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.autoSizeTextType = global::Busidex3.Droid.Resource.Attribute.autoSizeTextType;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.background = global::Busidex3.Droid.Resource.Attribute.background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.backgroundSplit = global::Busidex3.Droid.Resource.Attribute.backgroundSplit;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.backgroundStacked = global::Busidex3.Droid.Resource.Attribute.backgroundStacked;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.backgroundTint = global::Busidex3.Droid.Resource.Attribute.backgroundTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.backgroundTintMode = global::Busidex3.Droid.Resource.Attribute.backgroundTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.barLength = global::Busidex3.Droid.Resource.Attribute.barLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.borderlessButtonStyle = global::Busidex3.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonBarButtonStyle = global::Busidex3.Droid.Resource.Attribute.buttonBarButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonBarNegativeButtonStyle = global::Busidex3.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonBarNeutralButtonStyle = global::Busidex3.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonBarPositiveButtonStyle = global::Busidex3.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonBarStyle = global::Busidex3.Droid.Resource.Attribute.buttonBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonGravity = global::Busidex3.Droid.Resource.Attribute.buttonGravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonIconDimen = global::Busidex3.Droid.Resource.Attribute.buttonIconDimen;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonPanelSideLayout = global::Busidex3.Droid.Resource.Attribute.buttonPanelSideLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonStyle = global::Busidex3.Droid.Resource.Attribute.buttonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonStyleSmall = global::Busidex3.Droid.Resource.Attribute.buttonStyleSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonTint = global::Busidex3.Droid.Resource.Attribute.buttonTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.buttonTintMode = global::Busidex3.Droid.Resource.Attribute.buttonTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.checkboxStyle = global::Busidex3.Droid.Resource.Attribute.checkboxStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.checkedTextViewStyle = global::Busidex3.Droid.Resource.Attribute.checkedTextViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.closeIcon = global::Busidex3.Droid.Resource.Attribute.closeIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.closeItemLayout = global::Busidex3.Droid.Resource.Attribute.closeItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.collapseContentDescription = global::Busidex3.Droid.Resource.Attribute.collapseContentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.collapseIcon = global::Busidex3.Droid.Resource.Attribute.collapseIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.color = global::Busidex3.Droid.Resource.Attribute.color;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorAccent = global::Busidex3.Droid.Resource.Attribute.colorAccent;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorBackgroundFloating = global::Busidex3.Droid.Resource.Attribute.colorBackgroundFloating;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorButtonNormal = global::Busidex3.Droid.Resource.Attribute.colorButtonNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorControlActivated = global::Busidex3.Droid.Resource.Attribute.colorControlActivated;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorControlHighlight = global::Busidex3.Droid.Resource.Attribute.colorControlHighlight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorControlNormal = global::Busidex3.Droid.Resource.Attribute.colorControlNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorError = global::Busidex3.Droid.Resource.Attribute.colorError;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorPrimary = global::Busidex3.Droid.Resource.Attribute.colorPrimary;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorPrimaryDark = global::Busidex3.Droid.Resource.Attribute.colorPrimaryDark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.colorSwitchThumbNormal = global::Busidex3.Droid.Resource.Attribute.colorSwitchThumbNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.commitIcon = global::Busidex3.Droid.Resource.Attribute.commitIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentDescription = global::Busidex3.Droid.Resource.Attribute.contentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetEnd = global::Busidex3.Droid.Resource.Attribute.contentInsetEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetEndWithActions = global::Busidex3.Droid.Resource.Attribute.contentInsetEndWithActions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetLeft = global::Busidex3.Droid.Resource.Attribute.contentInsetLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetRight = global::Busidex3.Droid.Resource.Attribute.contentInsetRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetStart = global::Busidex3.Droid.Resource.Attribute.contentInsetStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.contentInsetStartWithNavigation = global::Busidex3.Droid.Resource.Attribute.contentInsetStartWithNavigation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.controlBackground = global::Busidex3.Droid.Resource.Attribute.controlBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.coordinatorLayoutStyle = global::Busidex3.Droid.Resource.Attribute.coordinatorLayoutStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.customNavigationLayout = global::Busidex3.Droid.Resource.Attribute.customNavigationLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.defaultQueryHint = global::Busidex3.Droid.Resource.Attribute.defaultQueryHint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dialogCornerRadius = global::Busidex3.Droid.Resource.Attribute.dialogCornerRadius;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dialogPreferredPadding = global::Busidex3.Droid.Resource.Attribute.dialogPreferredPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dialogTheme = global::Busidex3.Droid.Resource.Attribute.dialogTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.displayOptions = global::Busidex3.Droid.Resource.Attribute.displayOptions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.divider = global::Busidex3.Droid.Resource.Attribute.divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dividerHorizontal = global::Busidex3.Droid.Resource.Attribute.dividerHorizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dividerPadding = global::Busidex3.Droid.Resource.Attribute.dividerPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dividerVertical = global::Busidex3.Droid.Resource.Attribute.dividerVertical;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.drawableSize = global::Busidex3.Droid.Resource.Attribute.drawableSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.drawerArrowStyle = global::Busidex3.Droid.Resource.Attribute.drawerArrowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dropdownListPreferredItemHeight = global::Busidex3.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.dropDownListViewStyle = global::Busidex3.Droid.Resource.Attribute.dropDownListViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.editTextBackground = global::Busidex3.Droid.Resource.Attribute.editTextBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.editTextColor = global::Busidex3.Droid.Resource.Attribute.editTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.editTextStyle = global::Busidex3.Droid.Resource.Attribute.editTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.elevation = global::Busidex3.Droid.Resource.Attribute.elevation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable = global::Busidex3.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.firstBaselineToTopHeight = global::Busidex3.Droid.Resource.Attribute.firstBaselineToTopHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.font = global::Busidex3.Droid.Resource.Attribute.font;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontFamily = global::Busidex3.Droid.Resource.Attribute.fontFamily;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderAuthority = global::Busidex3.Droid.Resource.Attribute.fontProviderAuthority;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderCerts = global::Busidex3.Droid.Resource.Attribute.fontProviderCerts;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderFetchStrategy = global::Busidex3.Droid.Resource.Attribute.fontProviderFetchStrategy;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderFetchTimeout = global::Busidex3.Droid.Resource.Attribute.fontProviderFetchTimeout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderPackage = global::Busidex3.Droid.Resource.Attribute.fontProviderPackage;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontProviderQuery = global::Busidex3.Droid.Resource.Attribute.fontProviderQuery;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontStyle = global::Busidex3.Droid.Resource.Attribute.fontStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontVariationSettings = global::Busidex3.Droid.Resource.Attribute.fontVariationSettings;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.fontWeight = global::Busidex3.Droid.Resource.Attribute.fontWeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.gapBetweenBars = global::Busidex3.Droid.Resource.Attribute.gapBetweenBars;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.goIcon = global::Busidex3.Droid.Resource.Attribute.goIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.height = global::Busidex3.Droid.Resource.Attribute.height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.hideOnContentScroll = global::Busidex3.Droid.Resource.Attribute.hideOnContentScroll;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.homeAsUpIndicator = global::Busidex3.Droid.Resource.Attribute.homeAsUpIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.homeLayout = global::Busidex3.Droid.Resource.Attribute.homeLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.icon = global::Busidex3.Droid.Resource.Attribute.icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.iconifiedByDefault = global::Busidex3.Droid.Resource.Attribute.iconifiedByDefault;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.iconTint = global::Busidex3.Droid.Resource.Attribute.iconTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.iconTintMode = global::Busidex3.Droid.Resource.Attribute.iconTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.imageButtonStyle = global::Busidex3.Droid.Resource.Attribute.imageButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.indeterminateProgressStyle = global::Busidex3.Droid.Resource.Attribute.indeterminateProgressStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.initialActivityCount = global::Busidex3.Droid.Resource.Attribute.initialActivityCount;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.isLightTheme = global::Busidex3.Droid.Resource.Attribute.isLightTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.itemPadding = global::Busidex3.Droid.Resource.Attribute.itemPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.keylines = global::Busidex3.Droid.Resource.Attribute.keylines;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.lastBaselineToBottomHeight = global::Busidex3.Droid.Resource.Attribute.lastBaselineToBottomHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout = global::Busidex3.Droid.Resource.Attribute.layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_anchor = global::Busidex3.Droid.Resource.Attribute.layout_anchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_anchorGravity = global::Busidex3.Droid.Resource.Attribute.layout_anchorGravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_behavior = global::Busidex3.Droid.Resource.Attribute.layout_behavior;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_dodgeInsetEdges = global::Busidex3.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_insetEdge = global::Busidex3.Droid.Resource.Attribute.layout_insetEdge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.layout_keyline = global::Busidex3.Droid.Resource.Attribute.layout_keyline;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.lineHeight = global::Busidex3.Droid.Resource.Attribute.lineHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listChoiceBackgroundIndicator = global::Busidex3.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listDividerAlertDialog = global::Busidex3.Droid.Resource.Attribute.listDividerAlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listItemLayout = global::Busidex3.Droid.Resource.Attribute.listItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listLayout = global::Busidex3.Droid.Resource.Attribute.listLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listMenuViewStyle = global::Busidex3.Droid.Resource.Attribute.listMenuViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPopupWindowStyle = global::Busidex3.Droid.Resource.Attribute.listPopupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPreferredItemHeight = global::Busidex3.Droid.Resource.Attribute.listPreferredItemHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPreferredItemHeightLarge = global::Busidex3.Droid.Resource.Attribute.listPreferredItemHeightLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPreferredItemHeightSmall = global::Busidex3.Droid.Resource.Attribute.listPreferredItemHeightSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPreferredItemPaddingLeft = global::Busidex3.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.listPreferredItemPaddingRight = global::Busidex3.Droid.Resource.Attribute.listPreferredItemPaddingRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.logo = global::Busidex3.Droid.Resource.Attribute.logo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.logoDescription = global::Busidex3.Droid.Resource.Attribute.logoDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.maxButtonHeight = global::Busidex3.Droid.Resource.Attribute.maxButtonHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.measureWithLargestChild = global::Busidex3.Droid.Resource.Attribute.measureWithLargestChild;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.multiChoiceItemLayout = global::Busidex3.Droid.Resource.Attribute.multiChoiceItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.navigationContentDescription = global::Busidex3.Droid.Resource.Attribute.navigationContentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.navigationIcon = global::Busidex3.Droid.Resource.Attribute.navigationIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.navigationMode = global::Busidex3.Droid.Resource.Attribute.navigationMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.numericModifiers = global::Busidex3.Droid.Resource.Attribute.numericModifiers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.overlapAnchor = global::Busidex3.Droid.Resource.Attribute.overlapAnchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.paddingBottomNoButtons = global::Busidex3.Droid.Resource.Attribute.paddingBottomNoButtons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.paddingEnd = global::Busidex3.Droid.Resource.Attribute.paddingEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.paddingStart = global::Busidex3.Droid.Resource.Attribute.paddingStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.paddingTopNoTitle = global::Busidex3.Droid.Resource.Attribute.paddingTopNoTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.panelBackground = global::Busidex3.Droid.Resource.Attribute.panelBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.panelMenuListTheme = global::Busidex3.Droid.Resource.Attribute.panelMenuListTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.panelMenuListWidth = global::Busidex3.Droid.Resource.Attribute.panelMenuListWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.popupMenuStyle = global::Busidex3.Droid.Resource.Attribute.popupMenuStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.popupTheme = global::Busidex3.Droid.Resource.Attribute.popupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.popupWindowStyle = global::Busidex3.Droid.Resource.Attribute.popupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.preserveIconSpacing = global::Busidex3.Droid.Resource.Attribute.preserveIconSpacing;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.progressBarPadding = global::Busidex3.Droid.Resource.Attribute.progressBarPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.progressBarStyle = global::Busidex3.Droid.Resource.Attribute.progressBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.queryBackground = global::Busidex3.Droid.Resource.Attribute.queryBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.queryHint = global::Busidex3.Droid.Resource.Attribute.queryHint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.radioButtonStyle = global::Busidex3.Droid.Resource.Attribute.radioButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.ratingBarStyle = global::Busidex3.Droid.Resource.Attribute.ratingBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.ratingBarStyleIndicator = global::Busidex3.Droid.Resource.Attribute.ratingBarStyleIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.ratingBarStyleSmall = global::Busidex3.Droid.Resource.Attribute.ratingBarStyleSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.searchHintIcon = global::Busidex3.Droid.Resource.Attribute.searchHintIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.searchIcon = global::Busidex3.Droid.Resource.Attribute.searchIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.searchViewStyle = global::Busidex3.Droid.Resource.Attribute.searchViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.seekBarStyle = global::Busidex3.Droid.Resource.Attribute.seekBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.selectableItemBackground = global::Busidex3.Droid.Resource.Attribute.selectableItemBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.selectableItemBackgroundBorderless = global::Busidex3.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.showAsAction = global::Busidex3.Droid.Resource.Attribute.showAsAction;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.showDividers = global::Busidex3.Droid.Resource.Attribute.showDividers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.showText = global::Busidex3.Droid.Resource.Attribute.showText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.showTitle = global::Busidex3.Droid.Resource.Attribute.showTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.singleChoiceItemLayout = global::Busidex3.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.spinBars = global::Busidex3.Droid.Resource.Attribute.spinBars;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.spinnerDropDownItemStyle = global::Busidex3.Droid.Resource.Attribute.spinnerDropDownItemStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.spinnerStyle = global::Busidex3.Droid.Resource.Attribute.spinnerStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.splitTrack = global::Busidex3.Droid.Resource.Attribute.splitTrack;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.srcCompat = global::Busidex3.Droid.Resource.Attribute.srcCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.state_above_anchor = global::Busidex3.Droid.Resource.Attribute.state_above_anchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.statusBarBackground = global::Busidex3.Droid.Resource.Attribute.statusBarBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.subMenuArrow = global::Busidex3.Droid.Resource.Attribute.subMenuArrow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.submitBackground = global::Busidex3.Droid.Resource.Attribute.submitBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.subtitle = global::Busidex3.Droid.Resource.Attribute.subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.subtitleTextAppearance = global::Busidex3.Droid.Resource.Attribute.subtitleTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.subtitleTextColor = global::Busidex3.Droid.Resource.Attribute.subtitleTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.subtitleTextStyle = global::Busidex3.Droid.Resource.Attribute.subtitleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.suggestionRowLayout = global::Busidex3.Droid.Resource.Attribute.suggestionRowLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.switchMinWidth = global::Busidex3.Droid.Resource.Attribute.switchMinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.switchPadding = global::Busidex3.Droid.Resource.Attribute.switchPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.switchStyle = global::Busidex3.Droid.Resource.Attribute.switchStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.switchTextAppearance = global::Busidex3.Droid.Resource.Attribute.switchTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAllCaps = global::Busidex3.Droid.Resource.Attribute.textAllCaps;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceLargePopupMenu = global::Busidex3.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceListItem = global::Busidex3.Droid.Resource.Attribute.textAppearanceListItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceListItemSecondary = global::Busidex3.Droid.Resource.Attribute.textAppearanceListItemSecondary;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceListItemSmall = global::Busidex3.Droid.Resource.Attribute.textAppearanceListItemSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearancePopupMenuHeader = global::Busidex3.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle = global::Busidex3.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceSearchResultTitle = global::Busidex3.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textAppearanceSmallPopupMenu = global::Busidex3.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textColorAlertDialogListItem = global::Busidex3.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.textColorSearchUrl = global::Busidex3.Droid.Resource.Attribute.textColorSearchUrl;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.theme = global::Busidex3.Droid.Resource.Attribute.theme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.thickness = global::Busidex3.Droid.Resource.Attribute.thickness;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.thumbTextPadding = global::Busidex3.Droid.Resource.Attribute.thumbTextPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.thumbTint = global::Busidex3.Droid.Resource.Attribute.thumbTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.thumbTintMode = global::Busidex3.Droid.Resource.Attribute.thumbTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tickMark = global::Busidex3.Droid.Resource.Attribute.tickMark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tickMarkTint = global::Busidex3.Droid.Resource.Attribute.tickMarkTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tickMarkTintMode = global::Busidex3.Droid.Resource.Attribute.tickMarkTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tint = global::Busidex3.Droid.Resource.Attribute.tint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tintMode = global::Busidex3.Droid.Resource.Attribute.tintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.title = global::Busidex3.Droid.Resource.Attribute.title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMargin = global::Busidex3.Droid.Resource.Attribute.titleMargin;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMarginBottom = global::Busidex3.Droid.Resource.Attribute.titleMarginBottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMarginEnd = global::Busidex3.Droid.Resource.Attribute.titleMarginEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMargins = global::Busidex3.Droid.Resource.Attribute.titleMargins;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMarginStart = global::Busidex3.Droid.Resource.Attribute.titleMarginStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleMarginTop = global::Busidex3.Droid.Resource.Attribute.titleMarginTop;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleTextAppearance = global::Busidex3.Droid.Resource.Attribute.titleTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleTextColor = global::Busidex3.Droid.Resource.Attribute.titleTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.titleTextStyle = global::Busidex3.Droid.Resource.Attribute.titleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.toolbarNavigationButtonStyle = global::Busidex3.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.toolbarStyle = global::Busidex3.Droid.Resource.Attribute.toolbarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tooltipForegroundColor = global::Busidex3.Droid.Resource.Attribute.tooltipForegroundColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tooltipFrameBackground = global::Busidex3.Droid.Resource.Attribute.tooltipFrameBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.tooltipText = global::Busidex3.Droid.Resource.Attribute.tooltipText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.track = global::Busidex3.Droid.Resource.Attribute.track;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.trackTint = global::Busidex3.Droid.Resource.Attribute.trackTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.trackTintMode = global::Busidex3.Droid.Resource.Attribute.trackTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.ttcIndex = global::Busidex3.Droid.Resource.Attribute.ttcIndex;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.viewInflaterClass = global::Busidex3.Droid.Resource.Attribute.viewInflaterClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.voiceIcon = global::Busidex3.Droid.Resource.Attribute.voiceIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowActionBar = global::Busidex3.Droid.Resource.Attribute.windowActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowActionBarOverlay = global::Busidex3.Droid.Resource.Attribute.windowActionBarOverlay;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowActionModeOverlay = global::Busidex3.Droid.Resource.Attribute.windowActionModeOverlay;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowFixedHeightMajor = global::Busidex3.Droid.Resource.Attribute.windowFixedHeightMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowFixedHeightMinor = global::Busidex3.Droid.Resource.Attribute.windowFixedHeightMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowFixedWidthMajor = global::Busidex3.Droid.Resource.Attribute.windowFixedWidthMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowFixedWidthMinor = global::Busidex3.Droid.Resource.Attribute.windowFixedWidthMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowMinWidthMajor = global::Busidex3.Droid.Resource.Attribute.windowMinWidthMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowMinWidthMinor = global::Busidex3.Droid.Resource.Attribute.windowMinWidthMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Attribute.windowNoTitle = global::Busidex3.Droid.Resource.Attribute.windowNoTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Boolean.abc_action_bar_embed_tabs = global::Busidex3.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::Branch_Xamarin_SDK.Droid.Resource.Boolean.abc_allow_stacked_button_bar = global::Busidex3.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::Busidex3.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark = global::Busidex3.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_background_cache_hint_selector_material_light = global::Busidex3.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_btn_colored_borderless_text_material = global::Busidex3.Droid.Resource.Color.abc_btn_colored_borderless_text_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_btn_colored_text_material = global::Busidex3.Droid.Resource.Color.abc_btn_colored_text_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_color_highlight_material = global::Busidex3.Droid.Resource.Color.abc_color_highlight_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_hint_foreground_material_dark = global::Busidex3.Droid.Resource.Color.abc_hint_foreground_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_hint_foreground_material_light = global::Busidex3.Droid.Resource.Color.abc_hint_foreground_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_input_method_navigation_guard = global::Busidex3.Droid.Resource.Color.abc_input_method_navigation_guard;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_primary_text_disable_only_material_dark = global::Busidex3.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_primary_text_disable_only_material_light = global::Busidex3.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_primary_text_material_dark = global::Busidex3.Droid.Resource.Color.abc_primary_text_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_primary_text_material_light = global::Busidex3.Droid.Resource.Color.abc_primary_text_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_search_url_text = global::Busidex3.Droid.Resource.Color.abc_search_url_text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_search_url_text_normal = global::Busidex3.Droid.Resource.Color.abc_search_url_text_normal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_search_url_text_pressed = global::Busidex3.Droid.Resource.Color.abc_search_url_text_pressed;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_search_url_text_selected = global::Busidex3.Droid.Resource.Color.abc_search_url_text_selected;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_secondary_text_material_dark = global::Busidex3.Droid.Resource.Color.abc_secondary_text_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_secondary_text_material_light = global::Busidex3.Droid.Resource.Color.abc_secondary_text_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_btn_checkable = global::Busidex3.Droid.Resource.Color.abc_tint_btn_checkable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_default = global::Busidex3.Droid.Resource.Color.abc_tint_default;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_edittext = global::Busidex3.Droid.Resource.Color.abc_tint_edittext;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_seek_thumb = global::Busidex3.Droid.Resource.Color.abc_tint_seek_thumb;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_spinner = global::Busidex3.Droid.Resource.Color.abc_tint_spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.abc_tint_switch_track = global::Busidex3.Droid.Resource.Color.abc_tint_switch_track;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.accent_material_dark = global::Busidex3.Droid.Resource.Color.accent_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.accent_material_light = global::Busidex3.Droid.Resource.Color.accent_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.background_floating_material_dark = global::Busidex3.Droid.Resource.Color.background_floating_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.background_floating_material_light = global::Busidex3.Droid.Resource.Color.background_floating_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.background_material_dark = global::Busidex3.Droid.Resource.Color.background_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.background_material_light = global::Busidex3.Droid.Resource.Color.background_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_disabled_material_dark = global::Busidex3.Droid.Resource.Color.bright_foreground_disabled_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_disabled_material_light = global::Busidex3.Droid.Resource.Color.bright_foreground_disabled_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_inverse_material_dark = global::Busidex3.Droid.Resource.Color.bright_foreground_inverse_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_inverse_material_light = global::Busidex3.Droid.Resource.Color.bright_foreground_inverse_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_material_dark = global::Busidex3.Droid.Resource.Color.bright_foreground_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.bright_foreground_material_light = global::Busidex3.Droid.Resource.Color.bright_foreground_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.button_material_dark = global::Busidex3.Droid.Resource.Color.button_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.button_material_light = global::Busidex3.Droid.Resource.Color.button_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.dim_foreground_disabled_material_dark = global::Busidex3.Droid.Resource.Color.dim_foreground_disabled_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.dim_foreground_disabled_material_light = global::Busidex3.Droid.Resource.Color.dim_foreground_disabled_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.dim_foreground_material_dark = global::Busidex3.Droid.Resource.Color.dim_foreground_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.dim_foreground_material_light = global::Busidex3.Droid.Resource.Color.dim_foreground_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.error_color_material_dark = global::Busidex3.Droid.Resource.Color.error_color_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.error_color_material_light = global::Busidex3.Droid.Resource.Color.error_color_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.foreground_material_dark = global::Busidex3.Droid.Resource.Color.foreground_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.foreground_material_light = global::Busidex3.Droid.Resource.Color.foreground_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.highlighted_text_material_dark = global::Busidex3.Droid.Resource.Color.highlighted_text_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.highlighted_text_material_light = global::Busidex3.Droid.Resource.Color.highlighted_text_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_blue_grey_800 = global::Busidex3.Droid.Resource.Color.material_blue_grey_800;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_blue_grey_900 = global::Busidex3.Droid.Resource.Color.material_blue_grey_900;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_blue_grey_950 = global::Busidex3.Droid.Resource.Color.material_blue_grey_950;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_deep_teal_200 = global::Busidex3.Droid.Resource.Color.material_deep_teal_200;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_deep_teal_500 = global::Busidex3.Droid.Resource.Color.material_deep_teal_500;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_100 = global::Busidex3.Droid.Resource.Color.material_grey_100;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_300 = global::Busidex3.Droid.Resource.Color.material_grey_300;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_50 = global::Busidex3.Droid.Resource.Color.material_grey_50;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_600 = global::Busidex3.Droid.Resource.Color.material_grey_600;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_800 = global::Busidex3.Droid.Resource.Color.material_grey_800;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_850 = global::Busidex3.Droid.Resource.Color.material_grey_850;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.material_grey_900 = global::Busidex3.Droid.Resource.Color.material_grey_900;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.notification_action_color_filter = global::Busidex3.Droid.Resource.Color.notification_action_color_filter;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.notification_icon_bg_color = global::Busidex3.Droid.Resource.Color.notification_icon_bg_color;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_dark_material_dark = global::Busidex3.Droid.Resource.Color.primary_dark_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_dark_material_light = global::Busidex3.Droid.Resource.Color.primary_dark_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_material_dark = global::Busidex3.Droid.Resource.Color.primary_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_material_light = global::Busidex3.Droid.Resource.Color.primary_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_text_default_material_dark = global::Busidex3.Droid.Resource.Color.primary_text_default_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_text_default_material_light = global::Busidex3.Droid.Resource.Color.primary_text_default_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_text_disabled_material_dark = global::Busidex3.Droid.Resource.Color.primary_text_disabled_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.primary_text_disabled_material_light = global::Busidex3.Droid.Resource.Color.primary_text_disabled_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.ripple_material_dark = global::Busidex3.Droid.Resource.Color.ripple_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.ripple_material_light = global::Busidex3.Droid.Resource.Color.ripple_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.secondary_text_default_material_dark = global::Busidex3.Droid.Resource.Color.secondary_text_default_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.secondary_text_default_material_light = global::Busidex3.Droid.Resource.Color.secondary_text_default_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.secondary_text_disabled_material_dark = global::Busidex3.Droid.Resource.Color.secondary_text_disabled_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.secondary_text_disabled_material_light = global::Busidex3.Droid.Resource.Color.secondary_text_disabled_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_disabled_material_dark = global::Busidex3.Droid.Resource.Color.switch_thumb_disabled_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_disabled_material_light = global::Busidex3.Droid.Resource.Color.switch_thumb_disabled_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_material_dark = global::Busidex3.Droid.Resource.Color.switch_thumb_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_material_light = global::Busidex3.Droid.Resource.Color.switch_thumb_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_normal_material_dark = global::Busidex3.Droid.Resource.Color.switch_thumb_normal_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.switch_thumb_normal_material_light = global::Busidex3.Droid.Resource.Color.switch_thumb_normal_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.tooltip_background_dark = global::Busidex3.Droid.Resource.Color.tooltip_background_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Color.tooltip_background_light = global::Busidex3.Droid.Resource.Color.tooltip_background_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_content_inset_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_default_height_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_default_height_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_elevation_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_elevation_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_stacked_max_height = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::Busidex3.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_button_min_height_material = global::Busidex3.Droid.Resource.Dimension.abc_action_button_min_height_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_button_min_width_material = global::Busidex3.Droid.Resource.Dimension.abc_action_button_min_width_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material = global::Busidex3.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height = global::Busidex3.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_alert_dialog_button_dimen = global::Busidex3.Droid.Resource.Dimension.abc_alert_dialog_button_dimen;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_button_inset_horizontal_material = global::Busidex3.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_button_inset_vertical_material = global::Busidex3.Droid.Resource.Dimension.abc_button_inset_vertical_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_button_padding_horizontal_material = global::Busidex3.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_button_padding_vertical_material = global::Busidex3.Droid.Resource.Dimension.abc_button_padding_vertical_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::Busidex3.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_config_prefDialogWidth = global::Busidex3.Droid.Resource.Dimension.abc_config_prefDialogWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_control_corner_material = global::Busidex3.Droid.Resource.Dimension.abc_control_corner_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_control_inset_material = global::Busidex3.Droid.Resource.Dimension.abc_control_inset_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_control_padding_material = global::Busidex3.Droid.Resource.Dimension.abc_control_padding_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_corner_radius_material = global::Busidex3.Droid.Resource.Dimension.abc_dialog_corner_radius_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_fixed_height_major = global::Busidex3.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_fixed_height_minor = global::Busidex3.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_fixed_width_major = global::Busidex3.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_fixed_width_minor = global::Busidex3.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::Busidex3.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::Busidex3.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_min_width_major = global::Busidex3.Droid.Resource.Dimension.abc_dialog_min_width_major;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_min_width_minor = global::Busidex3.Droid.Resource.Dimension.abc_dialog_min_width_minor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_padding_material = global::Busidex3.Droid.Resource.Dimension.abc_dialog_padding_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_padding_top_material = global::Busidex3.Droid.Resource.Dimension.abc_dialog_padding_top_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dialog_title_divider_material = global::Busidex3.Droid.Resource.Dimension.abc_dialog_title_divider_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_disabled_alpha_material_dark = global::Busidex3.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_disabled_alpha_material_light = global::Busidex3.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dropdownitem_icon_width = global::Busidex3.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left = global::Busidex3.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right = global::Busidex3.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material = global::Busidex3.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::Busidex3.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_edit_text_inset_top_material = global::Busidex3.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_floating_window_z = global::Busidex3.Droid.Resource.Dimension.abc_floating_window_z;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material = global::Busidex3.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_panel_menu_list_width = global::Busidex3.Droid.Resource.Dimension.abc_panel_menu_list_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_progress_bar_height_material = global::Busidex3.Droid.Resource.Dimension.abc_progress_bar_height_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_search_view_preferred_height = global::Busidex3.Droid.Resource.Dimension.abc_search_view_preferred_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_search_view_preferred_width = global::Busidex3.Droid.Resource.Dimension.abc_search_view_preferred_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_seekbar_track_background_height_material = global::Busidex3.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material = global::Busidex3.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_select_dialog_padding_start_material = global::Busidex3.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_switch_padding = global::Busidex3.Droid.Resource.Dimension.abc_switch_padding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_body_1_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_body_1_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_body_2_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_body_2_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_button_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_button_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_caption_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_caption_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_display_1_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_display_1_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_display_2_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_display_2_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_display_3_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_display_3_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_display_4_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_display_4_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_headline_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_headline_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_large_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_large_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_medium_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_medium_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_menu_header_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_menu_header_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_menu_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_menu_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_small_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_small_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_subhead_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_subhead_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::Busidex3.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_title_material = global::Busidex3.Droid.Resource.Dimension.abc_text_size_title_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.abc_text_size_title_material_toolbar = global::Busidex3.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_button_inset_horizontal_material = global::Busidex3.Droid.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_button_inset_vertical_material = global::Busidex3.Droid.Resource.Dimension.compat_button_inset_vertical_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_button_padding_horizontal_material = global::Busidex3.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_button_padding_vertical_material = global::Busidex3.Droid.Resource.Dimension.compat_button_padding_vertical_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_control_corner_material = global::Busidex3.Droid.Resource.Dimension.compat_control_corner_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_notification_large_icon_max_height = global::Busidex3.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.compat_notification_large_icon_max_width = global::Busidex3.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.disabled_alpha_material_dark = global::Busidex3.Droid.Resource.Dimension.disabled_alpha_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.disabled_alpha_material_light = global::Busidex3.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.highlight_alpha_material_colored = global::Busidex3.Droid.Resource.Dimension.highlight_alpha_material_colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.highlight_alpha_material_dark = global::Busidex3.Droid.Resource.Dimension.highlight_alpha_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.highlight_alpha_material_light = global::Busidex3.Droid.Resource.Dimension.highlight_alpha_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.hint_alpha_material_dark = global::Busidex3.Droid.Resource.Dimension.hint_alpha_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.hint_alpha_material_light = global::Busidex3.Droid.Resource.Dimension.hint_alpha_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.hint_pressed_alpha_material_dark = global::Busidex3.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.hint_pressed_alpha_material_light = global::Busidex3.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_action_icon_size = global::Busidex3.Droid.Resource.Dimension.notification_action_icon_size;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_action_text_size = global::Busidex3.Droid.Resource.Dimension.notification_action_text_size;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_big_circle_margin = global::Busidex3.Droid.Resource.Dimension.notification_big_circle_margin;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_content_margin_start = global::Busidex3.Droid.Resource.Dimension.notification_content_margin_start;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_large_icon_height = global::Busidex3.Droid.Resource.Dimension.notification_large_icon_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_large_icon_width = global::Busidex3.Droid.Resource.Dimension.notification_large_icon_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_main_column_padding_top = global::Busidex3.Droid.Resource.Dimension.notification_main_column_padding_top;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_media_narrow_margin = global::Busidex3.Droid.Resource.Dimension.notification_media_narrow_margin;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_right_icon_size = global::Busidex3.Droid.Resource.Dimension.notification_right_icon_size;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_right_side_padding_top = global::Busidex3.Droid.Resource.Dimension.notification_right_side_padding_top;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_small_icon_background_padding = global::Busidex3.Droid.Resource.Dimension.notification_small_icon_background_padding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_small_icon_size_as_large = global::Busidex3.Droid.Resource.Dimension.notification_small_icon_size_as_large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_subtext_size = global::Busidex3.Droid.Resource.Dimension.notification_subtext_size;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_top_pad = global::Busidex3.Droid.Resource.Dimension.notification_top_pad;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.notification_top_pad_large_text = global::Busidex3.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_corner_radius = global::Busidex3.Droid.Resource.Dimension.tooltip_corner_radius;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_horizontal_padding = global::Busidex3.Droid.Resource.Dimension.tooltip_horizontal_padding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_margin = global::Busidex3.Droid.Resource.Dimension.tooltip_margin;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_precise_anchor_extra_offset = global::Busidex3.Droid.Resource.Dimension.tooltip_precise_anchor_extra_offset;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_precise_anchor_threshold = global::Busidex3.Droid.Resource.Dimension.tooltip_precise_anchor_threshold;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_vertical_padding = global::Busidex3.Droid.Resource.Dimension.tooltip_vertical_padding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_y_offset_non_touch = global::Busidex3.Droid.Resource.Dimension.tooltip_y_offset_non_touch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Dimension.tooltip_y_offset_touch = global::Busidex3.Droid.Resource.Dimension.tooltip_y_offset_touch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_action_bar_item_background_material = global::Busidex3.Droid.Resource.Drawable.abc_action_bar_item_background_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_borderless_material = global::Busidex3.Droid.Resource.Drawable.abc_btn_borderless_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_check_material = global::Busidex3.Droid.Resource.Drawable.abc_btn_check_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::Busidex3.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::Busidex3.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_colored_material = global::Busidex3.Droid.Resource.Drawable.abc_btn_colored_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_default_mtrl_shape = global::Busidex3.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_radio_material = global::Busidex3.Droid.Resource.Drawable.abc_btn_radio_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::Busidex3.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::Busidex3.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::Busidex3.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::Busidex3.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_cab_background_internal_bg = global::Busidex3.Droid.Resource.Drawable.abc_cab_background_internal_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_cab_background_top_material = global::Busidex3.Droid.Resource.Drawable.abc_cab_background_top_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_control_background_material = global::Busidex3.Droid.Resource.Drawable.abc_control_background_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_dialog_material_background = global::Busidex3.Droid.Resource.Drawable.abc_dialog_material_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_edit_text_material = global::Busidex3.Droid.Resource.Drawable.abc_edit_text_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_ab_back_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_ab_back_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_clear_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_clear_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_go_search_api_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_go_search_api_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_overflow_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_overflow_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_search_api_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_search_api_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_black_16dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_black_16dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_black_36dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_black_36dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_black_48dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_black_48dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_half_black_16dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_half_black_16dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_half_black_36dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_half_black_36dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_star_half_black_48dp = global::Busidex3.Droid.Resource.Drawable.abc_ic_star_half_black_48dp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ic_voice_search_api_material = global::Busidex3.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_item_background_holo_dark = global::Busidex3.Droid.Resource.Drawable.abc_item_background_holo_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_item_background_holo_light = global::Busidex3.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_divider_material = global::Busidex3.Droid.Resource.Drawable.abc_list_divider_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_focused_holo = global::Busidex3.Droid.Resource.Drawable.abc_list_focused_holo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_longpressed_holo = global::Busidex3.Droid.Resource.Drawable.abc_list_longpressed_holo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_pressed_holo_dark = global::Busidex3.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_pressed_holo_light = global::Busidex3.Droid.Resource.Drawable.abc_list_pressed_holo_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_holo_dark = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_holo_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_list_selector_holo_light = global::Busidex3.Droid.Resource.Drawable.abc_list_selector_holo_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::Busidex3.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_popup_background_mtrl_mult = global::Busidex3.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ratingbar_indicator_material = global::Busidex3.Droid.Resource.Drawable.abc_ratingbar_indicator_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ratingbar_material = global::Busidex3.Droid.Resource.Drawable.abc_ratingbar_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_ratingbar_small_material = global::Busidex3.Droid.Resource.Drawable.abc_ratingbar_small_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::Busidex3.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::Busidex3.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_seekbar_thumb_material = global::Busidex3.Droid.Resource.Drawable.abc_seekbar_thumb_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_seekbar_tick_mark_material = global::Busidex3.Droid.Resource.Drawable.abc_seekbar_tick_mark_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_seekbar_track_material = global::Busidex3.Droid.Resource.Drawable.abc_seekbar_track_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::Busidex3.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_spinner_textfield_background_material = global::Busidex3.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_switch_thumb_material = global::Busidex3.Droid.Resource.Drawable.abc_switch_thumb_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_tab_indicator_material = global::Busidex3.Droid.Resource.Drawable.abc_tab_indicator_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::Busidex3.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_textfield_search_material = global::Busidex3.Droid.Resource.Drawable.abc_textfield_search_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_cursor_material = global::Busidex3.Droid.Resource.Drawable.abc_text_cursor_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::Busidex3.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.abc_vector_test = global::Busidex3.Droid.Resource.Drawable.abc_vector_test;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_action_background = global::Busidex3.Droid.Resource.Drawable.notification_action_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg = global::Busidex3.Droid.Resource.Drawable.notification_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg_low = global::Busidex3.Droid.Resource.Drawable.notification_bg_low;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg_low_normal = global::Busidex3.Droid.Resource.Drawable.notification_bg_low_normal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg_low_pressed = global::Busidex3.Droid.Resource.Drawable.notification_bg_low_pressed;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg_normal = global::Busidex3.Droid.Resource.Drawable.notification_bg_normal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_bg_normal_pressed = global::Busidex3.Droid.Resource.Drawable.notification_bg_normal_pressed;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_icon_background = global::Busidex3.Droid.Resource.Drawable.notification_icon_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_template_icon_bg = global::Busidex3.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_template_icon_low_bg = global::Busidex3.Droid.Resource.Drawable.notification_template_icon_low_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notification_tile_bg = global::Busidex3.Droid.Resource.Drawable.notification_tile_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.notify_panel_notification_icon_bg = global::Busidex3.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.tooltip_frame_dark = global::Busidex3.Droid.Resource.Drawable.tooltip_frame_dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Drawable.tooltip_frame_light = global::Busidex3.Droid.Resource.Drawable.tooltip_frame_light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.actions = global::Busidex3.Droid.Resource.Id.actions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar = global::Busidex3.Droid.Resource.Id.action_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_activity_content = global::Busidex3.Droid.Resource.Id.action_bar_activity_content;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_container = global::Busidex3.Droid.Resource.Id.action_bar_container;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_root = global::Busidex3.Droid.Resource.Id.action_bar_root;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_spinner = global::Busidex3.Droid.Resource.Id.action_bar_spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_subtitle = global::Busidex3.Droid.Resource.Id.action_bar_subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_bar_title = global::Busidex3.Droid.Resource.Id.action_bar_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_container = global::Busidex3.Droid.Resource.Id.action_container;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_context_bar = global::Busidex3.Droid.Resource.Id.action_context_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_divider = global::Busidex3.Droid.Resource.Id.action_divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_image = global::Busidex3.Droid.Resource.Id.action_image;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_menu_divider = global::Busidex3.Droid.Resource.Id.action_menu_divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_menu_presenter = global::Busidex3.Droid.Resource.Id.action_menu_presenter;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_mode_bar = global::Busidex3.Droid.Resource.Id.action_mode_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_mode_bar_stub = global::Busidex3.Droid.Resource.Id.action_mode_bar_stub;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_mode_close_button = global::Busidex3.Droid.Resource.Id.action_mode_close_button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.action_text = global::Busidex3.Droid.Resource.Id.action_text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.activity_chooser_view_content = global::Busidex3.Droid.Resource.Id.activity_chooser_view_content;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.add = global::Busidex3.Droid.Resource.Id.add;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.alertTitle = global::Busidex3.Droid.Resource.Id.alertTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.all = global::Busidex3.Droid.Resource.Id.all;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.ALT = global::Busidex3.Droid.Resource.Id.ALT;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.always = global::Busidex3.Droid.Resource.Id.always;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.async = global::Busidex3.Droid.Resource.Id.async;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.beginning = global::Busidex3.Droid.Resource.Id.beginning;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.blocking = global::Busidex3.Droid.Resource.Id.blocking;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.bottom = global::Busidex3.Droid.Resource.Id.bottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.buttonPanel = global::Busidex3.Droid.Resource.Id.buttonPanel;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.center = global::Busidex3.Droid.Resource.Id.center;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.center_horizontal = global::Busidex3.Droid.Resource.Id.center_horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.center_vertical = global::Busidex3.Droid.Resource.Id.center_vertical;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.checkbox = global::Busidex3.Droid.Resource.Id.checkbox;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.chronometer = global::Busidex3.Droid.Resource.Id.chronometer;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.clip_horizontal = global::Busidex3.Droid.Resource.Id.clip_horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.clip_vertical = global::Busidex3.Droid.Resource.Id.clip_vertical;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.collapseActionView = global::Busidex3.Droid.Resource.Id.collapseActionView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.content = global::Busidex3.Droid.Resource.Id.content;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.contentPanel = global::Busidex3.Droid.Resource.Id.contentPanel;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.CTRL = global::Busidex3.Droid.Resource.Id.CTRL;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.custom = global::Busidex3.Droid.Resource.Id.custom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.customPanel = global::Busidex3.Droid.Resource.Id.customPanel;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.decor_content_parent = global::Busidex3.Droid.Resource.Id.decor_content_parent;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.default_activity_button = global::Busidex3.Droid.Resource.Id.default_activity_button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.disableHome = global::Busidex3.Droid.Resource.Id.disableHome;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.edit_query = global::Busidex3.Droid.Resource.Id.edit_query;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.end = global::Busidex3.Droid.Resource.Id.end;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.expanded_menu = global::Busidex3.Droid.Resource.Id.expanded_menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.expand_activities_button = global::Busidex3.Droid.Resource.Id.expand_activities_button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.fill = global::Busidex3.Droid.Resource.Id.fill;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.fill_horizontal = global::Busidex3.Droid.Resource.Id.fill_horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.fill_vertical = global::Busidex3.Droid.Resource.Id.fill_vertical;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.forever = global::Busidex3.Droid.Resource.Id.forever;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.FUNCTION = global::Busidex3.Droid.Resource.Id.FUNCTION;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.group_divider = global::Busidex3.Droid.Resource.Id.group_divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.home = global::Busidex3.Droid.Resource.Id.home;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.homeAsUp = global::Busidex3.Droid.Resource.Id.homeAsUp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.icon = global::Busidex3.Droid.Resource.Id.icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.icon_group = global::Busidex3.Droid.Resource.Id.icon_group;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.ifRoom = global::Busidex3.Droid.Resource.Id.ifRoom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.image = global::Busidex3.Droid.Resource.Id.image;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.info = global::Busidex3.Droid.Resource.Id.info;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.italic = global::Busidex3.Droid.Resource.Id.italic;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.left = global::Busidex3.Droid.Resource.Id.left;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.line1 = global::Busidex3.Droid.Resource.Id.line1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.line3 = global::Busidex3.Droid.Resource.Id.line3;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.listMode = global::Busidex3.Droid.Resource.Id.listMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.list_item = global::Busidex3.Droid.Resource.Id.list_item;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.message = global::Busidex3.Droid.Resource.Id.message;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.META = global::Busidex3.Droid.Resource.Id.META;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.middle = global::Busidex3.Droid.Resource.Id.middle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.multiply = global::Busidex3.Droid.Resource.Id.multiply;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.never = global::Busidex3.Droid.Resource.Id.never;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.none = global::Busidex3.Droid.Resource.Id.none;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.normal = global::Busidex3.Droid.Resource.Id.normal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.notification_background = global::Busidex3.Droid.Resource.Id.notification_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.notification_main_column = global::Busidex3.Droid.Resource.Id.notification_main_column;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.notification_main_column_container = global::Busidex3.Droid.Resource.Id.notification_main_column_container;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.parentPanel = global::Busidex3.Droid.Resource.Id.parentPanel;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.progress_circular = global::Busidex3.Droid.Resource.Id.progress_circular;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.progress_horizontal = global::Busidex3.Droid.Resource.Id.progress_horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.radio = global::Busidex3.Droid.Resource.Id.radio;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.right = global::Busidex3.Droid.Resource.Id.right;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.right_icon = global::Busidex3.Droid.Resource.Id.right_icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.right_side = global::Busidex3.Droid.Resource.Id.right_side;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.screen = global::Busidex3.Droid.Resource.Id.screen;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.scrollIndicatorDown = global::Busidex3.Droid.Resource.Id.scrollIndicatorDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.scrollIndicatorUp = global::Busidex3.Droid.Resource.Id.scrollIndicatorUp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.scrollView = global::Busidex3.Droid.Resource.Id.scrollView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_badge = global::Busidex3.Droid.Resource.Id.search_badge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_bar = global::Busidex3.Droid.Resource.Id.search_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_button = global::Busidex3.Droid.Resource.Id.search_button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_close_btn = global::Busidex3.Droid.Resource.Id.search_close_btn;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_edit_frame = global::Busidex3.Droid.Resource.Id.search_edit_frame;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_go_btn = global::Busidex3.Droid.Resource.Id.search_go_btn;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_mag_icon = global::Busidex3.Droid.Resource.Id.search_mag_icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_plate = global::Busidex3.Droid.Resource.Id.search_plate;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_src_text = global::Busidex3.Droid.Resource.Id.search_src_text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.search_voice_btn = global::Busidex3.Droid.Resource.Id.search_voice_btn;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.select_dialog_listview = global::Busidex3.Droid.Resource.Id.select_dialog_listview;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.SHIFT = global::Busidex3.Droid.Resource.Id.SHIFT;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.shortcut = global::Busidex3.Droid.Resource.Id.shortcut;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.showCustom = global::Busidex3.Droid.Resource.Id.showCustom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.showHome = global::Busidex3.Droid.Resource.Id.showHome;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.showTitle = global::Busidex3.Droid.Resource.Id.showTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.spacer = global::Busidex3.Droid.Resource.Id.spacer;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.split_action_bar = global::Busidex3.Droid.Resource.Id.split_action_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.src_atop = global::Busidex3.Droid.Resource.Id.src_atop;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.src_in = global::Busidex3.Droid.Resource.Id.src_in;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.src_over = global::Busidex3.Droid.Resource.Id.src_over;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.start = global::Busidex3.Droid.Resource.Id.start;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.submenuarrow = global::Busidex3.Droid.Resource.Id.submenuarrow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.submit_area = global::Busidex3.Droid.Resource.Id.submit_area;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.SYM = global::Busidex3.Droid.Resource.Id.SYM;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.tabMode = global::Busidex3.Droid.Resource.Id.tabMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.tag_transition_group = global::Busidex3.Droid.Resource.Id.tag_transition_group;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.tag_unhandled_key_event_manager = global::Busidex3.Droid.Resource.Id.tag_unhandled_key_event_manager;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.tag_unhandled_key_listeners = global::Busidex3.Droid.Resource.Id.tag_unhandled_key_listeners;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.text = global::Busidex3.Droid.Resource.Id.text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.text2 = global::Busidex3.Droid.Resource.Id.text2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.textSpacerNoButtons = global::Busidex3.Droid.Resource.Id.textSpacerNoButtons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.textSpacerNoTitle = global::Busidex3.Droid.Resource.Id.textSpacerNoTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.time = global::Busidex3.Droid.Resource.Id.time;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.title = global::Busidex3.Droid.Resource.Id.title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.titleDividerNoCustom = global::Busidex3.Droid.Resource.Id.titleDividerNoCustom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.title_template = global::Busidex3.Droid.Resource.Id.title_template;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.top = global::Busidex3.Droid.Resource.Id.top;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.topPanel = global::Busidex3.Droid.Resource.Id.topPanel;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.uniform = global::Busidex3.Droid.Resource.Id.uniform;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.up = global::Busidex3.Droid.Resource.Id.up;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.useLogo = global::Busidex3.Droid.Resource.Id.useLogo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.withText = global::Busidex3.Droid.Resource.Id.withText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Id.wrap_content = global::Busidex3.Droid.Resource.Id.wrap_content;
+			global::Branch_Xamarin_SDK.Droid.Resource.Integer.abc_config_activityDefaultDur = global::Busidex3.Droid.Resource.Integer.abc_config_activityDefaultDur;
+			global::Branch_Xamarin_SDK.Droid.Resource.Integer.abc_config_activityShortDur = global::Busidex3.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::Branch_Xamarin_SDK.Droid.Resource.Integer.cancel_button_image_alpha = global::Busidex3.Droid.Resource.Integer.cancel_button_image_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Integer.config_tooltipAnimTime = global::Busidex3.Droid.Resource.Integer.config_tooltipAnimTime;
+			global::Branch_Xamarin_SDK.Droid.Resource.Integer.status_bar_notification_info_maxnum = global::Busidex3.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_bar_title_item = global::Busidex3.Droid.Resource.Layout.abc_action_bar_title_item;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_bar_up_container = global::Busidex3.Droid.Resource.Layout.abc_action_bar_up_container;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_menu_item_layout = global::Busidex3.Droid.Resource.Layout.abc_action_menu_item_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_menu_layout = global::Busidex3.Droid.Resource.Layout.abc_action_menu_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_mode_bar = global::Busidex3.Droid.Resource.Layout.abc_action_mode_bar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_action_mode_close_item_material = global::Busidex3.Droid.Resource.Layout.abc_action_mode_close_item_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_activity_chooser_view = global::Busidex3.Droid.Resource.Layout.abc_activity_chooser_view;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_activity_chooser_view_list_item = global::Busidex3.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_alert_dialog_button_bar_material = global::Busidex3.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_alert_dialog_material = global::Busidex3.Droid.Resource.Layout.abc_alert_dialog_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_alert_dialog_title_material = global::Busidex3.Droid.Resource.Layout.abc_alert_dialog_title_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_cascading_menu_item_layout = global::Busidex3.Droid.Resource.Layout.abc_cascading_menu_item_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_dialog_title_material = global::Busidex3.Droid.Resource.Layout.abc_dialog_title_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_expanded_menu_layout = global::Busidex3.Droid.Resource.Layout.abc_expanded_menu_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_list_menu_item_checkbox = global::Busidex3.Droid.Resource.Layout.abc_list_menu_item_checkbox;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_list_menu_item_icon = global::Busidex3.Droid.Resource.Layout.abc_list_menu_item_icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_list_menu_item_layout = global::Busidex3.Droid.Resource.Layout.abc_list_menu_item_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_list_menu_item_radio = global::Busidex3.Droid.Resource.Layout.abc_list_menu_item_radio;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_popup_menu_header_item_layout = global::Busidex3.Droid.Resource.Layout.abc_popup_menu_header_item_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_popup_menu_item_layout = global::Busidex3.Droid.Resource.Layout.abc_popup_menu_item_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_screen_content_include = global::Busidex3.Droid.Resource.Layout.abc_screen_content_include;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_screen_simple = global::Busidex3.Droid.Resource.Layout.abc_screen_simple;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode = global::Busidex3.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_screen_toolbar = global::Busidex3.Droid.Resource.Layout.abc_screen_toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line = global::Busidex3.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_search_view = global::Busidex3.Droid.Resource.Layout.abc_search_view;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_select_dialog_material = global::Busidex3.Droid.Resource.Layout.abc_select_dialog_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.abc_tooltip = global::Busidex3.Droid.Resource.Layout.abc_tooltip;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_action = global::Busidex3.Droid.Resource.Layout.notification_action;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_action_tombstone = global::Busidex3.Droid.Resource.Layout.notification_action_tombstone;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_template_custom_big = global::Busidex3.Droid.Resource.Layout.notification_template_custom_big;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_template_icon_group = global::Busidex3.Droid.Resource.Layout.notification_template_icon_group;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_template_part_chronometer = global::Busidex3.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.notification_template_part_time = global::Busidex3.Droid.Resource.Layout.notification_template_part_time;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.select_dialog_item_material = global::Busidex3.Droid.Resource.Layout.select_dialog_item_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.select_dialog_multichoice_material = global::Busidex3.Droid.Resource.Layout.select_dialog_multichoice_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.select_dialog_singlechoice_material = global::Busidex3.Droid.Resource.Layout.select_dialog_singlechoice_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.Layout.support_simple_spinner_dropdown_item = global::Busidex3.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_action_bar_home_description = global::Busidex3.Droid.Resource.String.abc_action_bar_home_description;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_action_bar_up_description = global::Busidex3.Droid.Resource.String.abc_action_bar_up_description;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_action_menu_overflow_description = global::Busidex3.Droid.Resource.String.abc_action_menu_overflow_description;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_action_mode_done = global::Busidex3.Droid.Resource.String.abc_action_mode_done;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_activitychooserview_choose_application = global::Busidex3.Droid.Resource.String.abc_activitychooserview_choose_application;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_activity_chooser_view_see_all = global::Busidex3.Droid.Resource.String.abc_activity_chooser_view_see_all;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_capital_off = global::Busidex3.Droid.Resource.String.abc_capital_off;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_capital_on = global::Busidex3.Droid.Resource.String.abc_capital_on;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_body_1_material = global::Busidex3.Droid.Resource.String.abc_font_family_body_1_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_body_2_material = global::Busidex3.Droid.Resource.String.abc_font_family_body_2_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_button_material = global::Busidex3.Droid.Resource.String.abc_font_family_button_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_caption_material = global::Busidex3.Droid.Resource.String.abc_font_family_caption_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_display_1_material = global::Busidex3.Droid.Resource.String.abc_font_family_display_1_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_display_2_material = global::Busidex3.Droid.Resource.String.abc_font_family_display_2_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_display_3_material = global::Busidex3.Droid.Resource.String.abc_font_family_display_3_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_display_4_material = global::Busidex3.Droid.Resource.String.abc_font_family_display_4_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_headline_material = global::Busidex3.Droid.Resource.String.abc_font_family_headline_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_menu_material = global::Busidex3.Droid.Resource.String.abc_font_family_menu_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_subhead_material = global::Busidex3.Droid.Resource.String.abc_font_family_subhead_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_font_family_title_material = global::Busidex3.Droid.Resource.String.abc_font_family_title_material;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_alt_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_alt_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_ctrl_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_ctrl_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_delete_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_delete_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_enter_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_enter_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_function_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_function_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_meta_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_meta_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_shift_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_shift_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_space_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_space_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_menu_sym_shortcut_label = global::Busidex3.Droid.Resource.String.abc_menu_sym_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_prepend_shortcut_label = global::Busidex3.Droid.Resource.String.abc_prepend_shortcut_label;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_searchview_description_clear = global::Busidex3.Droid.Resource.String.abc_searchview_description_clear;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_searchview_description_query = global::Busidex3.Droid.Resource.String.abc_searchview_description_query;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_searchview_description_search = global::Busidex3.Droid.Resource.String.abc_searchview_description_search;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_searchview_description_submit = global::Busidex3.Droid.Resource.String.abc_searchview_description_submit;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_searchview_description_voice = global::Busidex3.Droid.Resource.String.abc_searchview_description_voice;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_search_hint = global::Busidex3.Droid.Resource.String.abc_search_hint;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_shareactionprovider_share_with = global::Busidex3.Droid.Resource.String.abc_shareactionprovider_share_with;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_shareactionprovider_share_with_application = global::Busidex3.Droid.Resource.String.abc_shareactionprovider_share_with_application;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.abc_toolbar_collapse_description = global::Busidex3.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.app_name = global::Busidex3.Droid.Resource.String.app_name;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.search_menu_title = global::Busidex3.Droid.Resource.String.search_menu_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.String.status_bar_notification_info_overflow = global::Busidex3.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.AlertDialog_AppCompat = global::Busidex3.Droid.Resource.Style.AlertDialog_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.AlertDialog_AppCompat_Light = global::Busidex3.Droid.Resource.Style.AlertDialog_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Animation_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Animation_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Animation_AppCompat_DropDownUp = global::Busidex3.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Animation_AppCompat_Tooltip = global::Busidex3.Droid.Resource.Style.Animation_AppCompat_Tooltip;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_AlertDialog_AppCompat = global::Busidex3.Droid.Resource.Style.Base_AlertDialog_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Animation_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::Busidex3.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Animation_AppCompat_Tooltip = global::Busidex3.Droid.Resource.Style.Base_Animation_AppCompat_Tooltip;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::Busidex3.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat = global::Busidex3.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Tooltip = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Tooltip;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::Busidex3.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::Busidex3.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V21_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V21_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::Busidex3.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V22_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V22_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V23_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V23_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V26_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V26_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::Busidex3.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V28_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V28_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Base_V7_Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::Busidex3.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::Busidex3.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::Busidex3.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_V7_Widget_AppCompat_Toolbar = global::Busidex3.Droid.Resource.Style.Base_V7_Widget_AppCompat_Toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_EditText = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ListView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_SearchView = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Spinner = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::Busidex3.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::Busidex3.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_V21_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_V21_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_V21_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_V21_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_V25_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_V25_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_V25_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_V25_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner = global::Busidex3.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::Busidex3.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Busidex3.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Busidex3.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Busidex3.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Body1 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Body2 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Button = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Caption = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Display1 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Display2 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Display3 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Display4 = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Headline = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Large = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Medium = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Menu = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Small = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Subhead = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Tooltip = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Tooltip;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Busidex3.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Compat_Notification = global::Busidex3.Droid.Resource.Style.TextAppearance_Compat_Notification;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Compat_Notification_Info = global::Busidex3.Droid.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::Busidex3.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Compat_Notification_Time = global::Busidex3.Droid.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Compat_Notification_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Busidex3.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Busidex3.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::Busidex3.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.ThemeOverlay_AppCompat_Light = global::Busidex3.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat = global::Busidex3.Droid.Resource.Style.Theme_AppCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_CompactMenu = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Dialog = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_Dialog = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Theme_AppCompat_NoActionBar = global::Busidex3.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionButton = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActionMode = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActionMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ButtonBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button_Borderless = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button_Colored = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Button_Small = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Button_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_EditText = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_EditText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ImageButton = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ImageButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_SearchView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ListMenuView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ListMenuView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ListView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ListView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ListView_Menu = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_PopupMenu = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_PopupWindow = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ProgressBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_RatingBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_RatingBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_SearchView = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_SearchView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_SeekBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_SeekBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Spinner = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Toolbar = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::Busidex3.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_Compat_NotificationActionContainer = global::Busidex3.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_Compat_NotificationActionText = global::Busidex3.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Style.Widget_Support_CoordinatorLayout = global::Busidex3.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar = global::Busidex3.Droid.Resource.Styleable.ActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBarLayout = global::Busidex3.Droid.Resource.Styleable.ActionBarLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::Busidex3.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_background = global::Busidex3.Droid.Resource.Styleable.ActionBar_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_backgroundSplit = global::Busidex3.Droid.Resource.Styleable.ActionBar_backgroundSplit;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_backgroundStacked = global::Busidex3.Droid.Resource.Styleable.ActionBar_backgroundStacked;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetEnd = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetLeft = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetRight = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetStart = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::Busidex3.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_customNavigationLayout = global::Busidex3.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_displayOptions = global::Busidex3.Droid.Resource.Styleable.ActionBar_displayOptions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_divider = global::Busidex3.Droid.Resource.Styleable.ActionBar_divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_elevation = global::Busidex3.Droid.Resource.Styleable.ActionBar_elevation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_height = global::Busidex3.Droid.Resource.Styleable.ActionBar_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_hideOnContentScroll = global::Busidex3.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator = global::Busidex3.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_homeLayout = global::Busidex3.Droid.Resource.Styleable.ActionBar_homeLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_icon = global::Busidex3.Droid.Resource.Styleable.ActionBar_icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::Busidex3.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_itemPadding = global::Busidex3.Droid.Resource.Styleable.ActionBar_itemPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_logo = global::Busidex3.Droid.Resource.Styleable.ActionBar_logo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_navigationMode = global::Busidex3.Droid.Resource.Styleable.ActionBar_navigationMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_popupTheme = global::Busidex3.Droid.Resource.Styleable.ActionBar_popupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_progressBarPadding = global::Busidex3.Droid.Resource.Styleable.ActionBar_progressBarPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_progressBarStyle = global::Busidex3.Droid.Resource.Styleable.ActionBar_progressBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_subtitle = global::Busidex3.Droid.Resource.Styleable.ActionBar_subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_subtitleTextStyle = global::Busidex3.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_title = global::Busidex3.Droid.Resource.Styleable.ActionBar_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionBar_titleTextStyle = global::Busidex3.Droid.Resource.Styleable.ActionBar_titleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMenuItemView = global::Busidex3.Droid.Resource.Styleable.ActionMenuItemView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth = global::Busidex3.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMenuView = global::Busidex3.Droid.Resource.Styleable.ActionMenuView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode = global::Busidex3.Droid.Resource.Styleable.ActionMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_background = global::Busidex3.Droid.Resource.Styleable.ActionMode_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_backgroundSplit = global::Busidex3.Droid.Resource.Styleable.ActionMode_backgroundSplit;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_closeItemLayout = global::Busidex3.Droid.Resource.Styleable.ActionMode_closeItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_height = global::Busidex3.Droid.Resource.Styleable.ActionMode_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_subtitleTextStyle = global::Busidex3.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActionMode_titleTextStyle = global::Busidex3.Droid.Resource.Styleable.ActionMode_titleTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActivityChooserView = global::Busidex3.Droid.Resource.Styleable.ActivityChooserView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::Busidex3.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount = global::Busidex3.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog = global::Busidex3.Droid.Resource.Styleable.AlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_android_layout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_buttonIconDimen = global::Busidex3.Droid.Resource.Styleable.AlertDialog_buttonIconDimen;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_listItemLayout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_listItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_listLayout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_listLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_showTitle = global::Busidex3.Droid.Resource.Styleable.AlertDialog_showTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::Busidex3.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableItem = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableTransition = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableTransition;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::Busidex3.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatImageView = global::Busidex3.Droid.Resource.Styleable.AppCompatImageView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatImageView_android_src = global::Busidex3.Droid.Resource.Styleable.AppCompatImageView_android_src;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatImageView_srcCompat = global::Busidex3.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatImageView_tint = global::Busidex3.Droid.Resource.Styleable.AppCompatImageView_tint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatImageView_tintMode = global::Busidex3.Droid.Resource.Styleable.AppCompatImageView_tintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatSeekBar = global::Busidex3.Droid.Resource.Styleable.AppCompatSeekBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb = global::Busidex3.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatSeekBar_tickMark = global::Busidex3.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::Busidex3.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::Busidex3.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::Busidex3.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_fontFamily = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_fontFamily;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_lineHeight = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_lineHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTextView_textAllCaps = global::Busidex3.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarSize = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorAccent = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorAccent;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorError = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorError;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorPrimary = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorPrimary;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_controlBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dialogTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dividerVertical = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dividerVertical;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_editTextBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_editTextBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_editTextColor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_editTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_editTextStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_editTextStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_panelBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_panelBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_switchStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowActionBar = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle = global::Busidex3.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ButtonBarLayout = global::Busidex3.Droid.Resource.Styleable.ButtonBarLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ButtonBarLayout_allowStacking = global::Busidex3.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ColorStateListItem = global::Busidex3.Droid.Resource.Styleable.ColorStateListItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ColorStateListItem_alpha = global::Busidex3.Droid.Resource.Styleable.ColorStateListItem_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ColorStateListItem_android_alpha = global::Busidex3.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ColorStateListItem_android_color = global::Busidex3.Droid.Resource.Styleable.ColorStateListItem_android_color;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CompoundButton = global::Busidex3.Droid.Resource.Styleable.CompoundButton;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CompoundButton_android_button = global::Busidex3.Droid.Resource.Styleable.CompoundButton_android_button;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CompoundButton_buttonTint = global::Busidex3.Droid.Resource.Styleable.CompoundButton_buttonTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CompoundButton_buttonTintMode = global::Busidex3.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_keylines = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Busidex3.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_barLength = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_color = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_color;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_spinBars = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.DrawerArrowToggle_thickness = global::Busidex3.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily = global::Busidex3.Droid.Resource.Styleable.FontFamily;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_android_font = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_android_font;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_font = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_font;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_fontStyle = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_fontWeight = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamilyFont_ttcIndex = global::Busidex3.Droid.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderAuthority = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderCerts = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderPackage = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.FontFamily_fontProviderQuery = global::Busidex3.Droid.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor = global::Busidex3.Droid.Resource.Styleable.GradientColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColorItem = global::Busidex3.Droid.Resource.Styleable.GradientColorItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColorItem_android_color = global::Busidex3.Droid.Resource.Styleable.GradientColorItem_android_color;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColorItem_android_offset = global::Busidex3.Droid.Resource.Styleable.GradientColorItem_android_offset;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_centerColor = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_centerColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_centerX = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_centerX;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_centerY = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_centerY;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_endColor = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_endColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_endX = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_endX;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_endY = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_endY;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_gradientRadius = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_startColor = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_startColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_startX = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_startX;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_startY = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_startY;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_tileMode = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_tileMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.GradientColor_android_type = global::Busidex3.Droid.Resource.Styleable.GradientColor_android_type;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_divider = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_divider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_Layout = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.LinearLayoutCompat_showDividers = global::Busidex3.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ListPopupWindow = global::Busidex3.Droid.Resource.Styleable.ListPopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::Busidex3.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::Busidex3.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup = global::Busidex3.Droid.Resource.Styleable.MenuGroup;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_enabled = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_enabled;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_id = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_id;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_menuCategory = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_orderInCategory = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuGroup_android_visible = global::Busidex3.Droid.Resource.Styleable.MenuGroup_android_visible;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem = global::Busidex3.Droid.Resource.Styleable.MenuItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_actionLayout = global::Busidex3.Droid.Resource.Styleable.MenuItem_actionLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_actionProviderClass = global::Busidex3.Droid.Resource.Styleable.MenuItem_actionProviderClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_actionViewClass = global::Busidex3.Droid.Resource.Styleable.MenuItem_actionViewClass;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_alphabeticModifiers = global::Busidex3.Droid.Resource.Styleable.MenuItem_alphabeticModifiers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_checkable = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_checkable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_checked = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_checked;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_enabled = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_enabled;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_icon = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_icon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_id = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_id;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_menuCategory = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_menuCategory;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_numericShortcut = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_onClick = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_onClick;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_orderInCategory = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_title = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_titleCondensed = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_android_visible = global::Busidex3.Droid.Resource.Styleable.MenuItem_android_visible;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_contentDescription = global::Busidex3.Droid.Resource.Styleable.MenuItem_contentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_iconTint = global::Busidex3.Droid.Resource.Styleable.MenuItem_iconTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_iconTintMode = global::Busidex3.Droid.Resource.Styleable.MenuItem_iconTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_numericModifiers = global::Busidex3.Droid.Resource.Styleable.MenuItem_numericModifiers;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_showAsAction = global::Busidex3.Droid.Resource.Styleable.MenuItem_showAsAction;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuItem_tooltipText = global::Busidex3.Droid.Resource.Styleable.MenuItem_tooltipText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView = global::Busidex3.Droid.Resource.Styleable.MenuView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_headerBackground = global::Busidex3.Droid.Resource.Styleable.MenuView_android_headerBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_horizontalDivider = global::Busidex3.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_itemBackground = global::Busidex3.Droid.Resource.Styleable.MenuView_android_itemBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::Busidex3.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_itemTextAppearance = global::Busidex3.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_verticalDivider = global::Busidex3.Droid.Resource.Styleable.MenuView_android_verticalDivider;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle = global::Busidex3.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_preserveIconSpacing = global::Busidex3.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.MenuView_subMenuArrow = global::Busidex3.Droid.Resource.Styleable.MenuView_subMenuArrow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindow = global::Busidex3.Droid.Resource.Styleable.PopupWindow;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindowBackgroundState = global::Busidex3.Droid.Resource.Styleable.PopupWindowBackgroundState;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::Busidex3.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::Busidex3.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindow_android_popupBackground = global::Busidex3.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.PopupWindow_overlapAnchor = global::Busidex3.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.RecycleListView = global::Busidex3.Droid.Resource.Styleable.RecycleListView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::Busidex3.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::Busidex3.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView = global::Busidex3.Droid.Resource.Styleable.SearchView;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_android_focusable = global::Busidex3.Droid.Resource.Styleable.SearchView_android_focusable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_android_imeOptions = global::Busidex3.Droid.Resource.Styleable.SearchView_android_imeOptions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_android_inputType = global::Busidex3.Droid.Resource.Styleable.SearchView_android_inputType;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_android_maxWidth = global::Busidex3.Droid.Resource.Styleable.SearchView_android_maxWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_closeIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_closeIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_commitIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_commitIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_defaultQueryHint = global::Busidex3.Droid.Resource.Styleable.SearchView_defaultQueryHint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_goIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_goIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_iconifiedByDefault = global::Busidex3.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_layout = global::Busidex3.Droid.Resource.Styleable.SearchView_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_queryBackground = global::Busidex3.Droid.Resource.Styleable.SearchView_queryBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_queryHint = global::Busidex3.Droid.Resource.Styleable.SearchView_queryHint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_searchHintIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_searchHintIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_searchIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_searchIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_submitBackground = global::Busidex3.Droid.Resource.Styleable.SearchView_submitBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_suggestionRowLayout = global::Busidex3.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SearchView_voiceIcon = global::Busidex3.Droid.Resource.Styleable.SearchView_voiceIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner = global::Busidex3.Droid.Resource.Styleable.Spinner;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner_android_dropDownWidth = global::Busidex3.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner_android_entries = global::Busidex3.Droid.Resource.Styleable.Spinner_android_entries;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner_android_popupBackground = global::Busidex3.Droid.Resource.Styleable.Spinner_android_popupBackground;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner_android_prompt = global::Busidex3.Droid.Resource.Styleable.Spinner_android_prompt;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Spinner_popupTheme = global::Busidex3.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable = global::Busidex3.Droid.Resource.Styleable.StateListDrawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawableItem = global::Busidex3.Droid.Resource.Styleable.StateListDrawableItem;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawableItem_android_drawable = global::Busidex3.Droid.Resource.Styleable.StateListDrawableItem_android_drawable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_constantSize = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_constantSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_dither = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_dither;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_variablePadding = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_variablePadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.StateListDrawable_android_visible = global::Busidex3.Droid.Resource.Styleable.StateListDrawable_android_visible;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat = global::Busidex3.Droid.Resource.Styleable.SwitchCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_android_textOff = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_android_textOff;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_android_textOn = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_android_textOn;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_android_thumb = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_android_thumb;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_showText = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_showText;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_splitTrack = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_splitTrack;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_switchMinWidth = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_switchPadding = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_switchPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_thumbTint = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_thumbTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_thumbTintMode = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_thumbTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_track = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_track;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_trackTint = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_trackTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.SwitchCompat_trackTintMode = global::Busidex3.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance = global::Busidex3.Droid.Resource.Styleable.TextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_fontFamily = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_fontFamily;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_shadowColor = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_shadowDx = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_shadowDy = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_shadowRadius = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_textColor = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_textColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_textColorHint = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_textColorHint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_textColorLink = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_textColorLink;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_textSize = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_textSize;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_textStyle = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_textStyle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_android_typeface = global::Busidex3.Droid.Resource.Styleable.TextAppearance_android_typeface;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_fontFamily = global::Busidex3.Droid.Resource.Styleable.TextAppearance_fontFamily;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.TextAppearance_textAllCaps = global::Busidex3.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar = global::Busidex3.Droid.Resource.Styleable.Toolbar;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_android_gravity = global::Busidex3.Droid.Resource.Styleable.Toolbar_android_gravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_android_minHeight = global::Busidex3.Droid.Resource.Styleable.Toolbar_android_minHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_buttonGravity = global::Busidex3.Droid.Resource.Styleable.Toolbar_buttonGravity;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_collapseContentDescription = global::Busidex3.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_collapseIcon = global::Busidex3.Droid.Resource.Styleable.Toolbar_collapseIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetEnd = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetLeft = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetRight = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetRight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetStart = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::Busidex3.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_logo = global::Busidex3.Droid.Resource.Styleable.Toolbar_logo;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_logoDescription = global::Busidex3.Droid.Resource.Styleable.Toolbar_logoDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_maxButtonHeight = global::Busidex3.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_navigationContentDescription = global::Busidex3.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_navigationIcon = global::Busidex3.Droid.Resource.Styleable.Toolbar_navigationIcon;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_popupTheme = global::Busidex3.Droid.Resource.Styleable.Toolbar_popupTheme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_subtitle = global::Busidex3.Droid.Resource.Styleable.Toolbar_subtitle;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance = global::Busidex3.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_subtitleTextColor = global::Busidex3.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_title = global::Busidex3.Droid.Resource.Styleable.Toolbar_title;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMargin = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMargin;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMarginBottom = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMarginEnd = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMargins = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMargins;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMarginStart = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMarginStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleMarginTop = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleMarginTop;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleTextAppearance = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.Toolbar_titleTextColor = global::Busidex3.Droid.Resource.Styleable.Toolbar_titleTextColor;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View = global::Busidex3.Droid.Resource.Styleable.View;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewBackgroundHelper = global::Busidex3.Droid.Resource.Styleable.ViewBackgroundHelper;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewBackgroundHelper_android_background = global::Busidex3.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::Busidex3.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::Busidex3.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewStubCompat = global::Busidex3.Droid.Resource.Styleable.ViewStubCompat;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewStubCompat_android_id = global::Busidex3.Droid.Resource.Styleable.ViewStubCompat_android_id;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId = global::Busidex3.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.ViewStubCompat_android_layout = global::Busidex3.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View_android_focusable = global::Busidex3.Droid.Resource.Styleable.View_android_focusable;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View_android_theme = global::Busidex3.Droid.Resource.Styleable.View_android_theme;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View_paddingEnd = global::Busidex3.Droid.Resource.Styleable.View_paddingEnd;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View_paddingStart = global::Busidex3.Droid.Resource.Styleable.View_paddingStart;
+			global::Branch_Xamarin_SDK.Droid.Resource.Styleable.View_theme = global::Busidex3.Droid.Resource.Styleable.View_theme;
 			global::Plugin.InputKit.Resource.Animation.abc_fade_in = global::Busidex3.Droid.Resource.Animation.abc_fade_in;
 			global::Plugin.InputKit.Resource.Animation.abc_fade_out = global::Busidex3.Droid.Resource.Animation.abc_fade_out;
 			global::Plugin.InputKit.Resource.Animation.abc_grow_fade_in_from_bottom = global::Busidex3.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -3963,6 +5568,7 @@ namespace Busidex3.Droid
 			global::Xamarin.Forms.Material.Android.Resource.Style.CardView = global::Busidex3.Droid.Resource.Style.CardView;
 			global::Xamarin.Forms.Material.Android.Resource.Style.CardView_Dark = global::Busidex3.Droid.Resource.Style.CardView_Dark;
 			global::Xamarin.Forms.Material.Android.Resource.Style.CardView_Light = global::Busidex3.Droid.Resource.Style.CardView_Light;
+			global::Xamarin.Forms.Material.Android.Resource.Style.NestedScrollBarStyle = global::Busidex3.Droid.Resource.Style.NestedScrollBarStyle;
 			global::Xamarin.Forms.Material.Android.Resource.Style.Platform_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_AppCompat;
 			global::Xamarin.Forms.Material.Android.Resource.Style.Platform_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_AppCompat_Light;
 			global::Xamarin.Forms.Material.Android.Resource.Style.Platform_MaterialComponents = global::Busidex3.Droid.Resource.Style.Platform_MaterialComponents;
@@ -6534,6 +8140,7 @@ namespace Busidex3.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView = global::Busidex3.Droid.Resource.Style.CardView;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView_Dark = global::Busidex3.Droid.Resource.Style.CardView_Dark;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView_Light = global::Busidex3.Droid.Resource.Style.CardView_Light;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.NestedScrollBarStyle = global::Busidex3.Droid.Resource.Style.NestedScrollBarStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Platform_AppCompat = global::Busidex3.Droid.Resource.Style.Platform_AppCompat;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Platform_AppCompat_Light = global::Busidex3.Droid.Resource.Style.Platform_AppCompat_Light;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Platform_MaterialComponents = global::Busidex3.Droid.Resource.Style.Platform_MaterialComponents;
@@ -12992,9 +14599,6 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0E000C
 			public const int InsightsApiKey = 2131623948;
 			
-			// aapt resource value: 0x7F0E006C
-			public const int library_name = 2131624044;
-			
 			// aapt resource value: 0x7F0E000D
 			public const int Login_btnForgotPassword = 2131623949;
 			
@@ -13016,80 +14620,80 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0E0013
 			public const int Main_btnSearch = 2131623955;
 			
+			// aapt resource value: 0x7F0E006C
+			public const int mr_button_content_description = 2131624044;
+			
 			// aapt resource value: 0x7F0E006D
-			public const int mr_button_content_description = 2131624045;
+			public const int mr_cast_button_connected = 2131624045;
 			
 			// aapt resource value: 0x7F0E006E
-			public const int mr_cast_button_connected = 2131624046;
+			public const int mr_cast_button_connecting = 2131624046;
 			
 			// aapt resource value: 0x7F0E006F
-			public const int mr_cast_button_connecting = 2131624047;
+			public const int mr_cast_button_disconnected = 2131624047;
 			
 			// aapt resource value: 0x7F0E0070
-			public const int mr_cast_button_disconnected = 2131624048;
+			public const int mr_cast_dialog_title_view_placeholder = 2131624048;
 			
 			// aapt resource value: 0x7F0E0071
-			public const int mr_cast_dialog_title_view_placeholder = 2131624049;
+			public const int mr_chooser_searching = 2131624049;
 			
 			// aapt resource value: 0x7F0E0072
-			public const int mr_chooser_searching = 2131624050;
+			public const int mr_chooser_title = 2131624050;
 			
 			// aapt resource value: 0x7F0E0073
-			public const int mr_chooser_title = 2131624051;
+			public const int mr_controller_album_art = 2131624051;
 			
 			// aapt resource value: 0x7F0E0074
-			public const int mr_controller_album_art = 2131624052;
+			public const int mr_controller_casting_screen = 2131624052;
 			
 			// aapt resource value: 0x7F0E0075
-			public const int mr_controller_casting_screen = 2131624053;
+			public const int mr_controller_close_description = 2131624053;
 			
 			// aapt resource value: 0x7F0E0076
-			public const int mr_controller_close_description = 2131624054;
+			public const int mr_controller_collapse_group = 2131624054;
 			
 			// aapt resource value: 0x7F0E0077
-			public const int mr_controller_collapse_group = 2131624055;
+			public const int mr_controller_disconnect = 2131624055;
 			
 			// aapt resource value: 0x7F0E0078
-			public const int mr_controller_disconnect = 2131624056;
+			public const int mr_controller_expand_group = 2131624056;
 			
 			// aapt resource value: 0x7F0E0079
-			public const int mr_controller_expand_group = 2131624057;
+			public const int mr_controller_no_info_available = 2131624057;
 			
 			// aapt resource value: 0x7F0E007A
-			public const int mr_controller_no_info_available = 2131624058;
+			public const int mr_controller_no_media_selected = 2131624058;
 			
 			// aapt resource value: 0x7F0E007B
-			public const int mr_controller_no_media_selected = 2131624059;
+			public const int mr_controller_pause = 2131624059;
 			
 			// aapt resource value: 0x7F0E007C
-			public const int mr_controller_pause = 2131624060;
+			public const int mr_controller_play = 2131624060;
 			
 			// aapt resource value: 0x7F0E007D
-			public const int mr_controller_play = 2131624061;
+			public const int mr_controller_stop = 2131624061;
 			
 			// aapt resource value: 0x7F0E007E
-			public const int mr_controller_stop = 2131624062;
+			public const int mr_controller_stop_casting = 2131624062;
 			
 			// aapt resource value: 0x7F0E007F
-			public const int mr_controller_stop_casting = 2131624063;
+			public const int mr_controller_volume_slider = 2131624063;
 			
 			// aapt resource value: 0x7F0E0080
-			public const int mr_controller_volume_slider = 2131624064;
+			public const int mr_dialog_device_header = 2131624064;
 			
 			// aapt resource value: 0x7F0E0081
-			public const int mr_dialog_device_header = 2131624065;
+			public const int mr_dialog_route_header = 2131624065;
 			
 			// aapt resource value: 0x7F0E0082
-			public const int mr_dialog_route_header = 2131624066;
+			public const int mr_system_route_name = 2131624066;
 			
 			// aapt resource value: 0x7F0E0083
-			public const int mr_system_route_name = 2131624067;
+			public const int mr_user_route_category_name = 2131624067;
 			
 			// aapt resource value: 0x7F0E0084
-			public const int mr_user_route_category_name = 2131624068;
-			
-			// aapt resource value: 0x7F0E0085
-			public const int mtrl_chip_close_icon_content_description = 2131624069;
+			public const int mtrl_chip_close_icon_content_description = 2131624068;
 			
 			// aapt resource value: 0x7F0E0014
 			public const int MyBusidex_NoCards = 2131623956;
@@ -13106,26 +14710,26 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0E0018
 			public const int Organization_NoOrganizations = 2131623960;
 			
+			// aapt resource value: 0x7F0E0085
+			public const int password_toggle_content_description = 2131624069;
+			
 			// aapt resource value: 0x7F0E0086
-			public const int password_toggle_content_description = 2131624070;
+			public const int path_password_eye = 2131624070;
 			
 			// aapt resource value: 0x7F0E0087
-			public const int path_password_eye = 2131624071;
+			public const int path_password_eye_mask_strike_through = 2131624071;
 			
 			// aapt resource value: 0x7F0E0088
-			public const int path_password_eye_mask_strike_through = 2131624072;
+			public const int path_password_eye_mask_visible = 2131624072;
 			
 			// aapt resource value: 0x7F0E0089
-			public const int path_password_eye_mask_visible = 2131624073;
-			
-			// aapt resource value: 0x7F0E008A
-			public const int path_password_strike_through = 2131624074;
+			public const int path_password_strike_through = 2131624073;
 			
 			// aapt resource value: 0x7F0E0019
 			public const int PhoneTypePrompt = 2131623961;
 			
-			// aapt resource value: 0x7F0E008B
-			public const int pick_image_intent_chooser_title = 2131624075;
+			// aapt resource value: 0x7F0E008A
+			public const int pick_image_intent_chooser_title = 2131624074;
 			
 			// aapt resource value: 0x7F0E001A
 			public const int Profile_DescriptionNewAccount = 2131623962;
@@ -13148,14 +14752,14 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0E0020
 			public const int Profile_ErrorUnableToCreateAccount = 2131623968;
 			
-			// aapt resource value: 0x7F0E008C
-			public const int quickshare = 2131624076;
+			// aapt resource value: 0x7F0E008B
+			public const int quickshare = 2131624075;
 			
 			// aapt resource value: 0x7F0E0021
 			public const int QuickShareMessage = 2131623969;
 			
-			// aapt resource value: 0x7F0E008D
-			public const int search_menu_title = 2131624077;
+			// aapt resource value: 0x7F0E008C
+			public const int search_menu_title = 2131624076;
 			
 			// aapt resource value: 0x7F0E0022
 			public const int Share_ConfirmAccept = 2131623970;
@@ -13202,8 +14806,8 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0E0030
 			public const int StateSpinnerPropmt = 2131623984;
 			
-			// aapt resource value: 0x7F0E008E
-			public const int status_bar_notification_info_overflow = 2131624078;
+			// aapt resource value: 0x7F0E008D
+			public const int status_bar_notification_info_overflow = 2131624077;
 			
 			static String()
 			{
@@ -13812,8 +15416,8 @@ namespace Busidex3.Droid
 			// aapt resource value: 0x7F0F00C5
 			public const int CardView_Light = 2131689669;
 			
-			// aapt resource value: 0x7F0F020D
-			public const int collectionViewStyle = 2131689997;
+			// aapt resource value: 0x7F0F020E
+			public const int collectionViewStyle = 2131689998;
 			
 			// aapt resource value: 0x7F0F00C6
 			public const int MainTheme = 2131689670;
@@ -13825,976 +15429,979 @@ namespace Busidex3.Droid
 			public const int MyPopupMenu = 2131689672;
 			
 			// aapt resource value: 0x7F0F00C9
-			public const int Platform_AppCompat = 2131689673;
+			public const int NestedScrollBarStyle = 2131689673;
 			
 			// aapt resource value: 0x7F0F00CA
-			public const int Platform_AppCompat_Light = 2131689674;
+			public const int Platform_AppCompat = 2131689674;
 			
 			// aapt resource value: 0x7F0F00CB
-			public const int Platform_MaterialComponents = 2131689675;
+			public const int Platform_AppCompat_Light = 2131689675;
 			
 			// aapt resource value: 0x7F0F00CC
-			public const int Platform_MaterialComponents_Dialog = 2131689676;
+			public const int Platform_MaterialComponents = 2131689676;
 			
 			// aapt resource value: 0x7F0F00CD
-			public const int Platform_MaterialComponents_Light = 2131689677;
+			public const int Platform_MaterialComponents_Dialog = 2131689677;
 			
 			// aapt resource value: 0x7F0F00CE
-			public const int Platform_MaterialComponents_Light_Dialog = 2131689678;
+			public const int Platform_MaterialComponents_Light = 2131689678;
 			
 			// aapt resource value: 0x7F0F00CF
-			public const int Platform_ThemeOverlay_AppCompat = 2131689679;
+			public const int Platform_MaterialComponents_Light_Dialog = 2131689679;
 			
 			// aapt resource value: 0x7F0F00D0
-			public const int Platform_ThemeOverlay_AppCompat_Dark = 2131689680;
+			public const int Platform_ThemeOverlay_AppCompat = 2131689680;
 			
 			// aapt resource value: 0x7F0F00D1
-			public const int Platform_ThemeOverlay_AppCompat_Light = 2131689681;
+			public const int Platform_ThemeOverlay_AppCompat_Dark = 2131689681;
 			
 			// aapt resource value: 0x7F0F00D2
-			public const int Platform_V21_AppCompat = 2131689682;
+			public const int Platform_ThemeOverlay_AppCompat_Light = 2131689682;
 			
 			// aapt resource value: 0x7F0F00D3
-			public const int Platform_V21_AppCompat_Light = 2131689683;
+			public const int Platform_V21_AppCompat = 2131689683;
 			
 			// aapt resource value: 0x7F0F00D4
-			public const int Platform_V25_AppCompat = 2131689684;
+			public const int Platform_V21_AppCompat_Light = 2131689684;
 			
 			// aapt resource value: 0x7F0F00D5
-			public const int Platform_V25_AppCompat_Light = 2131689685;
+			public const int Platform_V25_AppCompat = 2131689685;
 			
 			// aapt resource value: 0x7F0F00D6
-			public const int Platform_Widget_AppCompat_Spinner = 2131689686;
+			public const int Platform_V25_AppCompat_Light = 2131689686;
 			
 			// aapt resource value: 0x7F0F00D7
-			public const int RtlOverlay_DialogWindowTitle_AppCompat = 2131689687;
+			public const int Platform_Widget_AppCompat_Spinner = 2131689687;
 			
 			// aapt resource value: 0x7F0F00D8
-			public const int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = 2131689688;
+			public const int RtlOverlay_DialogWindowTitle_AppCompat = 2131689688;
 			
 			// aapt resource value: 0x7F0F00D9
-			public const int RtlOverlay_Widget_AppCompat_DialogTitle_Icon = 2131689689;
+			public const int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = 2131689689;
 			
 			// aapt resource value: 0x7F0F00DA
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem = 2131689690;
+			public const int RtlOverlay_Widget_AppCompat_DialogTitle_Icon = 2131689690;
 			
 			// aapt resource value: 0x7F0F00DB
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = 2131689691;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem = 2131689691;
 			
 			// aapt resource value: 0x7F0F00DC
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = 2131689692;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = 2131689692;
 			
 			// aapt resource value: 0x7F0F00DD
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = 2131689693;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = 2131689693;
 			
 			// aapt resource value: 0x7F0F00DE
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = 2131689694;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = 2131689694;
 			
 			// aapt resource value: 0x7F0F00DF
-			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = 2131689695;
-			
-			// aapt resource value: 0x7F0F00E5
-			public const int RtlOverlay_Widget_AppCompat_SearchView_MagIcon = 2131689701;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = 2131689695;
 			
 			// aapt resource value: 0x7F0F00E0
-			public const int RtlOverlay_Widget_AppCompat_Search_DropDown = 2131689696;
-			
-			// aapt resource value: 0x7F0F00E1
-			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = 2131689697;
-			
-			// aapt resource value: 0x7F0F00E2
-			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = 2131689698;
-			
-			// aapt resource value: 0x7F0F00E3
-			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Query = 2131689699;
-			
-			// aapt resource value: 0x7F0F00E4
-			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Text = 2131689700;
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = 2131689696;
 			
 			// aapt resource value: 0x7F0F00E6
-			public const int RtlUnderlay_Widget_AppCompat_ActionButton = 2131689702;
+			public const int RtlOverlay_Widget_AppCompat_SearchView_MagIcon = 2131689702;
+			
+			// aapt resource value: 0x7F0F00E1
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown = 2131689697;
+			
+			// aapt resource value: 0x7F0F00E2
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = 2131689698;
+			
+			// aapt resource value: 0x7F0F00E3
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = 2131689699;
+			
+			// aapt resource value: 0x7F0F00E4
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Query = 2131689700;
+			
+			// aapt resource value: 0x7F0F00E5
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Text = 2131689701;
 			
 			// aapt resource value: 0x7F0F00E7
-			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131689703;
+			public const int RtlUnderlay_Widget_AppCompat_ActionButton = 2131689703;
 			
 			// aapt resource value: 0x7F0F00E8
-			public const int TextAppearance_AppCompat = 2131689704;
+			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131689704;
 			
 			// aapt resource value: 0x7F0F00E9
-			public const int TextAppearance_AppCompat_Body1 = 2131689705;
+			public const int TextAppearance_AppCompat = 2131689705;
 			
 			// aapt resource value: 0x7F0F00EA
-			public const int TextAppearance_AppCompat_Body2 = 2131689706;
+			public const int TextAppearance_AppCompat_Body1 = 2131689706;
 			
 			// aapt resource value: 0x7F0F00EB
-			public const int TextAppearance_AppCompat_Button = 2131689707;
+			public const int TextAppearance_AppCompat_Body2 = 2131689707;
 			
 			// aapt resource value: 0x7F0F00EC
-			public const int TextAppearance_AppCompat_Caption = 2131689708;
+			public const int TextAppearance_AppCompat_Button = 2131689708;
 			
 			// aapt resource value: 0x7F0F00ED
-			public const int TextAppearance_AppCompat_Display1 = 2131689709;
+			public const int TextAppearance_AppCompat_Caption = 2131689709;
 			
 			// aapt resource value: 0x7F0F00EE
-			public const int TextAppearance_AppCompat_Display2 = 2131689710;
+			public const int TextAppearance_AppCompat_Display1 = 2131689710;
 			
 			// aapt resource value: 0x7F0F00EF
-			public const int TextAppearance_AppCompat_Display3 = 2131689711;
+			public const int TextAppearance_AppCompat_Display2 = 2131689711;
 			
 			// aapt resource value: 0x7F0F00F0
-			public const int TextAppearance_AppCompat_Display4 = 2131689712;
+			public const int TextAppearance_AppCompat_Display3 = 2131689712;
 			
 			// aapt resource value: 0x7F0F00F1
-			public const int TextAppearance_AppCompat_Headline = 2131689713;
+			public const int TextAppearance_AppCompat_Display4 = 2131689713;
 			
 			// aapt resource value: 0x7F0F00F2
-			public const int TextAppearance_AppCompat_Inverse = 2131689714;
+			public const int TextAppearance_AppCompat_Headline = 2131689714;
 			
 			// aapt resource value: 0x7F0F00F3
-			public const int TextAppearance_AppCompat_Large = 2131689715;
+			public const int TextAppearance_AppCompat_Inverse = 2131689715;
 			
 			// aapt resource value: 0x7F0F00F4
-			public const int TextAppearance_AppCompat_Large_Inverse = 2131689716;
+			public const int TextAppearance_AppCompat_Large = 2131689716;
 			
 			// aapt resource value: 0x7F0F00F5
-			public const int TextAppearance_AppCompat_Light_SearchResult_Subtitle = 2131689717;
+			public const int TextAppearance_AppCompat_Large_Inverse = 2131689717;
 			
 			// aapt resource value: 0x7F0F00F6
-			public const int TextAppearance_AppCompat_Light_SearchResult_Title = 2131689718;
+			public const int TextAppearance_AppCompat_Light_SearchResult_Subtitle = 2131689718;
 			
 			// aapt resource value: 0x7F0F00F7
-			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = 2131689719;
+			public const int TextAppearance_AppCompat_Light_SearchResult_Title = 2131689719;
 			
 			// aapt resource value: 0x7F0F00F8
-			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = 2131689720;
+			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = 2131689720;
 			
 			// aapt resource value: 0x7F0F00F9
-			public const int TextAppearance_AppCompat_Medium = 2131689721;
+			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = 2131689721;
 			
 			// aapt resource value: 0x7F0F00FA
-			public const int TextAppearance_AppCompat_Medium_Inverse = 2131689722;
+			public const int TextAppearance_AppCompat_Medium = 2131689722;
 			
 			// aapt resource value: 0x7F0F00FB
-			public const int TextAppearance_AppCompat_Menu = 2131689723;
+			public const int TextAppearance_AppCompat_Medium_Inverse = 2131689723;
 			
 			// aapt resource value: 0x7F0F00FC
-			public const int TextAppearance_AppCompat_SearchResult_Subtitle = 2131689724;
+			public const int TextAppearance_AppCompat_Menu = 2131689724;
 			
 			// aapt resource value: 0x7F0F00FD
-			public const int TextAppearance_AppCompat_SearchResult_Title = 2131689725;
+			public const int TextAppearance_AppCompat_SearchResult_Subtitle = 2131689725;
 			
 			// aapt resource value: 0x7F0F00FE
-			public const int TextAppearance_AppCompat_Small = 2131689726;
+			public const int TextAppearance_AppCompat_SearchResult_Title = 2131689726;
 			
 			// aapt resource value: 0x7F0F00FF
-			public const int TextAppearance_AppCompat_Small_Inverse = 2131689727;
+			public const int TextAppearance_AppCompat_Small = 2131689727;
 			
 			// aapt resource value: 0x7F0F0100
-			public const int TextAppearance_AppCompat_Subhead = 2131689728;
+			public const int TextAppearance_AppCompat_Small_Inverse = 2131689728;
 			
 			// aapt resource value: 0x7F0F0101
-			public const int TextAppearance_AppCompat_Subhead_Inverse = 2131689729;
+			public const int TextAppearance_AppCompat_Subhead = 2131689729;
 			
 			// aapt resource value: 0x7F0F0102
-			public const int TextAppearance_AppCompat_Title = 2131689730;
+			public const int TextAppearance_AppCompat_Subhead_Inverse = 2131689730;
 			
 			// aapt resource value: 0x7F0F0103
-			public const int TextAppearance_AppCompat_Title_Inverse = 2131689731;
+			public const int TextAppearance_AppCompat_Title = 2131689731;
 			
 			// aapt resource value: 0x7F0F0104
-			public const int TextAppearance_AppCompat_Tooltip = 2131689732;
+			public const int TextAppearance_AppCompat_Title_Inverse = 2131689732;
 			
 			// aapt resource value: 0x7F0F0105
-			public const int TextAppearance_AppCompat_Widget_ActionBar_Menu = 2131689733;
+			public const int TextAppearance_AppCompat_Tooltip = 2131689733;
 			
 			// aapt resource value: 0x7F0F0106
-			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle = 2131689734;
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Menu = 2131689734;
 			
 			// aapt resource value: 0x7F0F0107
-			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = 2131689735;
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle = 2131689735;
 			
 			// aapt resource value: 0x7F0F0108
-			public const int TextAppearance_AppCompat_Widget_ActionBar_Title = 2131689736;
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = 2131689736;
 			
 			// aapt resource value: 0x7F0F0109
-			public const int TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = 2131689737;
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Title = 2131689737;
 			
 			// aapt resource value: 0x7F0F010A
-			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle = 2131689738;
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = 2131689738;
 			
 			// aapt resource value: 0x7F0F010B
-			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = 2131689739;
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle = 2131689739;
 			
 			// aapt resource value: 0x7F0F010C
-			public const int TextAppearance_AppCompat_Widget_ActionMode_Title = 2131689740;
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = 2131689740;
 			
 			// aapt resource value: 0x7F0F010D
-			public const int TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = 2131689741;
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Title = 2131689741;
 			
 			// aapt resource value: 0x7F0F010E
-			public const int TextAppearance_AppCompat_Widget_Button = 2131689742;
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = 2131689742;
 			
 			// aapt resource value: 0x7F0F010F
-			public const int TextAppearance_AppCompat_Widget_Button_Borderless_Colored = 2131689743;
+			public const int TextAppearance_AppCompat_Widget_Button = 2131689743;
 			
 			// aapt resource value: 0x7F0F0110
-			public const int TextAppearance_AppCompat_Widget_Button_Colored = 2131689744;
+			public const int TextAppearance_AppCompat_Widget_Button_Borderless_Colored = 2131689744;
 			
 			// aapt resource value: 0x7F0F0111
-			public const int TextAppearance_AppCompat_Widget_Button_Inverse = 2131689745;
+			public const int TextAppearance_AppCompat_Widget_Button_Colored = 2131689745;
 			
 			// aapt resource value: 0x7F0F0112
-			public const int TextAppearance_AppCompat_Widget_DropDownItem = 2131689746;
+			public const int TextAppearance_AppCompat_Widget_Button_Inverse = 2131689746;
 			
 			// aapt resource value: 0x7F0F0113
-			public const int TextAppearance_AppCompat_Widget_PopupMenu_Header = 2131689747;
+			public const int TextAppearance_AppCompat_Widget_DropDownItem = 2131689747;
 			
 			// aapt resource value: 0x7F0F0114
-			public const int TextAppearance_AppCompat_Widget_PopupMenu_Large = 2131689748;
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Header = 2131689748;
 			
 			// aapt resource value: 0x7F0F0115
-			public const int TextAppearance_AppCompat_Widget_PopupMenu_Small = 2131689749;
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Large = 2131689749;
 			
 			// aapt resource value: 0x7F0F0116
-			public const int TextAppearance_AppCompat_Widget_Switch = 2131689750;
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Small = 2131689750;
 			
 			// aapt resource value: 0x7F0F0117
-			public const int TextAppearance_AppCompat_Widget_TextView_SpinnerItem = 2131689751;
+			public const int TextAppearance_AppCompat_Widget_Switch = 2131689751;
 			
 			// aapt resource value: 0x7F0F0118
-			public const int TextAppearance_Compat_Notification = 2131689752;
+			public const int TextAppearance_AppCompat_Widget_TextView_SpinnerItem = 2131689752;
 			
 			// aapt resource value: 0x7F0F0119
-			public const int TextAppearance_Compat_Notification_Info = 2131689753;
+			public const int TextAppearance_Compat_Notification = 2131689753;
 			
 			// aapt resource value: 0x7F0F011A
-			public const int TextAppearance_Compat_Notification_Info_Media = 2131689754;
+			public const int TextAppearance_Compat_Notification_Info = 2131689754;
 			
 			// aapt resource value: 0x7F0F011B
-			public const int TextAppearance_Compat_Notification_Line2 = 2131689755;
+			public const int TextAppearance_Compat_Notification_Info_Media = 2131689755;
 			
 			// aapt resource value: 0x7F0F011C
-			public const int TextAppearance_Compat_Notification_Line2_Media = 2131689756;
+			public const int TextAppearance_Compat_Notification_Line2 = 2131689756;
 			
 			// aapt resource value: 0x7F0F011D
-			public const int TextAppearance_Compat_Notification_Media = 2131689757;
+			public const int TextAppearance_Compat_Notification_Line2_Media = 2131689757;
 			
 			// aapt resource value: 0x7F0F011E
-			public const int TextAppearance_Compat_Notification_Time = 2131689758;
+			public const int TextAppearance_Compat_Notification_Media = 2131689758;
 			
 			// aapt resource value: 0x7F0F011F
-			public const int TextAppearance_Compat_Notification_Time_Media = 2131689759;
+			public const int TextAppearance_Compat_Notification_Time = 2131689759;
 			
 			// aapt resource value: 0x7F0F0120
-			public const int TextAppearance_Compat_Notification_Title = 2131689760;
+			public const int TextAppearance_Compat_Notification_Time_Media = 2131689760;
 			
 			// aapt resource value: 0x7F0F0121
-			public const int TextAppearance_Compat_Notification_Title_Media = 2131689761;
+			public const int TextAppearance_Compat_Notification_Title = 2131689761;
 			
 			// aapt resource value: 0x7F0F0122
-			public const int TextAppearance_Design_CollapsingToolbar_Expanded = 2131689762;
+			public const int TextAppearance_Compat_Notification_Title_Media = 2131689762;
 			
 			// aapt resource value: 0x7F0F0123
-			public const int TextAppearance_Design_Counter = 2131689763;
+			public const int TextAppearance_Design_CollapsingToolbar_Expanded = 2131689763;
 			
 			// aapt resource value: 0x7F0F0124
-			public const int TextAppearance_Design_Counter_Overflow = 2131689764;
+			public const int TextAppearance_Design_Counter = 2131689764;
 			
 			// aapt resource value: 0x7F0F0125
-			public const int TextAppearance_Design_Error = 2131689765;
+			public const int TextAppearance_Design_Counter_Overflow = 2131689765;
 			
 			// aapt resource value: 0x7F0F0126
-			public const int TextAppearance_Design_HelperText = 2131689766;
+			public const int TextAppearance_Design_Error = 2131689766;
 			
 			// aapt resource value: 0x7F0F0127
-			public const int TextAppearance_Design_Hint = 2131689767;
+			public const int TextAppearance_Design_HelperText = 2131689767;
 			
 			// aapt resource value: 0x7F0F0128
-			public const int TextAppearance_Design_Snackbar_Message = 2131689768;
+			public const int TextAppearance_Design_Hint = 2131689768;
 			
 			// aapt resource value: 0x7F0F0129
-			public const int TextAppearance_Design_Tab = 2131689769;
+			public const int TextAppearance_Design_Snackbar_Message = 2131689769;
 			
 			// aapt resource value: 0x7F0F012A
-			public const int TextAppearance_MaterialComponents_Body1 = 2131689770;
+			public const int TextAppearance_Design_Tab = 2131689770;
 			
 			// aapt resource value: 0x7F0F012B
-			public const int TextAppearance_MaterialComponents_Body2 = 2131689771;
+			public const int TextAppearance_MaterialComponents_Body1 = 2131689771;
 			
 			// aapt resource value: 0x7F0F012C
-			public const int TextAppearance_MaterialComponents_Button = 2131689772;
+			public const int TextAppearance_MaterialComponents_Body2 = 2131689772;
 			
 			// aapt resource value: 0x7F0F012D
-			public const int TextAppearance_MaterialComponents_Caption = 2131689773;
+			public const int TextAppearance_MaterialComponents_Button = 2131689773;
 			
 			// aapt resource value: 0x7F0F012E
-			public const int TextAppearance_MaterialComponents_Chip = 2131689774;
+			public const int TextAppearance_MaterialComponents_Caption = 2131689774;
 			
 			// aapt resource value: 0x7F0F012F
-			public const int TextAppearance_MaterialComponents_Headline1 = 2131689775;
+			public const int TextAppearance_MaterialComponents_Chip = 2131689775;
 			
 			// aapt resource value: 0x7F0F0130
-			public const int TextAppearance_MaterialComponents_Headline2 = 2131689776;
+			public const int TextAppearance_MaterialComponents_Headline1 = 2131689776;
 			
 			// aapt resource value: 0x7F0F0131
-			public const int TextAppearance_MaterialComponents_Headline3 = 2131689777;
+			public const int TextAppearance_MaterialComponents_Headline2 = 2131689777;
 			
 			// aapt resource value: 0x7F0F0132
-			public const int TextAppearance_MaterialComponents_Headline4 = 2131689778;
+			public const int TextAppearance_MaterialComponents_Headline3 = 2131689778;
 			
 			// aapt resource value: 0x7F0F0133
-			public const int TextAppearance_MaterialComponents_Headline5 = 2131689779;
+			public const int TextAppearance_MaterialComponents_Headline4 = 2131689779;
 			
 			// aapt resource value: 0x7F0F0134
-			public const int TextAppearance_MaterialComponents_Headline6 = 2131689780;
+			public const int TextAppearance_MaterialComponents_Headline5 = 2131689780;
 			
 			// aapt resource value: 0x7F0F0135
-			public const int TextAppearance_MaterialComponents_Overline = 2131689781;
+			public const int TextAppearance_MaterialComponents_Headline6 = 2131689781;
 			
 			// aapt resource value: 0x7F0F0136
-			public const int TextAppearance_MaterialComponents_Subtitle1 = 2131689782;
+			public const int TextAppearance_MaterialComponents_Overline = 2131689782;
 			
 			// aapt resource value: 0x7F0F0137
-			public const int TextAppearance_MaterialComponents_Subtitle2 = 2131689783;
+			public const int TextAppearance_MaterialComponents_Subtitle1 = 2131689783;
 			
 			// aapt resource value: 0x7F0F0138
-			public const int TextAppearance_MaterialComponents_Tab = 2131689784;
+			public const int TextAppearance_MaterialComponents_Subtitle2 = 2131689784;
 			
 			// aapt resource value: 0x7F0F0139
-			public const int TextAppearance_MediaRouter_PrimaryText = 2131689785;
+			public const int TextAppearance_MaterialComponents_Tab = 2131689785;
 			
 			// aapt resource value: 0x7F0F013A
-			public const int TextAppearance_MediaRouter_SecondaryText = 2131689786;
+			public const int TextAppearance_MediaRouter_PrimaryText = 2131689786;
 			
 			// aapt resource value: 0x7F0F013B
-			public const int TextAppearance_MediaRouter_Title = 2131689787;
+			public const int TextAppearance_MediaRouter_SecondaryText = 2131689787;
 			
 			// aapt resource value: 0x7F0F013C
-			public const int TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131689788;
+			public const int TextAppearance_MediaRouter_Title = 2131689788;
 			
 			// aapt resource value: 0x7F0F013D
-			public const int TextAppearance_Widget_AppCompat_Toolbar_Subtitle = 2131689789;
+			public const int TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131689789;
 			
 			// aapt resource value: 0x7F0F013E
-			public const int TextAppearance_Widget_AppCompat_Toolbar_Title = 2131689790;
-			
-			// aapt resource value: 0x7F0F0174
-			public const int ThemeOverlay_AppCompat = 2131689844;
-			
-			// aapt resource value: 0x7F0F0175
-			public const int ThemeOverlay_AppCompat_ActionBar = 2131689845;
-			
-			// aapt resource value: 0x7F0F0176
-			public const int ThemeOverlay_AppCompat_Dark = 2131689846;
-			
-			// aapt resource value: 0x7F0F0177
-			public const int ThemeOverlay_AppCompat_Dark_ActionBar = 2131689847;
-			
-			// aapt resource value: 0x7F0F0178
-			public const int ThemeOverlay_AppCompat_Dialog = 2131689848;
-			
-			// aapt resource value: 0x7F0F0179
-			public const int ThemeOverlay_AppCompat_Dialog_Alert = 2131689849;
-			
-			// aapt resource value: 0x7F0F017A
-			public const int ThemeOverlay_AppCompat_Light = 2131689850;
-			
-			// aapt resource value: 0x7F0F017B
-			public const int ThemeOverlay_MaterialComponents = 2131689851;
-			
-			// aapt resource value: 0x7F0F017C
-			public const int ThemeOverlay_MaterialComponents_ActionBar = 2131689852;
-			
-			// aapt resource value: 0x7F0F017D
-			public const int ThemeOverlay_MaterialComponents_Dark = 2131689853;
-			
-			// aapt resource value: 0x7F0F017E
-			public const int ThemeOverlay_MaterialComponents_Dark_ActionBar = 2131689854;
-			
-			// aapt resource value: 0x7F0F017F
-			public const int ThemeOverlay_MaterialComponents_Dialog = 2131689855;
-			
-			// aapt resource value: 0x7F0F0180
-			public const int ThemeOverlay_MaterialComponents_Dialog_Alert = 2131689856;
-			
-			// aapt resource value: 0x7F0F0181
-			public const int ThemeOverlay_MaterialComponents_Light = 2131689857;
-			
-			// aapt resource value: 0x7F0F0182
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText = 2131689858;
-			
-			// aapt resource value: 0x7F0F0183
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox = 2131689859;
-			
-			// aapt resource value: 0x7F0F0184
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131689860;
-			
-			// aapt resource value: 0x7F0F0185
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox = 2131689861;
-			
-			// aapt resource value: 0x7F0F0186
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131689862;
-			
-			// aapt resource value: 0x7F0F0187
-			public const int ThemeOverlay_MediaRouter_Dark = 2131689863;
-			
-			// aapt resource value: 0x7F0F0188
-			public const int ThemeOverlay_MediaRouter_Light = 2131689864;
+			public const int TextAppearance_Widget_AppCompat_Toolbar_Subtitle = 2131689790;
 			
 			// aapt resource value: 0x7F0F013F
-			public const int Theme_AppCompat = 2131689791;
+			public const int TextAppearance_Widget_AppCompat_Toolbar_Title = 2131689791;
 			
-			// aapt resource value: 0x7F0F0140
-			public const int Theme_AppCompat_CompactMenu = 2131689792;
+			// aapt resource value: 0x7F0F0175
+			public const int ThemeOverlay_AppCompat = 2131689845;
 			
-			// aapt resource value: 0x7F0F0141
-			public const int Theme_AppCompat_DayNight = 2131689793;
+			// aapt resource value: 0x7F0F0176
+			public const int ThemeOverlay_AppCompat_ActionBar = 2131689846;
 			
-			// aapt resource value: 0x7F0F0142
-			public const int Theme_AppCompat_DayNight_DarkActionBar = 2131689794;
+			// aapt resource value: 0x7F0F0177
+			public const int ThemeOverlay_AppCompat_Dark = 2131689847;
 			
-			// aapt resource value: 0x7F0F0143
-			public const int Theme_AppCompat_DayNight_Dialog = 2131689795;
+			// aapt resource value: 0x7F0F0178
+			public const int ThemeOverlay_AppCompat_Dark_ActionBar = 2131689848;
 			
-			// aapt resource value: 0x7F0F0146
-			public const int Theme_AppCompat_DayNight_DialogWhenLarge = 2131689798;
+			// aapt resource value: 0x7F0F0179
+			public const int ThemeOverlay_AppCompat_Dialog = 2131689849;
 			
-			// aapt resource value: 0x7F0F0144
-			public const int Theme_AppCompat_DayNight_Dialog_Alert = 2131689796;
+			// aapt resource value: 0x7F0F017A
+			public const int ThemeOverlay_AppCompat_Dialog_Alert = 2131689850;
 			
-			// aapt resource value: 0x7F0F0145
-			public const int Theme_AppCompat_DayNight_Dialog_MinWidth = 2131689797;
+			// aapt resource value: 0x7F0F017B
+			public const int ThemeOverlay_AppCompat_Light = 2131689851;
 			
-			// aapt resource value: 0x7F0F0147
-			public const int Theme_AppCompat_DayNight_NoActionBar = 2131689799;
+			// aapt resource value: 0x7F0F017C
+			public const int ThemeOverlay_MaterialComponents = 2131689852;
 			
-			// aapt resource value: 0x7F0F0148
-			public const int Theme_AppCompat_Dialog = 2131689800;
+			// aapt resource value: 0x7F0F017D
+			public const int ThemeOverlay_MaterialComponents_ActionBar = 2131689853;
 			
-			// aapt resource value: 0x7F0F014B
-			public const int Theme_AppCompat_DialogWhenLarge = 2131689803;
+			// aapt resource value: 0x7F0F017E
+			public const int ThemeOverlay_MaterialComponents_Dark = 2131689854;
 			
-			// aapt resource value: 0x7F0F0149
-			public const int Theme_AppCompat_Dialog_Alert = 2131689801;
+			// aapt resource value: 0x7F0F017F
+			public const int ThemeOverlay_MaterialComponents_Dark_ActionBar = 2131689855;
 			
-			// aapt resource value: 0x7F0F014A
-			public const int Theme_AppCompat_Dialog_MinWidth = 2131689802;
+			// aapt resource value: 0x7F0F0180
+			public const int ThemeOverlay_MaterialComponents_Dialog = 2131689856;
 			
-			// aapt resource value: 0x7F0F014C
-			public const int Theme_AppCompat_Light = 2131689804;
+			// aapt resource value: 0x7F0F0181
+			public const int ThemeOverlay_MaterialComponents_Dialog_Alert = 2131689857;
 			
-			// aapt resource value: 0x7F0F014D
-			public const int Theme_AppCompat_Light_DarkActionBar = 2131689805;
+			// aapt resource value: 0x7F0F0182
+			public const int ThemeOverlay_MaterialComponents_Light = 2131689858;
 			
-			// aapt resource value: 0x7F0F014E
-			public const int Theme_AppCompat_Light_Dialog = 2131689806;
+			// aapt resource value: 0x7F0F0183
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText = 2131689859;
 			
-			// aapt resource value: 0x7F0F0151
-			public const int Theme_AppCompat_Light_DialogWhenLarge = 2131689809;
+			// aapt resource value: 0x7F0F0184
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox = 2131689860;
 			
-			// aapt resource value: 0x7F0F014F
-			public const int Theme_AppCompat_Light_Dialog_Alert = 2131689807;
+			// aapt resource value: 0x7F0F0185
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131689861;
 			
-			// aapt resource value: 0x7F0F0150
-			public const int Theme_AppCompat_Light_Dialog_MinWidth = 2131689808;
+			// aapt resource value: 0x7F0F0186
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox = 2131689862;
 			
-			// aapt resource value: 0x7F0F0152
-			public const int Theme_AppCompat_Light_NoActionBar = 2131689810;
+			// aapt resource value: 0x7F0F0187
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131689863;
 			
-			// aapt resource value: 0x7F0F0153
-			public const int Theme_AppCompat_NoActionBar = 2131689811;
-			
-			// aapt resource value: 0x7F0F0154
-			public const int Theme_Design = 2131689812;
-			
-			// aapt resource value: 0x7F0F0155
-			public const int Theme_Design_BottomSheetDialog = 2131689813;
-			
-			// aapt resource value: 0x7F0F0156
-			public const int Theme_Design_Light = 2131689814;
-			
-			// aapt resource value: 0x7F0F0157
-			public const int Theme_Design_Light_BottomSheetDialog = 2131689815;
-			
-			// aapt resource value: 0x7F0F0158
-			public const int Theme_Design_Light_NoActionBar = 2131689816;
-			
-			// aapt resource value: 0x7F0F0159
-			public const int Theme_Design_NoActionBar = 2131689817;
-			
-			// aapt resource value: 0x7F0F015A
-			public const int Theme_MaterialComponents = 2131689818;
-			
-			// aapt resource value: 0x7F0F015B
-			public const int Theme_MaterialComponents_BottomSheetDialog = 2131689819;
-			
-			// aapt resource value: 0x7F0F015C
-			public const int Theme_MaterialComponents_Bridge = 2131689820;
-			
-			// aapt resource value: 0x7F0F015D
-			public const int Theme_MaterialComponents_CompactMenu = 2131689821;
-			
-			// aapt resource value: 0x7F0F015E
-			public const int Theme_MaterialComponents_Dialog = 2131689822;
-			
-			// aapt resource value: 0x7F0F0161
-			public const int Theme_MaterialComponents_DialogWhenLarge = 2131689825;
-			
-			// aapt resource value: 0x7F0F015F
-			public const int Theme_MaterialComponents_Dialog_Alert = 2131689823;
-			
-			// aapt resource value: 0x7F0F0160
-			public const int Theme_MaterialComponents_Dialog_MinWidth = 2131689824;
-			
-			// aapt resource value: 0x7F0F0162
-			public const int Theme_MaterialComponents_Light = 2131689826;
-			
-			// aapt resource value: 0x7F0F0163
-			public const int Theme_MaterialComponents_Light_BottomSheetDialog = 2131689827;
-			
-			// aapt resource value: 0x7F0F0164
-			public const int Theme_MaterialComponents_Light_Bridge = 2131689828;
-			
-			// aapt resource value: 0x7F0F0165
-			public const int Theme_MaterialComponents_Light_DarkActionBar = 2131689829;
-			
-			// aapt resource value: 0x7F0F0166
-			public const int Theme_MaterialComponents_Light_DarkActionBar_Bridge = 2131689830;
-			
-			// aapt resource value: 0x7F0F0167
-			public const int Theme_MaterialComponents_Light_Dialog = 2131689831;
-			
-			// aapt resource value: 0x7F0F016A
-			public const int Theme_MaterialComponents_Light_DialogWhenLarge = 2131689834;
-			
-			// aapt resource value: 0x7F0F0168
-			public const int Theme_MaterialComponents_Light_Dialog_Alert = 2131689832;
-			
-			// aapt resource value: 0x7F0F0169
-			public const int Theme_MaterialComponents_Light_Dialog_MinWidth = 2131689833;
-			
-			// aapt resource value: 0x7F0F016B
-			public const int Theme_MaterialComponents_Light_NoActionBar = 2131689835;
-			
-			// aapt resource value: 0x7F0F016C
-			public const int Theme_MaterialComponents_Light_NoActionBar_Bridge = 2131689836;
-			
-			// aapt resource value: 0x7F0F016D
-			public const int Theme_MaterialComponents_NoActionBar = 2131689837;
-			
-			// aapt resource value: 0x7F0F016E
-			public const int Theme_MaterialComponents_NoActionBar_Bridge = 2131689838;
-			
-			// aapt resource value: 0x7F0F016F
-			public const int Theme_MediaRouter = 2131689839;
-			
-			// aapt resource value: 0x7F0F0170
-			public const int Theme_MediaRouter_Light = 2131689840;
-			
-			// aapt resource value: 0x7F0F0172
-			public const int Theme_MediaRouter_LightControlPanel = 2131689842;
-			
-			// aapt resource value: 0x7F0F0171
-			public const int Theme_MediaRouter_Light_DarkControlPanel = 2131689841;
-			
-			// aapt resource value: 0x7F0F0173
-			public const int Theme_Splash = 2131689843;
+			// aapt resource value: 0x7F0F0188
+			public const int ThemeOverlay_MediaRouter_Dark = 2131689864;
 			
 			// aapt resource value: 0x7F0F0189
-			public const int Widget_AppCompat_ActionBar = 2131689865;
+			public const int ThemeOverlay_MediaRouter_Light = 2131689865;
+			
+			// aapt resource value: 0x7F0F0140
+			public const int Theme_AppCompat = 2131689792;
+			
+			// aapt resource value: 0x7F0F0141
+			public const int Theme_AppCompat_CompactMenu = 2131689793;
+			
+			// aapt resource value: 0x7F0F0142
+			public const int Theme_AppCompat_DayNight = 2131689794;
+			
+			// aapt resource value: 0x7F0F0143
+			public const int Theme_AppCompat_DayNight_DarkActionBar = 2131689795;
+			
+			// aapt resource value: 0x7F0F0144
+			public const int Theme_AppCompat_DayNight_Dialog = 2131689796;
+			
+			// aapt resource value: 0x7F0F0147
+			public const int Theme_AppCompat_DayNight_DialogWhenLarge = 2131689799;
+			
+			// aapt resource value: 0x7F0F0145
+			public const int Theme_AppCompat_DayNight_Dialog_Alert = 2131689797;
+			
+			// aapt resource value: 0x7F0F0146
+			public const int Theme_AppCompat_DayNight_Dialog_MinWidth = 2131689798;
+			
+			// aapt resource value: 0x7F0F0148
+			public const int Theme_AppCompat_DayNight_NoActionBar = 2131689800;
+			
+			// aapt resource value: 0x7F0F0149
+			public const int Theme_AppCompat_Dialog = 2131689801;
+			
+			// aapt resource value: 0x7F0F014C
+			public const int Theme_AppCompat_DialogWhenLarge = 2131689804;
+			
+			// aapt resource value: 0x7F0F014A
+			public const int Theme_AppCompat_Dialog_Alert = 2131689802;
+			
+			// aapt resource value: 0x7F0F014B
+			public const int Theme_AppCompat_Dialog_MinWidth = 2131689803;
+			
+			// aapt resource value: 0x7F0F014D
+			public const int Theme_AppCompat_Light = 2131689805;
+			
+			// aapt resource value: 0x7F0F014E
+			public const int Theme_AppCompat_Light_DarkActionBar = 2131689806;
+			
+			// aapt resource value: 0x7F0F014F
+			public const int Theme_AppCompat_Light_Dialog = 2131689807;
+			
+			// aapt resource value: 0x7F0F0152
+			public const int Theme_AppCompat_Light_DialogWhenLarge = 2131689810;
+			
+			// aapt resource value: 0x7F0F0150
+			public const int Theme_AppCompat_Light_Dialog_Alert = 2131689808;
+			
+			// aapt resource value: 0x7F0F0151
+			public const int Theme_AppCompat_Light_Dialog_MinWidth = 2131689809;
+			
+			// aapt resource value: 0x7F0F0153
+			public const int Theme_AppCompat_Light_NoActionBar = 2131689811;
+			
+			// aapt resource value: 0x7F0F0154
+			public const int Theme_AppCompat_NoActionBar = 2131689812;
+			
+			// aapt resource value: 0x7F0F0155
+			public const int Theme_Design = 2131689813;
+			
+			// aapt resource value: 0x7F0F0156
+			public const int Theme_Design_BottomSheetDialog = 2131689814;
+			
+			// aapt resource value: 0x7F0F0157
+			public const int Theme_Design_Light = 2131689815;
+			
+			// aapt resource value: 0x7F0F0158
+			public const int Theme_Design_Light_BottomSheetDialog = 2131689816;
+			
+			// aapt resource value: 0x7F0F0159
+			public const int Theme_Design_Light_NoActionBar = 2131689817;
+			
+			// aapt resource value: 0x7F0F015A
+			public const int Theme_Design_NoActionBar = 2131689818;
+			
+			// aapt resource value: 0x7F0F015B
+			public const int Theme_MaterialComponents = 2131689819;
+			
+			// aapt resource value: 0x7F0F015C
+			public const int Theme_MaterialComponents_BottomSheetDialog = 2131689820;
+			
+			// aapt resource value: 0x7F0F015D
+			public const int Theme_MaterialComponents_Bridge = 2131689821;
+			
+			// aapt resource value: 0x7F0F015E
+			public const int Theme_MaterialComponents_CompactMenu = 2131689822;
+			
+			// aapt resource value: 0x7F0F015F
+			public const int Theme_MaterialComponents_Dialog = 2131689823;
+			
+			// aapt resource value: 0x7F0F0162
+			public const int Theme_MaterialComponents_DialogWhenLarge = 2131689826;
+			
+			// aapt resource value: 0x7F0F0160
+			public const int Theme_MaterialComponents_Dialog_Alert = 2131689824;
+			
+			// aapt resource value: 0x7F0F0161
+			public const int Theme_MaterialComponents_Dialog_MinWidth = 2131689825;
+			
+			// aapt resource value: 0x7F0F0163
+			public const int Theme_MaterialComponents_Light = 2131689827;
+			
+			// aapt resource value: 0x7F0F0164
+			public const int Theme_MaterialComponents_Light_BottomSheetDialog = 2131689828;
+			
+			// aapt resource value: 0x7F0F0165
+			public const int Theme_MaterialComponents_Light_Bridge = 2131689829;
+			
+			// aapt resource value: 0x7F0F0166
+			public const int Theme_MaterialComponents_Light_DarkActionBar = 2131689830;
+			
+			// aapt resource value: 0x7F0F0167
+			public const int Theme_MaterialComponents_Light_DarkActionBar_Bridge = 2131689831;
+			
+			// aapt resource value: 0x7F0F0168
+			public const int Theme_MaterialComponents_Light_Dialog = 2131689832;
+			
+			// aapt resource value: 0x7F0F016B
+			public const int Theme_MaterialComponents_Light_DialogWhenLarge = 2131689835;
+			
+			// aapt resource value: 0x7F0F0169
+			public const int Theme_MaterialComponents_Light_Dialog_Alert = 2131689833;
+			
+			// aapt resource value: 0x7F0F016A
+			public const int Theme_MaterialComponents_Light_Dialog_MinWidth = 2131689834;
+			
+			// aapt resource value: 0x7F0F016C
+			public const int Theme_MaterialComponents_Light_NoActionBar = 2131689836;
+			
+			// aapt resource value: 0x7F0F016D
+			public const int Theme_MaterialComponents_Light_NoActionBar_Bridge = 2131689837;
+			
+			// aapt resource value: 0x7F0F016E
+			public const int Theme_MaterialComponents_NoActionBar = 2131689838;
+			
+			// aapt resource value: 0x7F0F016F
+			public const int Theme_MaterialComponents_NoActionBar_Bridge = 2131689839;
+			
+			// aapt resource value: 0x7F0F0170
+			public const int Theme_MediaRouter = 2131689840;
+			
+			// aapt resource value: 0x7F0F0171
+			public const int Theme_MediaRouter_Light = 2131689841;
+			
+			// aapt resource value: 0x7F0F0173
+			public const int Theme_MediaRouter_LightControlPanel = 2131689843;
+			
+			// aapt resource value: 0x7F0F0172
+			public const int Theme_MediaRouter_Light_DarkControlPanel = 2131689842;
+			
+			// aapt resource value: 0x7F0F0174
+			public const int Theme_Splash = 2131689844;
 			
 			// aapt resource value: 0x7F0F018A
-			public const int Widget_AppCompat_ActionBar_Solid = 2131689866;
+			public const int Widget_AppCompat_ActionBar = 2131689866;
 			
 			// aapt resource value: 0x7F0F018B
-			public const int Widget_AppCompat_ActionBar_TabBar = 2131689867;
+			public const int Widget_AppCompat_ActionBar_Solid = 2131689867;
 			
 			// aapt resource value: 0x7F0F018C
-			public const int Widget_AppCompat_ActionBar_TabText = 2131689868;
+			public const int Widget_AppCompat_ActionBar_TabBar = 2131689868;
 			
 			// aapt resource value: 0x7F0F018D
-			public const int Widget_AppCompat_ActionBar_TabView = 2131689869;
+			public const int Widget_AppCompat_ActionBar_TabText = 2131689869;
 			
 			// aapt resource value: 0x7F0F018E
-			public const int Widget_AppCompat_ActionButton = 2131689870;
+			public const int Widget_AppCompat_ActionBar_TabView = 2131689870;
 			
 			// aapt resource value: 0x7F0F018F
-			public const int Widget_AppCompat_ActionButton_CloseMode = 2131689871;
+			public const int Widget_AppCompat_ActionButton = 2131689871;
 			
 			// aapt resource value: 0x7F0F0190
-			public const int Widget_AppCompat_ActionButton_Overflow = 2131689872;
+			public const int Widget_AppCompat_ActionButton_CloseMode = 2131689872;
 			
 			// aapt resource value: 0x7F0F0191
-			public const int Widget_AppCompat_ActionMode = 2131689873;
+			public const int Widget_AppCompat_ActionButton_Overflow = 2131689873;
 			
 			// aapt resource value: 0x7F0F0192
-			public const int Widget_AppCompat_ActivityChooserView = 2131689874;
+			public const int Widget_AppCompat_ActionMode = 2131689874;
 			
 			// aapt resource value: 0x7F0F0193
-			public const int Widget_AppCompat_AutoCompleteTextView = 2131689875;
+			public const int Widget_AppCompat_ActivityChooserView = 2131689875;
 			
 			// aapt resource value: 0x7F0F0194
-			public const int Widget_AppCompat_Button = 2131689876;
-			
-			// aapt resource value: 0x7F0F019A
-			public const int Widget_AppCompat_ButtonBar = 2131689882;
-			
-			// aapt resource value: 0x7F0F019B
-			public const int Widget_AppCompat_ButtonBar_AlertDialog = 2131689883;
+			public const int Widget_AppCompat_AutoCompleteTextView = 2131689876;
 			
 			// aapt resource value: 0x7F0F0195
-			public const int Widget_AppCompat_Button_Borderless = 2131689877;
+			public const int Widget_AppCompat_Button = 2131689877;
 			
-			// aapt resource value: 0x7F0F0196
-			public const int Widget_AppCompat_Button_Borderless_Colored = 2131689878;
-			
-			// aapt resource value: 0x7F0F0197
-			public const int Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131689879;
-			
-			// aapt resource value: 0x7F0F0198
-			public const int Widget_AppCompat_Button_Colored = 2131689880;
-			
-			// aapt resource value: 0x7F0F0199
-			public const int Widget_AppCompat_Button_Small = 2131689881;
+			// aapt resource value: 0x7F0F019B
+			public const int Widget_AppCompat_ButtonBar = 2131689883;
 			
 			// aapt resource value: 0x7F0F019C
-			public const int Widget_AppCompat_CompoundButton_CheckBox = 2131689884;
+			public const int Widget_AppCompat_ButtonBar_AlertDialog = 2131689884;
+			
+			// aapt resource value: 0x7F0F0196
+			public const int Widget_AppCompat_Button_Borderless = 2131689878;
+			
+			// aapt resource value: 0x7F0F0197
+			public const int Widget_AppCompat_Button_Borderless_Colored = 2131689879;
+			
+			// aapt resource value: 0x7F0F0198
+			public const int Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131689880;
+			
+			// aapt resource value: 0x7F0F0199
+			public const int Widget_AppCompat_Button_Colored = 2131689881;
+			
+			// aapt resource value: 0x7F0F019A
+			public const int Widget_AppCompat_Button_Small = 2131689882;
 			
 			// aapt resource value: 0x7F0F019D
-			public const int Widget_AppCompat_CompoundButton_RadioButton = 2131689885;
+			public const int Widget_AppCompat_CompoundButton_CheckBox = 2131689885;
 			
 			// aapt resource value: 0x7F0F019E
-			public const int Widget_AppCompat_CompoundButton_Switch = 2131689886;
+			public const int Widget_AppCompat_CompoundButton_RadioButton = 2131689886;
 			
 			// aapt resource value: 0x7F0F019F
-			public const int Widget_AppCompat_DrawerArrowToggle = 2131689887;
+			public const int Widget_AppCompat_CompoundButton_Switch = 2131689887;
 			
 			// aapt resource value: 0x7F0F01A0
-			public const int Widget_AppCompat_DropDownItem_Spinner = 2131689888;
+			public const int Widget_AppCompat_DrawerArrowToggle = 2131689888;
 			
 			// aapt resource value: 0x7F0F01A1
-			public const int Widget_AppCompat_EditText = 2131689889;
+			public const int Widget_AppCompat_DropDownItem_Spinner = 2131689889;
 			
 			// aapt resource value: 0x7F0F01A2
-			public const int Widget_AppCompat_ImageButton = 2131689890;
+			public const int Widget_AppCompat_EditText = 2131689890;
 			
 			// aapt resource value: 0x7F0F01A3
-			public const int Widget_AppCompat_Light_ActionBar = 2131689891;
+			public const int Widget_AppCompat_ImageButton = 2131689891;
 			
 			// aapt resource value: 0x7F0F01A4
-			public const int Widget_AppCompat_Light_ActionBar_Solid = 2131689892;
+			public const int Widget_AppCompat_Light_ActionBar = 2131689892;
 			
 			// aapt resource value: 0x7F0F01A5
-			public const int Widget_AppCompat_Light_ActionBar_Solid_Inverse = 2131689893;
+			public const int Widget_AppCompat_Light_ActionBar_Solid = 2131689893;
 			
 			// aapt resource value: 0x7F0F01A6
-			public const int Widget_AppCompat_Light_ActionBar_TabBar = 2131689894;
+			public const int Widget_AppCompat_Light_ActionBar_Solid_Inverse = 2131689894;
 			
 			// aapt resource value: 0x7F0F01A7
-			public const int Widget_AppCompat_Light_ActionBar_TabBar_Inverse = 2131689895;
+			public const int Widget_AppCompat_Light_ActionBar_TabBar = 2131689895;
 			
 			// aapt resource value: 0x7F0F01A8
-			public const int Widget_AppCompat_Light_ActionBar_TabText = 2131689896;
+			public const int Widget_AppCompat_Light_ActionBar_TabBar_Inverse = 2131689896;
 			
 			// aapt resource value: 0x7F0F01A9
-			public const int Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131689897;
+			public const int Widget_AppCompat_Light_ActionBar_TabText = 2131689897;
 			
 			// aapt resource value: 0x7F0F01AA
-			public const int Widget_AppCompat_Light_ActionBar_TabView = 2131689898;
+			public const int Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131689898;
 			
 			// aapt resource value: 0x7F0F01AB
-			public const int Widget_AppCompat_Light_ActionBar_TabView_Inverse = 2131689899;
+			public const int Widget_AppCompat_Light_ActionBar_TabView = 2131689899;
 			
 			// aapt resource value: 0x7F0F01AC
-			public const int Widget_AppCompat_Light_ActionButton = 2131689900;
+			public const int Widget_AppCompat_Light_ActionBar_TabView_Inverse = 2131689900;
 			
 			// aapt resource value: 0x7F0F01AD
-			public const int Widget_AppCompat_Light_ActionButton_CloseMode = 2131689901;
+			public const int Widget_AppCompat_Light_ActionButton = 2131689901;
 			
 			// aapt resource value: 0x7F0F01AE
-			public const int Widget_AppCompat_Light_ActionButton_Overflow = 2131689902;
+			public const int Widget_AppCompat_Light_ActionButton_CloseMode = 2131689902;
 			
 			// aapt resource value: 0x7F0F01AF
-			public const int Widget_AppCompat_Light_ActionMode_Inverse = 2131689903;
+			public const int Widget_AppCompat_Light_ActionButton_Overflow = 2131689903;
 			
 			// aapt resource value: 0x7F0F01B0
-			public const int Widget_AppCompat_Light_ActivityChooserView = 2131689904;
+			public const int Widget_AppCompat_Light_ActionMode_Inverse = 2131689904;
 			
 			// aapt resource value: 0x7F0F01B1
-			public const int Widget_AppCompat_Light_AutoCompleteTextView = 2131689905;
+			public const int Widget_AppCompat_Light_ActivityChooserView = 2131689905;
 			
 			// aapt resource value: 0x7F0F01B2
-			public const int Widget_AppCompat_Light_DropDownItem_Spinner = 2131689906;
+			public const int Widget_AppCompat_Light_AutoCompleteTextView = 2131689906;
 			
 			// aapt resource value: 0x7F0F01B3
-			public const int Widget_AppCompat_Light_ListPopupWindow = 2131689907;
+			public const int Widget_AppCompat_Light_DropDownItem_Spinner = 2131689907;
 			
 			// aapt resource value: 0x7F0F01B4
-			public const int Widget_AppCompat_Light_ListView_DropDown = 2131689908;
+			public const int Widget_AppCompat_Light_ListPopupWindow = 2131689908;
 			
 			// aapt resource value: 0x7F0F01B5
-			public const int Widget_AppCompat_Light_PopupMenu = 2131689909;
+			public const int Widget_AppCompat_Light_ListView_DropDown = 2131689909;
 			
 			// aapt resource value: 0x7F0F01B6
-			public const int Widget_AppCompat_Light_PopupMenu_Overflow = 2131689910;
+			public const int Widget_AppCompat_Light_PopupMenu = 2131689910;
 			
 			// aapt resource value: 0x7F0F01B7
-			public const int Widget_AppCompat_Light_SearchView = 2131689911;
+			public const int Widget_AppCompat_Light_PopupMenu_Overflow = 2131689911;
 			
 			// aapt resource value: 0x7F0F01B8
-			public const int Widget_AppCompat_Light_Spinner_DropDown_ActionBar = 2131689912;
+			public const int Widget_AppCompat_Light_SearchView = 2131689912;
 			
 			// aapt resource value: 0x7F0F01B9
-			public const int Widget_AppCompat_ListMenuView = 2131689913;
+			public const int Widget_AppCompat_Light_Spinner_DropDown_ActionBar = 2131689913;
 			
 			// aapt resource value: 0x7F0F01BA
-			public const int Widget_AppCompat_ListPopupWindow = 2131689914;
+			public const int Widget_AppCompat_ListMenuView = 2131689914;
 			
 			// aapt resource value: 0x7F0F01BB
-			public const int Widget_AppCompat_ListView = 2131689915;
+			public const int Widget_AppCompat_ListPopupWindow = 2131689915;
 			
 			// aapt resource value: 0x7F0F01BC
-			public const int Widget_AppCompat_ListView_DropDown = 2131689916;
+			public const int Widget_AppCompat_ListView = 2131689916;
 			
 			// aapt resource value: 0x7F0F01BD
-			public const int Widget_AppCompat_ListView_Menu = 2131689917;
+			public const int Widget_AppCompat_ListView_DropDown = 2131689917;
 			
 			// aapt resource value: 0x7F0F01BE
-			public const int Widget_AppCompat_PopupMenu = 2131689918;
+			public const int Widget_AppCompat_ListView_Menu = 2131689918;
 			
 			// aapt resource value: 0x7F0F01BF
-			public const int Widget_AppCompat_PopupMenu_Overflow = 2131689919;
+			public const int Widget_AppCompat_PopupMenu = 2131689919;
 			
 			// aapt resource value: 0x7F0F01C0
-			public const int Widget_AppCompat_PopupWindow = 2131689920;
+			public const int Widget_AppCompat_PopupMenu_Overflow = 2131689920;
 			
 			// aapt resource value: 0x7F0F01C1
-			public const int Widget_AppCompat_ProgressBar = 2131689921;
+			public const int Widget_AppCompat_PopupWindow = 2131689921;
 			
 			// aapt resource value: 0x7F0F01C2
-			public const int Widget_AppCompat_ProgressBar_Horizontal = 2131689922;
+			public const int Widget_AppCompat_ProgressBar = 2131689922;
 			
 			// aapt resource value: 0x7F0F01C3
-			public const int Widget_AppCompat_RatingBar = 2131689923;
+			public const int Widget_AppCompat_ProgressBar_Horizontal = 2131689923;
 			
 			// aapt resource value: 0x7F0F01C4
-			public const int Widget_AppCompat_RatingBar_Indicator = 2131689924;
+			public const int Widget_AppCompat_RatingBar = 2131689924;
 			
 			// aapt resource value: 0x7F0F01C5
-			public const int Widget_AppCompat_RatingBar_Small = 2131689925;
+			public const int Widget_AppCompat_RatingBar_Indicator = 2131689925;
 			
 			// aapt resource value: 0x7F0F01C6
-			public const int Widget_AppCompat_SearchView = 2131689926;
+			public const int Widget_AppCompat_RatingBar_Small = 2131689926;
 			
 			// aapt resource value: 0x7F0F01C7
-			public const int Widget_AppCompat_SearchView_ActionBar = 2131689927;
+			public const int Widget_AppCompat_SearchView = 2131689927;
 			
 			// aapt resource value: 0x7F0F01C8
-			public const int Widget_AppCompat_SeekBar = 2131689928;
+			public const int Widget_AppCompat_SearchView_ActionBar = 2131689928;
 			
 			// aapt resource value: 0x7F0F01C9
-			public const int Widget_AppCompat_SeekBar_Discrete = 2131689929;
+			public const int Widget_AppCompat_SeekBar = 2131689929;
 			
 			// aapt resource value: 0x7F0F01CA
-			public const int Widget_AppCompat_Spinner = 2131689930;
+			public const int Widget_AppCompat_SeekBar_Discrete = 2131689930;
 			
 			// aapt resource value: 0x7F0F01CB
-			public const int Widget_AppCompat_Spinner_DropDown = 2131689931;
+			public const int Widget_AppCompat_Spinner = 2131689931;
 			
 			// aapt resource value: 0x7F0F01CC
-			public const int Widget_AppCompat_Spinner_DropDown_ActionBar = 2131689932;
+			public const int Widget_AppCompat_Spinner_DropDown = 2131689932;
 			
 			// aapt resource value: 0x7F0F01CD
-			public const int Widget_AppCompat_Spinner_Underlined = 2131689933;
+			public const int Widget_AppCompat_Spinner_DropDown_ActionBar = 2131689933;
 			
 			// aapt resource value: 0x7F0F01CE
-			public const int Widget_AppCompat_TextView_SpinnerItem = 2131689934;
+			public const int Widget_AppCompat_Spinner_Underlined = 2131689934;
 			
 			// aapt resource value: 0x7F0F01CF
-			public const int Widget_AppCompat_Toolbar = 2131689935;
+			public const int Widget_AppCompat_TextView_SpinnerItem = 2131689935;
 			
 			// aapt resource value: 0x7F0F01D0
-			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131689936;
+			public const int Widget_AppCompat_Toolbar = 2131689936;
 			
 			// aapt resource value: 0x7F0F01D1
-			public const int Widget_Compat_NotificationActionContainer = 2131689937;
+			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131689937;
 			
 			// aapt resource value: 0x7F0F01D2
-			public const int Widget_Compat_NotificationActionText = 2131689938;
+			public const int Widget_Compat_NotificationActionContainer = 2131689938;
 			
 			// aapt resource value: 0x7F0F01D3
-			public const int Widget_Design_AppBarLayout = 2131689939;
+			public const int Widget_Compat_NotificationActionText = 2131689939;
 			
 			// aapt resource value: 0x7F0F01D4
-			public const int Widget_Design_BottomNavigationView = 2131689940;
+			public const int Widget_Design_AppBarLayout = 2131689940;
 			
 			// aapt resource value: 0x7F0F01D5
-			public const int Widget_Design_BottomSheet_Modal = 2131689941;
+			public const int Widget_Design_BottomNavigationView = 2131689941;
 			
 			// aapt resource value: 0x7F0F01D6
-			public const int Widget_Design_CollapsingToolbar = 2131689942;
+			public const int Widget_Design_BottomSheet_Modal = 2131689942;
 			
 			// aapt resource value: 0x7F0F01D7
-			public const int Widget_Design_FloatingActionButton = 2131689943;
+			public const int Widget_Design_CollapsingToolbar = 2131689943;
 			
 			// aapt resource value: 0x7F0F01D8
-			public const int Widget_Design_NavigationView = 2131689944;
+			public const int Widget_Design_FloatingActionButton = 2131689944;
 			
 			// aapt resource value: 0x7F0F01D9
-			public const int Widget_Design_ScrimInsetsFrameLayout = 2131689945;
+			public const int Widget_Design_NavigationView = 2131689945;
 			
 			// aapt resource value: 0x7F0F01DA
-			public const int Widget_Design_Snackbar = 2131689946;
+			public const int Widget_Design_ScrimInsetsFrameLayout = 2131689946;
 			
 			// aapt resource value: 0x7F0F01DB
-			public const int Widget_Design_TabLayout = 2131689947;
+			public const int Widget_Design_Snackbar = 2131689947;
 			
 			// aapt resource value: 0x7F0F01DC
-			public const int Widget_Design_TextInputLayout = 2131689948;
+			public const int Widget_Design_TabLayout = 2131689948;
 			
 			// aapt resource value: 0x7F0F01DD
-			public const int Widget_MaterialComponents_BottomAppBar = 2131689949;
+			public const int Widget_Design_TextInputLayout = 2131689949;
 			
 			// aapt resource value: 0x7F0F01DE
-			public const int Widget_MaterialComponents_BottomAppBar_Colored = 2131689950;
+			public const int Widget_MaterialComponents_BottomAppBar = 2131689950;
 			
 			// aapt resource value: 0x7F0F01DF
-			public const int Widget_MaterialComponents_BottomNavigationView = 2131689951;
+			public const int Widget_MaterialComponents_BottomAppBar_Colored = 2131689951;
 			
 			// aapt resource value: 0x7F0F01E0
-			public const int Widget_MaterialComponents_BottomNavigationView_Colored = 2131689952;
+			public const int Widget_MaterialComponents_BottomNavigationView = 2131689952;
 			
 			// aapt resource value: 0x7F0F01E1
-			public const int Widget_MaterialComponents_BottomSheet_Modal = 2131689953;
+			public const int Widget_MaterialComponents_BottomNavigationView_Colored = 2131689953;
 			
 			// aapt resource value: 0x7F0F01E2
-			public const int Widget_MaterialComponents_Button = 2131689954;
+			public const int Widget_MaterialComponents_BottomSheet_Modal = 2131689954;
 			
 			// aapt resource value: 0x7F0F01E3
-			public const int Widget_MaterialComponents_Button_Icon = 2131689955;
+			public const int Widget_MaterialComponents_Button = 2131689955;
 			
 			// aapt resource value: 0x7F0F01E4
-			public const int Widget_MaterialComponents_Button_OutlinedButton = 2131689956;
+			public const int Widget_MaterialComponents_Button_Icon = 2131689956;
 			
 			// aapt resource value: 0x7F0F01E5
-			public const int Widget_MaterialComponents_Button_OutlinedButton_Icon = 2131689957;
+			public const int Widget_MaterialComponents_Button_OutlinedButton = 2131689957;
 			
 			// aapt resource value: 0x7F0F01E6
-			public const int Widget_MaterialComponents_Button_TextButton = 2131689958;
+			public const int Widget_MaterialComponents_Button_OutlinedButton_Icon = 2131689958;
 			
 			// aapt resource value: 0x7F0F01E7
-			public const int Widget_MaterialComponents_Button_TextButton_Dialog = 2131689959;
+			public const int Widget_MaterialComponents_Button_TextButton = 2131689959;
 			
 			// aapt resource value: 0x7F0F01E8
-			public const int Widget_MaterialComponents_Button_TextButton_Dialog_Icon = 2131689960;
+			public const int Widget_MaterialComponents_Button_TextButton_Dialog = 2131689960;
 			
 			// aapt resource value: 0x7F0F01E9
-			public const int Widget_MaterialComponents_Button_TextButton_Icon = 2131689961;
+			public const int Widget_MaterialComponents_Button_TextButton_Dialog_Icon = 2131689961;
 			
 			// aapt resource value: 0x7F0F01EA
-			public const int Widget_MaterialComponents_Button_UnelevatedButton = 2131689962;
+			public const int Widget_MaterialComponents_Button_TextButton_Icon = 2131689962;
 			
 			// aapt resource value: 0x7F0F01EB
-			public const int Widget_MaterialComponents_Button_UnelevatedButton_Icon = 2131689963;
+			public const int Widget_MaterialComponents_Button_UnelevatedButton = 2131689963;
 			
 			// aapt resource value: 0x7F0F01EC
-			public const int Widget_MaterialComponents_CardView = 2131689964;
-			
-			// aapt resource value: 0x7F0F01F1
-			public const int Widget_MaterialComponents_ChipGroup = 2131689969;
+			public const int Widget_MaterialComponents_Button_UnelevatedButton_Icon = 2131689964;
 			
 			// aapt resource value: 0x7F0F01ED
-			public const int Widget_MaterialComponents_Chip_Action = 2131689965;
-			
-			// aapt resource value: 0x7F0F01EE
-			public const int Widget_MaterialComponents_Chip_Choice = 2131689966;
-			
-			// aapt resource value: 0x7F0F01EF
-			public const int Widget_MaterialComponents_Chip_Entry = 2131689967;
-			
-			// aapt resource value: 0x7F0F01F0
-			public const int Widget_MaterialComponents_Chip_Filter = 2131689968;
+			public const int Widget_MaterialComponents_CardView = 2131689965;
 			
 			// aapt resource value: 0x7F0F01F2
-			public const int Widget_MaterialComponents_CompoundButton_CheckBox = 2131689970;
+			public const int Widget_MaterialComponents_ChipGroup = 2131689970;
+			
+			// aapt resource value: 0x7F0F01EE
+			public const int Widget_MaterialComponents_Chip_Action = 2131689966;
+			
+			// aapt resource value: 0x7F0F01EF
+			public const int Widget_MaterialComponents_Chip_Choice = 2131689967;
+			
+			// aapt resource value: 0x7F0F01F0
+			public const int Widget_MaterialComponents_Chip_Entry = 2131689968;
+			
+			// aapt resource value: 0x7F0F01F1
+			public const int Widget_MaterialComponents_Chip_Filter = 2131689969;
 			
 			// aapt resource value: 0x7F0F01F3
-			public const int Widget_MaterialComponents_FloatingActionButton = 2131689971;
+			public const int Widget_MaterialComponents_CompoundButton_CheckBox = 2131689971;
 			
 			// aapt resource value: 0x7F0F01F4
-			public const int Widget_MaterialComponents_NavigationView = 2131689972;
+			public const int Widget_MaterialComponents_FloatingActionButton = 2131689972;
 			
 			// aapt resource value: 0x7F0F01F5
-			public const int Widget_MaterialComponents_Snackbar = 2131689973;
+			public const int Widget_MaterialComponents_NavigationView = 2131689973;
 			
 			// aapt resource value: 0x7F0F01F6
-			public const int Widget_MaterialComponents_Snackbar_FullWidth = 2131689974;
+			public const int Widget_MaterialComponents_Snackbar = 2131689974;
 			
 			// aapt resource value: 0x7F0F01F7
-			public const int Widget_MaterialComponents_TabLayout = 2131689975;
+			public const int Widget_MaterialComponents_Snackbar_FullWidth = 2131689975;
 			
 			// aapt resource value: 0x7F0F01F8
-			public const int Widget_MaterialComponents_TabLayout_Colored = 2131689976;
+			public const int Widget_MaterialComponents_TabLayout = 2131689976;
 			
 			// aapt resource value: 0x7F0F01F9
-			public const int Widget_MaterialComponents_TextInputEditText_FilledBox = 2131689977;
+			public const int Widget_MaterialComponents_TabLayout_Colored = 2131689977;
 			
 			// aapt resource value: 0x7F0F01FA
-			public const int Widget_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131689978;
+			public const int Widget_MaterialComponents_TextInputEditText_FilledBox = 2131689978;
 			
 			// aapt resource value: 0x7F0F01FB
-			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox = 2131689979;
+			public const int Widget_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131689979;
 			
 			// aapt resource value: 0x7F0F01FC
-			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131689980;
+			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox = 2131689980;
 			
 			// aapt resource value: 0x7F0F01FD
-			public const int Widget_MaterialComponents_TextInputLayout_FilledBox = 2131689981;
+			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131689981;
 			
 			// aapt resource value: 0x7F0F01FE
-			public const int Widget_MaterialComponents_TextInputLayout_FilledBox_Dense = 2131689982;
+			public const int Widget_MaterialComponents_TextInputLayout_FilledBox = 2131689982;
 			
 			// aapt resource value: 0x7F0F01FF
-			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox = 2131689983;
+			public const int Widget_MaterialComponents_TextInputLayout_FilledBox_Dense = 2131689983;
 			
 			// aapt resource value: 0x7F0F0200
-			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = 2131689984;
+			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox = 2131689984;
 			
 			// aapt resource value: 0x7F0F0201
-			public const int Widget_MaterialComponents_Toolbar = 2131689985;
+			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = 2131689985;
 			
 			// aapt resource value: 0x7F0F0202
-			public const int Widget_MediaRouter_Light_MediaRouteButton = 2131689986;
+			public const int Widget_MaterialComponents_Toolbar = 2131689986;
 			
 			// aapt resource value: 0x7F0F0203
-			public const int Widget_MediaRouter_MediaRouteButton = 2131689987;
+			public const int Widget_MediaRouter_Light_MediaRouteButton = 2131689987;
 			
 			// aapt resource value: 0x7F0F0204
-			public const int Widget_Support_CoordinatorLayout = 2131689988;
+			public const int Widget_MediaRouter_MediaRouteButton = 2131689988;
 			
 			// aapt resource value: 0x7F0F0205
-			public const int XamarinFormsMaterialButton = 2131689989;
+			public const int Widget_Support_CoordinatorLayout = 2131689989;
 			
 			// aapt resource value: 0x7F0F0206
-			public const int XamarinFormsMaterialButtonOutlined = 2131689990;
+			public const int XamarinFormsMaterialButton = 2131689990;
 			
 			// aapt resource value: 0x7F0F0207
-			public const int XamarinFormsMaterialCheckBox = 2131689991;
+			public const int XamarinFormsMaterialButtonOutlined = 2131689991;
 			
 			// aapt resource value: 0x7F0F0208
-			public const int XamarinFormsMaterialEntryFilled = 2131689992;
+			public const int XamarinFormsMaterialCheckBox = 2131689992;
 			
 			// aapt resource value: 0x7F0F0209
-			public const int XamarinFormsMaterialProgressBarCircular = 2131689993;
+			public const int XamarinFormsMaterialEntryFilled = 2131689993;
 			
 			// aapt resource value: 0x7F0F020A
-			public const int XamarinFormsMaterialProgressBarHorizontal = 2131689994;
+			public const int XamarinFormsMaterialProgressBarCircular = 2131689994;
 			
 			// aapt resource value: 0x7F0F020B
-			public const int XamarinFormsMaterialSlider = 2131689995;
+			public const int XamarinFormsMaterialProgressBarHorizontal = 2131689995;
 			
 			// aapt resource value: 0x7F0F020C
-			public const int XamarinFormsMaterialTheme = 2131689996;
+			public const int XamarinFormsMaterialSlider = 2131689996;
+			
+			// aapt resource value: 0x7F0F020D
+			public const int XamarinFormsMaterialTheme = 2131689997;
 			
 			static Style()
 			{

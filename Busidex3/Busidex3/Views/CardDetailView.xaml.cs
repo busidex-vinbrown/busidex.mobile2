@@ -25,9 +25,11 @@ namespace Busidex3.Views
             Header.OnCardImageClicked += Header_OnCardImageClicked;
 		    App.AnalyticsManager.TrackScreen(ScreenName.CardDetail);
 
-            _viewModel.ButtonOpacity = vm.SelectedCard.Card.ExistsInMyBusidex ? 1 : .3;
+            _viewModel.NotesButtonOpacity = vm.SelectedCard.Card.ExistsInMyBusidex ? 1 : .3;
+			_viewModel.UrlButtonOpacity = vm.HasUrl ? 1 : .3;
+			_viewModel.EmailButtonOpacity = vm.HasEmail ? 1 : .3;
 
-        }
+		}
 
         private async void Header_OnCardImageClicked(DomainModels.UserCard uc)
         {

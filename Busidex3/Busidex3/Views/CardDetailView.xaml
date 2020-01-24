@@ -36,7 +36,7 @@
                 <Image
                     x:Name="btnNotes"
                     IsEnabled="{Binding SelectedCard.Card.ExistsInMyBusidex}"
-                    Opacity="{Binding ButtonOpacity}"
+                    Opacity="{Binding NotesButtonOpacity}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="0" Grid.Column="1">
@@ -47,6 +47,8 @@
                 </Image>
                 <Image
                     x:Name="btnEmail"
+                    IsEnabled="{Binding HasEmail}"
+                    Opacity="{Binding EmailButtonOpacity}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="0" Grid.Column="2">
@@ -57,6 +59,8 @@
                 </Image>
                 <Image
                     x:Name="btnWeb"
+                    IsEnabled="{Binding HasUrl}"
+                    Opacity="{Binding UrlButtonOpacity}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="1" Grid.Column="0">
@@ -85,7 +89,7 @@
                                               CommandParameter="{x:Static busidex3:CardActionButton.Share}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
                 </Image>
-                <!--<Image
+                <Image
                     x:Name="btnTag"
                     HeightRequest="50"
                     WidthRequest="50"
@@ -94,7 +98,7 @@
                         <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
                                               CommandParameter="{x:Static busidex3:CardActionButton.Tags}" NumberOfTapsRequired="1" />
                     </Image.GestureRecognizers>
-                </Image>-->
+                </Image>
                 <Image
                     x:Name="btnAdd"
                     IsVisible="{Binding ShowAddButton}"

@@ -28,7 +28,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleVersion</key>
-	<string>561</string>
+	<string>563</string>
 	<key>CFBundleName</key>
 	<string>Busidex3</string>
 	<key>XSAppIconAssets</key>
@@ -63,5 +63,7 @@
 	<string>Assets.xcassets/LaunchImages.launchimage</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Busidex needs to access your contacts</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 </dict>
 </plist>

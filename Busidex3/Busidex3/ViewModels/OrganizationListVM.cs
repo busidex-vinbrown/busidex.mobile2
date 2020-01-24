@@ -4,16 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Busidex3.Analytics;
 using Busidex3.DomainModels;
 using Busidex3.Services;
 using Busidex3.Services.Utils;
 using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
-namespace Busidex3.ViewModels
-{
+namespace Busidex3.ViewModels {
     public delegate void OnMyOrganizationsLoadedEventHandler (List<Organization> organizations);
     public delegate void OnMyOrganizationsUpdatedEventHandler (ProgressStatus status);
     public delegate void OnMyOrganizationMembersUpdatedEventHandler (ProgressStatus status);
@@ -21,7 +18,7 @@ namespace Busidex3.ViewModels
     public delegate void OnMyOrganizationReferralsUpdatedEventHandler (ProgressStatus status);
     public delegate void OnMyOrganizationReferralsLoadedEventHandler (List<UserCard> cards);
 
-    public delegate void OnDetailTappedEventHandler (Organization org);
+    // public delegate void OnDetailTappedEventHandler (Organization org);
 
 
     public class OrganizationListVM : BaseViewModel
@@ -29,7 +26,7 @@ namespace Busidex3.ViewModels
         public event OnMyOrganizationsLoadedEventHandler OnMyOrganizationsLoaded;
         public event OnMyOrganizationMembersUpdatedEventHandler OnMyOrganizationMembersUpdated;
         public event OnMyOrganizationReferralsUpdatedEventHandler OnMyOrganizationReferralsUpdated;
-        public event OnDetailTappedEventHandler OnDetailTapped;
+        // public event OnDetailTappedEventHandler OnDetailTapped;
 
         public Dictionary<long, OnMyOrganizationMembersLoadedEventHandler> OrganizationMembersLoadedEventTable;
         public Dictionary<long, OnMyOrganizationReferralsLoadedEventHandler> OrganizationReferralsLoadedEventTable;

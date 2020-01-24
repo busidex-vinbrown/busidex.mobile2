@@ -56,7 +56,7 @@ namespace Busidex3.Views
                 });
             }
             App.AnalyticsManager.TrackScreen(ScreenName.MyBusidex);
-
+            
             base.OnAppearing();
         }
         public ICommand RefreshCommand

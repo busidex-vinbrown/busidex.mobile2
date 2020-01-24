@@ -45,7 +45,7 @@ namespace Busidex3.Views
                     var uc = await SaveFromUrl(quickShareLink);
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        Detail = uc.Card.OwnerId.HasValue
+                        Detail = uc.Card?.FrontFileId != Guid.Empty && uc.Card?.FrontFileId != null
                             ? new QuickShareView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page
                             : new ConfirmCardOwnerView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page;
 

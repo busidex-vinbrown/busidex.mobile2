@@ -140,6 +140,24 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _hasEmail;
+        public bool HasEmail {
+            get => _hasEmail;
+            set {
+                _hasEmail = value;
+                OnPropertyChanged(nameof(HasEmail));
+            }
+        }
+
+        private bool _hasUrl;
+        public bool HasUrl {
+            get => _hasUrl;
+            set {
+                _hasUrl = value;
+                OnPropertyChanged(nameof(HasUrl));
+            }
+        }
+
         private CardVisibility _visibility { get; set; }
         public CardVisibility Visibility { get => _visibility;
             set
@@ -149,14 +167,31 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private double _buttonOpacity;
-        public double ButtonOpacity
-        {
-            get => _buttonOpacity;
+        private double _emailButtonOpacity;
+        public double EmailButtonOpacity {
+            get => _emailButtonOpacity;
+            set {
+                _emailButtonOpacity = value;
+                OnPropertyChanged(nameof(EmailButtonOpacity));
+            }
+        }
+
+        private double _urlButtonOpacity;
+        public double UrlButtonOpacity {
+            get => _urlButtonOpacity;
+            set {
+                _urlButtonOpacity = value;
+                OnPropertyChanged(nameof(UrlButtonOpacity));
+            }
+        }
+
+        private double _notesButtonOpacity;
+        public double NotesButtonOpacity {
+            get => _notesButtonOpacity;
             set
             {
-                _buttonOpacity = value;
-                OnPropertyChanged(nameof(ButtonOpacity));
+                _notesButtonOpacity = value;
+                OnPropertyChanged(nameof(NotesButtonOpacity));
             }
         }
 
@@ -347,6 +382,8 @@ namespace Busidex3.ViewModels
             SelectedSide = UserCardDisplay.CardSide.Front;
             FrontFileId = SelectedCard.Card.FrontFileId.GetValueOrDefault();
             BackFileId = SelectedCard.Card.BackFileId.GetValueOrDefault();
+            HasEmail = !string.IsNullOrEmpty(SelectedCard.Card.Email);
+            HasUrl = !string.IsNullOrEmpty(SelectedCard.Card.Url);
         }
 
         #region UserCard Actions 
@@ -426,7 +463,7 @@ namespace Busidex3.ViewModels
                     throw new ArgumentOutOfRangeException();
             }
 
-            Device.OpenUri(new Uri(request));
+            await Launcher.OpenAsync(new Uri(request));
 
             await _activityHttpService.SaveActivity ((long)EventSources.Map, SelectedCard.CardId);
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.MapViewed, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
@@ -434,7 +471,7 @@ namespace Busidex3.ViewModels
 
         public async void LaunchEmail()
         {
-            Device.OpenUri(new Uri($"mailto:{SelectedCard.Card.Email}"));
+            await Launcher.OpenAsync(new Uri($"mailto:{SelectedCard.Card.Email}"));
 
             await _activityHttpService.SaveActivity ((long)EventSources.Email, SelectedCard.CardId);
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.EmailSent, SelectedCard.Card.Email);
@@ -448,7 +485,7 @@ namespace Busidex3.ViewModels
             url = !SelectedCard.Card.Url.StartsWith ("http", StringComparison.Ordinal) 
                 ? "http://" + SelectedCard.Card.Url 
                 : SelectedCard.Card.Url;
-            Device.OpenUri(new Uri(url));
+            await Launcher.OpenAsync(new Uri(url));
 
             await _activityHttpService.SaveActivity ((long)EventSources.Website, SelectedCard.CardId);
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.WebPageViewed, SelectedCard.Card.Url);
