@@ -265,7 +265,7 @@ namespace Busidex3.Views.EditCard
 
                 
             }
-            catch (Exception ex)
+            catch
             {
                 ok = false;
             }
@@ -275,7 +275,7 @@ namespace Busidex3.Views.EditCard
 
         private void rdoFrontOrientation_OnClicked(object sender, EventArgs e)
         {
-            if (!(sender is RadioButton radio))
+            if (!(sender is Plugin.InputKit.Shared.Controls.RadioButton radio))
             {
                 return;
             }
@@ -287,7 +287,7 @@ namespace Busidex3.Views.EditCard
 
         private void rdoBackOrientation_OnClicked(object sender, EventArgs e)
         {
-            if (!(sender is RadioButton radio))
+            if (!(sender is Plugin.InputKit.Shared.Controls.RadioButton radio))
             {
                 return;
             }

@@ -66,7 +66,7 @@ namespace Busidex3.Views
 
         private void RadioButton_OnClicked(object sender, EventArgs e)
 	    {
-            if (!(sender is RadioButton radio))
+            if (!(sender is Plugin.InputKit.Shared.Controls.RadioButton radio))
             {
                 return;
             }

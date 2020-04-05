@@ -36,9 +36,8 @@
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label Text="{Binding Message}"
                             Grid.Row="0"
@@ -48,54 +47,48 @@
                             TextColor="#03A9F4"
                             HorizontalTextAlignment="Center"
                             HorizontalOptions="CenterAndExpand" />
-                        <Entry x:Name="txtUserName" 
-                           Grid.Row="1"
-                           Grid.Column="0"
-                           Placeholder="User Name"
-                           Text="{Binding UserName}" 
-                           HorizontalTextAlignment="Center"/>
                         <Entry x:Name="txtDisplayName" 
-                               Grid.Row="2"
+                               Grid.Row="1"
                                Grid.Column="0"
-                               Placeholder="Display Name"
+                               Placeholder="*Display Name"
                                Text="{Binding DisplayName}" 
                                HorizontalTextAlignment="Center" 
                                TextChanged="TxtDisplayName_OnTextChanged"/>
                         <Entry x:Name="txtEmail" 
-                           Grid.Row="3"
+                           Grid.Row="2"
                            Grid.Column="0"
-                           Placeholder="Email"
+                           Placeholder="*Email"
                            Text="{Binding Email}" 
                            Keyboard="Email"
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtUserName_TextChanged"/>
                         <Entry IsPassword="True"
-                           Grid.Row="4"
+                           Grid.Row="3"
                            Grid.Column="0"
                            x:Name="txtPassword" 
-                           Placeholder="Password"
+                           Placeholder="*Password"
                            IsVisible="{Binding NewUser}"
                            Text="{Binding Password}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtPassword_TextChanged"/>
                         <Entry IsPassword="True"
-                           Grid.Row="5"
+                           Grid.Row="4"
                            Grid.Column="0"
                            x:Name="txtConfirmPassword" 
-                           Placeholder="Confirm Password"
+                           Placeholder="*Confirm Password"
                            IsVisible="{Binding NewUser}"
                            Text="{Binding ConfirmPassword}" 
                            HorizontalTextAlignment="Center" 
                            TextChanged="TxtConfirmPassword_TextChanged"/>
                         <controls:CheckBox 
                             x:Name="chkAccept"
-                            Grid.Row="6"
+                            Grid.Row="5"
                             Grid.Column="0"
                             IsVisible="{Binding NewUser}"
                             CheckChanged="ChkAccept_CheckChanged"
                             Type="Check"
                             Color="AliceBlue"
-                            Text="I accept the Terms and Conditions"></controls:CheckBox>
+                            Text="*I accept the Terms and Conditions"></controls:CheckBox>
                         <Label
                             x:Name="lnkTerms"
                             FontSize="Medium"
@@ -103,7 +96,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="7"
+                            Grid.Row="6"
                             Grid.Column="0"
                             Text="Terms and Conditions">    
                             <Label.GestureRecognizers>
@@ -119,7 +112,7 @@
                             TextDecorations="Underline"
                             Margin="0, 8"
                             HorizontalTextAlignment="Center"
-                            Grid.Row="8"
+                            Grid.Row="7"
                             Grid.Column="0"
                             Text="Privacy Policy">
                             <Label.GestureRecognizers>
@@ -130,28 +123,29 @@
                         </Label>
                         <Button
                             x:Name="btnSave"
-                            Grid.Row="9"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Margin="10,15"
                             Visual="Default"
+                            Opacity="{Binding SaveButtonOpacity}"
                             IsEnabled="{Binding SaveButtonEnabled}"
                             Style="{StaticResource buttonStyle}"
                             Clicked="BtnSave_OnClicked"
                             Text="{Binding SaveButtonText}"/>
                         <ActivityIndicator 
-                            Grid.Row="9"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Color="#03A9F4" 
                             IsVisible="{Binding IsSaving}"
                             IsRunning="{Binding IsSaving}" />
                         <Label Text="Cancel" 
                                IsVisible="{Binding NewUser}"
-                               Grid.Row="10"
+                               Grid.Row="9"
                                Grid.Column="0"
                                TextColor="#03A9F4"
                                HorizontalTextAlignment="Center"
                                HorizontalOptions="Center"
-                               Margin="0,10"
+                               Margin="0,5"
                                VerticalOptions="End"
                                x:Name="btnCancel">
                             <Label.GestureRecognizers>
@@ -160,7 +154,7 @@
                             </Label.GestureRecognizers>
                         </Label>
                         <Label
-                            Grid.Row="11"
+                            Grid.Row="10"
                             Grid.Column="0"
                             IsVisible="{Binding ConfirmPasswordError}"
                             Text="Passwords must match"
@@ -169,9 +163,9 @@
                             FontSize="Small"
                             FontAttributes="Italic"/>
                         <Label
-                            Grid.Row="11"
+                            Grid.Row="10"
                             Grid.Column="0"
-                            Margin="0,20"
+                            Margin="0,10"
                             IsVisible="{Binding ProfileError}"
                             Text="There was a problem updating your profile"
                             TextColor="Red"
@@ -179,11 +173,11 @@
                             FontSize="Small"
                             FontAttributes="Italic"/>
                         <Label
-                            Grid.Row="11"
+                            Grid.Row="10"
                             Grid.Column="0"
-                            Margin="0,20"
+                            Margin="0,10"
                             IsVisible="{Binding UserNameInUse}"
-                            Text="Username not available"
+                            Text="Email not available"
                             TextColor="Red"
                             HorizontalTextAlignment="Center"
                             FontSize="17"

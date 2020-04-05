@@ -6,10 +6,10 @@ namespace Busidex3.Services
 {
     public class LoginHttpService : BaseHttpService
     {
-        public async Task<User> DoLogin(string username, string password){
+        public async Task<User> DoLogin(string email, string password){
 		
             var model = new LoginParams {
-                UserName = username,
+                UserName = email,
                 Password = password, 
                 Token = string.Empty,
                 RememberMe = true,

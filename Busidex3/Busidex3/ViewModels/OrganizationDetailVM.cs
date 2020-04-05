@@ -1,8 +1,11 @@
 ﻿using Busidex3.Analytics;
 using Busidex3.DomainModels;
+using Busidex3.Services;
 using Busidex3.Services.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -164,6 +167,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _showReferrals;
+        public bool ShowReferrals {
+            get => _showReferrals;
+            set {
+                _showReferrals = value;
+                OnPropertyChanged(nameof(ShowReferrals));
+            }
+        }
+
         public int ImageSize { get { return 65; } }
 
         public OrganizationDetailVM(Organization org)
@@ -178,6 +190,18 @@ namespace Busidex3.ViewModels
             HasPhone1 = !string.IsNullOrEmpty(org.Phone1);
             HasPhone2 = !string.IsNullOrEmpty(org.Phone2);
 
+            ShowReferrals = false;
+
+            Task.Factory.StartNew(async () =>
+            {
+                var _organizationsHttpService = new OrganizationsHttpService();
+                var result = await _organizationsHttpService.GetOrganizationMembers(Organization.OrganizationId);
+                if (result.Model.Any(card => card.OwnerId == Security.CurrentUser.UserId))
+                {
+                    ShowReferrals = true;
+                }
+            });
+            
             var fileName = Organization.LogoFileName + "." + Organization.LogoType;
             Logo = Path.Combine(Serialization.LocalStorageFolder, fileName);
             if (!File.Exists(Logo))

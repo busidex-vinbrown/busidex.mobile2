@@ -50,7 +50,7 @@ namespace Busidex3.Views
 	        lblLoginError.IsVisible = false;
 	    }
 
-	    private void TxtUserName_OnTextChanged(object sender, TextChangedEventArgs e)
+	    private void TxtEmail_OnTextChanged(object sender, TextChangedEventArgs e)
 	    {
 	        Reset();
 	    }

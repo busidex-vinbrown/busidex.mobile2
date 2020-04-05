@@ -149,6 +149,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private bool _hasAddress;
+        public bool HasAddress {
+            get => _hasAddress;
+            set {
+                _hasAddress = value;
+                OnPropertyChanged(nameof(HasAddress));
+            }
+        }
+
         private bool _hasUrl;
         public bool HasUrl {
             get => _hasUrl;
@@ -173,6 +182,15 @@ namespace Busidex3.ViewModels
             set {
                 _emailButtonOpacity = value;
                 OnPropertyChanged(nameof(EmailButtonOpacity));
+            }
+        }
+
+        private double _addressButtonOpacity;
+        public double AddressButtonOpacity {
+            get => _addressButtonOpacity;
+            set {
+                _addressButtonOpacity = value;
+                OnPropertyChanged(nameof(AddressButtonOpacity));
             }
         }
 
@@ -384,6 +402,7 @@ namespace Busidex3.ViewModels
             BackFileId = SelectedCard.Card.BackFileId.GetValueOrDefault();
             HasEmail = !string.IsNullOrEmpty(SelectedCard.Card.Email);
             HasUrl = !string.IsNullOrEmpty(SelectedCard.Card.Url);
+            HasAddress = SelectedCard.Card.Addresses.Count > 0 && !string.IsNullOrEmpty(SelectedCard.Card.Addresses[0].ToString());
         }
 
         #region UserCard Actions 

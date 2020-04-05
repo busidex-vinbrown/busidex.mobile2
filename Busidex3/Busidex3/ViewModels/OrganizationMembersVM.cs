@@ -3,6 +3,7 @@ using Busidex3.Services;
 using Busidex3.Services.Utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -33,6 +34,13 @@ namespace Busidex3.ViewModels
         public override void SaveCardsToFile(string json)
         {
             Serialization.SaveResponse(json, OrganizationMembersFile);
+        }
+
+        public new ImageSource BackgroundImage {
+            get {
+                return ImageSource.FromResource("Busidex3.Resources.logo4.png",
+                    typeof(SearchVM).Assembly);
+            }
         }
 
         public override async Task<List<UserCard>> GetCards()

@@ -80,7 +80,7 @@ namespace Busidex3.Views.EditCard
                     error = true;                
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 error = true;
             }

@@ -43,7 +43,7 @@ namespace Busidex3.ViewModels
 
         public void RefreshList()
         {
-            SearchResults = new List<UserCard>(SearchResults);
+            SearchResults = new List<UserCard>(SearchResults ?? new List<UserCard>());
         }
 
         public async Task<bool> DoSearch()

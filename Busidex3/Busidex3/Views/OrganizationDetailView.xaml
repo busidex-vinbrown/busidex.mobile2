@@ -52,6 +52,7 @@
                             HorizontalOptions="Fill"
                             CornerRadius="10"
                             Padding="3"
+                            IsVisible="{Binding ShowReferrals}"
                             Grid.Column="1"
                             Grid.Row="0"
                             Margin="3">

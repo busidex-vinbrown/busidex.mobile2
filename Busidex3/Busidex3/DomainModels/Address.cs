@@ -20,6 +20,12 @@ namespace Busidex3.DomainModels
 
 		public override string ToString ()
 		{
+			if (string.IsNullOrEmpty(Address1) && 
+				string.IsNullOrEmpty(Address2) && 
+				string.IsNullOrEmpty(City) && 
+				State == null && 
+				string.IsNullOrEmpty(ZipCode)) return null;
+
 			return string.Format ("{0} {1} {2}, {3} {4} {5} {6}", Address1, Address2, City, StateCode, ZipCode, Region, Country);
 		}
 

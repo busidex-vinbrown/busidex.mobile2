@@ -28,7 +28,7 @@ namespace Busidex3.Views
             _viewModel.NotesButtonOpacity = vm.SelectedCard.Card.ExistsInMyBusidex ? 1 : .3;
 			_viewModel.UrlButtonOpacity = vm.HasUrl ? 1 : .3;
 			_viewModel.EmailButtonOpacity = vm.HasEmail ? 1 : .3;
-
+			_viewModel.AddressButtonOpacity = vm.HasAddress ? 1 : .3;
 		}
 
         private async void Header_OnCardImageClicked(DomainModels.UserCard uc)

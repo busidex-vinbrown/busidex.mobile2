@@ -51,7 +51,11 @@
             <Image Source="{Binding BackgroundImage}" 
                    Grid.Column="0"
                    Grid.Row="2"
-                   Aspect="AspectFill"/>
+                   HeightRequest="200"
+                   Opacity=".25"
+                   Margin="80"
+                   Aspect="AspectFit"
+                   WidthRequest="200"/>
             <ActivityIndicator
                 IsVisible="{Binding IsRefreshing}"
                 Color="DodgerBlue"

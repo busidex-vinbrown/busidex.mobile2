@@ -3,6 +3,7 @@ using Busidex3.Services;
 using Busidex3.Services.Utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
@@ -28,6 +29,13 @@ namespace Busidex3.ViewModels
             _organizationsHttpService = new OrganizationsHttpService();
             Organization = org;
             OrganizationReferralsFile = string.Format(StringResources.ORGANIZATION_REFERRALS_FILE, org.OrganizationId);
+        }
+
+        public new ImageSource BackgroundImage {
+            get {
+                return ImageSource.FromResource("Busidex3.Resources.logo4.png",
+                    typeof(SearchVM).Assembly);
+            }
         }
 
         public override void SaveCardsToFile(string json)

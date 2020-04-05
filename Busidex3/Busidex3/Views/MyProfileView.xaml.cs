@@ -19,8 +19,8 @@ namespace Busidex3.Views
 
             _viewModel = new MyProfileVM
             {
-                Email = Security.CurrentUser?.Email, 
-                DisplayName = Security.CurrentUser?.UserAccount.DisplayName
+                Email = Security.CurrentUser?.Email,
+                DisplayName = Security.CurrentUser?.UserAccount.DisplayName,
             };
 
             if (!string.IsNullOrEmpty(Security.AuthToken))
@@ -30,13 +30,12 @@ namespace Busidex3.Views
 
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
             _viewModel.Message = _viewModel.NewUser
-                ? "Choose an email address and password here so you can access your cards on any device."
+                ? "Create Your Account"
                 : "Update your account information here.";
             _viewModel.SaveButtonText = _viewModel.NewUser
                 ? "Continue"
                 : "Save";
             _viewModel.SaveButtonEnabled = isValid();
-            txtUserName.IsReadOnly = !_viewModel.NewUser;
 
             BindingContext = _viewModel;
         }
@@ -76,7 +75,7 @@ namespace Busidex3.Views
             _viewModel.ConfirmPasswordError = _viewModel.Password != _viewModel.ConfirmPassword;
             _viewModel.SaveButtonEnabled = isValid();
         }
-
+        
         private bool isValid()
         {
             if (!_viewModel.NewUser)
@@ -102,8 +101,8 @@ namespace Busidex3.Views
 
             if (_viewModel.NewUser)
             {
-                var userNameOk = await _viewModel.IsEmailAvailable();
-                if (userNameOk)
+                var emailOk = await _viewModel.IsEmailAvailable();
+                if (emailOk)
                 {
                     var ok = await _viewModel.CheckAccount();
 

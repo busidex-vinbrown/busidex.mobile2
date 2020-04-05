@@ -27,8 +27,6 @@ namespace Busidex3.ViewModels
             }
         }
 
-        public string UserName => Security.CurrentUser?.UserName;
-
         private string _displayName;
         public string DisplayName
         {
@@ -138,7 +136,16 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(ConfirmPasswordError));
             }
         }
-        
+
+        private double _saveButtonOpacity;
+        public double SaveButtonOpacity {
+            get => _saveButtonOpacity;
+            set {
+                _saveButtonOpacity = value;
+                OnPropertyChanged(nameof(SaveButtonOpacity));
+            }
+        }
+
         private bool _saveButtonEnabled;
         public bool SaveButtonEnabled
         {
@@ -146,13 +153,14 @@ namespace Busidex3.ViewModels
             set
             {
                 _saveButtonEnabled = value;
+                SaveButtonOpacity = _saveButtonEnabled ? 1.0 : .3;
                 OnPropertyChanged(nameof(SaveButtonEnabled));
             }
         }
 
         public MyProfileVM()
         {
-            TermsAndConditionsCommand = PrivacyPolicyCommand = new Command<string>(LaunchBrowser);
+            TermsAndConditionsCommand = PrivacyPolicyCommand = new Command<string>(LaunchBrowser);            
         }
         
         async void LaunchBrowser(string url)

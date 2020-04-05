@@ -38,8 +38,12 @@
             <Image Source="{Binding BackgroundImage}" 
                    Grid.Column="0"
                    Grid.Row="1"
-                   Aspect="AspectFill"/>
-            <ListView x:Name="lstEvents"
+                   Opacity=".25"
+                   HeightRequest="200"
+                   Margin="70"
+                    Aspect="AspectFit"
+                    WidthRequest="200"/>
+            <ListView x:Name="lstOrganizations"
                       SeparatorVisibility="None"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="FillAndExpand"

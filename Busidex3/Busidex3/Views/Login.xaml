@@ -18,12 +18,12 @@
                Aspect="AspectFit"
                WidthRequest="90" />
 
-        <Entry x:Name="txtUserName" 
+        <Entry x:Name="txtEmail" 
                 Margin="0,20,0,0"
-                Text="{Binding UserName}" 
-                Placeholder="User Name"
+                Text="{Binding Email}" 
+                Placeholder="Email"
                 HorizontalTextAlignment="Center" 
-                TextChanged="TxtUserName_OnTextChanged"/>
+                TextChanged="TxtEmail_OnTextChanged"/>
         <Entry IsPassword="True" 
                 x:Name="txtPassword" 
                 Placeholder="Password"

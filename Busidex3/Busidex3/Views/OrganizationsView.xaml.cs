@@ -4,6 +4,7 @@ using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,6 +26,7 @@ namespace Busidex3.Views
             _viewModel.HeaderFont = Device.RuntimePlatform == Device.Android
                 ? NamedSize.Medium
                 : NamedSize.Header;
+            lstOrganizations.RefreshCommand = RefreshCommand;
         }
 
         private void OnDetail_Tapped(object sender, System.EventArgs e)
@@ -32,6 +34,16 @@ namespace Busidex3.Views
             var organization = ((TappedEventArgs)e).Parameter as Organization;
             var page = new OrganizationDetailView(organization);
             Navigation.PushAsync(page);
-        }        
+        }
+
+        public ICommand RefreshCommand {
+            get {
+                return new Command(async () => {
+                    _viewModel.IsRefreshing = true;
+                    await _viewModel.LoadOrganizations();
+                    _viewModel.IsRefreshing = false;
+                });
+            }
+        }
     }
 }

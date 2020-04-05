@@ -9,12 +9,12 @@ namespace Busidex3.ViewModels
     {
         private readonly LoginHttpService _loginHttpService = new LoginHttpService();
         
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
 
         public LoginVM()
         {
-            UserName = string.Empty;
+            Email = string.Empty;
             Password = string.Empty;
 
             Logo = ImageSource.FromResource("Busidex3.Resources.busidex_icon_180x180.png",
@@ -34,7 +34,7 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> DoLogin()
         {
-            var user = await _loginHttpService.DoLogin(UserName, Password);
+            var user = await _loginHttpService.DoLogin(Email, Password);
 
             if (user == null || user.UserId <= 0) return false;
 

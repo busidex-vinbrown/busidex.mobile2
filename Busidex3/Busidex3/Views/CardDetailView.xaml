@@ -24,6 +24,8 @@
                 </Grid.RowDefinitions>
                 <Image
                     x:Name="btnMap"
+                    IsEnabled="{Binding HasAddress}"
+                    Opacity="{Binding AddressButtonOpacity}"
                     HeightRequest="50"
                     WidthRequest="50"
                     Grid.Row="0" Grid.Column="0">

@@ -65,7 +65,7 @@ namespace Busidex3.ViewModels {
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
+                return ImageSource.FromResource("Busidex3.Resources.logo4.png",
                     typeof(SearchVM).Assembly);
             }
         }
@@ -91,7 +91,7 @@ namespace Busidex3.ViewModels {
             return await Task.FromResult(true);
         }
 
-        private async Task<bool> LoadOrganizations()
+        public async Task<bool> LoadOrganizations()
         {
             using (var semaphore = new SemaphoreSlim(1, 1))
             {
@@ -102,7 +102,6 @@ namespace Busidex3.ViewModels {
                     var organizationResult = await _organizationsHttpService.GetMyOrganizations();
                     if (organizationResult != null)
                     {
-
                         if (organizationResult.Model != null)
                         {
 
