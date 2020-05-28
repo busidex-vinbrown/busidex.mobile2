@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Busidex3.Services.Utils;
 using Busidex3.ViewModels;
-using Plugin.InputKit.Shared.Controls;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
@@ -14,7 +13,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views.EditCard
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditCardImageView
 	{
         protected CardVM _viewModel { get; set; }
