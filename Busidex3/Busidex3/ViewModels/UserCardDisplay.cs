@@ -1,34 +1,18 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Busidex.Http.Utils;
+using Busidex.Models.Constants;
+using Busidex.Resources.String;
+using Busidex.SharedUI;
 using Busidex3.Annotations;
-using Busidex3.Services.Utils;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
 {
-    public class UserCardDisplay : INotifyPropertyChanged
+    public class UserCardDisplay : IUserCardDisplay, INotifyPropertyChanged
     {
-        public enum DisplaySetting
-        {
-            Detail,
-            Thumbnail,
-            FullScreen
-        }
-
-        public enum CardOrientation
-        {
-            Horizontal,
-            Vertical
-        }
-
-        public enum CardSide
-        {
-            Front,
-            Back
-        }
-
         public double VFrameHeight { get; set; }
         public double VFrameWidth { get; set; }
         public double VImageHeight { get; set; }
@@ -55,6 +39,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private string _frontOrientation { get; set; }
+        public string FrontOrientation {
+            get => _frontOrientation;
+            set {
+                _frontOrientation = value;
+                OnPropertyChanged(nameof(FrontOrientation));
+            }
+        }
+
         private bool _showCard { get; set; }
         public bool ShowCard
         {
@@ -69,11 +62,14 @@ namespace Busidex3.ViewModels
         public UserCardDisplay(
             DisplaySetting display = DisplaySetting.Detail, 
             CardOrientation orientation = CardOrientation.Horizontal,
-            string fileName = ""
+            string fileName = "",
+            string frontOrientation = "H"
             )
         {
             _currentDisplaySetting = display;
             _currentOrientation = orientation;
+            _frontOrientation = frontOrientation;
+
             CurrentFileName = fileName ?? string.Empty;
 
             ShowCard = !string.IsNullOrEmpty(CurrentFileName);

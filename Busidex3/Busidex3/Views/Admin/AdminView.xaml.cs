@@ -1,4 +1,4 @@
-﻿using Busidex3.DomainModels;
+﻿using Busidex.Models.Domain;
 using Busidex3.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -48,7 +48,8 @@ namespace Busidex3.Views.Admin
 
         protected override bool OnBackButtonPressed()
         {
-            App.LoadHomePage();
+            Navigation.PopToRootAsync();
+            //App.LoadHomePage();
             return true;
         }
     }

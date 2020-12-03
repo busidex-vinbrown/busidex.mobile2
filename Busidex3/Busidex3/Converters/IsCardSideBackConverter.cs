@@ -1,5 +1,5 @@
 ﻿using System;
-using Busidex3.ViewModels;
+using Busidex.Models.Constants;
 using Xamarin.Forms;
 
 namespace Busidex3.Converters
@@ -8,7 +8,7 @@ namespace Busidex3.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value.Equals(UserCardDisplay.CardSide.Back);
+            return value.Equals(CardSide.Back);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

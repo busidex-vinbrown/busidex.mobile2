@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Input;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Analytics;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -59,6 +61,12 @@ namespace Busidex3.Views
             
             base.OnAppearing();
         }
+
+        private async void Home_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopToRootAsync();
+        }
+
         public ICommand RefreshCommand
 	    {
 	        get { return new Command(async () => {
@@ -92,6 +100,6 @@ namespace Busidex3.Views
         private async void BtnGoToSearch_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new SearchView());
-        }
+        }        
     }
 }

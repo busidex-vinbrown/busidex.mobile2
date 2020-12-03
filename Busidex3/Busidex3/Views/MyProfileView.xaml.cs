@@ -1,4 +1,4 @@
-﻿using Busidex3.Services.Utils;
+﻿using Busidex.Http.Utils;
 using Busidex3.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -29,6 +29,7 @@ namespace Busidex3.Views
             }
 
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
+            _viewModel.ShowLogout = !_viewModel.NewUser;
             _viewModel.Message = _viewModel.NewUser
                 ? "Create Your Account"
                 : "Update your account information here.";
@@ -44,11 +45,14 @@ namespace Busidex3.Views
         {
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                App.LoadLoginPage();
+                var page = (Page)Activator.CreateInstance(typeof(Login));
+                NavigationPage.SetHasNavigationBar(page, false);
+                Navigation.PushAsync(page);
             }
             else
             {
-                App.LoadHomePage();
+                //App.LoadHomePage();
+                Navigation.PopToRootAsync();
             }
             return true;
         }
@@ -108,6 +112,8 @@ namespace Busidex3.Views
 
                     if (ok)
                     {
+                        App.Current.MainPage = new NavigationPage(new HomeMenuView());
+                        NavigationPage.SetHasNavigationBar(App.Current.MainPage, false);
                         App.LoadMyBusidexPage();
                     }
                 }
@@ -124,13 +130,23 @@ namespace Busidex3.Views
         {
             if(string.IsNullOrEmpty(Security.AuthToken))
             {
-                App.LoadLoginPage();
+                var page = (Page)Activator.CreateInstance(typeof(Login));
+                NavigationPage.SetHasNavigationBar(page, false);
+                Navigation.PushAsync(page);
             }
         }
 
         protected void ChkAccept_CheckChanged(object sender, EventArgs e)
         {
             _viewModel.SaveButtonEnabled = isValid();
+        }
+
+        private void btnLogout_Clicked(object sender, EventArgs e)
+        {
+            var page = (Page)Activator.CreateInstance(typeof(Login));
+            Security.LogOut();
+            Navigation.PushAsync(page);
+            NavigationPage.SetHasNavigationBar(page, false);
         }
     }
 }

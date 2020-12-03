@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Busidex3.Annotations;
-using Newtonsoft.Json;
 
 namespace Busidex3.DomainModels
 {
@@ -44,6 +43,10 @@ namespace Busidex3.DomainModels
 			if (model.Tags != null) {
 				Tags.AddRange (model.Tags);
 			}
+			if(model.ExternalLinks != null)
+            {
+				ExternalLinks.AddRange(model.ExternalLinks);
+            }
 			if (model.Addresses != null) {
 				Addresses.AddRange (model.Addresses);
 			}
@@ -87,6 +90,10 @@ namespace Busidex3.DomainModels
 			if (model.Tags != null) {
 				Tags.AddRange (model.Tags);
 			}
+			if(model.ExternalLinks != null)
+            {
+				ExternalLinks.AddRange(model.ExternalLinks);
+            }
 			if (model.Addresses != null) {
 				Addresses.AddRange (model.Addresses);
 			}
@@ -100,6 +107,7 @@ namespace Busidex3.DomainModels
 			PhoneNumbers = PhoneNumbers ?? new List<PhoneNumber> ();
 			Tags = Tags ?? new List<Tag> ();
 			Addresses = Addresses ?? new List<Address> ();
+			ExternalLinks = new List<ExternalLink>();
 		}
 
 		public long CardId { get; set; }
@@ -206,6 +214,8 @@ namespace Busidex3.DomainModels
 
         public List<Tag> Tags { get; set; }
 
+		public List<ExternalLink> ExternalLinks { get; set; } = new List<ExternalLink>();
+
 		public List<Address> Addresses { get; set; }
 
 		public string BackImageString { get; set; }
@@ -229,8 +239,6 @@ namespace Busidex3.DomainModels
             BackFileId != null &&
             BackFileId.ToString() != StringResources.EMPTY_CARD_ID;
 
-     //   [JsonIgnore]
-	    //public UserCard Parent { get; set; }
 	}
 }
 

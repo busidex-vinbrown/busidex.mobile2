@@ -1,9 +1,10 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http.Utils;
+using Busidex.Models.Domain;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -27,8 +28,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
-                    typeof(SearchVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.cards_back2.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 

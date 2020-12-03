@@ -1,25 +1,52 @@
 ﻿using System;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
+using System.Linq;
+using System.Reflection;
+using Busidex.Models.Analytics;
+using Busidex.Models.Constants;
+using Busidex.Models.Domain;
+using Busidex.SharedUI;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CardDetailView
 	{
         protected CardVM _viewModel { get; set; }
-        
+		
+
 		public CardDetailView (ref CardVM vm)
 		{
 		    InitializeComponent ();
 
 		    _viewModel = vm;
-		    BindingContext = _viewModel;
+			_viewModel.DisplaySettings = new UserCardDisplay(
+				DisplaySetting.Detail,
+				vm.SelectedCard.Card.FrontOrientation == "H"
+					? CardOrientation.Horizontal
+					: CardOrientation.Vertical,
+				vm.SelectedCard.Card.FrontFileName,
+				vm.SelectedCard.Card.FrontOrientation);
 
-		    LoadButtons();
+			BindingContext = _viewModel;
+
+			ToolbarItem item = new ToolbarItem
+			{
+				Text = "",
+				IconImageSource = ImageSource.FromResource("Busidex.Resources.Images.home.png",
+					typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly)
+			,
+				Order = ToolbarItemOrder.Primary,
+				Priority = 0,
+			};
+
+			item.Clicked += Home_Clicked;
+
+			ToolbarItems.Add(item);
+
+			LoadButtons();
             Title = vm.SelectedCard.Card.Name ?? vm.SelectedCard.Card.CompanyName;
 
             Header.OnCardImageClicked += Header_OnCardImageClicked;
@@ -29,26 +56,73 @@ namespace Busidex3.Views
 			_viewModel.UrlButtonOpacity = vm.HasUrl ? 1 : .3;
 			_viewModel.EmailButtonOpacity = vm.HasEmail ? 1 : .3;
 			_viewModel.AddressButtonOpacity = vm.HasAddress ? 1 : .3;
+
+			
+
+			btnFacebook.IsVisible = false;
+			btnTwitter.IsVisible = false;
+			btnInstagram.IsVisible = false;
+			btnLinkedIn.IsVisible = false;
+
+			var linkCol = 1;
+			var linkRow = 2;
+			if (_viewModel.SelectedCard.Card.ExternalLinks.SingleOrDefault(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Facebook) != null)
+            {
+				setExternalLinkButton(btnFacebook, ref linkCol, ref linkRow);
+			}
+			if (_viewModel.SelectedCard.Card.ExternalLinks.SingleOrDefault(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Twitter) != null)
+			{
+				setExternalLinkButton(btnTwitter, ref linkCol, ref linkRow);
+			}
+			if (_viewModel.SelectedCard.Card.ExternalLinks.SingleOrDefault(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Instagram) != null)
+			{
+				setExternalLinkButton(btnInstagram, ref linkCol, ref linkRow);
+			}
+			if (_viewModel.SelectedCard.Card.ExternalLinks.SingleOrDefault(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.LinkedIn) != null)
+			{
+				setExternalLinkButton(btnLinkedIn, ref linkCol, ref linkRow);
+			}
 		}
 
-        private async void Header_OnCardImageClicked(DomainModels.UserCard uc)
+        private async void Home_Clicked(object sender, EventArgs e)
         {
-            
+			await Navigation.PopToRootAsync();
+        }
+
+        private void setExternalLinkButton(Image img, ref int col, ref int row)
+        {
+			img.IsVisible = true;
+			Grid.SetRow(img, row);
+			Grid.SetColumn(img, col);
+			col++;
+			if (col > 2)
+			{
+				col = 0;
+				row++;
+			}
+		}
+
+        private async void Header_OnCardImageClicked(IUserCardDisplay ucd)
+        {
+			var uc = _viewModel.SelectedCard;
             await Navigation.PushAsync(new CardImageView(ref uc));
         }
 
         private void LoadButtons()
 	    {
-	        btnMap.Source = ImageSource.FromResource("Busidex3.Resources.maps.png");
-            btnNotes.Source = ImageSource.FromResource("Busidex3.Resources.notes.png");
-            btnEmail.Source = ImageSource.FromResource("Busidex3.Resources.email.png");
-            btnWeb.Source = ImageSource.FromResource("Busidex3.Resources.browser.png");
-            btnPhone.Source = ImageSource.FromResource("Busidex3.Resources.phone.png");
-            btnShare.Source = ImageSource.FromResource("Busidex3.Resources.share.png");
-            // btnTag.Source = ImageSource.FromResource("Busidex3.Resources.tags.png");
-            btnAdd.Source = ImageSource.FromResource("Busidex3.Resources.add.png");
-            btnRemove.Source = ImageSource.FromResource("Busidex3.Resources.remove.png");
-        }
+	        btnMap.Source = ImageSource.FromResource("Busidex.Resources.Images.maps.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnNotes.Source = ImageSource.FromResource("Busidex.Resources.Images.notes.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnEmail.Source = ImageSource.FromResource("Busidex.Resources.Images.email.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnWeb.Source = ImageSource.FromResource("Busidex.Resources.Images.browser.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnPhone.Source = ImageSource.FromResource("Busidex.Resources.Images.phone.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnShare.Source = ImageSource.FromResource("Busidex.Resources.Images.share.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnAdd.Source = ImageSource.FromResource("Busidex.Resources.Images.add.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            btnRemove.Source = ImageSource.FromResource("Busidex.Resources.Images.remove.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+			btnFacebook.Source = ImageSource.FromResource("Busidex.Resources.Images.fb.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+			btnTwitter.Source = ImageSource.FromResource("Busidex.Resources.Images.twitter.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+			btnInstagram.Source = ImageSource.FromResource("Busidex.Resources.Images.instagram.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+			btnLinkedIn.Source = ImageSource.FromResource("Busidex.Resources.Images.linkedin.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+		}
 
 	    private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
 	    {
@@ -72,7 +146,7 @@ namespace Busidex3.Views
                     _viewModel.LaunchEmail();
 	                break;
 	            case CardActionButton.Web:
-                    _viewModel.LaunchBrowser();
+                    await _viewModel.LaunchBrowser(_viewModel.SelectedCard.Card.Url);
 	                break;
 	            case CardActionButton.Phone:
 	                await Navigation.PushAsync(new PhoneView(_viewModel));
@@ -98,7 +172,32 @@ namespace Busidex3.Views
                     _viewModel.RemoveFromMyBusidex();
                     _viewModel.ShowSpinner = false;
 	                break;
-	            default:
+				case CardActionButton.Facebook:
+					if(!await _viewModel.LaunchBrowser(_viewModel.SelectedCard.Card.ExternalLinks.Single(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Facebook).Link))
+                    {
+						await DisplayAlert("Invalid Link", $"The Facebook link is invalid.", "OK");
+					}
+					break;
+				case CardActionButton.Twitter:
+					if(!await _viewModel.LaunchBrowser(_viewModel.SelectedCard.Card.ExternalLinks.Single(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Twitter).Link))
+                    {
+						await DisplayAlert("Invalid Link", $"The Twitter link is invalid.", "OK");
+					}
+					break;
+				case CardActionButton.Instagram:
+					if(!await _viewModel.LaunchBrowser(_viewModel.SelectedCard.Card.ExternalLinks.Single(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.Instagram).Link))
+                    {
+						await DisplayAlert("Invalid Link", $"The Instagram link is invalid.", "OK");
+					}
+					break;
+				case CardActionButton.Linkedin:
+					if(!await _viewModel.LaunchBrowser(_viewModel.SelectedCard.Card.ExternalLinks.Single(l => l.ExternalLinkTypeId == (int)ExternalLinkTypes.LinkedIn).Link))
+                    {
+						await DisplayAlert("Invalid Link", $"The LinkedIn link is invalid.", "OK");
+					}
+
+					break;
+				default:
 	                throw new ArgumentOutOfRangeException();
 	        }
 	    }

@@ -19,12 +19,12 @@ namespace Busidex3.Views
 
         private void BtnLogin_Clicked(object sender, EventArgs e)
         {
-            App.LoadLoginPage();
+            //App.LoadLoginPage();
         }
 
         private void BtnStart_Clicked(object sender, EventArgs e)
         {
-            App.LoadProfilePage();
+            //App.LoadProfilePage();
         }
     }
 }

@@ -39,6 +39,13 @@ namespace Busidex3.Services
             return result.IsSuccessStatusCode;
         }
 
+        public async Task<bool> UpdateCardLinks(CardLinksModel model)
+        {
+            var result =
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveExternalLinksUrl, HttpVerb.Put, model);
+            return result.IsSuccessStatusCode;
+        }
+
         public async Task<bool> UpdateCardOwner(long cardId, long ownerId)
         {
             var result =

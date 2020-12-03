@@ -39,6 +39,10 @@ namespace Busidex3.DomainModels
 			if (card.Tags != null) {
 				Tags.AddRange (card.Tags);
 			}
+			if(card.ExternalLinks != null)
+            {
+				ExternalLinks.AddRange(card.ExternalLinks);
+            }
 			Display = (DisplayType)Enum.Parse (typeof (DisplayType), card.Display.ToString ());
 			CreatedBy = card.CreatedBy;
 			Visibility = card.Visibility;
@@ -104,6 +108,8 @@ namespace Busidex3.DomainModels
 		public string TagList { get; set; }
 
 		public List<Tag> Tags { get; set; }
+
+		public List<ExternalLink> ExternalLinks { get; set; }
 
 		public DisplayType Display { get; set; }
 

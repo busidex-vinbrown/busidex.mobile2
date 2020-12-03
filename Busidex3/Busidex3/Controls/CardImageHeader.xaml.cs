@@ -1,5 +1,5 @@
-﻿using System;
-using Busidex3.DomainModels;
+﻿using Busidex.Models.Domain;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

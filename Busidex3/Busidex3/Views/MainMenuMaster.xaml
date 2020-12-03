@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Busidex3.Controls"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Class="Busidex3.Views.MainMenuMaster"
              Title="Busidex"
              Visual="Material"
@@ -46,7 +46,7 @@
                         x:Name="ctrlProfileImage"
                         BackgroundColor="{Binding ThumbnailBackground}"
                         HorizontalOptions="Center"
-                        BindingContext="{Binding MyCard}">
+                        BindingContext="{Binding DisplaySettings}">
                     </controls:CardImageHeader>
                 </StackLayout>
                 <StackLayout

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Busidex.Http.Utils;
+using System;
 using System.Globalization;
 using System.IO;
-using Busidex3.Services.Utils;
 using Xamarin.Forms;
 
 namespace Busidex3.Converters

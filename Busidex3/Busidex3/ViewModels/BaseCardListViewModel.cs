@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 
 namespace Busidex3.ViewModels
 {

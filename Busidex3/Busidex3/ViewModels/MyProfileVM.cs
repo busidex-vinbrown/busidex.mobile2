@@ -1,13 +1,14 @@
-﻿using Busidex3.Services;
-using Busidex3.Services.Utils;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Busidex3.DomainModels;
+using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Dto;
+using Busidex.Resources.String;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using DeviceType = Busidex3.DomainModels.DeviceType;
+using DeviceType = Busidex.Models.Domain.DeviceType;
 
 namespace Busidex3.ViewModels
 {
@@ -90,6 +91,15 @@ namespace Busidex3.ViewModels
             {
                 _newUser = value;
                 OnPropertyChanged(nameof(NewUser));
+            }
+        }
+
+        private bool _showLogout;
+        public bool ShowLogout {
+            get => _showLogout;
+            set {
+                _showLogout = value;
+                OnPropertyChanged(nameof(ShowLogout));
             }
         }
 

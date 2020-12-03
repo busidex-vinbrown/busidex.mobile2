@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Models.Dto;
+using Busidex.Resources.String;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Busidex3.DomainModels;
-using Busidex3.Models;
-using Busidex3.Services.Utils;
 
 namespace Busidex3.ViewModels
 {

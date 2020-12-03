@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Busidex3.Views;
 using Busidex3.Views.Admin;
 using Xamarin.Forms;
@@ -57,8 +58,8 @@ namespace Busidex3.ViewModels
 
         public ImageSource ProfileImage {
             get {
-                return ImageSource.FromResource("Busidex3.Resources.defaultprofile.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.defaultprofile.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
         
@@ -106,6 +107,15 @@ namespace Busidex3.ViewModels
             }
         }
 
+        private UserCardDisplay _displaySettings { get; set; }
+        public UserCardDisplay DisplaySettings { 
+            get => _displaySettings; 
+            set {
+                _displaySettings = value;
+                OnPropertyChanged(nameof(DisplaySettings));
+            }
+        }
+
         public MainMenuMasterVM()
         {
             ShareImage = new MainMenuMenuItem
@@ -113,8 +123,8 @@ namespace Busidex3.ViewModels
                 Id = 0,
                 Title = ViewNames.Share + " My Card",
                 TargetType = typeof(ShareView),
-                Image = ImageSource.FromResource("Busidex3.Resources.share.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                Image = ImageSource.FromResource("Busidex.Resources.Images.share.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly)
             };
             
             EditImage = new MainMenuMenuItem
@@ -122,8 +132,8 @@ namespace Busidex3.ViewModels
                 Id = 0,
                 Title = HasCard ? ViewNames.Edit : ViewNames.Add,
                 TargetType = typeof(ShareView),
-                Image = ImageSource.FromResource("Busidex3.Resources.editicon.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly)
+                Image = ImageSource.FromResource("Busidex.Resources.Images.editicon.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly)
             };
 
             AdminItem = new MainMenuMenuItem
@@ -131,8 +141,8 @@ namespace Busidex3.ViewModels
                 Id = 4,
                 Title = ViewNames.Admin,
                 TargetType = typeof(AdminView),
-                Image = ImageSource.FromResource("Busidex3.Resources.admin.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
+                Image = ImageSource.FromResource("Busidex.Resources.Images.admin.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly),
                 IsClickable = true
             };
 
@@ -141,8 +151,8 @@ namespace Busidex3.ViewModels
                 Id = 5,
                 Title = ViewNames.Home,
                 TargetType = typeof(AdminView),
-                Image = ImageSource.FromResource("Busidex3.Resources.home.png",
-                    typeof(MainMenuMenuItem).GetTypeInfo().Assembly),
+                Image = ImageSource.FromResource("Busidex.Resources.Images.home.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly),
                 IsClickable = true
             };
 
@@ -166,7 +176,7 @@ namespace Busidex3.ViewModels
             if (ownedCard != null)
             {
                 MyCard = new UserCard(ownedCard);
-                MyCard?.SetDisplay(UserCardDisplay.DisplaySetting.Thumbnail, UserCardDisplay.CardSide.Front, MyCard.Card.FrontFileName);
+                // MyCard?.SetDisplay(UserCardDisplay.DisplaySetting.Thumbnail, UserCardDisplay.CardSide.Front, MyCard.Card.FrontFileName);
                 HasCard = MyCard.Card.FrontFileId != Guid.Empty && MyCard.Card.FrontFileId != null;
                 ShowProfileImage = !HasCard;
                 OnPropertyChanged(nameof(MyCard));

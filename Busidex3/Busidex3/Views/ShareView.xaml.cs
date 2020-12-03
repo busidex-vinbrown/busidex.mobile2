@@ -1,43 +1,65 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Analytics;
+using Busidex.Models.Constants;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Busidex3.ViewModels;
 using Plugin.ContactService.Shared;
-using Plugin.InputKit.Shared.Controls;
 using Plugin.Messaging;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex3.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ShareView
 	{
         protected readonly ShareVM _viewModel;
         private readonly BusidexUser _currentUser;
         private const string SEND_TO_EMAIL_LABEL = "Send To Email";
         private const string SEND_TO_PHONE_LABEL = "Send To Phone Number";
+        
 
         public ShareView(ref UserCard uc)
 	    {
 	        InitializeComponent();
 	        App.AnalyticsManager.TrackScreen(ScreenName.Share);
 
-            var fileName = uc.DisplaySettings.CurrentFileName;
-            uc.DisplaySettings = new UserCardDisplay(fileName: fileName);
+            ToolbarItem item = new ToolbarItem
+            {
+                Text = "",
+                IconImageSource = ImageSource.FromResource("Busidex.Resources.Images.home.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly)
+            ,
+                Order = ToolbarItemOrder.Primary,
+                Priority = 0,
+            };
+
+            item.Clicked += Home_Clicked;
+
+            ToolbarItems.Add(item);
 
             _viewModel = new ShareVM
             {
                 MessageSent = false,
                 SelectedCard = uc
             };
-            
-	        rdoSendUsing.SelectedIndex = 0;
+            _viewModel.DisplaySettings = new UserCardDisplay(
+                DisplaySetting.Detail,
+                uc.Card.FrontOrientation == "H"
+                    ? CardOrientation.Horizontal
+                    : CardOrientation.Vertical,
+                uc.Card.FrontFileName,
+                uc.Card.FrontOrientation);
+            rdoSendUsing.SelectedIndex = 0;
 	        BindingContext = _viewModel;
+            
+            _viewModel.LoadContacts();
 
             _currentUser = Serialization.LoadData<BusidexUser>(Path.Combine (Serialization.LocalStorageFolder, StringResources.BUSIDEX_USER_FILE));
             var ownedCard = Serialization.LoadData<Card> (Path.Combine (Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
@@ -46,6 +68,11 @@ namespace Busidex3.Views
 
             txtSendTo.Placeholder = SEND_TO_PHONE_LABEL;
             txtSentFrom.Placeholder = "From";
+        }
+
+        private async void Home_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopToRootAsync();
         }
 
         protected override bool OnBackButtonPressed()
@@ -58,7 +85,8 @@ namespace Busidex3.Views
             }
             else
             {
-                App.LoadHomePage();
+                //App.LoadHomePage();
+                Navigation.PopToRootAsync();
             }
             
             return true;

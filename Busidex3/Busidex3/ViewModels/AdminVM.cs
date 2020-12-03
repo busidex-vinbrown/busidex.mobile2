@@ -1,10 +1,10 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;

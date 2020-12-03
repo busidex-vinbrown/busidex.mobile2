@@ -11,5 +11,9 @@
         public const string Edit = "Edit My Card";
         public const string Add = "Add My Card";
         public const string Admin = "Admin";
+        public const string BusidexPresentation = "Busidex Presentation";
+        public const string ManageAccount = "Manage Account";
+        public const string ContactUs = "Contact Busidex";
+        public const string Faq = "Help";
     }
 }

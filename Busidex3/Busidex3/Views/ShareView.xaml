@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              xmlns:inputkit="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             xmlns:converters="clr-namespace:Busidex3.Converters"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              ios:Page.UseSafeArea="true"
              x:Class="Busidex3.Views.ShareView"             
@@ -179,7 +179,7 @@
                     <RowDefinition Height="*"></RowDefinition>                    
                 </Grid.RowDefinitions>
                 <controls:CardImageHeader 
-                    BindingContext="{Binding SelectedCard}"
+                    BindingContext="{Binding DisplaySettings}"
                     Grid.Row="0"
                     Grid.Column="0">
                 </controls:CardImageHeader>

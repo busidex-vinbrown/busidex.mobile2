@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using Busidex3.DomainModels;
-using Busidex3.Services;
+using Busidex.Http;
+using Busidex.Models.Domain;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -12,8 +13,8 @@ namespace Busidex3.ViewModels
         private readonly SearchHttpService _searchHttpService = new SearchHttpService();
 
         public ImageSource BackgroundImage =>
-            ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
-                typeof(SearchVM).Assembly);
+            ImageSource.FromResource("Busidex.Resources.Images.cards_back2.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
 
         private List<UserCard> _searchResults;
         public List<UserCard> SearchResults

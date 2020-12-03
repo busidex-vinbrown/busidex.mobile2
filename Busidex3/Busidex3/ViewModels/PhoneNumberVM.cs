@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Busidex.Models.Domain;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using Busidex3.DomainModels;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -56,20 +56,20 @@ namespace Busidex3.ViewModels
                 _phoneNumberTypeNames = value;                
                 OnPropertyChanged(nameof(PhoneNumberTypeNames));
             }
-        }
+        }        
 
         public PhoneNumberVM(PhoneNumber p)
         {
-            SmsImageSource = ImageSource.FromResource("Busidex3.Resources.textmessage.png");
-            PhoneImageSource = ImageSource.FromResource("Busidex3.Resources.phone.png");
+            SmsImageSource = ImageSource.FromResource("Busidex.Resources.Images.textmessage.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            PhoneImageSource = ImageSource.FromResource("Busidex.Resources.Images.phone.png", typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
 
             PhoneNumberId = p.PhoneNumberId;
             Number = p.Number;
             var typeNames = getPhoneNumberTypes().Select(t => t.Name).ToList();
             PhoneNumberTypeNames = new ObservableCollection<string>(typeNames);
             SelectedPhoneNumberType = p.PhoneNumberType?.Name;
-            DeletePhoneImage = ImageSource.FromResource("Busidex3.Resources.red_minus.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+            DeletePhoneImage = ImageSource.FromResource("Busidex.Resources.Images.red_minus.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
         }
 
         public PhoneNumberType GetSelectedPhoneNumberType()

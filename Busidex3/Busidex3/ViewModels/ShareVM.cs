@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Busidex3.DomainModels;
-using Busidex3.Models;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Microsoft.AppCenter.Crashes;
 using Plugin.ContactService.Shared;
 using Xamarin.Forms;
@@ -19,9 +19,21 @@ namespace Busidex3.ViewModels
         {
             SendMethod.Add(0, "Text");
             SendMethod.Add(1, "Email");
-            SuccessImage = ImageSource.FromResource("Busidex3.Resources.checkmark.png",
-                typeof(ShareVM).GetTypeInfo().Assembly);
+            SuccessImage = ImageSource.FromResource("Busidex.Resources.Images.checkmark.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
 
+            
+            ShowContactButton = ContactGroups.Count > 0;
+            HideContacts = true;
+            ShowContacts = false;
+            ShowContact = false;
+
+            ContactsImage = ImageSource.FromResource("Busidex.Resources.Images.contacts_64x64.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+        }
+
+        public void LoadContacts()
+        {
             if (App.ContactGroups.Count == 0)
             {
                 App.OnContactsLoaded += mergeMyBusidexWithContacts;
@@ -38,14 +50,10 @@ namespace Busidex3.ViewModels
             {
                 mergeMyBusidexWithContacts();
             }
-
-            HideContacts = true;
-            ShowContacts = false;
-            ShowContact = false;
-
-            ContactsImage = ImageSource.FromResource("Busidex3.Resources.contacts_64x64.png",
-                typeof(CardVM).GetTypeInfo().Assembly);
+            ShowContactButton = ContactGroups.Count > 0;
         }
+
+        public UserCardDisplay DisplaySettings { get; set; }
 
         private async void mergeMyBusidexWithContacts()
         {
@@ -95,7 +103,10 @@ namespace Busidex3.ViewModels
                     ContactGroups = new ObservableCollection<ContactList>(subset);
                 }
 
-                ShowContactButton = ContactGroups.Count > 0;
+                await Device.InvokeOnMainThreadAsync(() =>
+                {
+                    ShowContactButton = ContactGroups.Count > 0;
+                });
 
                 App.OnContactsLoaded -= mergeMyBusidexWithContacts;
             }

@@ -1,7 +1,9 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -33,8 +35,8 @@ namespace Busidex3.ViewModels
 
         public new ImageSource BackgroundImage {
             get {
-                return ImageSource.FromResource("Busidex3.Resources.logo4.png",
-                    typeof(SearchVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.logo4.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 

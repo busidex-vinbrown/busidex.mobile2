@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Busidex3.DomainModels;
+using Busidex.Models.Domain;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -9,18 +9,20 @@ namespace Busidex3.ViewModels
     {
         public CardMenuVM()
         {
-            EditCardImage = ImageSource.FromResource("Busidex3.Resources.editimage.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
-            VisibilityImage = ImageSource.FromResource("Busidex3.Resources.visibility_64x64.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
-            ContactInfoImage = ImageSource.FromResource("Busidex3.Resources.contacts_64x64.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
-            SearchInfoImage = ImageSource.FromResource("Busidex3.Resources.search_64x64.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
-            TagsImage = ImageSource.FromResource("Busidex3.Resources.tags_64x64.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
-            AddressInfoImage = ImageSource.FromResource("Busidex3.Resources.maps.png",
-                typeof(CardMenuVM).GetTypeInfo().Assembly);
+            EditCardImage = ImageSource.FromResource("Busidex.Resources.Images.editimage.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            VisibilityImage = ImageSource.FromResource("Busidex.Resources.Images.visibility_64x64.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            ContactInfoImage = ImageSource.FromResource("Busidex.Resources.Images.contacts_64x64.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            SearchInfoImage = ImageSource.FromResource("Busidex.Resources.Images.search_64x64.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            TagsImage = ImageSource.FromResource("Busidex.Resources.Images.tags_64x64.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            AddressInfoImage = ImageSource.FromResource("Busidex.Resources.Images.maps.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            ExternalLinksImage = ImageSource.FromResource("Busidex.Resources.Images.externallink.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
         }
         
         public void CheckHasCard()
@@ -51,6 +53,16 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(ImageSize));
             }
         }
+
+        private ImageSource _externalLinksImage { get; set; }
+        public ImageSource ExternalLinksImage {
+            get => _externalLinksImage;
+            set {
+                _externalLinksImage = value;
+                OnPropertyChanged(nameof(ExternalLinksImage));
+            }
+        }
+
         private ImageSource _editCardImage { get; set; }
         public ImageSource EditCardImage { get => _editCardImage;
             set

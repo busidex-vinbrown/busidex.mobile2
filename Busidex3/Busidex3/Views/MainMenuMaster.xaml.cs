@@ -1,6 +1,7 @@
 ﻿using System;
-using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.SharedUI;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -34,22 +35,29 @@ namespace Busidex3.Views
 
             _viewModel = new MainMenuMasterVM {IsAdmin = false};
 
-            BindingContext = _viewModel;            
+            BindingContext = _viewModel;
+            //_viewModel.DisplaySettings = new UserCardDisplay(
+            //    UserCardDisplay.DisplaySetting.Detail,
+            //    _viewModel.MyCard.Card.FrontOrientation == "H"
+            //        ? UserCardDisplay.CardOrientation.Horizontal
+            //        : UserCardDisplay.CardOrientation.Vertical,
+            //    _viewModel.MyCard.Card.FrontFileName,
+            //    _viewModel.MyCard.Card.FrontOrientation);
 
             ctrlProfileImage.OnCardImageClicked += CtrlProfileImage_OnCardImageClicked;
         }
 
-        private void CtrlProfileImage_OnCardImageClicked(UserCard uc)
+        private void CtrlProfileImage_OnCardImageClicked(IUserCardDisplay ucd)
         {
             OnProfileClicked?.Invoke();
         }
 
-        public void RefreshProfile()
-        {
-            _viewModel.RefreshProfile();
-            _viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
-            _viewModel.IsAdmin = Security.CurrentUser?.IsAdmin;
-        }
+        //public void RefreshProfile()
+        //{
+        //    //_viewModel.RefreshProfile();
+        //    //_viewModel.EditTitle = _viewModel.HasCard ? ViewNames.Edit : ViewNames.Add;
+        //    //_viewModel.IsAdmin = Security.CurrentUser?.IsAdmin;
+        //}
 
         private async void BtnLogout_OnClicked(object sender, EventArgs e)
         {

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             xmlns:converters="clr-namespace:Busidex3.Converters"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
              x:Class="Busidex3.Views.EditCard.EditCardImageView">
     <ContentPage.Resources>
         <converters:IsCardSideBackConverter x:Key="IsCardSideBackConverter" />

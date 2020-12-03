@@ -1,4 +1,5 @@
 ﻿using System;
+using Busidex.Resources.String;
 using Busidex3.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -68,7 +69,9 @@ namespace Busidex3.Views
 
         private void BtnCreate_Clicked(object sender, EventArgs e)
         {
-            App.LoadProfilePage();
-        }
+			var page = new MyProfileView();
+			Navigation.PushAsync(page);
+			NavigationPage.SetHasNavigationBar(page, false);
+		}
     }
 }

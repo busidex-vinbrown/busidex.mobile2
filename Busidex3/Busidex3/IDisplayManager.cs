@@ -1,10 +1,10 @@
-﻿using Busidex3.ViewModels;
+﻿using Busidex.Models.Constants;
 
 namespace Busidex3
 {
     public interface IDisplayManager
     {
         IDisplayManager GetInstance();
-        void SetOrientation(UserCardDisplay.CardOrientation orientation);
+        void SetOrientation(CardOrientation orientation);
     }
 }

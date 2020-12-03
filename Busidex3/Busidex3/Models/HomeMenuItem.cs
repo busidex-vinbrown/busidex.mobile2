@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Busidex3.Models
+﻿namespace Busidex3.Models
 {
     public enum MenuItemType
     {

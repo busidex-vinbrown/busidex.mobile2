@@ -1,5 +1,5 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services;
+﻿using Busidex.Http;
+using Busidex.Models.Domain;
 
 namespace Busidex3.ViewModels
 {

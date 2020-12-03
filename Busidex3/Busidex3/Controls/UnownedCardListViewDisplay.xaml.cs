@@ -1,4 +1,4 @@
-﻿using Busidex3.DomainModels;
+﻿using Busidex.Models.Domain;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

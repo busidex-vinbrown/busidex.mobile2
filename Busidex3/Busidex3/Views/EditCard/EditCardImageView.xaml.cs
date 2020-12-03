@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Constants;
 using Busidex3.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -17,16 +18,25 @@ namespace Busidex3.Views.EditCard
 	public partial class EditCardImageView
 	{
         protected CardVM _viewModel { get; set; }
+        public UserCardDisplay DisplaySettings { get; set; }
 
-		public EditCardImageView (ref CardVM vm)
+        public EditCardImageView (ref CardVM vm)
 		{
 			InitializeComponent ();
 
-            var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
+            // var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
 
             Title = "Choose your card picture";
 
-            vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
+            // vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
+            DisplaySettings = new UserCardDisplay(
+                DisplaySetting.Detail,
+                vm.SelectedCard.Card.FrontOrientation == "H"
+                    ? CardOrientation.Horizontal
+                    : CardOrientation.Vertical,
+                vm.SelectedCard.Card.FrontFileName,
+                vm.SelectedCard.Card.FrontOrientation);
+
             _viewModel = vm;
             BindingContext = _viewModel;
 
@@ -60,7 +70,7 @@ namespace Busidex3.Views.EditCard
         {
             btnFront.Style = (Style) Application.Current.Resources["toggleButtonOn"];
             btnBack.Style = (Style) Application.Current.Resources["toggleButtonOff"];
-            _viewModel.SelectedSide = UserCardDisplay.CardSide.Front;
+            _viewModel.SelectedSide = CardSide.Front;
             
             setControls();
         }
@@ -69,7 +79,7 @@ namespace Busidex3.Views.EditCard
         {
             btnFront.Style = (Style) Application.Current.Resources["toggleButtonOff"];
             btnBack.Style = (Style) Application.Current.Resources["toggleButtonOn"];
-            _viewModel.SelectedSide = UserCardDisplay.CardSide.Back;
+            _viewModel.SelectedSide = CardSide.Back;
                                     
             setControls();
         }
@@ -222,7 +232,7 @@ namespace Busidex3.Views.EditCard
                         {
                             imageFile = img;
                             //imageView.Source = ImageSource.FromFile(img);
-                            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                            if (_viewModel.SelectedSide == CardSide.Front)
                             {
                                 imgSelectedFrontImage.Source = ImageSource.FromFile(imageFile);
                             }
@@ -242,7 +252,7 @@ namespace Busidex3.Views.EditCard
                             }
 
                             var s = Convert.ToBase64String(b);
-                            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+                            if (_viewModel.SelectedSide == CardSide.Front)
                             {
                                 _viewModel.EncodedFrontCardImage = s != string.Empty ? s : null;
                                 _viewModel.FrontFileId = s != string.Empty ? Guid.NewGuid() : Guid.Empty;
@@ -311,7 +321,7 @@ namespace Busidex3.Views.EditCard
             var backOrientation = _viewModel.SelectedCard.Card.BackOrientation;
             var selectedOrientation = string.Empty;
 
-            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Front)
+            if (_viewModel.SelectedSide == CardSide.Front)
             {
                 selectedOrientation = _viewModel.FrontOrientation;
                 frmSelectedCardImage.HeightRequest = selectedOrientation == "H"
@@ -327,7 +337,7 @@ namespace Busidex3.Views.EditCard
                     ? hImageWidth
                     : vImageWidth;
             }
-            if (_viewModel.SelectedSide == UserCardDisplay.CardSide.Back)
+            if (_viewModel.SelectedSide == CardSide.Back)
             {
                 selectedOrientation = _viewModel.BackOrientation;
                 frmSelectedCardImage.HeightRequest = selectedOrientation == "H"

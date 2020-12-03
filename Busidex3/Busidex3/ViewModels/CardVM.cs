@@ -6,10 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Analytics;
+using Busidex.Models.Constants;
+using Busidex.Models.Domain;
+using Busidex.Models.Dto;
+using Busidex.Resources.String;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -28,6 +31,8 @@ namespace Busidex3.ViewModels
         private readonly ActivityHttpService _activityHttpService = new ActivityHttpService();
         private readonly List<UserCard> _myBusidex;
 
+        public UserCardDisplay DisplaySettings { get; set; }
+
         public UserCard SelectedCard { get; }
 
         #region Observable Properties
@@ -44,6 +49,53 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(Tags));
             }
         }
+
+        private ObservableCollection<ExternalLink> _externalLinks;
+        public ObservableCollection<ExternalLink> ExternalLinks {
+            get => _externalLinks;
+            set {
+                _externalLinks = value;
+                OnPropertyChanged(nameof(ExternalLinks));
+            }
+        }
+
+        #region External Links
+        private string _fbLink;
+        public string FBLink {
+            get => _fbLink;
+            set {
+                _fbLink = value;
+                OnPropertyChanged(nameof(FBLink));
+            }
+        }
+
+        private string _instagLink;
+        public string InstagLink {
+            get => _instagLink;
+            set {
+                _fbLink = value;
+                OnPropertyChanged(nameof(InstagLink));
+            }
+        }
+
+        private string _linkedinLink;
+        public string LinkedinLink {
+            get => _linkedinLink;
+            set {
+                _linkedinLink = value;
+                OnPropertyChanged(nameof(LinkedinLink));
+            }
+        }
+
+        private string _twitterLink;
+        public string TwitterLink {
+            get => _twitterLink;
+            set {
+                _twitterLink = value;
+                OnPropertyChanged(nameof(TwitterLink));
+            }
+        }
+        #endregion
 
         private string _name;
         public string Name
@@ -125,7 +177,7 @@ namespace Busidex3.ViewModels
                 OnPropertyChanged(nameof(AddPhoneImage));
             }
         }
-
+        
         public bool ShowAddButton => !SelectedCard.Card.ExistsInMyBusidex;
         public bool ShowRemoveButton => SelectedCard.Card.ExistsInMyBusidex;
 
@@ -270,6 +322,42 @@ namespace Busidex3.ViewModels
         public string EncodedFrontCardImage { get; set; }
         public string EncodedBackCardImage { get; set; }
 
+        private ImageSource _fbImage { get; set; }
+        public ImageSource FbImage {
+            get => _fbImage;
+            set {
+                _fbImage = value;
+                OnPropertyChanged(nameof(FbImage));
+            }
+        }
+
+        private ImageSource _linkedinImage { get; set; }
+        public ImageSource LinkedinImage {
+            get => _linkedinImage;
+            set {
+                _linkedinImage = value;
+                OnPropertyChanged(nameof(LinkedinImage));
+            }
+        }
+
+        private ImageSource _instagImage { get; set; }
+        public ImageSource InstagImage {
+            get => _instagImage;
+            set {
+                _instagImage = value;
+                OnPropertyChanged(nameof(InstagImage));
+            }
+        }
+
+        private ImageSource _twitterImage { get; set; }
+        public ImageSource TwitterImage {
+            get => _twitterImage;
+            set {
+                _twitterImage = value;
+                OnPropertyChanged(nameof(TwitterImage));
+            }
+        }
+
         private ImageSource _emailImage { get; set; }
         public ImageSource EmailImage { get => _emailImage;
             set
@@ -333,8 +421,8 @@ namespace Busidex3.ViewModels
             }
         }
 
-        private UserCardDisplay.CardSide _selectedSide { get; set; }
-        public UserCardDisplay.CardSide SelectedSide { get => _selectedSide;
+        private CardSide _selectedSide { get; set; }
+        public CardSide SelectedSide { get => _selectedSide;
             set
             {
                 _selectedSide = value;
@@ -355,15 +443,15 @@ namespace Busidex3.ViewModels
         }
 #endregion
 
-        public CardVM(ref UserCard uc, ref List<UserCard> myBusidex, UserCardDisplay.DisplaySetting setting = UserCardDisplay.DisplaySetting.Detail)
+        public CardVM(ref UserCard uc, ref List<UserCard> myBusidex, DisplaySetting setting = DisplaySetting.Detail)
         {
             SelectedCard = uc;
 
-            SelectedCard.SetDisplay(
-                setting, 
-                UserCardDisplay.CardSide.Front, 
-                StringResources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName
-                );
+            //SelectedCard.SetDisplay(
+            //    setting, 
+            //    UserCardDisplay.CardSide.Front, 
+            //    StringResources.THUMBNAIL_FILE_NAME_PREFIX + SelectedCard.Card.FrontFileName
+            //    );
 
             var pn = new ObservableRangeCollection<PhoneNumberVM>();
             pn.AddRange(uc.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p)));
@@ -373,15 +461,25 @@ namespace Busidex3.ViewModels
             
             AllowSave = true;
 
-            EmailImage = ImageSource.FromResource("Busidex3.Resources.email.png",
-                typeof(CardVM).GetTypeInfo().Assembly);
-            UrlImage = ImageSource.FromResource("Busidex3.Resources.browser.png",
-                typeof(CardVM).GetTypeInfo().Assembly);
-            AddPhoneImage = ImageSource.FromResource("Busidex3.Resources.add-plus.png",
-                typeof(CardVM).GetTypeInfo().Assembly);
+            EmailImage = ImageSource.FromResource("Busidex.Resources.Images.email.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            UrlImage = ImageSource.FromResource("Busidex.Resources.Images.browser.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            AddPhoneImage = ImageSource.FromResource("Busidex.Resources.Images.add-plus.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
 
-            CameraImage = ImageSource.FromResource("Busidex3.Resources.editimage.png",
-                typeof(CardVM).GetTypeInfo().Assembly);
+            CameraImage = ImageSource.FromResource("Busidex.Resources.Images.editimage.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+
+            FbImage = ImageSource.FromResource("Busidex.Resources.Images.fb.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            InstagImage = ImageSource.FromResource("Busidex.Resources.Images.instagram.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            LinkedinImage = ImageSource.FromResource("Busidex.Resources.Images.linkedin.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+            TwitterImage = ImageSource.FromResource("Busidex.Resources.Images.twitter.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
+
 
             SelectedCardFrontImage = SelectedCard.Card.FrontFileName;
             SelectedCardBackImage = SelectedCard.Card.BackFileName;
@@ -395,9 +493,30 @@ namespace Busidex3.ViewModels
             Name = SelectedCard.Card.Name;
             CompanyName = SelectedCard.Card.CompanyName;
             initTagDisplay();
+            ExternalLinks = new ObservableCollection<ExternalLink>();
+            foreach (var link in SelectedCard.Card.ExternalLinks)
+            {
+                ExternalLinks.Add(link);
+            }
+            if (ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 1) != null)
+            {
+                FBLink = ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 1).Link;
+            }
+            if (ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 2) != null)
+            {
+                LinkedinLink = ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 2).Link;
+            }
+            if (ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 3) != null)
+            {
+                InstagLink = ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 3).Link;
+            }
+            if (ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 4) != null)
+            {
+                TwitterLink = ExternalLinks.FirstOrDefault(x => x.ExternalLinkTypeId == 4).Link;
+            }
             FrontOrientation = SelectedCard.Card.FrontOrientation;
             BackOrientation = SelectedCard.Card.BackOrientation;
-            SelectedSide = UserCardDisplay.CardSide.Front;
+            SelectedSide = CardSide.Front;
             FrontFileId = SelectedCard.Card.FrontFileId.GetValueOrDefault();
             BackFileId = SelectedCard.Card.BackFileId.GetValueOrDefault();
             HasEmail = !string.IsNullOrEmpty(SelectedCard.Card.Email);
@@ -496,18 +615,25 @@ namespace Busidex3.ViewModels
             App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.EmailSent, SelectedCard.Card.Email);
         }
 
-        public async void LaunchBrowser()
+        public async Task<bool> LaunchBrowser(string _url)
         {
             string url;
-            if (string.IsNullOrEmpty(SelectedCard.Card.Url)) return;
+            if (string.IsNullOrEmpty(_url)) return false;
 
-            url = !SelectedCard.Card.Url.StartsWith ("http", StringComparison.Ordinal) 
-                ? "http://" + SelectedCard.Card.Url 
-                : SelectedCard.Card.Url;
-            await Launcher.OpenAsync(new Uri(url));
-
-            await _activityHttpService.SaveActivity ((long)EventSources.Website, SelectedCard.CardId);
-            App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.WebPageViewed, SelectedCard.Card.Url);
+            url = !_url.StartsWith ("http", StringComparison.Ordinal) 
+                ? "http://" + _url
+                : _url;
+            try
+            {
+                await Launcher.OpenAsync(new Uri(url));
+                await _activityHttpService.SaveActivity((long)EventSources.Website, SelectedCard.CardId);
+                App.AnalyticsManager.TrackEvent(EventCategory.UserInteractWithCard, EventAction.WebPageViewed, _url);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public async void RemoveFromMyBusidex()
@@ -720,6 +846,69 @@ namespace Busidex3.ViewModels
                 App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
             }
             
+            AllowSave = true;
+
+            return result;
+        }
+
+        public async Task<bool> SaveExternalLinks()
+        {
+            AllowSave = false;
+
+            var linksModel = new CardLinksModel()
+            {
+                CardId = SelectedCard.CardId,
+                Links = new List<ExternalLink>()
+            };
+            if (!string.IsNullOrEmpty(FBLink))
+            {
+                linksModel.Links.Add(new ExternalLink
+                {
+                    ExternalLinkTypeId = 1,
+                    Link = FBLink,
+                    CardId = SelectedCard.CardId
+                });
+            }
+            if (!string.IsNullOrEmpty(LinkedinLink))
+            {
+                linksModel.Links.Add(new ExternalLink
+                {
+                    ExternalLinkTypeId = 2,
+                    Link = LinkedinLink,
+                    CardId = SelectedCard.CardId
+                });
+            }
+            if (!string.IsNullOrEmpty(InstagLink))
+            {
+                linksModel.Links.Add(new ExternalLink
+                {
+                    ExternalLinkTypeId = 3,
+                    Link = InstagLink,
+                    CardId = SelectedCard.CardId
+                });
+            }
+            if (!string.IsNullOrEmpty(TwitterLink))
+            {
+                linksModel.Links.Add(new ExternalLink
+                {
+                    ExternalLinkTypeId = 4,
+                    Link = TwitterLink,
+                    CardId = SelectedCard.CardId
+                });
+            }
+            var result = await _cardHttpService.UpdateCardLinks(linksModel);
+            if (result)
+            {
+                var resp = await _cardHttpService.GetCardById(linksModel.CardId);
+                SelectedCard.Card.ExternalLinks = new List<ExternalLink>(resp.Model.ExternalLinks);
+
+                SaveToFile();
+
+                await App.LoadOwnedCard();
+
+                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            }
+
             AllowSave = true;
 
             return result;

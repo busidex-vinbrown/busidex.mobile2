@@ -1,14 +1,11 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Models.Dto;
 using Busidex3.ViewModels;
-using Plugin.InputKit.Shared.Controls;
 using Plugin.Messaging;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;

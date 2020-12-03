@@ -1,4 +1,6 @@
-﻿using Busidex3.DomainModels;
+﻿using Busidex.Models.Domain;
+using Busidex.Resources.String;
+using Busidex3.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

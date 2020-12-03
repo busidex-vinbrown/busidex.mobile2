@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Analytics;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

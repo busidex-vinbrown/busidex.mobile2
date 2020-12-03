@@ -1,5 +1,6 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.Services;
+﻿using Busidex.Http;
+using Busidex.Models.Constants;
+using Busidex.Models.Domain;
 using System.Threading.Tasks;
 
 namespace Busidex3.ViewModels
@@ -40,6 +41,21 @@ namespace Busidex3.ViewModels
         {
             var service = new CardHttpService();
             return await service.UpdateCardOwner(cardId, ownerId);
+        }
+
+        public UserCardDisplay DisplaySettings { get; set; }
+
+        public QuickShareVM(UserCard uc)
+        {
+            SelectedCard = uc;
+
+            DisplaySettings = new UserCardDisplay(
+                DisplaySetting.Detail,
+                uc.Card.FrontOrientation == "H"
+                    ? CardOrientation.Horizontal
+                    : CardOrientation.Vertical,
+                uc.Card.FrontFileName,
+                uc.Card.FrontOrientation);
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+﻿using System.Reflection;
+using System.Threading.Tasks;
+using Busidex.Http;
+using Busidex.Http.Utils;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -17,8 +18,8 @@ namespace Busidex3.ViewModels
             Email = string.Empty;
             Password = string.Empty;
 
-            Logo = ImageSource.FromResource("Busidex3.Resources.busidex_icon_180x180.png",
-                typeof(LoginVM).GetType().Assembly);
+            Logo = ImageSource.FromResource("Busidex.Resources.Images.busidex_icon_180x180.png",
+                typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
         }
 
         private ImageSource _logo { get; set; }

@@ -1,8 +1,9 @@
-﻿//using Android.Content;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http.Utils;
+using Busidex.Resources.String;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace Busidex3.Converters
@@ -36,7 +37,7 @@ namespace Busidex3.Converters
             {
                 return ImageSource.FromUri(new Uri(image));
             }
-            return ImageSource.FromResource("Busidex3.Resources." + DEFAULT_PROFILE);
+            return ImageSource.FromResource("Busidex.Resources.Images." + DEFAULT_PROFILE, typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

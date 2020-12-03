@@ -15,6 +15,10 @@
             <Setter Property="BackgroundColor" Value="#03A9F4"/>
             <Setter Property="TextColor" Value="White" />
         </Style>
+        <Style x:Key="secondaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#ffffff"/>
+            <Setter Property="TextColor" Value="#03A9F4" />
+        </Style>
         <Style x:Key="toggleButtonOn" TargetType="Button">
             <Setter Property="BackgroundColor" Value="#004d99"/>
             <Setter Property="TextColor" Value="White" />

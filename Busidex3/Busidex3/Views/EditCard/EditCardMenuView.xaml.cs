@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services.Utils;
+using Busidex.Http.Utils;
+using Busidex.Models.Analytics;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using Busidex3.ViewModels;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +23,7 @@ namespace Busidex3.Views.EditCard
 
         private async void Init(UserCard uc)
         {
-            if (uc != null)
+            if (uc != null && _viewModel == null)
             {
                 try
                 {
@@ -31,7 +32,7 @@ namespace Busidex3.Views.EditCard
                         SelectedCard = uc,
                         ImageSize = 65
                     };
-                    uc.DisplaySettings = new UserCardDisplay(fileName: uc.Card.FrontFileName);
+                    // uc.DisplaySettings = new UserCardDisplay(fileName: uc.Card.FrontFileName);
                     _viewModel.CheckHasCard();
                     BindingContext = _viewModel;
                     _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
@@ -109,9 +110,16 @@ namespace Busidex3.Views.EditCard
             await Navigation.PushAsync(new EditAddressView(ref vm));
         }
 
+        private async void ExternalLinksTapped(object sender, EventArgs e)
+        {
+            var vm = GetViewModel();
+            await Navigation.PushAsync(new EditExternalLinksView(ref vm));
+        }
+
         protected override bool OnBackButtonPressed()
         {
-            App.LoadHomePage();
+            //App.LoadHomePage();
+            Navigation.PopToRootAsync();
             return true;
         }
     }

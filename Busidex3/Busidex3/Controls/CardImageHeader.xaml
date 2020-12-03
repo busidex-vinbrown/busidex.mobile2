@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Busidex3.Controls.CardImageHeader"
-             xmlns:converters="clr-namespace:Busidex3.Converters"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
              IsVisible="{Binding DisplaySettings.ShowCard}">
     <ContentView.Resources>
         <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
@@ -20,13 +20,13 @@
                 VerticalOptions="Start"
                 HorizontalOptions="Center"
                 Padding="1"
-                HeightRequest="{Binding DisplaySettings.VFrameHeight}"
-                WidthRequest="{Binding DisplaySettings.VFrameWidth}"
-                IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                <Image Source="{Binding DisplaySettings.CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=DisplaySettings.CurrentFileName}" 
+                HeightRequest="{Binding VFrameHeight}"
+                WidthRequest="{Binding VFrameWidth}"
+                IsVisible="{Binding FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=FrontOrientation}">
+                <Image Source="{Binding CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=CurrentFileName}" 
                        Aspect="Fill"
-                       HeightRequest="{Binding DisplaySettings.VImageHeight}"
-                       WidthRequest="{Binding DisplaySettings.VImageWidth}">                    
+                       HeightRequest="{Binding VImageHeight}"
+                       WidthRequest="{Binding VImageWidth}">                    
                 </Image>
             </Frame>
             <Frame 
@@ -34,13 +34,13 @@
                 VerticalOptions="Start"
                 HorizontalOptions="Center"
                 Padding="1"
-                HeightRequest="{Binding DisplaySettings.HFrameHeight}"
-                WidthRequest="{Binding DisplaySettings.HFrameWidth}"
-                IsVisible="{Binding Card.FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=Card.FrontOrientation}">
-                <Image Source="{Binding DisplaySettings.CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=DisplaySettings.CurrentFileName}" 
+                HeightRequest="{Binding HFrameHeight}"
+                WidthRequest="{Binding HFrameWidth}"
+                IsVisible="{Binding FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=FrontOrientation}">
+                <Image Source="{Binding CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=CurrentFileName}" 
                        Aspect="Fill"
-                       HeightRequest="{Binding DisplaySettings.HImageHeight}"
-                       WidthRequest="{Binding DisplaySettings.HImageWidth}">
+                       HeightRequest="{Binding HImageHeight}"
+                       WidthRequest="{Binding HImageWidth}">
                     
                 </Image>
             </Frame>

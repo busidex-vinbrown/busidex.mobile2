@@ -1,5 +1,6 @@
-﻿using Busidex3.DomainModels;
+﻿using Busidex.Models.Domain;
 using System.Collections.Generic;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace Busidex3.ViewModels
@@ -30,8 +31,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.cards_back2.png",
-                    typeof(SearchVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.cards_back2.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
     }

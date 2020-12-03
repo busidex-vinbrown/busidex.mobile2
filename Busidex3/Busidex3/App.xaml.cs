@@ -4,10 +4,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
 using Busidex3.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,12 +12,17 @@ using Microsoft.AppCenter.Crashes;
 using Busidex3.ViewModels;
 using BranchXamarinSDK;
 using Busidex3.Views.EditCard;
-using Busidex3.Models;
 using System.Linq;
 using Newtonsoft.Json;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Device = Xamarin.Forms.Device;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Http;
+using Busidex.Models.Analytics;
+using Busidex.Models.Dto;
+using Busidex.Resources.String;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Busidex3
@@ -42,7 +43,7 @@ namespace Busidex3
         // public static event OnAppLoadedResult OnAppLoaded;
         public static List<ContactList> ContactGroups { get; set; } = new List<ContactList>();
 
-        public static bool IsProfessional { get; set; }
+        // public static bool IsProfessional { get; set; }
 
         public App()
         {
@@ -50,7 +51,9 @@ namespace Busidex3
 
             InitSession();
 
-            MainPage = new MainMenu(); 
+            // MainPage = new MainMenu(); 
+            MainPage = new NavigationPage(new HomeMenuView());
+            NavigationPage.SetHasNavigationBar(MainPage, false);
         }
 
         public static void InitSession()
@@ -60,7 +63,7 @@ namespace Busidex3
             if (string.IsNullOrEmpty(Security.AuthToken)) return;
 
             Task.Factory.StartNew(async () => await Security.LoadUser());
-            Task.Factory.StartNew(async () => await LoadOwnedCard());
+            // Task.Factory.StartNew(async () => await LoadOwnedCard());
             refreshOldData();
         }
 
@@ -90,7 +93,7 @@ namespace Busidex3
 
         public static void LoadContactList()
         {
-            CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Contacts)
+            CrossPermissions.Current.CheckPermissionStatusAsync<ContactsPermission>()
                 .ContinueWith(async (status) =>
                 {
                     if (await status != PermissionStatus.Granted)
@@ -100,7 +103,7 @@ namespace Busidex3
                                 Permission.Contacts);
                         if (shouldShow || true)
                         {
-                            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Contacts);
+                            await CrossPermissions.Current.RequestPermissionAsync<ContactsPermission>();
                         }
                     }
                 });
@@ -216,19 +219,20 @@ namespace Busidex3
             return jpgFilename;
         }
 
-        public static void LoadProfilePage()
-        {
-            var needsSetup = string.IsNullOrEmpty(Security.AuthToken);
-            var page = (Page)Activator.CreateInstance(typeof(MyProfileView));
+        //public static void LoadProfilePage()
+        //{
 
-            var masterDetailRootPage = (MainMenu)Current.MainPage;
-            masterDetailRootPage.Detail = needsSetup 
-                ? page
-                : new NavigationPage(page);
-            masterDetailRootPage.IsPresented = false;
-            masterDetailRootPage.IsGestureEnabled = !needsSetup;
-            NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, !needsSetup);
-        }
+            //var needsSetup = string.IsNullOrEmpty(Security.AuthToken);
+            //var page = (Page)Activator.CreateInstance(typeof(MyProfileView));
+
+            //var masterDetailRootPage = (MainMenu)Current.MainPage;
+            //masterDetailRootPage.Detail = needsSetup 
+            //    ? page
+            //    : new NavigationPage(page);
+            //masterDetailRootPage.IsPresented = false;
+            //masterDetailRootPage.IsGestureEnabled = !needsSetup;
+            //NavigationPage.SetHasNavigationBar(page, !needsSetup);
+        //}
 
         public static void LoadStartupPage()
         {
@@ -244,41 +248,40 @@ namespace Busidex3
         public static void Reload()
         {
             InitSession();
-            Current.MainPage = new MainMenu();
+            // Current.MainPage = new MainMenu();
+            Current.MainPage = new NavigationPage(new HomeMenuView());
         }
 
-        public static void LoadLoginPage()
-        {
-            var page = (Page)Activator.CreateInstance(typeof(Login));
+        //public static void LoadLoginPage()
+        //{
+        //    var page = (Page)Activator.CreateInstance(typeof(Login));
 
-            var masterDetailRootPage = (MainMenu)Current.MainPage;
-            masterDetailRootPage.Detail = page;
-            masterDetailRootPage.IsPresented = false;
-            masterDetailRootPage.IsGestureEnabled = false;
-            NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
-        }
+        //    var masterDetailRootPage = (MainMenu)Current.MainPage;
+        //    masterDetailRootPage.Detail = page;
+        //    masterDetailRootPage.IsPresented = false;
+        //    masterDetailRootPage.IsGestureEnabled = false;
+        //    NavigationPage.SetHasNavigationBar(masterDetailRootPage.Detail, false);
+        //}
 
         public static void LoadMyBusidexPage()
         {
             var page = (Page)Activator.CreateInstance(typeof(MyBusidexView));
             page.Title = ViewNames.MyBusidex;
 
-            var masterDetailRootPage = (MainMenu)Current.MainPage;
-            masterDetailRootPage.Detail = new NavigationPage(page);
-            masterDetailRootPage.IsPresented = false;
-            masterDetailRootPage.IsGestureEnabled = true;
+            Current.MainPage.Navigation.PushAsync(page);
         }
 
-        public static void LoadHomePage()
-        {
-            var page = (Page)Activator.CreateInstance(typeof(HomeMenuView));
-            page.Title = ViewNames.Home;
+        //public static void LoadHomePage()
+        //{
+            
+            //var page = (Page)Activator.CreateInstance(typeof(HomeMenuView));
+            //page.Title = ViewNames.Home;
 
-            var masterDetailRootPage = (MainMenu)Current.MainPage;
-            masterDetailRootPage.Detail = new NavigationPage(page);
-            masterDetailRootPage.IsPresented = false;
-            masterDetailRootPage.IsGestureEnabled = true;
-        }
+            //var masterDetailRootPage = (MainMenu)Current.MainPage;
+            //masterDetailRootPage.Detail = new NavigationPage(page);
+            //masterDetailRootPage.IsPresented = false;
+            //masterDetailRootPage.IsGestureEnabled = true;
+        //}
 
         public static void LoadCardMenuPage(ref UserCard card)
         {
@@ -304,10 +307,10 @@ namespace Busidex3
                     ? new Card(myCardResponse.Model)
                     : null;
 
-                IsProfessional = card?.FrontFileId != Guid.Empty && card?.FrontFileId != null;
+                //IsProfessional = card?.FrontFileId != Guid.Empty && card?.FrontFileId != null;
 
                 var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
-                Serialization.SaveResponse (Newtonsoft.Json.JsonConvert.SerializeObject (card), path);
+                Serialization.SaveResponse (JsonConvert.SerializeObject (card), path);
 
                 var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileId + ".jpg";
                 var fName = useThumbnail 
@@ -373,7 +376,7 @@ namespace Busidex3
         {
             var response = await _organizationsHttpService.GetMyOrganizations();
             var list = response != null
-                ? Newtonsoft.Json.JsonConvert.SerializeObject(response.Model)
+                ? JsonConvert.SerializeObject(response.Model)
                 : string.Empty;
 
             Serialization.SaveResponse(list, StringResources.MY_ORGANIZATIONS_FILE);

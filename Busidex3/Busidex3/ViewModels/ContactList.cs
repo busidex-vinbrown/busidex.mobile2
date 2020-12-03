@@ -1,7 +1,7 @@
 ﻿using Plugin.ContactService.Shared;
 using System.Collections.Generic;
 
-namespace Busidex3.Models
+namespace Busidex3.ViewModels
 {
     public class ContactList : List<Contact>
     {

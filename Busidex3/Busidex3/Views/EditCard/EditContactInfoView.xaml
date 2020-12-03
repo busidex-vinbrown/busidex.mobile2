@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Busidex3.Controls;assembly=Busidex3"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Class="Busidex3.Views.EditCard.EditContactInfoView">
     <ContentPage.Content>
         <ScrollView>
@@ -21,7 +21,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <controls:CardImageHeader 
-                            BindingContext="{Binding SelectedCard}"
+                            BindingContext="{Binding DisplaySettings}"
                             Grid.Row="0"
                             Grid.Column="0">
                         </controls:CardImageHeader>

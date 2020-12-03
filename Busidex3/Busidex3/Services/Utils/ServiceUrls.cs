@@ -22,6 +22,7 @@
         public static string SaveMobileCardImageUrl => BASE_API_URL + "card/SaveMobileCardImage";
         public static string SaveCardVisibilityUrl => BASE_API_URL + "card/SaveCardVisibility?visibility={0}";
         public static string SaveContactInfoUrl => BASE_API_URL + "card/SaveContactInfo";
+        public static string SaveExternalLinksUrl => BASE_API_URL + "card/SaveCardExternalLinks";
         public static string UpdateOwnerIdUrl => BASE_API_URL + "card/ConfirmCardOwner?cardId={0}&ownerId={1}";
 
         public static string EmailTemplateUrl => BASE_API_URL + "EmailTemplate/Get?code={0}";

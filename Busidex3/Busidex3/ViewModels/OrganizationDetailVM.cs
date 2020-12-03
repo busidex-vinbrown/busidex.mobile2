@@ -1,11 +1,11 @@
-﻿using Busidex3.Analytics;
-using Busidex3.DomainModels;
-using Busidex3.Services;
-using Busidex3.Services.Utils;
+﻿using Busidex.Http;
+using Busidex.Http.Utils;
+using Busidex.Models.Domain;
+using Busidex.Resources.String;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -40,8 +40,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.fb.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.fb.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 
@@ -49,8 +49,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.twitter.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.twitter.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 
@@ -58,8 +58,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.email.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.email.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 
@@ -67,8 +67,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.browser.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.browser.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 
@@ -76,8 +76,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.phone.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.phone.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 
@@ -85,8 +85,8 @@ namespace Busidex3.ViewModels
         {
             get
             {
-                return ImageSource.FromResource("Busidex3.Resources.contacts_64x64.png",
-                    typeof(OrganizationDetailVM).Assembly);
+                return ImageSource.FromResource("Busidex.Resources.Images.contacts_64x64.png",
+                    typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly);
             }
         }
 

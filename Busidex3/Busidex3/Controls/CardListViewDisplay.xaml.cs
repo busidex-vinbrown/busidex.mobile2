@@ -1,6 +1,4 @@
-﻿using Busidex3.DomainModels;
-using Busidex3.ViewModels;
-using Busidex3.Views;
+﻿using Busidex.Models.Domain;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
