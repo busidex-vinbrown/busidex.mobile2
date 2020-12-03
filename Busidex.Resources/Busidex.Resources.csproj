@@ -1,0 +1,154 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\add-plus.png" />
+    <None Remove="Images\add.png" />
+    <None Remove="Images\admin.png" />
+    <None Remove="Images\background_blur5.png" />
+    <None Remove="Images\browser.png" />
+    <None Remove="Images\busidex_icon_180x180.png" />
+    <None Remove="Images\busidex_logo_hor.png" />
+    <None Remove="Images\busidex_professional_icon_180x180.png" />
+    <None Remove="Images\camera.png" />
+    <None Remove="Images\cards_back2.png" />
+    <None Remove="Images\caret1.png" />
+    <None Remove="Images\caret2.png" />
+    <None Remove="Images\checkmark.png" />
+    <None Remove="Images\contacts_64x64.png" />
+    <None Remove="Images\contactusicon.png" />
+    <None Remove="Images\defaultprofile.png" />
+    <None Remove="Images\defaultUserImage.png" />
+    <None Remove="Images\delete.jpeg" />
+    <None Remove="Images\editcardmenuicon.png" />
+    <None Remove="Images\editicon.png" />
+    <None Remove="Images\editimage.png" />
+    <None Remove="Images\email.png" />
+    <None Remove="Images\event.png" />
+    <None Remove="Images\eventicon.png" />
+    <None Remove="Images\exit.png" />
+    <None Remove="Images\externallink.png" />
+    <None Remove="Images\faq.png" />
+    <None Remove="Images\faqicon.png" />
+    <None Remove="Images\fb.png" />
+    <None Remove="Images\flip.png" />
+    <None Remove="Images\home.png" />
+    <None Remove="Images\home_consumer.png" />
+    <None Remove="Images\home_professional.png" />
+    <None Remove="Images\instagram.png" />
+    <None Remove="Images\linkedin.png" />
+    <None Remove="Images\logo3.png" />
+    <None Remove="Images\logo4.png" />
+    <None Remove="Images\manageaccounticon.png" />
+    <None Remove="Images\maps.png" />
+    <None Remove="Images\mybusidexicon.png" />
+    <None Remove="Images\notes.png" />
+    <None Remove="Images\organizationsicon.png" />
+    <None Remove="Images\people.jpg" />
+    <None Remove="Images\phone.png" />
+    <None Remove="Images\presentationicon.png" />
+    <None Remove="Images\red_minus.png" />
+    <None Remove="Images\remove.png" />
+    <None Remove="Images\reset.png" />
+    <None Remove="Images\rotate.png" />
+    <None Remove="Images\searchicon.png" />
+    <None Remove="Images\search_64x64.png" />
+    <None Remove="Images\share.png" />
+    <None Remove="Images\shareicon.png" />
+    <None Remove="Images\spotlight-icon2.png" />
+    <None Remove="Images\subscriptionbackground.png" />
+    <None Remove="Images\sync.png" />
+    <None Remove="Images\tags.png" />
+    <None Remove="Images\tags_64x64.png" />
+    <None Remove="Images\textmessage.png" />
+    <None Remove="Images\twitter.png" />
+    <None Remove="Images\upload.png" />
+    <None Remove="Images\visibility_64x64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\add-plus.png" />
+    <EmbeddedResource Include="Images\add.png" />
+    <EmbeddedResource Include="Images\admin.png" />
+    <EmbeddedResource Include="Images\background_blur5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\browser.png" />
+    <EmbeddedResource Include="Images\busidex_icon_180x180.png" />
+    <EmbeddedResource Include="Images\busidex_logo_hor.png" />
+    <EmbeddedResource Include="Images\busidex_professional_icon_180x180.png" />
+    <EmbeddedResource Include="Images\camera.png" />
+    <EmbeddedResource Include="Images\cards_back2.png" />
+    <EmbeddedResource Include="Images\caret1.png" />
+    <EmbeddedResource Include="Images\caret2.png" />
+    <EmbeddedResource Include="Images\checkmark.png" />
+    <EmbeddedResource Include="Images\contacts_64x64.png" />
+    <EmbeddedResource Include="Images\contactusicon.png" />
+    <EmbeddedResource Include="Images\defaultprofile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\defaultUserImage.png" />
+    <EmbeddedResource Include="Images\delete.jpeg" />
+    <EmbeddedResource Include="Images\editcardmenuicon.png" />
+    <EmbeddedResource Include="Images\editicon.png" />
+    <EmbeddedResource Include="Images\editimage.png" />
+    <EmbeddedResource Include="Images\email.png" />
+    <EmbeddedResource Include="Images\event.png" />
+    <EmbeddedResource Include="Images\eventicon.png" />
+    <EmbeddedResource Include="Images\exit.png" />
+    <EmbeddedResource Include="Images\externallink.png" />
+    <EmbeddedResource Include="Images\faq.png" />
+    <EmbeddedResource Include="Images\faqicon.png" />
+    <EmbeddedResource Include="Images\fb.png" />
+    <EmbeddedResource Include="Images\flip.png" />
+    <EmbeddedResource Include="Images\home.png" />
+    <EmbeddedResource Include="Images\home_consumer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\home_professional.png" />
+    <EmbeddedResource Include="Images\instagram.png" />
+    <EmbeddedResource Include="Images\linkedin.png" />
+    <EmbeddedResource Include="Images\logo3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\logo4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\maps.png" />
+    <EmbeddedResource Include="Images\mybusidexicon.png" />
+    <EmbeddedResource Include="Images\notes.png" />
+    <EmbeddedResource Include="Images\organizationsicon.png" />
+    <EmbeddedResource Include="Images\people.jpg" />
+    <EmbeddedResource Include="Images\phone.png" />
+    <EmbeddedResource Include="Images\presentationicon.png" />
+    <EmbeddedResource Include="Images\red_minus.png" />
+    <EmbeddedResource Include="Images\remove.png" />
+    <EmbeddedResource Include="Images\reset.png" />
+    <EmbeddedResource Include="Images\rotate.png" />
+    <EmbeddedResource Include="Images\searchicon.png" />
+    <EmbeddedResource Include="Images\search_64x64.png" />
+    <EmbeddedResource Include="Images\share.png" />
+    <EmbeddedResource Include="Images\shareicon.png" />
+    <EmbeddedResource Include="Images\spotlight-icon2.png" />
+    <EmbeddedResource Include="Images\subscriptionbackground.png" />
+    <EmbeddedResource Include="Images\sync.png" />
+    <EmbeddedResource Include="Images\tags.png" />
+    <EmbeddedResource Include="Images\tags_64x64.png" />
+    <EmbeddedResource Include="Images\textmessage.png" />
+    <EmbeddedResource Include="Images\twitter.png" />
+    <EmbeddedResource Include="Images\upload.png" />
+    <EmbeddedResource Include="Images\visibility_64x64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\manageaccounticon.png" />
+  </ItemGroup>
+
+</Project>
