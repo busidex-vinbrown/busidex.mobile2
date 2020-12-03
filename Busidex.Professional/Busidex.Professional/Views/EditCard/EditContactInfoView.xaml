@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
+             x:Class="Busidex.Professional.Views.EditCard.EditContactInfoView">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HeightRequest="{Binding ViewHeight}">
+                <StackLayout Orientation="Vertical" Padding="5, 10">
+                    <Grid RowSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <controls:CardImageHeader 
+                            BindingContext="{Binding DisplaySettings}"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        </controls:CardImageHeader>
+                    
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Padding="10, 0"
+                            Grid.Row ="2"
+                            Grid.Column="0">
+                            <Image Aspect="AspectFit" 
+                                   HeightRequest="30" WidthRequest="30"
+                                   Source="{Binding EmailImage}"/>
+                            <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                Placeholder="Email" 
+                                MaxLength="150"
+                                Text="{Binding SelectedCard.Card.Email}" 
+                                Keyboard="Email"/>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Padding="10, 0"
+                            Grid.Row ="3"
+                            Grid.Column="0">
+                            <Image Aspect="AspectFit" 
+                                   HeightRequest="30" WidthRequest="30"
+                                   Source="{Binding UrlImage}"/>
+                            <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                Placeholder="Website Url" 
+                                MaxLength="250"
+                                Text="{Binding SelectedCard.Card.Url}" 
+                                Keyboard="Url"/>
+                        </StackLayout>
+                        <StackLayout 
+                            Orientation="Horizontal" 
+                            Padding="10, 0"
+                            Grid.Row ="4"
+                            Grid.Column="0">
+                            <Label
+                                Text="Phone Numbers"
+                                FontSize="Small"
+                                FontAttributes="Bold"
+                                WidthRequest="289"
+                                VerticalOptions="End"
+                                HorizontalOptions="Start"/>
+                            <Image Aspect="AspectFit" 
+                                   HeightRequest="35" WidthRequest="35"
+                                   Source="{Binding AddPhoneImage}"
+                                   HorizontalOptions="End">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddPhoneNumberImage_OnTapped"
+                                                          NumberOfTapsRequired="1" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
+                        <ListView x:Name="lstPhoneNumbers"
+                                  Grid.Row ="5"
+                                  Grid.Column="0"
+                                  HeightRequest="150"
+                                  Margin="10"
+                                  VerticalOptions="Start"
+                                  SeparatorVisibility="None"
+                                  SelectionMode="None"                              
+                                  CachingStrategy="RecycleElement"
+                                  ItemsSource="{Binding PhoneNumbers}">                      
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5">
+                                            <Picker 
+                                                Title="Type"
+                                                Visual="Default"
+                                                WidthRequest="135"
+                                                ItemsSource="{Binding PhoneNumberTypeNames}" 
+                                                SelectedItem="{Binding SelectedPhoneNumberType, Mode=TwoWay}">
+                                            </Picker>
+                                        
+                                            <Entry VerticalOptions="End" 
+                                                   Text="{Binding Number}"
+                                                   MaxLength="50"
+                                                   Visual="Default"
+                                                   WidthRequest="150"
+                                                   Keyboard="Telephone">                                            
+                                            </Entry>
+                                        
+                                            <Image Aspect="AspectFit"                                                
+                                                   HeightRequest="35" WidthRequest="35"                                               
+                                                   Source="{Binding DeletePhoneImage}">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="RemovePhoneNumberImage_OnTapped"
+                                                                          CommandParameter="{Binding Path=.}"
+                                                                          NumberOfTapsRequired="1" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button
+                            x:Name="btnSave"
+                            Text="Save"
+                            Style="{StaticResource buttonStyle}"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            IsEnabled="{Binding AllowSave}"
+                            Clicked="BtnSave_OnClicked"/>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

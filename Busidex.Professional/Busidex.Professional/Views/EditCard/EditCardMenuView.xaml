@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
+             x:Class="Busidex.Professional.Views.EditCard.EditCardMenuView">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Padding="20, 10" HeightRequest="{Binding ViewHeight}">
+                <Grid RowSpacing="35" Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <controls:CardImageHeader   
+                        x:Name="ctrlCardImageHeader"
+                        BindingContext="{Binding DisplaySettings}"
+                        Grid.ColumnSpan="3"
+                        Grid.Row="0">
+                    </controls:CardImageHeader>
+                    <StackLayout Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="EditCardImageTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding EditCardImage}"/>
+                        <Label Text="Card Image" HorizontalTextAlignment="Center" FontSize="Medium" />
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="VisibilityTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding VisibilityImage}"/>
+                        <Label Text="Visibility" HorizontalTextAlignment="Center" FontSize="Medium" />
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="EditContactInfoTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding ContactInfoImage}"/>
+                        <Label Text="Contact Info" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Grid.Row="2" Grid.Column="0">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SearchInfoTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding SearchInfoImage}"/>
+                        <Label Text="Search Info" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TagsTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding TagsImage}"/>
+                        <Label Text="Tags" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Grid.Row="2" Grid.Column="2">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AddressInfoTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding AddressInfoImage}"/>
+                        <Label Text="Address Info" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ExternalLinksTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Source="{Binding ExternalLinksImage}"/>
+                        <Label Text="External Links" HorizontalTextAlignment="Center" FontSize="Medium"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

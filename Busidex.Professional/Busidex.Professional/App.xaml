@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Busidex.Professional.App">
+    <Application.Resources>
+        <Style x:Key="startPage" TargetType="ContentPage">
+            <Setter Property="BackgroundImage" Value="background_blur5.png"/>
+        </Style>
+        <Style x:Key="homeButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="TextColor" Value="#03A9F4" />
+        </Style>
+        <Style x:Key="primaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#03A9F4"/>
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <Style x:Key="secondaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#ffffff"/>
+            <Setter Property="TextColor" Value="#03A9F4" />
+        </Style>
+        <Style x:Key="actionButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Green"/>
+            <Setter Property="TextColor" Value="#ffffff" />
+        </Style>
+        <Style x:Key="toggleButtonOn" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#004d99"/>
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <Style x:Key="toggleButtonOff" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="TextColor" Value="#004d99" />
+        </Style>
+        <Style x:Key="buttonStyle" TargetType="Button" BaseResourceKey="primaryButton">
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+            <Setter Property="WidthRequest" Value="200" />
+        </Style>
+        <Style x:Key="busiexEntry" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+        </Style>
+    </Application.Resources>
+</Application>

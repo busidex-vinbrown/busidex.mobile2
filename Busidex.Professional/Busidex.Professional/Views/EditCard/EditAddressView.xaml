@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"             
+             x:Class="Busidex.Professional.Views.EditCard.EditAddressView">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HeightRequest="{Binding ViewHeight}">
+                <StackLayout Orientation="Vertical" Padding="5, 10">
+                    <Grid RowSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <controls:CardImageHeader 
+                        BindingContext="{Binding DisplaySettings}"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        </controls:CardImageHeader>
+                        <Entry 
+                        x:Name="txtAddress1"
+                        Text="{Binding Address.Address1}"
+                        Placeholder="Address 1"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="1"
+                        Grid.Column="0"/>
+                        <Entry 
+                        x:Name="txtAddress2"
+                        Text="{Binding Address.Address2}"
+                        Placeholder="Address 2"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="2"
+                        Grid.Column="0"/>
+                        <Entry 
+                        x:Name="txtCity"
+                        Text="{Binding Address.City}"
+                        Placeholder="City"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Grid.Row="3"
+                        Grid.Column="0"/>
+
+                        <Picker 
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Visual="Default"
+                            Title="State"
+                            WidthRequest="250"
+                            ItemsSource="{Binding StateNames}" 
+                            SelectedItem="{Binding SelectedStateName}">
+                        </Picker>
+                        
+                        <Entry 
+                        x:Name="txtZip"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Text="{Binding Address.ZipCode}"
+                        Placeholder="Zip"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"/>
+                        <Button
+                        x:Name="btnSave"
+                        Text="Save"
+                        Style="{StaticResource buttonStyle}"
+                        IsEnabled="{Binding AllowSave}"
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        VerticalOptions="End"
+                        Clicked="BtnSave_OnClicked"/>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

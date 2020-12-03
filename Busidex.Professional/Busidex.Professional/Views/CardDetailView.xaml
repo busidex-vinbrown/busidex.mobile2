@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sharedUI="clr-namespace:Busidex.SharedUI;assembly=Busidex.SharedUI"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
+             x:Class="Busidex.Professional.Views.CardDetailView"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Padding="20, 10">
+            <controls:CardImageHeader 
+                x:Name="Header"
+                BindingContext="{Binding DisplaySettings}">                
+            </controls:CardImageHeader>
+            <Grid RowSpacing="29" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image
+                    x:Name="btnAdd"
+                    IsVisible="{Binding ShowAddButton}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Add}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnRemove"
+                    IsVisible="{Binding ShowRemoveButton}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Remove}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <ActivityIndicator 
+                    Grid.Row="0" Grid.Column="0"
+                    x:Name="prgSpinner" 
+                    HeightRequest="40" WidthRequest="40" 
+                    Color="#03A9F4" 
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ShowSpinner}"
+                    IsRunning="True"/>
+                <Image
+                    x:Name="btnMap"
+                    IsEnabled="{Binding HasAddress}"
+                    Opacity="{Binding AddressButtonOpacity}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Maps}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                
+                <Image
+                    x:Name="btnNotes"
+                    IsEnabled="{Binding SelectedCard.Card.ExistsInMyBusidex}"
+                    Opacity="{Binding NotesButtonOpacity}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="0" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Notes}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnEmail"
+                    IsEnabled="{Binding HasEmail}"
+                    Opacity="{Binding EmailButtonOpacity}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Email}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnWeb"
+                    IsEnabled="{Binding HasUrl}"
+                    Opacity="{Binding UrlButtonOpacity}"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Web}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnPhone"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="1" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Phone}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnShare"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Share}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnFacebook"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Facebook}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnTwitter"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="2" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Twitter}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnInstagram"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="3" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Instagram}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image
+                    x:Name="btnLinkedIn"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Grid.Row="3" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ButtonTapGestureRecognizer_OnTapped"
+                                              CommandParameter="{x:Static sharedUI:CardActionButton.Linkedin}" NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
