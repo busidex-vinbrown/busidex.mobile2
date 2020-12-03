@@ -1,4 +1,5 @@
 ﻿using BranchXamarinSDK;
+using Busidex.Resources.String;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;

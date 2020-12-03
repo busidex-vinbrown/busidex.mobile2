@@ -1,5 +1,5 @@
 ﻿//using Android.Gms.Analytics;
-using Busidex3.Analytics;
+using Busidex.Models.Analytics;
 using Busidex3.Droid;
 using Xamarin.Forms;
 

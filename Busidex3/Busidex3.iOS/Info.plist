@@ -28,13 +28,13 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleVersion</key>
-	<string>568</string>
+	<string>569</string>
 	<key>CFBundleName</key>
 	<string>Busidex3</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.37</string>
+	<string>1.2.38</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleURLTypes</key>

@@ -1,4 +1,5 @@
-﻿using Busidex3.iOS;
+﻿using Busidex.Models.Constants;
+using Busidex3.iOS;
 using Busidex3.ViewModels;
 using Xamarin.Forms;
 
@@ -12,7 +13,7 @@ namespace Busidex3.iOS
             return this;
         }
 
-        public void SetOrientation(UserCardDisplay.CardOrientation orientation)
+        public void SetOrientation(CardOrientation orientation)
         {
            
         }

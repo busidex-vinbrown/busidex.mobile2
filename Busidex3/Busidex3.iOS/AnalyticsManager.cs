@@ -1,4 +1,4 @@
-﻿using Busidex3.Analytics;
+﻿using Busidex.Models.Analytics;
 using Busidex3.iOS;
 using Foundation;
 //using Google.Analytics;

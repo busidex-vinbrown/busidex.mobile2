@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Busidex3.Controls;
+using Busidex.SharedUI.Controls;
 using Busidex3.Droid.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
