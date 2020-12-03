@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Busidex.SharedUI.Controls.CardImageHeader"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
+             IsVisible="{Binding DisplaySettings.ShowCard}">
+    <ContentView.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                      CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+            <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="{Binding VFrameHeight}"
+                WidthRequest="{Binding VFrameWidth}"
+                IsVisible="{Binding FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=FrontOrientation}">
+                <Image Source="{Binding CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=CurrentFileName}" 
+                       Aspect="Fill"
+                       HeightRequest="{Binding VImageHeight}"
+                       WidthRequest="{Binding VImageWidth}">                    
+                </Image>
+            </Frame>
+            <Frame 
+                BorderColor="DarkGray"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Padding="1"
+                HeightRequest="{Binding HFrameHeight}"
+                WidthRequest="{Binding HFrameWidth}"
+                IsVisible="{Binding FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=FrontOrientation}">
+                <Image Source="{Binding CurrentFileName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=CurrentFileName}" 
+                       Aspect="Fill"
+                       HeightRequest="{Binding HImageHeight}"
+                       WidthRequest="{Binding HImageWidth}">
+                    
+                </Image>
+            </Frame>
+        </StackLayout>
+    </ContentView.Content>
+    
+</ContentView>

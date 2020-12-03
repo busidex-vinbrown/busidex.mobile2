@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Busidex.SharedUI.Controls.UnownedCardListViewDisplay">
+    <ContentView.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        <converters:IsHorizontalImageConverter x:Key="IsHorizontalImageConverter" />
+        <converters:IsVerticalImageConverter x:Key="IsVerticalImageConverter" />
+        <converters:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
+    </ContentView.Resources>
+  <ContentView.Content>
+        <StackLayout 
+            Padding="5,10,0,10" 
+            BackgroundColor="LightGray"
+            HorizontalOptions="FillAndExpand" 
+            Orientation="Vertical">
+
+            <Label VerticalOptions="FillAndExpand" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalTextAlignment="Center" 
+                   Text="{Binding Name}" 
+                   IsVisible="{Binding Name, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=Name}"
+                   FontSize="Medium"/>
+            <Label VerticalOptions="FillAndExpand" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="FillAndExpand"
+                   Text="{Binding CompanyName}" 
+                   IsVisible="{Binding CompanyName, Converter={StaticResource StringNullOrEmptyConverter}, ConverterParameter=CompanyName}" 
+                   FontSize="Small"/>
+
+            <Image Source="{Binding FrontThumbnailName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=FrontThumbnailName}" 
+                   HeightRequest="135"
+                   WidthRequest="220"
+                   Aspect="Fill"  
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding FrontOrientation, Converter={StaticResource IsHorizontalImageConverter}, ConverterParameter=FrontOrientation}">
+            </Image>
+            <Image Source="{Binding FrontThumbnailName, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=FrontThumbnailName}" 
+                   HeightRequest="220"
+                   WidthRequest="135"
+                   Aspect="Fill"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding FrontOrientation, Converter={StaticResource IsVerticalImageConverter}, ConverterParameter=FrontOrientation}">
+            </Image>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Last Sent To: " FontSize="Small" FontAttributes="Bold" />
+                <Label
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start"
+                    Text="{Binding EmailSentTo}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Date Sent: " FontSize="Small" FontAttributes="Bold" />
+                <Label
+                    VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start"
+                    Text="{Binding LastContactDate}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
