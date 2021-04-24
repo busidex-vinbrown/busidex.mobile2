@@ -18,17 +18,17 @@
   <ItemGroup>
     <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="7.0.7" />
     <PackageReference Include="ImageCropper.Forms" Version="0.1.6" />
-    <PackageReference Include="Microsoft.AppCenter" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.0.0" />
+    <PackageReference Include="Microsoft.AppCenter" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.1.0" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />  
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />  
     <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />  
-    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.4.4" />  
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1687" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.4.3" />  
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1821" />
   </ItemGroup>
 
   <ItemGroup>

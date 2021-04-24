@@ -173,8 +173,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="70"></RowDefinition>
-                    <RowDefinition Height="65"></RowDefinition>
-                    <RowDefinition Height="65"></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
                     <RowDefinition Height="70"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>                    
                 </Grid.RowDefinitions>
@@ -216,8 +216,10 @@
                              Grid.Row="2">
                     <Entry x:Name="txtSendTo"
                            WidthRequest="225" 
-                           HeightRequest="55"
+                           HeightRequest="25"
+                           FontSize="Small"
                            Keyboard="Telephone"
+                           BackgroundColor="LightGray"
                            Text="{Binding SendTo}"
                            TextChanged="TxtSendTo_OnTextChanged"/>
                     <Image Aspect="AspectFit" 
@@ -238,7 +240,7 @@
                              Grid.Row="3">
                     <Entry
                         x:Name="txtSentFrom"
-                        WidthRequest="245" 
+                        HorizontalOptions="FillAndExpand"
                         TextChanged="TxtSentFrom_OnTextChanged"
                         Text="{Binding SentFrom}"/>
                 </StackLayout>

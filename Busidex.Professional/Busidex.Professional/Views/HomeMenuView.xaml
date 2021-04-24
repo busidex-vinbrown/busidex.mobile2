@@ -34,7 +34,7 @@
                     x:Name="stkMyBusidex" 
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
-                    Margin="10,30,10,20"
+                    Margin="10,30,10,15"
                     Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
@@ -53,7 +53,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkSearch" 
-                    Margin="10,20"
+                    Margin="10,15"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -73,7 +73,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkPresentation" 
-                    Margin="10,20"
+                    Margin="10,15"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -81,8 +81,8 @@
                             <TapGestureRecognizer Tapped="stkPresentation_Tapped"/>
                         </StackLayout.GestureRecognizers>
                         <Image Aspect="AspectFit" 
-                        HeightRequest="50" WidthRequest="50"
-                        HorizontalOptions="Start"
+                        HeightRequest="60" WidthRequest="50"
+                        HorizontalOptions="StartAndExpand"
                         Source="{Binding PresentationLinkItem}"/>
                         <Label 
                         VerticalOptions="FillAndExpand" 
@@ -93,7 +93,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkManageAccount" 
-                    Margin="10,20"
+                    Margin="10,15"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -101,19 +101,19 @@
                             <TapGestureRecognizer Tapped="stkManageAccount_Tapped"/>
                         </StackLayout.GestureRecognizers>
                         <Image Aspect="AspectFit" 
-                        HeightRequest="50" WidthRequest="50"
+                        HeightRequest="60" WidthRequest="50"
                         HorizontalOptions="Start"
                         Source="{Binding ProfileItem}"/>
                         <Label 
                         VerticalOptions="FillAndExpand" 
                         VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.ManageAccount}" 
                         FontSize="24"/>
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkManageCard" 
-                    Margin="10,20"
+                    Margin="10,15"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -133,7 +133,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkFaq" 
-                    Margin="10,20"
+                    Margin="10,15"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">

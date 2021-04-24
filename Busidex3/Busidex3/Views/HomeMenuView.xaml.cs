@@ -22,7 +22,10 @@ namespace Busidex3.Views
             InitializeComponent();
 
             NavigationPage.SetHasNavigationBar(this, false);
-
+            Shell.SetBackButtonBehavior(this, new BackButtonBehavior
+            {
+                IsEnabled = true
+            });
             //imgBackground.HeightRequest = imgBackgroundProf.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
             //imgBackground.WidthRequest = imgBackgroundProf.WidthRequest = DeviceDisplay.MainDisplayInfo.Width;
             //imgBackground.Margin = imgBackgroundProf.Margin = _viewModel.IsProfessional

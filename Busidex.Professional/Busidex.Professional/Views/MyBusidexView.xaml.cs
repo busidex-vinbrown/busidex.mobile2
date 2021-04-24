@@ -26,6 +26,11 @@ namespace Busidex.Professional.Views
             Title = ViewNames.MyBusidex;
             var cachedPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE);
 
+            Shell.SetBackButtonBehavior(this, new BackButtonBehavior
+            {
+                IsEnabled = true
+            });
+
             if (_viewModel == null)
             {
                 _viewModel = new MyBusidexVM();

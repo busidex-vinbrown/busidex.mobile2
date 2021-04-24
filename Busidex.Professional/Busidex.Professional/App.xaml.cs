@@ -19,6 +19,7 @@ using Microsoft.AppCenter.Crashes;
 using System.Linq;
 using Busidex.Models.Analytics;
 using Busidex.Utils;
+using Busidex.Professional.Views;
 
 namespace Busidex.Professional
 {
@@ -63,8 +64,15 @@ namespace Busidex.Professional
             InitializeComponent();
 
             MainPage = new AppShell();
+            //MainPage = new NavigationPage(new HomeMenuView());
+            //NavigationPage.SetHasNavigationBar(MainPage, false);
             
             InitSession();
+
+            Shell.SetBackButtonBehavior(this, new BackButtonBehavior
+            {
+                IsEnabled = true
+            });
 
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
@@ -72,7 +80,9 @@ namespace Busidex.Professional
             }
             else
             {
-                Shell.Current.GoToAsync("home").Wait();
+                var page = new HomeMenuView();
+                //Shell.Current.Navigation.PushAsync(page).Wait();
+                Shell.Current.GoToAsync("/home").Wait();
             }
             
         }

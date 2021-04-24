@@ -89,17 +89,18 @@ namespace Busidex.Professional.Views
 
         private async void stkShare_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("share");
+            await Shell.Current.GoToAsync($"//home/share");
         }
 
         private async void stkSearch_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("search");
+            //await Shell.Current.GoToAsync($"//home/search");
+            await Navigation.PushAsync(new SearchView());
         }
 
         private async void stkMyBusidex_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("mybusidex");
+            await Shell.Current.GoToAsync($"/home/mybusidex");
         }
 
         private async void stkOrganizations_Tapped(object sender, EventArgs e)
