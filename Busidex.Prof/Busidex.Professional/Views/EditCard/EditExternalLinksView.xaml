@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
+             x:Class="Busidex.Professional.Views.EditCard.EditExternalLinksView">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Padding="5, 10">
+            <Grid RowSpacing="10" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:CardImageHeader 
+                    BindingContext="{Binding DisplaySettings}"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0">
+                </controls:CardImageHeader>
+                <Label Text="Add links to your social media accounts." 
+                        FontSize="16" 
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Grid.Column="0"
+                        x:Name="lblInfo"/>
+                <StackLayout
+                            Orientation="Horizontal"
+                            HorizontalOptions="FillAndExpand"
+                            Grid.Row ="2"
+                            Grid.Column="0">
+                    <Image Aspect="AspectFit" 
+                                   HeightRequest="40" WidthRequest="40"
+                                   Source="{Binding FbImage}"/>
+                    <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                WidthRequest="380"
+                                FontSize="Small"
+                                Text="{Binding FBLink}" 
+                                Keyboard="Url"/>
+                </StackLayout>
+                <StackLayout
+                            Orientation="Horizontal"
+                            Grid.Row ="3"
+                            Grid.Column="0">
+                    <Image Aspect="AspectFit" 
+                                   HeightRequest="40" WidthRequest="40"
+                                   Source="{Binding LinkedinImage}"/>
+                    <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                MaxLength="450"
+                                WidthRequest="280"
+                                FontSize="Small"
+                                Text="{Binding LinkedinLink}" 
+                                Keyboard="Url"/>
+                </StackLayout>
+                <StackLayout
+                            Orientation="Horizontal"
+                            Grid.Row ="4"
+                            Grid.Column="0">
+                    <Image Aspect="AspectFit" 
+                                   HeightRequest="40" WidthRequest="40"
+                                   Source="{Binding InstagImage}"/>
+                    <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                MaxLength="450"
+                                WidthRequest="280"
+                                FontSize="Small"
+                                Text="{Binding InstagLink}" 
+                                Keyboard="Url"/>
+                </StackLayout>
+                <StackLayout
+                            Orientation="Horizontal"
+                            Grid.Row ="5"
+                            Grid.Column="0">
+                    <Image Aspect="AspectFit" 
+                                   HeightRequest="40" WidthRequest="40"
+                                   Source="{Binding TwitterImage}"/>
+                    <Entry 
+                                HorizontalOptions="FillAndExpand" 
+                                MaxLength="450"
+                                WidthRequest="280"
+                                FontSize="Small"
+                                Text="{Binding TwitterLink}" 
+                                Keyboard="Url"/>
+                </StackLayout>
+                <Button
+                    x:Name="btnSave"
+                    Text="Save"
+                    Style="{StaticResource buttonStyle}"
+                    IsEnabled="{Binding AllowSave}"
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0"
+                    Clicked="BtnSave_OnClicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

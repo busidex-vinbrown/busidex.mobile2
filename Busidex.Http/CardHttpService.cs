@@ -33,24 +33,45 @@ namespace Busidex.Http
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateCardContactInfo(CardDetailModel card)
+        public async Task<bool> UpdateCardSearchInfo(string json)
         {
             var result =
-                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveContactInfoUrl, HttpVerb.Put, card);
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveSearchInfoUrl, HttpVerb.Put, json);
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateCardLinks(CardLinksModel model)
+        public async Task<bool> UpdateCardContactInfo(string json)
         {
             var result =
-                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveExternalLinksUrl, HttpVerb.Put, model);
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveContactInfoUrl, HttpVerb.Put, json);
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateCardOwner(long cardId, long ownerId)
+        public async Task<bool> UpdateCardAddress(string json)
         {
             var result =
-                await MakeRequestAsync<HttpResponseMessage>(string.Format(ServiceUrls.UpdateOwnerIdUrl, cardId, ownerId), HttpVerb.Put);
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveCardAddressUrl, HttpVerb.Put, json);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateCardTags(string json)
+        {
+            var result =
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveTagsUrl, HttpVerb.Put, json);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateCardLinks(string json)
+        {            
+            var result =
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.SaveExternalLinksUrl, HttpVerb.Put, json);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateCardOwner(string json)
+        {
+            var result =
+                await MakeRequestAsync<HttpResponseMessage>(ServiceUrls.UpdateOwnerIdUrl, HttpVerb.Put, json);
             return result.IsSuccessStatusCode;
         }
     }

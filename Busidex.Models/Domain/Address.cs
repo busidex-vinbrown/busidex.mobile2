@@ -1,8 +1,10 @@
-﻿namespace Busidex.Models.Domain
+﻿using System;
+
+namespace Busidex.Models.Domain
 {
+    [Serializable]
     public class Address
     {
-
         public long CardAddressId { get; set; }
         public long CardId { get; set; }
         public string Address1 { get; set; }

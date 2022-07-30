@@ -44,7 +44,7 @@
                     x:Name="stkMyBusidex" 
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
-                    Margin="10,30,10,20"
+                    Margin="10,30,10,10"
                     Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
@@ -102,9 +102,9 @@
                         Text="{x:Static local:ViewNames.Search}" 
                         FontSize="24"/>
                     </StackLayout>
-                    <StackLayout 
+                    <!--<StackLayout 
                     x:Name="stkPresentation" 
-                    Margin="10,20"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -121,10 +121,10 @@
                         HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.BusidexPresentation}" 
                         FontSize="24"/>
-                    </StackLayout>
+                    </StackLayout>-->
                     <StackLayout 
                     x:Name="stkManageAccount" 
-                    Margin="10,20"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -138,13 +138,13 @@
                         <Label 
                         VerticalOptions="FillAndExpand" 
                         VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.ManageAccount}" 
                         FontSize="24"/>
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkContactUs" 
-                    Margin="10,20"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -158,13 +158,13 @@
                         <Label 
                         VerticalOptions="FillAndExpand" 
                         VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.ContactUs}" 
                         FontSize="24"/>
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkFaq" 
-                    Margin="10,20"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">

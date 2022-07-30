@@ -16,7 +16,7 @@ namespace Busidex.Http
                 feature = "share",
                 campaign = "",
                 tags = null,
-                data = Newtonsoft.Json.JsonConvert.SerializeObject(new { cardId = link.CardId, _f = link.From, _d = link.DisplayName, _m = link.PersonalMessage })
+                data = Newtonsoft.Json.JsonConvert.SerializeObject(new { cardId = link.CardId, _f = link.From, _d = link.DisplayName, _o = link.SaveOwner, _m = link.PersonalMessage })
             };
 
             var response = await MakeRequestAsync<BranchUrl>(StringResources.BRANCH_API_URL, HttpVerb.Post, model);

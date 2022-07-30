@@ -2,6 +2,7 @@
 
 namespace Busidex.Models.Domain
 {
+    [Serializable]
     public class PhoneNumber
     {
         public PhoneNumber()

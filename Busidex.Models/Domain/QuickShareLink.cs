@@ -6,6 +6,7 @@
         public long From { get; set; }
         public string DisplayName { get; set; }
         public string PersonalMessage { get; set; }
+        public bool SaveOwner { get; set; }
     }
 }
 

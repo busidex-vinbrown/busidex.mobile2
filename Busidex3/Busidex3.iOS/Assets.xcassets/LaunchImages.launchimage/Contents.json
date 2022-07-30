@@ -4,15 +4,6 @@
       "orientation": "portrait",
       "extent": "full-screen",
       "minimum-system-version": "7.0",
-      "scale": "2x",
-      "size": "640x960",
-      "idiom": "iphone",
-      "filename": "busidex_splash_640x960.png"
-    },
-    {
-      "orientation": "portrait",
-      "extent": "full-screen",
-      "minimum-system-version": "7.0",
       "subtype": "retina4",
       "scale": "2x",
       "size": "640x1136",
@@ -144,6 +135,15 @@
       "size": "2048x1536",
       "idiom": "ipad",
       "filename": "ipad_launch_2048x1536px.png"
+    },
+    {
+      "orientation": "portrait",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "2x",
+      "size": "640x960",
+      "idiom": "iphone",
+      "filename": "busidex_splash_640x9601.png"
     }
   ],
   "properties": {},

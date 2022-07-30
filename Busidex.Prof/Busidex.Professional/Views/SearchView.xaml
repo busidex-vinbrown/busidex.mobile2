@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
+             x:Class="Busidex.Professional.Views.SearchView"
+             Visual="Default">
+    <ContentPage.Content>
+            <Grid RowSpacing="5" Padding="0" BackgroundColor="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <SearchBar x:Name="txtSearch"
+                            Text="{Binding SearchValue}"
+                            SearchButtonPressed="TxtSearch_OnSearchButtonPressed"
+                            TextChanged="TxtSearch_OnTextChanged"
+                            Placeholder="Search"
+                            Grid.Column="0"
+                            Grid.Row="0"/>
+                <Image Source="{Binding BackgroundImage}" 
+                       x:Name="imgBackground"
+                       Grid.Column="0"
+                   Grid.Row="1"
+                   Aspect="AspectFill"/>
+            <ActivityIndicator 
+                x:Name="prgSpinner" HeightRequest="40" WidthRequest="40" 
+                Color="#03A9F4" 
+                IsRunning="True"
+                IsVisible="{Binding IsSearching}" 
+                Margin="30,0"/>
+            <ListView x:Name="lstSearchResults" 
+                            SeparatorVisibility="None"
+                            VerticalOptions="FillAndExpand"
+                            IsPullToRefreshEnabled="False"
+                            HasUnevenRows="True"
+                            SelectionMode="None"  
+                            Margin="10"
+                            BackgroundColor="Transparent"
+                            CachingStrategy="RetainElement"                      
+                            ItemsSource="{Binding SearchResults}"
+                            Grid.Column="0"
+                            Grid.Row="1">                                  
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame
+                                    BackgroundColor="LightGray"
+                                    VerticalOptions="Fill"
+                                    HorizontalOptions="Fill"
+                                    Padding="0"
+                                    Opacity=".8"
+                                    Margin="10">
+                                    <controls:CardListViewDisplay
+                                        BackgroundColor="LightGray"
+                                        HorizontalOptions="FillAndExpand"
+                                        SelectedCard="{Binding .}"/>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
+                                                                CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>                        
+    </ContentPage.Content>
+</ContentPage>

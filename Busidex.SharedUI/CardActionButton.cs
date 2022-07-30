@@ -14,6 +14,7 @@
         Facebook,
         Twitter,
         Instagram,
-        Linkedin
+        Linkedin,
+        ShareOwner
     }
 }

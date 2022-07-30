@@ -1,5 +1,8 @@
-﻿namespace Busidex.Models.Domain
+﻿using System;
+
+namespace Busidex.Models.Domain
 {
+    [Serializable]
     public class State
     {
         public State()

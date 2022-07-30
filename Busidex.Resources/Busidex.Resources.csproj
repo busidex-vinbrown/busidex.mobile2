@@ -58,6 +58,7 @@
     <None Remove="Images\search_64x64.png" />
     <None Remove="Images\share.png" />
     <None Remove="Images\shareicon.png" />
+    <None Remove="Images\shareowner.png" />
     <None Remove="Images\spotlight-icon2.png" />
     <None Remove="Images\subscriptionbackground.png" />
     <None Remove="Images\sync.png" />
@@ -68,7 +69,6 @@
     <None Remove="Images\upload.png" />
     <None Remove="Images\visibility_64x64.png" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Images\add-plus.png" />
     <EmbeddedResource Include="Images\add.png" />
@@ -132,6 +132,7 @@
     <EmbeddedResource Include="Images\search_64x64.png" />
     <EmbeddedResource Include="Images\share.png" />
     <EmbeddedResource Include="Images\shareicon.png" />
+	<EmbeddedResource Include="Images\shareowner.png" />
     <EmbeddedResource Include="Images\spotlight-icon2.png" />
     <EmbeddedResource Include="Images\subscriptionbackground.png" />
     <EmbeddedResource Include="Images\sync.png" />
@@ -144,7 +145,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

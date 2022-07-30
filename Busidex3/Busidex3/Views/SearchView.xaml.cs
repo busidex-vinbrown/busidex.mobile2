@@ -26,6 +26,19 @@ namespace Busidex3.Views
 		    App.AnalyticsManager.TrackScreen(ScreenName.Search);
 		}
 
+        protected override void OnAppearing()
+        {
+			Shell.SetBackButtonBehavior(this, new BackButtonBehavior
+			{
+				Command = new Command(async () =>
+				{
+					await Shell.Current.GoToAsync("./home/mybusidex");
+				}),
+				//IconOverride = "back.png"
+			});
+			App.AnalyticsManager.TrackScreen(ScreenName.Search);
+			base.OnAppearing();
+        }
         protected override void OnDisappearing()
         {
             Task.Factory.StartNew(()=>_viewModel.RefreshList());

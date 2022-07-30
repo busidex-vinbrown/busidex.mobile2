@@ -6,8 +6,6 @@ using Busidex3.Views.EditCard;
 using Busidex3.Views.Admin;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Plugin.InAppBilling;
-using Plugin.InAppBilling.Abstractions;
 using Busidex.Http;
 using Busidex.Models.Domain;
 using Busidex.Http.Utils;
@@ -110,42 +108,6 @@ namespace Busidex3.Views
         {
             //App.LoadProfilePage();
         }
-
-        //private void MasterPage_OnCardEditClicked(ref UserCard card)
-        //{
-        //    try
-        //    {
-        //        if (!CrossInAppBilling.IsSupported) return;
-
-        //        var connected = CrossInAppBilling.Current.ConnectAsync(ItemType.Subscription).Result;
-                
-        //        if (!connected) return;
-
-        //        //try to purchase item
-        //        var purchase = CrossInAppBilling.Current.PurchaseAsync("mysku", ItemType.Subscription, "apppayload").Result;
-        //        if (purchase == null)
-        //        {
-        //            //Not purchased
-        //        }
-        //        else
-        //        {
-        //            //Purchased!
-        //            var page = new EditCardMenuView(ref card) { Title = "Edit My Card" };
-        //            page.Title = "Edit My Card";
-
-        //            Detail = new NavigationPage(page);
-        //            IsPresented = false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //Something went wrong :()
-        //    }
-        //    finally
-        //    {
-        //        CrossInAppBilling.Current.DisconnectAsync().Wait();
-        //    }
-        //}
 
         //private void MasterPage_OnShareClicked(ref UserCard card)
         //{

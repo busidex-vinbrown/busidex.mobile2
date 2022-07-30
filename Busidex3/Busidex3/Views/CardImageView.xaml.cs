@@ -52,7 +52,8 @@ namespace Busidex3.Views
 					return;
 				}
             }
-            await Navigation.PopAsync();
+			//await Navigation.PopAsync();
+			await Shell.Current.GoToAsync("..");
         }
 
         protected override void OnDisappearing()

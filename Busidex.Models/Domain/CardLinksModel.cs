@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Busidex.Models.Domain
 {
+    [Serializable]
     public class CardLinksModel
     {
         public long CardId { get; set; }

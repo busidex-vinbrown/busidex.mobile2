@@ -23,7 +23,7 @@ namespace Busidex.Models.Dto
             Url = card.Url;
             CompanyName = card.CompanyName;
 
-            PhoneNumbers = new ObservableCollection<PhoneNumber>(card.PhoneNumbers ?? new List<PhoneNumber>());
+            PhoneNumbers = new List<PhoneNumber>(card.PhoneNumbers);
 
             OwnerId = card.OwnerId;
             IsMyCard = card.IsMyCard;
@@ -72,7 +72,7 @@ namespace Busidex.Models.Dto
 
         public string CompanyName { get; set; }
 
-        public ObservableCollection<PhoneNumber> PhoneNumbers { get; set; }
+        public List<PhoneNumber> PhoneNumbers { get; set; }
 
         public Dictionary<long, long> CardRelations { get; set; }
 
@@ -108,6 +108,7 @@ namespace Busidex.Models.Dto
 
         public Guid? OwnerToken { get; set; }
 
+        public string SEO_Name { get; set; }
         public string TagList { get; set; }
 
         public List<Tag> Tags { get; set; } = new List<Tag>();

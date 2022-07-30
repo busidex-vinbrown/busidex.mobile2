@@ -12,6 +12,8 @@ namespace Busidex.Http
 {
     public class BaseHttpService
     {
+        public static HttpClient _httpClient;
+
         public static async Task<T> MakeRequestAsync<T>(string url, string method, object data = null) where T : new()
         {
             var response = new T();
@@ -23,10 +25,9 @@ namespace Busidex.Http
 
             try
             {
-
                 var request = new HttpRequestMessage(new HttpMethod(method), url);
-                var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                _httpClient = _httpClient ?? new HttpClient();
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                 ServicePointManager.ServerCertificateValidationCallback += (sender, certificatePolicy, chain, sslPolicyErrors) => true;
                 request.Method = new HttpMethod(method);
@@ -38,7 +39,7 @@ namespace Busidex.Http
                     case HttpVerb.Post:
                         content = new JsonContent(data);
                         content.Headers.Add("x-authorization-token", Security.AuthToken);
-                        await httpClient.PostAsync(url, content).ContinueWith(async r =>
+                        await _httpClient.PostAsync(url, content).ContinueWith(async r =>
                         {
                             if (!r.IsFaulted)
                             {
@@ -59,7 +60,7 @@ namespace Busidex.Http
                     case HttpVerb.Put:
                         content = new JsonContent(data);
                         content.Headers.Add("x-authorization-token", Security.AuthToken);
-                        await httpClient.PutAsync(url, content).ContinueWith(async r =>
+                        await _httpClient.PutAsync(url, content).ContinueWith(async r =>
                         {
                             if (!r.IsFaulted)
                             {
@@ -76,8 +77,8 @@ namespace Busidex.Http
                         });
                         break;
                     case HttpVerb.Delete:
-                        httpClient.DefaultRequestHeaders.Add("x-authorization-token", Security.AuthToken);
-                        await httpClient.DeleteAsync(url).ContinueWith(async r =>
+                        _httpClient.DefaultRequestHeaders.Add("x-authorization-token", Security.AuthToken);
+                        await _httpClient.DeleteAsync(url).ContinueWith(async r =>
                         {
                             if (!r.IsFaulted)
                             {
@@ -96,7 +97,7 @@ namespace Busidex.Http
                         });
                         break;
                     default:
-                        await httpClient.SendAsync(request).ContinueWith(async r =>
+                        await _httpClient.SendAsync(request).ContinueWith(async r =>
                         {
                             if (!r.IsFaulted)
                             {

@@ -5,7 +5,6 @@ using Android.OS;
 using Android.Runtime;
 using BranchXamarinSDK;
 using Busidex.Models.Constants;
-using Plugin.InAppBilling;
 using Plugin.Permissions;
 using Xamarin.Forms;
 
@@ -60,7 +59,6 @@ namespace Busidex3.Droid
             base.OnActivityResult(requestCode, resultCode, data);
 
             Stormlion.ImageCropper.Droid.Platform.OnActivityResult(requestCode, resultCode, data);
-            InAppBillingImplementation.HandleActivityResult(requestCode, resultCode, data);
         }
 
         protected override void OnNewIntent(Intent intent)
