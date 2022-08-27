@@ -11,6 +11,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Web;
+using Busidex.Resources.String;
 
 namespace Busidex.Professional.Views
 {
@@ -81,12 +82,12 @@ namespace Busidex.Professional.Views
         }
         private async void BtnContinue_Clicked(object sender, System.EventArgs e)
         {
-            await Shell.Current.GoToAsync("home");
+            await Shell.Current.GoToAsync(AppRoutes.HOME);
         }
 
         protected override bool OnBackButtonPressed()
         {
-            Shell.Current.GoToAsync("home").Wait();
+            Shell.Current.GoToAsync(AppRoutes.HOME).Wait();
             return true;
         }
     }

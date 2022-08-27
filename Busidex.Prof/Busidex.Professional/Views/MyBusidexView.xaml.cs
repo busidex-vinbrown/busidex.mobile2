@@ -30,13 +30,10 @@ namespace Busidex.Professional.Views
             {
                 Command = new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync("./home");
+                    await Shell.Current.GoToAsync(AppRoutes.HOME);
                 }),
                 //IconOverride = "back.png"
             });
-
-
-
 
             if (_viewModel == null)
             {
@@ -112,7 +109,7 @@ namespace Busidex.Professional.Views
         private async void BtnGoToSearch_Clicked(object sender, EventArgs e)
         {
             //await Navigation.PushAsync(new SearchView());
-            await Shell.Current.GoToAsync("search");
+            await Shell.Current.GoToAsync(AppRoutes.SEARCH);
         }        
     }
 }

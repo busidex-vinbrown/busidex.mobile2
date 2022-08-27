@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Busidex.Http.Utils;
 using Busidex.Models.Constants;
-using Busidex.Professional.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
@@ -15,41 +14,23 @@ using Stormlion.ImageCropper;
 namespace Busidex.Professional.Views.EditCard
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditCardImageView
+	public partial class EditCardImageView : BaseEditCardView
 	{
-        protected CardVM _viewModel { get; set; }
-        public UserCardDisplay DisplaySettings { get; set; }
-
-        public EditCardImageView (ref CardVM vm)
+        public EditCardImageView ()
 		{
 			InitializeComponent ();
 
-            // var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
-
             Title = "Choose your card picture";
+		}
 
-            // vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            DisplaySettings = new UserCardDisplay(
-                DisplaySetting.Detail,
-                vm.SelectedCard.Card.FrontOrientation == "H"
-                    ? CardOrientation.Horizontal
-                    : CardOrientation.Vertical,
-                vm.SelectedCard.Card.FrontFileName,
-                vm.SelectedCard.Card.FrontOrientation);
-
-            _viewModel = vm;
-            BindingContext = _viewModel;
-
-            _viewModel.BackOrientation = vm.SelectedCard.Card.BackOrientation;
-            _viewModel.FrontOrientation = vm.SelectedCard.Card.FrontOrientation;
-
-            _viewModel.SelectedCardFrontImage = _viewModel.SelectedCard.Card.FrontFileName;
-            _viewModel.SelectedCardBackImage = _viewModel.SelectedCard.Card.BackFileName;
-
-            Task.Factory.StartNew( () => CheckImagesExist());
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            
+            Task.Factory.StartNew(() => CheckImagesExist());
 
             setControls();
-		}
+        }
 
         private bool CheckImagesExist()
         {

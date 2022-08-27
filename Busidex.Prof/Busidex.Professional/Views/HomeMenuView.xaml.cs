@@ -2,7 +2,6 @@
 using Busidex.Http.Utils;
 using Busidex.Models.Domain;
 using Busidex.Professional.ViewModels;
-using Busidex.Professional.Views.EditCard;
 using Busidex.Resources.String;
 using Newtonsoft.Json;
 using System;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -32,50 +32,56 @@ namespace Busidex.Professional.Views
             
             imgBackground.Margin = new Thickness(-60, 0, 0, 0);
             BindingContext = _viewModel;
+        }
 
+        protected override void OnAppearing()
+        {
             var quickSharePath = Path.Combine(Serialization.LocalStorageFolder, StringResources.QUICKSHARE_LINK);
 
             if (File.Exists(quickSharePath))
             {
                 var quickShareLink = Serialization.LoadData<QuickShareLink>(quickSharePath);
-                Task.Factory.StartNew(async () =>
-                {
-                    var uc = await SaveFromUrl(quickShareLink);
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        //var page = uc.Card?.FrontFileId != Guid.Empty && uc.Card?.FrontFileId != null
-                        //    ? new QuickShareView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page
-                        //    : new ConfirmCardOwnerView(uc, quickShareLink.DisplayName, quickShareLink.PersonalMessage) as Page;
-                        //NavigationPage.SetHasNavigationBar(page, false);
-                        //await Shell.Current.Navigation.PushAsync(page);
-                        var ucJson = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
-                        var page = quickShareLink.SaveOwner
-                            ? "confirm-card-owner"
-                            : "quickshare";
 
-                        await Shell.Current.GoToAsync($"/home/{page}?ucJson={HttpUtility.UrlEncode(ucJson)}&from={quickShareLink?.DisplayName}&message={quickShareLink?.PersonalMessage}");
-                    });
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    var uc = await SaveFromQuickShareLink(quickShareLink);
+                    var ucJson = HttpUtility.UrlEncode(JsonConvert.SerializeObject(uc).ToHexString());// Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
+
+                    var page = quickShareLink.SaveOwner
+                        ? AppRoutes.CONFIRM_OWNER
+                        : AppRoutes.QUICKSHARE;
+
+                    await Shell.Current.GoToAsync($"{page}?ucJson={HttpUtility.UrlEncode(ucJson)}&from={quickShareLink?.DisplayName}&message={quickShareLink?.PersonalMessage}");
                 });
             }
+            base.OnAppearing();
         }
 
-        private async Task<UserCard> SaveFromUrl(QuickShareLink link)
+        private async Task<UserCard> SaveFromQuickShareLink(QuickShareLink link)
         {
             var cardService = new CardHttpService();
             var result = await cardService.GetCardById(link.CardId);
             if (result.Success)
             {
                 var card = new Card(result.Model);
-
+                var fImageUrl = StringResources.THUMBNAIL_PATH + card.FrontFileId + ".jpg";
+                var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.FrontFileId + ".jpg";
+                var frontImgResult = await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName);
+                if(card.BackFileId != null && card.BackFileId != Guid.Empty)
+                {
+                    fImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileId + ".jpg";
+                    fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + card.BackFileId + ".jpg";
+                    var backImgResult = await App.DownloadImage(fImageUrl, Serialization.LocalStorageFolder, fName);
+                }
                 var myBusidexService = new MyBusidexHttpService();
                 await myBusidexService.AddToMyBusidex(card.CardId);
 
                 var sharedCardService = new SharedCardHttpService();
-                if (card.OwnerId.HasValue)
-                {
+                //if (card.OwnerId.HasValue)
+                //{
                     await sharedCardService.AcceptQuickShare(card, Security.CurrentUser.Email, link.From, link.PersonalMessage);
-                }
-
+                //}
+                
                 Serialization.RemoveQuickShareLink();
 
                 var userCard = new UserCard
@@ -97,18 +103,18 @@ namespace Busidex.Professional.Views
 
         private async void stkShare_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"//home/share");
+            await Shell.Current.GoToAsync(AppRoutes.SHARE);
         }
 
         private async void stkSearch_Tapped(object sender, EventArgs e)
         {
-            //await Shell.Current.GoToAsync($"//home/search");
-            await Navigation.PushAsync(new SearchView());
+            await Shell.Current.GoToAsync(AppRoutes.SEARCH);
+            //await Navigation.PushAsync(new SearchView());
         }
 
         private async void stkMyBusidex_Tapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"/home/mybusidex");
+            await Shell.Current.GoToAsync(AppRoutes.MY_BUSIDEX);
         }
 
         private async void stkOrganizations_Tapped(object sender, EventArgs e)
@@ -129,21 +135,23 @@ namespace Busidex.Professional.Views
 
         private async void stkManageAccount_Tapped(object sender, EventArgs e)
         {            
-            await Shell.Current.GoToAsync("account");
+            await Shell.Current.GoToAsync(AppRoutes.ACCOUNT);
         }
 
         private async void stkManageCard_Tapped(object sender, EventArgs e)
         {
-            var card = Serialization.LoadData<Card>(Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
-            if(card == null)
-            {
-                card = await App.LoadOwnedCard();
-            }
+            //var card = Serialization.LoadData<Card>(Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
+            //if(card == null)
+            //{
+            //    card = await App.LoadOwnedCard();
+            //}
              
-            var uc = new UserCard(card);
-            var page = new EditCardMenuView(ref uc);
-            await Shell.Current.Navigation.PushAsync(page);
-            //await Shell.Current.GoToAsync("card-edit-menu");
+            //var uc = new UserCard(card);
+            //var ucJson = JsonConvert.SerializeObject(uc).ToHexString();// Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
+
+            //var page = new EditCardMenuView();
+            //await Shell.Current.Navigation.PushAsync(page);
+            await Shell.Current.GoToAsync(AppRoutes.CARD_EDIT_MENU);
         }
 
         private async void stkFaq_Tapped(object sender, EventArgs e)

@@ -22,18 +22,18 @@
   <ItemGroup>
     <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="8.0.0" />
     <PackageReference Include="ImageCropper.Forms.Fix.v7" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AppCenter" Version="4.5.1" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
+    <PackageReference Include="Microsoft.AppCenter" Version="4.5.3" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
     <PackageReference Include="Plugin.E0.ImageResizer" Version="1.0.2" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Messaging" Version="5.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />  
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />  
     <PackageReference Include="Xamarin.Forms.Contacts" Version="1.0.5" />  
     <PackageReference Include="Xamarin.Forms.InputKit" Version="3.7.2" />  
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2515" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,8 +80,8 @@
     <Compile Update="Views\HomeMenuView.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Login.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MyBusidexView.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -104,5 +104,29 @@
     <Compile Update="Views\ShareView.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\EditCard\EditAddressView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditCardImageView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditContactInfoView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditExternalLinksView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditSearchInfoView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditTagsView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditCard\EditVisibilityView.xaml">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -1,41 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Busidex.Http.Utils;
+﻿using Busidex.Http.Utils;
 using Busidex.Models.Analytics;
-using Busidex.Models.Domain;
-using Busidex.Resources.String;
-using Busidex.Professional.ViewModels;
-using Xamarin.Forms.Xaml;
-using Xamarin.Forms;
 using Busidex.Models.Constants;
+using Busidex.Models.Domain;
+using Busidex.Professional.ViewModels;
+using Busidex.Resources.String;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Busidex.Professional.Views.EditCard
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditCardMenuView
-	{
-	    public CardMenuVM _viewModel { get; set; }
+    //[QueryProperty(nameof(UserCardJson), "ucJson")]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class EditCardMenuView : ContentPage
+    {
+        //private string _userCardJson = "";
+        //public string UserCardJson
+        //{
+        //    get => _userCardJson;
+        //    set
+        //    {
+        //        _userCardJson = value;
+        //    }
+        //}
 
-		public EditCardMenuView (ref UserCard uc)
+        //public void ApplyQueryAttributes(IDictionary<string, string> query)
+        //{
+        //    if(query.Count > 0)
+        //    {
+        //        _userCardJson = HttpUtility.UrlDecode(query["ucJson"]) ?? string.Empty;
+        //    }
+        //    else
+        //    {
+        //        _userCardJson = String.Empty;
+        //    }
+        //}
+
+        public CardMenuVM _viewModel { get; set; }
+
+		public EditCardMenuView ()
 		{
             InitializeComponent();
-            Init(uc);
         }
 
-        private async void Init(UserCard uc)
-        {
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    Shell.Current.GoToAsync(AppRoutes.HOME).Wait();
+        //    return true;
+        //}
 
+        private async Task Init()
+        {
+            //var json = Encoding.UTF8.GetString(UserCardJson.FromHex());
+            //var uc = JsonConvert.DeserializeObject<UserCard>(json);
+            var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
+            var ownedCard = Serialization.LoadData<Card>(path);
+            if(ownedCard.FrontFileId == null || ownedCard.FrontFileId == Guid.Empty)
+            {
+                ownedCard = await App.LoadOwnedCard();
+            }
+            var uc = new UserCard(ownedCard);
             if (uc != null && _viewModel == null)
             {
                 try
                 {
+                    if(uc.Card.FrontFileId == Guid.Empty)
+                    {
+                        uc.Card = await App.LoadOwnedCard();
+                    }
                     _viewModel = new CardMenuVM
                     {
                         SelectedCard = uc,
                         ImageSize = 65
                     };
-                    // uc.DisplaySettings = new UserCardDisplay(fileName: uc.Card.FrontFileName);
                     _viewModel.CheckHasCard();
                     _viewModel.DisplaySettings = new UserCardDisplay(
                         DisplaySetting.Detail,
@@ -56,81 +101,69 @@ namespace Busidex.Professional.Views.EditCard
                 }
                 this.ctrlCardImageHeader.IsVisible = _viewModel.ShowCardImage;
             }
-            else
-            {
-                await Navigation.PopAsync();
-            }
         }
 
         protected override void OnAppearing()
         {
-            var card = Serialization.LoadData<Card>(Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
-            var uc = new UserCard
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
-                ExistsInMyBusidex = true,
-                UserId = card.OwnerId.Value,
-                Card = card,
-                CardId = card.CardId
-            };
-            Init(uc);
+                await Init();
+            });
 
             App.AnalyticsManager.TrackScreen(ScreenName.MyCard);
             base.OnAppearing();
         }
 
-        private CardVM GetViewModel()
+        private async Task GoToRoute(string route)
         {
-            var sc = _viewModel.SelectedCard;
-            var myBusidex = Serialization.LoadData<List<UserCard>> (Path.Combine (Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
-            return new CardVM(ref sc, ref myBusidex);
+            var uc = _viewModel.SelectedCard;
+            //var mb = Serialization.LoadData<List<UserCard>>(Path.Combine(Serialization.LocalStorageFolder, StringResources.MY_BUSIDEX_FILE));
+
+            var ucJson = HttpUtility.UrlEncode(JsonConvert.SerializeObject(uc).ToHexString());// HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc))));
+            //var mbJson = HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(mb))));
+
+            await Shell.Current.GoToAsync($"{route}?ucJson={ucJson}");
         }
 
         private async void EditCardImageTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditCardImageView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_CARD_IMAGE);
         }
 
         private async void VisibilityTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditVisibilityView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_VISIBILITY);
         }
 
         private async void EditContactInfoTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditContactInfoView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_CONTACT_INFO);
         }
 
         private async void SearchInfoTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditSearchInfoView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_SEARCH_INFO);
         }
 
         private async void TagsTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditTagsView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_TAGS);
         }
 
         private async void AddressInfoTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditAddressView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_ADDRESS);
         }
 
         private async void ExternalLinksTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
-            await Shell.Current.Navigation.PushAsync(new EditExternalLinksView(ref vm));
+            await GoToRoute(AppRoutes.EDIT_EXTERNAL_LINKS);
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            Navigation.PopToRootAsync();
-            return true;
-        }
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    Navigation.PopToRootAsync();
+        //    return true;
+        //}
     }
 }

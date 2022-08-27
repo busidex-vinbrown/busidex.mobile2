@@ -2,7 +2,10 @@
 using Busidex.Models.Domain;
 using Busidex.Professional.ViewModels;
 using Busidex.Professional.Views.EditCard;
+using Busidex.Resources.String;
+using Newtonsoft.Json;
 using System;
+using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,7 +50,7 @@ namespace Busidex.Professional.Views
         {
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                var page = (Page)Activator.CreateInstance(typeof(Login));
+                var page = (Page)Activator.CreateInstance(typeof(LoginView));
                 NavigationPage.SetHasNavigationBar(page, false);
                 Navigation.PushAsync(page);
             }
@@ -113,7 +116,7 @@ namespace Busidex.Professional.Views
 
                     if (ok)
                     {
-                        await Shell.Current.GoToAsync("home");
+                        await Shell.Current.GoToAsync(AppRoutes.HOME);
                     }
                 }
             }
@@ -129,7 +132,7 @@ namespace Busidex.Professional.Views
         {
             if(string.IsNullOrEmpty(Security.AuthToken))
             {
-                var page = (Page)Activator.CreateInstance(typeof(Login));
+                var page = (Page)Activator.CreateInstance(typeof(LoginView));
                 NavigationPage.SetHasNavigationBar(page, false);
                 Navigation.PushAsync(page);
             }
@@ -142,18 +145,22 @@ namespace Busidex.Professional.Views
 
         private void btnLogout_Clicked(object sender, EventArgs e)
         {
-            var page = (Page)Activator.CreateInstance(typeof(Login));
+            App.IsCardOwnerConfirmed = false;
+
+            var page = (Page)Activator.CreateInstance(typeof(LoginView));
             Security.LogOut();
             Navigation.PushAsync(page);
         }
 
         private async void btnEditCard_Clicked(object sender, EventArgs e)
         {
-            //var card = await App.LoadOwnedCard();
-            //var uc = new UserCard(card);
+            var card = await App.LoadOwnedCard();
+            var uc = new UserCard(card);
+            var ucJson = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
+
             //var page = new EditCardMenuView();
             //await Shell.Current.Navigation.PushAsync(page);
-            await Shell.Current.GoToAsync("card-edit-menu");
+            await Shell.Current.GoToAsync($"{AppRoutes.CARD_EDIT_MENU}?ucJson={ucJson}");
         }
     }
 }

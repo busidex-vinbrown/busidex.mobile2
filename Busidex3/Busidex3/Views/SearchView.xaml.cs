@@ -28,14 +28,14 @@ namespace Busidex3.Views
 
         protected override void OnAppearing()
         {
-			Shell.SetBackButtonBehavior(this, new BackButtonBehavior
-			{
-				Command = new Command(async () =>
-				{
-					await Shell.Current.GoToAsync("./home/mybusidex");
-				}),
-				//IconOverride = "back.png"
-			});
+			//Shell.SetBackButtonBehavior(this, new BackButtonBehavior
+			//{
+			//	Command = new Command(async () =>
+			//	{
+			//		await Shell.Current.GoToAsync(AppRoutes.HOME);
+			//	}),
+			//	//IconOverride = "back.png"
+			//});
 			App.AnalyticsManager.TrackScreen(ScreenName.Search);
 			base.OnAppearing();
         }

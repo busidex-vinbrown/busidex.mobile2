@@ -1,35 +1,26 @@
-﻿using System;
-using Busidex.Models.Constants;
-using Busidex.Models.Domain;
-using Busidex.Professional.ViewModels;
-using Xamarin.Forms;
+﻿using Busidex.Models.Domain;
+using System;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex.Professional.Views.EditCard
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditVisibilityView
-	{
-        protected CardVM _viewModel { get; set; }
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class EditVisibilityView : BaseEditCardView
+    {
 
-        public EditVisibilityView (ref CardVM vm)
+        public EditVisibilityView ()
 		{
 			InitializeComponent ();
-
-            _viewModel = vm;
-            _viewModel.DisplaySettings = new UserCardDisplay(
-                DisplaySetting.Detail,
-                vm.SelectedCard.Card.FrontOrientation == "H"
-                    ? CardOrientation.Horizontal
-                    : CardOrientation.Vertical,
-                vm.SelectedCard.Card.FrontFileName,
-                vm.SelectedCard.Card.FrontOrientation);
-
-            BindingContext = _viewModel;
             
             Title = "Who Can See Your Card?";
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
             UpdatePage(_viewModel.SelectedCard.Card.Visibility);
-            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+            
         }
 
         private void UpdatePage(CardVisibility value)

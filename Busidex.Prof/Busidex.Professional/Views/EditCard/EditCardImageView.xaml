@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<views:BaseEditCardView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Busidex.Professional.Views.EditCard"
              xmlns:controls1="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
              x:Class="Busidex.Professional.Views.EditCard.EditCardImageView">
@@ -146,4 +147,4 @@
                 Clicked="BtnSave_OnClicked"/>     
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</views:BaseEditCardView>

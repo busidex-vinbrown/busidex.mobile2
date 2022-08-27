@@ -2,12 +2,12 @@
 using Busidex.Models.Analytics;
 using Busidex.Models.Domain;
 using Busidex.Professional.ViewModels;
+using Busidex.Resources.String;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -72,26 +72,50 @@ namespace Busidex.Professional.Views
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
-            var json = Encoding.UTF8.GetString(Convert.FromBase64String(UserCardJson));
-            var uc = JsonConvert.DeserializeObject<UserCard>(json);
-            _viewModel = new QuickShareVM(uc);
-            _viewModel.Greeting = $"Congratulations! Your card is now on Busidex. Take a moment to review your card information by tapping the button below.";
-            _viewModel.PersonalMessage = LinkMessage;
-            BindingContext = _viewModel;
-            MainThread.BeginInvokeOnMainThread(async () =>
+            if(App.IsCardOwnerConfirmed)
             {
-                await _viewModel.UpdateOwner(uc.CardId, Security.CurrentUser.UserId);
-                await _viewModel.AddCardToMyBusidex(uc.CardId);
-                Serialization.RemoveQuickShareLink();
-            });
+                Shell.Current.Navigation.PopAsync();
+            }
+            else
+            {
+                App.IsCardOwnerConfirmed = true;
+
+                var ucJson = Encoding.UTF8.GetString(UserCardJson.FromHex());
+                var uc = JsonConvert.DeserializeObject<UserCard>(ucJson);
+                _viewModel = new QuickShareVM(uc);
+                _viewModel.Greeting = $"Congratulations! Your card is now on Busidex. Take a moment to review your card information by tapping the button below.";
+                _viewModel.PersonalMessage = LinkMessage;
+                BindingContext = _viewModel;
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    uc.Card.OwnerId = Security.CurrentUser.UserId;
+                    uc.Card.Searchable = true;
+                    uc.Card.Deleted = false;
+
+                    await _viewModel.UpdateOwner(uc.CardId, Security.CurrentUser.UserId);
+                    //await _viewModel.AddCardToMyBusidex(uc.CardId);
+                    Serialization.RemoveQuickShareLink();
+
+                    var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
+                    Serialization.SaveResponse(JsonConvert.SerializeObject(uc.Card), path);
+
+                });
+            }
+            base.OnAppearing();
         }
 
         private async void BtnContinue_Clicked(object sender, System.EventArgs e)
         {
-            await App.LoadOwnedCard();
-            await App.LoadMyBusidex();
-            await Shell.Current.GoToAsync("home");
+            //await App.LoadOwnedCard(useThumbnail: false, mustSucceed: true);
+            //await App.LoadMyBusidex();
+            //var cardPath = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
+            //var card = Serialization.LoadData<Card>(cardPath);
+
+            //var uc = new UserCard(card);
+            //var ucJson = JsonConvert.SerializeObject(uc).ToHexString();
+
+            //await Shell.Current.GoToAsync($"{AppRoutes.CARD_EDIT_MENU}?ucJson={ucJson}");
+            await Shell.Current.GoToAsync(AppRoutes.CARD_EDIT_MENU);
         }
 
         protected override bool OnBackButtonPressed()

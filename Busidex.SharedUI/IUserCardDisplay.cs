@@ -17,7 +17,7 @@ namespace Busidex.SharedUI
         double VFrameWidth { get; set; }
         double VImageHeight { get; set; }
         double VImageWidth { get; set; }
-
+        bool IsVisible { get; set; }
         event PropertyChangedEventHandler PropertyChanged;
     }
 }

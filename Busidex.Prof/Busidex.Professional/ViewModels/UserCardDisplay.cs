@@ -30,6 +30,12 @@ namespace Busidex.Professional.ViewModels
         private readonly DisplaySetting _currentDisplaySetting;
         private readonly CardOrientation _currentOrientation;
 
+        public IUserCardDisplay DisplaySettings { get
+            {
+                return this;
+            }
+        }
+
         private string _currentFileName { get; set; }
         public string CurrentFileName {
             get => _currentFileName;
@@ -56,6 +62,8 @@ namespace Busidex.Professional.ViewModels
                 OnPropertyChanged(nameof(ShowCard));
             }
         }
+
+        public bool IsVisible { get; set; }
 
         public UserCardDisplay(
             DisplaySetting display = DisplaySetting.Detail,

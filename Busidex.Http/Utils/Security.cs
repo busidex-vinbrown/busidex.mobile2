@@ -106,6 +106,8 @@ namespace Busidex.Http.Utils
 
         public static long DecodeUserId()
         {
+            if (string.IsNullOrEmpty(AuthToken)) return 0;
+
             byte[] raw = Convert.FromBase64String(AuthToken);
             string s = Encoding.UTF8.GetString(raw);
             long.TryParse(s, out var userId);

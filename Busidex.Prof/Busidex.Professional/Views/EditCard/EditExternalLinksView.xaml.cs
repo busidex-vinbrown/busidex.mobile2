@@ -1,38 +1,21 @@
-﻿using Busidex.Models.Constants;
-using Busidex.Professional.ViewModels;
-using System;
-using Xamarin.Forms;
+﻿using System;
 using Xamarin.Forms.Xaml;
 
 namespace Busidex.Professional.Views.EditCard
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class EditExternalLinksView : ContentPage
+    public partial class EditExternalLinksView : BaseEditCardView
     {
-        protected CardVM _viewModel { get; set; }
-        public UserCardDisplay DisplaySettings { get; set; }
-
-        public EditExternalLinksView(ref CardVM vm)
+        public EditExternalLinksView()
         {
             InitializeComponent();
 
-            // var fileName = vm.SelectedCard.DisplaySettings.CurrentFileName;
-            _viewModel = vm;
+            Title = "External Links";            
+        }
 
-            Title = "External Links";
-            // vm.SelectedCard.DisplaySettings = new UserCardDisplay(fileName: fileName);
-            
-            _viewModel = vm;
-            _viewModel.DisplaySettings = new UserCardDisplay(
-                DisplaySetting.Detail,
-                vm.SelectedCard.Card.FrontOrientation == "H"
-                    ? CardOrientation.Horizontal
-                    : CardOrientation.Vertical,
-                vm.SelectedCard.Card.FrontFileName,
-                vm.SelectedCard.Card.FrontOrientation);
-
-            BindingContext = _viewModel;
-            _viewModel.SetViewHeightForOrientation(_viewModel.SelectedCard.Card.FrontOrientation);
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
         }
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)

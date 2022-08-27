@@ -47,7 +47,9 @@ namespace Busidex.Professional
                 return analyticsManager;
             }
         }
-        
+
+        public static bool IsCardOwnerConfirmed { get; set; }
+
         private static IDisplayManager displayManager;
         public static IDisplayManager DisplayManager {
             get {
@@ -64,24 +66,28 @@ namespace Busidex.Professional
             InitializeComponent();
 
             MainPage = new AppShell();
-            
-            InitSession();
 
             Shell.SetBackButtonBehavior(this, new BackButtonBehavior
             {
                 IsEnabled = true
             });
+            
+            InitSession();
 
             if (string.IsNullOrEmpty(Security.AuthToken))
             {
-                var page = new Login();
-                Shell.Current.Navigation.PushAsync(page).Wait();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    var page = new LoginView();
+                    await Shell.Current.Navigation.PushAsync(page);
+                    //await Shell.Current.GoToAsync(AppRoutes.LOGIN);
+                });
             }
             else
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    await Shell.Current.GoToAsync("/home");
+                    await Shell.Current.GoToAsync(AppRoutes.HOME);
                 });
             }
         }
@@ -271,17 +277,21 @@ namespace Busidex.Professional
             
         }
 
-        public static async Task<Card> LoadOwnedCard(bool useThumbnail = true)
+        private static async Task<Card> CallGetMyCard()
+        {
+            var myCardResponse = await _cardHttpService.GetMyCard();
+            if (myCardResponse == null || myCardResponse.Model == null || !myCardResponse.Success)
+            {
+                return null;
+            }
+
+            return new Card(myCardResponse.Model);
+        }
+        public static async Task<Card> LoadOwnedCard(bool useThumbnail = true, bool mustSucceed = false)
         {
             try
             {
-                var myCardResponse = await _cardHttpService.GetMyCard();
-                if (myCardResponse == null || myCardResponse.Model == null || !myCardResponse.Success)
-                {
-                    return null;
-                }
-
-                var card = new Card(myCardResponse.Model);
+                var card = await CallGetMyCard();
 
                 var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
                 Serialization.SaveResponse(JsonConvert.SerializeObject(card), path);
@@ -292,9 +302,10 @@ namespace Busidex.Professional
                     : card.FrontFileId + ".jpg";
 
                 var storagePath = Serialization.LocalStorageFolder;
-                await DownloadImage(fImageUrl, storagePath, fName);
+                var imgResult = await DownloadImage(fImageUrl, storagePath, fName);
+                if (mustSucceed && string.IsNullOrEmpty(imgResult)) throw new Exception("Could not download card front image");
 
-                if (card.BackFileId != Guid.Empty)
+                if (card.BackFileId != null && card.BackFileId != Guid.Empty)
                 {
                     fImageUrl = StringResources.THUMBNAIL_PATH + card.BackFileId + ".jpg";
                     fName = useThumbnail
@@ -357,9 +368,8 @@ namespace Busidex.Professional
                             using (var fs = new FileStream(localPath, FileMode.Append, FileAccess.Write))
                             {
                                 fs.Write(imageData, 0, imageData.Length);
+                                fs.Flush();
                             }
-
-                            //File.WriteAllBytes(localPath, imageData); // writes to local storage  
                         }
                     }
                 }   
