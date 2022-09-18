@@ -23,7 +23,7 @@ namespace Busidex.Professional.iOS
         {
             //global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
-            FormsMaterial.Init();
+            //FormsMaterial.Init();
 
             Branch.Debug = true;
             var busidexApp = new App();

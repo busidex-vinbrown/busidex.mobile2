@@ -11,10 +11,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Busidex.Professional.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Busidex.Professional.iOS</AssemblyName>
+    <AssemblyName>BusidexPRO.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <ProvisioningType>automatic</ProvisioningType>
+    <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +52,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>
     </MtouchInterpreter>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>Busidex Professional Development</CodesignProvision>
     <MtouchExtraArgs>--interpreter --linkskip=Xamarin.Essentials --linkskip=LinkPresentation --linkskip=Plugin.InAppBilling</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -62,9 +62,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Vinny Brown (6WLT8DCEEV)</CodesignKey>
+    <CodesignKey>iPhone Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>Busidex Professional Distribution</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+    <IpaPackageName>com.busidex.professional</IpaPackageName>
+    <IpaMetadata>Info.plist</IpaMetadata>
+    <MtouchExtraArgs>--interpreter --linkskip=Xamarin.Essentials --linkskip=LinkPresentation --linkskip=Plugin.InAppBilling</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -84,6 +88,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\tab_about.png" />
@@ -95,9 +101,6 @@
     <BundleResource Include="Resources\xamarin_logo.png" />
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
-    <ImageAsset Include="Images.xcassets\AppIcons.appiconset\busidex_artwork_1024x1024.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Images.xcassets\AppIcons.appiconset\busidex_professional_icon_120x1201.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -147,6 +150,9 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Images.xcassets\AppIcons.appiconset\busidex_professional_icon_87x871.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Images.xcassets\AppIcons.appiconset\busidex_prof_artwork_1024x1024.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Images.xcassets\AppIcons.appiconset\Contents.json">
@@ -224,9 +230,6 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.InputKit">
       <Version>3.7.2</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>5.0.0.2515</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
