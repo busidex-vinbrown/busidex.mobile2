@@ -708,75 +708,75 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> SaveCardImage()
         {
-            AllowSave = false;
+            //AllowSave = false;
 
-            var storagePath = Serialization.LocalStorageFolder;
+            //var storagePath = Serialization.LocalStorageFolder;
 
-            if (FrontImageChanged || FrontOrientationChanged)
-            {
-                var cardFront = new MobileCardImage
-                {
-                    BackFileId = BackFileId,
-                    FrontFileId = FrontFileId,
-                    EncodedCardImage = EncodedFrontCardImage,
-                    Orientation = FrontOrientation,
-                    Side = MobileCardImage.DisplayMode.Front
-                };
+            //if (FrontImageChanged || FrontOrientationChanged)
+            //{
+            //    var cardFront = new MobileCardImage
+            //    {
+            //        BackFileId = BackFileId,
+            //        FrontFileId = FrontFileId,
+            //        EncodedCardFrontImage = EncodedFrontCardImage,
+            //        FrontOrientation = FrontOrientation,
+            //        Side = MobileCardImage.DisplayMode.Front
+            //    };
 
-                var frontResult = await _cardHttpService.UpdateCardImage(cardFront);
-                if (FrontOrientationChanged)
-                {
-                    SelectedCard.Card.FrontOrientation = FrontOrientation;
-                }
+            //    var frontResult = await _cardHttpService.UpdateCardImage(cardFront);
+            //    if (FrontOrientationChanged)
+            //    {
+            //        SelectedCard.Card.FrontOrientation = FrontOrientation;
+            //    }
 
-                if (FrontImageChanged && frontResult)
-                {
-                    SelectedCard.Card.FrontFileId = FrontFileId;
+            //    if (FrontImageChanged && frontResult)
+            //    {
+            //        SelectedCard.Card.FrontFileId = FrontFileId;
                     
-                    var fImageUrl = StringResources.THUMBNAIL_PATH + FrontFileId + ".jpg";
-                    var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + FrontFileId + ".jpg";
-                    await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
-                }
-            }
+            //        var fImageUrl = StringResources.THUMBNAIL_PATH + FrontFileId + ".jpg";
+            //        var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + FrontFileId + ".jpg";
+            //        await App.DownloadImage(fImageUrl, storagePath, fName).ConfigureAwait(false);
+            //    }
+            //}
 
-            if (BackImageChanged || BackOrientationChanged)
-            {
-                var cardBack = new MobileCardImage
-                {
-                    BackFileId = BackFileId,
-                    FrontFileId = FrontFileId,
-                    EncodedCardImage = EncodedBackCardImage,
-                    Orientation = FrontOrientation,
-                    Side = MobileCardImage.DisplayMode.Back
-                };
+            //if (BackImageChanged || BackOrientationChanged)
+            //{
+            //    var cardBack = new MobileCardImage
+            //    {
+            //        BackFileId = BackFileId,
+            //        FrontFileId = FrontFileId,
+            //        EncodedCardImage = EncodedBackCardImage,
+            //        Orientation = FrontOrientation,
+            //        Side = MobileCardImage.DisplayMode.Back
+            //    };
 
-                if (BackOrientationChanged)
-                {
-                    SelectedCard.Card.BackOrientation = BackOrientation;
-                }
+            //    if (BackOrientationChanged)
+            //    {
+            //        SelectedCard.Card.BackOrientation = BackOrientation;
+            //    }
 
-                var backResult = await _cardHttpService.UpdateCardImage(cardBack);
-                if (BackImageChanged && backResult)
-                {
-                    SelectedCard.Card.BackFileId = BackFileId;                    
+            //    var backResult = await _cardHttpService.UpdateCardImage(cardBack);
+            //    if (BackImageChanged && backResult)
+            //    {
+            //        SelectedCard.Card.BackFileId = BackFileId;                    
                     
-                    var bImageUrl = StringResources.THUMBNAIL_PATH + BackFileId + ".jpg";
-                    var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + BackFileId + ".jpg";
+            //        var bImageUrl = StringResources.THUMBNAIL_PATH + BackFileId + ".jpg";
+            //        var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + BackFileId + ".jpg";
 
-                    await App.DownloadImage(bImageUrl, storagePath, bName).ConfigureAwait(false);
-                }
-            }
+            //        await App.DownloadImage(bImageUrl, storagePath, bName).ConfigureAwait(false);
+            //    }
+            //}
 
-            if (BackImageChanged || FrontImageChanged || FrontOrientationChanged || BackOrientationChanged)
-            {
-                //  await App.LoadOwnedCard();
+            //if (BackImageChanged || FrontImageChanged || FrontOrientationChanged || BackOrientationChanged)
+            //{
+            //    //  await App.LoadOwnedCard();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            //    App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.CardImageUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
 
-                SaveToFile();
-            }
+            //    SaveToFile();
+            //}
 
-            AllowSave = true;
+            //AllowSave = true;
 
             return true;
         }
@@ -809,228 +809,232 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> SaveAddress()
         {
-            AllowSave = false;
+            //AllowSave = false;
 
-            OnCardInfoUpdating?.Invoke();
+            //OnCardInfoUpdating?.Invoke();
 
-            var card = new CardDetailModel(SelectedCard.Card)
-            {
-                Addresses = new List<Address>()
-            };
+            //var card = new CardDetailModel(SelectedCard.Card)
+            //{
+            //    Addresses = new List<Address>()
+            //};
 
-            var state = GetStates().SingleOrDefault(s => s.Name == SelectedStateName);
+            //var state = GetStates().SingleOrDefault(s => s.Name == SelectedStateName);
 
-            card.Addresses.Add(new Address
-            {
-                CardAddressId = Address.CardAddressId,
-                Address1 = Address.Address1,
-                Address2 = Address.Address2,
-                ZipCode = Address.ZipCode,
-                State = state,
-                City = Address.City
-            });
+            //card.Addresses.Add(new Address
+            //{
+            //    CardAddressId = Address.CardAddressId,
+            //    Address1 = Address.Address1,
+            //    Address2 = Address.Address2,
+            //    ZipCode = Address.ZipCode,
+            //    State = state,
+            //    City = Address.City
+            //});
 
-            var result = await _cardHttpService.UpdateCardContactInfo(card);
-            if (result)
-            {
-                var resp = await _cardHttpService.GetCardById(card.CardId);
-                SelectedCard.Card.Addresses.Clear();
-                SelectedCard.Card.Addresses.Add(resp.Model.Addresses[0]);
+            //var result = await _cardHttpService.UpdateCardContactInfo(card);
+            //if (result)
+            //{
+            //    var resp = await _cardHttpService.GetCardById(card.CardId);
+            //    SelectedCard.Card.Addresses.Clear();
+            //    SelectedCard.Card.Addresses.Add(resp.Model.Addresses[0]);
 
-                SaveToFile();
+            //    SaveToFile();
 
-                Address = resp.Model.Addresses[0];
+            //    Address = resp.Model.Addresses[0];
 
-                await App.LoadOwnedCard();
+            //    await App.LoadOwnedCard();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
-            }
-            
-            AllowSave = true;
+            //    App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            //}
 
-            return result;
+            //AllowSave = true;
+
+            //return result;
+            return true;
         }
 
         public async Task<bool> SaveExternalLinks()
         {
-            AllowSave = false;
+            //AllowSave = false;
 
-            var linksModel = new CardLinksModel()
-            {
-                CardId = SelectedCard.CardId,
-                Links = new List<ExternalLink>()
-            };
-            if (!string.IsNullOrEmpty(FBLink))
-            {
-                linksModel.Links.Add(new ExternalLink
-                {
-                    ExternalLinkTypeId = 1,
-                    Link = FBLink,
-                    CardId = SelectedCard.CardId
-                });
-            }
-            if (!string.IsNullOrEmpty(LinkedinLink))
-            {
-                linksModel.Links.Add(new ExternalLink
-                {
-                    ExternalLinkTypeId = 2,
-                    Link = LinkedinLink,
-                    CardId = SelectedCard.CardId
-                });
-            }
-            if (!string.IsNullOrEmpty(InstagLink))
-            {
-                linksModel.Links.Add(new ExternalLink
-                {
-                    ExternalLinkTypeId = 3,
-                    Link = InstagLink,
-                    CardId = SelectedCard.CardId
-                });
-            }
-            if (!string.IsNullOrEmpty(TwitterLink))
-            {
-                linksModel.Links.Add(new ExternalLink
-                {
-                    ExternalLinkTypeId = 4,
-                    Link = TwitterLink,
-                    CardId = SelectedCard.CardId
-                });
-            }
-            var result = await _cardHttpService.UpdateCardLinks(linksModel);
-            if (result)
-            {
-                var resp = await _cardHttpService.GetCardById(linksModel.CardId);
-                SelectedCard.Card.ExternalLinks = new List<ExternalLink>(resp.Model.ExternalLinks);
+            //var linksModel = new CardLinksModel()
+            //{
+            //    CardId = SelectedCard.CardId,
+            //    Links = new List<ExternalLink>()
+            //};
+            //if (!string.IsNullOrEmpty(FBLink))
+            //{
+            //    linksModel.Links.Add(new ExternalLink
+            //    {
+            //        ExternalLinkTypeId = 1,
+            //        Link = FBLink,
+            //        CardId = SelectedCard.CardId
+            //    });
+            //}
+            //if (!string.IsNullOrEmpty(LinkedinLink))
+            //{
+            //    linksModel.Links.Add(new ExternalLink
+            //    {
+            //        ExternalLinkTypeId = 2,
+            //        Link = LinkedinLink,
+            //        CardId = SelectedCard.CardId
+            //    });
+            //}
+            //if (!string.IsNullOrEmpty(InstagLink))
+            //{
+            //    linksModel.Links.Add(new ExternalLink
+            //    {
+            //        ExternalLinkTypeId = 3,
+            //        Link = InstagLink,
+            //        CardId = SelectedCard.CardId
+            //    });
+            //}
+            //if (!string.IsNullOrEmpty(TwitterLink))
+            //{
+            //    linksModel.Links.Add(new ExternalLink
+            //    {
+            //        ExternalLinkTypeId = 4,
+            //        Link = TwitterLink,
+            //        CardId = SelectedCard.CardId
+            //    });
+            //}
+            //var result = await _cardHttpService.UpdateCardLinks(linksModel);
+            //if (result)
+            //{
+            //    var resp = await _cardHttpService.GetCardById(linksModel.CardId);
+            //    SelectedCard.Card.ExternalLinks = new List<ExternalLink>(resp.Model.ExternalLinks);
 
-                SaveToFile();
+            //    SaveToFile();
 
-                await App.LoadOwnedCard();
+            //    await App.LoadOwnedCard();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
-            }
+            //    App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            //}
 
-            AllowSave = true;
+            //AllowSave = true;
 
-            return result;
+            //return result;
+            return true;
         }
 
         public async Task<bool> SaveTags()
         {
-            AllowSave = false;
+            //AllowSave = false;
 
-            var card = new CardDetailModel(SelectedCard.Card)
-            {
-                Tags = new List<Tag>(
-                    Tags.Where(
-                        t => !string.IsNullOrEmpty(t.Text) &&
-                        !string.IsNullOrEmpty(t.Text)
-                        )
-                    )
-            };
+            //var card = new CardDetailModel(SelectedCard.Card)
+            //{
+            //    Tags = new List<Tag>(
+            //        Tags.Where(
+            //            t => !string.IsNullOrEmpty(t.Text) &&
+            //            !string.IsNullOrEmpty(t.Text)
+            //            )
+            //        )
+            //};
 
-            var result = await _cardHttpService.UpdateCardContactInfo(card);
-            if (result)
-            {
-                var resp = await _cardHttpService.GetCardById(card.CardId);
-                SelectedCard.Card.Tags = new List<Tag>(resp.Model.Tags);
+            //var result = await _cardHttpService.UpdateCardContactInfo(card);
+            //if (result)
+            //{
+            //    var resp = await _cardHttpService.GetCardById(card.CardId);
+            //    SelectedCard.Card.Tags = new List<Tag>(resp.Model.Tags);
 
-                initTagDisplay();
+            //    initTagDisplay();
 
-                SaveToFile();
+            //    SaveToFile();
 
-                await App.LoadOwnedCard();
+            //    await App.LoadOwnedCard();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
-            }
+            //    App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            //}
             
-            AllowSave = true;
+            //AllowSave = true;
 
-            return result;
+            return true;
         }
 
         public async Task<bool> SaveSearchInfo()
         {
-            AllowSave = false;
+            //AllowSave = false;
 
-            var card = new CardDetailModel(SelectedCard.Card)
-            {
-                CompanyName = CompanyName,
-                Name = Name,
-                Title = Title
-            };
+            //var card = new CardDetailModel(SelectedCard.Card)
+            //{
+            //    CompanyName = CompanyName,
+            //    Name = Name,
+            //    Title = Title
+            //};
 
-            var result = await _cardHttpService.UpdateCardContactInfo(card);
-            if (result)
-            {
-                var resp = await _cardHttpService.GetCardById(card.CardId);
-                SelectedCard.Card.CompanyName = resp.Model.CompanyName;
-                SelectedCard.Card.Name = resp.Model.Name;
-                SelectedCard.Card.Title = resp.Model.Title;
+            //var result = await _cardHttpService.UpdateCardContactInfo(card);
+            //if (result)
+            //{
+            //    var resp = await _cardHttpService.GetCardById(card.CardId);
+            //    SelectedCard.Card.CompanyName = resp.Model.CompanyName;
+            //    SelectedCard.Card.Name = resp.Model.Name;
+            //    SelectedCard.Card.Title = resp.Model.Title;
 
-                SaveToFile();
+            //    SaveToFile();
 
-                await App.LoadOwnedCard();
+            //    await App.LoadOwnedCard();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
-            }
-            
-            AllowSave = true;
+            //    App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            //}
 
-            return result;
+            //AllowSave = true;
+
+            //return result;
+            return true;
         }
 
         public async Task<bool> SaveContactInfo()
         {
-            AllowSave = false;
+            // AllowSave = false;
 
-            var card = new CardDetailModel(SelectedCard.Card)
-            {
-                PhoneNumbers = new ObservableCollection<PhoneNumber>(
-                    PhoneNumbers.Select(p => new PhoneNumber
-                    {
-                        PhoneNumberId = p.PhoneNumberId,
-                        Number = p.Number, 
-                        PhoneNumberType = p.GetSelectedPhoneNumberType(), 
-                        PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
-                        Deleted = p.Deleted
-                    })
-                )
-            };
-            var deleted = _deletedPhoneNumbers.Select(p => new PhoneNumber
-            {
-                PhoneNumberId = p.PhoneNumberId,
-                Number = p.Number,
-                PhoneNumberType = p.GetSelectedPhoneNumberType(),
-                PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
-                Deleted = p.Deleted
-            }).ToList();
-            deleted.ForEach(d =>
-           {
-               card.PhoneNumbers.Add(d);
-           });
-            
-            
-            var result = await _cardHttpService.UpdateCardContactInfo(card);
-            if (result)
-            {
-                var resp = await _cardHttpService.GetCardById(card.CardId);
-                SelectedCard.Card.PhoneNumbers.Clear();
-                SelectedCard.Card.PhoneNumbers.AddRange(resp.Model.PhoneNumbers);
+            // var card = new CardDetailModel(SelectedCard.Card)
+            // {
+            //     PhoneNumbers = new ObservableCollection<PhoneNumber>(
+            //         PhoneNumbers.Select(p => new PhoneNumber
+            //         {
+            //             PhoneNumberId = p.PhoneNumberId,
+            //             Number = p.Number, 
+            //             PhoneNumberType = p.GetSelectedPhoneNumberType(), 
+            //             PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
+            //             Deleted = p.Deleted
+            //         })
+            //     )
+            // };
+            // var deleted = _deletedPhoneNumbers.Select(p => new PhoneNumber
+            // {
+            //     PhoneNumberId = p.PhoneNumberId,
+            //     Number = p.Number,
+            //     PhoneNumberType = p.GetSelectedPhoneNumberType(),
+            //     PhoneNumberTypeId = p.GetSelectedPhoneNumberType().PhoneNumberTypeId,
+            //     Deleted = p.Deleted
+            // }).ToList();
+            // deleted.ForEach(d =>
+            //{
+            //    card.PhoneNumbers.Add(d);
+            //});
 
-                SaveToFile();
 
-                await App.LoadOwnedCard();
+            // var result = await _cardHttpService.UpdateCardContactInfo(card);
+            // if (result)
+            // {
+            //     var resp = await _cardHttpService.GetCardById(card.CardId);
+            //     SelectedCard.Card.PhoneNumbers.Clear();
+            //     SelectedCard.Card.PhoneNumbers.AddRange(resp.Model.PhoneNumbers);
 
-                PhoneNumbers.Clear();
-                PhoneNumbers.AddRange(
-                    new List<PhoneNumberVM>(SelectedCard.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p))));
+            //     SaveToFile();
 
-                App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
-            }
-            
-            AllowSave = true;
+            //     await App.LoadOwnedCard();
 
-            return result;
+            //     PhoneNumbers.Clear();
+            //     PhoneNumbers.AddRange(
+            //         new List<PhoneNumberVM>(SelectedCard.Card.PhoneNumbers.Select(p => new PhoneNumberVM(p))));
+
+            //     App.AnalyticsManager.TrackEvent(EventCategory.CardEdit, EventAction.ContactInfoUpdated, SelectedCard.Card.Name ?? SelectedCard.Card.CompanyName);
+            // }
+
+            // AllowSave = true;
+
+            // return result;
+            return true;
         }
 
         private void SaveToFile()

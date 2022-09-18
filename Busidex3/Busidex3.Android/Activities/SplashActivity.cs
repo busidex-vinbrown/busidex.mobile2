@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -15,7 +14,11 @@ namespace Busidex3.Droid.Activities
 		DataScheme = "busidex",
 		DataPathPrefix = "/Uebo",
 		Categories = new [] { Intent.CategoryDefault, Intent.CategoryBrowsable })]
-	public class SplashActivity : Activity
+    [IntentFilter(new[] { Intent.ActionView },
+        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+        DataScheme = "https",
+        DataHost = "promote.busidex.com")]
+    public class SplashActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{

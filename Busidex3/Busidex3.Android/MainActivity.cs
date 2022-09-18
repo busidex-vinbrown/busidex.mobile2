@@ -35,7 +35,6 @@ namespace Busidex3.Droid
             FormsMaterial.Init(this, savedInstanceState);
 
             var app = new App();
-            BranchAndroid.GetAutoInstance(this.ApplicationContext);
             BranchAndroid.Init(this, GetString(Resource.String.branch_key), app);
             
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);

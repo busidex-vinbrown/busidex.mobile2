@@ -19,7 +19,10 @@ namespace Busidex3.Views
 		{
 			InitializeComponent ();
 
-		    NavigationPage.SetHasNavigationBar (this, false);
+            _viewModel = new CardImageVM();
+
+            //Shell.SetNavBarIsVisible(this, false);
+            NavigationPage.SetHasNavigationBar (this, false);
 
 			_viewModel.DisplaySettings = new UserCardDisplay(
 		        DisplaySetting.FullScreen,
@@ -29,7 +32,7 @@ namespace Busidex3.Views
 		        uc.Card.FrontFileName,
 				uc.Card.FrontOrientation);
 
-		    BindingContext = uc;
+		    BindingContext = _viewModel;
 		    _currentCard = uc;
 		    
             CardImage.OnCardImageClicked += CardImage_OnCardImageClicked;
@@ -52,8 +55,8 @@ namespace Busidex3.Views
 					return;
 				}
             }
-			//await Navigation.PopAsync();
-			await Shell.Current.GoToAsync("..");
+			await Navigation.PopAsync();
+			//await Shell.Current.GoToAsync("..");
         }
 
         protected override void OnDisappearing()

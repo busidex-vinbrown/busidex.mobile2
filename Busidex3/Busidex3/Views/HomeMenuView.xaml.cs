@@ -26,11 +26,7 @@ namespace Busidex3.Views
             {
                 IsEnabled = true
             });
-            //imgBackground.HeightRequest = imgBackgroundProf.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
-            //imgBackground.WidthRequest = imgBackgroundProf.WidthRequest = DeviceDisplay.MainDisplayInfo.Width;
-            //imgBackground.Margin = imgBackgroundProf.Margin = _viewModel.IsProfessional
-            //? new Thickness(0)
-            //    : new Thickness(-60, 0,0,0);
+          
             imgBackground.HeightRequest = DeviceDisplay.MainDisplayInfo.Height;
             imgBackground.WidthRequest = DeviceDisplay.MainDisplayInfo.Width;
             

@@ -422,7 +422,7 @@ namespace Busidex3
         public void InitSessionComplete(Dictionary<string, object> data)
         {
             if (data == null)
-            {                
+            {
                 return;
             }
 
@@ -431,9 +431,11 @@ namespace Busidex3
             var sentFrom = string.Empty;
             string displayName = string.Empty;
             string personalMessage = string.Empty;
+            bool? saveOwner = null;
             const string KEY_FROM = "_f";
             const string KEY_DISPLAY = "_d";
             const string KEY_MESSAGE = "_m";
+            const string KEY_SAVEOWNER = "_o";
             const string KEY_CARD_ID = "cardId";
 
             if (data.ContainsKey(KEY_FROM))
@@ -448,10 +450,13 @@ namespace Busidex3
             {
                 personalMessage = System.Web.HttpUtility.UrlDecode(data[KEY_MESSAGE].ToString());
             }
-
             if (data.ContainsKey(KEY_CARD_ID))
             {
                 cardId = data[KEY_CARD_ID].ToString();
+            }
+            if (data.ContainsKey(KEY_SAVEOWNER))
+            {
+                saveOwner = bool.Parse(data[KEY_SAVEOWNER].ToString());
             }
 
             if (!string.IsNullOrEmpty(cardId))
@@ -461,11 +466,11 @@ namespace Busidex3
                     CardId = long.Parse(cardId),
                     DisplayName = displayName,
                     From = long.Parse(sentFrom),
-                    PersonalMessage = personalMessage
+                    PersonalMessage = personalMessage,
+                    SaveOwner = saveOwner.GetValueOrDefault()
                 };
                 string json = JsonConvert.SerializeObject(quickShareLink);
                 Serialization.SaveResponse(json, StringResources.QUICKSHARE_LINK);
-                MainPage = new MainMenu();
             }
         }
 

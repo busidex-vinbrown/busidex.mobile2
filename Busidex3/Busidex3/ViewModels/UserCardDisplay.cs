@@ -59,6 +59,8 @@ namespace Busidex3.ViewModels
             }
         }
 
+        public bool IsVisible { get; set; }
+
         public UserCardDisplay(
             DisplaySetting display = DisplaySetting.Detail, 
             CardOrientation orientation = CardOrientation.Horizontal,

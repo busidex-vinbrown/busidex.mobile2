@@ -39,8 +39,9 @@ namespace Busidex3.ViewModels
 
         public async Task<bool> UpdateOwner(long cardId, long ownerId)
         {
-            var service = new CardHttpService();
-            return await service.UpdateCardOwner(cardId, ownerId);
+            //var service = new CardHttpService();
+            //return await service.UpdateCardOwner(cardId, ownerId);
+            return true;
         }
 
         public UserCardDisplay DisplaySettings { get; set; }
