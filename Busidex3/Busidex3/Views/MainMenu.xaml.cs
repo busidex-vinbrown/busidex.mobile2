@@ -1,15 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Busidex3.ViewModels;
-using Busidex3.Views.EditCard;
-using Busidex3.Views.Admin;
-using Xamarin.Forms;
+﻿//using Busidex3.Views.EditCard;
 using Xamarin.Forms.Xaml;
-using Busidex.Http;
-using Busidex.Models.Domain;
-using Busidex.Http.Utils;
-using Busidex.Resources.String;
 
 namespace Busidex3.Views
 {

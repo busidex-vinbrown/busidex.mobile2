@@ -62,13 +62,13 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>VS: com.busidex.mobile Development</CodesignProvision>
+    <CodesignProvision>Busidex Consumer Development</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
-    <MtouchLink>SdkOnly</MtouchLink>
-    <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
+    <MtouchLink>None</MtouchLink>
+    <IOSDebugOverWiFi>true</IOSDebugOverWiFi>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
-    <MtouchExtraArgs>--interpreter --linkskip=Xamarin.Essentials --linkskip=LinkPresentation </MtouchExtraArgs>
+    <MtouchExtraArgs>--interpreter --linkskip=Xamarin.Essentials --linkskip=LinkPresentation --linkskip=Plugin.InAppBilling</MtouchExtraArgs>
     <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
     <MtouchInterpreter>
     </MtouchInterpreter>
@@ -81,13 +81,13 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>Apple Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
+    <CodesignKey>iPhone Distribution: BVL, LLC (8XB962LF3Q)</CodesignKey>
     <CodesignEntitlements>
     </CodesignEntitlements>
     <BuildIpa>true</BuildIpa>
     <CodesignExtraArgs />
     <CodesignResourceRules />
-    <CodesignProvision>Busidex Distribution 2020</CodesignProvision>
+    <CodesignProvision>Busidex Consumer Distribution</CodesignProvision>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchExtraArgs>--interpreter --linkskip=Xamarin.Essentials --linkskip=LinkPresentation --linkskip=Plugin.InAppBilling</MtouchExtraArgs>
     <IpaMetadata>Info.plist</IpaMetadata>
@@ -387,7 +387,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarBusidex3iOSHideInfoBar="True" XamarinHotReloadMonoInterpreterErrorInfoBarBusidex3iOSHideInfoBar="True" />
+      <UserProperties XamarinHotReloadMonoInterpreterErrorInfoBarBusidex3iOSHideInfoBar="True" XamarinHotReloadWrongLinkerErrorInfoBarBusidex3iOSHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

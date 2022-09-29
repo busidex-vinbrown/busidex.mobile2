@@ -75,9 +75,9 @@ namespace Busidex3.Views.EditCard
 
         private async void EditCardImageTapped(object sender, EventArgs e)
         {
-            var vm = GetViewModel();
+            //var vm = GetViewModel();
             
-            await Navigation.PushAsync(new EditCardImageView(ref vm));
+            //await Navigation.PushAsync(new EditCardImageView(ref vm));
         }
 
         private async void VisibilityTapped(object sender, EventArgs e)

@@ -6,7 +6,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              ios:Page.UseSafeArea="true"
              x:Class="Busidex.Professional.Views.MyProfileView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <Frame Padding="2" 
                HasShadow="False" 
@@ -184,8 +184,17 @@
                             </Grid>
                         </ScrollView>
                         <Button
+                            x:Name="btnRemoveAccount"
+                            
+                            Visual="Default"
+                            VerticalOptions="EndAndExpand"
+                            IsVisible="{Binding ShowRemoveAccount}"
+                            Style="{StaticResource secondaryButton}"
+                            Clicked="btnRemoveAccount_Clicked"
+                            Text="Remove My Account"/>
+                        <Button
                             x:Name="btnLogout"
-                            Margin="10,15"
+                            Margin="10,25"
                             Visual="Default"
                             VerticalOptions="EndAndExpand"
                             IsVisible="{Binding ShowLogout}"

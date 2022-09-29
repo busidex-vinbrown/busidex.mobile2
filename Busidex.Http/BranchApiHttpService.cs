@@ -23,5 +23,21 @@ namespace Busidex.Http
 
             return response.url;
         }
+        public static async Task<string> GetBranchUrlPro(QuickShareLink link)
+        {
+            var model = new BranchApiLinkParameters
+            {
+                branch_key = ServiceResources.BRANCHPRO_KEY,
+                channel = "sms",
+                feature = "share",
+                campaign = "",
+                tags = null,
+                data = Newtonsoft.Json.JsonConvert.SerializeObject(new { cardId = link.CardId, _f = link.From, _d = link.DisplayName, _o = link.SaveOwner, _m = link.PersonalMessage })
+            };
+
+            var response = await MakeRequestAsync<BranchUrl>(StringResources.BRANCHPRO_API_URL, HttpVerb.Post, model);
+
+            return response.url;
+        }
     }
 }

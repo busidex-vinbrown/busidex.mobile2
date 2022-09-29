@@ -49,6 +49,9 @@ namespace Busidex.Resources.String
         public const string BRANCH_KEY = "key_live_cnh1UbVspZWKB1nLPE0NygmorydPic2z";
         public const string BRANCH_APP_LINK_DOMAIN = "jqle.app.link";
         public const string BRANCH_API_URL = "https://api.branch.io/v1/url";
+        public const string BRANCHPRO_KEY = "key_live_fj9ZCFmyKe4pLmk7ALTAXcgjDqeRi9Hn";
+        public const string BRANCHPRO_APP_LINK_DOMAIN = "tcovb.app.link";
+        public const string BRANCHPRO_API_URL = "https://api.branch.io/v1/url";
         public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
         public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
         public const string GA_CATEGORY_ACTIVITY = "Activity";
@@ -103,7 +106,9 @@ namespace Busidex.Resources.String
 
         public const string MESSAGE_SEND_TO_REQUIRED = "Send To is required";
         public const string MESSAGE_SEND_FROM_REQUIRED = "Sent From is required";
-
+        public const string SUPPORT_EMAIL = "busidex.help@gmail.com";
+        public const string EMAIL_SUBJECT_REMOVE_ACCOUNT = "Please remove my account and delete all my data.";
+        public const string DELETE_ACCOUNT_WARNING = "Would you like Busidex to delete your account and remove all your data? If so, please allow 24 hours for the operation to be completed.";
         //public const string BITLY_ACCESS_TOKEN = "eb1e285ba9ebb90b8cbf58182fa3df10321aae2e";
         //public const string BITLY_LOGIN = "busidexapp";
 

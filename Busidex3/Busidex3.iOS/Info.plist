@@ -28,13 +28,13 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleVersion</key>
-	<string>569</string>
+	<string>571</string>
 	<key>CFBundleName</key>
 	<string>Busidex3</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.38</string>
+	<string>2.0.2</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleURLTypes</key>
@@ -62,7 +62,7 @@
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImages.launchimage</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Busidex needs to access your contacts</string>
+	<string>Busidex needs to access your contacts so you can share cards with them.</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 </dict>

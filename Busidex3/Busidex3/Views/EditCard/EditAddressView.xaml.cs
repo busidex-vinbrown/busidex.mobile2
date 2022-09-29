@@ -35,7 +35,7 @@ namespace Busidex3.Views.EditCard
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            await _viewModel.SaveAddress();
+            //await _viewModel.SaveAddress();
         }
     }
 }

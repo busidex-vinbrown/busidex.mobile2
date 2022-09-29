@@ -37,7 +37,7 @@ namespace Busidex3.Views.EditCard
         
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            await _viewModel.SaveContactInfo();
+            //await _viewModel.SaveContactInfo();
         }
 
         private void AddPhoneNumberImage_OnTapped(object sender, EventArgs e)

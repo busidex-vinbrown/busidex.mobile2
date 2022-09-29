@@ -11,7 +11,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using Busidex3.ViewModels;
 using BranchXamarinSDK;
-using Busidex3.Views.EditCard;
+//using Busidex3.Views.EditCard;
 using System.Linq;
 using Newtonsoft.Json;
 using Plugin.Permissions;
@@ -164,6 +164,8 @@ namespace Busidex3
             }
         }
 
+        public static bool IsCardOwnerConfirmed { get; set; }
+
         private static IDisplayManager displayManager;
         public static IDisplayManager DisplayManager
         {
@@ -285,13 +287,13 @@ namespace Busidex3
 
         public static void LoadCardMenuPage(ref UserCard card)
         {
-            var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView), new object[] { card });
-            page.Title = ViewNames.MyBusidex;
+            //var page = (Page)Activator.CreateInstance(typeof(EditCardMenuView), new object[] { card });
+            //page.Title = ViewNames.MyBusidex;
 
-            var masterDetailRootPage = (MainMenu)Current.MainPage;
-            masterDetailRootPage.Detail = new NavigationPage(page);
-            masterDetailRootPage.IsPresented = false;
-            masterDetailRootPage.IsGestureEnabled = true;
+            //var masterDetailRootPage = (MainMenu)Current.MainPage;
+            //masterDetailRootPage.Detail = new NavigationPage(page);
+            //masterDetailRootPage.IsPresented = false;
+            //masterDetailRootPage.IsGestureEnabled = true;
         }
 
         public static async Task<Card> LoadOwnedCard (bool useThumbnail = true)

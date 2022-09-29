@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Busidex.Professional.Views.LoginView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
-             ios:Page.UseSafeArea="true"
-             Visual="Material"
+             ios:Page.UseSafeArea="true"             
              BackgroundColor="#FFEEF3FA">
         <ContentPage.Padding>
             <OnPlatform x:TypeArguments="Thickness">

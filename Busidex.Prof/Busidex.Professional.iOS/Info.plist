@@ -28,11 +28,11 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.professional</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
+	<string>1.0.8</string>
 	<key>CFBundleName</key>
 	<string>Busidex3</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.8</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleURLTypes</key>
@@ -68,10 +68,17 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Busidex needs to access your camera</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Busidex needs to access your contacts</string>
+	<string>Busidex needs to access your contacts so you can share cards with your contacts.</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>XSAppIconAssets</key>
 	<string>Images.xcassets/AppIcons.appiconset</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
+	<key>XSLaunchImageAssets</key>
+	<string>Images.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

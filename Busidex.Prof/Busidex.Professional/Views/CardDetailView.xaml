@@ -4,7 +4,7 @@
              xmlns:sharedUI="clr-namespace:Busidex.SharedUI;assembly=Busidex.SharedUI"
              xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Class="Busidex.Professional.Views.CardDetailView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="20, 10">
             <controls:CardImageHeader 

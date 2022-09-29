@@ -5,6 +5,8 @@
         public const string XAMARIN_INSIGHTS_KEY = "064b046194c04b614f285ac8b2c9677468d93e71";
         public const string BRANCH_KEY = "key_live_cnh1UbVspZWKB1nLPE0NygmorydPic2z";
         public const string BRANCH_APP_LINK_DOMAIN = "jqle.app.link";
+        public const string BRANCHPRO_KEY = "key_live_fj9ZCFmyKe4pLmk7ALTAXcgjDqeRi9Hn";
+        public const string BRANCHPRO_APP_LINK_DOMAIN = "tcovb.app.link";
         public const string GOOGLE_ANALYTICS_KEY_ANDROID = "UA-29820162-2";
         public const string GOOGLE_ANALYTICS_KEY_IOS = "UA-29820162-3";
         public const string GA_CATEGORY_ACTIVITY = "Activity";

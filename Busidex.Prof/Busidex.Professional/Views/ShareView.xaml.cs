@@ -165,7 +165,10 @@ namespace Busidex.Professional.Views
             };
             try
             {
-                var shortendUrl = await BranchApiHttpService.GetBranchUrl(parameters);
+                var shortendUrl = _shareOwner 
+                    ? await BranchApiHttpService.GetBranchUrlPro(parameters)
+                    : await BranchApiHttpService.GetBranchUrl(parameters);
+
                 if (shortendUrl == null || shortendUrl.Contains("error")) return false;
 
                 message = message + 

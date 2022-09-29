@@ -721,8 +721,11 @@ namespace Busidex.Professional.ViewModels
                 if (string.IsNullOrEmpty(EncodedBackCardImage))
                 {
                     var filePath = Path.Combine(storagePath, SelectedCard.Card.BackFileName);
-                    var bytes = File.ReadAllBytes(filePath);
-                    EncodedBackCardImage = bytes.Length > 0 ? Convert.ToBase64String(bytes) : string.Empty;
+                    if (File.Exists(filePath))
+                    {
+                        var bytes = File.ReadAllBytes(filePath);
+                        EncodedBackCardImage = bytes.Length > 0 ? Convert.ToBase64String(bytes) : string.Empty;
+                    }
                 }
                 var card = new MobileCardImage
                 {

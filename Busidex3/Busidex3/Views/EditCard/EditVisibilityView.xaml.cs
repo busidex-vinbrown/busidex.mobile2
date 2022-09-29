@@ -70,30 +70,30 @@ namespace Busidex3.Views.EditCard
 
         private async void BtnSave_OnClicked(object sender, EventArgs e)
         {
-            btnSave.IsEnabled = false;
-            btnSave.Opacity = .3;
-            bool error = false;
-            try
-            {
-                var result = await _viewModel.SaveCardVisibility();
-                if (!result)
-                {
-                    error = true;                
-                }
-            }
-            catch 
-            {
-                error = true;
-            }
-            finally
-            {
-                if (error)
-                {
-                    await DisplayAlert("ERROR", "There was a problem saving your card", "Ok");
-                }
-                btnSave.IsEnabled = true;
-                btnSave.Opacity = 1;
-            }
-        }
+        //    btnSave.IsEnabled = false;
+        //    btnSave.Opacity = .3;
+        //    bool error = false;
+        //    try
+        //    {
+        //        var result = await _viewModel.SaveCardVisibility();
+        //        if (!result)
+        //        {
+        //            error = true;                
+        //        }
+        //    }
+        //    catch 
+        //    {
+        //        error = true;
+        //    }
+        //    finally
+        //    {
+        //        if (error)
+        //        {
+        //            await DisplayAlert("ERROR", "There was a problem saving your card", "Ok");
+        //        }
+        //        btnSave.IsEnabled = true;
+        //        btnSave.Opacity = 1;
+        //    }
+        //}
     }
 }

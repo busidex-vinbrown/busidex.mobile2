@@ -91,8 +91,8 @@ namespace Busidex.Professional.ViewModels
 
                 //item.Card.Parent = item;
 
-                var fImageUrl = StringResources.THUMBNAIL_PATH + item.Card.FrontFileName;
-                var bImageUrl = StringResources.THUMBNAIL_PATH + item.Card.BackFileName;
+                var fImageUrl = StringResources.CARD_PATH + item.Card.FrontFileName;
+                var bImageUrl = StringResources.CARD_PATH + item.Card.BackFileName;
                 var fName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.FrontFileName;
                 var bName = StringResources.THUMBNAIL_FILE_NAME_PREFIX + item.Card.BackFileName;
 

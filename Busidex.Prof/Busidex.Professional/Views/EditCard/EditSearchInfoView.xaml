@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:Busidex.Professional.Views.EditCard"
              xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Class="Busidex.Professional.Views.EditCard.EditSearchInfoView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <ScrollView>
             <StackLayout HeightRequest="{Binding ViewHeight}">

@@ -1,7 +1,6 @@
 ﻿using Busidex.Http.Utils;
 using Busidex.Models.Domain;
 using Busidex.Professional.ViewModels;
-using Busidex.Professional.Views.EditCard;
 using Busidex.Resources.String;
 using Newtonsoft.Json;
 using System;
@@ -34,7 +33,7 @@ namespace Busidex.Professional.Views
             }
 
             _viewModel.NewUser = string.IsNullOrEmpty(Security.AuthToken);
-            _viewModel.ShowLogout = !_viewModel.NewUser;
+            _viewModel.ShowLogout = _viewModel.ShowRemoveAccount = !_viewModel.NewUser;
             _viewModel.Message = _viewModel.NewUser
                 ? "Create Your Account"
                 : "Update your account information here.";
@@ -145,10 +144,8 @@ namespace Busidex.Professional.Views
 
         private void btnLogout_Clicked(object sender, EventArgs e)
         {
-            App.IsCardOwnerConfirmed = false;
-
+            _viewModel.DoLogOut();
             var page = (Page)Activator.CreateInstance(typeof(LoginView));
-            Security.LogOut();
             Navigation.PushAsync(page);
         }
 
@@ -158,9 +155,19 @@ namespace Busidex.Professional.Views
             var uc = new UserCard(card);
             var ucJson = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
 
-            //var page = new EditCardMenuView();
-            //await Shell.Current.Navigation.PushAsync(page);
             await Shell.Current.GoToAsync($"{AppRoutes.CARD_EDIT_MENU}?ucJson={ucJson}");
+        }
+
+        private async void btnRemoveAccount_Clicked(object sender, EventArgs e)
+        {
+            bool proceedWithDelete = await DisplayAlert("Delete Account", StringResources.DELETE_ACCOUNT_WARNING, "Continue", "Cancel");
+            if (proceedWithDelete)
+            {
+                await _viewModel.RemoveAccount();
+                _viewModel.DoLogOut();
+                var page = (Page)Activator.CreateInstance(typeof(LoginView));
+                await Navigation.PushAsync(page);
+            }
         }
     }
 }

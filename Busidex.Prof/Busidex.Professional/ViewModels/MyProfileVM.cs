@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Busidex.Http;
 using Busidex.Http.Utils;
 using Busidex.Models.Dto;
+using Busidex.Professional.Views;
 using Busidex.Resources.String;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -90,6 +91,17 @@ namespace Busidex.Professional.ViewModels
             }
         }
 
+        private bool _showRemoveAccount;
+        public bool ShowRemoveAccount
+        {
+            get => _showRemoveAccount;
+            set
+            {
+                _showRemoveAccount = value;
+                OnPropertyChanged(nameof(ShowRemoveAccount));
+            }
+        }
+        
         private bool _isSaving;
         public bool IsSaving {
             get => _isSaving;
@@ -224,6 +236,17 @@ namespace Busidex.Professional.ViewModels
                 Crashes.TrackError(ex);
                 return false;
             }
+        }
+
+        public async Task RemoveAccount()
+        {
+            await Launcher.OpenAsync(new Uri($"mailto:{StringResources.SUPPORT_EMAIL}?subject={StringResources.EMAIL_SUBJECT_REMOVE_ACCOUNT}"));
+        }
+
+        public void DoLogOut()
+        {
+            App.IsCardOwnerConfirmed = false;
+            Security.LogOut();
         }
     }
 }

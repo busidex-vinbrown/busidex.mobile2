@@ -39,13 +39,13 @@ namespace Busidex3.Views
         private void BtnContinue_Clicked(object sender, System.EventArgs e)
         {
             var uc = _viewModel.SelectedCard;
-            App.LoadCardMenuPage(ref uc);
+            App.LoadStartupPage();//.LoadCardMenuPage(ref uc);
         }
 
         protected override bool OnBackButtonPressed()
         {
             var uc = _viewModel.SelectedCard;
-            App.LoadCardMenuPage(ref uc);
+            App.LoadStartupPage();//.LoadCardMenuPage(ref uc);
             return true;
         }
     }

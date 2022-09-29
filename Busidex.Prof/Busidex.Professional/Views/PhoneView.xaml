@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Name="PhoneViewInstance"
              x:Class="Busidex.Professional.Views.PhoneView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="20, 10">
             

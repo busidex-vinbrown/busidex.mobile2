@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>58192d7c-8c89-4ebb-80ac-18dbe53eac6f</UserSecretsId>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,6 +20,7 @@
     <Compile Remove="Models\**" />
     <Compile Remove="Resources\**" />
     <Compile Remove="Services\**" />
+    <Compile Remove="Views\EditCard\**" />
     <EmbeddedResource Remove="Analytics\**" />
     <EmbeddedResource Remove="Controls\**" />
     <EmbeddedResource Remove="Converters\**" />
@@ -27,6 +29,7 @@
     <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Resources\**" />
     <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="Views\EditCard\**" />
     <None Remove="Analytics\**" />
     <None Remove="Controls\**" />
     <None Remove="Converters\**" />
@@ -35,6 +38,7 @@
     <None Remove="Models\**" />
     <None Remove="Resources\**" />
     <None Remove="Services\**" />
+    <None Remove="Views\EditCard\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,7 +82,6 @@
 
   <ItemGroup>
     <PackageReference Include="Branch-Xamarin-Linking-SDK" Version="8.0.0" />
-    <PackageReference Include="ImageCropper.Forms" Version="0.1.6" />
     <PackageReference Include="Microsoft.AppCenter" Version="4.5.3" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
@@ -116,27 +119,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ConfirmCardOwnerView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditAddressView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditCardImageView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditContactInfoView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditExternalLinksView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditSearchInfoView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditTagsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditCard\EditVisibilityView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EventDetailView.xaml">

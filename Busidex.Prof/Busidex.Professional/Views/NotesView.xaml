@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              x:Class="Busidex.Professional.Views.NotesView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <StackLayout Padding="20, 10">
             <Grid RowSpacing="25" Padding="5">

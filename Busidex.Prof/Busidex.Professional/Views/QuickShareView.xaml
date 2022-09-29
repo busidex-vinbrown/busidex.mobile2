@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:Busidex.SharedUI.Controls;assembly=Busidex.SharedUI"
              mc:Ignorable="d"
              x:Class="Busidex.Professional.Views.QuickShareView"
-             Visual="Material">
+             >
     <ContentPage.Content>
         <Frame Padding="4" 
                HasShadow="False" 

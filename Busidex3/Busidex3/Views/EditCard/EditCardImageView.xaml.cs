@@ -8,7 +8,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Stormlion.ImageCropper;
+//using Stormlion.ImageCropper;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
