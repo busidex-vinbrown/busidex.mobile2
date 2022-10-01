@@ -13,11 +13,10 @@ namespace Busidex.Http
             return await MakeRequestAsync<OrganizationResponse>(url, HttpVerb.Get);
         }
 
-        public async Task<Organization> GetOrganizationById(long id)
+        public async Task<OrganizationDetailResponse> GetOrganizationById(long id)
         {
-
             var url = string.Format(ServiceUrls.OrganizationUrl, id);
-            return await MakeRequestAsync<Organization>(url, HttpVerb.Get);
+            return await MakeRequestAsync<OrganizationDetailResponse>(url, HttpVerb.Get);
         }
 
         public async Task<OrgMemberResponse> GetOrganizationMembers(long id)

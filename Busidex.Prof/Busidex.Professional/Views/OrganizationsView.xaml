@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
+             x:Class="Busidex.Professional.Views.OrganizationsView"
+             Visual="Default">
+    <ContentPage.Resources>
+        <converters:ValueProgressBarConverter x:Key="ValueProgressBarConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="5" Padding="0" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ProgressBar x:Name="prgLoadStatus"
+                         Progress="{Binding LoadingProgress, Converter={StaticResource ValueProgressBarConverter}, Mode=TwoWay}"
+                         HeightRequest="8"
+                         IsVisible="{Binding IsRefreshing}"
+                         ProgressColor="DodgerBlue"
+                         BackgroundColor="White"
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Column="0"
+                         Grid.Row="0"/>
+            <Label x:Name="lblProgress"
+                   IsVisible="{Binding IsRefreshing}"
+                   Text="{Binding ProgressMessage}"
+                   FontSize="Small"
+                   TextColor="DarkGray"
+                   HorizontalOptions="FillAndExpand"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   Grid.Column="0"
+                   Grid.Row="0"/>
+            <Image Source="{Binding BackgroundImage}" 
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   Opacity=".25"
+                   HeightRequest="200"
+                   Margin="70"
+                    Aspect="AspectFit"
+                    WidthRequest="200"/>
+            <ListView x:Name="lstOrganizations"
+                      SeparatorVisibility="None"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand"
+                      IsPullToRefreshEnabled="True"
+                      HasUnevenRows="True"
+                      SelectionMode="None"      
+                      BackgroundColor="Transparent"
+                      CachingStrategy="RetainElement"                      
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemsSource="{Binding OrganizationList}"
+                      Grid.Column="0"
+                      Grid.Row="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                BackgroundColor="LightGray"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="FillAndExpand"
+                                Opacity=".8"
+                                Padding="10,20">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnDetail_Tapped"
+                                                            CommandParameter="{Binding Path=.}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                                <Label Text="{Binding Name}" 
+                                    FontSize="Medium" 
+                                    TextColor="Black" 
+                                    HorizontalTextAlignment="Center"/>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

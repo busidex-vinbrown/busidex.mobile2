@@ -15,5 +15,6 @@
         public const string ManageAccount = "Manage Account";
         public const string ContactUs = "Contact Busidex";
         public const string Faq = "Help";
+        public const string BusidexChapter = "Busidex Chapter";
     }
 }

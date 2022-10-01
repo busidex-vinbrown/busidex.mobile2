@@ -155,35 +155,6 @@ namespace Busidex.Professional.ViewModels
 
             OrganizationsItem = ImageSource.FromResource("Busidex.Resources.Images.organizationsicon.png",
                     typeof(Resources.Images.ImageLoader).GetTypeInfo().Assembly);
-            //ShareItem = new MainMenuMenuItem
-            //{
-            //    Id = 2,
-            //    Title = ViewNames.Share + " My Card",
-            //    TargetType = typeof(ShareView),
-            //    Image = ImageSource.FromResource("Busidex.Resources.Images.shareicon.png",
-            //        typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly),
-            //    IsClickable = true
-            //};
-
-            //OrganizationsItem = new MainMenuMenuItem
-            //{
-            //    Id = 3,
-            //    Title = ViewNames.Organizations,
-            //    TargetType = typeof(OrganizationsView),
-            //    Image = ImageSource.FromResource("Busidex.Resources.Images.organizationsicon.png",
-            //        typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly),
-            //    IsClickable = true
-            //};
-
-            //EventsItem = new MainMenuMenuItem
-            //{
-            //    Id = 4,
-            //    Title = ViewNames.Events,
-            //    TargetType = typeof(EventsView),
-            //    Image = ImageSource.FromResource("Busidex.Resources.Images.eventicon.png",
-            //        typeof(Busidex.Resources.Images.ImageLoader).GetTypeInfo().Assembly),
-            //    IsClickable = true
-            //};
 
             var path = Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE);
             var ownedCard = Serialization.LoadData<Card>(path);

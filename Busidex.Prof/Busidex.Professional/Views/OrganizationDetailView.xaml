@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Busidex.Utils.Converters;assembly=Busidex.Utils"
+             mc:Ignorable="d"
+             x:Class="Busidex.Professional.Views.OrganizationDetailView"
+             >
+    <ContentPage.Resources>
+        <converters:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Image Source="{Binding Logo, Converter={StaticResource ImageFileToImageSourceConverter}, ConverterParameter=Logo}" 
+                       HeightRequest="180"
+                       HorizontalOptions="FillAndExpand"
+                       Aspect="AspectFit"/>
+            <ScrollView x:Name="scrContent" VerticalScrollBarVisibility="Always"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout>
+                    <Grid RowSpacing="5" Padding="0" BackgroundColor="Transparent" 
+                          HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Frame
+                            BackgroundColor="#03A9F4"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            CornerRadius="10"
+                            Padding="3"
+                            IsVisible="{Binding ShowMembers}"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Margin="3">
+                            <Label Text="Members" 
+                                FontSize="Medium" 
+                                TextColor="White" 
+                                HorizontalTextAlignment="Center"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMembers_Tapped"
+                                                      NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame
+                            BackgroundColor="#03A9F4"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            CornerRadius="10"
+                            Padding="3"
+                            IsVisible="{Binding ShowReferrals}"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Margin="3">
+                            <Label Text="{Binding Organization.ReferralLabel}" 
+                                FontSize="Medium" 
+                                TextColor="White" 
+                                HorizontalTextAlignment="Center"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnReferrals_Tapped" 
+                                                      NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </Grid>
+                
+                    <Grid x:Name="grdContent" RowSpacing="5" Padding="0" BackgroundColor="White" 
+                          VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="2*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Image Source="{Binding FacebookImage}" Grid.Column="0" Grid.Row="1"
+                                   IsEnabled="{Binding HasFacebook}"
+                               Margin="5,10"
+                               x:Name="imgFb"
+                               HorizontalOptions="Center"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="img_Tapped"
+                                                      CommandParameter="{Binding Organization.Facebook}"
+                                                      NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Source="{Binding TwitterImage}" Grid.Column="1" Grid.Row="1"
+                                   IsEnabled="{Binding HasTwitter}"
+                               Margin="5,10"
+                               x:Name="imgTwitter"
+                               HorizontalOptions="Center"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="img_Tapped"
+                                                      CommandParameter="{Binding Organization.Twitter}"
+                                                      NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Source="{Binding BrowserImage}" Grid.Column="2" Grid.Row="1"
+                                   IsEnabled="{Binding HasUrl}"
+                               Margin="5,10"
+                               x:Name="imgBrowser"
+                               HorizontalOptions="Start"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="img_Tapped"
+                                                      CommandParameter="{Binding Organization.Url}"
+                                                      NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Source="{Binding EmailImage}" Grid.Column="3" Grid.Row="1"                       
+                               Margin="5,10"
+                               x:Name="imgEmail"
+                               HorizontalOptions="Start"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="email_Tapped"
+                                                    CommandParameter="{Binding Organization.Email}"
+                                                    NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <!--<StackLayout Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" IsVisible="{Binding HasEmail}">
+                            
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" IsVisible="{Binding HasContacts}">
+                            <Image Source="{Binding ContactsImage}" 
+                               Margin="15,0"
+                               HorizontalOptions="Start"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit"/>
+                            <Label Text="{Binding Organization.Contacts}" FontSize="Medium" TextColor="DodgerBlue" LineBreakMode="WordWrap"/>
+                        </StackLayout>
+                        -->
+                        <StackLayout Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="4" Orientation="Horizontal" IsVisible="{Binding HasPhone1}">
+                            <Image Source="{Binding PhoneImage}" 
+                                   Margin="15,0"
+                                   HorizontalOptions="Start"
+                                   HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                                   Aspect="AspectFit"/>
+                            <Label Text="{Binding Organization.Phone1}" FontSize="Medium" TextColor="DodgerBlue" VerticalOptions="Center"/>
+                            <Label Text="{Binding Organization.Extension1}" FontSize="Medium" TextColor="DodgerBlue" VerticalOptions="Center"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="phone_Tapped"
+                                                      CommandParameter="{Binding Organization.Phone1}"
+                                                      NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" IsVisible="{Binding HasPhone2}">
+                            <Image Source="{Binding PhoneImage}" 
+                               Margin="15,0"
+                               HorizontalOptions="Start"
+                               HeightRequest="{Binding ImageSize}" WidthRequest="{Binding ImageSize}"
+                               Aspect="AspectFit"/>
+                            <Label Text="{Binding Organization.Phone2}" FontSize="Medium" TextColor="DodgerBlue" VerticalOptions="Center"/>
+                            <Label Text="{Binding Organization.Extension2}" FontSize="Medium" TextColor="DodgerBlue" VerticalOptions="Center"/>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="phone_Tapped"
+                                                      CommandParameter="{Binding Organization.Phone2}"
+                                                      NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <WebView Navigating="WebView_Navigating" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="4" VerticalOptions="FillAndExpand" HeightRequest="600">
+                            <WebView.Source>
+                                <HtmlWebViewSource Html="{Binding Organization.HomePage}"/>
+                            </WebView.Source>
+                        </WebView>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

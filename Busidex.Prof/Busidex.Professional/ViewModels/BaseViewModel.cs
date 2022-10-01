@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 using Xamarin.Forms;
-
 using Busidex.Professional.Models;
 using Busidex.Professional.Services;
 using System.Threading.Tasks;

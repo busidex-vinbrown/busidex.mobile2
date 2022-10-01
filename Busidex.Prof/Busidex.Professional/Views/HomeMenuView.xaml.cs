@@ -6,10 +6,9 @@ using Busidex.Resources.String;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -77,11 +76,9 @@ namespace Busidex.Professional.Views
                 await myBusidexService.AddToMyBusidex(card.CardId);
 
                 var sharedCardService = new SharedCardHttpService();
-                //if (card.OwnerId.HasValue)
-                //{
-                    await sharedCardService.AcceptQuickShare(card, Security.CurrentUser.Email, link.From, link.PersonalMessage);
-                //}
-                
+
+                await sharedCardService.AcceptQuickShare(card, Security.CurrentUser.Email, link.From, link.PersonalMessage);
+        
                 Serialization.RemoveQuickShareLink();
 
                 var userCard = new UserCard
@@ -119,7 +116,21 @@ namespace Busidex.Professional.Views
 
         private async void stkOrganizations_Tapped(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync(new OrganizationsView());
+            const int BusidexOrgId = 16;
+            var _organizationsHttpService = new OrganizationsHttpService();
+            var resp = await _organizationsHttpService.GetMyOrganizations();//.GetOrganizationById(BusidexOrgId);
+            var org = resp.Model.FirstOrDefault(o => o.OrganizationId == BusidexOrgId);
+            if (org != null)
+            {
+                await Navigation.PushAsync(new OrganizationDetailView(org));
+            }
+            else
+            {
+                var resp2 = await _organizationsHttpService.GetOrganizationById(BusidexOrgId);//.GetOrganizationById(BusidexOrgId);
+                org = resp2.Model;
+
+                await Navigation.PushAsync(new OrganizationDetailView(org, false));
+            }
         }
 
         private async void stkEvents_Tapped(object sender, EventArgs e)
@@ -140,17 +151,6 @@ namespace Busidex.Professional.Views
 
         private async void stkManageCard_Tapped(object sender, EventArgs e)
         {
-            //var card = Serialization.LoadData<Card>(Path.Combine(Serialization.LocalStorageFolder, StringResources.OWNED_CARD_FILE));
-            //if(card == null)
-            //{
-            //    card = await App.LoadOwnedCard();
-            //}
-             
-            //var uc = new UserCard(card);
-            //var ucJson = JsonConvert.SerializeObject(uc).ToHexString();// Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(uc)));
-
-            //var page = new EditCardMenuView();
-            //await Shell.Current.Navigation.PushAsync(page);
             await Shell.Current.GoToAsync(AppRoutes.CARD_EDIT_MENU);
         }
 

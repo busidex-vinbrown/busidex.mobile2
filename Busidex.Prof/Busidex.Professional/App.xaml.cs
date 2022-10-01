@@ -121,10 +121,10 @@ namespace Busidex.Professional
             //{
             //    Task.Factory.StartNew(async () => await LoadEvents());
             //}
-            //if (DateTimeUtils.DateDiffDays(today, lastRefreshFile.LastOrganizationListRefresh.GetValueOrDefault()) > DAYS_THRESHOLD)
-            //{
-            //    Task.Factory.StartNew(async () => await LoadOrganizations());
-            //}
+            if (DateTimeUtils.DateDiffDays(today, lastRefreshFile.LastOrganizationListRefresh.GetValueOrDefault()) > DAYS_THRESHOLD)
+            {
+                Task.Factory.StartNew(async () => await LoadOrganizations());
+            }
         }
 
 

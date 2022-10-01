@@ -33,7 +33,7 @@
                     x:Name="stkMyBusidex" 
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
-                    Margin="10,30,10,15"
+                    Margin="10"
                     Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="stkMyBusidex_Tapped"/>
@@ -52,7 +52,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkSearch" 
-                    Margin="10,15"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -92,7 +92,7 @@
                     </StackLayout>-->
                     <StackLayout 
                     x:Name="stkManageAccount" 
-                    Margin="10,15"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -112,7 +112,7 @@
                     </StackLayout>
                     <StackLayout 
                     x:Name="stkManageCard" 
-                    Margin="10,15"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -126,13 +126,34 @@
                         <Label 
                         VerticalOptions="FillAndExpand" 
                         VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.Edit}" 
                         FontSize="24"/>
                     </StackLayout>
                     <StackLayout 
+                    x:Name="stkOrganizations" 
+                    Margin="10"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="FillAndExpand" 
+                    Orientation="Horizontal"
+                    IsVisible="True">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="stkOrganizations_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <Image Aspect="AspectFit" 
+                        HeightRequest="50" WidthRequest="50"
+                        HorizontalOptions="Start"
+                        Source="{Binding OrganizationsItem}"/>
+                        <Label 
+                        VerticalOptions="FillAndExpand" 
+                        VerticalTextAlignment="Center" 
+                        HorizontalTextAlignment="Start"
+                        Text="{Static local:ViewNames.BusidexChapter}" 
+                        FontSize="24"/>
+                    </StackLayout>
+                    <StackLayout 
                     x:Name="stkFaq" 
-                    Margin="10,15"
+                    Margin="10"
                     VerticalOptions="Start" 
                     HorizontalOptions="FillAndExpand" 
                     Orientation="Horizontal">
@@ -146,31 +167,10 @@
                         <Label 
                         VerticalOptions="FillAndExpand" 
                         VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
                         Text="{x:Static local:ViewNames.Faq}" 
                         FontSize="24"/>
                     </StackLayout>
-                    <!--<StackLayout 
-                    x:Name="stkOrganizations" 
-                    Margin="10,20"
-                    VerticalOptions="Start" 
-                    HorizontalOptions="FillAndExpand" 
-                    Orientation="Horizontal"
-                    IsVisible="False">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="stkOrganizations_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                        <Image Aspect="AspectFit" 
-                        HeightRequest="50" WidthRequest="50"
-                        HorizontalOptions="Start"
-                        Source="{Binding OrganizationsItem}"/>
-                        <Label 
-                        VerticalOptions="FillAndExpand" 
-                        VerticalTextAlignment="Center" 
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding OrganizationsItem.Title}" 
-                        FontSize="24"/>
-                    </StackLayout>-->
                     <!--<StackLayout 
                     x:Name="stkEvents" 
                     Margin="10,20"
