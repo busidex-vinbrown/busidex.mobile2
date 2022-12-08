@@ -17,7 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.12.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.12.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="StandardStorage" Version="0.1.1" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
@@ -108,7 +108,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
   </ItemGroup>
 
